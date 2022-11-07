@@ -1,5 +1,5 @@
 # Lösung
 ```
 name = input("Namen eingeben:")
-print("Hallo " + name + "!")
+print("Herzlich Willkommen " + name + "!")
 ```

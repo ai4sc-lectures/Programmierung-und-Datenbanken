@@ -1,5 +1,4 @@
-# Aufgabe 1.2
-**Variablendeklarationen**
+# Aufgabe 1.2 - Variablendeklarationen
 
 Jeder der drei Blöcke im Programmcode definiert eine Zeile einer 3x3 Matrix, welche zum Schluss in die Konsole ausgegeben wird. Ändere oder lösche in jedem der drei Blöcke nur genau eine der Programmzeilen, um folgende Endausgabe zu erhalten
 
