@@ -415,7 +415,7 @@ title="Print to PDF"
 <h2>Fehler mit Exceptions behandeln<a class="headerlink" href="#fehler-mit-exceptions-behandeln" title="Permalink to this headline">#</a></h2>
 <p>Exceptions unterbrechen den normalen Verlauf eines Programmes in einem Fehlerfall. Sie dienen dazu den Fehler zu im Programm zu kommunizieren (haben meist eine Fehlermeldung) und werden genutzt um im Fehlerfall unkontrolliertes Abstürzen des Programmes zu verhindern.</p>
 <p>Bekannte Exceptions sollten immer abgefangen. In Python werden sie durch den <code class="docutils literal notranslate"><span class="pre">try-except</span></code>-Block abgefangen. Dieser startet mit einem <code class="docutils literal notranslate"><span class="pre">try</span></code> und endet mit einem <code class="docutils literal notranslate"><span class="pre">except</span></code>. Nach dem <code class="docutils literal notranslate"><span class="pre">try´</span> <span class="pre">folgt</span> <span class="pre">der</span> <span class="pre">Block</span> <span class="pre">mit</span> <span class="pre">der</span> <span class="pre">bekannten</span> <span class="pre">(oder</span> <span class="pre">unbekannten)</span> <span class="pre">Exception.</span> <span class="pre">Nach</span> <span class="pre">dem</span> </code>except` folgt der Block zur Fehlerbehandlung.</p>
-<p>Es ist zu beachten, dass bei Exceptions keine Wertzuweisung stattfindet (der Wert ist ja nicht bekannt). Also im folgenden Beispiel bei einer Division durch 0, das vorher als <code class="docutils literal notranslate"><span class="pre">None</span></code> initialisierte Ergebnis nicht überschrieben wird.</p>
+<p>Es ist zu beachten, dass bei Exceptions keine Wertzuweisung stattfindet (der Wert ist ja nicht bekannt). Betrachten wir mal wieder, die aus der <a class="reference external" href="4_Verzweigung.ipynb#elif_-_F%C3%BCr_noch_mehr_Alternativen">Verzweigung bekannte Division durch 0</a> mit ihren verschiedenen Fehlerfällen der Null-Division und falscher Datentypen der Eingaben. Ohne diese Fehlerfälle genau zu spezifieren können wir schreiben.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="mi">10</span>
@@ -428,20 +428,20 @@ title="Print to PDF"
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Die Division war erfolgreich&quot;</span><span class="p">)</span>
 <span class="k">except</span><span class="p">:</span>
     <span class="c1"># Fehlerbehandlung</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Division durch 0&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Divisionsfehler&quot;</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Division durch 0
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Divisionsfehler
 Das Ergebnis von 10/0 = None
 </pre></div>
 </div>
 </div>
 </div>
-<p>Das <code class="docutils literal notranslate"><span class="pre">except</span></code> is in dem obigen Fall untypisiert. Damit lassen sich alle Fehler die auftreten können abfangen (auch unbekannte). Damit definieren wir zum Beispiel unsere Funktion zur Division mit der Fehlerbehandlung falscher Typen und Division durch 0 kurz als.</p>
+<p>Das <code class="docutils literal notranslate"><span class="pre">except</span></code> is in dem obigen Fall untypisiert. Damit lassen sich alle Fehler die auftreten können abfangen (auch unbekannte). Damit fängt der <code class="docutils literal notranslate"><span class="pre">try-except</span></code>-Block auch Fehler im Datentypen ab.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="s1">&#39;keine_zahl&#39;</span>
@@ -451,7 +451,6 @@ Das Ergebnis von 10/0 = None
     <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
 <span class="k">except</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Divisionsfehler&quot;</span><span class="p">)</span>
-    <span class="n">ergebnis</span> <span class="o">=</span> <span class="kc">None</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
@@ -473,7 +472,6 @@ Das Ergebnis von keine_zahl/0 = None
 <span class="k">try</span><span class="p">:</span>
     <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
 <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="c1"># Fehlerbehandlung</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Divisionsfehler mit Fehler vom typ `</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">` und Meldung `</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -563,7 +561,7 @@ Das Ergebnis von keine_zahl/0 = None
 <section id="exceptions-selbst-erzeugen">
 <h2>Exceptions selbst erzeugen<a class="headerlink" href="#exceptions-selbst-erzeugen" title="Permalink to this headline">#</a></h2>
 <p>Exceptions können auch selbst mit <code class="docutils literal notranslate"><span class="pre">raise</span></code> erzeugt werden. Das ist sinnvoll wenn in dem eigenen Code Fehler auftreten können, die woanders behandelt werden müssen. Hierbei muss ein Fehlertyp angegeben werden. Entweder man nutzt den allgemeinsten Fehlertyp <code class="docutils literal notranslate"><span class="pre">Exception</span></code>, einen passenden Standardfehler von Python oder einen selbst definierten. Es ist ratsam meist spezifische Fehlertypen zu nutzen, da der Typ des Fehlers viel beim Behandeln und Debuggen hilft.</p>
-<p>Definieren wir als Beispiel unsere <a class="reference external" href="4_Verzweigung.ipynb#elif_-_F%C3%BCr_noch_mehr_Alternativen">eigene Divisionsfunktion</a> mit klarer Fehlerbenenung ob Zähler oder Nenner vom falschen Typ sind. Hier wollen wir dass anstatt des <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> ein <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> erzeugt wird. Bei einer Division durch 0 soll anstatt eines Fehlers der Wert <code class="docutils literal notranslate"><span class="pre">None</span></code> zurück gegeben werden.</p>
+<p>Definieren wir als Beispiel unsere eigene Divisionsfunktion mit klarer Fehlerbenenung ob Zähler oder Nenner vom falschen Typ sind. Hier wollen wir dass anstatt des <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> ein <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> erzeugt wird. Bei einer Division durch 0 soll anstatt eines Fehlers der Wert <code class="docutils literal notranslate"><span class="pre">None</span></code> zurück gegeben werden.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">):</span>
@@ -727,16 +725,16 @@ Das Ergebnis von keine_zahl/0 = None
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traceback (most recent call last):
-  File &quot;C:\Users\ploennigs\AppData\Local\Temp\ipykernel_30584\841887965.py&quot;, line 3, in &lt;cell line: 2&gt;
+  File &quot;C:\Users\ploennigs\AppData\Local\Temp\ipykernel_27988\841887965.py&quot;, line 3, in &lt;cell line: 2&gt;
     factorial_recursiv(21)
-  File &quot;C:\Users\ploennigs\AppData\Local\Temp\ipykernel_30584\43912226.py&quot;, line 5, in factorial_recursiv
+  File &quot;C:\Users\ploennigs\AppData\Local\Temp\ipykernel_27988\43912226.py&quot;, line 5, in factorial_recursiv
     return x * factorial_recursiv(x-1, depth+1)
-  File &quot;C:\Users\ploennigs\AppData\Local\Temp\ipykernel_30584\43912226.py&quot;, line 5, in factorial_recursiv
+  File &quot;C:\Users\ploennigs\AppData\Local\Temp\ipykernel_27988\43912226.py&quot;, line 5, in factorial_recursiv
     return x * factorial_recursiv(x-1, depth+1)
-  File &quot;C:\Users\ploennigs\AppData\Local\Temp\ipykernel_30584\43912226.py&quot;, line 5, in factorial_recursiv
+  File &quot;C:\Users\ploennigs\AppData\Local\Temp\ipykernel_27988\43912226.py&quot;, line 5, in factorial_recursiv
     return x * factorial_recursiv(x-1, depth+1)
   [Previous line repeated 17 more times]
-  File &quot;C:\Users\ploennigs\AppData\Local\Temp\ipykernel_30584\43912226.py&quot;, line 3, in factorial_recursiv
+  File &quot;C:\Users\ploennigs\AppData\Local\Temp\ipykernel_27988\43912226.py&quot;, line 3, in factorial_recursiv
     raise RecursionError(&quot;Recursion zu tief&quot;)
 RecursionError: Recursion zu tief
 </pre></div>
