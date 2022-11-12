@@ -421,7 +421,26 @@ title="Print to PDF"
 <h2>Funktionstest<a class="headerlink" href="#funktionstest" title="Permalink to this headline">#</a></h2>
 <p>Unit-Tests sind zum vermeiden und diagnostizieren von Fehlern sehr wichtig. Ein Unit-Test testet ein einzelnes Code-Modul, wie z.B. eine Funktion oder eine Klasse.</p>
 <p>Zum Testen verwendet man in Python meist spezielle Bibliortheken wie <code class="docutils literal notranslate"><span class="pre">unittest</span></code> oder <code class="docutils literal notranslate"><span class="pre">nosetest</span></code>, welche dann automatisch bei Code-Änderungen ausgeführt werden. Einfache Tests können direkt in den Code geschrieben werden. Hierfür ist der <code class="docutils literal notranslate"><span class="pre">assert</span></code> Befehl da. Er prüft ob eine Testbedingung erfüllt ist (assert) und löst eine <code class="docutils literal notranslate"><span class="pre">AssertionError</span></code> Exception aus, wenn dies nicht der Fall ist.</p>
-<p>Wir wollen zum Beispiel die oben definierte Divisionsfunktion <code class="docutils literal notranslate"><span class="pre">division()</span></code> testen. Hierfür schreiben wir als erstes einen <strong>Funktionstest</strong>. Diese überprüfen die korrekte Funktion eines Moduls mit mehreren Eingaben für die wir das korrekte Ergebnis kennen. Hier macht man meist mehrere Tests um sicherzustellen, dass man nicht <code class="docutils literal notranslate"><span class="pre">zufällig</span></code> das richtige Ergebnis bekommt, sondern für verschiedene Kombinationen.</p>
+<p>Wir wollen zum Beispiel die <a class="reference internal" href="6_Exceptions.html"><span class="doc std std-doc">zuvor definierte Divisionsfunktion</span></a> <code class="docutils literal notranslate"><span class="pre">division()</span></code> testen.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nenner</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">nenner</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warnung Division durch 0&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ergebnis</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Hierfür schreiben wir als erstes einen <strong>Funktionstest</strong>. Diese überprüfen die korrekte Funktion eines Moduls mit mehreren Eingaben für die wir das korrekte Ergebnis kennen. Hier macht man meist mehrere Tests um sicherzustellen, dass man nicht <code class="docutils literal notranslate"><span class="pre">zufällig</span></code> das richtige Ergebnis bekommt, sondern für verschiedene Kombinationen.</p>
 <center><img src="https://mermaid.ink/img/pako:eNptj0trAjEUhf9KuCuFEargJrSCokihuKh0NZlFas44wcyN5FGx4n9vrC100bs65_Kd-7jQzhuQpH3Qx068vCoWpeKgXj1v1vPF6vE9zD41OofwNH64OQZzMZNmKEajmRCn2tgPG63n5h4-3fsY1PO37e-MgJQDi2kz_NmQzg4iitY6J9kzqpiCP-Bb_0XwP0IV9Qi9tqYcf7kFFKUOPRTJIg1anV1SpPhaUJ2T3555RzKFjIry0eiEpdXl7Z5kq13E9QvkMFg7?type=png)](https://mermaid.live/edit#pako:eNptj0trAjEUhf9KuCuFEargJrSCokihuKh0NZlFas44wcyN5FGx4n9vrC100bs65_Kd-7jQzhuQpH3Qx068vCoWpeKgXj1v1vPF6vE9zD41OofwNH64OQZzMZNmKEajmRCn2tgPG63n5h4-3fsY1PO37e-MgJQDi2kz_NmQzg4iitY6J9kzqpiCP-Bb_0XwP0IV9Qi9tqYcf7kFFKUOPRTJIg1anV1SpPhaUJ2T3555RzKFjIry0eiEpdXl7Z5kq13E9QvkMFg7"></center><div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_funktion</span><span class="p">():</span> <span class="c1"># Die übliche Notation für Tests in Python ist die Funktionsnamen mit `test_` zu beginnen</span>
@@ -440,18 +459,10 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="nn">Input In [2],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">test_funktion</span><span class="p">()</span>
-
-<span class="nn">Input In [1],</span> in <span class="ni">test_funktion</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span> <span class="nf">test_funktion</span><span class="p">():</span> <span class="c1"># Die übliche Notation für Tests in Python ist die Funktionsnamen mit `test_` zu beginnen</span>
-<span class="ne">----&gt; </span><span class="mi">2</span>     <span class="k">assert</span> <span class="n">division</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="k">assert</span> <span class="n">division</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="k">assert</span> <span class="n">division</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">50</span>
-
-<span class="ne">NameError</span>: name &#39;division&#39; is not defined
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Das Ergebnis von 10/2 = 5.0
+Das Ergebnis von 10/5 = 2.0
+Das Ergebnis von 50/1 = 50.0
+Das Ergebnis von 50/5 = 10.0
 </pre></div>
 </div>
 </div>
@@ -481,18 +492,11 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="nn">Input In [4],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">test_grenzwert</span><span class="p">()</span>
-
-<span class="nn">Input In [3],</span> in <span class="ni">test_grenzwert</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="k">def</span> <span class="nf">test_grenzwert</span><span class="p">():</span>
-<span class="ne">----&gt; </span><span class="mi">4</span>     <span class="k">assert</span> <span class="n">division</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="k">assert</span> <span class="n">division</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="o">==</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">division</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">))</span> <span class="c1"># Das prüfen auf nan (not a number) ist nur durch die funktion `isnan` moeglich</span>
-
-<span class="ne">NameError</span>: name &#39;division&#39; is not defined
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Das Ergebnis von inf/1 = inf
+Das Ergebnis von inf/100 = inf
+Das Ergebnis von inf/inf = nan
+Das Ergebnis von 1/inf = 0.0
+Warnung Division durch 0
 </pre></div>
 </div>
 </div>
@@ -511,11 +515,18 @@ title="Print to PDF"
 </div>
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="nn">Input In [5],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
+<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="nn">Input In [6],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
 <span class="ne">----&gt; </span><span class="mi">1</span> <span class="k">assert</span> <span class="n">division</span><span class="p">(</span><span class="s2">&quot;falscher typ&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">is</span> <span class="ne">ValueError</span>
 
-<span class="ne">NameError</span>: name &#39;division&#39; is not defined
+<span class="nn">Input In [1],</span> in <span class="ni">division</span><span class="nt">(zaehler, nenner)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+<span class="ne">----&gt; </span><span class="mi">5</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="k">elif</span> <span class="ow">not</span> <span class="n">nenner</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warnung Division durch 0&quot;</span><span class="p">)</span>
+
+<span class="ne">ValueError</span>: Zaehler nicht vom Datentyp `int` oder `float`
 </pre></div>
 </div>
 </div>
@@ -545,33 +556,6 @@ title="Print to PDF"
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_datentyp</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="nn">Input In [6],</span> in <span class="ni">test_datentyp</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="k">try</span><span class="p">:</span>  
-<span class="ne">----&gt; </span><span class="mi">4</span>     <span class="n">division</span><span class="p">(</span><span class="s2">&quot;falscher typ&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-
-<span class="ne">NameError</span>: name &#39;division&#39; is not defined
-
-<span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
-
-<span class="ne">AssertionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="nn">Input In [7],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">test_datentyp</span><span class="p">()</span>
-
-<span class="nn">Input In [6],</span> in <span class="ni">test_datentyp</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">division</span><span class="p">(</span><span class="s2">&quot;falscher typ&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<span class="ne">----&gt; </span><span class="mi">6</span>     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;Datatype&quot;</span><span class="p">)</span>
-
-<span class="ne">AssertionError</span>: 
 </pre></div>
 </div>
 </div>
@@ -607,15 +591,15 @@ title="Print to PDF"
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">ZeroDivisionError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="nn">Input In [10],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
+<span class="nn">Input In [11],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
 <span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">test_grenzwert</span><span class="p">()</span>
 
-<span class="nn">Input In [3],</span> in <span class="ni">test_grenzwert</span><span class="nt">()</span>
+<span class="nn">Input In [4],</span> in <span class="ni">test_grenzwert</span><span class="nt">()</span>
 <span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">division</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">))</span> <span class="c1"># Das prüfen auf nan (not a number) ist nur durch die funktion `isnan` moeglich</span>
 <span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="k">assert</span> <span class="n">division</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
 <span class="ne">----&gt; </span><span class="mi">8</span> <span class="k">assert</span> <span class="n">division</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
 
-<span class="nn">Input In [8],</span> in <span class="ni">division</span><span class="nt">(zaehler, nenner)</span>
+<span class="nn">Input In [9],</span> in <span class="ni">division</span><span class="nt">(zaehler, nenner)</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span> <span class="nf">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">):</span>
 <span class="ne">----&gt; </span><span class="mi">2</span>     <span class="k">return</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
 
@@ -634,12 +618,12 @@ title="Print to PDF"
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="nn">Input In [6],</span> in <span class="ni">test_datentyp</span><span class="nt">()</span>
+<span class="nn">Input In [7],</span> in <span class="ni">test_datentyp</span><span class="nt">()</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="k">try</span><span class="p">:</span>  
 <span class="ne">----&gt; </span><span class="mi">4</span>     <span class="n">division</span><span class="p">(</span><span class="s2">&quot;falscher typ&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 
-<span class="nn">Input In [8],</span> in <span class="ni">division</span><span class="nt">(zaehler, nenner)</span>
+<span class="nn">Input In [9],</span> in <span class="ni">division</span><span class="nt">(zaehler, nenner)</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span> <span class="nf">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">):</span>
 <span class="ne">----&gt; </span><span class="mi">2</span>     <span class="k">return</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
 
@@ -648,10 +632,10 @@ title="Print to PDF"
 <span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
 
 <span class="ne">AssertionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="nn">Input In [11],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
+<span class="nn">Input In [12],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
 <span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">test_datentyp</span><span class="p">()</span>
 
-<span class="nn">Input In [6],</span> in <span class="ni">test_datentyp</span><span class="nt">()</span>
+<span class="nn">Input In [7],</span> in <span class="ni">test_datentyp</span><span class="nt">()</span>
 <span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">division</span><span class="p">(</span><span class="s2">&quot;falscher typ&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 <span class="ne">----&gt; </span><span class="mi">6</span>     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span>
