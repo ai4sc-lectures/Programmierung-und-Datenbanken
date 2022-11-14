@@ -1,6 +1,4 @@
-# Aufgabe 3
-
-**Flussdiagramm**
+# Aufgabe 3 - Flussdiagramm
 
 Erstelle basierend auf der nachfolgend gegebenen Beschreibung ein Flussdiagramm zur Zulassung/Genehmigung eines Projektes (z.B. eines Bauprojektes) und lade dieses als Bild auf repl.it hoch. Das Flussdiagramm sollte einen Start- und einen Endblock, eine Ein- und eine Ausgabe, sowie mehrere Statements und zwei Entscheidungspunkte beinhalten. Fettgedruckte Begriffe im folgenden Text referenzieren benötigte Blöcke.
 
