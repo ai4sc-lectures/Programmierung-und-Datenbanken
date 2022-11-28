@@ -1,3 +1,5 @@
+import math
+
 class Point:
     # Attribut aller Instanzen
     unit = "m"
