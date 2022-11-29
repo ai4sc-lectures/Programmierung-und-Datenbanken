@@ -1,0 +1,1285 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Such- und Sortieralgorithmen &#8212; Programmierung und Datenbanken</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/Vorlesung/5c_Such_Algorithmen.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Exceptions" href="6a_Exceptions.html" />
+    <link rel="prev" title="Rekursive Funktionen" href="5b_Rekursion.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
+      <img src="../_static/logo.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Programmierung und Datenbanken</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Einführung
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Vorlesungsbeispiele
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="3a_Datentypen.html">
+   Datentypen
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="3b_Operatoren.html">
+   Operatoren
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="3c_Funktionen.html">
+   Funktionen
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="4a_Verzweigung.html">
+   Verzweigungen
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="4b_Programmablauf.html">
+   Programmablauf
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="5a_Schleifen.html">
+   Schleifen
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="5b_Rekursion.html">
+   Rekursive Funktionen
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Such- und Sortieralgorithmen
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="6a_Exceptions.html">
+   Exceptions
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="6b_UnitTest.html">
+   Unit-Tests
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="6c_Debugging.html">
+   Debugging
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="7a_Objects.html">
+   Objekte
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="8_Module.html">
+   Modularisierung
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Übungsaufgaben
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Uebung/S1E1-Aufgabe-Print-Funktion/.lesson/instructions.html">
+   Aufgabe 1.1 - Der Print Befehl
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Uebung/S1E2-Aufgabe-Variablen/.lesson/instructions.html">
+   Aufgabe 1.2 - Variablendeklarationen
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Uebung/S1E3-Aufgabe-Input-Funktion/.lesson/instructions.html">
+   Aufgabe 1.3 - Die Input-Funktion
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Uebung/S2E1-Aufgabe-Datentypen/.lesson/instructions.html">
+   Aufgabe 2.1 - Datentypen &amp; Konvertierungen
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Uebung/S2E2-Aufgabe-Funktionen/.lesson/instructions.html">
+   Aufgabe 2.2 - Simple Funktionen
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Uebung/S3E1-Aufgabe-Flussdiagramm/.lesson/instructions.html">
+   Aufgabe 3 - Flussdiagramm
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/Vorlesung/5c_Such_Algorithmen.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#komplexe-datenstruktur-baume">
+   Komplexe Datenstruktur - Bäume
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sortier-algorithmen">
+   Sortier-Algorithmen
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bubble-sort">
+     Bubble Sort
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#insertion-sort">
+     Insertion Sort
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#quicksort">
+     QuickSort
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#python-standardfunktion-sorted">
+     Python Standardfunktion
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       sorted
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#performancevergleich-der-sortierfunktionen">
+     Performancevergleich der Sortierfunktionen
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#suchen-von-elementen-in-listen">
+   Suchen von Elementen in Listen
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#vollstandige-suche">
+     Vollständige Suche
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#suchen-mit-binary-search">
+     Suchen mit Binary-Search
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#suchen-mit-binaren-suchbaumen">
+     Suchen mit binären Suchbäumen
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#binare-suchbaume-erstellen">
+     Binäre Suchbäume erstellen
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#suchen-mit-python-in-listen">
+     Suchen mit Python in Listen
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#suchen-in-python-mit-sets">
+     Suchen in Python mit Sets
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#performancevergleich-der-suchfunktionen">
+     Performancevergleich der Suchfunktionen
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Such- und Sortieralgorithmen</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#komplexe-datenstruktur-baume">
+   Komplexe Datenstruktur - Bäume
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#sortier-algorithmen">
+   Sortier-Algorithmen
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#bubble-sort">
+     Bubble Sort
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#insertion-sort">
+     Insertion Sort
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#quicksort">
+     QuickSort
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#python-standardfunktion-sorted">
+     Python Standardfunktion
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       sorted
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#performancevergleich-der-sortierfunktionen">
+     Performancevergleich der Sortierfunktionen
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#suchen-von-elementen-in-listen">
+   Suchen von Elementen in Listen
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#vollstandige-suche">
+     Vollständige Suche
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#suchen-mit-binary-search">
+     Suchen mit Binary-Search
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#suchen-mit-binaren-suchbaumen">
+     Suchen mit binären Suchbäumen
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#binare-suchbaume-erstellen">
+     Binäre Suchbäume erstellen
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#suchen-mit-python-in-listen">
+     Suchen mit Python in Listen
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#suchen-in-python-mit-sets">
+     Suchen in Python mit Sets
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#performancevergleich-der-suchfunktionen">
+     Performancevergleich der Suchfunktionen
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="such-und-sortieralgorithmen">
+<h1>Such- und Sortieralgorithmen<a class="headerlink" href="#such-und-sortieralgorithmen" title="Permalink to this headline">#</a></h1>
+<section id="komplexe-datenstruktur-baume">
+<h2>Komplexe Datenstruktur - Bäume<a class="headerlink" href="#komplexe-datenstruktur-baume" title="Permalink to this headline">#</a></h2>
+<p>Eine weitere wichtige Komplexe (zusammengesetzte) Datenstruktur sind Bäume. Sie werden insbesondere für effizientes Suchen benutzt.</p>
+<p>Wir definieren den folgenden Baum</p>
+<center><img src="https://mermaid.ink/img/pako:eNptj8EKgzAQRH8l7GkDekhE0Rx68g_aYy7BrFUwKjY5FPHfm2pbKLinmXnDsrtCM1kCBffFzB271XpkcYREFJJzlqYXxgrEgvODHHrPM8TsJK4Qq2_8v0eU0ZU_9nE7E3k0-SmSAlEKziEBR4szvY3nru-iBt-RIw0qSkutCYPXoMctVk3w0_U5NqD8EiiBMFvjqe5NfNSBas3woO0FhYI-BA?type=png"></center><p>Wir stellen den Baum hier als Dictionaries dar, bei denen wir den Wert semantisch als <code class="docutils literal notranslate"><span class="pre">wert</span></code> und die Unterbäume mit <code class="docutils literal notranslate"><span class="pre">links</span></code> und <code class="docutils literal notranslate"><span class="pre">rechts</span></code> bezeichnen. Durch Einrücken wird die Struktur sichtbarer. Weggelassene Felder sind automatisch <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>baum = {&quot;wert&quot;: 12,
+        &quot;links&quot;:{
+                &quot;wert&quot;: 6,
+                &quot;links&quot;: {&quot;wert&quot;:  3},
+                &quot;rechts&quot;:{&quot;wert&quot;:  9}
+        },
+        &quot;rechts&quot;:{
+                &quot;wert&quot;: 18,
+                &quot;links&quot;: {&quot;wert&quot;: 15},
+                &quot;rechts&quot;:{&quot;wert&quot;: 21}
+        }
+}
+</pre></div>
+</div>
+</div>
+</div>
+<p>Wenn wir den Baum durchlaufen (traversen) wollen, brauchen wir eine rekursive Funktionen. Sie lassen sich nicht in Loops umwandeln. Die rekursiven Funktionen arbeiten dabei auf dem angegebenen Knoten und rufen sich dann selbst mit dem entsprechenden Teilbaum der Kinder auf.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def traverse(tree):
+	wert=tree[&quot;wert&quot;]                 # der aktuelle Wert
+	print(wert)                       # gebe den aktuellen Wert aus
+	if &quot;links&quot; in tree:               # wenn der unterbaum links definiert ist
+		traverse(tree[&quot;links&quot;])       # rufe die Funktion rekursiv auf
+	if &quot;rechts&quot; in tree:              # wenn der unterbaum rechts definiert ist
+		traverse(tree[&quot;rechts&quot;])      # rufe die Funktion rekursiv auf
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>traverse(baum)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>12
+6
+3
+9
+18
+15
+21
+</pre></div>
+</div>
+</div>
+</div>
+<p>Wenn wir den Baum rekursiv durchlaufen (traversen), dann sehen wir, das wir den Baum von oben nach unten, links vor rechts durchlaufen. Wir fangen also beim Wurzelknoten 12 an, und gehen dann links tiefer zur 6 von dort links tiefer zur 3, dann rechts zur l, weil kein tieferes Element existiert, u.s.w.</p>
+</section>
+<section id="sortier-algorithmen">
+<h2>Sortier-Algorithmen<a class="headerlink" href="#sortier-algorithmen" title="Permalink to this headline">#</a></h2>
+<section id="bubble-sort">
+<h3>Bubble Sort<a class="headerlink" href="#bubble-sort" title="Permalink to this headline">#</a></h3>
+<p>Das Sortieren von Elementen in einer Liste ist ein übliche Aufgabe beim Programmieren. Hierfür gibt es einige Standard-Algorithmen, die man kennen sollte.</p>
+<p>Bubble Sort ist einer der einfachsten Sortieralgorithmen. Hierbei wird jedes Element der Liste durchlaufen und mit dem nächsten Element verglichen. Ist das zweite Element kleiner als das erste wird die Position getauscht. Die Liste wird so lange wieder und wieder durchlaufen bis dieser Fall nicht mehr auftritt.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def bubbleSort(numbers):
+    for i in range(len(numbers)-1):
+        for j in range(0, len(numbers)-i-1):
+            if numbers[j] &gt; numbers[j + 1] :
+                numbers[j], numbers[j + 1] = numbers[j + 1], numbers[j]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
+
+bubbleSort(zahlenfolge)
+
+zahlenfolge
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[3, 6, 9, 12, 15, 18, 21]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Es ist zu beachten, das Bubble Sort die Liste direkt modifiziert, also die vorherige Reihenfolge geändert wird.</p>
+</section>
+<section id="insertion-sort">
+<h3>Insertion Sort<a class="headerlink" href="#insertion-sort" title="Permalink to this headline">#</a></h3>
+<p>Ein weiterer Algorithmus zum Sortieren ist Insertion-Sort. Er basiert auf der menschlichen Strategie Karten zu sortieren, indem wir die Werte dort einfügen wo sie am besten passen.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def insertion_sort(arr):
+    for i in range(1, len(arr)): # Iteriere durch alle elemente
+        key = arr[i]
+        # Bewege alle elemente von arr[0..i-1], die größer als
+        # das aktuelle element key eine position vor die aktuelle
+        j = i-1
+        while j &gt;= 0 and key &lt; arr[j] :
+            arr[j+1] = arr[j]
+            j -= 1
+        arr[j+1] = key
+</pre></div>
+</div>
+</div>
+</div>
+<p>Das Ergebnis ist die korrekt sortierte Liste. Auch wieder direkt modifiziert.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
+
+insertion_sort(zahlenfolge)
+
+zahlenfolge
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[3, 6, 9, 12, 15, 18, 21]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="quicksort">
+<h3>QuickSort<a class="headerlink" href="#quicksort" title="Permalink to this headline">#</a></h3>
+<p>QuickSort ist ein Divide-and-Conquer-Algorithmus. Er wählt ein Element aus der Liste als zentrales Element und sortiert dann Elemente als Kleiner oder Größer in zwei Teillisten, welche weiter sortiert werden.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def quickSort(elements):
+    less = []
+    equal = []
+    greater = []
+
+    if len(elements) &gt; 1:
+        pivot = elements[0]
+        for x in elements:
+            if x &lt; pivot:
+                less.append(x)
+            elif x == pivot:
+                equal.append(x)
+            elif x &gt; pivot:
+                greater.append(x)
+        return quickSort(less) + equal + quickSort(greater)
+    else:  # Falls nur ein oder kein Element in der list ist
+        return elements
+</pre></div>
+</div>
+</div>
+</div>
+<p>Das Ergebnis ist eine sortierte Liste welche neu ist und zugewiesen werden muss.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
+
+zahlenfolge=quickSort(zahlenfolge)
+
+zahlenfolge
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[3, 6, 9, 12, 15, 18, 21]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="python-standardfunktion-sorted">
+<h3>Python Standardfunktion <code class="docutils literal notranslate"><span class="pre">sorted</span></code><a class="headerlink" href="#python-standardfunktion-sorted" title="Permalink to this headline">#</a></h3>
+<p>Die Lösung im Programmieralltag ist die in Python eingebaute Funktion <code class="docutils literal notranslate"><span class="pre">sorted()</span></code>. Hier wird die Liste nicht modifiziert und muss neu zugewiesen werden.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
+
+zahlenfolge=sorted(zahlenfolge)
+
+zahlenfolge
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[3, 6, 9, 12, 15, 18, 21]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="performancevergleich-der-sortierfunktionen">
+<h3>Performancevergleich der Sortierfunktionen<a class="headerlink" href="#performancevergleich-der-sortierfunktionen" title="Permalink to this headline">#</a></h3>
+<p>Im Performancevergleich der Funktionen schneidet Bubble-Sort schlechter ab als Insertion-Sort. Die eingebaute Funktion <code class="docutils literal notranslate"><span class="pre">sorted()</span></code> ist natürlich deutlich schneller als beide. Sie nutzt den Timsort-Algorithmus (eine variante von insertion_sort) und ist in C implementiert.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit bubbleSort([12, 6, 3, 9, 18, 15, 21])
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5.04 µs ± 127 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit insertion_sort([12, 6, 3, 9, 18, 15, 21])
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.29 µs ± 94.2 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit quickSort([12, 6, 3, 9, 18, 15, 21])
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.82 µs ± 72.2 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit sorted([12, 6, 3, 9, 18, 15, 21])
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>410 ns ± 11.5 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="suchen-von-elementen-in-listen">
+<h2>Suchen von Elementen in Listen<a class="headerlink" href="#suchen-von-elementen-in-listen" title="Permalink to this headline">#</a></h2>
+<section id="vollstandige-suche">
+<h3>Vollständige Suche<a class="headerlink" href="#vollstandige-suche" title="Permalink to this headline">#</a></h3>
+<p>Auch das finden von Elementen in Listen ist ein tägliche Aufgabe. Auch hier gibt es typische Algorithmen.</p>
+<p>Der naive Ansatz ist die vollständige Suche indem man durch alle Elemente in einer Liste get um zu sehen ob das Element irgendwo zu finden ist.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def contains(list, x):
+	for l in list:	
+		if(l == x):
+			return True
+	return False
+</pre></div>
+</div>
+</div>
+</div>
+<p>Suchen wir als Beispiel ob 15 in unserer unsortierten Zahlenfolge <code class="docutils literal notranslate"><span class="pre">[12,</span> <span class="pre">6,</span> <span class="pre">3,</span> <span class="pre">9,</span> <span class="pre">18,</span> <span class="pre">15,</span> <span class="pre">21]</span></code>. Es ist das vorletzte Element in der Liste, also müssen wir durch alle vorherigen Elemente iterieren.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
+
+contains(zahlenfolge, 15)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<p>Wenn wir nach 1 suchen, wird korrekt zurück gegeben dass die Zahl nicht in der Liste ist. Hierfür haben wir aber alle Elemente aus der Liste mit 1 vergleichen müssen.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>contains(zahlenfolge, 1)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>False
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="suchen-mit-binary-search">
+<h3>Suchen mit Binary-Search<a class="headerlink" href="#suchen-mit-binary-search" title="Permalink to this headline">#</a></h3>
+<p>Binary-Search ist ein Divide-and-Conquer-Algorithmus zum suchen in einer <em>sortierten</em> Liste. Er greift aus der Liste immer das mittlere Element heraus und entscheidet wenn das gesuchte Element kleiner oder größer ist, ob er mit der Teilliste rechts oder links weiter macht.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def binarySearch_sub(arr, suchwert, low, high):
+    while low &lt;= high: # Wiederhole bis low und high sich treffen
+        mid = low + (high - low)//2  # ganzzahlige division durch zwei
+        # Wenn gefunden, so gebe den index aus
+        if arr[mid] == suchwert:
+            return mid
+        # Wenn das element kleiner als der suchwert ist, 
+        # dann kann es nur im linken teilarray sein
+        elif arr[mid] &gt; suchwert:
+            return binarySearch_sub(arr, suchwert, low, mid - 1)
+        # Sonst ist das element größer als der suchwert und 
+        # dieser muss im rechten teilarray sein
+        else:
+            return binarySearch_sub(arr,  suchwert, mid + 1, high)
+    # Wenn gar nichts gefunden wurde gebe die Position -1 aus
+    return -1
+
+def binarySearch(arr, suchwert):
+    # Da Binary-Search eine sortierte Zahlenfolge braucht. Sortiert man die Zahlen vorher.
+    arr_sorted = sorted(arr)
+    return binarySearch_sub(arr_sorted, suchwert, 0, len(arr_sorted))
+</pre></div>
+</div>
+</div>
+</div>
+<p>Die Rückgabewert einer Binary-Search ist üblicherweise der Index der gefundenen Zahl</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>binarySearch(zahlenfolge, 15)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4
+</pre></div>
+</div>
+</div>
+</div>
+<p>Wenn gar nichts gefunden wurde, wird die Position -1 ausgegeben</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>binarySearch(zahlenfolge, 1)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-1
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="suchen-mit-binaren-suchbaumen">
+<h3>Suchen mit binären Suchbäumen<a class="headerlink" href="#suchen-mit-binaren-suchbaumen" title="Permalink to this headline">#</a></h3>
+<p>Der am Anfang aufgestellte Datenstruktur Baum stellt einen binären Suchbaum dar und kann zur Suche verwendet werden. Wir nutzen hierbei aus, dass dieser <em>bereits sortiert</em> ist. Dann können wir eine neue Suchfunktion definieren, welche konzeptionel dem Binary Search entspricht.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def suchBaum(tree, suchwert):
+	wert=tree[&quot;wert&quot;]       # der aktuelle Wert
+	if wert == suchwert: 
+		return True
+	if suchwert &lt; wert and &quot;links&quot; in tree:
+		return suchBaum(tree[&quot;links&quot;], suchwert)
+	elif suchwert &gt; wert and &quot;rechts&quot; in tree:
+		return suchBaum(tree[&quot;rechts&quot;], suchwert)
+	else:
+		return False
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>suchBaum(baum, 15)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>suchBaum(baum, 1)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>False
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="binare-suchbaume-erstellen">
+<h3>Binäre Suchbäume erstellen<a class="headerlink" href="#binare-suchbaume-erstellen" title="Permalink to this headline">#</a></h3>
+<p>Die Suche in einem binären Suchbaum ist an sich nicht schneller als beim Binary-Search in einer sortierten Liste. Allerdings ist das Sortieren der Liste sehr aufwendig. Auch das Einfügen neuer Elemente ist sehr langsam da hierfür erst ein binary search durchgeführt werden muss, um die Einfügeposition zu finden und dann muss die komplette Liste (sofern als Array implementiert) kopiert werden, weil sie ja ein Element größer wird. Das kostet insbesondere bei sehr großen Listen mit über 10.000 Elementen sehr viel Performance.</p>
+<p>Bei der Nutzung eines binären Suchbaums kann man hingegen auch beim Einfügen ausnutzen, dass er immer sortiert ist. Dadurch nutzen wir auch beim Einfügen den Binary-Search Algorithmus. Insbesondere bei wachsenen Datenstrukturen die sortiert vorliegen müssen, macht das Suchbäume äußerst effektiv. Zum Einfügen können wir die Funktion <code class="docutils literal notranslate"><span class="pre">suchBaum()</span></code> so umschreiben, dass sie den Wert immer als neuen Blattknoten einfügt.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def erweitereBaum(tree, neuer_wert):	
+    wert=tree[&quot;wert&quot;]       # der aktuelle Wert
+    if wert == neuer_wert: 
+        return #  wir brechen ab da der Wert schon enthalten ist und nicht hinzugefügt werden muss
+    elif neuer_wert &lt; wert:
+        if &quot;links&quot; not in tree: # wenn es noch kein linken unterbaum gibt
+            tree[&quot;links&quot;]={&quot;wert&quot;:neuer_wert} # füge einen neuen Knoten links unter dem aktuellen hinzu
+        else:
+            return erweitereBaum(tree[&quot;links&quot;], neuer_wert)
+    else: # sonst suche weiter nach Einfügeposition
+        if &quot;rechts&quot; not in tree: # wenn es noch kein rechten unterbaum gibt
+            tree[&quot;rechts&quot;]={&quot;wert&quot;:neuer_wert} # füge einen neuen Knoten rechts unter dem aktuellen hinzu
+        else:
+            return erweitereBaum(tree[&quot;rechts&quot;], neuer_wert)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>baum2 = {&quot;wert&quot;: 12} # Wir initialisieren den Baum mit 12
+for wert in [12, 6, 3, 9, 18, 15, 21]: # wir fügen die Werte des Suchbaums am Anfang hinzu
+    erweitereBaum(baum2, wert)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Es gilt zu beachten, dass der Baum direkt modifiziert wird.</p>
+<p>Um zu prüfen ob der neue Baum genauso aussieht wie der am Anfang dargestellte Baum <code class="docutils literal notranslate"><span class="pre">baum</span></code> geben wir beide mit <code class="docutils literal notranslate"><span class="pre">print()</span></code> aus.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(baum)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;wert&#39;: 12, &#39;links&#39;: {&#39;wert&#39;: 6, &#39;links&#39;: {&#39;wert&#39;: 3}, &#39;rechts&#39;: {&#39;wert&#39;: 9}}, &#39;rechts&#39;: {&#39;wert&#39;: 18, &#39;links&#39;: {&#39;wert&#39;: 15}, &#39;rechts&#39;: {&#39;wert&#39;: 21}}}
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(baum2)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{&#39;wert&#39;: 12, &#39;links&#39;: {&#39;wert&#39;: 6, &#39;links&#39;: {&#39;wert&#39;: 3}, &#39;rechts&#39;: {&#39;wert&#39;: 9}}, &#39;rechts&#39;: {&#39;wert&#39;: 18, &#39;links&#39;: {&#39;wert&#39;: 15}, &#39;rechts&#39;: {&#39;wert&#39;: 21}}}
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="suchen-mit-python-in-listen">
+<h3>Suchen mit Python in Listen<a class="headerlink" href="#suchen-mit-python-in-listen" title="Permalink to this headline">#</a></h3>
+<p>Im Alltag kann die in Python eingebaute Suche mit <code class="docutils literal notranslate"><span class="pre">15</span> <span class="pre">in</span> <span class="pre">zahlenfolge</span></code> genutzt werden.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>15 in zahlenfolge
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="suchen-in-python-mit-sets">
+<h3>Suchen in Python mit Sets<a class="headerlink" href="#suchen-in-python-mit-sets" title="Permalink to this headline">#</a></h3>
+<p>Insbesondere bei großen Listen (&gt;&gt; 100) lohnt sich die Umwandlung in ein Set. Diese sind optimiert für die Abfrage ob ein Element bereits enthalten ist. Hierfür werden Hashing-Algorithmen  und meist Sortierbäume verwendet, welche erlauben nur einen Teil der Elemente zu durchsuchen.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zahlenset = set(zahlenfolge)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>15 in zahlenset
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="performancevergleich-der-suchfunktionen">
+<h3>Performancevergleich der Suchfunktionen<a class="headerlink" href="#performancevergleich-der-suchfunktionen" title="Permalink to this headline">#</a></h3>
+<p>Im Performancevergleich siegt wieder die eingebaute Suche mit <code class="docutils literal notranslate"><span class="pre">15</span> <span class="pre">in</span> <span class="pre">zahlenfolge</span></code>. Die Performance der vollständigen Suche mit <code class="docutils literal notranslate"><span class="pre">contains</span></code> ist besser als die Suche mit Binary-Search oder die im Suchbaum. Wenn auch geschlagen von der internen Suche in Listen und in Sets.</p>
+<p>Das ist dem kleinen Beispiel gescholten und liegt an dem zusätzlichen Overhead durch die Datenstruktur und den rekursiven Funktionsaufruf. Insbesondere bei sehr großen Listen sind Suchbäume und Binary-Search deutlich effektiver als die vollständige Suche.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit contains(zahlenfolge, 15)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>341 ns ± 8.51 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit binarySearch(zahlenfolge, 15)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.34 µs ± 12.2 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit suchBaum(baum, 15)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>620 ns ± 15.4 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit 15 in zahlenfolge
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>103 ns ± 1.13 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit 15 in zahlenset
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>43.5 ns ± 0.548 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Vergleichen wir nocheinmal ein sehr großes Beispiel. Und erzeugen eine sehr große Zahlenfolge mit <code class="docutils literal notranslate"><span class="pre">range()</span></code> und kehren diese mit <code class="docutils literal notranslate"><span class="pre">reverse()</span></code> in der Reihenfolge um.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zahlenfolge = list(range(100000))
+zahlenfolge.reverse()
+</pre></div>
+</div>
+</div>
+</div>
+<p>Wir erstellen das set der Zahlenfolge.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zahlenset = set(zahlenfolge)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Um den Suchbaum zu erstellen ist es nicht sehr effizient die Elemente in sortierter Ordnung hinzuzufügen oder in umgekehrter Reihenfolge wie in diesem Fall. Das würde dazu führen, dass der Baum unbalanziert ist und einfach nur eine verkettete Liste darstellt. Um sicher zu stellen, dass der Baum gut balanziert ist, fügen wir die Elemente in optimaler Ordnung hinzu, welches die gleiche Ordnung ist die ein binary Search Algorithmus durchläuft. Es gibt zusätzliche Suchbäume die sich automatisch optimieren, das sind sogenannte <a class="reference external" href="https://de.wikipedia.org/wiki/Balancierter_Baum">balanzierte Suchbäume</a>. Sie führen aber für die hier behandelten Beispiel zu weit.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Um sicher zu stellen, dass der Baum gut balanziert ist 
+# initialisieren den Baum in der Hälfte
+# und fügen dann die Teilbäume in der Reihenfolge der binären suche hinzu
+baum2 = {&quot;wert&quot;: zahlenfolge[len(zahlenfolge)//2]}
+step = len(zahlenfolge)//4
+while step&gt;0:
+    idx=step
+    while idx &lt; len(zahlenfolge):
+        erweitereBaum(baum2, zahlenfolge[idx])
+        idx=idx+step
+    step = step // 2
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit contains(zahlenfolge, 15)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.04 ms ± 107 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit binarySearch(zahlenfolge, 15)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.15 ms ± 13.1 µs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit suchBaum(baum2, 15)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.58 µs ± 12.8 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit 15 in zahlenfolge
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.18 ms ± 10.9 µs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit 15 in zahlenset
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>41.4 ns ± 0.911 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Das Ergebnis sieht hier ganz anders aus. Jetzt scheidet <code class="docutils literal notranslate"><span class="pre">contains()</span></code> deutlich schlechter ab und Binay-Search ist jetzt um Größenordnungen besser. Sogar in einigen Durchläufen besser als die interne Suchfunktion von Python in Listen, weil dies auch eine vollständige Suche in C ist. Am Besten schneidet allerdings der Suchbaum ab, da er ja immer sortiert ist und somit den binary Search-Algorithmus ohne Sortieren ausführen kann. Nur die Suche im Set ist noch einmal um eine Größenordnung besser.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./Vorlesung"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="5b_Rekursion.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Rekursive Funktionen</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="6a_Exceptions.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Exceptions</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Joern Ploennigs, AI 4 Sustainable Construction, University of Rostock<br/>
+  
+      &copy; Copyright CC-BY-NC-SA 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
