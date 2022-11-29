@@ -1,14 +1,13 @@
 from typing import List
-from ImmutablePoint import ImmutablePoint
 
 class Polygon:
-    def __init__(self, points: List[ImmutablePoint], name="Polygon"):
+    def __init__(self, points: List['ImmutablePoint'], name="Polygon"):
         if not isinstance(points, list):
             raise TypeError("points not of type list")
         if not len(points) > 2:
             raise TypeError("points need to contain at least 2 Points")
         for point in points:
-            if not isinstance(point, ImmutablePoint):
+            if not isinstance(point, 'ImmutablePoint'):
                 raise TypeError("Point not of type ImmutablePoint")
         self.__points = points
         self.name = name
