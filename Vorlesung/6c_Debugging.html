@@ -468,8 +468,8 @@ title="Print to PDF"
 <h1>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">#</a></h1>
 <section id="debugging-mit-print">
 <h2>Debugging mit <code class="docutils literal notranslate"><span class="pre">print()</span></code><a class="headerlink" href="#debugging-mit-print" title="Permalink to this headline">#</a></h2>
-<p>Logische Fehler treten häufig erst dynamich auf und lassen sich nicht durch statische Code-Analyse durch Lint-Tools finden. Hier muss man dann den aktuellen Programmfluss nachvollziehen. Dies nennt man Debugging. Die einfachste Form ist das <code class="docutils literal notranslate"><span class="pre">print</span></code>-Debugging bei der man den Code mit <code class="docutils literal notranslate"><span class="pre">print()</span></code>-Befehlen zuspamt.</p>
-<p>Wir erweitern mal unsere Divisionsfunktion mit schönen vielen <code class="docutils literal notranslate"><span class="pre">print()</span></code>-Statements. Üblich ist es zum Beispiel, die Parameter zu printen. Fehler und Warnungen auszugeben, als auch dann Ergebnisse zu loggen.</p>
+<p>Logische Fehler treten häufig erst dynamisch auf und lassen sich nicht durch statische Code-Analyse durch Lint-Tools finden. Hier muss man dann den aktuellen Programmfluss nachvollziehen. Dies nennt man Debugging. Die einfachste Form ist das <code class="docutils literal notranslate"><span class="pre">print</span></code>-Debugging bei der man den Code mit <code class="docutils literal notranslate"><span class="pre">print()</span></code>-Befehlen zuspammt.</p>
+<p>Wir erweitern mal unsere Divisionsfunktion mit schönen vielen <code class="docutils literal notranslate"><span class="pre">print()</span></code>-Statements. Üblich ist es zum Beispiel, die Eingangsparameter auszugeben, Fehler und Warnungen auszugeben, als auch dann Ergebnisse zu loggen.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">):</span>
@@ -553,7 +553,7 @@ Info: Das Ergebnis von 10/7 = 1.4285714285714286
 </section>
 <section id="debugging-mit-logging">
 <h2>Debugging mit <code class="docutils literal notranslate"><span class="pre">logging</span></code><a class="headerlink" href="#debugging-mit-logging" title="Permalink to this headline">#</a></h2>
-<p>Deshalb verwendet man bei komplexeren Programmen meist logging-Bibliotheken. Diese erlauben es <code class="docutils literal notranslate"><span class="pre">print</span></code>-Statements Kategorien zuzuordnen und anhand dieser zu filtern. In der Python-Bibliothek <code class="docutils literal notranslate"><span class="pre">logging</span></code> sind die Kategorien: <code class="docutils literal notranslate"><span class="pre">debug</span></code>, <code class="docutils literal notranslate"><span class="pre">info</span></code>, <code class="docutils literal notranslate"><span class="pre">warning</span></code>, <code class="docutils literal notranslate"><span class="pre">error</span></code> und <code class="docutils literal notranslate"><span class="pre">critical</span></code>.</p>
+<p>Deshalb verwendet man bei komplexeren Programmen meist ein <code class="docutils literal notranslate"><span class="pre">logging</span></code>-Paket. Diese erlauben es <code class="docutils literal notranslate"><span class="pre">print</span></code>-Statements Kategorien zuzuordnen und anhand dieser zu filtern. In der Python-Bibliothek <code class="docutils literal notranslate"><span class="pre">logging</span></code> sind die Kategorien: <code class="docutils literal notranslate"><span class="pre">debug</span></code>, <code class="docutils literal notranslate"><span class="pre">info</span></code>, <code class="docutils literal notranslate"><span class="pre">warning</span></code>, <code class="docutils literal notranslate"><span class="pre">error</span></code> und <code class="docutils literal notranslate"><span class="pre">critical</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
@@ -580,7 +580,7 @@ Info: Das Ergebnis von 10/7 = 1.4285714285714286
 </div>
 </div>
 </div>
-<p>Wenn wir jetzt die Funktion aufrufen sehen wir nur noch die Division durch 0 Warnung.</p>
+<p>Wenn wir jetzt die Funktion aufrufen, sehen wir nur noch die Division durch 0 Warnung.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
@@ -625,39 +625,39 @@ Info: Das Ergebnis von 10/7 = 1.4285714285714286
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 10:32:12,820  meinlog  INFO: Das Ergebnis von 10/-2 = -5.0
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 12:03:55,580  meinlog  INFO: Das Ergebnis von 10/-2 = -5.0
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 10:32:12,821  meinlog  INFO: Das Ergebnis von 10/-1 = -10.0
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 12:03:55,581  meinlog  INFO: Das Ergebnis von 10/-1 = -10.0
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 10:32:12,822  meinlog  WARNING: Division durch 0
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 12:03:55,582  meinlog  WARNING: Division durch 0
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 10:32:12,822  meinlog  INFO: Das Ergebnis von 10/1 = 10.0
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 12:03:55,582  meinlog  INFO: Das Ergebnis von 10/1 = 10.0
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 10:32:12,822  meinlog  INFO: Das Ergebnis von 10/2 = 5.0
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 12:03:55,583  meinlog  INFO: Das Ergebnis von 10/2 = 5.0
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 10:32:12,823  meinlog  INFO: Das Ergebnis von 10/3 = 3.3333333333333335
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 12:03:55,584  meinlog  INFO: Das Ergebnis von 10/3 = 3.3333333333333335
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 10:32:12,824  meinlog  INFO: Das Ergebnis von 10/4 = 2.5
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 12:03:55,585  meinlog  INFO: Das Ergebnis von 10/4 = 2.5
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 10:32:12,824  meinlog  INFO: Das Ergebnis von 10/5 = 2.0
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 12:03:55,585  meinlog  INFO: Das Ergebnis von 10/5 = 2.0
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 10:32:12,824  meinlog  INFO: Das Ergebnis von 10/6 = 1.6666666666666667
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 12:03:55,586  meinlog  INFO: Das Ergebnis von 10/6 = 1.6666666666666667
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 10:32:12,825  meinlog  INFO: Das Ergebnis von 10/7 = 1.4285714285714286
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 12:03:55,587  meinlog  INFO: Das Ergebnis von 10/7 = 1.4285714285714286
 </pre></div>
 </div>
 </div>
 </div>
-<p>In der Praxis wird das Logging sehr häufig insbesondere in Cloud-Anwendungen verwendet. Da diese ja meist keine Bildschirme haben, müssen Fehler in Logs gesucht werden. So lange alles ok ist, läuft so eine Anwendung dann z.B. im Log-Level <code class="docutils literal notranslate"><span class="pre">INFO</span></code>, mit nur wenig Ausgaben. Tritt ein Fehler auf, so wird der Server auf das Log-Level <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code> gesetzt und man sucht in den detaillierten Logs dann nach Informationen um den Fehler einzugrenzen.</p>
+<p>In der Praxis wird das Logging sehr häufig insbesondere in Cloud-Anwendungen verwendet. Da diese ja keine Bildschirme haben, müssen Fehler in Logs gesucht werden. Solange alles ok ist, läuft so eine Anwendung dann z.B. im Log-Level <code class="docutils literal notranslate"><span class="pre">INFO</span></code>, mit nur wenig Ausgaben. Tritt ein Fehler auf, so wird der Server auf das Log-Level <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code> gesetzt und man sucht in den detaillierten Logs dann nach Informationen, um den Fehler einzugrenzen.</p>
 </section>
 <section id="debugging-durch-debug-oberflachen">
 <h2>Debugging durch Debug-Oberflächen<a class="headerlink" href="#debugging-durch-debug-oberflachen" title="Permalink to this headline">#</a></h2>
@@ -696,12 +696,12 @@ Info: Das Ergebnis von 10/7 = 1.4285714285714286
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 10:32:12,839  meinlog  WARNING: Division durch 0
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 12:03:55,607  meinlog  WARNING: Division durch 0
 </pre></div>
 </div>
 </div>
 </div>
-<p>Dies started den Debug-Modus. In diesem wird die aktuelle Zeile vorgehoben als auch die aktuellen Variablen im Speicher angezeigt.</p>
+<p>Dies startet den Debug-Modus. In diesem wird die aktuelle Zeile vorgehoben als auch die aktuellen Variablen im Speicher angezeigt.</p>
 <center><img src="images/debug_vscode_3.png"></center><p>In der Debugumgebung kann man dann Zeile für Zeile vorgehen durch drücken von <img alt="../_images/debug_vscode_2.png" src="../_images/debug_vscode_2.png" /> und damit nachvollziehen wie das Programm bearbeitet wird und welche Variablen sich ändern.</p>
 </section>
 <section id="debugging-in-repl-it">
