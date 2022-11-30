@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Such- und Sortieralgorithmen &#8212; Programmierung und Datenbanken</title>
     
   <!-- Loaded before other Sphinx assets -->
@@ -558,27 +557,27 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="such-und-sortieralgorithmen">
+  <div class="tex2jax_ignore mathjax_ignore section" id="such-und-sortieralgorithmen">
 <h1>Such- und Sortieralgorithmen<a class="headerlink" href="#such-und-sortieralgorithmen" title="Permalink to this headline">#</a></h1>
-<section id="komplexe-datenstruktur-baume">
+<div class="section" id="komplexe-datenstruktur-baume">
 <h2>Komplexe Datenstruktur - Bäume<a class="headerlink" href="#komplexe-datenstruktur-baume" title="Permalink to this headline">#</a></h2>
 <p>Eine weitere wichtige Komplexe (zusammengesetzte) Datenstruktur sind Bäume. Sie werden insbesondere für effizientes Suchen benutzt.</p>
 <p>Wir definieren den folgenden Baum</p>
 <center><img src="https://mermaid.ink/img/pako:eNptj8EKgzAQRH8l7GkDekhE0Rx68g_aYy7BrFUwKjY5FPHfm2pbKLinmXnDsrtCM1kCBffFzB271XpkcYREFJJzlqYXxgrEgvODHHrPM8TsJK4Qq2_8v0eU0ZU_9nE7E3k0-SmSAlEKziEBR4szvY3nru-iBt-RIw0qSkutCYPXoMctVk3w0_U5NqD8EiiBMFvjqe5NfNSBas3woO0FhYI-BA?type=png"></center><p>Wir stellen den Baum hier als Dictionaries dar, bei denen wir den Wert semantisch als <code class="docutils literal notranslate"><span class="pre">wert</span></code> und die Unterbäume mit <code class="docutils literal notranslate"><span class="pre">links</span></code> und <code class="docutils literal notranslate"><span class="pre">rechts</span></code> bezeichnen. Durch Einrücken wird die Struktur sichtbarer. Weggelassene Felder sind automatisch <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>baum = {&quot;wert&quot;: 12,
-        &quot;links&quot;:{
-                &quot;wert&quot;: 6,
-                &quot;links&quot;: {&quot;wert&quot;:  3},
-                &quot;rechts&quot;:{&quot;wert&quot;:  9}
-        },
-        &quot;rechts&quot;:{
-                &quot;wert&quot;: 18,
-                &quot;links&quot;: {&quot;wert&quot;: 15},
-                &quot;rechts&quot;:{&quot;wert&quot;: 21}
-        }
-}
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">baum</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;wert&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span>
+        <span class="s2">&quot;links&quot;</span><span class="p">:{</span>
+                <span class="s2">&quot;wert&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+                <span class="s2">&quot;links&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wert&quot;</span><span class="p">:</span>  <span class="mi">3</span><span class="p">},</span>
+                <span class="s2">&quot;rechts&quot;</span><span class="p">:{</span><span class="s2">&quot;wert&quot;</span><span class="p">:</span>  <span class="mi">9</span><span class="p">}</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;rechts&quot;</span><span class="p">:{</span>
+                <span class="s2">&quot;wert&quot;</span><span class="p">:</span> <span class="mi">18</span><span class="p">,</span>
+                <span class="s2">&quot;links&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;wert&quot;</span><span class="p">:</span> <span class="mi">15</span><span class="p">},</span>
+                <span class="s2">&quot;rechts&quot;</span><span class="p">:{</span><span class="s2">&quot;wert&quot;</span><span class="p">:</span> <span class="mi">21</span><span class="p">}</span>
+        <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -586,20 +585,20 @@ title="Print to PDF"
 <p>Wenn wir den Baum durchlaufen (traversen) wollen, brauchen wir eine rekursive Funktionen. Sie lassen sich nicht in Loops umwandeln. Die rekursiven Funktionen arbeiten dabei auf dem angegebenen Knoten und rufen sich dann selbst mit dem entsprechenden Teilbaum der Kinder auf.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def traverse(tree):
-	wert=tree[&quot;wert&quot;]                 # der aktuelle Wert
-	print(wert)                       # gebe den aktuellen Wert aus
-	if &quot;links&quot; in tree:               # wenn der unterbaum links definiert ist
-		traverse(tree[&quot;links&quot;])       # rufe die Funktion rekursiv auf
-	if &quot;rechts&quot; in tree:              # wenn der unterbaum rechts definiert ist
-		traverse(tree[&quot;rechts&quot;])      # rufe die Funktion rekursiv auf
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">traverse</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+	<span class="n">wert</span><span class="o">=</span><span class="n">tree</span><span class="p">[</span><span class="s2">&quot;wert&quot;</span><span class="p">]</span>                 <span class="c1"># der aktuelle Wert</span>
+	<span class="nb">print</span><span class="p">(</span><span class="n">wert</span><span class="p">)</span>                       <span class="c1"># gebe den aktuellen Wert aus</span>
+	<span class="k">if</span> <span class="s2">&quot;links&quot;</span> <span class="ow">in</span> <span class="n">tree</span><span class="p">:</span>               <span class="c1"># wenn der unterbaum links definiert ist</span>
+		<span class="n">traverse</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="s2">&quot;links&quot;</span><span class="p">])</span>       <span class="c1"># rufe die Funktion rekursiv auf</span>
+	<span class="k">if</span> <span class="s2">&quot;rechts&quot;</span> <span class="ow">in</span> <span class="n">tree</span><span class="p">:</span>              <span class="c1"># wenn der unterbaum rechts definiert ist</span>
+		<span class="n">traverse</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="s2">&quot;rechts&quot;</span><span class="p">])</span>      <span class="c1"># rufe die Funktion rekursiv auf</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>traverse(baum)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">traverse</span><span class="p">(</span><span class="n">baum</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -616,31 +615,31 @@ title="Print to PDF"
 </div>
 </div>
 <p>Wenn wir den Baum rekursiv durchlaufen (traversen), dann sehen wir, das wir den Baum von oben nach unten, links vor rechts durchlaufen. Wir fangen also beim Wurzelknoten 12 an, und gehen dann links tiefer zur 6 von dort links tiefer zur 3, dann rechts zur l, weil kein tieferes Element existiert, u.s.w.</p>
-</section>
-<section id="sortier-algorithmen">
+</div>
+<div class="section" id="sortier-algorithmen">
 <h2>Sortier-Algorithmen<a class="headerlink" href="#sortier-algorithmen" title="Permalink to this headline">#</a></h2>
-<section id="bubble-sort">
+<div class="section" id="bubble-sort">
 <h3>Bubble Sort<a class="headerlink" href="#bubble-sort" title="Permalink to this headline">#</a></h3>
 <p>Das Sortieren von Elementen in einer Liste ist ein übliche Aufgabe beim Programmieren. Hierfür gibt es einige Standard-Algorithmen, die man kennen sollte.</p>
 <p>Bubble Sort ist einer der einfachsten Sortieralgorithmen. Hierbei wird jedes Element der Liste durchlaufen und mit dem nächsten Element verglichen. Ist das zweite Element kleiner als das erste wird die Position getauscht. Die Liste wird so lange wieder und wieder durchlaufen bis dieser Fall nicht mehr auftritt.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def bubbleSort(numbers):
-    for i in range(len(numbers)-1):
-        for j in range(0, len(numbers)-i-1):
-            if numbers[j] &gt; numbers[j + 1] :
-                numbers[j], numbers[j + 1] = numbers[j + 1], numbers[j]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">bubbleSort</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">numbers</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="p">:</span>
+                <span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">numbers</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],</span> <span class="n">numbers</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zahlenfolge</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">21</span><span class="p">]</span>
 
-bubbleSort(zahlenfolge)
+<span class="n">bubbleSort</span><span class="p">(</span><span class="n">zahlenfolge</span><span class="p">)</span>
 
-zahlenfolge
+<span class="n">zahlenfolge</span>
 </pre></div>
 </div>
 </div>
@@ -651,22 +650,22 @@ zahlenfolge
 </div>
 </div>
 <p>Es ist zu beachten, das Bubble Sort die Liste direkt modifiziert, also die vorherige Reihenfolge geändert wird.</p>
-</section>
-<section id="insertion-sort">
+</div>
+<div class="section" id="insertion-sort">
 <h3>Insertion Sort<a class="headerlink" href="#insertion-sort" title="Permalink to this headline">#</a></h3>
 <p>Ein weiterer Algorithmus zum Sortieren ist Insertion-Sort. Er basiert auf der menschlichen Strategie Karten zu sortieren, indem wir die Werte dort einfügen wo sie am besten passen.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def insertion_sort(arr):
-    for i in range(1, len(arr)): # Iteriere durch alle elemente
-        key = arr[i]
-        # Bewege alle elemente von arr[0..i-1], die größer als
-        # das aktuelle element key eine position vor die aktuelle
-        j = i-1
-        while j &gt;= 0 and key &lt; arr[j] :
-            arr[j+1] = arr[j]
-            j -= 1
-        arr[j+1] = key
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">insertion_sort</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)):</span> <span class="c1"># Iteriere durch alle elemente</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="c1"># Bewege alle elemente von arr[0..i-1], die größer als</span>
+        <span class="c1"># das aktuelle element key eine position vor die aktuelle</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span>
+        <span class="k">while</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">key</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="p">:</span>
+            <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="n">j</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">key</span>
 </pre></div>
 </div>
 </div>
@@ -674,11 +673,11 @@ zahlenfolge
 <p>Das Ergebnis ist die korrekt sortierte Liste. Auch wieder direkt modifiziert.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zahlenfolge</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">21</span><span class="p">]</span>
 
-insertion_sort(zahlenfolge)
+<span class="n">insertion_sort</span><span class="p">(</span><span class="n">zahlenfolge</span><span class="p">)</span>
 
-zahlenfolge
+<span class="n">zahlenfolge</span>
 </pre></div>
 </div>
 </div>
@@ -688,29 +687,29 @@ zahlenfolge
 </div>
 </div>
 </div>
-</section>
-<section id="quicksort">
+</div>
+<div class="section" id="quicksort">
 <h3>QuickSort<a class="headerlink" href="#quicksort" title="Permalink to this headline">#</a></h3>
 <p>QuickSort ist ein Divide-and-Conquer-Algorithmus. Er wählt ein Element aus der Liste als zentrales Element und sortiert dann Elemente als Kleiner oder Größer in zwei Teillisten, welche weiter sortiert werden.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def quickSort(elements):
-    less = []
-    equal = []
-    greater = []
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">quickSort</span><span class="p">(</span><span class="n">elements</span><span class="p">):</span>
+    <span class="n">less</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">equal</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">greater</span> <span class="o">=</span> <span class="p">[]</span>
 
-    if len(elements) &gt; 1:
-        pivot = elements[0]
-        for x in elements:
-            if x &lt; pivot:
-                less.append(x)
-            elif x == pivot:
-                equal.append(x)
-            elif x &gt; pivot:
-                greater.append(x)
-        return quickSort(less) + equal + quickSort(greater)
-    else:  # Falls nur ein oder kein Element in der list ist
-        return elements
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">pivot</span> <span class="o">=</span> <span class="n">elements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">pivot</span><span class="p">:</span>
+                <span class="n">less</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">x</span> <span class="o">==</span> <span class="n">pivot</span><span class="p">:</span>
+                <span class="n">equal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">pivot</span><span class="p">:</span>
+                <span class="n">greater</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">quickSort</span><span class="p">(</span><span class="n">less</span><span class="p">)</span> <span class="o">+</span> <span class="n">equal</span> <span class="o">+</span> <span class="n">quickSort</span><span class="p">(</span><span class="n">greater</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c1"># Falls nur ein oder kein Element in der list ist</span>
+        <span class="k">return</span> <span class="n">elements</span>
 </pre></div>
 </div>
 </div>
@@ -718,11 +717,11 @@ zahlenfolge
 <p>Das Ergebnis ist eine sortierte Liste welche neu ist und zugewiesen werden muss.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zahlenfolge</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">21</span><span class="p">]</span>
 
-zahlenfolge=quickSort(zahlenfolge)
+<span class="n">zahlenfolge</span><span class="o">=</span><span class="n">quickSort</span><span class="p">(</span><span class="n">zahlenfolge</span><span class="p">)</span>
 
-zahlenfolge
+<span class="n">zahlenfolge</span>
 </pre></div>
 </div>
 </div>
@@ -732,17 +731,17 @@ zahlenfolge
 </div>
 </div>
 </div>
-</section>
-<section id="python-standardfunktion-sorted">
+</div>
+<div class="section" id="python-standardfunktion-sorted">
 <h3>Python Standardfunktion <code class="docutils literal notranslate"><span class="pre">sorted</span></code><a class="headerlink" href="#python-standardfunktion-sorted" title="Permalink to this headline">#</a></h3>
 <p>Die Lösung im Programmieralltag ist die in Python eingebaute Funktion <code class="docutils literal notranslate"><span class="pre">sorted()</span></code>. Hier wird die Liste nicht modifiziert und muss neu zugewiesen werden.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zahlenfolge</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">21</span><span class="p">]</span>
 
-zahlenfolge=sorted(zahlenfolge)
+<span class="n">zahlenfolge</span><span class="o">=</span><span class="nb">sorted</span><span class="p">(</span><span class="n">zahlenfolge</span><span class="p">)</span>
 
-zahlenfolge
+<span class="n">zahlenfolge</span>
 </pre></div>
 </div>
 </div>
@@ -752,73 +751,73 @@ zahlenfolge
 </div>
 </div>
 </div>
-</section>
-<section id="performancevergleich-der-sortierfunktionen">
+</div>
+<div class="section" id="performancevergleich-der-sortierfunktionen">
 <h3>Performancevergleich der Sortierfunktionen<a class="headerlink" href="#performancevergleich-der-sortierfunktionen" title="Permalink to this headline">#</a></h3>
 <p>Im Performancevergleich der Funktionen schneidet Bubble-Sort schlechter ab als Insertion-Sort. Die eingebaute Funktion <code class="docutils literal notranslate"><span class="pre">sorted()</span></code> ist natürlich deutlich schneller als beide. Sie nutzt den Timsort-Algorithmus (eine variante von insertion_sort) und ist in C implementiert.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit bubbleSort([12, 6, 3, 9, 18, 15, 21])
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">timeit</span> bubbleSort([12, 6, 3, 9, 18, 15, 21])
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4.3 µs ± 1.54 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.42 µs ± 31.7 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit insertion_sort([12, 6, 3, 9, 18, 15, 21])
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">timeit</span> insertion_sort([12, 6, 3, 9, 18, 15, 21])
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.95 µs ± 2.87 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.08 µs ± 1.49 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit quickSort([12, 6, 3, 9, 18, 15, 21])
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">timeit</span> quickSort([12, 6, 3, 9, 18, 15, 21])
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.22 µs ± 2.98 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.72 µs ± 7.88 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit sorted([12, 6, 3, 9, 18, 15, 21])
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">timeit</span> sorted([12, 6, 3, 9, 18, 15, 21])
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>335 ns ± 1.5 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>161 ns ± 0.569 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)
 </pre></div>
 </div>
 </div>
 </div>
-</section>
-</section>
-<section id="suchen-von-elementen-in-listen">
+</div>
+</div>
+<div class="section" id="suchen-von-elementen-in-listen">
 <h2>Suchen von Elementen in Listen<a class="headerlink" href="#suchen-von-elementen-in-listen" title="Permalink to this headline">#</a></h2>
-<section id="vollstandige-suche">
+<div class="section" id="vollstandige-suche">
 <h3>Vollständige Suche<a class="headerlink" href="#vollstandige-suche" title="Permalink to this headline">#</a></h3>
 <p>Auch das finden von Elementen in Listen ist ein tägliche Aufgabe. Auch hier gibt es typische Algorithmen.</p>
 <p>Der naive Ansatz ist die vollständige Suche indem man durch alle Elemente in einer Liste get um zu sehen ob das Element irgendwo zu finden ist.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def contains(list, x):
-	for l in list:	
-		if(l == x):
-			return True
-	return False
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">contains</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+	<span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">:</span>	
+		<span class="k">if</span><span class="p">(</span><span class="n">l</span> <span class="o">==</span> <span class="n">x</span><span class="p">):</span>
+			<span class="k">return</span> <span class="kc">True</span>
+	<span class="k">return</span> <span class="kc">False</span>
 </pre></div>
 </div>
 </div>
@@ -826,9 +825,9 @@ zahlenfolge
 <p>Suchen wir als Beispiel ob 15 in unserer unsortierten Zahlenfolge <code class="docutils literal notranslate"><span class="pre">[12,</span> <span class="pre">6,</span> <span class="pre">3,</span> <span class="pre">9,</span> <span class="pre">18,</span> <span class="pre">15,</span> <span class="pre">21]</span></code>. Es ist das vorletzte Element in der Liste, also müssen wir durch alle vorherigen Elemente iterieren.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zahlenfolge</span> <span class="o">=</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">21</span><span class="p">]</span>
 
-contains(zahlenfolge, 15)
+<span class="n">contains</span><span class="p">(</span><span class="n">zahlenfolge</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -841,7 +840,7 @@ contains(zahlenfolge, 15)
 <p>Wenn wir nach 1 suchen, wird korrekt zurück gegeben dass die Zahl nicht in der Liste ist. Hierfür haben wir aber alle Elemente aus der Liste mit 1 vergleichen müssen.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>contains(zahlenfolge, 1)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">contains</span><span class="p">(</span><span class="n">zahlenfolge</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -851,33 +850,33 @@ contains(zahlenfolge, 15)
 </div>
 </div>
 </div>
-</section>
-<section id="suchen-mit-binary-search">
+</div>
+<div class="section" id="suchen-mit-binary-search">
 <h3>Suchen mit Binary-Search<a class="headerlink" href="#suchen-mit-binary-search" title="Permalink to this headline">#</a></h3>
 <p>Binary-Search ist ein Divide-and-Conquer-Algorithmus zum suchen in einer <em>sortierten</em> Liste. Er greift aus der Liste immer das mittlere Element heraus und entscheidet wenn das gesuchte Element kleiner oder größer ist, ob er mit der Teilliste rechts oder links weiter macht.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def binarySearch_sub(arr, suchwert, low, high):
-    while low &lt;= high: # Wiederhole bis low und high sich treffen
-        mid = low + (high - low)//2  # ganzzahlige division durch zwei
-        # Wenn gefunden, so gebe den index aus
-        if arr[mid] == suchwert:
-            return mid
-        # Wenn das element kleiner als der suchwert ist, 
-        # dann kann es nur im linken teilarray sein
-        elif arr[mid] &gt; suchwert:
-            return binarySearch_sub(arr, suchwert, low, mid - 1)
-        # Sonst ist das element größer als der suchwert und 
-        # dieser muss im rechten teilarray sein
-        else:
-            return binarySearch_sub(arr,  suchwert, mid + 1, high)
-    # Wenn gar nichts gefunden wurde gebe die Position -1 aus
-    return -1
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">binarySearch_sub</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">suchwert</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">):</span>
+    <span class="k">while</span> <span class="n">low</span> <span class="o">&lt;=</span> <span class="n">high</span><span class="p">:</span> <span class="c1"># Wiederhole bis low und high sich treffen</span>
+        <span class="n">mid</span> <span class="o">=</span> <span class="n">low</span> <span class="o">+</span> <span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>  <span class="c1"># ganzzahlige division durch zwei</span>
+        <span class="c1"># Wenn gefunden, so gebe den index aus</span>
+        <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">==</span> <span class="n">suchwert</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">mid</span>
+        <span class="c1"># Wenn das element kleiner als der suchwert ist, </span>
+        <span class="c1"># dann kann es nur im linken teilarray sein</span>
+        <span class="k">elif</span> <span class="n">arr</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">suchwert</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">binarySearch_sub</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">suchwert</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">mid</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Sonst ist das element größer als der suchwert und </span>
+        <span class="c1"># dieser muss im rechten teilarray sein</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">binarySearch_sub</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span>  <span class="n">suchwert</span><span class="p">,</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">high</span><span class="p">)</span>
+    <span class="c1"># Wenn gar nichts gefunden wurde gebe die Position -1 aus</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
 
-def binarySearch(arr, suchwert):
-    # Da Binary-Search eine sortierte Zahlenfolge braucht. Sortiert man die Zahlen vorher.
-    arr_sorted = sorted(arr)
-    return binarySearch_sub(arr_sorted, suchwert, 0, len(arr_sorted))
+<span class="k">def</span> <span class="nf">binarySearch</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">suchwert</span><span class="p">):</span>
+    <span class="c1"># Da Binary-Search eine sortierte Zahlenfolge braucht. Sortiert man die Zahlen vorher.</span>
+    <span class="n">arr_sorted</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">binarySearch_sub</span><span class="p">(</span><span class="n">arr_sorted</span><span class="p">,</span> <span class="n">suchwert</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr_sorted</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -885,7 +884,7 @@ def binarySearch(arr, suchwert):
 <p>Die Rückgabewert einer Binary-Search ist üblicherweise der Index der gefundenen Zahl</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>binarySearch(zahlenfolge, 15)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">binarySearch</span><span class="p">(</span><span class="n">zahlenfolge</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -898,7 +897,7 @@ def binarySearch(arr, suchwert):
 <p>Wenn gar nichts gefunden wurde, wird die Position -1 ausgegeben</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>binarySearch(zahlenfolge, 1)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">binarySearch</span><span class="p">(</span><span class="n">zahlenfolge</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -908,29 +907,29 @@ def binarySearch(arr, suchwert):
 </div>
 </div>
 </div>
-</section>
-<section id="suchen-mit-binaren-suchbaumen">
+</div>
+<div class="section" id="suchen-mit-binaren-suchbaumen">
 <h3>Suchen mit binären Suchbäumen<a class="headerlink" href="#suchen-mit-binaren-suchbaumen" title="Permalink to this headline">#</a></h3>
 <p>Der am Anfang aufgestellte Datenstruktur Baum stellt einen binären Suchbaum dar und kann zur Suche verwendet werden. Wir nutzen hierbei aus, dass dieser <em>bereits sortiert</em> ist. Dann können wir eine neue Suchfunktion definieren, welche konzeptionel dem Binary Search entspricht.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def suchBaum(tree, suchwert):
-	wert=tree[&quot;wert&quot;]       # der aktuelle Wert
-	if wert == suchwert: 
-		return True
-	if suchwert &lt; wert and &quot;links&quot; in tree:
-		return suchBaum(tree[&quot;links&quot;], suchwert)
-	elif suchwert &gt; wert and &quot;rechts&quot; in tree:
-		return suchBaum(tree[&quot;rechts&quot;], suchwert)
-	else:
-		return False
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">suchBaum</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">suchwert</span><span class="p">):</span>
+	<span class="n">wert</span><span class="o">=</span><span class="n">tree</span><span class="p">[</span><span class="s2">&quot;wert&quot;</span><span class="p">]</span>       <span class="c1"># der aktuelle Wert</span>
+	<span class="k">if</span> <span class="n">wert</span> <span class="o">==</span> <span class="n">suchwert</span><span class="p">:</span> 
+		<span class="k">return</span> <span class="kc">True</span>
+	<span class="k">if</span> <span class="n">suchwert</span> <span class="o">&lt;</span> <span class="n">wert</span> <span class="ow">and</span> <span class="s2">&quot;links&quot;</span> <span class="ow">in</span> <span class="n">tree</span><span class="p">:</span>
+		<span class="k">return</span> <span class="n">suchBaum</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="s2">&quot;links&quot;</span><span class="p">],</span> <span class="n">suchwert</span><span class="p">)</span>
+	<span class="k">elif</span> <span class="n">suchwert</span> <span class="o">&gt;</span> <span class="n">wert</span> <span class="ow">and</span> <span class="s2">&quot;rechts&quot;</span> <span class="ow">in</span> <span class="n">tree</span><span class="p">:</span>
+		<span class="k">return</span> <span class="n">suchBaum</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="s2">&quot;rechts&quot;</span><span class="p">],</span> <span class="n">suchwert</span><span class="p">)</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="k">return</span> <span class="kc">False</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>suchBaum(baum, 15)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">suchBaum</span><span class="p">(</span><span class="n">baum</span><span class="p">,</span> <span class="mi">15</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -942,7 +941,7 @@ def binarySearch(arr, suchwert):
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>suchBaum(baum, 1)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">suchBaum</span><span class="p">(</span><span class="n">baum</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -952,36 +951,36 @@ def binarySearch(arr, suchwert):
 </div>
 </div>
 </div>
-</section>
-<section id="binare-suchbaume-erstellen">
+</div>
+<div class="section" id="binare-suchbaume-erstellen">
 <h3>Binäre Suchbäume erstellen<a class="headerlink" href="#binare-suchbaume-erstellen" title="Permalink to this headline">#</a></h3>
 <p>Die Suche in einem binären Suchbaum ist an sich nicht schneller als beim Binary-Search in einer sortierten Liste. Allerdings ist das Sortieren der Liste sehr aufwendig. Auch das Einfügen neuer Elemente ist sehr langsam da hierfür erst ein binary search durchgeführt werden muss, um die Einfügeposition zu finden und dann muss die komplette Liste (sofern als Array implementiert) kopiert werden, weil sie ja ein Element größer wird. Das kostet insbesondere bei sehr großen Listen mit über 10.000 Elementen sehr viel Performance.</p>
 <p>Bei der Nutzung eines binären Suchbaums kann man hingegen auch beim Einfügen ausnutzen, dass er immer sortiert ist. Dadurch nutzen wir auch beim Einfügen den Binary-Search Algorithmus. Insbesondere bei wachsenen Datenstrukturen die sortiert vorliegen müssen, macht das Suchbäume äußerst effektiv. Zum Einfügen können wir die Funktion <code class="docutils literal notranslate"><span class="pre">suchBaum()</span></code> so umschreiben, dass sie den Wert immer als neuen Blattknoten einfügt.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def erweitereBaum(tree, neuer_wert):	
-    wert=tree[&quot;wert&quot;]       # der aktuelle Wert
-    if wert == neuer_wert: 
-        return #  wir brechen ab da der Wert schon enthalten ist und nicht hinzugefügt werden muss
-    elif neuer_wert &lt; wert:
-        if &quot;links&quot; not in tree: # wenn es noch kein linken unterbaum gibt
-            tree[&quot;links&quot;]={&quot;wert&quot;:neuer_wert} # füge einen neuen Knoten links unter dem aktuellen hinzu
-        else:
-            return erweitereBaum(tree[&quot;links&quot;], neuer_wert)
-    else: # sonst suche weiter nach Einfügeposition
-        if &quot;rechts&quot; not in tree: # wenn es noch kein rechten unterbaum gibt
-            tree[&quot;rechts&quot;]={&quot;wert&quot;:neuer_wert} # füge einen neuen Knoten rechts unter dem aktuellen hinzu
-        else:
-            return erweitereBaum(tree[&quot;rechts&quot;], neuer_wert)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">erweitereBaum</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">neuer_wert</span><span class="p">):</span>	
+    <span class="n">wert</span><span class="o">=</span><span class="n">tree</span><span class="p">[</span><span class="s2">&quot;wert&quot;</span><span class="p">]</span>       <span class="c1"># der aktuelle Wert</span>
+    <span class="k">if</span> <span class="n">wert</span> <span class="o">==</span> <span class="n">neuer_wert</span><span class="p">:</span> 
+        <span class="k">return</span> <span class="c1">#  wir brechen ab da der Wert schon enthalten ist und nicht hinzugefügt werden muss</span>
+    <span class="k">elif</span> <span class="n">neuer_wert</span> <span class="o">&lt;</span> <span class="n">wert</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s2">&quot;links&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tree</span><span class="p">:</span> <span class="c1"># wenn es noch kein linken unterbaum gibt</span>
+            <span class="n">tree</span><span class="p">[</span><span class="s2">&quot;links&quot;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;wert&quot;</span><span class="p">:</span><span class="n">neuer_wert</span><span class="p">}</span> <span class="c1"># füge einen neuen Knoten links unter dem aktuellen hinzu</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">erweitereBaum</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="s2">&quot;links&quot;</span><span class="p">],</span> <span class="n">neuer_wert</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span> <span class="c1"># sonst suche weiter nach Einfügeposition</span>
+        <span class="k">if</span> <span class="s2">&quot;rechts&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tree</span><span class="p">:</span> <span class="c1"># wenn es noch kein rechten unterbaum gibt</span>
+            <span class="n">tree</span><span class="p">[</span><span class="s2">&quot;rechts&quot;</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;wert&quot;</span><span class="p">:</span><span class="n">neuer_wert</span><span class="p">}</span> <span class="c1"># füge einen neuen Knoten rechts unter dem aktuellen hinzu</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">erweitereBaum</span><span class="p">(</span><span class="n">tree</span><span class="p">[</span><span class="s2">&quot;rechts&quot;</span><span class="p">],</span> <span class="n">neuer_wert</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>baum2 = {&quot;wert&quot;: 12} # Wir initialisieren den Baum mit 12
-for wert in [12, 6, 3, 9, 18, 15, 21]: # wir fügen die Werte des Suchbaums am Anfang hinzu
-    erweitereBaum(baum2, wert)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">baum2</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;wert&quot;</span><span class="p">:</span> <span class="mi">12</span><span class="p">}</span> <span class="c1"># Wir initialisieren den Baum mit 12</span>
+<span class="k">for</span> <span class="n">wert</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">21</span><span class="p">]:</span> <span class="c1"># wir fügen die Werte des Suchbaums am Anfang hinzu</span>
+    <span class="n">erweitereBaum</span><span class="p">(</span><span class="n">baum2</span><span class="p">,</span> <span class="n">wert</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -990,7 +989,7 @@ for wert in [12, 6, 3, 9, 18, 15, 21]: # wir fügen die Werte des Suchbaums am A
 <p>Um zu prüfen ob der neue Baum genauso aussieht wie der am Anfang dargestellte Baum <code class="docutils literal notranslate"><span class="pre">baum</span></code> geben wir beide mit <code class="docutils literal notranslate"><span class="pre">print()</span></code> aus.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(baum)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">baum</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1002,7 +1001,7 @@ for wert in [12, 6, 3, 9, 18, 15, 21]: # wir fügen die Werte des Suchbaums am A
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>print(baum2)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">baum2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1012,13 +1011,13 @@ for wert in [12, 6, 3, 9, 18, 15, 21]: # wir fügen die Werte des Suchbaums am A
 </div>
 </div>
 </div>
-</section>
-<section id="suchen-mit-python-in-listen">
+</div>
+<div class="section" id="suchen-mit-python-in-listen">
 <h3>Suchen mit Python in Listen<a class="headerlink" href="#suchen-mit-python-in-listen" title="Permalink to this headline">#</a></h3>
 <p>Im Alltag kann die in Python eingebaute Suche mit <code class="docutils literal notranslate"><span class="pre">15</span> <span class="pre">in</span> <span class="pre">zahlenfolge</span></code> genutzt werden.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>15 in zahlenfolge
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mi">15</span> <span class="ow">in</span> <span class="n">zahlenfolge</span>
 </pre></div>
 </div>
 </div>
@@ -1028,20 +1027,20 @@ for wert in [12, 6, 3, 9, 18, 15, 21]: # wir fügen die Werte des Suchbaums am A
 </div>
 </div>
 </div>
-</section>
-<section id="suchen-in-python-mit-sets">
+</div>
+<div class="section" id="suchen-in-python-mit-sets">
 <h3>Suchen in Python mit Sets<a class="headerlink" href="#suchen-in-python-mit-sets" title="Permalink to this headline">#</a></h3>
 <p>Insbesondere bei großen Listen (&gt;&gt; 100) lohnt sich die Umwandlung in ein Set. Diese sind optimiert für die Abfrage ob ein Element bereits enthalten ist. Hierfür werden Hashing-Algorithmen  und meist Sortierbäume verwendet, welche erlauben nur einen Teil der Elemente zu durchsuchen.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zahlenset = set(zahlenfolge)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zahlenset</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">zahlenfolge</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>15 in zahlenset
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="mi">15</span> <span class="ow">in</span> <span class="n">zahlenset</span>
 </pre></div>
 </div>
 </div>
@@ -1051,67 +1050,67 @@ for wert in [12, 6, 3, 9, 18, 15, 21]: # wir fügen die Werte des Suchbaums am A
 </div>
 </div>
 </div>
-</section>
-<section id="performancevergleich-der-suchfunktionen">
+</div>
+<div class="section" id="performancevergleich-der-suchfunktionen">
 <h3>Performancevergleich der Suchfunktionen<a class="headerlink" href="#performancevergleich-der-suchfunktionen" title="Permalink to this headline">#</a></h3>
 <p>Im Performancevergleich siegt wieder die eingebaute Suche mit <code class="docutils literal notranslate"><span class="pre">15</span> <span class="pre">in</span> <span class="pre">zahlenfolge</span></code>. Die Performance der vollständigen Suche mit <code class="docutils literal notranslate"><span class="pre">contains</span></code> ist besser als die Suche mit Binary-Search oder die im Suchbaum. Wenn auch geschlagen von der internen Suche in Listen und in Sets.</p>
 <p>Das ist dem kleinen Beispiel gescholten und liegt an dem zusätzlichen Overhead durch die Datenstruktur und den rekursiven Funktionsaufruf. Insbesondere bei sehr großen Listen sind Suchbäume und Binary-Search deutlich effektiver als die vollständige Suche.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit contains(zahlenfolge, 15)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">timeit</span> contains(zahlenfolge, 15)
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>293 ns ± 0.0626 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>162 ns ± 8.52 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit binarySearch(zahlenfolge, 15)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">timeit</span> binarySearch(zahlenfolge, 15)
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.11 µs ± 0.862 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>595 ns ± 21.6 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit suchBaum(baum, 15)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">timeit</span> suchBaum(baum, 15)
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>509 ns ± 0.189 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>280 ns ± 4.41 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit 15 in zahlenfolge
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">timeit</span> 15 in zahlenfolge
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>86.3 ns ± 0.038 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>54.3 ns ± 0.5 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit 15 in zahlenset
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">timeit</span> 15 in zahlenset
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>44.3 ns ± 0.0568 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>23.2 ns ± 0.265 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)
 </pre></div>
 </div>
 </div>
@@ -1119,8 +1118,8 @@ for wert in [12, 6, 3, 9, 18, 15, 21]: # wir fügen die Werte des Suchbaums am A
 <p>Vergleichen wir nocheinmal ein sehr großes Beispiel. Und erzeugen eine sehr große Zahlenfolge mit <code class="docutils literal notranslate"><span class="pre">range()</span></code> und kehren diese mit <code class="docutils literal notranslate"><span class="pre">reverse()</span></code> in der Reihenfolge um.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zahlenfolge = list(range(100000))
-zahlenfolge.reverse()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zahlenfolge</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">100000</span><span class="p">))</span>
+<span class="n">zahlenfolge</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1128,7 +1127,7 @@ zahlenfolge.reverse()
 <p>Wir erstellen das set der Zahlenfolge.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zahlenset = set(zahlenfolge)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zahlenset</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">zahlenfolge</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1136,85 +1135,85 @@ zahlenfolge.reverse()
 <p>Um den Suchbaum zu erstellen ist es nicht sehr effizient die Elemente in sortierter Ordnung hinzuzufügen oder in umgekehrter Reihenfolge wie in diesem Fall. Das würde dazu führen, dass der Baum unbalanziert ist und einfach nur eine verkettete Liste darstellt. Um sicher zu stellen, dass der Baum gut balanziert ist, fügen wir die Elemente in optimaler Ordnung hinzu, welches die gleiche Ordnung ist die ein binary Search Algorithmus durchläuft. Es gibt zusätzliche Suchbäume die sich automatisch optimieren, das sind sogenannte <a class="reference external" href="https://de.wikipedia.org/wiki/Balancierter_Baum">balanzierte Suchbäume</a>. Sie führen aber für die hier behandelten Beispiel zu weit.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Um sicher zu stellen, dass der Baum gut balanziert ist 
-# initialisieren den Baum in der Hälfte
-# und fügen dann die Teilbäume in der Reihenfolge der binären suche hinzu
-baum2 = {&quot;wert&quot;: zahlenfolge[len(zahlenfolge)//2]}
-step = len(zahlenfolge)//4
-while step&gt;0:
-    idx=step
-    while idx &lt; len(zahlenfolge):
-        erweitereBaum(baum2, zahlenfolge[idx])
-        idx=idx+step
-    step = step // 2
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Um sicher zu stellen, dass der Baum gut balanziert ist </span>
+<span class="c1"># initialisieren den Baum in der Hälfte</span>
+<span class="c1"># und fügen dann die Teilbäume in der Reihenfolge der binären suche hinzu</span>
+<span class="n">baum2</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;wert&quot;</span><span class="p">:</span> <span class="n">zahlenfolge</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">zahlenfolge</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">]}</span>
+<span class="n">step</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">zahlenfolge</span><span class="p">)</span><span class="o">//</span><span class="mi">4</span>
+<span class="k">while</span> <span class="n">step</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+    <span class="n">idx</span><span class="o">=</span><span class="n">step</span>
+    <span class="k">while</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">zahlenfolge</span><span class="p">):</span>
+        <span class="n">erweitereBaum</span><span class="p">(</span><span class="n">baum2</span><span class="p">,</span> <span class="n">zahlenfolge</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+        <span class="n">idx</span><span class="o">=</span><span class="n">idx</span><span class="o">+</span><span class="n">step</span>
+    <span class="n">step</span> <span class="o">=</span> <span class="n">step</span> <span class="o">//</span> <span class="mi">2</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit contains(zahlenfolge, 15)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">timeit</span> contains(zahlenfolge, 15)
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.69 ms ± 6.46 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.4 ms ± 5.51 µs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit binarySearch(zahlenfolge, 15)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">timeit</span> binarySearch(zahlenfolge, 15)
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>956 µs ± 1.2 µs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>478 µs ± 8.37 µs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit suchBaum(baum2, 15)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">timeit</span> suchBaum(baum2, 15)
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.36 µs ± 0.0982 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>703 ns ± 3.85 ns per loop (mean ± std. dev. of 7 runs, 1,000,000 loops each)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit 15 in zahlenfolge
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">timeit</span> 15 in zahlenfolge
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.09 ms ± 557 ns per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>705 µs ± 5.81 µs per loop (mean ± std. dev. of 7 runs, 1,000 loops each)
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%timeit 15 in zahlenset
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">timeit</span> 15 in zahlenset
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>39.4 ns ± 0.0483 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>20.2 ns ± 0.102 ns per loop (mean ± std. dev. of 7 runs, 10,000,000 loops each)
 </pre></div>
 </div>
 </div>
 </div>
 <p>Das Ergebnis sieht hier ganz anders aus. Jetzt scheidet <code class="docutils literal notranslate"><span class="pre">contains()</span></code> deutlich schlechter ab und Binay-Search ist jetzt um Größenordnungen besser. Sogar in einigen Durchläufen besser als die interne Suchfunktion von Python in Listen, weil dies auch eine vollständige Suche in C ist. Am Besten schneidet allerdings der Suchbaum ab, da er ja immer sortiert ist und somit den binary Search-Algorithmus ohne Sortieren ausführen kann. Nur die Suche im Set ist noch einmal um eine Größenordnung besser.</p>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
     <script type="text/x-thebe-config">
     {

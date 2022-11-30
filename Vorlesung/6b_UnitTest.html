@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Unit-Tests &#8212; Programmierung und Datenbanken</title>
     
   <!-- Loaded before other Sphinx assets -->
@@ -430,27 +429,27 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="unit-tests">
+  <div class="tex2jax_ignore mathjax_ignore section" id="unit-tests">
 <h1>Unit-Tests<a class="headerlink" href="#unit-tests" title="Permalink to this headline">#</a></h1>
-<section id="funktionstest">
+<div class="section" id="funktionstest">
 <h2>Funktionstest<a class="headerlink" href="#funktionstest" title="Permalink to this headline">#</a></h2>
 <p>Unit-Tests sind zum vermeiden und diagnostizieren von Fehlern sehr wichtig. Ein Unit-Test testet ein einzelnes Code-Modul, wie z.B. eine Funktion oder eine Klasse.</p>
 <p>Zum Testen verwendet man in Python meist spezielle Bibliortheken wie <code class="docutils literal notranslate"><span class="pre">unittest</span></code> oder <code class="docutils literal notranslate"><span class="pre">nosetest</span></code>, welche dann automatisch bei Code-Änderungen ausgeführt werden. Einfache Tests können direkt in den Code geschrieben werden. Hierfür ist der <code class="docutils literal notranslate"><span class="pre">assert</span></code> Befehl da. Er prüft ob eine Testbedingung erfüllt ist (assert) und löst eine <code class="docutils literal notranslate"><span class="pre">AssertionError</span></code> Exception aus, wenn dies nicht der Fall ist.</p>
 <p>Wir wollen zum Beispiel die <a class="reference external" href="6_Exceptions.html#Exceptions_selbst_erzeugen">zuvor definierte Divisionsfunktion</a> <code class="docutils literal notranslate"><span class="pre">division()</span></code> testen.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def division(zaehler, nenner):
-    if not isinstance(nenner, (int, float)):
-        raise ValueError(f&quot;Nenner nicht vom Datentyp `int` oder `float`&quot;)
-    elif not isinstance(zaehler, (int, float)):
-        raise ValueError(f&quot;Zaehler nicht vom Datentyp `int` oder `float`&quot;)
-    elif not nenner:
-        print(&quot;Warnung Division durch 0&quot;)
-        return None
-    else:
-        ergebnis = zaehler / nenner
-        print(f&quot;Das Ergebnis von {zaehler}/{nenner} = {ergebnis}&quot;)
-        return ergebnis
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nenner</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">nenner</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warnung Division durch 0&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ergebnis</span>
 </pre></div>
 </div>
 </div>
@@ -458,18 +457,18 @@ title="Print to PDF"
 <p>Hierfür schreiben wir als erstes einen <strong>Funktionstest</strong>. Diese überprüfen die korrekte Funktion eines Moduls mit mehreren Eingaben für die wir das korrekte Ergebnis kennen. Hier macht man meist mehrere Tests um sicherzustellen, dass man nicht <code class="docutils literal notranslate"><span class="pre">zufällig</span></code> das richtige Ergebnis bekommt, sondern für verschiedene Kombinationen.</p>
 <center><img src="https://mermaid.ink/img/pako:eNptj0trAjEUhf9KuCuFEargJrSCokihuKh0NZlFas44wcyN5FGx4n9vrC100bs65_Kd-7jQzhuQpH3Qx068vCoWpeKgXj1v1vPF6vE9zD41OofwNH64OQZzMZNmKEajmRCn2tgPG63n5h4-3fsY1PO37e-MgJQDi2kz_NmQzg4iitY6J9kzqpiCP-Bb_0XwP0IV9Qi9tqYcf7kFFKUOPRTJIg1anV1SpPhaUJ2T3555RzKFjIry0eiEpdXl7Z5kq13E9QvkMFg7?type=png)](https://mermaid.live/edit#pako:eNptj0trAjEUhf9KuCuFEargJrSCokihuKh0NZlFas44wcyN5FGx4n9vrC100bs65_Kd-7jQzhuQpH3Qx068vCoWpeKgXj1v1vPF6vE9zD41OofwNH64OQZzMZNmKEajmRCn2tgPG63n5h4-3fsY1PO37e-MgJQDi2kz_NmQzg4iitY6J9kzqpiCP-Bb_0XwP0IV9Qi9tqYcf7kFFKUOPRTJIg1anV1SpPhaUJ2T3555RzKFjIry0eiEpdXl7Z5kq13E9QvkMFg7"></center><div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def test_funktion(): # Die übliche Notation für Tests in Python ist die Funktionsnamen mit `test_` zu beginnen
-    assert division(10, 2) == 5
-    assert division(10, 5) == 2
-    assert division(50, 1) == 50
-    assert division(50, 5) == 10
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_funktion</span><span class="p">():</span> <span class="c1"># Die übliche Notation für Tests in Python ist die Funktionsnamen mit `test_` zu beginnen</span>
+    <span class="k">assert</span> <span class="n">division</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">5</span>
+    <span class="k">assert</span> <span class="n">division</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+    <span class="k">assert</span> <span class="n">division</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">50</span>
+    <span class="k">assert</span> <span class="n">division</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>test_funktion()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_funktion</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -482,27 +481,27 @@ Das Ergebnis von 50/5 = 10.0
 </div>
 </div>
 </div>
-</section>
-<section id="grenzwerttest">
+</div>
+<div class="section" id="grenzwerttest">
 <h2>Grenzwerttest<a class="headerlink" href="#grenzwerttest" title="Permalink to this headline">#</a></h2>
 <p>Ein weiterer wichtiger Test ist der <strong>Grenzwerttest</strong>. Hier prüft man ob Eingaben im Grenzwertbereich korrekt behandelt werden. Zum Beispiel ob positiv oder negativ Unendlich behandelt werden oder ob die Division durch 0 behandelt wird. Wir haben oben beim erstellen der Funktion definiert, dass bei einer Division durch 0 die Funktion den Wert <code class="docutils literal notranslate"><span class="pre">None</span></code> ausgeben soll.</p>
 <center><img src="https://mermaid.ink/img/pako:eNptT8uKAjEQ_JXQJ4UR9Bp2BUURQTwoe3Eyh17T4wQznSGPFRX_feO6ggf7VFVd1Y8r7J0mkHDw2DVitVEscoVeOV-uF5Pp_OPbjy9IjSX_ORreGRNzJsOqLwaDsRCnUpsfE4zj6hE-PXTqlZOv7XOGp5g8i7Vjqvr_S-LZkgiiNtZKzo0iRO-O9IdfLfTeAgW05Fs0Ot9_vQcUxIZaUiAz1FRjslGB4lu2Yopue-Y9yOgTFZA6jZFmBvPnLcgabchqh7xz7slvv-QCXy0?type=png)](https://mermaid.live/edit#pako:eNptT8uKAjEQ_JXQJ4UR9Bp2BUURQTwoe3Eyh17T4wQznSGPFRX_feO6ggf7VFVd1Y8r7J0mkHDw2DVitVEscoVeOV-uF5Pp_OPbjy9IjSX_ORreGRNzJsOqLwaDsRCnUpsfE4zj6hE-PXTqlZOv7XOGp5g8i7Vjqvr_S-LZkgiiNtZKzo0iRO-O9IdfLfTeAgW05Fs0Ot9_vQcUxIZaUiAz1FRjslGB4lu2Yopue-Y9yOgTFZA6jZFmBvPnLcgabchqh7xz7slvv-QCXy0"></center><div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import math # die Zahl unendlich ist in der math bibliothek definiert
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span> <span class="c1"># die Zahl unendlich ist in der math bibliothek definiert</span>
 
-def test_grenzwert():
-    assert division(math.inf, 1) == math.inf
-    assert division(math.inf, 100) == math.inf
-    assert math.isnan(division(math.inf, math.inf)) # Das prüfen auf nan (not a number) ist nur durch die funktion `isnan` moeglich
-    assert division(1, math.inf) == 0
-    assert division(100, 0) is None
+<span class="k">def</span> <span class="nf">test_grenzwert</span><span class="p">():</span>
+    <span class="k">assert</span> <span class="n">division</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span>
+    <span class="k">assert</span> <span class="n">division</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> <span class="o">==</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span>
+    <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">division</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">))</span> <span class="c1"># Das prüfen auf nan (not a number) ist nur durch die funktion `isnan` moeglich</span>
+    <span class="k">assert</span> <span class="n">division</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="k">assert</span> <span class="n">division</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>test_grenzwert()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_grenzwert</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -516,25 +515,25 @@ Warnung Division durch 0
 </div>
 </div>
 </div>
-</section>
-<section id="datentyptest">
+</div>
+<div class="section" id="datentyptest">
 <h2>Datentyptest<a class="headerlink" href="#datentyptest" title="Permalink to this headline">#</a></h2>
 <p>Da Python dynamische Datentypen unterstützt ist es sehr wichtig <strong>Datentyptest</strong>. Hierbei wird getetstet ob die Funktion falsche Datentypen als Eingabe richtig behandelt.</p>
 <center><img src="https://mermaid.ink/img/pako:eNptT8tqAkEQ_JWhLyqskPOQCIpLCIQcIvGQHQ_tTm92yGzPMo-oEf89s1HBg32qKqq6qCPUThNI-PLYt-L1XbHIF8ZV-fL2PF-Uj1s_-0VqLfmnUYh-NAhMzJk_bCZiOp0Jsau0-THBON6c87uzTuNq_rG6vlmjTVTua-rj4JxcquLBkgiiMdZKdkxFbnHf9I9vLXTfAgV05Ds0Oq84DgEFsaWOFMgMNTWYbFSg-JStmKJbHbgGGX2iAlKvMdLSYN7fgWzQhqz2yJ_OXfnpD57_Yc8?type=png)](https://mermaid.live/edit#pako:eNptT8tqAkEQ_JWhLyqskPOQCIpLCIQcIvGQHQ_tTm92yGzPMo-oEf89s1HBg32qKqq6qCPUThNI-PLYt-L1XbHIF8ZV-fL2PF-Uj1s_-0VqLfmnUYh-NAhMzJk_bCZiOp0Jsau0-THBON6c87uzTuNq_rG6vlmjTVTua-rj4JxcquLBkgiiMdZKdkxFbnHf9I9vLXTfAgV05Ds0Oq84DgEFsaWOFMgMNTWYbFSg-JStmKJbHbgGGX2iAlKvMdLSYN7fgWzQhqz2yJ_OXfnpD57_Yc8"></center>
 <p>Hierbei können wir nicht direkt <code class="docutils literal notranslate"><span class="pre">assert</span></code> nutzen da es ja unseren Code zum absturtzt bringt.</p>
 <div class="cell tag_raises-exception docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>assert division(&quot;falscher typ&quot;, 1) is ValueError
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="n">division</span><span class="p">(</span><span class="s2">&quot;falscher typ&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">is</span> <span class="ne">ValueError</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
 <span class="ne">----&gt; </span><span class="mi">1</span> <span class="k">assert</span> <span class="n">division</span><span class="p">(</span><span class="s2">&quot;falscher typ&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="ow">is</span> <span class="ne">ValueError</span>
 
-<span class="nn">Cell In[1], line 5,</span> in <span class="ni">division</span><span class="nt">(zaehler, nenner)</span>
+<span class="nn">Cell In [1], line 5,</span> in <span class="ni">division</span><span class="nt">(zaehler, nenner)</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`&quot;</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
 <span class="ne">----&gt; </span><span class="mi">5</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`&quot;</span><span class="p">)</span>
@@ -549,41 +548,41 @@ Warnung Division durch 0
 <p>Stattdessen nutzen wir im Test einen <code class="docutils literal notranslate"><span class="pre">try-except</span></code>-Block und die <code class="docutils literal notranslate"><span class="pre">else</span></code>-Anweisung. Sie wird ja nur dann ausgeführt, wenn imf <code class="docutils literal notranslate"><span class="pre">try</span></code>-Block <em>keine</em> Exception auftrit, was im Testfall ja unerwünscht ist, also <code class="docutils literal notranslate"><span class="pre">raise</span></code> wir in diesm Fall ein AssertionError, da der Testfall scheitert. Ferner prüfen wir ob die geworfene Exception der Funktion auch den richtigen Typen <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> hat.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def test_datentyp():
-    # wir testen den Zähler
-    try:  
-        division(&quot;falscher typ&quot;, 1)
-    except Exception as e:
-        assert isinstance(e, ValueError)
-    else:
-        raise AssertionError(&quot;Datatype&quot;)
-    # den zweiten Fall des Nenners
-    try:
-        division(10, &quot;falscher typ&quot;)
-    except Exception as e:
-        assert isinstance(e, ValueError)
-    else:
-        raise AssertionError(&quot;Datatype&quot;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">test_datentyp</span><span class="p">():</span>
+    <span class="c1"># wir testen den Zähler</span>
+    <span class="k">try</span><span class="p">:</span>  
+        <span class="n">division</span><span class="p">(</span><span class="s2">&quot;falscher typ&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;Datatype&quot;</span><span class="p">)</span>
+    <span class="c1"># den zweiten Fall des Nenners</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">division</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;falscher typ&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">AssertionError</span><span class="p">(</span><span class="s2">&quot;Datatype&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>test_datentyp()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_datentyp</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
-</section>
-<section id="mit-tests-bei-code-anderungen-fehler-erkennen">
+</div>
+<div class="section" id="mit-tests-bei-code-anderungen-fehler-erkennen">
 <h2>Mit Tests bei Code-Änderungen Fehler erkennen<a class="headerlink" href="#mit-tests-bei-code-anderungen-fehler-erkennen" title="Permalink to this headline">#</a></h2>
 <p>Diese Unit-Tests haben wir absichtlich als Funktion definiert, so dass wir sie nun bei Code-Änderungen immer wieder durchführen können. So kann man dann testen ob die Implementation die gestellten Erwartungen überhaupt oder immer noch erfüllt.</p>
 <p>Wird zum Beispiel die Divisionsfunktion durch eine triviale Implementation überschrieben.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def division(zaehler, nenner):
-    return zaehler / nenner
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
 </pre></div>
 </div>
 </div>
@@ -591,7 +590,7 @@ Warnung Division durch 0
 <p>So funktioniert immer noch unser Funktionstest. Weshalb es meistens nicht hinreichend ist nur diesen zu implementieren oder bei der Entwicklung nur die Funktion zu prüfen.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>test_funktion()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_funktion</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -599,22 +598,22 @@ Warnung Division durch 0
 <p>Der Grenzwerttest wird allerdings jetzt eine Ausnahme werfen.</p>
 <div class="cell tag_raises-exception docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>test_grenzwert()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_grenzwert</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">ZeroDivisionError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
 <span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">test_grenzwert</span><span class="p">()</span>
 
-<span class="nn">Cell In[4], line 8,</span> in <span class="ni">test_grenzwert</span><span class="nt">()</span>
+<span class="nn">Cell In [4], line 8,</span> in <span class="ni">test_grenzwert</span><span class="nt">()</span>
 <span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="k">assert</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">division</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">))</span> <span class="c1"># Das prüfen auf nan (not a number) ist nur durch die funktion `isnan` moeglich</span>
 <span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="k">assert</span> <span class="n">division</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
 <span class="ne">----&gt; </span><span class="mi">8</span> <span class="k">assert</span> <span class="n">division</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span>
 
-<span class="nn">Cell In[9], line 2,</span> in <span class="ni">division</span><span class="nt">(zaehler, nenner)</span>
+<span class="nn">Cell In [9], line 2,</span> in <span class="ni">division</span><span class="nt">(zaehler, nenner)</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span> <span class="nf">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">):</span>
 <span class="ne">----&gt; </span><span class="mi">2</span>     <span class="k">return</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
 
@@ -626,19 +625,19 @@ Warnung Division durch 0
 <p>Auch der Datentyptest ist nicht erfolgreich, weil wir ja definiert haben, dass bei falschen Eingabedatentypen ein <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> erzeugt werden soll, wir aber einen <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> erhalten.</p>
 <div class="cell tag_raises-exception docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>test_datentyp()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">test_datentyp</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="nn">Cell In[7], line 4,</span> in <span class="ni">test_datentyp</span><span class="nt">()</span>
+<span class="nn">Cell In [7], line 4,</span> in <span class="ni">test_datentyp</span><span class="nt">()</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="k">try</span><span class="p">:</span>  
 <span class="ne">----&gt; </span><span class="mi">4</span>     <span class="n">division</span><span class="p">(</span><span class="s2">&quot;falscher typ&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 
-<span class="nn">Cell In[9], line 2,</span> in <span class="ni">division</span><span class="nt">(zaehler, nenner)</span>
+<span class="nn">Cell In [9], line 2,</span> in <span class="ni">division</span><span class="nt">(zaehler, nenner)</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span> <span class="nf">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">):</span>
 <span class="ne">----&gt; </span><span class="mi">2</span>     <span class="k">return</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
 
@@ -647,10 +646,10 @@ Warnung Division durch 0
 <span class="n">During</span> <span class="n">handling</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">exception</span><span class="p">,</span> <span class="n">another</span> <span class="n">exception</span> <span class="n">occurred</span><span class="p">:</span>
 
 <span class="ne">AssertionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">12</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">12</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
 <span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">test_datentyp</span><span class="p">()</span>
 
-<span class="nn">Cell In[7], line 6,</span> in <span class="ni">test_datentyp</span><span class="nt">()</span>
+<span class="nn">Cell In [7], line 6,</span> in <span class="ni">test_datentyp</span><span class="nt">()</span>
 <span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">division</span><span class="p">(</span><span class="s2">&quot;falscher typ&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 <span class="ne">----&gt; </span><span class="mi">6</span>     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span>
@@ -662,8 +661,8 @@ Warnung Division durch 0
 </div>
 </div>
 </div>
-</section>
-</section>
+</div>
+</div>
 
     <script type="text/x-thebe-config">
     {

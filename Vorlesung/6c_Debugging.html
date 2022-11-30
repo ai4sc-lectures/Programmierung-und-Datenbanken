@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Debugging &#8212; Programmierung und Datenbanken</title>
     
   <!-- Loaded before other Sphinx assets -->
@@ -464,30 +463,30 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="debugging">
+  <div class="tex2jax_ignore mathjax_ignore section" id="debugging">
 <h1>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">#</a></h1>
-<section id="debugging-mit-print">
+<div class="section" id="debugging-mit-print">
 <h2>Debugging mit <code class="docutils literal notranslate"><span class="pre">print()</span></code><a class="headerlink" href="#debugging-mit-print" title="Permalink to this headline">#</a></h2>
 <p>Logische Fehler treten häufig erst dynamich auf und lassen sich nicht durch statische Code-Analyse durch Lint-Tools finden. Hier muss man dann den aktuellen Programmfluss nachvollziehen. Dies nennt man Debugging. Die einfachste Form ist das <code class="docutils literal notranslate"><span class="pre">print</span></code>-Debugging bei der man den Code mit <code class="docutils literal notranslate"><span class="pre">print()</span></code>-Befehlen zuspamt.</p>
 <p>Wir erweitern mal unsere Divisionsfunktion mit schönen vielen <code class="docutils literal notranslate"><span class="pre">print()</span></code>-Statements. Üblich ist es zum Beispiel, die Parameter zu printen. Fehler und Warnungen auszugeben, als auch dann Ergebnisse zu loggen.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def division(zaehler, nenner):
-    print(f&quot;Debug: Eingabe Zaehler: {zaehler}&quot;)
-    print(f&quot;Debug: Eingabe Nenner: {nenner}&quot;)
-    if not isinstance(nenner, (int, float)):
-        print(f&quot;Error: Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}&quot;)
-        raise ValueError(f&quot;Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}&quot;)
-    elif not isinstance(zaehler, (int, float)):
-        print(f&quot;Error: Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}&quot;)
-        raise ValueError(f&quot;Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}&quot;)
-    elif not nenner:
-        print(&quot;Warning: Division durch 0&quot;)
-        return None
-    else:
-        ergebnis = zaehler / nenner
-        print(f&quot;Info: Das Ergebnis von {zaehler}/{nenner} = {ergebnis}&quot;)
-        return ergebnis
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Debug: Eingabe Zaehler: </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Debug: Eingabe Nenner: </span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nenner</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">nenner</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">nenner</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">zaehler</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">zaehler</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">nenner</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Division durch 0&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Info: Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ergebnis</span>
 </pre></div>
 </div>
 </div>
@@ -495,7 +494,7 @@ title="Print to PDF"
 <p>Jetzt können wir insbesondere im Fehlerfall sehr gut nachvollziehen was genau geschehen ist. Zum Beispiel bei der Division durch 0.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>division(10, 0)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">division</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -510,8 +509,8 @@ Warning: Division durch 0
 <p>Allerdings haben wir auch im korrekten Fall sehr viele Ausgaben. Das kann sehr störend sein, weil man dann richtige Fehler sehr schnell übersieht. Zum Beispiel erzeugen wir zehn Divisionen, von der eine eine Division durch 0 war.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>for nenner in range(-2, 8):
-    division(10, nenner)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">nenner</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
+    <span class="n">division</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">nenner</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -550,32 +549,32 @@ Info: Das Ergebnis von 10/7 = 1.4285714285714286
 </div>
 </div>
 </div>
-</section>
-<section id="debugging-mit-logging">
+</div>
+<div class="section" id="debugging-mit-logging">
 <h2>Debugging mit <code class="docutils literal notranslate"><span class="pre">logging</span></code><a class="headerlink" href="#debugging-mit-logging" title="Permalink to this headline">#</a></h2>
 <p>Deshalb verwendet man bei komplexeren Programmen meist logging-Bibliotheken. Diese erlauben es <code class="docutils literal notranslate"><span class="pre">print</span></code>-Statements Kategorien zuzuordnen und anhand dieser zu filtern. In der Python-Bibliothek <code class="docutils literal notranslate"><span class="pre">logging</span></code> sind die Kategorien: <code class="docutils literal notranslate"><span class="pre">debug</span></code>, <code class="docutils literal notranslate"><span class="pre">info</span></code>, <code class="docutils literal notranslate"><span class="pre">warning</span></code>, <code class="docutils literal notranslate"><span class="pre">error</span></code> und <code class="docutils literal notranslate"><span class="pre">critical</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import logging
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">logging</span>
 
-log=logging.getLogger(&quot;meinlog&quot;)
+<span class="n">log</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;meinlog&quot;</span><span class="p">)</span>
 
-def division(zaehler, nenner):
-    log.debug(f&quot;Eingabe Zaehler: {zaehler}&quot;)
-    log.debug(f&quot;Eingabe Nenner: {nenner}&quot;)
-    if not isinstance(nenner, (int, float)):
-        log.error(f&quot;Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}&quot;)
-        raise ValueError(f&quot;Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}&quot;)
-    elif not isinstance(zaehler, (int, float)):
-        log.error(f&quot;Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}&quot;)
-        raise ValueError(f&quot;Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}&quot;)
-    elif not nenner:
-        log.warning(&quot;Division durch 0&quot;)
-        return None
-    else:
-        ergebnis = zaehler / nenner
-        log.info(f&quot;Das Ergebnis von {zaehler}/{nenner} = {ergebnis}&quot;)
-        return ergebnis
+<span class="k">def</span> <span class="nf">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">):</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Eingabe Zaehler: </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Eingabe Nenner: </span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nenner</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">nenner</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">nenner</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">zaehler</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">zaehler</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">nenner</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Division durch 0&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ergebnis</span>
 </pre></div>
 </div>
 </div>
@@ -583,9 +582,9 @@ def division(zaehler, nenner):
 <p>Wenn wir jetzt die Funktion aufrufen sehen wir nur noch die Division durch 0 Warnung.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>log.setLevel(logging.WARNING)
-for nenner in range(-2, 8):
-    division(10, nenner)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">nenner</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
+    <span class="n">division</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">nenner</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -598,9 +597,9 @@ for nenner in range(-2, 8):
 <p>Wir können allerdings bei Bedarf, wie bei der Fehlersuche den Loglevel auch erhöhen. Zum Beispiel wollen wir alle Debug-Nachrichten erhalten.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>log.setLevel(logging.DEBUG)
-for nenner in range(-2, 8):
-    division(10, nenner)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">nenner</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
+    <span class="n">division</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">nenner</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -613,53 +612,53 @@ for nenner in range(-2, 8):
 <p>Ferner erlaub das Logging auch automatisch weitere Informationen hinzuzufügen. Wir sehen im Log oben bereits, das nicht nur das Level (INFO, DEBUG, WARNING) sondern auch den Namen des Loggers (meinlog). Wir können dieses Format anpassen um z.B. auch die Zeit auszugeben, was insbesondere wichtig ist um zu verstehen wann etwas passiert ist.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>sh=logging.StreamHandler()
-formatter = logging.Formatter(&#39;%(asctime)s  %(name)s  %(levelname)s: %(message)s&#39;)
-sh.setFormatter(formatter)
-log.addHandler(sh)
-log.setLevel(logging.INFO)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sh</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+<span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1">  </span><span class="si">%(name)s</span><span class="s1">  </span><span class="si">%(levelname)s</span><span class="s1">: </span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">sh</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+<span class="n">log</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">sh</span><span class="p">)</span>
+<span class="n">log</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
 
-for nenner in range(-2, 8):
-    division(10, nenner)
+<span class="k">for</span> <span class="n">nenner</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
+    <span class="n">division</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">nenner</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-29 23:12:55,454  meinlog  INFO: Das Ergebnis von 10/-2 = -5.0
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 09:11:48,620  meinlog  INFO: Das Ergebnis von 10/-2 = -5.0
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-29 23:12:55,455  meinlog  INFO: Das Ergebnis von 10/-1 = -10.0
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 09:11:48,620  meinlog  INFO: Das Ergebnis von 10/-1 = -10.0
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-29 23:12:55,456  meinlog  WARNING: Division durch 0
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 09:11:48,621  meinlog  WARNING: Division durch 0
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-29 23:12:55,456  meinlog  INFO: Das Ergebnis von 10/1 = 10.0
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 09:11:48,621  meinlog  INFO: Das Ergebnis von 10/1 = 10.0
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-29 23:12:55,457  meinlog  INFO: Das Ergebnis von 10/2 = 5.0
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 09:11:48,621  meinlog  INFO: Das Ergebnis von 10/2 = 5.0
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-29 23:12:55,457  meinlog  INFO: Das Ergebnis von 10/3 = 3.3333333333333335
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 09:11:48,621  meinlog  INFO: Das Ergebnis von 10/3 = 3.3333333333333335
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-29 23:12:55,458  meinlog  INFO: Das Ergebnis von 10/4 = 2.5
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 09:11:48,621  meinlog  INFO: Das Ergebnis von 10/4 = 2.5
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-29 23:12:55,458  meinlog  INFO: Das Ergebnis von 10/5 = 2.0
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 09:11:48,622  meinlog  INFO: Das Ergebnis von 10/5 = 2.0
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-29 23:12:55,459  meinlog  INFO: Das Ergebnis von 10/6 = 1.6666666666666667
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 09:11:48,622  meinlog  INFO: Das Ergebnis von 10/6 = 1.6666666666666667
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-29 23:12:55,459  meinlog  INFO: Das Ergebnis von 10/7 = 1.4285714285714286
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 09:11:48,622  meinlog  INFO: Das Ergebnis von 10/7 = 1.4285714285714286
 </pre></div>
 </div>
 </div>
 </div>
 <p>In der Praxis wird das Logging sehr häufig insbesondere in Cloud-Anwendungen verwendet. Da diese ja meist keine Bildschirme haben, müssen Fehler in Logs gesucht werden. So lange alles ok ist, läuft so eine Anwendung dann z.B. im Log-Level <code class="docutils literal notranslate"><span class="pre">INFO</span></code>, mit nur wenig Ausgaben. Tritt ein Fehler auf, so wird der Server auf das Log-Level <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code> gesetzt und man sucht in den detaillierten Logs dann nach Informationen um den Fehler einzugrenzen.</p>
-</section>
-<section id="debugging-durch-debug-oberflachen">
+</div>
+<div class="section" id="debugging-durch-debug-oberflachen">
 <h2>Debugging durch Debug-Oberflächen<a class="headerlink" href="#debugging-durch-debug-oberflachen" title="Permalink to this headline">#</a></h2>
 <p>Viele integrierte Entwicklungsumgebungen (IDE) bieten an direkt Debugger auszuführen. Diese Debugger erlauben es die dynamische Ausführung des Codes zu unterbrechen. Ziel ist es kurz vor Auftreten des Fehlers die Ausführung anzuhalten, um dann das Fehlerverhalten genau beobachten zu können.</p>
 <p>Dabei werden meist zwei Formen der Unterbrechung unterstützt:</p>
@@ -667,51 +666,51 @@ for nenner in range(-2, 8):
 <li><p>Die Unterbrechung in bestimmten Code-Zeilen mit Hilfe von Breakpoints.</p></li>
 <li><p>Die Unterbrechung bei bestimmten Exceptions.</p></li>
 </ul>
-<section id="debugging-in-jupyter-notebooks-in-vscode">
+<div class="section" id="debugging-in-jupyter-notebooks-in-vscode">
 <h3>Debugging in Jupyter-Notebooks in VSCode<a class="headerlink" href="#debugging-in-jupyter-notebooks-in-vscode" title="Permalink to this headline">#</a></h3>
 <p>Die Debug-Oberflächen sehen je nach IDE etwas anders aus, verfügen aber über ähnliche Funktionen. Dieses Jupyter Notebook wurde in VSCode geschrieben, welches wir als erstes Beispiel betrachten.</p>
 <p>Dafür kann man meist in der IDE links neben eine Zeile klicken um einen Breakpoint <span style="color: red">⬤</span> zu setzen. Wir setzen dafür einen Breakpoint auf die Zeile 11 auf die Ausgabe der Warnung.</p>
 <center><img src="images/debug_vscode_1.png" style="height: 3ex"></center><p>Dann wird der Code in einer speziellen Debugumgebung ausgeführt, die es erlaub die Ausführung zu unterbrechen. In unserm Notebook in VSCode starten wird diese durch das Symbol <img alt="../_images/debug_vscode_2.png" src="../_images/debug_vscode_2.png" />.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def division(zaehler, nenner):
-    log.debug(f&quot;Eingabe Zaehler: {zaehler}&quot;)
-    log.debug(f&quot;Eingabe Nenner: {nenner}&quot;)
-    if not isinstance(nenner, (int, float)):
-        log.error(f&quot;Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}&quot;)
-        raise ValueError(f&quot;Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}&quot;)
-    elif not isinstance(zaehler, (int, float)):
-        log.error(f&quot;Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}&quot;)
-        raise ValueError(f&quot;Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}&quot;)
-    elif not nenner:
-        log.warning(&quot;Division durch 0&quot;)
-        return None
-    else:
-        ergebnis = zaehler / nenner
-        log.info(f&quot;Das Ergebnis von {zaehler}/{nenner} = {ergebnis}&quot;)
-        return ergebnis
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">):</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Eingabe Zaehler: </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Eingabe Nenner: </span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nenner</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">nenner</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">nenner</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">zaehler</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">zaehler</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">nenner</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Division durch 0&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ergebnis</span>
 
-division(10, 0)
+<span class="n">division</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-29 23:12:55,473  meinlog  WARNING: Division durch 0
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2022-11-30 09:11:48,629  meinlog  WARNING: Division durch 0
 </pre></div>
 </div>
 </div>
 </div>
 <p>Dies started den Debug-Modus. In diesem wird die aktuelle Zeile vorgehoben als auch die aktuellen Variablen im Speicher angezeigt.</p>
 <center><img src="images/debug_vscode_3.png"></center><p>In der Debugumgebung kann man dann Zeile für Zeile vorgehen durch drücken von <img alt="../_images/debug_vscode_2.png" src="../_images/debug_vscode_2.png" /> und damit nachvollziehen wie das Programm bearbeitet wird und welche Variablen sich ändern.</p>
-</section>
-<section id="debugging-in-repl-it">
-<h3>Debugging in <a class="reference external" href="http://repl.it">repl.it</a><a class="headerlink" href="#debugging-in-repl-it" title="Permalink to this headline">#</a></h3>
-<p>In <a class="reference external" href="http://repl.it">repl.it</a> sieht die Debugging-Oberfläche ähnlich aus. Wir setzen einen Breakpoint <span style="color: red">⬤</span> durch klicken auf die Zeile 11 auf die Ausgabe der Warnung.</p>
+</div>
+<div class="section" id="debugging-in-repl-it">
+<h3>Debugging in repl.it<a class="headerlink" href="#debugging-in-repl-it" title="Permalink to this headline">#</a></h3>
+<p>In repl.it sieht die Debugging-Oberfläche ähnlich aus. Wir setzen einen Breakpoint <span style="color: red">⬤</span> durch klicken auf die Zeile 11 auf die Ausgabe der Warnung.</p>
 <center><img src="images/debug_replit_1.png" style="height: 3ex"></center><p>Die Debugumgebung wird durch  <a class="reference internal" href="../_images/debug_replit_2.png"><img alt="../_images/debug_replit_2.png" src="../_images/debug_replit_2.png" style="height: 20px;" /></a> gestartet. Sie erlaub die Ausführung zu starten, einzelne Zeilen auszuführen, den Schritt zu überspringen oder bis zum Breakpoint auszuführen (links nach rechts).</p>
 <center><img src="images/debug_replit_3.png" style="height: 4ex"></center><p>Auch hier werden die aktuellen Variablen angezeigt als auch der Stack.</p>
-<center><img src="images/debug_replit_4.png" width="30%"></center></section>
-</section>
-</section>
+<center><img src="images/debug_replit_4.png" width="30%"></center></div>
+</div>
+</div>
 
     <script type="text/x-thebe-config">
     {

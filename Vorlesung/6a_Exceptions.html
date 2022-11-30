@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Exceptions &#8212; Programmierung und Datenbanken</title>
     
   <!-- Loaded before other Sphinx assets -->
@@ -424,28 +423,28 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="exceptions">
+  <div class="tex2jax_ignore mathjax_ignore section" id="exceptions">
 <h1>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">#</a></h1>
-<section id="fehler-mit-exceptions-behandeln">
+<div class="section" id="fehler-mit-exceptions-behandeln">
 <h2>Fehler mit Exceptions behandeln<a class="headerlink" href="#fehler-mit-exceptions-behandeln" title="Permalink to this headline">#</a></h2>
 <p>Exceptions unterbrechen den normalen Verlauf eines Programmes in einem Fehlerfall. Sie dienen dazu den Fehler zu im Programm zu kommunizieren (haben meist eine Fehlermeldung) und werden genutzt um im Fehlerfall unkontrolliertes Abstürzen des Programmes zu verhindern.</p>
 <p>Bekannte Exceptions sollten immer abgefangen. In Python werden sie durch den <code class="docutils literal notranslate"><span class="pre">try-except</span></code>-Block abgefangen. Dieser startet mit einem <code class="docutils literal notranslate"><span class="pre">try</span></code> und endet mit einem <code class="docutils literal notranslate"><span class="pre">except</span></code>. Nach dem <code class="docutils literal notranslate"><span class="pre">try´</span> <span class="pre">folgt</span> <span class="pre">der</span> <span class="pre">Block</span> <span class="pre">mit</span> <span class="pre">der</span> <span class="pre">bekannten</span> <span class="pre">(oder</span> <span class="pre">unbekannten)</span> <span class="pre">Exception.</span> <span class="pre">Nach</span> <span class="pre">dem</span> </code>except` folgt der Block zur Fehlerbehandlung.</p>
 <p>Es ist zu beachten, dass bei Exceptions keine Wertzuweisung stattfindet (der Wert ist ja nicht bekannt). Betrachten wir mal wieder, die aus der <a class="reference external" href="4_Verzweigung.html#elif_-_F%C3%BCr_noch_mehr_Alternativen">Verzweigung bekannte Division durch 0</a> mit ihren verschiedenen Fehlerfällen der Null-Division und falscher Datentypen der Eingaben. Ohne diese Fehlerfälle genau zu spezifieren können wir schreiben.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zaehler = 10
-nenner = 0
-ergebnis = None
-try:
-    # Block mit bekannter Exception
-    ergebnis = zaehler / nenner
-    # Dieser Teil wird nur ausgeführt wenn keine Exception auftrat
-    print(&quot;Die Division war erfolgreich&quot;)
-except:
-    # Fehlerbehandlung
-    print(&quot;Divisionsfehler&quot;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">nenner</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">ergebnis</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># Block mit bekannter Exception</span>
+    <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+    <span class="c1"># Dieser Teil wird nur ausgeführt wenn keine Exception auftrat</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Die Division war erfolgreich&quot;</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="c1"># Fehlerbehandlung</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Divisionsfehler&quot;</span><span class="p">)</span>
 
-print(f&quot;Das Ergebnis von {zaehler}/{nenner} = {ergebnis}&quot;)
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -459,15 +458,15 @@ Das Ergebnis von 10/0 = None
 <p>Das <code class="docutils literal notranslate"><span class="pre">except</span></code> is in dem obigen Fall untypisiert. Damit lassen sich alle Fehler die auftreten können abfangen (auch unbekannte). Damit fängt der <code class="docutils literal notranslate"><span class="pre">try-except</span></code>-Block auch Fehler im Datentypen ab.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zaehler = &#39;keine_zahl&#39;
-nenner = 0
-ergebnis = None
-try:
-    ergebnis = zaehler / nenner
-except:
-    print(&quot;Divisionsfehler&quot;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="s1">&#39;keine_zahl&#39;</span>
+<span class="n">nenner</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">ergebnis</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Divisionsfehler&quot;</span><span class="p">)</span>
 
-print(f&quot;Das Ergebnis von {zaehler}/{nenner} = {ergebnis}&quot;)
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -481,15 +480,15 @@ Das Ergebnis von keine_zahl/0 = None
 <p>Das Problem hierbei ist dass wir keine Information über die Exception erhalten. Deshalb ist es immer sinnvoll die genaue Exception abzufangen und die Fehlermeldung auszugeben. Der allgemeinste Fehlertyp in Python ist die <code class="docutils literal notranslate"><span class="pre">Exception</span></code> welche wir wie folgt als Variable <code class="docutils literal notranslate"><span class="pre">e</span></code> abfangen.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zaehler = &#39;keine_zahl&#39;
-nenner = 0
-ergebnis = None
-try:
-    ergebnis = zaehler / nenner
-except Exception as e:
-    print(f&quot;Divisionsfehler mit Fehler vom typ `{type(e)}` und Meldung `{e}`&quot;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="s1">&#39;keine_zahl&#39;</span>
+<span class="n">nenner</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">ergebnis</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Divisionsfehler mit Fehler vom typ `</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">` und Meldung `</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">)</span>
 
-print(f&quot;Das Ergebnis von {zaehler}/{nenner} = {ergebnis}&quot;)
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -503,17 +502,17 @@ Das Ergebnis von keine_zahl/0 = None
 <p>Sind die Exceptions bekannt sollten sie auch typisiert behandelt werden, um spezifische Meldungen auszugeben.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zaehler = &#39;keine_zahl&#39;
-nenner = 0
-ergebnis = None
-try:
-    ergebnis = zaehler / nenner
-except TypeError as e:
-    print(f&quot;Zaehler oder Nenner nicht vom Datentyp `int`&quot;)
-except ZeroDivisionError as e:
-    print(&quot;Teilung durch 0&quot;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="s1">&#39;keine_zahl&#39;</span>
+<span class="n">nenner</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">ergebnis</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+<span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler oder Nenner nicht vom Datentyp `int`&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ZeroDivisionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Teilung durch 0&quot;</span><span class="p">)</span>
 
-print(f&quot;Das Ergebnis von {zaehler}/{nenner} = {ergebnis}&quot;)
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -528,17 +527,17 @@ Das Ergebnis von keine_zahl/0 = None
 <p>Soll zum Beispiel eine Ausgabe nur gemacht werden wenn der <code class="docutils literal notranslate"><span class="pre">try</span></code>-Block erfolgreich war nutzen wir <code class="docutils literal notranslate"><span class="pre">else</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zaehler = &#39;keine_zahl&#39;
-nenner = 0
-ergebnis = None
-try:
-    ergebnis = zaehler / nenner
-except TypeError as e:
-    print(f&quot;Zaehler oder Nenner nicht vom Datentyp `int`&quot;)
-except ZeroDivisionError as e:
-    print(&quot;Teilung durch 0&quot;)
-else:
-    print(f&quot;Die Division war erfolgreich und resultiert in {zaehler}/{nenner} = {ergebnis}&quot;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="s1">&#39;keine_zahl&#39;</span>
+<span class="n">nenner</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">ergebnis</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+<span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler oder Nenner nicht vom Datentyp `int`&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ZeroDivisionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Teilung durch 0&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Die Division war erfolgreich und resultiert in </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -551,17 +550,17 @@ else:
 <p>Soll immer eine Ausgabe erfolgen können wir <code class="docutils literal notranslate"><span class="pre">finally</span></code> verwenden.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zaehler = &#39;keine_zahl&#39;
-nenner = 0
-ergebnis = None
-try:
-    ergebnis = zaehler / nenner
-except TypeError as e:
-    print(f&quot;Zaehler oder Nenner nicht vom Datentyp `int`&quot;)
-except ZeroDivisionError as e:
-    print(&quot;Teilung durch 0&quot;)
-finally:
-    print(f&quot;Das Ergebnis von {zaehler}/{nenner} = {ergebnis}&quot;)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="s1">&#39;keine_zahl&#39;</span>
+<span class="n">nenner</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">ergebnis</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+<span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler oder Nenner nicht vom Datentyp `int`&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ZeroDivisionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Teilung durch 0&quot;</span><span class="p">)</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -572,47 +571,47 @@ Das Ergebnis von keine_zahl/0 = None
 </div>
 </div>
 </div>
-</section>
-<section id="exceptions-selbst-erzeugen">
+</div>
+<div class="section" id="exceptions-selbst-erzeugen">
 <h2>Exceptions selbst erzeugen<a class="headerlink" href="#exceptions-selbst-erzeugen" title="Permalink to this headline">#</a></h2>
 <p>Exceptions können auch selbst mit <code class="docutils literal notranslate"><span class="pre">raise</span></code> erzeugt werden. Das ist sinnvoll wenn in dem eigenen Code Fehler auftreten können, die woanders behandelt werden müssen. Hierbei muss ein Fehlertyp angegeben werden. Entweder man nutzt den allgemeinsten Fehlertyp <code class="docutils literal notranslate"><span class="pre">Exception</span></code>, einen passenden Standardfehler von Python oder einen selbst definierten. Es ist ratsam meist spezifische Fehlertypen zu nutzen, da der Typ des Fehlers viel beim Behandeln und Debuggen hilft.</p>
 <p>Definieren wir als Beispiel unsere eigene Divisionsfunktion mit klarer Fehlerbenenung ob Zähler oder Nenner vom falschen Typ sind. Hier wollen wir dass anstatt des <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> ein <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> erzeugt wird. Bei einer Division durch 0 soll anstatt eines Fehlers der Wert <code class="docutils literal notranslate"><span class="pre">None</span></code> zurück gegeben werden.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def division(zaehler, nenner):
-    if not isinstance(nenner, (int, float)):
-        raise ValueError(f&quot;Nenner nicht vom Datentyp `int` oder `float`&quot;)
-    elif not isinstance(zaehler, (int, float)):
-        raise ValueError(f&quot;Zaehler nicht vom Datentyp `int` oder `float`&quot;)
-    elif not nenner:
-        print(&quot;Warnung Division durch 0&quot;)
-        return None
-    else:
-        ergebnis = zaehler / nenner
-        print(f&quot;Das Ergebnis von {zaehler}/{nenner} = {ergebnis}&quot;)
-        return ergebnis
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nenner</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">nenner</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warnung Division durch 0&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ergebnis</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell tag_raises-exception docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zaehler = &#39;keine_zahl&#39;
-nenner = 0
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="s1">&#39;keine_zahl&#39;</span>
+<span class="n">nenner</span> <span class="o">=</span> <span class="mi">0</span>
 
-ergebnis = division(zaehler, nenner)
+<span class="n">ergebnis</span> <span class="o">=</span> <span class="n">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">zaehler</span> <span class="o">=</span> <span class="s1">&#39;keine_zahl&#39;</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">nenner</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">)</span>
 
-<span class="nn">Cell In[7], line 5,</span> in <span class="ni">division</span><span class="nt">(zaehler, nenner)</span>
+<span class="nn">Cell In [7], line 5,</span> in <span class="ni">division</span><span class="nt">(zaehler, nenner)</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`&quot;</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
 <span class="ne">----&gt; </span><span class="mi">5</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`&quot;</span><span class="p">)</span>
@@ -626,18 +625,18 @@ ergebnis = division(zaehler, nenner)
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zaehler= 10
-nenner = 2
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zaehler</span><span class="o">=</span> <span class="mi">10</span>
+<span class="n">nenner</span> <span class="o">=</span> <span class="mi">2</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>zaehler = 10
-nenner = 1
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">nenner</span> <span class="o">=</span> <span class="mi">1</span>
 
-ergebnis = division(zaehler, nenner)
+<span class="n">ergebnis</span> <span class="o">=</span> <span class="n">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -647,26 +646,26 @@ ergebnis = division(zaehler, nenner)
 </div>
 </div>
 </div>
-<section id="fehlerbehandlung-bei-funktionen-im-stack">
+<div class="section" id="fehlerbehandlung-bei-funktionen-im-stack">
 <h3>Fehlerbehandlung bei Funktionen im Stack<a class="headerlink" href="#fehlerbehandlung-bei-funktionen-im-stack" title="Permalink to this headline">#</a></h3>
 <p>Exceptions werden im Stack (Aufrufreihenfolge der Funktionen) nach oben weiter gegeben, bis sie entweder abgefangen und behandelt werden oder das Programm abstürzt, wenn das Ende des Stacks erreicht wird. Ziel des Abfangen und Behandeln von Exceptions ist es das Programm zurück in einen Zustand zu bringen in dem es weiterlaufen kann.</p>
 <p>Als Beispiel wollen wir eine rekursive Funktion definieren welche uns einen Fehler ausgibt, wenn die Rekurssionstiefe zu groß wird um einen Stack-Overflow-Fehler zu vermeiden. Wir nutzen als Beispiel die Fakultät aus dem Rekursions Beispiel.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>def factorial_recursiv(x, depth=1):
-    if depth &gt; 20:
-        raise RecursionError(&quot;Recursion zu tief&quot;)
-    if x &gt; 1:
-        return x * factorial_recursiv(x-1, depth+1)
-    else:
-        return 1
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">factorial_recursiv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">depth</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RecursionError</span><span class="p">(</span><span class="s2">&quot;Recursion zu tief&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">factorial_recursiv</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>factorial_recursiv(20)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">factorial_recursiv</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -678,24 +677,24 @@ ergebnis = division(zaehler, nenner)
 </div>
 <div class="cell tag_raises-exception docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>factorial_recursiv(21)
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">factorial_recursiv</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
 <span class="ne">RecursionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
 <span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">factorial_recursiv</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span>
 
-<span class="nn">Cell In[11], line 5,</span> in <span class="ni">factorial_recursiv</span><span class="nt">(x, depth)</span>
+<span class="nn">Cell In [11], line 5,</span> in <span class="ni">factorial_recursiv</span><span class="nt">(x, depth)</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="k">raise</span> <span class="ne">RecursionError</span><span class="p">(</span><span class="s2">&quot;Recursion zu tief&quot;</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
 <span class="ne">----&gt; </span><span class="mi">5</span>     <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">factorial_recursiv</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="k">else</span><span class="p">:</span>
 <span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="k">return</span> <span class="mi">1</span>
 
-<span class="nn">Cell In[11], line 5,</span> in <span class="ni">factorial_recursiv</span><span class="nt">(x, depth)</span>
+<span class="nn">Cell In [11], line 5,</span> in <span class="ni">factorial_recursiv</span><span class="nt">(x, depth)</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="k">raise</span> <span class="ne">RecursionError</span><span class="p">(</span><span class="s2">&quot;Recursion zu tief&quot;</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
 <span class="ne">----&gt; </span><span class="mi">5</span>     <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">factorial_recursiv</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
@@ -704,14 +703,14 @@ ergebnis = division(zaehler, nenner)
 
     <span class="p">[</span><span class="o">...</span> <span class="n">skipping</span> <span class="n">similar</span> <span class="n">frames</span><span class="p">:</span> <span class="n">factorial_recursiv</span> <span class="n">at</span> <span class="n">line</span> <span class="mi">5</span> <span class="p">(</span><span class="mi">17</span> <span class="n">times</span><span class="p">)]</span>
 
-<span class="nn">Cell In[11], line 5,</span> in <span class="ni">factorial_recursiv</span><span class="nt">(x, depth)</span>
+<span class="nn">Cell In [11], line 5,</span> in <span class="ni">factorial_recursiv</span><span class="nt">(x, depth)</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="k">raise</span> <span class="ne">RecursionError</span><span class="p">(</span><span class="s2">&quot;Recursion zu tief&quot;</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
 <span class="ne">----&gt; </span><span class="mi">5</span>     <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">factorial_recursiv</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
 <span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="k">else</span><span class="p">:</span>
 <span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="k">return</span> <span class="mi">1</span>
 
-<span class="nn">Cell In[11], line 3,</span> in <span class="ni">factorial_recursiv</span><span class="nt">(x, depth)</span>
+<span class="nn">Cell In [11], line 3,</span> in <span class="ni">factorial_recursiv</span><span class="nt">(x, depth)</span>
 <span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span> <span class="nf">factorial_recursiv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
 <span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="k">if</span> <span class="n">depth</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">:</span>
 <span class="ne">----&gt; </span><span class="mi">3</span>         <span class="k">raise</span> <span class="ne">RecursionError</span><span class="p">(</span><span class="s2">&quot;Recursion zu tief&quot;</span><span class="p">)</span>
@@ -726,12 +725,12 @@ ergebnis = division(zaehler, nenner)
 <p>In der obigen Fehlermeldung bringt das Programm selbst zum erliegen (es stürtzt allerdings nicht der ganze Kernel ab, wie beim Stack-Overflow-Fehler). Um das zu vermeiden müssen wir den Fehler mit <code class="docutils literal notranslate"><span class="pre">try-except</span></code> abfangen. In der Fehlermeldung oben deutet sich schon der Stack-Trace an, also die Liste der Funktionsaufrufe die auf dem Stack gesammelt wurde.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import traceback
-try:
-    factorial_recursiv(21)
-except RecursionError as e:
-    print(e)
-    traceback.print_exc()
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">traceback</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">factorial_recursiv</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">RecursionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -740,25 +739,25 @@ except RecursionError as e:
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traceback (most recent call last):
-  File &quot;/tmp/ipykernel_2541/841887965.py&quot;, line 3, in &lt;module&gt;
+  File &quot;/var/folders/wb/sy5_9thj5fl0c4wh3c9z501c0000gn/T/ipykernel_80407/841887965.py&quot;, line 3, in &lt;module&gt;
     factorial_recursiv(21)
-  File &quot;/tmp/ipykernel_2541/43912226.py&quot;, line 5, in factorial_recursiv
+  File &quot;/var/folders/wb/sy5_9thj5fl0c4wh3c9z501c0000gn/T/ipykernel_80407/43912226.py&quot;, line 5, in factorial_recursiv
     return x * factorial_recursiv(x-1, depth+1)
-  File &quot;/tmp/ipykernel_2541/43912226.py&quot;, line 5, in factorial_recursiv
+  File &quot;/var/folders/wb/sy5_9thj5fl0c4wh3c9z501c0000gn/T/ipykernel_80407/43912226.py&quot;, line 5, in factorial_recursiv
     return x * factorial_recursiv(x-1, depth+1)
-  File &quot;/tmp/ipykernel_2541/43912226.py&quot;, line 5, in factorial_recursiv
+  File &quot;/var/folders/wb/sy5_9thj5fl0c4wh3c9z501c0000gn/T/ipykernel_80407/43912226.py&quot;, line 5, in factorial_recursiv
     return x * factorial_recursiv(x-1, depth+1)
   [Previous line repeated 17 more times]
-  File &quot;/tmp/ipykernel_2541/43912226.py&quot;, line 3, in factorial_recursiv
+  File &quot;/var/folders/wb/sy5_9thj5fl0c4wh3c9z501c0000gn/T/ipykernel_80407/43912226.py&quot;, line 3, in factorial_recursiv
     raise RecursionError(&quot;Recursion zu tief&quot;)
 RecursionError: Recursion zu tief
 </pre></div>
 </div>
 </div>
 </div>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
     <script type="text/x-thebe-config">
     {
