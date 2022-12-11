@@ -623,7 +623,9 @@ b&#39;from geometry.points.ImmutablePoint import ImmutablePoint\r\n\r\nclass Lin
 <p>Häufig will man testen ob eine Datei bereits existiert und dementsprechend diese laden oder z.B. neu erzeugen. Solche und andere Funktionen bietet die Standardbibliothek <code class="docutils literal notranslate"><span class="pre">os</span></code> die wir bereits kennen gelernt haben.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&quot;meineDatei.txt&quot;</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&quot;meineDatei.txt&quot;</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Datei existiert&quot;</span><span class="p">)</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Datei existiert noch nicht&quot;</span><span class="p">)</span>
@@ -631,14 +633,7 @@ b&#39;from geometry.points.ImmutablePoint import ImmutablePoint\r\n\r\nclass Lin
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
-<span class="nn">Input In [7],</span> in <span class="ni">&lt;cell line: 1&gt;</span><span class="nt">()</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&quot;meineDatei.txt&quot;</span><span class="p">):</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Datei existiert&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="k">else</span><span class="p">:</span>
-
-<span class="ne">NameError</span>: name &#39;os&#39; is not defined
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Datei existiert
 </pre></div>
 </div>
 </div>
@@ -655,24 +650,16 @@ b&#39;from geometry.points.ImmutablePoint import ImmutablePoint\r\n\r\nclass Lin
 <span class="n">codelines</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">count</span><span class="p">,</span> <span class="n">filename</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">files</span><span class="p">):</span>
-	<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
-		<span class="n">codelines</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fi</span><span class="o">.</span><span class="n">readlines</span><span class="p">())</span>
+	<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">)):</span>
+		<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
+			<span class="n">codelines</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fi</span><span class="o">.</span><span class="n">readlines</span><span class="p">())</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">codelines</span><span class="si">}</span><span class="s2"> Codezeilen in </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">files</span><span class="p">)</span><span class="si">}</span><span class="s2"> Dateien&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">PermissionError</span><span class="g g-Whitespace">                           </span>Traceback (most recent call last)
-<span class="nn">Input In [8],</span> in <span class="ni">&lt;cell line: 6&gt;</span><span class="nt">()</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">files</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="k">for</span> <span class="n">count</span><span class="p">,</span> <span class="n">filename</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">files</span><span class="p">):</span>
-<span class="ne">----&gt; </span><span class="mi">7</span> 	<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> 		<span class="n">codelines</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fi</span><span class="o">.</span><span class="n">readlines</span><span class="p">())</span>
-<span class="nn">     10 print(f&quot;{codelines} Codezeilen</span> in <span class="ni">{len</span><span class="nt">(files)} Dateien&quot;)</span>
-
-<span class="ne">PermissionError</span>: [Errno 13] Permission denied: &#39;geometry/shapes/__pycache__&#39;
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>60 Codezeilen in 6 Dateien
 </pre></div>
 </div>
 </div>
