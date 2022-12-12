@@ -405,7 +405,7 @@ title="Print to PDF"
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#txt-dateien">
-     txt-Dateien
+     TXT-Dateien
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -483,7 +483,7 @@ title="Print to PDF"
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#txt-dateien">
-     txt-Dateien
+     TXT-Dateien
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -641,7 +641,7 @@ b&#39;from geometry.points.ImmutablePoint import ImmutablePoint\n\nclass Line:\n
 </section>
 <section id="dateien-auflisten">
 <h3>Dateien auflisten<a class="headerlink" href="#dateien-auflisten" title="Permalink to this headline">#</a></h3>
-<p>Im letzten Abschitt haben wir bereits die Funktion <code class="docutils literal notranslate"><span class="pre">os.listdir</span></code> zum Auflisten aller Dateien in einem Verzeichnis kennen gelern. Wir können diese nun mit der <code class="docutils literal notranslate"><span class="pre">open</span></code>-Funktion verbinden, um z.B. alle Dateien zu laden und die Anzahl der Code-Zeilen zu berechnen. Dafür nutzen wir anstatt der <code class="docutils literal notranslate"><span class="pre">read</span></code>-Funktion die <code class="docutils literal notranslate"><span class="pre">readlines</span></code>-Funktion um alle Zeilen einzeln in einer Liste zu erhalten.</p>
+<p>Zum Auflisten aller Dateien in einem Verzeichnis <code class="docutils literal notranslate"><span class="pre">folder</span></code> können wir die Funktion <code class="docutils literal notranslate"><span class="pre">os.listdir()</span></code> benutzen. Mit der Funktion <code class="docutils literal notranslate"><span class="pre">os.path.isfile()</span></code> können wir prüfen ob der Name auf eine Datei oder ein Verzeichnis ist. Ist es eine Datei, so können wir diese mit der <code class="docutils literal notranslate"><span class="pre">open</span></code>-Funktion öffnen, um z.B. alle Dateien zu laden und die Anzahl der Code-Zeilen zu berechnen. Dafür nutzen wir anstatt der <code class="docutils literal notranslate"><span class="pre">read</span></code>-Funktion die <code class="docutils literal notranslate"><span class="pre">readlines</span></code>-Funktion um alle Zeilen einzeln in einer Liste zu erhalten.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
@@ -649,9 +649,9 @@ b&#39;from geometry.points.ImmutablePoint import ImmutablePoint\n\nclass Line:\n
 <span class="n">folder</span> <span class="o">=</span> <span class="s2">&quot;geometry/shapes/&quot;</span>
 <span class="n">files</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">codelines</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">for</span> <span class="n">count</span><span class="p">,</span> <span class="n">filename</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">folder</span><span class="p">)):</span>
-	<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">)):</span>
-		<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">),</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
+<span class="k">for</span> <span class="n">count</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">folder</span><span class="p">)):</span>
+	<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">name</span><span class="p">)):</span>
+		<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
 			<span class="n">codelines</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fi</span><span class="o">.</span><span class="n">readlines</span><span class="p">())</span>
 			<span class="n">files</span> <span class="o">+=</span> <span class="mi">1</span>
 
@@ -681,13 +681,13 @@ b&#39;from geometry.points.ImmutablePoint import ImmutablePoint\n\nclass Line:\n
 <section id="typische-textuelle-dateiformate">
 <h2>Typische textuelle Dateiformate<a class="headerlink" href="#typische-textuelle-dateiformate" title="Permalink to this headline">#</a></h2>
 <section id="txt-dateien">
-<h3>txt-Dateien<a class="headerlink" href="#txt-dateien" title="Permalink to this headline">#</a></h3>
+<h3>TXT-Dateien<a class="headerlink" href="#txt-dateien" title="Permalink to this headline">#</a></h3>
 <p>Eine der einfachsten Formate um Texte auf dem Computer zu Speichern sind Text-Dateien. Sie haben meist die Dateiendung <code class="docutils literal notranslate"><span class="pre">.txt</span></code>. Diese Dateiänderung haben wir bereits oben genutzt.</p>
 </section>
 <section id="json-dateien">
 <h3>JSON-Dateien<a class="headerlink" href="#json-dateien" title="Permalink to this headline">#</a></h3>
 <p>Heutzutage werden strukturierte Informationen oft im <code class="docutils literal notranslate"><span class="pre">JSON</span></code>-Format ausgetauscht. Insbesondere viele APIs von Webserver im Internet nutzen diesen Standard. Er hat den Vorteil, dass die Daten durch den Menschen lesbar bleiben und somit auch vom Webdeveloper interpretiert werden können. Im Kern ähnelt der Standard der Darstellung von <code class="docutils literal notranslate"><span class="pre">dict</span></code> in Python.</p>
-<p>Wir können zum Beispiel den Datensatz zu einer Person in dem folgendem dict speichern.</p>
+<p>Wir können zum Beispiel den Datensatz zu einer Person in dem folgendem <code class="docutils literal notranslate"><span class="pre">dict</span></code> speichern.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">person</span><span class="o">=</span><span class="p">{</span>  
@@ -719,7 +719,7 @@ b&#39;from geometry.points.ImmutablePoint import ImmutablePoint\n\nclass Line:\n
 </div>
 </div>
 </div>
-<p>Schauen wir uns einmal die Datei an</p>
+<p>Schauen wir uns einmal die Datei an. Da es eine textuelle Datei ist, können wir sie mit <code class="docutils literal notranslate"><span class="pre">open(name,</span> <span class="pre">&quot;tr&quot;)</span></code> laden.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;person.json&quot;</span><span class="p">,</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
@@ -781,7 +781,7 @@ b&#39;from geometry.points.ImmutablePoint import ImmutablePoint\n\nclass Line:\n
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;person.xml&quot;</span><span class="p">,</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
-    <span class="n">dateinhalt</span><span class="o">=</span><span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">dateinhalt</span> <span class="o">=</span> <span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">dateinhalt</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -791,7 +791,7 @@ b&#39;from geometry.points.ImmutablePoint import ImmutablePoint\n\nclass Line:\n
 <span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
 <span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">16</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
 <span class="ne">----&gt; </span><span class="mi">1</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;person.xml&quot;</span><span class="p">,</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="n">dateinhalt</span><span class="o">=</span><span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="n">dateinhalt</span> <span class="o">=</span> <span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="nb">print</span><span class="p">(</span><span class="n">dateinhalt</span><span class="p">)</span>
 
 <span class="nn">File /opt/hostedtoolcache/Python/3.11.0/x64/lib/python3.11/site-packages/IPython/core/interactiveshell.py:282,</span> in <span class="ni">_modified_open</span><span class="nt">(file, *args, **kwargs)</span>
@@ -813,7 +813,7 @@ b&#39;from geometry.points.ImmutablePoint import ImmutablePoint\n\nclass Line:\n
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">xmltodict</span>
 
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;person.xml&quot;</span><span class="p">,</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
-    <span class="n">person_geladen</span><span class="o">=</span><span class="n">xmltodict</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+    <span class="n">person_geladen</span> <span class="o">=</span> <span class="n">xmltodict</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Datentyp </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">person_geladen</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">person_geladen</span><span class="p">)</span>
 </pre></div>
@@ -825,7 +825,7 @@ b&#39;from geometry.points.ImmutablePoint import ImmutablePoint\n\nclass Line:\n
 <span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">17</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
 <span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">xmltodict</span>
 <span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;person.xml&quot;</span><span class="p">,</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">person_geladen</span><span class="o">=</span><span class="n">xmltodict</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">person_geladen</span> <span class="o">=</span> <span class="n">xmltodict</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
 
 <span class="ne">ModuleNotFoundError</span>: No module named &#39;xmltodict&#39;
 </pre></div>
@@ -912,7 +912,7 @@ b&#39;from geometry.points.ImmutablePoint import ImmutablePoint\n\nclass Line:\n
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;leute.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
-    <span class="n">dateinhalt</span><span class="o">=</span><span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">dateinhalt</span> <span class="o">=</span> <span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">dateinhalt</span><span class="p">)</span>
 </pre></div>
 </div>
