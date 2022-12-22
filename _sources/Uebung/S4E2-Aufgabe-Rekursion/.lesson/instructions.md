@@ -1,6 +1,4 @@
-# Aufgabe 4.2  
-
-**Rekursion**
+# Aufgabe 4.2  - Rekursion
 
 Implementiere die Methode der **binären Suche** mit Hilfe von Rekursion, d.h. die Funktion muss sich selbst wieder aufrufen. Nutze dafür folgende Funktionsdefinition: ```binary_search(list, start, end, x)```, wobei ```list``` die (sortierte) Eingabeliste ist, ```start``` und ```end``` die Indizes der Listenelemente zwischen denen grade gesucht wird und ```x``` das gesuchte Element. ``start`` und ``end`` sind notwendig um die Liste pro Rekursionsschritt weiter einzugrenzen. 
 
@@ -14,6 +12,6 @@ Die roten Linien geben hier die Fälle an in denen ein rekursiver Aufruf stattfi
   
 ### Wichtige Hinweise
 
-```start``` und ```end``` müssen beim ersten Aufrufen der Funktion einfach mit 0 und dem Index des letzten Listenelementes (``len(list)-1``) belegt, jedoch im späteren Verlauf durch rekursives Aufrufen weiter eingegrenzt werden. Würde die Funktion sich nicht selbst aufrufen wären diese beiden Eingaben also nicht notwendig.
+Willst du die binary_search-Funktion selbst aufrufen anstatt nur über die Replit-Tests, musst du beim ersten Aufrufen der Funktion ```start``` und ```end``` einfach mit 0 und dem Index des letzten Listenelementes (``len(list)-1``) belegen. Der rekursive Aufbau grenzt diese beiden Indizes dann mit jedem Schritt weiter ein. Würde die Funktion sich nicht selbst aufrufen wären diese beiden Eingaben also nicht notwendig.
 
 Die Berechnung des mittleren Listenelementes muss einen Integer ergeben, da Listenindizes nur ganze Zahlen sein können! Es muss also entweder gerundet oder eine Integer-Division durchgeführt werden. Der Operator für so eine Division ist ```//```.

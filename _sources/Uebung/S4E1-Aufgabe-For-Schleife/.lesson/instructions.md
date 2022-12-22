@@ -1,6 +1,4 @@
-# Aufgabe 4.1  
-
-**For-Schleife**
+# Aufgabe 4.1  - For-Schleife
 
 Es sollen die Kosten für eine Straße (wobei 1m ≜ 100 €) berechnet werden. Eine Straße (road) sei dabei ähnlich wie im Übungsvideo als Liste von Linien definiert. In der main.py Datei findest du dafür eine Funktion zur Distanzberechnung (```distance(p1, p2)```) sowie ein Import für eine Bibliothek für Berechnungen (```import math```). Diese Teile des Codes sollen unverändert bleiben.
 
