@@ -1,4 +1,4 @@
-# Übung 5.2 - Try and Except
+# Aufgabe 5.2 - Try and Except
 
 In dieser Übung geht es darum selbst gezielt Fehler zu erzeugen.
 

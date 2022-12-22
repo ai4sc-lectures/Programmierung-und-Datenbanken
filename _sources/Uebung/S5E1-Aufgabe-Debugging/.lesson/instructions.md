@@ -1,4 +1,4 @@
-# Übung 5.1 - Debugging
+# Aufgabe 5.1 - Debugging
 
 Gegeben ist ein Taschenrechner-Programm, welches fehlerhaften Code beinhaltet.
 In dieser Übung sollen diese Fehler im Code gefunden und verbessert werden. Führe dazu den Code aus und achte auf Fehlermeldungen. Kommst du nicht weiter, versuche den Debugger zu nutzen um den Code Schritt-für-Schritt zu durchlaufen.
