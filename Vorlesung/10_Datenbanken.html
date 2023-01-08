@@ -1093,7 +1093,7 @@ bevoelkerung.head()
 </div>
 </div>
 <p>Meist fragt man allerdings nicht alle Spalten einer Tabelle mit dem Platzhalter <code class="docutils literal notranslate"><span class="pre">*</span></code> ab, sonder gibt geziehlt die Spalten an, die man erhalten möchte. So kann man unnötigen Datenverkehr spaaren.</p>
-<div class="cell docutils container">
+<div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;SELECT strasse_schluessel, sparte, latitude, longitude, baumassnahme FROM baustellen;&#39;</span>
 <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">):</span>
@@ -1211,7 +1211,7 @@ bevoelkerung.head()
 <h2>Filtern von Ergebnissen mit <code class="docutils literal notranslate"><span class="pre">WHERE</span></code><a class="headerlink" href="#filtern-von-ergebnissen-mit-where" title="Permalink to this headline">#</a></h2>
 <p>Oft will man nur bestimmte Zeilen aus einer Tabelle in einer Datenbank abrufen. Diese Auswahl definiert man mit dem SQL Befehl <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> und zusätzlichen logischen Vergleichsoperatoren.</p>
 <p>Wollen wir zum Beispiel nur die Baustellen haben die einen Baubegin in 2023 haben, so können wir definieren</p>
-<div class="cell docutils container">
+<div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT strasse_schluessel, sparte, latitude, longitude, baumassnahme, baubeginn, bauende</span>
 <span class="s1">       FROM baustellen</span>
@@ -1417,7 +1417,7 @@ bevoelkerung.head()
 <section id="daten-aus-mehreren-tabellen-verknupfen-und-gleichzeitig-abfragen-mit-join">
 <h2>Daten aus mehreren Tabellen verknüpfen und gleichzeitig abfragen mit <code class="docutils literal notranslate"><span class="pre">JOIN</span></code><a class="headerlink" href="#daten-aus-mehreren-tabellen-verknupfen-und-gleichzeitig-abfragen-mit-join" title="Permalink to this headline">#</a></h2>
 <p>In unserm Beispiel kennen wir nicht die Straßennamen der Baustelle, sondern nur eine obskure ID namens <code class="docutils literal notranslate"><span class="pre">strasse_schluessel</span></code>. Diese finden wir auch in der Tabelle <code class="docutils literal notranslate"><span class="pre">adressenliste</span></code> zusammen mit dem gesuchten Straßennamen. Wir müssen also nun eine Abfrage über beide Tabellen gemeinsam durchführen, um auch die Straße für die Baustellen zu erfahren. Dafür nutzt man den SQL Befehl <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> und gibt an wo (<code class="docutils literal notranslate"><span class="pre">WHERE</span></code>) die Ergebnisse zusammenzuführen sind indem man eine Gleichheitsbedingung spezifiziert. Da die Spalte <code class="docutils literal notranslate"><span class="pre">strasse_schluessel</span></code> in beiden Tabellen vorkommt und es nicht ganz eindeutig ist auf welche man sich bezieht, gibt man jetzt auch bei den Spaltennamen die Tabelle mit der Dotnotation mit an, also:</p>
-<div class="cell docutils container">
+<div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT baustellen.strasse_schluessel, baustellen.sparte, baustellen.latitude, baustellen.longitude, baustellen.baumassnahme, baustellen.baubeginn, baustellen.bauende, </span>
 <span class="s1">              adressenliste.gemeindeteil_name, adressenliste.strasse_name </span>
@@ -5498,7 +5498,7 @@ bevoelkerung.head()
 </div>
 </div>
 <p>Da diese ständige Wiederholung der Tabellennamen sehr schreiblastig ist, kann man in SQL mit dem Befehl <code class="docutils literal notranslate"><span class="pre">AS</span></code> auch kürzere Namen für Spalten und Tabellen verwenden</p>
-<div class="cell docutils container">
+<div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT b.strasse_schluessel, b.sparte, b.latitude, b.longitude, b.baumassnahme, b.baubeginn, b.bauende, </span>
 <span class="s1">              a.gemeindeteil_name, a.strasse_name </span>
@@ -7613,9 +7613,7 @@ bevoelkerung.head()
 (310, &#39;Kabelnetz&#39;, 54.17704846234, 12.0896574211997, None, &#39;2022-11-28 00:00:00+01:00&#39;, &#39;2023-01-28 00:00:00+01:00&#39;, &#39;Seebad Warnemünde&#39;, &#39;Am Bahnhof&#39;)
 (310, &#39;Kabelnetz&#39;, 54.17704846234, 12.0896574211997, None, &#39;2022-11-28 00:00:00+01:00&#39;, &#39;2023-01-28 00:00:00+01:00&#39;, &#39;Seebad Warnemünde&#39;, &#39;Am Bahnhof&#39;)
 (310, &#39;Kabelnetz&#39;, 54.17704846234, 12.0896574211997, None, &#39;2022-11-28 00:00:00+01:00&#39;, &#39;2023-01-28 00:00:00+01:00&#39;, &#39;Seebad Warnemünde&#39;, &#39;Am Bahnhof&#39;)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(310, &#39;Kabelnetz&#39;, 54.17704846234, 12.0896574211997, None, &#39;2022-11-28 00:00:00+01:00&#39;, &#39;2023-01-28 00:00:00+01:00&#39;, &#39;Seebad Warnemünde&#39;, &#39;Am Bahnhof&#39;)
+(310, &#39;Kabelnetz&#39;, 54.17704846234, 12.0896574211997, None, &#39;2022-11-28 00:00:00+01:00&#39;, &#39;2023-01-28 00:00:00+01:00&#39;, &#39;Seebad Warnemünde&#39;, &#39;Am Bahnhof&#39;)
 (310, &#39;Kabelnetz&#39;, 54.17704846234, 12.0896574211997, None, &#39;2022-11-28 00:00:00+01:00&#39;, &#39;2023-01-28 00:00:00+01:00&#39;, &#39;Seebad Warnemünde&#39;, &#39;Am Bahnhof&#39;)
 (310, &#39;Kabelnetz&#39;, 54.17704846234, 12.0896574211997, None, &#39;2022-11-28 00:00:00+01:00&#39;, &#39;2023-01-28 00:00:00+01:00&#39;, &#39;Seebad Warnemünde&#39;, &#39;Am Bahnhof&#39;)
 (310, &#39;Kabelnetz&#39;, 54.17704846234, 12.0896574211997, None, &#39;2022-11-28 00:00:00+01:00&#39;, &#39;2023-01-28 00:00:00+01:00&#39;, &#39;Seebad Warnemünde&#39;, &#39;Am Bahnhof&#39;)
@@ -8798,7 +8796,9 @@ bevoelkerung.head()
 (3190, &#39;Straßenbau&#39;, 54.0992367570864, 12.1742752296427, &#39;Neubau Geh- und Radweg&#39;, &#39;2022-11-21 00:00:00+01:00&#39;, &#39;2023-02-25 00:00:00+01:00&#39;, &#39;Dierkow-Ost&#39;, &#39;Gutenbergstr.&#39;)
 (3190, &#39;Straßenbau&#39;, 54.0992367570864, 12.1742752296427, &#39;Neubau Geh- und Radweg&#39;, &#39;2022-11-21 00:00:00+01:00&#39;, &#39;2023-02-25 00:00:00+01:00&#39;, &#39;Dierkow-Ost&#39;, &#39;Gutenbergstr.&#39;)
 (3190, &#39;Straßenbau&#39;, 54.0992367570864, 12.1742752296427, &#39;Neubau Geh- und Radweg&#39;, &#39;2022-11-21 00:00:00+01:00&#39;, &#39;2023-02-25 00:00:00+01:00&#39;, &#39;Dierkow-Ost&#39;, &#39;Gutenbergstr.&#39;)
-(3190, &#39;Straßenbau&#39;, 54.0992367570864, 12.1742752296427, &#39;Neubau Geh- und Radweg&#39;, &#39;2022-11-21 00:00:00+01:00&#39;, &#39;2023-02-25 00:00:00+01:00&#39;, &#39;Dierkow-Ost&#39;, &#39;Gutenbergstr.&#39;)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(3190, &#39;Straßenbau&#39;, 54.0992367570864, 12.1742752296427, &#39;Neubau Geh- und Radweg&#39;, &#39;2022-11-21 00:00:00+01:00&#39;, &#39;2023-02-25 00:00:00+01:00&#39;, &#39;Dierkow-Ost&#39;, &#39;Gutenbergstr.&#39;)
 (3190, &#39;Straßenbau&#39;, 54.0992367570864, 12.1742752296427, &#39;Neubau Geh- und Radweg&#39;, &#39;2022-11-21 00:00:00+01:00&#39;, &#39;2023-02-25 00:00:00+01:00&#39;, &#39;Dierkow-Ost&#39;, &#39;Gutenbergstr.&#39;)
 (3190, &#39;Straßenbau&#39;, 54.0992367570864, 12.1742752296427, &#39;Neubau Geh- und Radweg&#39;, &#39;2022-11-21 00:00:00+01:00&#39;, &#39;2023-02-25 00:00:00+01:00&#39;, &#39;Dierkow-Ost&#39;, &#39;Gutenbergstr.&#39;)
 (3190, &#39;Straßenbau&#39;, 54.0992367570864, 12.1742752296427, &#39;Neubau Geh- und Radweg&#39;, &#39;2022-11-21 00:00:00+01:00&#39;, &#39;2023-02-25 00:00:00+01:00&#39;, &#39;Dierkow-Ost&#39;, &#39;Gutenbergstr.&#39;)
@@ -9429,9 +9429,7 @@ bevoelkerung.head()
 (8180, &#39;Hochbau&#39;, 54.0764198504029, 12.0969354376854, None, &#39;2023-01-03 00:00:00+01:00&#39;, &#39;2023-11-01 00:00:00+01:00&#39;, &#39;Südstadt&#39;, &#39;Satower Str.&#39;)
 (8180, &#39;Hochbau&#39;, 54.0764198504029, 12.0969354376854, None, &#39;2023-01-03 00:00:00+01:00&#39;, &#39;2023-11-01 00:00:00+01:00&#39;, &#39;Südstadt&#39;, &#39;Satower Str.&#39;)
 (8180, &#39;Hochbau&#39;, 54.0764198504029, 12.0969354376854, None, &#39;2023-01-03 00:00:00+01:00&#39;, &#39;2023-11-01 00:00:00+01:00&#39;, &#39;Südstadt&#39;, &#39;Satower Str.&#39;)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(8180, &#39;Hochbau&#39;, 54.0764198504029, 12.0969354376854, None, &#39;2023-01-03 00:00:00+01:00&#39;, &#39;2023-11-01 00:00:00+01:00&#39;, &#39;Südstadt&#39;, &#39;Satower Str.&#39;)
+(8180, &#39;Hochbau&#39;, 54.0764198504029, 12.0969354376854, None, &#39;2023-01-03 00:00:00+01:00&#39;, &#39;2023-11-01 00:00:00+01:00&#39;, &#39;Südstadt&#39;, &#39;Satower Str.&#39;)
 (8180, &#39;Hochbau&#39;, 54.0764198504029, 12.0969354376854, None, &#39;2023-01-03 00:00:00+01:00&#39;, &#39;2023-11-01 00:00:00+01:00&#39;, &#39;Südstadt&#39;, &#39;Satower Str.&#39;)
 (8180, &#39;Hochbau&#39;, 54.0764198504029, 12.0969354376854, None, &#39;2023-01-03 00:00:00+01:00&#39;, &#39;2023-11-01 00:00:00+01:00&#39;, &#39;Südstadt&#39;, &#39;Satower Str.&#39;)
 (8180, &#39;Hochbau&#39;, 54.0764198504029, 12.0969354376854, None, &#39;2023-01-03 00:00:00+01:00&#39;, &#39;2023-11-01 00:00:00+01:00&#39;, &#39;Südstadt&#39;, &#39;Satower Str.&#39;)
@@ -9583,7 +9581,7 @@ bevoelkerung.head()
 </div>
 </div>
 <p>Jetzt kommt es allerdings zu vielen Dopplungen in unseren Ergebnissen, da jede Ergebniszeile aus der Tabelle <code class="docutils literal notranslate"><span class="pre">baustellen</span></code> mit jeder Zeile aus der Tabelle <code class="docutils literal notranslate"><span class="pre">adressenliste</span></code> wiederholt wird, weil in der letzteren ja eine Straße mit dem gleichen <code class="docutils literal notranslate"><span class="pre">strasse_schluessel</span></code> mehrmals vorkommt. Diese Duplikate wollen wir rausfiltern mit dem SQL Befehl <code class="docutils literal notranslate"><span class="pre">DISTINCT</span></code></p>
-<div class="cell docutils container">
+<div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT DISTINCT b.strasse_schluessel, b.sparte, b.latitude, b.longitude, b.baumassnahme, a.gemeindeteil_name, a.strasse_name </span>
 <span class="s1">       FROM baustellen AS b</span>
@@ -9717,7 +9715,7 @@ bevoelkerung.head()
 </div>
 <p>Jetzt kennen wir schon den richtigen Straßenname zu jeder Baustelle, allerdings fehlt uns die Gemeinde. Hierfür verknüpfen wir die Daten mit der Tabelle
 <code class="docutils literal notranslate"><span class="pre">gemeinden</span></code>. Dafür ergänzen wir die zusätzliche Tabelle im <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> und definieren die weitere Verknüpfungsbedingung auf die Spalte <code class="docutils literal notranslate"><span class="pre">gemeinde_schluessel</span></code>.</p>
-<div class="cell docutils container">
+<div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT DISTINCT b.strasse_schluessel, b.sparte, b.latitude, b.longitude, b.baumassnahme, a.gemeindeteil_name, a.strasse_name, g.gemeinde_name</span>
 <span class="s1">       FROM baustellen AS b</span>
@@ -9857,7 +9855,7 @@ bevoelkerung.head()
 <li><p>Einträge in mindestens der zweiten Tabelle gibt (OUTER)</p></li>
 </ul>
 <p>Der <code class="docutils literal notranslate"><span class="pre">NATURAL</span> <span class="pre">JOIN</span></code> Typen vereinfachen die Schreibarbeit. Beim <code class="docutils literal notranslate"><span class="pre">NATURAL</span> <span class="pre">JOIN</span></code> werden dabei die Spalten gematcht, welche identisch heißen. Er funktioniert somit nur wenn die Spalten in den zu matchenden Tabellen identisch heißen und alle anderen Spalten andere Namen haben, was eher seltener der Fall ist.</p>
-<div class="cell docutils container">
+<div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sqlNJ</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT DISTINCT strasse_schluessel, sparte, latitude, longitude, baumassnahme, gemeindeteil_name, strasse_name, gemeinde_name</span>
 <span class="s1">       FROM baustellen</span>
