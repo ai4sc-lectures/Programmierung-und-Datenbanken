@@ -11,12 +11,13 @@ Diese ist eine Sammlung der Beispiele aus der Vorlesung "Einführung in Programm
   - V/-/- Software Architekturen
   - V/-/- Programmiersprachen Grundlagen
   - -/-/Ü Python Grundlagen
+  - -/-/Ü Replit Grundlagen
 - 100/100/100 Daten und Funktionen
   - V/C/Ü Datentypen
   - V/C/Ü Operatoren
   - V/C/Ü Funktionen
 - 100/66/33 Ablauf und Verzweigungen
-  - V/C/- Verzweigungen
+  - V/C/Ü Verzweigungen
   - V/C/Ü Programmablauf
   - V/-/- Algorithmen
 - 100/100/33 Schleifen und Rekursion
