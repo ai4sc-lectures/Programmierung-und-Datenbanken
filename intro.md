@@ -4,48 +4,50 @@ Diese ist eine Sammlung der Beispiele aus der Vorlesung "Einführung in Programm
 
 
 - Motivation & Grundlagen
-  - Hardware eines Computers
-  - Logik Gatter
+  - V/-/- Hardware eines Computers
+  - V/-/- Logik Gatter
 - Grundkonzepte Informatik
-  - Wissenspyramide
-  - Programmiersprachen Grundlagen
-  - Software Architektur
+  - V/-/- Wissenspyramide
+  - V/-/- Software Architekturen
+  - V/-/- Programmiersprachen Grundlagen
+  - V/-/Ü Python Grundlagen
 - Daten und Funktionen
-  - Datentypen
-  - Operatoren
-  - Funktionen
+  - V/C/Ü Datentypen
+  - V/C/Ü Operatoren
+  - V/C/Ü Funktionen
 - Ablauf und Verzweigungen
-  - Verzweigungen
-  - Programmablauf
-  - Algorithmen
+  - V/C/- Verzweigungen
+  - V/C/Ü Programmablauf
+  - V/-/- Algorithmen
 - Schleifen und Rekursion
-  - Schleifen
-  - Rekorsion
-  - Such und Sortieralgorithmen
+  - V/C/- Schleifen
+  - V/C/Ü Rekursion
+  - V/C/- Such und Sortieralgorithmen
 - Fehler und Debugging
-  - Fehler und Ausnahmen
-  - Fehlerbehandlung
+  - V/C/Ü Fehler und Ausnahmen
+  - V/C/- Unit-Tests
+  - V/C/- Debugging
 - Objektorientierung
-  - Objektorientierung
-  - Modellierung mit Objekten
+  - V/C/Ü Objektorientierung
+  - V/C/- Modellierung mit Objekten
 - Softwareentwurf
-  - Entwurfsvorgehen
-  - Bibliotheken und Pakete
-  - Übungsbeispiel: Hafen von Rotterdam
+  - V/C/- Entwurfsvorgehen
+  - V/C/Ü Bibliotheken und Pakete
+  - V/C/Ü Übungsbeispiel: Hafen von Rotterdam
 - Datenhaltung
-  - Datenhaltung
-  - Netzwerkkommunikation
+  - V/C/Ü Datenhaltung
+  - V/C/- Netzwerkkommunikation
 - Datenbanken
-  - Datenbanken Grundlagen
-  - Relationale Datenbanken
-  - Tabellen mit SQL abfragen
+  - V/-/- Datenbanken Grundlagen
+  - V/C/- Relationale Datenbanken
+  - V/C/Ü Tabellen mit SQL abfragen
 - Datenbankentwurf
-  - Datenbankentwurf
-  - Tabellen mit SQL anlegen
+  - V/C/- Datenbankentwurf
+  - V/C/- Tabellen mit SQL anlegen
 - Ausblick
-  - Trends
-  - Digitale Zwillinge
-  - KI
+  - V/-/- Trends
+  - V/-/- Digitale Zwillinge
+  - V/-/- KI
 
 ```{tableofcontents}
 ```
