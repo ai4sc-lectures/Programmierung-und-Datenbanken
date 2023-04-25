@@ -3,48 +3,48 @@
 Diese ist eine Sammlung der Beispiele aus der Vorlesung "Einführung in Programmierung und Datenbanken" für Umwelt- und Bauingeneure. Die Beispiele verdeutlichen die Themen die in der Vorlesung diskutiert werden.
 
 
-- Motivation & Grundlagen
+- 100/0/0 Motivation & Grundlagen
   - V/-/- Hardware eines Computers
   - V/-/- Logik Gatter
-- Grundkonzepte Informatik
+- 75/0/0 Grundkonzepte Informatik
   - V/-/- Wissenspyramide
   - V/-/- Software Architekturen
   - V/-/- Programmiersprachen Grundlagen
-  - V/-/Ü Python Grundlagen
-- Daten und Funktionen
+  - -/-/Ü Python Grundlagen
+- 100/100/100 Daten und Funktionen
   - V/C/Ü Datentypen
   - V/C/Ü Operatoren
   - V/C/Ü Funktionen
-- Ablauf und Verzweigungen
+- 100/66/33 Ablauf und Verzweigungen
   - V/C/- Verzweigungen
   - V/C/Ü Programmablauf
   - V/-/- Algorithmen
-- Schleifen und Rekursion
+- 100/100/33 Schleifen und Rekursion
   - V/C/- Schleifen
   - V/C/Ü Rekursion
   - V/C/- Such und Sortieralgorithmen
-- Fehler und Debugging
+- 100/100/33 Fehler und Debugging
   - V/C/Ü Fehler und Ausnahmen
   - V/C/- Unit-Tests
   - V/C/- Debugging
-- Objektorientierung
+- 100/100/50 Objektorientierung
   - V/C/Ü Objektorientierung
   - V/C/- Modellierung mit Objekten
-- Softwareentwurf
+- 100/100/66 Softwareentwurf
   - V/C/- Entwurfsvorgehen
   - V/C/Ü Bibliotheken und Pakete
   - V/C/Ü Übungsbeispiel: Hafen von Rotterdam
-- Datenhaltung
+- 100/100/50 Datenhaltung
   - V/C/Ü Datenhaltung
   - V/C/- Netzwerkkommunikation
-- Datenbanken
+- 100/66/33 Datenbanken
   - V/-/- Datenbanken Grundlagen
   - V/C/- Relationale Datenbanken
   - V/C/Ü Tabellen mit SQL abfragen
-- Datenbankentwurf
+- 100/100/0 Datenbankentwurf
   - V/C/- Datenbankentwurf
   - V/C/- Tabellen mit SQL anlegen
-- Ausblick
+- 100/0/0 Ausblick
   - V/-/- Trends
   - V/-/- Digitale Zwillinge
   - V/-/- KI
