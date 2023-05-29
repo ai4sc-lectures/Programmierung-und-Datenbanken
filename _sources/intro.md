@@ -2,7 +2,7 @@
 
 Diese ist eine Sammlung der Beispiele aus der Vorlesung "Einführung in Programmierung und Datenbanken" für Umwelt- und Bauingeneure. Die Beispiele verdeutlichen die Themen die in der Vorlesung diskutiert werden.
 
-
+<!-- 
 - 100/0/0 Motivation & Grundlagen
   - V/-/- Hardware eines Computers
   - V/-/- Logik Gatter
@@ -49,6 +49,7 @@ Diese ist eine Sammlung der Beispiele aus der Vorlesung "Einführung in Programm
   - V/-/- Trends
   - V/-/- Digitale Zwillinge
   - V/-/- KI
+-->
 
 ```{tableofcontents}
 ```
