@@ -3,9 +3,13 @@
  
 Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND, OR, XOR und Negationen. Aus diesen Grundoperationen lassen sich komplexere Operationen zusammen.
 
-
+![](images/Logic_AND.svg)
 
 ```{quizdown}
+	---
+	shuffleQuestions: true
+	shuffleAnswers: true
+	---
 
     ### Was sind Binäre Zahlen?
 
@@ -32,6 +36,10 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
     ![](images/Logic_AND.svg)
 
     > Die AND-Operation (UND-Operation) ist eine grundlegende logische Operation in der Digitaltechnik und der Booleschen Algebra. Die AND-Operation gibt als Ergebnis "1" (wahr) aus, wenn beide Eingangssignale "1" sind. Andernfalls gibt sie "0" (falsch) aus.
+
+    ![](images/Logic_AND.svg)
+
+    ![](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Sir_Tim_Berners-Lee.jpg/330px-Sir_Tim_Berners-Lee.jpg)
 
     - [x] Falsch, Falsch, Falsch,   Wahr
     - [ ] Falsch,   Wahr,   Wahr,   Wahr
@@ -98,11 +106,15 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
     - [ ]   Wahr,   Wahr,   Wahr, Falsch
     - [x]   Wahr, Falsch, Falsch, Falsch
 
-    ### Was ist die NXOR Operation?
+    ### Was ist die XNOR Operation?
 
-    ![](images/Logic_NXOR.svg)
+    ![](images/Logic_XNOR.svg)
 
-    > Die NXOR-Operation (auch als XNOR oder Äquivalenzoperation bezeichnet) ist eine logische Operation in der Booleschen Algebra und der Digitaltechnik. Der Name "NXOR" steht für "NOT XOR" und zeigt an, dass es eine Kombination aus der XOR-Operation und der NOT-Operation ist und das Gegenteil des Ergebnisses der XOR-Operation ergibt. Die NXOR-Operation ergibt "1" (wahr), wenn beide Eingangssignale gleich sind (entweder beide "0" oder beide "1"). Sie ergibt "0" (falsch), wenn die Eingangssignale unterschiedlich sind (eins "0" und das andere "1").
+    $$
+        tab
+    $$
+
+    > Die XNOR-Operation (auch als Äquivalenzoperation bezeichnet) ist eine logische Operation in der Booleschen Algebra und der Digitaltechnik. Der Name "XNOR" steht für "NOT XOR" und zeigt an, dass es eine Kombination aus der XOR-Operation und der NOT-Operation ist und das Gegenteil des Ergebnisses der XOR-Operation ergibt. Die XNOR-Operation ergibt "1" (wahr), wenn beide Eingangssignale gleich sind (entweder beide "0" oder beide "1"). Sie ergibt "0" (falsch), wenn die Eingangssignale unterschiedlich sind (eins "0" und das andere "1").
 
     - [ ] Falsch, Falsch, Falsch,   Wahr
     - [ ] Falsch,   Wahr,   Wahr,   Wahr
