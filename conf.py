@@ -34,3 +34,13 @@ pygments_style = 'sphinx'
 suppress_warnings = ['myst.domains']
 use_jupyterbook_latex = True
 use_multitoc_numbering = True
+quizdown_config = {
+    'start_on_load': True,			# detect and convert all divs with class quizdown
+    'shuffle_answers': True,		# shuffle answers for each question
+    'shuffle_questions': False,     # shuffle questsions for each quiz
+    'primary_color': '#FF851B',     # primary CSS color
+    'secondary_color': '#DDDDDD',   # secondary CSS color
+    'text_color': 'black',          # text color of interactive elements
+    'locale': 'de',                 # language of text in user interface
+    'quizdown_js': 'https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js', # quizdown javascript
+}
