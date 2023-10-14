@@ -8,7 +8,7 @@ locale: de
 ---
 
 ## Boolesche Logik
-
+ 
 Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND, OR, XOR und Negationen. Aus diesen Grundoperationen lassen sich komplexere Operationen zusammen.
 
 #### Was sind Binäre Zahlen?
