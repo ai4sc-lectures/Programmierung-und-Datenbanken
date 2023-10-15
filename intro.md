@@ -1,6 +1,13 @@
 # Einführung
 
-Diese ist eine Sammlung der Beispiele aus der Vorlesung "Einführung in Programmierung und Datenbanken" für Umwelt- und Bauingeneure. Die Beispiele verdeutlichen die Themen die in der Vorlesung diskutiert werden.
+In diesem Kurs steht die Aus- und Weiterbildung von Informatikfähigkeiten speziell für den Anwendungsbereich der Bau- und Umweltingenieurswissenschaften im Fokus. Durch die Digitalisierung benötigen Ingenieure und andere technisch Interessierte in diesen Branchen immer häufiger grundlegende Fähigkeiten in der Programmierung, speziell im Bereich des Datenmanagements, -verarbeitung und -analyse. In den Bau- und Umweltingenieurswissenschaften handelt es sich hier z.B. um Datensätze aus Sensormessnetzwerken, Planungsprozessen oder Gebäudedatenbanken. Sehr gebräuchlich für die Arbeit mit solchen Daten ist die Programmiersprache Python mit ihren vielfältigen Programmbibliotheken. Das Bildungsangebot führt daher in die Grundlagen der Programmierung und den Umgang mit Datenbanken und Analysetools in Python ein. Es werden dabei zusätzlich theoretische Informatik-Grundlagen sowie fachspezifische Entwicklungsaspekte an verschiedenen Beispielen vermittelt (z.B. der Umgang mit räumlichen Daten).
+
+![Programm des Kurses](images/ablauf.png)
+
+Der Kurs gliedert sich in drei Teile:
+1. Grundlagen: Bietet eine Einführung in Hard- und Software von Computern und in die Programmierung in Python.
+2. Modularisierung: Thematisiert die Modellierung von Problemen mit Funktionen und Objekten und die Lösung von Problemen durch Debugging
+3. Datenbanken: Gibt einen Überblick in das Management kleiner und größerer Daten durch Dateien und Datenbanken.
 
 <!-- 
 - 100/0/0 Motivation & Grundlagen
@@ -49,7 +56,7 @@ Diese ist eine Sammlung der Beispiele aus der Vorlesung "Einführung in Programm
   - V/-/- Trends
   - V/-/- Digitale Zwillinge
   - V/-/- KI
--->
 
 ```{tableofcontents}
 ```
+-->
