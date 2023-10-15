@@ -31,12 +31,15 @@ Programmiersprache
 ### Die beliebtesten Programmiersprachen
 
 <!-- ![Most popular programming languages on stack overflow](images/stackoverflow.png) -->
-![Historic development of most used programming languages](images/top_prog_languages.mp4)
+
+Die Entwicklung der Anforderungen an Software entwickeln sich die Softwarearchitekturen und neue Programmiersprachen gewinnen und verlieren an Popularität. So wurden zuerst traditionelle Anwendungssprachen (C++) ersetzt durch Java und C# und dann durch Websprachen (PHP, JavaScript, Perl). Über die letzten 20 Jahren hat sich in diesem Bereich vor allem JavaScript durchgesetzt da es Client- und Serverseitig eingesetzt werden kann. Seit 2017 gewinnt vor allem Python massiv an popularität, da es insbesondere im Bereich KI eingesetzt wird.
+
+<video src="images/top_prog_languages.mp4"></video>
 
 
 ### Python
 
-![Development of popularity of python](images/python_popularity.png)
+<!-- ![Development of popularity of python](images/python_popularity.png) -->
 
 Python ist eine ältere Programmiersprache von 1991, die allerdings in den letzten Jahren zunehmend Popularität gefunden hat. Dies ist zum einen darauf zurück zu führen, dass die Sprache sehr auf Lesbarkeit ausgelegt und sehr leicht zu erlernen. Ferner gibt es durch ihr Alter heutzutage sehr viele Bibliotheken für fast jedes Problem, wodurch sie auch sehr vielseitig einsetzbar ist.
 
