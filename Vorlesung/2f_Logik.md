@@ -33,6 +33,8 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
 
     ### Was ist die AND Operation?
 
+    Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B?
+
     ![](https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/_images/Logic_AND.svg)
 
     > Übersetzt als die UND-Operation und verhält sich wie das UND in der Aussagenlogik.
@@ -45,6 +47,8 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
     1. [ ]   Wahr (0), Falsch (0) (0), Falsch (0) (0), Falsch (0)
 
     ### Was ist die OR Operation?
+
+    Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B?
 
     ![](https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/_images/Logic_OR.svg)
 
@@ -59,6 +63,8 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
 
     ### Was ist die XOR Operation?
 
+    Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B?
+
     ![](https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/_images/Logic_XOR.svg)
 
     > Übersetzt als die Exklusiv-ODER-Operation und entspricht exklusiv dem Einen oder dem Anderen in der Aussagenlogik.
@@ -72,6 +78,8 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
 
     ### Was ist die NOT Operation?
 
+    Was ist das Ergebnis der Operation für die folgende Eingangsfolge auf A?
+
     ![](https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/_images/Logic_NOT.svg)
 
     > Übersetzt als die NICHT-Operation und entspricht der Negation.
@@ -83,6 +91,8 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
     1. [ ]   Wahr (0),   Wahr (0)
 
     ### Was ist die NAND Operation?
+
+    Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B?
 
     ![](https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/_images/Logic_NAND.svg)
 
@@ -97,6 +107,8 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
 
     ### Was ist die NOR Operation?
 
+    Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B?
+
     ![](https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/_images/Logic_NOR.svg)
 
     > Entspricht der negierten ODER-Operation.
@@ -109,6 +121,8 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
         > Die NOR-Operation ist eine grundlegende logische Operation in der Booleschen Algebra und der Digitaltechnik. Der Name "NOR" steht für "NOT OR," was darauf hinweist, dass die NOR-Operation eine Kombination aus der OR-Operation und der NOT-Operation ist und das Gegenteil des Ergebnisses der OR-Operation ergibt.  Die NAND-Operation ergibt "1" (Wahr), es sei denn, beide Eingangssignale sind "1." In diesem Fall ergibt sie "0" (Falsch).
 
     ### Was ist die XNOR Operation?
+
+    Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B?
 
     ![](https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/_images/Logic_XNOR.svg)
 
