@@ -1,17 +1,15 @@
 ## Wissenspyramide
 
-![](images/wissenspyramide.svg)
+Die Wissenspyradmide ist ein Modell zur Darstellung der Extraktion von Wissen durch Computer. Sie dient gut der Erklärung einger Grundbegriffe der Informatik wie Zeichen, Syntax, Daten, Semantik, Informaitonen, Datenverarbeitung und Wissen. Diese Begriffe werden pyramidenförmig als 4 Ebenen und Transformationsprozesse dargestellt.
 
-Die Wissenspyradmide ist ein Modell zur Darstellung der Entstehung von Wissen. 
-
-Die vier Elementtypen: Zeichen, Daten, Informationen und Wissen werden pyramidenförmig als 4 Ebenen dargestellt.
+![Wissenspyramide](images/wissenspyramide.svg)
 
 ### Zeichen
 
-Zeichen formen die Basis und das Wissen die Spitze der Pyramide.
+Zeichen formen die Basis und das Wissen die Spitze der Pyramide.
 
-Zeichen:
-Ein Zeichen codiert einen einzelnen Buchstaben, eine Ziffer, ein Sonderzeichen oder ein Steuerzeichen. 
+Zeichen
+: Ein Zeichen codiert einen einzelnen Buchstaben, eine Ziffer, ein Sonderzeichen oder ein Steuerzeichen. 
 
 > Beispiel 1: *Deutsches Alphabet* mit Umlauten und Zahlen, Satztrennungs und -endzeichen. Zeichensatz: `abcdefgijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZäöüßÄÖÜ0123456789,:;-.!?`
 
@@ -22,8 +20,8 @@ Ein Zeichen codiert einen einzelnen Buchstaben, eine Ziffer, ein Sonderzeichen o
 
 Syntax wird benötigt um Zeichen in Daten zu überführen.
 
-Syntax:
-Formale Regeln, die definieren, wie wohlgeformte Ausdrücke auf Basis eines Zeichensatzes gebildet werden.
+Syntax
+: Formale Regeln, die definieren, wie wohlgeformte Ausdrücke auf Basis eines Zeichensatzes gebildet werden.
 
 > Beispiel 1: *Deutsche Grammatik* - 
 Ein Satz besteht aus mehreren Wörtern mit mehreren alpha-numerischen Zeichen aus `a-zA-Z0-9`. Zwei Worte sind durch ein Leerzeichen getrennt. Ein Wort kann mit einem Satztrennungszeichen aus `,:;-` beendet werden, außer am Ende des Satzes. Jeder Satz endet mit einem Satzendzeichen aus `.!?`
@@ -34,8 +32,8 @@ Ein Satz besteht aus mehreren Wörtern mit mehreren alpha-numerischen Zeichen au
 
 Daten werden aus Zeichen extrahiert, sie sind eine Vorform von Informationen.
 
-Daten:
-Eine wiederholt interpretierbare Darstellung von Information in formalisierter Art, geeignet zur Kommunikation, Interpretation oder Verarbeitung.
+Daten
+: Eine wiederholt interpretierbare Darstellung von Information in formalisierter Art, geeignet zur Kommunikation, Interpretation oder Verarbeitung.
 
 > Beispiel 1: Formal korrekter Satz. z.B. „ Ich Bahnhof nur verstehe.“
 
@@ -45,8 +43,8 @@ Eine wiederholt interpretierbare Darstellung von Information in formalisierter A
 
 Mir Semantik können Daten interpretiert werden und Informationen extrahiert werden.
 
-Semantik:
-Vorgaben für die Interpretation von Daten.
+Semantik
+: Vorgaben für die Interpretation von Daten.
 
 > Beispiel 1: Deutsches Wörterbuch. Z.B. Definition von “Bahnhof” im Duden Gesamtkomplex einer Bahnstation mit Gleisanlagen und zugehörigen Gebäuden zum Bahnhof gehörendes Gebäude mit [großer] Halle, in der sich die Schalter für Fahrkarten und Gepäck, Wartesäle, Geschäfte o. Ä. befinden
 
