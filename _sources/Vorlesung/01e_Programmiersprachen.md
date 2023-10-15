@@ -35,13 +35,13 @@ Programmiersprache
 Durch die Änderungen der Anforderungen an Software entwickeln sich nicht nur die Softwarearchitekturen sondern auch neue Programmiersprachen die an Popularität gewinnen. So wurden zuerst traditionelle Anwendungssprachen (C++) ersetzt durch Serversprachen wie Java und dann durch Websprachen (PHP, Perl, JavaScript). Über die letzten 20 Jahren hat sich in diesem Bereich vor allem JavaScript durchgesetzt da es Client- und Serverseitig eingesetzt werden kann. Seit 2017 gewinnt vor allem Python massiv an popularität, da es insbesondere im KI-Bereich eingesetzt wird.
 
 <video width="1168" height="630" controls>
-  <source src="images/top_prog_languages.mp4" type="video/mp4">
+  <source src="_images/top_prog_languages.mp4" type="video/mp4">
 Your browser does not support the video tag.
-</video> 
+</video>
 
 
 ### Python
 
 <!-- ![Development of popularity of python](images/python_popularity.png) -->
 
-Python hat in den letzten Jahren zunehmend an Popularität gewonnen, ist allerdings älter als Java, C# und JavaScript. Die Popularität ist zum einen darauf zurück zu führen, dass die Sprache sehr auf Lesbarkeit und Einfachheit ausgelegt und dadurch sehr leicht zu erlernen ist. Ferner gibt es durch ihr Alter heutzutage sehr viele Bibliotheken und für fast jedes Problem eine existierende Lösung. Dadurch ist Python auch sehr vielseitig einsetzbar ist.
+Python hat in den letzten Jahren zunehmend an Popularität gewonnen, ist allerdings älter als Java, C# und JavaScript. Die Popularität ist zum einen darauf zurück zu führen, dass die Sprache sehr auf Lesbarkeit und Einfachheit ausgelegt ist und dadurch sehr leicht zu erlernen ist. Ferner gibt es durch ihr Alter heutzutage sehr viele Bibliotheken und für fast jedes Problem eine existierende Lösung. Dadurch ist Python auch sehr vielseitig einsetzbar ist.
