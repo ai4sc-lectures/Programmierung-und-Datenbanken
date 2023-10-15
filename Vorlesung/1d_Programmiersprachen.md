@@ -30,32 +30,15 @@ Programmiersprache
 
 ### Die beliebtesten Programmiersprachen
 
-![Most popular programming languages on stack overflow](images/stackoverflow.png)
+<!-- ![Most popular programming languages on stack overflow](images/stackoverflow.png) -->
 ![Historic development of most used programming languages](images/top_prog_languages.mp4)
-
 
 
 ### Python
 
 ![Development of popularity of python](images/python_popularity.png)
 
+Python ist eine ältere Programmiersprache von 1991, die allerdings in den letzten Jahren zunehmend Popularität gefunden hat. Dies ist zum einen darauf zurück zu führen, dass die Sprache sehr auf Lesbarkeit ausgelegt und sehr leicht zu erlernen. Ferner gibt es durch ihr Alter heutzutage sehr viele Bibliotheken für fast jedes Problem, wodurch sie auch sehr vielseitig einsetzbar ist.
 
-  Entworfen: 1991
-
-Auf Lesbarkeit ausgelegt
-
-The Zen of Python (PEP 20):
-Beautiful is better than ugly
-Explicit is better than implicit
-Simple is better than complex
-Complex is better than complicated
-Readability counts
-
-
-  Python wird sehr stark in der Data Science verwendet. Sie hat sehr viele Bibliotheken zur Analyse von Daten. 
-Heutzutage gibt es in Python Bibliotheken für fast jedes Anwendungsgebiet. 
-
-Formale Regelsatz, der definieren, wie der Computer die Programmiersprache interpretieren soll. Der Syntax umfasst meist Regeln zur Definition von Befehlen (Wörter), Variablen (Werte), Code-Blöcken (Sätze).
-
-Definition der Bedeutung der Sprachelemente und der zulässigen Kombinationen von Elementen.
+Dadurch hat sie sich auch als die wichtigste Sprache in der Data Science entwickelt.
 
