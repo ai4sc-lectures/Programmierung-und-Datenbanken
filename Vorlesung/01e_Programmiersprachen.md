@@ -32,7 +32,7 @@ Programmiersprache
 
 <!-- ![Most popular programming languages on stack overflow](images/stackoverflow.png) -->
 
-Die Entwicklung der Anforderungen an Software entwickeln sich die Softwarearchitekturen und neue Programmiersprachen gewinnen und verlieren an Popularität. So wurden zuerst traditionelle Anwendungssprachen (C++) ersetzt durch Java und C# und dann durch Websprachen (PHP, JavaScript, Perl). Über die letzten 20 Jahren hat sich in diesem Bereich vor allem JavaScript durchgesetzt da es Client- und Serverseitig eingesetzt werden kann. Seit 2017 gewinnt vor allem Python massiv an popularität, da es insbesondere im Bereich KI eingesetzt wird.
+Durch die Änderungen der Anforderungen an Software entwickeln sich nicht nur die Softwarearchitekturen sondern auch neue Programmiersprachen die an Popularität gewinnen. So wurden zuerst traditionelle Anwendungssprachen (C++) ersetzt durch Serversprachen wie Java und dann durch Websprachen (PHP, Perl, JavaScript). Über die letzten 20 Jahren hat sich in diesem Bereich vor allem JavaScript durchgesetzt da es Client- und Serverseitig eingesetzt werden kann. Seit 2017 gewinnt vor allem Python massiv an popularität, da es insbesondere im KI-Bereich eingesetzt wird.
 
 <video src="images/top_prog_languages.mp4"></video>
 
