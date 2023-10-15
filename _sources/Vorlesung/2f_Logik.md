@@ -1,148 +1,115 @@
----
-primaryColor: steelblue
-secondaryColor: '#e8e8e8'
-textColor: black
-shuffleQuestions: false
-shuffleAnswers: true
-locale: de
----
 
-## Boolesche Logik
+# Boolesche Logik
  
 Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND, OR, XOR und Negationen. Aus diesen Grundoperationen lassen sich komplexere Operationen zusammen.
 
-#### Was sind Binäre Zahlen?
+```{quizdown}
+	---
+	shuffleQuestions: true
+	shuffleAnswers: true
+	---
 
-> Binäre Zahlen sind ein Zahlensystem mit nur den Ziffern 0 und 1 und somit das kleinste mögliche Zahlensystem. In Programmiersprachen oft als Repräsentation von Binärcode genutzt und durch die Wahreitswerten "falsch" (0) und "wahr" (1) ausgedrückt.
+    ### Was sind Binäre Zahlen?
 
-- [x] Das kleinste mögliche (nützliche) System von Zeichen
-- [x] Mögliche Repräsentationen von Binärcode
-- [x] Ein Zahlensystem, das nur aus 1 und 0 besteht
-- [x] In manchen Programmiersprachen mit den Wahreitswerten "falsch" (0) und "wahr" (1)
+    > Binäre Zahlen sind ein Zahlensystem mit nur den Ziffern 0 und 1 und somit das kleinste mögliche Zahlensystem. In Programmiersprachen oft als Repräsentation von Binärcode genutzt und durch die Wahreitswerten "falsch" (0) und "wahr" (1) ausgedrückt.
 
-#### Was ist Binärcode?
+    - [x] Das kleinste mögliche (nützliche) System von Zeichen
+    - [x] Mögliche Repräsentationen von Binärcode
+    - [x] Ein Zahlensystem, das nur aus 1 und 0 besteht
+    - [x] In manchen Programmiersprachen mit den Wahreitswerten "falsch" (0) und "wahr" (1)
 
-> Ein Binärcode ist ein Code, in dem Informationen durch Sequenzen von zwei verschiedenen Symbolen (zum Beispiel 1/0 oder wahr/falsch) dargestellt werden.
+    ### Was ist Binärcode?
 
-- [x] Ein Code der durch Binärcode representiert werden kann
-- [x] Ein Code der durch boolesche Werte (wahr/falsch) representiert werden kann
-- [x] Maschinencode eines Computerprogramms
-- [ ] Ein Zahlensystem mit 10 Symbolen (0 bis 9)
-- [ ] Ein Darstellung von Text in natürlicher Sprache
-- [ ] Ein Darstellung von Grafikdateien
+    > Ein Binärcode ist ein Code, in dem Informationen durch Sequenzen von zwei verschiedenen Symbolen (zum Beispiel 1/0 oder wahr/falsch) dargestellt werden.
 
-#### Was ist die AND Operation?
+    - [x] Ein Code der durch Binären Zahlen representiert werden kann
+    - [x] Ein Code der durch boolesche Werte (wahr/falsch) representiert werden kann
+    - [x] Maschinencode eines Computerprogramms
+    - [ ] Ein Zahlensystem mit 10 Symbolen (0 bis 9)
+    - [ ] Ein Darstellung von Text in natürlicher Sprache
+    - [ ] Ein Darstellung von Grafikdateien
 
-|      A     |      B     | A AND B  |
-|:----------:|:----------:|----------|
-| Falsch (0) | Falsch (0) |          |
-| Falsch (0) |   Wahr (1) |          |
-|   Wahr (1) | Falsch (0) |          |
-|   Wahr (1) |   Wahr (1) |          |
+    ### Was ist die AND Operation?
 
-> Die AND-Operation (UND-Operation) ist eine grundlegende logische Operation in der Digitaltechnik und der Booleschen Algebra. Die AND-Operation gibt als Ergebnis "1" (wahr) aus, wenn beide Eingangssignale "1" sind. Andernfalls gibt sie "0" (falsch) aus.
+    ![](https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/_images/Logic_AND.svg)
 
-- [x] Falsch, Falsch, Falsch,   Wahr
-- [ ] Falsch,   Wahr,   Wahr,   Wahr
-- [ ] Falsch,   Wahr,   Wahr, Falsch
-- [ ]   Wahr,   Wahr,   Wahr, Falsch
-- [ ]   Wahr, Falsch, Falsch, Falsch
+    > Die AND-Operation (UND-Operation) ist eine grundlegende logische Operation in der Digitaltechnik und der Booleschen Algebra. Die AND-Operation gibt als Ergebnis "1" (wahr) aus, wenn beide Eingangssignale "1" sind. Andernfalls gibt sie "0" (falsch) aus.
 
-#### Was ist die OR Operation?
+    - [x] Falsch, Falsch, Falsch,   Wahr
+    - [ ] Falsch,   Wahr,   Wahr,   Wahr
+    - [ ] Falsch,   Wahr,   Wahr, Falsch
+    - [ ]   Wahr,   Wahr,   Wahr, Falsch
+    - [ ]   Wahr, Falsch, Falsch, Falsch
 
-|      A     |      B     | A OR B   |
-|:----------:|:----------:|----------|
-| Falsch (0) | Falsch (0) |          |
-| Falsch (0) |   Wahr (1) |          |
-|   Wahr (1) | Falsch (0) |          |
-|   Wahr (1) |   Wahr (1) |          |
+    ### Was ist die OR Operation?
 
-> Die OR-Operation (ODER-Operation) ist eine grundlegende logische Operation in der Booleschen Algebra und der Digitaltechnik.  Die OR-Operation gibt als Ergebnis "1" (wahr) aus, wenn mindestens eines der Eingangssignale "1" ist. Sie gibt "0" (falsch) aus, wenn beide Eingangssignale "0" sind.
+    ![](https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/_images/Logic_OR.svg)
 
-- [ ] Falsch, Falsch, Falsch,   Wahr
-- [x] Falsch,   Wahr,   Wahr,   Wahr
-- [ ] Falsch,   Wahr,   Wahr, Falsch
-- [ ]   Wahr,   Wahr,   Wahr, Falsch
-- [ ]   Wahr, Falsch, Falsch, Falsch
+    > Die OR-Operation (ODER-Operation) ist eine grundlegende logische Operation in der Booleschen Algebra und der Digitaltechnik.  Die OR-Operation gibt als Ergebnis "1" (wahr) aus, wenn mindestens eines der Eingangssignale "1" ist. Sie gibt "0" (falsch) aus, wenn beide Eingangssignale "0" sind.
 
-#### Was ist die XOR Operation?
+    - [ ] Falsch, Falsch, Falsch,   Wahr
+    - [x] Falsch,   Wahr,   Wahr,   Wahr
+    - [ ] Falsch,   Wahr,   Wahr, Falsch
+    - [ ]   Wahr,   Wahr,   Wahr, Falsch
+    - [ ]   Wahr, Falsch, Falsch, Falsch
 
-|      A     |      B     |  A OR B  |
-|:----------:|:----------:|----------|
-| Falsch (0) | Falsch (0) |          |
-| Falsch (0) |   Wahr (1) |          |
-|   Wahr (1) | Falsch (0) |          |
-|   Wahr (1) |   Wahr (1) |          |
+    ### Was ist die XOR Operation?
 
-> Die XOR-Operation (Exklusiv-Oder-Operation) ist eine weitere grundlegende logische Operation in der Booleschen Algebra und der Digitaltechnik. Im Gegensatz zur OR-Operation, die wahr (1) ausgibt, wenn mindestens eines der Eingangssignale wahr ist, gibt die XOR-Operation nur dann wahr aus, wenn genau ein Eingangssignal wahr ist. Wenn beide Eingangssignale wahr oder beide falsch sind, gibt die XOR-Operation falsch aus.
+    ![](https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/_images/Logic_XOR.svg)
 
-- [ ] Falsch, Falsch, Falsch,   Wahr
-- [ ] Falsch,   Wahr,   Wahr,   Wahr
-- [x] Falsch,   Wahr,   Wahr, Falsch
-- [ ]   Wahr,   Wahr,   Wahr, Falsch
-- [ ]   Wahr, Falsch, Falsch, Falsch
+    > Die XOR-Operation (Exklusiv-Oder-Operation) ist eine weitere grundlegende logische Operation in der Booleschen Algebra und der Digitaltechnik. Im Gegensatz zur OR-Operation, die wahr (1) ausgibt, wenn mindestens eines der Eingangssignale wahr ist, gibt die XOR-Operation nur dann wahr aus, wenn genau ein Eingangssignal wahr ist. Wenn beide Eingangssignale wahr oder beide falsch sind, gibt die XOR-Operation falsch aus.
 
-#### Was ist die NOT Operation?
+    - [ ] Falsch, Falsch, Falsch,   Wahr
+    - [ ] Falsch,   Wahr,   Wahr,   Wahr
+    - [x] Falsch,   Wahr,   Wahr, Falsch
+    - [ ]   Wahr,   Wahr,   Wahr, Falsch
+    - [ ]   Wahr, Falsch, Falsch, Falsch
 
-|      A     | NOT A    |
-|:----------:|----------|
-| Falsch (0) |          |
-|   Wahr (1) |          |
+    ### Was ist die NOT Operation?
 
-> Die NOT-Operation (auch "NICHT-Operation" oder "Invertierungsoperation" genannt) ist eine grundlegende logische Operation in der Booleschen Algebra und der Digitaltechnik.  Die NOT-Operation kehrt den Zustand des Eingangssignals um. Wenn "A" wahr (1) ist, wird "NOT A" falsch (0), und wenn "A" falsch (0) ist, wird "NOT A" wahr (1).
+    ![](https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/_images/Logic_NOT.svg)
 
-- [ ] Falsch, Falsch
-- [ ] Falsch,   Wahr
-- [x]   Wahr, Falsch
-- [ ]   Wahr,   Wahr
+    > Die NOT-Operation (auch "NICHT-Operation" oder "Invertierungsoperation" genannt) ist eine grundlegende logische Operation in der Booleschen Algebra und der Digitaltechnik.  Die NOT-Operation kehrt den Zustand des Eingangssignals um. Wenn "A" wahr (1) ist, wird "NOT A" falsch (0), und wenn "A" falsch (0) ist, wird "NOT A" wahr (1).
 
-#### Was ist die NAND Operation?
+    - [ ] Falsch, Falsch
+    - [ ] Falsch,   Wahr
+    - [x]   Wahr, Falsch
+    - [ ]   Wahr,   Wahr
 
-|      A     |      B     | A NAND B |
-|:----------:|:----------:|----------|
-| Falsch (0) | Falsch (0) |          |
-| Falsch (0) |   Wahr (1) |          |
-|   Wahr (1) | Falsch (0) |          |
-|   Wahr (1) |   Wahr (1) |          |
+    ### Was ist die NAND Operation?
 
-> Die NAND-Operation ist eine grundlegende logische Operation in der Booleschen Algebra und der Digitaltechnik. Der Name "NAND" steht für "NOT AND," was darauf hinweist, dass die NAND-Operation eine Kombination aus der AND-Operation und der NOT-Operation ist und das Gegenteil des Ergebnisses der AND-Operation ausgibt.  Die NAND-Operation ergibt "1" (wahr), es sei denn, beide Eingangssignale sind "1." In diesem Fall ergibt sie "0" (falsch).
+    ![](https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/_images/Logic_NAND.svg)
 
-- [ ] Falsch, Falsch, Falsch,   Wahr
-- [ ] Falsch,   Wahr,   Wahr,   Wahr
-- [ ] Falsch,   Wahr,   Wahr, Falsch
-- [x]   Wahr,   Wahr,   Wahr, Falsch
-- [ ]   Wahr, Falsch, Falsch, Falsch
+    > Die NAND-Operation ist eine grundlegende logische Operation in der Booleschen Algebra und der Digitaltechnik. Der Name "NAND" steht für "NOT AND," was darauf hinweist, dass die NAND-Operation eine Kombination aus der AND-Operation und der NOT-Operation ist und das Gegenteil des Ergebnisses der AND-Operation ausgibt.  Die NAND-Operation ergibt "1" (wahr), es sei denn, beide Eingangssignale sind "1." In diesem Fall ergibt sie "0" (falsch).
 
-#### Was ist die NOR Operation?
+    - [ ] Falsch, Falsch, Falsch,   Wahr
+    - [ ] Falsch,   Wahr,   Wahr,   Wahr
+    - [ ] Falsch,   Wahr,   Wahr, Falsch
+    - [x]   Wahr,   Wahr,   Wahr, Falsch
+    - [ ]   Wahr, Falsch, Falsch, Falsch
 
-|      A     |      B     | A NOR B  |
-|:----------:|:----------:|----------|
-| Falsch (0) | Falsch (0) |          |
-| Falsch (0) |   Wahr (1) |          |
-|   Wahr (1) | Falsch (0) |          |
-|   Wahr (1) |   Wahr (1) |          |
+    ### Was ist die NOR Operation?
 
-> Die NOR-Operation ist eine grundlegende logische Operation in der Booleschen Algebra und der Digitaltechnik. Der Name "NOR" steht für "NOT OR," was darauf hinweist, dass die NOR-Operation eine Kombination aus der OR-Operation und der NOT-Operation ist und das Gegenteil des Ergebnisses der OR-Operation ergibt.  Die NAND-Operation ergibt "1" (wahr), es sei denn, beide Eingangssignale sind "1." In diesem Fall ergibt sie "0" (falsch).
+    ![](https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/_images/Logic_NOR.svg)
 
-- [ ] Falsch, Falsch, Falsch,   Wahr
-- [ ] Falsch,   Wahr,   Wahr,   Wahr
-- [ ] Falsch,   Wahr,   Wahr, Falsch
-- [ ]   Wahr,   Wahr,   Wahr, Falsch
-- [x]   Wahr, Falsch, Falsch, Falsch
+    > Die NOR-Operation ist eine grundlegende logische Operation in der Booleschen Algebra und der Digitaltechnik. Der Name "NOR" steht für "NOT OR," was darauf hinweist, dass die NOR-Operation eine Kombination aus der OR-Operation und der NOT-Operation ist und das Gegenteil des Ergebnisses der OR-Operation ergibt.  Die NAND-Operation ergibt "1" (wahr), es sei denn, beide Eingangssignale sind "1." In diesem Fall ergibt sie "0" (falsch).
 
-#### Was ist die NXOR Operation?
+    - [ ] Falsch, Falsch, Falsch,   Wahr
+    - [ ] Falsch,   Wahr,   Wahr,   Wahr
+    - [ ] Falsch,   Wahr,   Wahr, Falsch
+    - [ ]   Wahr,   Wahr,   Wahr, Falsch
+    - [x]   Wahr, Falsch, Falsch, Falsch
 
-|      A     |      B     | A NXOR B |
-|:----------:|:----------:|----------|
-| Falsch (0) | Falsch (0) |          |
-| Falsch (0) |   Wahr (1) |          |
-|   Wahr (1) | Falsch (0) |          |
-|   Wahr (1) |   Wahr (1) |          |
+    ### Was ist die XNOR Operation?
 
-> Die NXOR-Operation (auch als XNOR oder Äquivalenzoperation bezeichnet) ist eine logische Operation in der Booleschen Algebra und der Digitaltechnik. Der Name "NXOR" steht für "NOT XOR" und zeigt an, dass es eine Kombination aus der XOR-Operation und der NOT-Operation ist und das Gegenteil des Ergebnisses der XOR-Operation ergibt. Die NXOR-Operation ergibt "1" (wahr), wenn beide Eingangssignale gleich sind (entweder beide "0" oder beide "1"). Sie ergibt "0" (falsch), wenn die Eingangssignale unterschiedlich sind (eins "0" und das andere "1").
+    ![](https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/_images/Logic_XNOR.svg)
 
-- [ ] Falsch, Falsch, Falsch,   Wahr
-- [ ] Falsch,   Wahr,   Wahr,   Wahr
-- [ ] Falsch,   Wahr,   Wahr, Falsch
-- [ ]   Wahr,   Wahr,   Wahr, Falsch
-- [x]   Wahr, Falsch, Falsch,   Wahr
+
+    > Die XNOR-Operation (auch als Äquivalenzoperation bezeichnet) ist eine logische Operation in der Booleschen Algebra und der Digitaltechnik. Der Name "XNOR" steht für "NOT XOR" und zeigt an, dass es eine Kombination aus der XOR-Operation und der NOT-Operation ist und das Gegenteil des Ergebnisses der XOR-Operation ergibt. Die XNOR-Operation ergibt "1" (wahr), wenn beide Eingangssignale gleich sind (entweder beide "0" oder beide "1"). Sie ergibt "0" (falsch), wenn die Eingangssignale unterschiedlich sind (eins "0" und das andere "1").
+
+    - [ ] Falsch, Falsch, Falsch,   Wahr
+    - [ ] Falsch,   Wahr,   Wahr,   Wahr
+    - [ ] Falsch,   Wahr,   Wahr, Falsch
+    - [ ]   Wahr,   Wahr,   Wahr, Falsch
+    - [x]   Wahr, Falsch, Falsch,   Wahr
+```

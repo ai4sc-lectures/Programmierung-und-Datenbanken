@@ -62,11 +62,13 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"></script>
+    <script>quizdown.init({"quizdown_js": "https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"});</script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'Vorlesung/2f_Logik';</script>
     <link rel="canonical" href="https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/Vorlesung/2f_Logik.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Who is the person in the picture?" href="2w_Wiederholung.html" />
+    <link rel="next" title="&lt;no title&gt;" href="2w_Wiederholung.html" />
     <link rel="prev" title="&lt;no title&gt;" href="1e_Computerhardware.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -170,7 +172,6 @@ const thebe_selector_output = ".output, .cell_output"
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Vorlesungsbeispiele</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Boolesche Logik</a></li>
-<li class="toctree-l1"><a class="reference internal" href="2w_Wiederholung.html">Who is the person in the picture?</a></li>
 <li class="toctree-l1"><a class="reference internal" href="3a_Datentypen.html">Datentypen</a></li>
 <li class="toctree-l1"><a class="reference internal" href="3b_Operatoren.html">Operatoren</a></li>
 <li class="toctree-l1"><a class="reference internal" href="3c_Funktionen.html">Funktionen</a></li>
@@ -332,9 +333,7 @@ document.write(`
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</label>
+
 </div></div>
       
     </div>
@@ -350,22 +349,6 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#was-sind-binare-zahlen">Was sind Binäre Zahlen?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#was-ist-binarcode">Was ist Binärcode?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#was-ist-die-and-operation">Was ist die AND Operation?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#was-ist-die-or-operation">Was ist die OR Operation?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#was-ist-die-xor-operation">Was ist die XOR Operation?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#was-ist-die-not-operation">Was ist die NOT Operation?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#was-ist-die-nand-operation">Was ist die NAND Operation?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#was-ist-die-nor-operation">Was ist die NOR Operation?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#was-ist-die-nxor-operation">Was ist die NXOR Operation?</a></li>
-</ul>
-            </nav>
         </div>
     </div>
 </div>
@@ -375,297 +358,117 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="boolesche-logik">
+  <section class="tex2jax_ignore mathjax_ignore" id="boolesche-logik">
 <h1>Boolesche Logik<a class="headerlink" href="#boolesche-logik" title="Permalink to this heading">#</a></h1>
 <p>Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND, OR, XOR und Negationen. Aus diesen Grundoperationen lassen sich komplexere Operationen zusammen.</p>
-<section id="was-sind-binare-zahlen">
-<h2>Was sind Binäre Zahlen?<a class="headerlink" href="#was-sind-binare-zahlen" title="Permalink to this heading">#</a></h2>
-<blockquote>
-<div><p>Binäre Zahlen sind ein Zahlensystem mit nur den Ziffern 0 und 1 und somit das kleinste mögliche Zahlensystem. In Programmiersprachen oft als Repräsentation von Binärcode genutzt und durch die Wahreitswerten “falsch” (0) und “wahr” (1) ausgedrückt.</p>
-</div></blockquote>
-<ul class="simple">
-<li><p>[x] Das kleinste mögliche (nützliche) System von Zeichen</p></li>
-<li><p>[x] Mögliche Repräsentationen von Binärcode</p></li>
-<li><p>[x] Ein Zahlensystem, das nur aus 1 und 0 besteht</p></li>
-<li><p>[x] In manchen Programmiersprachen mit den Wahreitswerten “falsch” (0) und “wahr” (1)</p></li>
-</ul>
-</section>
-<section id="was-ist-binarcode">
-<h2>Was ist Binärcode?<a class="headerlink" href="#was-ist-binarcode" title="Permalink to this heading">#</a></h2>
-<blockquote>
-<div><p>Ein Binärcode ist ein Code, in dem Informationen durch Sequenzen von zwei verschiedenen Symbolen (zum Beispiel 1/0 oder wahr/falsch) dargestellt werden.</p>
-</div></blockquote>
-<ul class="simple">
-<li><p>[x] Ein Code der durch Binärcode representiert werden kann</p></li>
-<li><p>[x] Ein Code der durch boolesche Werte (wahr/falsch) representiert werden kann</p></li>
-<li><p>[x] Maschinencode eines Computerprogramms</p></li>
-<li><p>[ ] Ein Zahlensystem mit 10 Symbolen (0 bis 9)</p></li>
-<li><p>[ ] Ein Darstellung von Text in natürlicher Sprache</p></li>
-<li><p>[ ] Ein Darstellung von Grafikdateien</p></li>
-</ul>
-</section>
-<section id="was-ist-die-and-operation">
-<h2>Was ist die AND Operation?<a class="headerlink" href="#was-ist-die-and-operation" title="Permalink to this heading">#</a></h2>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head text-center"><p>A</p></th>
-<th class="head text-center"><p>B</p></th>
-<th class="head"><p>A AND B</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-center"><p>Falsch (0)</p></td>
-<td class="text-center"><p>Falsch (0)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p>Falsch (0)</p></td>
-<td class="text-center"><p>Wahr (1)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td class="text-center"><p>Wahr (1)</p></td>
-<td class="text-center"><p>Falsch (0)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p>Wahr (1)</p></td>
-<td class="text-center"><p>Wahr (1)</p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<div><p>Die AND-Operation (UND-Operation) ist eine grundlegende logische Operation in der Digitaltechnik und der Booleschen Algebra. Die AND-Operation gibt als Ergebnis “1” (wahr) aus, wenn beide Eingangssignale “1” sind. Andernfalls gibt sie “0” (falsch) aus.</p>
-</div></blockquote>
-<ul class="simple">
-<li><p>[x] Falsch, Falsch, Falsch,   Wahr</p></li>
-<li><p>[ ] Falsch,   Wahr,   Wahr,   Wahr</p></li>
-<li><p>[ ] Falsch,   Wahr,   Wahr, Falsch</p></li>
-<li><p>[ ]   Wahr,   Wahr,   Wahr, Falsch</p></li>
-<li><p>[ ]   Wahr, Falsch, Falsch, Falsch</p></li>
-</ul>
-</section>
-<section id="was-ist-die-or-operation">
-<h2>Was ist die OR Operation?<a class="headerlink" href="#was-ist-die-or-operation" title="Permalink to this heading">#</a></h2>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head text-center"><p>A</p></th>
-<th class="head text-center"><p>B</p></th>
-<th class="head"><p>A OR B</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-center"><p>Falsch (0)</p></td>
-<td class="text-center"><p>Falsch (0)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p>Falsch (0)</p></td>
-<td class="text-center"><p>Wahr (1)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td class="text-center"><p>Wahr (1)</p></td>
-<td class="text-center"><p>Falsch (0)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p>Wahr (1)</p></td>
-<td class="text-center"><p>Wahr (1)</p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<div><p>Die OR-Operation (ODER-Operation) ist eine grundlegende logische Operation in der Booleschen Algebra und der Digitaltechnik.  Die OR-Operation gibt als Ergebnis “1” (wahr) aus, wenn mindestens eines der Eingangssignale “1” ist. Sie gibt “0” (falsch) aus, wenn beide Eingangssignale “0” sind.</p>
-</div></blockquote>
-<ul class="simple">
-<li><p>[ ] Falsch, Falsch, Falsch,   Wahr</p></li>
-<li><p>[x] Falsch,   Wahr,   Wahr,   Wahr</p></li>
-<li><p>[ ] Falsch,   Wahr,   Wahr, Falsch</p></li>
-<li><p>[ ]   Wahr,   Wahr,   Wahr, Falsch</p></li>
-<li><p>[ ]   Wahr, Falsch, Falsch, Falsch</p></li>
-</ul>
-</section>
-<section id="was-ist-die-xor-operation">
-<h2>Was ist die XOR Operation?<a class="headerlink" href="#was-ist-die-xor-operation" title="Permalink to this heading">#</a></h2>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head text-center"><p>A</p></th>
-<th class="head text-center"><p>B</p></th>
-<th class="head"><p>A OR B</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-center"><p>Falsch (0)</p></td>
-<td class="text-center"><p>Falsch (0)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p>Falsch (0)</p></td>
-<td class="text-center"><p>Wahr (1)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td class="text-center"><p>Wahr (1)</p></td>
-<td class="text-center"><p>Falsch (0)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p>Wahr (1)</p></td>
-<td class="text-center"><p>Wahr (1)</p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<div><p>Die XOR-Operation (Exklusiv-Oder-Operation) ist eine weitere grundlegende logische Operation in der Booleschen Algebra und der Digitaltechnik. Im Gegensatz zur OR-Operation, die wahr (1) ausgibt, wenn mindestens eines der Eingangssignale wahr ist, gibt die XOR-Operation nur dann wahr aus, wenn genau ein Eingangssignal wahr ist. Wenn beide Eingangssignale wahr oder beide falsch sind, gibt die XOR-Operation falsch aus.</p>
-</div></blockquote>
-<ul class="simple">
-<li><p>[ ] Falsch, Falsch, Falsch,   Wahr</p></li>
-<li><p>[ ] Falsch,   Wahr,   Wahr,   Wahr</p></li>
-<li><p>[x] Falsch,   Wahr,   Wahr, Falsch</p></li>
-<li><p>[ ]   Wahr,   Wahr,   Wahr, Falsch</p></li>
-<li><p>[ ]   Wahr, Falsch, Falsch, Falsch</p></li>
-</ul>
-</section>
-<section id="was-ist-die-not-operation">
-<h2>Was ist die NOT Operation?<a class="headerlink" href="#was-ist-die-not-operation" title="Permalink to this heading">#</a></h2>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head text-center"><p>A</p></th>
-<th class="head"><p>NOT A</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-center"><p>Falsch (0)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p>Wahr (1)</p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<div><p>Die NOT-Operation (auch “NICHT-Operation” oder “Invertierungsoperation” genannt) ist eine grundlegende logische Operation in der Booleschen Algebra und der Digitaltechnik.  Die NOT-Operation kehrt den Zustand des Eingangssignals um. Wenn “A” wahr (1) ist, wird “NOT A” falsch (0), und wenn “A” falsch (0) ist, wird “NOT A” wahr (1).</p>
-</div></blockquote>
-<ul class="simple">
-<li><p>[ ] Falsch, Falsch</p></li>
-<li><p>[ ] Falsch,   Wahr</p></li>
-<li><p>[x]   Wahr, Falsch</p></li>
-<li><p>[ ]   Wahr,   Wahr</p></li>
-</ul>
-</section>
-<section id="was-ist-die-nand-operation">
-<h2>Was ist die NAND Operation?<a class="headerlink" href="#was-ist-die-nand-operation" title="Permalink to this heading">#</a></h2>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head text-center"><p>A</p></th>
-<th class="head text-center"><p>B</p></th>
-<th class="head"><p>A NAND B</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-center"><p>Falsch (0)</p></td>
-<td class="text-center"><p>Falsch (0)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p>Falsch (0)</p></td>
-<td class="text-center"><p>Wahr (1)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td class="text-center"><p>Wahr (1)</p></td>
-<td class="text-center"><p>Falsch (0)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p>Wahr (1)</p></td>
-<td class="text-center"><p>Wahr (1)</p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<div><p>Die NAND-Operation ist eine grundlegende logische Operation in der Booleschen Algebra und der Digitaltechnik. Der Name “NAND” steht für “NOT AND,” was darauf hinweist, dass die NAND-Operation eine Kombination aus der AND-Operation und der NOT-Operation ist und das Gegenteil des Ergebnisses der AND-Operation ausgibt.  Die NAND-Operation ergibt “1” (wahr), es sei denn, beide Eingangssignale sind “1.” In diesem Fall ergibt sie “0” (falsch).</p>
-</div></blockquote>
-<ul class="simple">
-<li><p>[ ] Falsch, Falsch, Falsch,   Wahr</p></li>
-<li><p>[ ] Falsch,   Wahr,   Wahr,   Wahr</p></li>
-<li><p>[ ] Falsch,   Wahr,   Wahr, Falsch</p></li>
-<li><p>[x]   Wahr,   Wahr,   Wahr, Falsch</p></li>
-<li><p>[ ]   Wahr, Falsch, Falsch, Falsch</p></li>
-</ul>
-</section>
-<section id="was-ist-die-nor-operation">
-<h2>Was ist die NOR Operation?<a class="headerlink" href="#was-ist-die-nor-operation" title="Permalink to this heading">#</a></h2>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head text-center"><p>A</p></th>
-<th class="head text-center"><p>B</p></th>
-<th class="head"><p>A NOR B</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-center"><p>Falsch (0)</p></td>
-<td class="text-center"><p>Falsch (0)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p>Falsch (0)</p></td>
-<td class="text-center"><p>Wahr (1)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td class="text-center"><p>Wahr (1)</p></td>
-<td class="text-center"><p>Falsch (0)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p>Wahr (1)</p></td>
-<td class="text-center"><p>Wahr (1)</p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<div><p>Die NOR-Operation ist eine grundlegende logische Operation in der Booleschen Algebra und der Digitaltechnik. Der Name “NOR” steht für “NOT OR,” was darauf hinweist, dass die NOR-Operation eine Kombination aus der OR-Operation und der NOT-Operation ist und das Gegenteil des Ergebnisses der OR-Operation ergibt.  Die NAND-Operation ergibt “1” (wahr), es sei denn, beide Eingangssignale sind “1.” In diesem Fall ergibt sie “0” (falsch).</p>
-</div></blockquote>
-<ul class="simple">
-<li><p>[ ] Falsch, Falsch, Falsch,   Wahr</p></li>
-<li><p>[ ] Falsch,   Wahr,   Wahr,   Wahr</p></li>
-<li><p>[ ] Falsch,   Wahr,   Wahr, Falsch</p></li>
-<li><p>[ ]   Wahr,   Wahr,   Wahr, Falsch</p></li>
-<li><p>[x]   Wahr, Falsch, Falsch, Falsch</p></li>
-</ul>
-</section>
-<section id="was-ist-die-nxor-operation">
-<h2>Was ist die NXOR Operation?<a class="headerlink" href="#was-ist-die-nxor-operation" title="Permalink to this heading">#</a></h2>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head text-center"><p>A</p></th>
-<th class="head text-center"><p>B</p></th>
-<th class="head"><p>A NXOR B</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td class="text-center"><p>Falsch (0)</p></td>
-<td class="text-center"><p>Falsch (0)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p>Falsch (0)</p></td>
-<td class="text-center"><p>Wahr (1)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-even"><td class="text-center"><p>Wahr (1)</p></td>
-<td class="text-center"><p>Falsch (0)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td class="text-center"><p>Wahr (1)</p></td>
-<td class="text-center"><p>Wahr (1)</p></td>
-<td><p></p></td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<div><p>Die NXOR-Operation (auch als XNOR oder Äquivalenzoperation bezeichnet) ist eine logische Operation in der Booleschen Algebra und der Digitaltechnik. Der Name “NXOR” steht für “NOT XOR” und zeigt an, dass es eine Kombination aus der XOR-Operation und der NOT-Operation ist und das Gegenteil des Ergebnisses der XOR-Operation ergibt. Die NXOR-Operation ergibt “1” (wahr), wenn beide Eingangssignale gleich sind (entweder beide “0” oder beide “1”). Sie ergibt “0” (falsch), wenn die Eingangssignale unterschiedlich sind (eins “0” und das andere “1”).</p>
-</div></blockquote>
-<ul class="simple">
-<li><p>[ ] Falsch, Falsch, Falsch,   Wahr</p></li>
-<li><p>[ ] Falsch,   Wahr,   Wahr,   Wahr</p></li>
-<li><p>[ ] Falsch,   Wahr,   Wahr, Falsch</p></li>
-<li><p>[ ]   Wahr,   Wahr,   Wahr, Falsch</p></li>
-<li><p>[x]   Wahr, Falsch, Falsch,   Wahr</p></li>
-</ul>
-</section>
-</section>
+<div class="quizdown">	---
+	shuffleQuestions: true
+	shuffleAnswers: true
+	---
+
+    ### Was sind Binäre Zahlen?
+
+    &gt; Binäre Zahlen sind ein Zahlensystem mit nur den Ziffern 0 und 1 und somit das kleinste mögliche Zahlensystem. In Programmiersprachen oft als Repräsentation von Binärcode genutzt und durch die Wahreitswerten &quot;falsch&quot; (0) und &quot;wahr&quot; (1) ausgedrückt.
+
+    - [x] Das kleinste mögliche (nützliche) System von Zeichen
+    - [x] Mögliche Repräsentationen von Binärcode
+    - [x] Ein Zahlensystem, das nur aus 1 und 0 besteht
+    - [x] In manchen Programmiersprachen mit den Wahreitswerten &quot;falsch&quot; (0) und &quot;wahr&quot; (1)
+
+    ### Was ist Binärcode?
+
+    &gt; Ein Binärcode ist ein Code, in dem Informationen durch Sequenzen von zwei verschiedenen Symbolen (zum Beispiel 1/0 oder wahr/falsch) dargestellt werden.
+
+    - [x] Ein Code der durch Binären Zahlen representiert werden kann
+    - [x] Ein Code der durch boolesche Werte (wahr/falsch) representiert werden kann
+    - [x] Maschinencode eines Computerprogramms
+    - [ ] Ein Zahlensystem mit 10 Symbolen (0 bis 9)
+    - [ ] Ein Darstellung von Text in natürlicher Sprache
+    - [ ] Ein Darstellung von Grafikdateien
+
+    ### Was ist die AND Operation?
+
+    ![](https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/_images/Logic_AND.svg)
+
+    &gt; Die AND-Operation (UND-Operation) ist eine grundlegende logische Operation in der Digitaltechnik und der Booleschen Algebra. Die AND-Operation gibt als Ergebnis &quot;1&quot; (wahr) aus, wenn beide Eingangssignale &quot;1&quot; sind. Andernfalls gibt sie &quot;0&quot; (falsch) aus.
+
+    - [x] Falsch, Falsch, Falsch,   Wahr
+    - [ ] Falsch,   Wahr,   Wahr,   Wahr
+    - [ ] Falsch,   Wahr,   Wahr, Falsch
+    - [ ]   Wahr,   Wahr,   Wahr, Falsch
+    - [ ]   Wahr, Falsch, Falsch, Falsch
+
+    ### Was ist die OR Operation?
+
+    ![](https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/_images/Logic_OR.svg)
+
+    &gt; Die OR-Operation (ODER-Operation) ist eine grundlegende logische Operation in der Booleschen Algebra und der Digitaltechnik.  Die OR-Operation gibt als Ergebnis &quot;1&quot; (wahr) aus, wenn mindestens eines der Eingangssignale &quot;1&quot; ist. Sie gibt &quot;0&quot; (falsch) aus, wenn beide Eingangssignale &quot;0&quot; sind.
+
+    - [ ] Falsch, Falsch, Falsch,   Wahr
+    - [x] Falsch,   Wahr,   Wahr,   Wahr
+    - [ ] Falsch,   Wahr,   Wahr, Falsch
+    - [ ]   Wahr,   Wahr,   Wahr, Falsch
+    - [ ]   Wahr, Falsch, Falsch, Falsch
+
+    ### Was ist die XOR Operation?
+
+    ![](https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/_images/Logic_XOR.svg)
+
+    &gt; Die XOR-Operation (Exklusiv-Oder-Operation) ist eine weitere grundlegende logische Operation in der Booleschen Algebra und der Digitaltechnik. Im Gegensatz zur OR-Operation, die wahr (1) ausgibt, wenn mindestens eines der Eingangssignale wahr ist, gibt die XOR-Operation nur dann wahr aus, wenn genau ein Eingangssignal wahr ist. Wenn beide Eingangssignale wahr oder beide falsch sind, gibt die XOR-Operation falsch aus.
+
+    - [ ] Falsch, Falsch, Falsch,   Wahr
+    - [ ] Falsch,   Wahr,   Wahr,   Wahr
+    - [x] Falsch,   Wahr,   Wahr, Falsch
+    - [ ]   Wahr,   Wahr,   Wahr, Falsch
+    - [ ]   Wahr, Falsch, Falsch, Falsch
+
+    ### Was ist die NOT Operation?
+
+    ![](https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/_images/Logic_NOT.svg)
+
+    &gt; Die NOT-Operation (auch &quot;NICHT-Operation&quot; oder &quot;Invertierungsoperation&quot; genannt) ist eine grundlegende logische Operation in der Booleschen Algebra und der Digitaltechnik.  Die NOT-Operation kehrt den Zustand des Eingangssignals um. Wenn &quot;A&quot; wahr (1) ist, wird &quot;NOT A&quot; falsch (0), und wenn &quot;A&quot; falsch (0) ist, wird &quot;NOT A&quot; wahr (1).
+
+    - [ ] Falsch, Falsch
+    - [ ] Falsch,   Wahr
+    - [x]   Wahr, Falsch
+    - [ ]   Wahr,   Wahr
+
+    ### Was ist die NAND Operation?
+
+    ![](https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/_images/Logic_NAND.svg)
+
+    &gt; Die NAND-Operation ist eine grundlegende logische Operation in der Booleschen Algebra und der Digitaltechnik. Der Name &quot;NAND&quot; steht für &quot;NOT AND,&quot; was darauf hinweist, dass die NAND-Operation eine Kombination aus der AND-Operation und der NOT-Operation ist und das Gegenteil des Ergebnisses der AND-Operation ausgibt.  Die NAND-Operation ergibt &quot;1&quot; (wahr), es sei denn, beide Eingangssignale sind &quot;1.&quot; In diesem Fall ergibt sie &quot;0&quot; (falsch).
+
+    - [ ] Falsch, Falsch, Falsch,   Wahr
+    - [ ] Falsch,   Wahr,   Wahr,   Wahr
+    - [ ] Falsch,   Wahr,   Wahr, Falsch
+    - [x]   Wahr,   Wahr,   Wahr, Falsch
+    - [ ]   Wahr, Falsch, Falsch, Falsch
+
+    ### Was ist die NOR Operation?
+
+    ![](https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/_images/Logic_NOR.svg)
+
+    &gt; Die NOR-Operation ist eine grundlegende logische Operation in der Booleschen Algebra und der Digitaltechnik. Der Name &quot;NOR&quot; steht für &quot;NOT OR,&quot; was darauf hinweist, dass die NOR-Operation eine Kombination aus der OR-Operation und der NOT-Operation ist und das Gegenteil des Ergebnisses der OR-Operation ergibt.  Die NAND-Operation ergibt &quot;1&quot; (wahr), es sei denn, beide Eingangssignale sind &quot;1.&quot; In diesem Fall ergibt sie &quot;0&quot; (falsch).
+
+    - [ ] Falsch, Falsch, Falsch,   Wahr
+    - [ ] Falsch,   Wahr,   Wahr,   Wahr
+    - [ ] Falsch,   Wahr,   Wahr, Falsch
+    - [ ]   Wahr,   Wahr,   Wahr, Falsch
+    - [x]   Wahr, Falsch, Falsch, Falsch
+
+    ### Was ist die XNOR Operation?
+
+    ![](https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/_images/Logic_XNOR.svg)
+
+
+    &gt; Die XNOR-Operation (auch als Äquivalenzoperation bezeichnet) ist eine logische Operation in der Booleschen Algebra und der Digitaltechnik. Der Name &quot;XNOR&quot; steht für &quot;NOT XOR&quot; und zeigt an, dass es eine Kombination aus der XOR-Operation und der NOT-Operation ist und das Gegenteil des Ergebnisses der XOR-Operation ergibt. Die XNOR-Operation ergibt &quot;1&quot; (wahr), wenn beide Eingangssignale gleich sind (entweder beide &quot;0&quot; oder beide &quot;1&quot;). Sie ergibt &quot;0&quot; (falsch), wenn die Eingangssignale unterschiedlich sind (eins &quot;0&quot; und das andere &quot;1&quot;).
+
+    - [ ] Falsch, Falsch, Falsch,   Wahr
+    - [ ] Falsch,   Wahr,   Wahr,   Wahr
+    - [ ] Falsch,   Wahr,   Wahr, Falsch
+    - [ ]   Wahr,   Wahr,   Wahr, Falsch
+    - [x]   Wahr, Falsch, Falsch,   Wahr</div></section>
 
     <script type="text/x-thebe-config">
     {
@@ -711,7 +514,7 @@ document.write(`
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Who is the person in the picture?</p>
+        <p class="prev-next-title">&lt;no title&gt;</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -721,28 +524,6 @@ document.write(`
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#was-sind-binare-zahlen">Was sind Binäre Zahlen?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#was-ist-binarcode">Was ist Binärcode?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#was-ist-die-and-operation">Was ist die AND Operation?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#was-ist-die-or-operation">Was ist die OR Operation?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#was-ist-die-xor-operation">Was ist die XOR Operation?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#was-ist-die-not-operation">Was ist die NOT Operation?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#was-ist-die-nand-operation">Was ist die NAND Operation?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#was-ist-die-nor-operation">Was ist die NOR Operation?</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#was-ist-die-nxor-operation">Was ist die NXOR Operation?</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>
