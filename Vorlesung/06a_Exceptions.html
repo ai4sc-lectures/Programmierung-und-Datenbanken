@@ -1,0 +1,846 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Exceptions &#8212; Programmierung und Datenbanken</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"></script>
+    <script>quizdown.init({"quizdown_js": "https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"});</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Vorlesung/06a_Exceptions';</script>
+    <link rel="canonical" href="https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/Vorlesung/06a_Exceptions.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Unit-Tests" href="06b_UnitTest.html" />
+    <link rel="prev" title="Programmablauf" href="05a_Programmablauf.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.svg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/logo.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Einführung
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Grundlagen</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01b_Anwendungen.html">Grundlagen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01c_Computerhardware.html">Computerhardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01d_Softwarearchitektur.html">Softwarearchitekturen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01e_Programmiersprachen.html">Programmiersprachen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02a_Wissenspyramide.html">Wissenspyramide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02aq_Quiz_Wissenspyramide.html">Quiz - Wissenspyramide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02b_Datentypen.html">Datentypen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02c_Operatoren.html">Operatoren</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02cq_Quiz_Logik.html">Quizz: Boolesche Operationen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03a_Verzweigung.html">Verzweigungen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03b_Schleifen.html">Schleifen</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modularisierung</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="04a_Funktionen.html">Funktionen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04c_Objects.html">Objekte</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_Rekursion.html">Rekursive Funktionen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05a_Programmablauf.html">Programmablauf</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Exceptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06b_UnitTest.html">Unit-Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06c_Debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07a_Module.html">Pakete</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Datenbanken</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="9_Datenhaltung.html">Umgang mit Dateien</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_Datenbanken.html">Relationale Datenbanken</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_Datenbankentwurf.html">Entwurf relationaler Datenbanken</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Übungsaufgaben</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../Uebung/S1E1-Aufgabe-Print-Funktion/.lesson/instructions.html">Aufgabe 1.1 - Der Print Befehl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Uebung/S1E2-Aufgabe-Variablen/.lesson/instructions.html">Aufgabe 1.2 - Variablendeklarationen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Uebung/S1E3-Aufgabe-Input-Funktion/.lesson/instructions.html">Aufgabe 1.3 - Die Input-Funktion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Uebung/S2E0-Video/.lesson/instructions.html">Übung 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Uebung/S2E1-Aufgabe-Datentypen/.lesson/instructions.html">Aufgabe 2.1 - Datentypen &amp; Konvertierungen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Uebung/S2E2-Aufgabe-Funktionen/.lesson/instructions.html">Aufgabe 2.2 - Simple Funktionen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Uebung/S3E0-Video/.lesson/instructions.html">Übung 3</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Uebung/S3E1-Aufgabe-Flussdiagramm/.lesson/instructions.html">Aufgabe 3 - Flussdiagramm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Uebung/S4E0-Video/.lesson/instructions.html">Übung 4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Uebung/S4E1-Aufgabe-For-Schleife/.lesson/instructions.html">Aufgabe 4.1  - For-Schleife</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Uebung/S4E2-Aufgabe-Rekursion/.lesson/instructions.html">Aufgabe 4.2  - Rekursion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Uebung/S5E0-Video/.lesson/instructions.html">Übung 5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Uebung/S5E2-Aufgabe-Try-Except/.lesson/instructions.html">Aufgabe 5.2 - Try and Except</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Uebung/S6E0-Video/.lesson/instructions.html">Übung 6</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Uebung/S6E1-Aufgabe-Klassen/.lesson/instructions.html">Aufgabe 6 - Klassendefinitionen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Uebung/S7E0-Video/.lesson/instructions.html">Übung 7</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Uebung/S7E1-Aufgabe-Projektstruktur/.lesson/instructions.html">Aufgabe 7 - Projektstruktur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Uebung/S8E0-Video/.lesson/instructions.html">Übung 8</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Uebung/S8E1-Aufgabe-Dateien/.lesson/instructions.html">Aufgabe 8 - Dateien, Replit-Datenbank und Wegfindung</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Vorlesung/06a_Exceptions.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Exceptions</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fehler-mit-exceptions-behandeln">Fehler mit Exceptions behandeln</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exceptions-selbst-erzeugen">Exceptions selbst erzeugen</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fehlerbehandlung-bei-funktionen-im-stack">Fehlerbehandlung bei Funktionen im Stack</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="exceptions">
+<h1>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this heading">#</a></h1>
+<section id="fehler-mit-exceptions-behandeln">
+<h2>Fehler mit Exceptions behandeln<a class="headerlink" href="#fehler-mit-exceptions-behandeln" title="Permalink to this heading">#</a></h2>
+<p>Exceptions unterbrechen den normalen Verlauf eines Programmes in einem Fehlerfall. Sie dienen dazu den Fehler im Programm zu kommunizieren (sie haben meist eine Fehlermeldung) und werden genutzt, um im Fehlerfall unkontrolliertes Abstürzen des Programmes zu verhindern.</p>
+<p>Bekannte Exceptions sollten immer abgefangen. In Python werden sie durch den <code class="docutils literal notranslate"><span class="pre">try-except</span></code>-Block abgefangen. Dieser startet mit einem <code class="docutils literal notranslate"><span class="pre">try</span></code> und endet mit einem <code class="docutils literal notranslate"><span class="pre">except</span></code>. Nach dem <code class="docutils literal notranslate"><span class="pre">try</span></code> folgt der Block mit der bekannten (oder unbekannten) Exception. Nach dem <code class="docutils literal notranslate"><span class="pre">except</span></code> folgt der Block zur Fehlerbehandlung.</p>
+<p>Es ist zu beachten, dass bei Exceptions keine Wertzuweisung stattfindet (der Wert ist ja nicht bekannt). Betrachten wir mal wieder, die aus der <span class="xref myst">Verzweigung bekannte Division durch 0</span> mit ihren verschiedenen Fehlerfällen der Null-Division und falscher Datentypen der Eingaben. Ohne diese Fehlerfälle genau zu spezifizieren können wir schreiben.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">nenner</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">ergebnis</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># Block mit bekannter Exception</span>
+    <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+    <span class="c1"># Dieser Teil wird nur ausgeführt wenn keine Exception auftrat</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Die Division war erfolgreich&quot;</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="c1"># Fehlerbehandlung</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Divisionsfehler&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Divisionsfehler
+Das Ergebnis von 10/0 = None
+</pre></div>
+</div>
+</div>
+</div>
+<p>Das <code class="docutils literal notranslate"><span class="pre">except</span></code> is in dem obigen Fall untypisiert. Damit lassen sich alle Fehler, die auftreten können abfangen (auch unbekannte). Damit fängt der <code class="docutils literal notranslate"><span class="pre">try-except</span></code>-Block auch Fehler eines falschen Datentyps ab.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="s1">&#39;keine_zahl&#39;</span>
+<span class="n">nenner</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">ergebnis</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Divisionsfehler&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Divisionsfehler
+Das Ergebnis von keine_zahl/0 = None
+</pre></div>
+</div>
+</div>
+</div>
+<p>Das Problem hierbei ist, dass wir keine Information über die Exception erhalten. Deshalb ist es immer sinnvoll die genaue Exception abzufangen und die Fehlermeldung auszugeben. Der allgemeinste Fehlertyp in Python ist die <code class="docutils literal notranslate"><span class="pre">Exception</span></code> welche wir wie folgt als Variable <code class="docutils literal notranslate"><span class="pre">e</span></code> abfangen.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="s1">&#39;keine_zahl&#39;</span>
+<span class="n">nenner</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">ergebnis</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Divisionsfehler mit Fehler vom typ `</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">` und Meldung `</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Divisionsfehler mit Fehler vom typ `&lt;class &#39;TypeError&#39;&gt;` und Meldung `unsupported operand type(s) for /: &#39;str&#39; and &#39;int&#39;`
+Das Ergebnis von keine_zahl/0 = None
+</pre></div>
+</div>
+</div>
+</div>
+<p>Sind die Exceptions bekannt sollten sie auch typisiert behandelt werden, um spezifische Meldungen auszugeben.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="s1">&#39;keine_zahl&#39;</span>
+<span class="n">nenner</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">ergebnis</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+<span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler oder Nenner nicht vom Datentyp `int`&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ZeroDivisionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Teilung durch 0&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Zaehler oder Nenner nicht vom Datentyp `int`
+Das Ergebnis von keine_zahl/0 = None
+</pre></div>
+</div>
+</div>
+</div>
+<p>Der <code class="docutils literal notranslate"><span class="pre">try-except</span></code>-Block unterstütz auch die <code class="docutils literal notranslate"><span class="pre">else</span></code>-Anweisung, welche immer ausgeführt wird, wenn <strong>keine</strong> Exception auftritt. Ferner gibt es die <code class="docutils literal notranslate"><span class="pre">finally</span></code>-Anweisung, welche <strong>immer</strong> ausgeführt wird also im fehlerfreien Fall und im Fehlerfall.</p>
+<p>Soll zum Beispiel eine Ausgabe nur gemacht werden, wenn der <code class="docutils literal notranslate"><span class="pre">try</span></code>-Block erfolgreich war, nutzen wir <code class="docutils literal notranslate"><span class="pre">else</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">nenner</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">ergebnis</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+<span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler oder Nenner nicht vom Datentyp `int`&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ZeroDivisionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Teilung durch 0&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Die Division war erfolgreich und resultiert in </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Die Division war erfolgreich und resultiert in 2/1 = 2.0
+</pre></div>
+</div>
+</div>
+</div>
+<p>Soll immer eine Ausgabe erfolgen können wir <code class="docutils literal notranslate"><span class="pre">finally</span></code> verwenden. Dies wird häufig verwendet, um Schritte durchzuführen die auch im Fehlerfall gemacht werden sollen, z.B. um Verbindungen zu Dateien oder zu einer Datenbank zu schließen, damit diese nicht unendlich lange offen bleiben (und irgendwann zu Fehlern führen).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="s1">&#39;keine_zahl&#39;</span>
+<span class="n">nenner</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">ergebnis</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+<span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler oder Nenner nicht vom Datentyp `int`&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ZeroDivisionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Teilung durch 0&quot;</span><span class="p">)</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Zaehler oder Nenner nicht vom Datentyp `int`
+Das Ergebnis von keine_zahl/0 = None
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="exceptions-selbst-erzeugen">
+<h2>Exceptions selbst erzeugen<a class="headerlink" href="#exceptions-selbst-erzeugen" title="Permalink to this heading">#</a></h2>
+<p>Exceptions können auch selbst mit <code class="docutils literal notranslate"><span class="pre">raise</span></code> erzeugt werden. Das ist sinnvoll, wenn in dem eigenen Code Fehler auftreten können, die woanders behandelt werden müssen. Hierbei muss ein Fehlertyp angegeben werden. Entweder man nutzt den allgemeinsten Fehlertyp <code class="docutils literal notranslate"><span class="pre">Exception</span></code>, einen passenden Standardfehler von Python oder einen selbst definierten. Es ist ratsam meist spezifische Fehlertypen zu nutzen, da der Typ des Fehlers viel beim Behandeln und Debuggen hilft.</p>
+<p>Definieren wir als Beispiel unsere eigene Divisionsfunktion mit klarer Fehlerbenenung ob Zähler oder Nenner vom falschen Typ sind. Hier wollen wir, dass anstatt des <code class="docutils literal notranslate"><span class="pre">TypeError</span></code> ein <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> erzeugt wird. Bei einer Division durch 0 soll anstatt eines Fehlers der Wert <code class="docutils literal notranslate"><span class="pre">None</span></code> zurückgegeben werden.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nenner</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">nenner</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warnung Division durch 0&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ergebnis</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_raises-exception docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="s1">&#39;keine_zahl&#39;</span>
+<span class="n">nenner</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">ergebnis</span> <span class="o">=</span> <span class="n">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">zaehler</span> <span class="o">=</span> <span class="s1">&#39;keine_zahl&#39;</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">nenner</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">)</span>
+
+<span class="nn">Cell In [7], line 5,</span> in <span class="ni">division</span><span class="nt">(zaehler, nenner)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+<span class="ne">----&gt; </span><span class="mi">5</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="k">elif</span> <span class="ow">not</span> <span class="n">nenner</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warnung Division durch 0&quot;</span><span class="p">)</span>
+
+<span class="ne">ValueError</span>: Zaehler nicht vom Datentyp `int` oder `float`
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zaehler</span><span class="o">=</span> <span class="mi">10</span>
+<span class="n">nenner</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">nenner</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">ergebnis</span> <span class="o">=</span> <span class="n">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Das Ergebnis von 10/1 = 10.0
+</pre></div>
+</div>
+</div>
+</div>
+<section id="fehlerbehandlung-bei-funktionen-im-stack">
+<h3>Fehlerbehandlung bei Funktionen im Stack<a class="headerlink" href="#fehlerbehandlung-bei-funktionen-im-stack" title="Permalink to this heading">#</a></h3>
+<p>Exceptions werden im Stack (Aufrufreihenfolge der Funktionen) nach oben weitergegeben, bis sie entweder abgefangen und behandelt werden oder das Programm abstürzt, wenn das Ende des Stacks erreicht wird. Ziel des Abfangens und Behandelns von Exceptions ist es das Programm zurück in einen Zustand zu bringen in dem es weiterlaufen kann.</p>
+<p>Als Beispiel wollen wir eine rekursive Funktion definieren, welche uns einen Fehler ausgibt, wenn die Rekurssionstiefe zu groß wird um einen Stack-Overflow-Fehler zu vermeiden. Wir nutzen als Beispiel die Fakultät aus dem <span class="xref myst">Rekursionbeispiel</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">factorial_recursiv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">depth</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RecursionError</span><span class="p">(</span><span class="s2">&quot;Recursion zu tief&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">factorial_recursiv</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">factorial_recursiv</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2432902008176640000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_raises-exception docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">factorial_recursiv</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">RecursionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span> <span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">factorial_recursiv</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span>
+
+<span class="nn">Cell In [11], line 5,</span> in <span class="ni">factorial_recursiv</span><span class="nt">(x, depth)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="k">raise</span> <span class="ne">RecursionError</span><span class="p">(</span><span class="s2">&quot;Recursion zu tief&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+<span class="ne">----&gt; </span><span class="mi">5</span>     <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">factorial_recursiv</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="k">return</span> <span class="mi">1</span>
+
+<span class="nn">Cell In [11], line 5,</span> in <span class="ni">factorial_recursiv</span><span class="nt">(x, depth)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="k">raise</span> <span class="ne">RecursionError</span><span class="p">(</span><span class="s2">&quot;Recursion zu tief&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+<span class="ne">----&gt; </span><span class="mi">5</span>     <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">factorial_recursiv</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="k">return</span> <span class="mi">1</span>
+
+    <span class="p">[</span><span class="o">...</span> <span class="n">skipping</span> <span class="n">similar</span> <span class="n">frames</span><span class="p">:</span> <span class="n">factorial_recursiv</span> <span class="n">at</span> <span class="n">line</span> <span class="mi">5</span> <span class="p">(</span><span class="mi">17</span> <span class="n">times</span><span class="p">)]</span>
+
+<span class="nn">Cell In [11], line 5,</span> in <span class="ni">factorial_recursiv</span><span class="nt">(x, depth)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="k">raise</span> <span class="ne">RecursionError</span><span class="p">(</span><span class="s2">&quot;Recursion zu tief&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+<span class="ne">----&gt; </span><span class="mi">5</span>     <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">factorial_recursiv</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="k">return</span> <span class="mi">1</span>
+
+<span class="nn">Cell In [11], line 3,</span> in <span class="ni">factorial_recursiv</span><span class="nt">(x, depth)</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span> <span class="nf">factorial_recursiv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="k">if</span> <span class="n">depth</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">:</span>
+<span class="ne">----&gt; </span><span class="mi">3</span>         <span class="k">raise</span> <span class="ne">RecursionError</span><span class="p">(</span><span class="s2">&quot;Recursion zu tief&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>         <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">factorial_recursiv</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="ne">RecursionError</span>: Recursion zu tief
+</pre></div>
+</div>
+</div>
+</div>
+<p>In der obigen Fehlermeldung bringt das Programm selbst zum erliegen (es stürtzt allerdings nicht der ganze Kernel ab, wie beim Stack-Overflow-Fehler). Um das zu vermeiden müssen wir den Fehler mit <code class="docutils literal notranslate"><span class="pre">try-except</span></code> abfangen. In der Fehlermeldung oben deutet sich schon der Stack-Trace an, also die Liste der Funktionsaufrufe die auf dem Stack gesammelt wurde.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">traceback</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">factorial_recursiv</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">RecursionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Recursion zu tief
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traceback (most recent call last):
+  File &quot;/tmp/ipykernel_3153/841887965.py&quot;, line 3, in &lt;module&gt;
+    factorial_recursiv(21)
+  File &quot;/tmp/ipykernel_3153/43912226.py&quot;, line 5, in factorial_recursiv
+    return x * factorial_recursiv(x-1, depth+1)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;/tmp/ipykernel_3153/43912226.py&quot;, line 5, in factorial_recursiv
+    return x * factorial_recursiv(x-1, depth+1)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;/tmp/ipykernel_3153/43912226.py&quot;, line 5, in factorial_recursiv
+    return x * factorial_recursiv(x-1, depth+1)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  [Previous line repeated 17 more times]
+  File &quot;/tmp/ipykernel_3153/43912226.py&quot;, line 3, in factorial_recursiv
+    raise RecursionError(&quot;Recursion zu tief&quot;)
+RecursionError: Recursion zu tief
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Vorlesung"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="05a_Programmablauf.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Programmablauf</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="06b_UnitTest.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Unit-Tests</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fehler-mit-exceptions-behandeln">Fehler mit Exceptions behandeln</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#exceptions-selbst-erzeugen">Exceptions selbst erzeugen</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fehlerbehandlung-bei-funktionen-im-stack">Fehlerbehandlung bei Funktionen im Stack</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Joern Ploennigs, AI 4 Sustainable Construction, University of Rostock
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright CC-BY-NC-SA 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
