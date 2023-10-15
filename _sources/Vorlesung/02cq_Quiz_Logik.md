@@ -33,7 +33,7 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
 
     ### Was ist die AND Operation?
 
-    Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B?
+    Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B? <br>
 
     ![AND Tabelle](../_images/Logic_AND.svg)
 
@@ -48,7 +48,7 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
 
     ### Was ist die OR Operation?
 
-    Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B?
+    Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B? <br>
 
     ![OR Tabelle](../_images/Logic_OR.svg)
 
@@ -63,7 +63,7 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
 
     ### Was ist die XOR Operation?
 
-    Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B?
+    Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B? <br>
 
     ![XOR Tabelle](../_images/Logic_XOR.svg)
 
@@ -78,7 +78,7 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
 
     ### Was ist die NOT Operation?
 
-    Was ist das Ergebnis der Operation für die folgende Eingangsfolge auf A?
+    Was ist das Ergebnis der Operation für die folgende Eingangsfolge auf A? <br>
 
     ![NOT Tabelle](../_images/Logic_NOT.svg)
 
@@ -92,7 +92,7 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
 
     ### Was ist die NAND Operation?
 
-    Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B?
+    Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B? <br>
 
     ![NAND Tabelle](../_images/Logic_NAND.svg)
 
@@ -107,7 +107,7 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
 
     ### Was ist die NOR Operation?
 
-    Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B?
+    Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B? <br>
 
     ![NOR Tabelle](../_images/Logic_NOR.svg)
 
@@ -122,7 +122,7 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
 
     ### Was ist die XNOR Operation?
 
-    Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B?
+    Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B? <br>
 
     ![XNOR Tabelle](../_images/Logic_XNOR.svg)
 
