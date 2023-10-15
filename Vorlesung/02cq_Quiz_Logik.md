@@ -1,5 +1,5 @@
 
-# Quizz: Boolesche Operationen
+# Quiz: Boolesche Operationen
  
 Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND, OR, XOR und Negationen. Aus diesen Grundoperationen lassen sich komplexere Operationen zusammen.
 
