@@ -35,7 +35,7 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
 
     Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B?
 
-    ![](../_images/Logic_AND.svg)
+    ![AND Tabelle](../_images/Logic_AND.svg)
 
     > Übersetzt als die UND-Operation und verhält sich wie das UND in der Aussagenlogik.
 
@@ -50,7 +50,7 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
 
     Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B?
 
-    ![](../_images/Logic_OR.svg)
+    ![OR Tabelle](../_images/Logic_OR.svg)
 
     > Übersetzt als die ODER-Operation und verhält sich wie das ODER in der Aussagenlogik.
 
@@ -65,7 +65,7 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
 
     Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B?
 
-    ![](../_images/Logic_XOR.svg)
+    ![XOR Tabelle](../_images/Logic_XOR.svg)
 
     > Übersetzt als die Exklusiv-ODER-Operation und entspricht exklusiv dem Einen oder dem Anderen in der Aussagenlogik.
 
@@ -80,7 +80,7 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
 
     Was ist das Ergebnis der Operation für die folgende Eingangsfolge auf A?
 
-    ![](../_images/Logic_NOT.svg)
+    ![NOT Tabelle](../_images/Logic_NOT.svg)
 
     > Übersetzt als die NICHT-Operation und entspricht der Negation.
 
@@ -94,7 +94,7 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
 
     Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B?
 
-    ![](../_images/Logic_NAND.svg)
+    ![NAND Tabelle](../_images/Logic_NAND.svg)
 
     > Entspricht der negierten UND-Operation.
 
@@ -109,7 +109,7 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
 
     Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B?
 
-    ![](../_images/Logic_NOR.svg)
+    ![NOR Tabelle](../_images/Logic_NOR.svg)
 
     > Entspricht der negierten ODER-Operation.
 
@@ -124,8 +124,7 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
 
     Was ist das Ergebnis der Operation für die folgende Eingangskombinationen auf A und B?
 
-    ![](../_images/Logic_XNOR.svg)
-
+    ![XNOR Tabelle](../_images/Logic_XNOR.svg)
 
     > Entspricht der negierten Exklusiv-Oder-Operation.
 
