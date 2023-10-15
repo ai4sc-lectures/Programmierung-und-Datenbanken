@@ -9,7 +9,7 @@
 
     ### Ordne die Elemente der Wissenspyramide richit an.
 
-    ![Wissenspyramide Quizz](images/wissenspyramide_quizz1.png)
+    ![Wissenspyramide Quizz](../_images/wissenspyramide_quizz1.png)
 
     1. Zeichen
     2. Syntax
@@ -76,7 +76,7 @@
 
     ### Was sind in dem Bild die Zeichen?
 
-    ![https://www.planet-wissen.de/geschichte/antike/hieroglyphen](images/hyroglyphs.png)
+    ![Quelle: https://www.planet-wissen.de/geschichte/antike/hieroglyphen](../_images/hieroglyphs.png)
 
     1. [ ] Jede Hieroglyphe
       > Jede Hieroglyphen stellt ein Zeichen dar
@@ -87,7 +87,7 @@
 
     ### Was ist in dem Bild der Syntax?
 
-    ![https://www.planet-wissen.de/geschichte/antike/hieroglyphen](images/hyroglyphs.png)
+    ![Quelle: https://www.planet-wissen.de/geschichte/antike/hieroglyphen](../_images/hieroglyphs.png)
 
     1. [ ] Jede Hieroglyphe
     1. [ ] Jede Spalte
@@ -97,7 +97,7 @@
 
     ### Was ist in dem Bild die Semantik?
 
-    ![https://www.planet-wissen.de/geschichte/antike/hieroglyphen](images/hyroglyphs.png)
+    ![Quelle: https://www.planet-wissen.de/geschichte/antike/hieroglyphen](../_images/hieroglyphs.png)
 
     1. [ ] Jede Hieroglyphe
     1. [ ] Jede Spalte
@@ -107,7 +107,7 @@
 
     ### Was ist in dem Bild die Verarbeitung?
 
-    ![https://www.planet-wissen.de/geschichte/antike/hieroglyphen](images/hyroglyphs.png)
+    ![Quelle: https://www.planet-wissen.de/geschichte/antike/hieroglyphen](../_images/hieroglyphs.png)
 
     1. [ ] Jede Hieroglyphe
     1. [ ] Jede Spalte
