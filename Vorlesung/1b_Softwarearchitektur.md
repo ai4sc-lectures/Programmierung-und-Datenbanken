@@ -1,4 +1,4 @@
-# Historische Entwicklung von Softwarearchitekturen
+# Softwarearchitekturen
 
 Über die Jahre haben sich die Softwarearchitekturen den modernen Anforderungen angepasst. Dadurch haben sich auch neue Programmiersprachen und Softwarearchitekturen entwickelt.
 
