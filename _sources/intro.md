@@ -1,4 +1,4 @@
-# Einführung
+# Programmierung und Datenbanken
 
 In diesem Kurs steht die Aus- und Weiterbildung von Informatikfähigkeiten speziell für den Anwendungsbereich der Bau- und Umweltingenieurswissenschaften im Fokus. Durch die Digitalisierung benötigen Ingenieure und andere technisch Interessierte in diesen Branchen immer häufiger grundlegende Fähigkeiten in der Programmierung, speziell im Bereich des Datenmanagements, -verarbeitung und -analyse. In den Bau- und Umweltingenieurswissenschaften handelt es sich hier z.B. um Datensätze aus Sensormessnetzwerken, Planungsprozessen oder Gebäudedatenbanken. Sehr gebräuchlich für die Arbeit mit solchen Daten ist die Programmiersprache Python mit ihren vielfältigen Programmbibliotheken. Das Bildungsangebot führt daher in die Grundlagen der Programmierung und den Umgang mit Datenbanken und Analysetools in Python ein. Es werden dabei zusätzlich theoretische Informatik-Grundlagen sowie fachspezifische Entwicklungsaspekte an verschiedenen Beispielen vermittelt (z.B. der Umgang mit räumlichen Daten).
 
