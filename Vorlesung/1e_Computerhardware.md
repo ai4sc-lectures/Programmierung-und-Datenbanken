@@ -1,5 +1,9 @@
 # Computerhardware
 ## Komponenten
+
+Computer
+: Ein Computer ist ein Gerät, das mittels programmierbarer Rechenvorschriften Daten verarbeitet
+
 ![Computeraufbau](images/computeraufbau.png)
 
 Die Kernmodule eines Computers sind die CPU als zentrale Recheneinheit, die GPU für graphische Anwendungen, der RAM als Arbeitsspeicher und die HDD/SSD als
