@@ -1,6 +1,6 @@
 ## Programmiersprachen
 
-:::{important} Programmiersprache
+:::{admonition} Programmiersprache
 Eine Programmiersprache ist eine formale Sprache für die Erstellung von Programmen zur Datenverarbeitung an einem Computer. Sie ist durch ihren Zeichensatz, Syntax und ihre Semantik definiert. Die Programmiersprache erlaub es dem Menschen (Programmierer), dem Computer in einer „verständlichen” Form das Programm zu erstellen.
 :::
 
@@ -38,7 +38,7 @@ Durch die Änderungen der Anforderungen an Software entwickeln sich nicht nur di
 
 <video width="584" height="315" controls>
   <source src="../_images/top_prog_languages.mp4" type="video/mp4">
-Your browser does not support the video tag.
+  Your browser does not support the video tag.
 </video>
 
 
