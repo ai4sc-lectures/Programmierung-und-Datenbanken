@@ -5,9 +5,9 @@ In diesem Kurs steht die Aus- und Weiterbildung von Informatikfähigkeiten spezi
 ![Programm des Kurses](Vorlesung/images/ablauf.png)
 
 Der Kurs gliedert sich in drei Teile:
-1. Grundlagen: Bietet eine Einführung in Hard- und Software von Computern und in die Programmierung in Python.
-2. Modularisierung: Thematisiert die Modellierung von Problemen mit Funktionen und Objekten und die Lösung von Problemen durch Debugging
-3. Datenbanken: Gibt einen Überblick in das Management kleiner und größerer Daten durch Dateien und Datenbanken.
+1. **Grundlagen**: Bietet eine Einführung in Hard- und Software von Computern und in die Programmierung in Python.
+2. **Modellierung**: Thematisiert die Modellierung von Problemen mit Funktionen und Objekten und die Lösung von Problemen durch Debugging
+3. **Datenbanken**: Gibt einen Überblick in das Management kleiner und größerer Daten durch Dateien und Datenbanken.
 
 <!-- 
 - 100/0/0 Motivation & Grundlagen
