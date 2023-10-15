@@ -1,10 +1,6 @@
 
 ## Quiz - Wissenspyramide
 
-
-
-
-
 ```{quizdown}
 	---
 	shuffleQuestions: true
