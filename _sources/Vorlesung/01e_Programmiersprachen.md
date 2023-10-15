@@ -41,7 +41,4 @@ Die Entwicklung der Anforderungen an Software entwickeln sich die Softwarearchit
 
 <!-- ![Development of popularity of python](images/python_popularity.png) -->
 
-Python ist eine ältere Programmiersprache von 1991, die allerdings in den letzten Jahren zunehmend Popularität gefunden hat. Dies ist zum einen darauf zurück zu führen, dass die Sprache sehr auf Lesbarkeit ausgelegt und sehr leicht zu erlernen. Ferner gibt es durch ihr Alter heutzutage sehr viele Bibliotheken für fast jedes Problem, wodurch sie auch sehr vielseitig einsetzbar ist.
-
-Dadurch hat sie sich auch als die wichtigste Sprache in der Data Science entwickelt.
-
+Python hat in den letzten Jahren zunehmend an Popularität gewonnen, ist allerdings älter als Java, C# und JavaScript. Die Popularität ist zum einen darauf zurück zu führen, dass die Sprache sehr auf Lesbarkeit und Einfachheit ausgelegt und dadurch sehr leicht zu erlernen ist. Ferner gibt es durch ihr Alter heutzutage sehr viele Bibliotheken und für fast jedes Problem eine existierende Lösung. Dadurch ist Python auch sehr vielseitig einsetzbar ist.
