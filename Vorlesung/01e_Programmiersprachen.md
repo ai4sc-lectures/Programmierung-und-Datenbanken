@@ -37,11 +37,11 @@ Durch die Änderungen der Anforderungen an Software entwickeln sich nicht nur di
 <video width="1168" height="630" controls>
   <source src="images/top_prog_languages.mp4" type="video/mp4">
 Your browser does not support the video tag.
-</video> 
+</video>
 
 
 ### Python
 
 <!-- ![Development of popularity of python](images/python_popularity.png) -->
 
-Python hat in den letzten Jahren zunehmend an Popularität gewonnen, ist allerdings älter als Java, C# und JavaScript. Die Popularität ist zum einen darauf zurück zu führen, dass die Sprache sehr auf Lesbarkeit und Einfachheit ausgelegt und dadurch sehr leicht zu erlernen ist. Ferner gibt es durch ihr Alter heutzutage sehr viele Bibliotheken und für fast jedes Problem eine existierende Lösung. Dadurch ist Python auch sehr vielseitig einsetzbar ist.
+Python hat in den letzten Jahren zunehmend an Popularität gewonnen, ist allerdings älter als Java, C# und JavaScript. Die Popularität ist zum einen darauf zurück zu führen, dass die Sprache sehr auf Lesbarkeit und Einfachheit ausgelegt ist und dadurch sehr leicht zu erlernen ist. Ferner gibt es durch ihr Alter heutzutage sehr viele Bibliotheken und für fast jedes Problem eine existierende Lösung. Dadurch ist Python auch sehr vielseitig einsetzbar ist.
