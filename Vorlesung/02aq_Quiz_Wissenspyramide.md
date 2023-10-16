@@ -7,7 +7,7 @@
 	shuffleAnswers: true
 	---
 
-    ### Ordne die Elemente der Wissenspyramide richit an.
+    ### Ordne die Elemente der Wissenspyramide in der Reihenfolge von 1 bis 7 an.
 
     ![Wissenspyramide Quizz](../_images/wissenspyramide_quizz1.png)
 
