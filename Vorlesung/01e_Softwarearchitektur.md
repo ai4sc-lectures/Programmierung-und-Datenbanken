@@ -2,7 +2,7 @@
 
 Über die Jahre haben sich die Softwarearchitekturen den modernen Anforderungen angepasst. Dadurch haben sich auch neue Programmiersprachen und Softwarearchitekturen entwickelt.
 
-## Monolithische, Maschinennahe Software vor 1950
+## Monolithische, Maschinennahe Software bis ca. 1960
 
 Die ersten Programme wurden direkt in Maschinencode geschrieben.
 
@@ -10,7 +10,7 @@ Die ersten Programme wurden direkt in Maschinencode geschrieben.
 
 Problem: Wenn die Hardware sich geändert  hat und eine neue Maschinensprache gesprochen wurde so mussten  Programme angepasst oder neu  geschrieben werden
 
-## Aufteilung in Betriebssysteme und Monolithische Software seit 1960
+## Aufteilung in Betriebssysteme und Monolithische Software ab ca. 1960
 
 Betriebssysteme wurden eingeführt um Standardaufgaben zu erfüllen und die Hardware zu abstrahieren. Dies geschieht durch hardwarespezifische Treiber.
 
@@ -20,7 +20,7 @@ Wenn sich die Hardware ändert, so wird dies mit neuen Treibern unterstützt. Da
 
 Problem: Die Programme sind sehr schwer zu schreiben, weil sie sehr gutes Verständnis der Hardware erfordern.
 
-## Entwicklung von höheren Programmiersprachen 1970
+## Entwicklung von höheren Programmiersprachen ab ca. 1970
 
 Um die Programmierung zu vereinfachen, wurden ‘natürlichsprachlicher’ höhere Programmiersprachen eingeführt. Sie müssen mit Compilern in Maschinensprache übersetzt werden.
 
@@ -29,7 +29,7 @@ Um die Programmierung zu vereinfachen, wurden ‘natürlichsprachlicher’ höhe
 Problem: Wenn sich die Betriebssysteme ändern, so funktionieren Programme nicht und müssen entweder neu Kompiliert werden oder umgeschrieben werden.
 
 
-## Virtualisierung Monolithischer Software seit 1995
+## Virtualisierung Monolithischer Software ab ca. 1995
 
 Virtuelle Laufzeitumgebungen abstrahieren die Betriebssysteme und compilieren Code in Echtzeit (Java) oder interpretieren ihn (Python)
 
@@ -37,7 +37,7 @@ Virtuelle Laufzeitumgebungen abstrahieren die Betriebssysteme und compilieren Co
 
 Problem: Mit dem Internet entwickelte sich der Bedarf nicht nur Text und Bilder zu teilen, sondern auch Inhalte auf Webseiten dynamisch anzupassen und kleinere (bis größere) Programme auszuführen. Um von verschiedenen Geräten auf die Daten zuzugreifen, braucht man einen zentralen Punkt um die Daten zu speichern und komplexere Berechnungen auszuführen.
 
-## Verteilte, Virtualisierte Software im Internet seit 2000
+## Verteilte, Virtualisierte Software im Internet ab ca. 2000
 
 Frontend Webseiten visualisieren die Inhalte und interagieren mit den Nutzern. Leichte Berechnungen werden hier gemacht werden.
 
@@ -48,7 +48,7 @@ Backend Webserver stellen  die Webseiten zur Verfügung und verwalten die Langze
 Problem: Im Internet greifen oft sehr viele Nutzer gleichzeitig auf die gleichen Server (Seiten) zu. Um diese nicht zu überlasten, brauchte man Wege diese bei Bedarf schnell zu duplizieren. Mit der Entwicklung von mobilen Geräten (Smart Phones, Tablets, etc.) gab es immer mehr relativ kleine spezialisierte Anwendungen (Apps)  Hier kann der Bedarf an Rechenkapazitäten dynamisch schnell wachsen und man benötigte auch dynamisch skallierbare Server.
 
 
-## Verteilte, Virtualisierte Apps und Cloud Software seit den 2010
+## Verteilte, Virtualisierte Apps und Cloud Software ab ca. 2010
 
 <!-- ![Alt text](images/software_apps_prob.png) -->
 
