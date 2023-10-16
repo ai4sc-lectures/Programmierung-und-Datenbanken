@@ -1,10 +1,10 @@
-## Wissenspyramide
+# Wissenspyramide
 
 Die Wissenspyradmide ist ein Modell zur Darstellung der Extraktion von Wissen durch Computer. Sie dient gut der Erklärung einger Grundbegriffe der Informatik wie Zeichen, Syntax, Daten, Semantik, Informaitonen, Datenverarbeitung und Wissen. Diese Begriffe werden pyramidenförmig als 4 Ebenen und Transformationsprozesse dargestellt.
 
 ![Wissenspyramide](images/wissenspyramide.svg)
 
-### Zeichen
+## Zeichen
 
 Zeichen formen die Basis und das Wissen die Spitze der Pyramide.
 
@@ -22,7 +22,7 @@ Zeichen
 > Beispiel 2: *ASCII-Text* (ISO 8859-1) ist eine Codierung von 256 darstellbare Zeichen in 8 Bits. (Ursprünglich waren es nur 128 Zeichen in 7 Bits.)
 
 
-### Syntax
+## Syntax
 
 Syntax wird benötigt um Zeichen in Daten zu überführen.
 
@@ -36,9 +36,9 @@ Syntax
 > Beispiel 1: *Deutsche Grammatik:* 
 Ein Satz besteht aus mehreren Wörtern mit mehreren alpha-numerischen Zeichen aus `a-zA-Z0-9`. Zwei Worte sind durch ein Leerzeichen getrennt. Ein Wort kann mit einem Satztrennungszeichen aus `,:;-` beendet werden, außer am Ende des Satzes. Jeder Satz endet mit einem Satzendzeichen aus `.!?`
 
-> Beispiel 2: *HTML (Internetseite)* - Jede Zeile enthält eine beliebige Folge von ASCII Zeichen. Jede Zeile endet mit einem Zeilenvorschub 10 (Linux) oder Wagenrücklauf 13 und Zeilenvorschub 10 (Windows). Eine Zeile kann einen HTML-Tag enthalten, der immer mit dem Zeichen `<` beginnt, darauf folgt der Elementname und ggf. Attribute und endet mit `>`.
+> Beispiel 2: *HTML (Internetseite)* - Die Syntax-Definition einer HTML Datei ist grob: Jede Zeile enthält eine beliebige Folge von ASCII Zeichen. Jede Zeile endet mit einem Zeilenvorschub 10 (Linux) oder Wagenrücklauf 13 und Zeilenvorschub 10 (Windows). Eine Zeile kann einen HTML-Tag enthalten, der immer mit dem Zeichen `<` beginnt, darauf folgt der Elementname und ggf. Attribute und endet mit `>`.
 
-### Daten
+## Daten
 
 Daten werden aus Zeichen extrahiert, sie sind eine Vorform von Informationen.
 
@@ -51,9 +51,19 @@ Daten
 
 > Beispiel 1: Ein entsprechend unseren Regeln syntaktisch korrekter Satz lautet z.B. „Ich Bahnhof nur verstehe.“ Dieser macht allerdings keinen Sinn.
 
-> Beispiel 2: HTML Textdatei (*.html).
+> Beispiel 2: HTML-Baum (DOM) - Ein Syntax-Baum der die Verschachtelung der HTML-Tags abbildet. Zum Beispiel wird die folgenden Tags in eine Tabelle, mit Zeilen (`<TR>`) und zwei Zellen (`<TD>`) in einem Baum abgebildet.
 
-### Semantik
+```html
+<table width="300">
+    <tr height="50">
+        <td>Firstname</td>
+        <td>Lastname</td>
+        <td>Birthday</td>
+    </tr>
+</table>
+```
+
+## Semantik
 
 In der Kommunikation ist es nicht nur notwendig formal korrekte Inhalte zu formulieren, sondern es ist auch wichtig die Bedeutung der Inhalte zu kennen und interpretieren zu können, das geschieht durch Semantik. 
 
@@ -66,16 +76,16 @@ Semantik
 
 > Beispiel 1: So muss in einem Satz nicht nur der Satzbau stimmen, sondern es muss auch die Bedeutung der Worte bekannt sein. Im deutschem Wörterbuch steht z.B. die Definition von “Bahnhof”: Gesamtkomplex einer Bahnstation mit Gleisanlagen und zugehörigen Gebäuden; zum Bahnhof gehörendes Gebäude mit [großer] Halle, in der sich die Schalter für Fahrkarten und Gepäck, Wartesäle, Geschäfte o. Ä. befinden.
 
-> Beispiel 2: HTML Elemente
+> Beispiel 2: Bedeutung der HTML Elemente (https://www.w3schools.com/html/)
 >
-> - <p> definiert einen Absatz
+> - `<p>` definiert einen Absatz
 >
-> - <img> definiert ein Bild
+> - `<img>` definiert ein Bild
 >
-> - <table> definiert eine Tabelle
+> - `<table>` definiert eine Tabelle
 
 
-### Informationen
+## Informationen
 
 Informationen haben einen spezifischen Sinn und Zweck.
 
@@ -89,9 +99,9 @@ Informationen
 
 > Beispiel 1: Korrekter deutscher Satz z.B. „Ich verstehen nur Bahnhof." ist zwar syntaktisch korrekt und wir kennen die Bedeutung jedes Wortes. Allerdings bleibt der Satz für Ausländer unverständlich, weil ihnen der Kontext fehlt die Redewendung zu verstehen.
 
-> Beispiel 2: HTML Textdatei (*.html). 
+> Beispiel 2: Interpretierter HTML-Baum. Zum Beispiel wird in dem oben dargestelltem HTML-Baum die Information der Breite der Tabelle auf alle Zeilen vererbt und die Höhe der Zeile auf alle Zellen.
 
-### Verarbeitung
+## Verarbeitung
 
 Informationen müssen erst verarbeitet werden, um sie zu verknüpfen und Wissen abzuleiten.
 
@@ -105,10 +115,10 @@ Verarbeitung
 
 > Beispiel 1: Deutsche haben die Erfahrung, dass „Ich verstehen nur Bahnhof.“ eine Redewendung ist.
 
-> Beispiel 2: Webbrowser - Ein Webbrower interpretiert die HTML-Tags und render daraus eine Webseite
+> Beispiel 2: Webbrowser - Ein Webbrower interpretiert die HTML-Tags und render daraus eine Tabelle mit der richtigen Breite und Höhe.
 
 
-### Wissen
+## Wissen
 
 Wissen ist die höchste Form der Datenverarbeitung und erfordert, die erfolgreiche verwendung von Syntax, Semantik, und Verarbeitung.
 
