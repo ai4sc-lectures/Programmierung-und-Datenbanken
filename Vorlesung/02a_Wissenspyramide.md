@@ -56,12 +56,14 @@ Daten
 ```html
 <table width="300">
     <tr height="50">
-        <td>Firstname</td>
-        <td>Lastname</td>
+        <td>Name</td>
         <td>Birthday</td>
     </tr>
 </table>
 ```
+
+<center><img src="https://mermaid.ink/svg/pako:eNp1jrEOgzAMRH8l8kQkGNoxQyf-oB2zuNg0SElAqTMgxL_Xpaz1Yt-9k84bDDMxOHgVXIJ59D4bHcFn5KY5lrWm627qBTWKtWfiVAcTuqiiP-z6Y9BC4pJwIq3bvkkPEjixB6cn8Yg1igefd41ilfm-5gGclMot1IVQuJ9QH03gRoxv3j8xcDkb" width="30%"></center>
+
 
 ## Semantik
 
