@@ -74,7 +74,6 @@ Semantik
 
 Informationen haben einen spezifischen Sinn und Zweck.
 
-
 :::{admonition} Definition
 :class: definition
 
@@ -83,7 +82,7 @@ Informationen
 :::
 
 
-> Beispiel 1: Korrekter deutscher Satz z.B. „Ich verstehen nur Bahnhof.(Ausländer verstehen die Bedeutung nicht!)
+> Beispiel 1: Korrekter deutscher Satz z.B. „Ich verstehen nur Bahnhof." ist zwar syntaktisch korrekt und wir kennen die Bedeutung jedes Wortes. Allerdings bleibt der Satz für Ausländer unverständlich, weil ihnen der Kontext fehlt die Redewendung zu verstehen.
 
 > Beispiel 2: HTML Textdatei (*.html). 
 
