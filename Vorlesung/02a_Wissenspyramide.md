@@ -62,7 +62,7 @@ Daten
 </table>
 ```
 
-<center><img src="https://mermaid.ink/svg/pako:eNp1jrEOgzAMRH8l8kQkGNoxQyf-oB2zuNg0SElAqTMgxL_Xpaz1Yt-9k84bDDMxOHgVXIJ59D4bHcFn5KY5lrWm627qBTWKtWfiVAcTuqiiP-z6Y9BC4pJwIq3bvkkPEjixB6cn8Yg1igefd41ilfm-5gGclMot1IVQuJ9QH03gRoxv3j8xcDkb" width="30%"></center>
+<center><img src="https://mermaid.ink/svg/pako:eNpdjjEOgzAMRa8SeYahHTN04gbtljC42BSkJCDXGSrE3WtQp3qwrPefrL_BsBCDh5fgOrlHF4uzUXwmDufuXdvejEhQ6X-pnEzpEpT-2fVg0EBmyTiTvd4OI4JOnDmCt5N4xJo0Qiy7qVh1uX_KAF6lcgN1JVTuZrRSGfyI6c37F5AmNoE" height="200px"></center>
 
 
 ## Semantik
@@ -80,11 +80,11 @@ Semantik
 
 > Beispiel 2: Bedeutung der HTML Elemente (https://www.w3schools.com/html/)
 >
-> - `<p>` definiert einen Absatz
+> - `<table>` Tabelle
 >
-> - `<img>` definiert ein Bild
+> - `<td>` Tabellen Zeile
 >
-> - `<table>` definiert eine Tabelle
+> - `<td>` Tabellen Zelle
 
 
 ## Informationen
@@ -103,6 +103,9 @@ Informationen
 
 > Beispiel 2: Interpretierter HTML-Baum. Zum Beispiel wird in dem oben dargestelltem HTML-Baum die Information der Breite der Tabelle auf alle Zeilen vererbt und die Höhe der Zeile auf alle Zellen.
 
+<center><img src="https://mermaid.ink/svg/pako:eNp1j8EKgzAMhl-l5KzgNnYpuJNvsN2sh8xEW7AqNWUM8d3XyWDssBxC-L8vkKzQTsSgoQ84W3WrzKhSCd4HrveuHo7ElqeiaFSeXxILtYRvqiy73kp5LprPbtg9oUMt9J8efylk4Dl4dJSOWd-uAbHs2YBOI3GHcRADZtySilGm63NsQUuInEGcCYUrh-kND7rDYeHtBZVGRlI" height="200px"></center>
+
+
 ## Verarbeitung
 
 Informationen müssen erst verarbeitet werden, um sie zu verknüpfen und Wissen abzuleiten.
@@ -117,8 +120,9 @@ Verarbeitung
 
 > Beispiel 1: Deutsche haben die Erfahrung, dass „Ich verstehen nur Bahnhof.“ eine Redewendung ist.
 
-> Beispiel 2: Webbrowser - Ein Webbrower interpretiert die HTML-Tags und render daraus eine Tabelle mit der richtigen Breite und Höhe.
+> Beispiel 2: Webbrowser - Ein Webbrower interpretiert die HTML-Tags und berechtet zum Beispiel die beste Breite der Zellen, da er weiß, dass es zwei Zellen in der Zeile gibt.
 
+<center><img src="https://mermaid.ink/svg/pako:eNp9j8EKgzAQRH8l7FlBW7wE7Mk_aG-Jh61ZTcCopBtKEf-9qQg9tXNYltk3sLNCNxsCCUPAxYpboyeRxHgfSe1TPJ1hW5-LohV5fkm3oDh8XWHJDZbrqmiPbNg5NqVic3Bl9Yc7_eIgA0_BozPpwfWT0sCWPGmQaTXUYxxZg562hGLk-fqaOpAcImUQF4NMjcNUzYPscXzQ9gYhbkx4" height="200px"></center>
 
 ## Wissen
 
@@ -134,4 +138,11 @@ Wissen
 
 > Beispiel 1: „Ich verstehen nur Bahnhof.“ bedeutet nichts verstehen oder verstehen wollen.
 
-> Beispiel 2: Fertig gerenderte Webseite
+> Beispiel 2: Fertig gerenderte Tabelle
+
+<table width="300" border="1" style="width: 300px">
+  <tr height="50">
+    <td>Name</td>
+    <td>Birthdate</td>
+  </tr>
+</table>
