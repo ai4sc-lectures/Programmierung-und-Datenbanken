@@ -47,14 +47,13 @@ Daten
 : Eine wiederholt interpretierbare Darstellung von Information in formalisierter Art, geeignet zur Kommunikation, Interpretation oder Verarbeitung.
 :::
 
-> Beispiel 1: Formal korrekter Satz. z.B. „ Ich Bahnhof nur verstehe.“
+> Beispiel 1: Ein entsprechend unseren Regeln syntaktisch korrekter Satz lautet z.B. „Ich Bahnhof nur verstehe.“ Dieser macht allerdings keinen Sinn.
 
-> Beispiel 2: HTML Textdatei (*.html). 
+> Beispiel 2: HTML Textdatei (*.html).
 
 ### Semantik
 
-Mir Semantik können Daten interpretiert werden und Informationen extrahiert werden.
-
+In der Kommunikation ist es nicht nur notwendig formal korrekte Inhalte zu formulieren, sondern es ist auch wichtig die Bedeutung der Inhalte zu kennen und interpretieren zu können, das geschieht durch Semantik. 
 
 :::{admonition} Definition
 :class: definition
@@ -63,12 +62,12 @@ Semantik
 : Vorgaben für die Interpretation von Daten.
 :::
 
-> Beispiel 1: Deutsches Wörterbuch. Z.B. Definition von “Bahnhof” im Duden Gesamtkomplex einer Bahnstation mit Gleisanlagen und zugehörigen Gebäuden zum Bahnhof gehörendes Gebäude mit [großer] Halle, in der sich die Schalter für Fahrkarten und Gepäck, Wartesäle, Geschäfte o. Ä. befinden
+> Beispiel 1: So muss in einem Satz nicht nur der Satzbau stimmen, sondern es muss auch die Bedeutung der Worte bekannt sein. Im deutschem Wörterbuch steht z.B. die Definition von “Bahnhof”: Gesamtkomplex einer Bahnstation mit Gleisanlagen und zugehörigen Gebäuden; zum Bahnhof gehörendes Gebäude mit [großer] Halle, in der sich die Schalter für Fahrkarten und Gepäck, Wartesäle, Geschäfte o. Ä. befinden.
 
 > Beispiel 2: HTML Elemente
-<p> definiert einen Absatz
-<img> definiert ein Bild
-<table> definiert eine Tabelle
+> - <p> definiert einen Absatz
+> - <img> definiert ein Bild
+> - <table> definiert eine Tabelle
 
 
 ### Informationen
