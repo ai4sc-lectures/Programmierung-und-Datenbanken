@@ -1,8 +1,11 @@
 ## Programmiersprachen
 
 :::{admonition} Definition
+:class: definition
+
 Programmiersprache
 : Eine Programmiersprache ist eine formale Sprache für die Erstellung von Programmen zur Datenverarbeitung an einem Computer. Sie ist durch ihren Zeichensatz, Syntax und ihre Semantik definiert. Die Programmiersprache erlaub es dem Menschen (Programmierer), dem Computer in einer „verständlichen” Form das Programm zu erstellen.
+
 :::
 
 
