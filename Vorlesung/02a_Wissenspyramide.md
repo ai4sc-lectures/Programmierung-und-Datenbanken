@@ -8,8 +8,11 @@ Die Wissenspyradmide ist ein Modell zur Darstellung der Extraktion von Wissen du
 
 Zeichen formen die Basis und das Wissen die Spitze der Pyramide.
 
-:::{admonition} Zeichen
-Ein Zeichen codiert einen einzelnen Buchstaben, eine Ziffer, ein Sonderzeichen oder ein Steuerzeichen. 
+:::{admonition} Definition
+:class: definition
+Zeichen
+
+: Ein Zeichen codiert einen einzelnen Buchstaben, eine Ziffer, ein Sonderzeichen oder ein Steuerzeichen. 
 :::
 
 > Beispiel 1: *Deutsches Alphabet* mit Umlauten und Zahlen, Satztrennungs und -endzeichen. Zeichensatz: `abcdefgijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZäöüßÄÖÜ0123456789,:;-.!?`
@@ -21,8 +24,11 @@ Ein Zeichen codiert einen einzelnen Buchstaben, eine Ziffer, ein Sonderzeichen o
 
 Syntax wird benötigt um Zeichen in Daten zu überführen.
 
-:::{admonition} Syntax
-Formale Regeln, die definieren, wie wohlgeformte Ausdrücke auf Basis eines Zeichensatzes gebildet werden.
+:::{admonition} Definition
+:class: definition
+Syntax
+
+: Formale Regeln, die definieren, wie wohlgeformte Ausdrücke auf Basis eines Zeichensatzes gebildet werden.
 :::
 
 > Beispiel 1: *Deutsche Grammatik* - 
@@ -34,8 +40,11 @@ Ein Satz besteht aus mehreren Wörtern mit mehreren alpha-numerischen Zeichen au
 
 Daten werden aus Zeichen extrahiert, sie sind eine Vorform von Informationen.
 
-:::{admonition} Daten
-Eine wiederholt interpretierbare Darstellung von Information in formalisierter Art, geeignet zur Kommunikation, Interpretation oder Verarbeitung.
+
+:::{admonition} Definition
+:class: definition
+Daten
+: Eine wiederholt interpretierbare Darstellung von Information in formalisierter Art, geeignet zur Kommunikation, Interpretation oder Verarbeitung.
 :::
 
 > Beispiel 1: Formal korrekter Satz. z.B. „ Ich Bahnhof nur verstehe.“
@@ -46,8 +55,12 @@ Eine wiederholt interpretierbare Darstellung von Information in formalisierter A
 
 Mir Semantik können Daten interpretiert werden und Informationen extrahiert werden.
 
-:::{admonition} Semantik
-Vorgaben für die Interpretation von Daten.
+
+:::{admonition} Definition
+:class: definition
+
+Semantik
+: Vorgaben für die Interpretation von Daten.
 :::
 
 > Beispiel 1: Deutsches Wörterbuch. Z.B. Definition von “Bahnhof” im Duden Gesamtkomplex einer Bahnstation mit Gleisanlagen und zugehörigen Gebäuden zum Bahnhof gehörendes Gebäude mit [großer] Halle, in der sich die Schalter für Fahrkarten und Gepäck, Wartesäle, Geschäfte o. Ä. befinden
@@ -62,8 +75,12 @@ Vorgaben für die Interpretation von Daten.
 
 Informationen haben einen spezifischen Sinn und Zweck.
 
-:::{admonition} Informationen
-Daten, die mit Sinn und Zweck versehen sind. Sie haben Bedeutung und sind für einen bestimmten Zweck organisiert. Informationen zum Beispiel sind eine Sammlung von Daten mit  zugehörigen Erklärungen, Interpretationen und anderes Textmaterial, die ein bestimmtes Objekt, Ereignis oder einen bestimmten Prozess betreffen.
+
+:::{admonition} Definition
+:class: definition
+
+Informationen
+: Daten, die mit Sinn und Zweck versehen sind. Sie haben Bedeutung und sind für einen bestimmten Zweck organisiert. Informationen zum Beispiel sind eine Sammlung von Daten mit  zugehörigen Erklärungen, Interpretationen und anderes Textmaterial, die ein bestimmtes Objekt, Ereignis oder einen bestimmten Prozess betreffen.
 :::
 
 
@@ -75,8 +92,12 @@ Daten, die mit Sinn und Zweck versehen sind. Sie haben Bedeutung und sind für e
 
 Informationen müssen erst verarbeitet werden, um sie zu verknüpfen und Wissen abzuleiten.
 
-:::{admonition} Verarbeitung
-Verknüpfung von Informationen durch Algorithmen, Erfahrungen, Werte und Fachkentnissen.
+
+:::{admonition} Definition
+:class: definition
+
+Verarbeitung
+: Verknüpfung von Informationen durch Algorithmen, Erfahrungen, Werte und Fachkentnissen.
 :::
 
 > Beispiel 1: Deutsche haben die Erfahrung, dass „Ich verstehen nur Bahnhof.“ eine Redewendung ist.
@@ -88,8 +109,12 @@ Verknüpfung von Informationen durch Algorithmen, Erfahrungen, Werte und Fachken
 
 Wissen ist die höchste Form der Datenverarbeitung und erfordert, die erfolgreiche verwendung von Syntax, Semantik, und Verarbeitung.
 
-:::{admonition} Wissen
-Die gesammelten, verknüpften Informationen über einen bestimmten Sachverhalt, integriert mit persönlichen Erfahrungen. Das Wissen weißt eine wesentlich höhere Komplexität als die Information auf und ist eines der höchsten Güter einer Unternehmung. Mittels Wissen lassen sich Entscheidungen treffen und Aktionen einleiten.
+
+:::{admonition} Definition
+:class: definition
+
+Wissen
+: Die gesammelten, verknüpften Informationen über einen bestimmten Sachverhalt, integriert mit persönlichen Erfahrungen. Das Wissen weißt eine wesentlich höhere Komplexität als die Information auf und ist eines der höchsten Güter einer Unternehmung. Mittels Wissen lassen sich Entscheidungen treffen und Aktionen einleiten.
 :::
 
 > Beispiel 1: „Ich verstehen nur Bahnhof.“ bedeutet nichts verstehen oder verstehen wollen.
