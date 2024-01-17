@@ -81,11 +81,11 @@
 
     ### Welche Datentypen werden in Python mit `int` ausgedrückt?
 
-    > `int` wird für vier Datentypen benutzt
+    > `int` wird für drei Datentypen benutzt
 
     - [X] Ganze Zahlen
     - [X] Natürliche Zahlen
-    - [X] Reelle Zahlen
+    - [ ] Reelle Zahlen
     - [ ] Komplexe Zahlen
     - [X] Byte
     - [ ] Char
