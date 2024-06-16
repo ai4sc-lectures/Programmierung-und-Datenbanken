@@ -2,7 +2,7 @@
 
 # Configuration
 BRANCH="gh-pages"
-HASH_FILE="/home/ploennigs/code/MachineLearningFoundations/commit_hash.txt"
+HASH_FILE="/home/ploennigs/code/Programmierung-und-Datenbanken/commit_hash.txt"
 POD_NAME="book-ml2"
 NAMESPACE="books"
 
