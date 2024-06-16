@@ -3,7 +3,7 @@
 # Configuration
 BRANCH="gh-pages"
 HASH_FILE="/home/ploennigs/code/Programmierung-und-Datenbanken/commit_hash.txt"
-POD_NAME="book-ml2"
+POD_NAME="coding-book"
 NAMESPACE="books"
 
 # Ensure the hash file exists
