@@ -1,0 +1,1414 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Relationale Datenbanken &#8212; Programmierung und Datenbanken</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"></script>
+    <script>quizdown.init({"quizdown_js": "https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"});</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Vorlesung/10_Datenbanken';</script>
+    <link rel="canonical" href="https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/Vorlesung/10_Datenbanken.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Entwurf relationaler Datenbanken" href="11_Datenbankentwurf.html" />
+    <link rel="prev" title="Umgang mit Dateien" href="9_Datenhaltung.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/logo.svg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/logo.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Programmierung und Datenbanken
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Grundlagen</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01c_Computerhardware.html">Computerhardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01d_Programmiersprachen.html">Programmiersprachen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01e_Softwarearchitektur.html">Softwarearchitekturen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02a_Wissenspyramide.html">Wissenspyramide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02aq_Quiz_Wissenspyramide.html">Quiz: Wissenspyramide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02b_Datentypen.html">Datentypen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02c_Operatoren.html">Operatoren</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02cq_Quiz_Logik.html">Quiz: Logische Operationen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03a_Verzweigung.html">Verzweigungen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03b_Schleifen.html">Schleifen</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modularisierung</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="04a_Funktionen.html">Funktionen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04c_Objects.html">Objekte</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_Rekursion.html">Rekursive Funktionen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05a_Programmablauf.html">Programmablauf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05b_Algorithmen.html">Such- und Sortieralgorithmen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06a_Exceptions.html">Exceptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06b_UnitTest.html">Unit-Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06c_Debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07a_Module.html">Pakete</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Datenbanken</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="9_Datenhaltung.html">Umgang mit Dateien</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Relationale Datenbanken</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_Datenbankentwurf.html">Entwurf relationaler Datenbanken</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Vorlesung/10_Datenbanken.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Relationale Datenbanken</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#praxisbeispiel">Praxisbeispiel</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabellen-in-sqlite-speichern-mit-pandas">Tabellen in SQLite speichern mit Pandas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#daten-aus-tabellen-abfragen-mit-select">Daten aus Tabellen abfragen mit <code class="docutils literal notranslate"><span class="pre">SELECT</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#filtern-von-ergebnissen-mit-where">Filtern von Ergebnissen mit <code class="docutils literal notranslate"><span class="pre">WHERE</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#daten-aggregieren">Daten Aggregieren</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistiken-extrahieren-mit-aggregieren-von-gruppen-sortieren-und-limitieren">Statistiken Extrahieren mit Aggregieren von Gruppen, Sortieren und Limitieren</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#daten-aus-mehreren-tabellen-verknupfen-und-gleichzeitig-abfragen-mit-join">Daten aus mehreren Tabellen verknüpfen und gleichzeitig abfragen mit <code class="docutils literal notranslate"><span class="pre">JOIN</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#daten-mit-sql-und-pandas-abfragen-und-mit-geojson-visualisieren">Daten mit SQL und Pandas abfragen und mit GeoJSON visualisieren</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="relationale-datenbanken">
+<h1>Relationale Datenbanken<a class="headerlink" href="#relationale-datenbanken" title="Permalink to this heading">#</a></h1>
+<section id="praxisbeispiel">
+<h2>Praxisbeispiel<a class="headerlink" href="#praxisbeispiel" title="Permalink to this heading">#</a></h2>
+<p>Informationen sind in der Praxis meist über verschiedene Systeme und Tabellen verteilt und müssen oft zusammengeführt verarbeitet werden, um daraus anwendbares Wissen abzuleiten.</p>
+<p>Die Hansestadt Rostock bietet zum Beispiel viele relevante Daten für Bau- und Umweltingenieure auf dem <a class="reference external" href="https://www.opendata-hro.de">OpenData Portal Rostock</a>.</p>
+<p>Dort erhalten wir zum Beispiel:</p>
+<ul class="simple">
+<li><p>die <a class="reference external" href="https://www.opendata-hro.de/dataset/baustellen">Liste aller Baustellen</a></p></li>
+<li><p>die <a class="reference external" href="https://www.opendata-hro.de/dataset/adressenliste">Liste aller Strassen und Adressen</a></p></li>
+<li><p>die <a class="reference external" href="https://www.opendata-hro.de/dataset/gemeinden_mecklenburg-vorpommern">Liste aller Gemeinden</a></p></li>
+</ul>
+<!-- - die [Liste aller Bodenrichtwerte](https://www.opendata-hro.de/dataset/bodenrichtwerte_2022)
+
+Die Bevölkerungsdichte der Bezirke wiederum erhalten wir auf der Landesseite (https://www.laiv-mv.de/Statistik/Zahlen-und-Fakten/Gesellschaft-&-Staat/Bevoelkerung/). 
+
+# Siehe https://www.opendata-hro.de/dataset/bodenrichtwerte_2022
+with urllib.request.urlopen(f'https://geo.sv.rostock.de/download/opendata/bodenrichtwerte_2022/bodenrichtwerte_2022.csv') as f:
+    bodenrichtwerte=pd.read_csv(f, usecols=["gesl", "genu", "ortst", "wnum", "gema", "flae", "typ", "brw", "nuta", "entw", "geometrie_wkt"])
+bodenrichtwerte.head()
+
+# Siehe https://www.laiv-mv.de/Statistik/Zahlen-und-Fakten/Gesellschaft-&-Staat/Bevoelkerung/
+with urllib.request.urlopen(f'https://www.laiv-mv.de/static/LAIV/Statistik/Dateien/Publikationen/A%20I%20Bev%C3%B6lkerungsstand/A123/2022/A123%202022%2021.xlsx') as f:
+    bevoelkerung=pd.read_excel(f.read(), sheet_name="2", header=1, usecols=range(7), skiprows=range(2,9)) # wähle Blatt 2, die ersten 7 Spalten und überspringe Zeilen 2-9
+bevoelkerung.columns=[c.replace("-\n", "").replace("\n", "") for c in bevoelkerung.columns] # entferne Zeilenumbrüche in den Spaltennamen
+bevoelkerung.head()
+
+--><p>Wie in den letzten Beispielen gezeigt können wir uns die Daten auch sehr einfach in Python herunter laden und anzeigen. Dafür nutzen wir das CSV Format das auf den Webseiten angeboten wird und die Python Pakete <code class="docutils literal notranslate"><span class="pre">urllib</span></code> und <code class="docutils literal notranslate"><span class="pre">pandas</span></code>. Wir öffnen zuerst die Datei im Internet mit <code class="docutils literal notranslate"><span class="pre">urllib.request.urlopen</span></code> und laden sie dann in Pandas als Tabelle mit <code class="docutils literal notranslate"><span class="pre">pd.read_csv(f)</span></code>. Zuletzt zeigen wir die ersten 5 Zeilen der Tabelle mit <code class="docutils literal notranslate"><span class="pre">.head()</span></code> an.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">urllib.request</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Siehe https://www.opendata-hro.de/dataset/baustellen</span>
+<span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;https://geo.sv.rostock.de/download/opendata/baustellen/baustellen.csv&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">baustellen</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;strasse_schluessel&quot;</span><span class="p">,</span> <span class="s2">&quot;sparte&quot;</span><span class="p">,</span> <span class="s2">&quot;von&quot;</span><span class="p">,</span> <span class="s2">&quot;nach&quot;</span><span class="p">,</span> <span class="s2">&quot;baubeginn&quot;</span><span class="p">,</span> <span class="s2">&quot;bauende&quot;</span><span class="p">,</span> <span class="s2">&quot;verkehrsbeeintraechtigungen&quot;</span><span class="p">,</span> <span class="s2">&quot;baumassnahme&quot;</span><span class="p">],</span> <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;baubeginn&quot;</span><span class="p">,</span> <span class="s2">&quot;bauende&quot;</span><span class="p">])</span>
+<span class="n">baustellen</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>strasse_schluessel</th>
+      <th>sparte</th>
+      <th>von</th>
+      <th>nach</th>
+      <th>baubeginn</th>
+      <th>bauende</th>
+      <th>verkehrsbeeintraechtigungen</th>
+      <th>baumassnahme</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>54.129189</td>
+      <td>12.297446</td>
+      <td>NaN</td>
+      <td>Straßenbau</td>
+      <td>Poppendorf</td>
+      <td>Clerum</td>
+      <td>2023-09-18 00:00:00+02:00</td>
+      <td>2023-12-15 00:00:00+01:00</td>
+      <td>zeitweise halbseitige Sperrung</td>
+      <td>Arbeiten an Geh-/Radwegen</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>54.094154</td>
+      <td>12.101119</td>
+      <td>6880.0</td>
+      <td>Hochbau</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2022-02-07 00:00:00+01:00</td>
+      <td>2024-02-08 00:00:00+01:00</td>
+      <td>Sicherungsmaßnahmen entlang der Straße, Sicher...</td>
+      <td>Baustellenausfahrt -B-Plan Werftdreieck-</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>54.059332</td>
+      <td>12.119356</td>
+      <td>10660.0</td>
+      <td>Telefonnetz</td>
+      <td>1</td>
+      <td>5</td>
+      <td>2023-10-02 00:00:00+02:00</td>
+      <td>2023-10-28 00:00:00+02:00</td>
+      <td>Sicherungsmaßnahmen entlang des Gehwegs</td>
+      <td>80 m Kabelgraben, 2 Baugruben für Telekom</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>54.089122</td>
+      <td>12.134711</td>
+      <td>1580.0</td>
+      <td>Telefonnetz</td>
+      <td>5</td>
+      <td>12</td>
+      <td>2023-10-23 00:00:00+02:00</td>
+      <td>2023-11-04 00:00:00+01:00</td>
+      <td>Sicherungsmaßnahmen entlang des Gehwegs</td>
+      <td>Kabelzieharbeiten Telekom -4m Kabelgraben, 2 K...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>54.092812</td>
+      <td>12.149981</td>
+      <td>13530.0</td>
+      <td>Gebäudesanierung</td>
+      <td>12</td>
+      <td>NaN</td>
+      <td>2023-07-24 00:00:00+02:00</td>
+      <td>2023-11-18 00:00:00+01:00</td>
+      <td>Sicherungsmaßnahmen entlang der Straße, Sicher...</td>
+      <td>BE-Fläche für Materiallagerung, Schuttcontaine...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Siehe https://geo.sv.rostock.de/download/opendata/adressenliste</span>
+<span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;https://geo.sv.rostock.de/download/opendata/adressenliste/adressenliste.csv&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">adressenliste</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;gemeinde_schluessel&quot;</span><span class="p">,</span> <span class="s2">&quot;gemeindeteil_name&quot;</span><span class="p">,</span> <span class="s2">&quot;strasse_name&quot;</span><span class="p">,</span> <span class="s2">&quot;strasse_schluessel&quot;</span><span class="p">,</span> <span class="s2">&quot;hausnummer&quot;</span><span class="p">,</span> <span class="s2">&quot;hausnummer_zusatz&quot;</span><span class="p">,</span> <span class="s2">&quot;postleitzahl&quot;</span><span class="p">])</span>
+<span class="n">adressenliste</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>gemeinde_schluessel</th>
+      <th>gemeindeteil_name</th>
+      <th>strasse_name</th>
+      <th>strasse_schluessel</th>
+      <th>hausnummer</th>
+      <th>hausnummer_zusatz</th>
+      <th>postleitzahl</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>130030000000</td>
+      <td>Gehlsdorf</td>
+      <td>Blockweg</td>
+      <td>1430</td>
+      <td>3</td>
+      <td>NaN</td>
+      <td>18147</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>130030000000</td>
+      <td>Schmarl</td>
+      <td>Industriestr.</td>
+      <td>4010</td>
+      <td>8</td>
+      <td>NaN</td>
+      <td>18069</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>130030000000</td>
+      <td>Schmarl</td>
+      <td>Industriestr.</td>
+      <td>4010</td>
+      <td>11</td>
+      <td>NaN</td>
+      <td>18069</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>130030000000</td>
+      <td>Evershagen</td>
+      <td>Bertolt-Brecht-Str.</td>
+      <td>1340</td>
+      <td>17</td>
+      <td>a</td>
+      <td>18106</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>130030000000</td>
+      <td>Evershagen</td>
+      <td>An der Jägerbäk</td>
+      <td>680</td>
+      <td>7</td>
+      <td>NaN</td>
+      <td>18069</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Siehe https://www.opendata-hro.de/dataset/gemeinden_mecklenburg-vorpommern</span>
+<span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;https://geo.sv.rostock.de/download/opendata/gemeinden_mecklenburg-vorpommern/gemeinden_mecklenburg-vorpommern.csv&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">gemeinden</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;kreis_name&quot;</span><span class="p">,</span> <span class="s2">&quot;kreis_schluessel&quot;</span><span class="p">,</span> <span class="s2">&quot;gemeindeverband_name&quot;</span><span class="p">,</span> <span class="s2">&quot;gemeindeverband_schluessel&quot;</span><span class="p">,</span> <span class="s2">&quot;gemeinde_name&quot;</span><span class="p">,</span> <span class="s2">&quot;gemeinde_schluessel&quot;</span><span class="p">,</span> <span class="s2">&quot;WKT&quot;</span><span class="p">])</span>
+<span class="n">gemeinden</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="c1"># Siehe https://www.opendata-hro.de/dataset/gemeinden_mecklenburg-vorpommern</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;https://geo.sv.rostock.de/download/opendata/gemeinden_mecklenburg-vorpommern/gemeinden_mecklenburg-vorpommern.csv&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="ne">----&gt; </span><span class="mi">3</span>     <span class="n">gemeinden</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;kreis_name&quot;</span><span class="p">,</span> <span class="s2">&quot;kreis_schluessel&quot;</span><span class="p">,</span> <span class="s2">&quot;gemeindeverband_name&quot;</span><span class="p">,</span> <span class="s2">&quot;gemeindeverband_schluessel&quot;</span><span class="p">,</span> <span class="s2">&quot;gemeinde_name&quot;</span><span class="p">,</span> <span class="s2">&quot;gemeinde_schluessel&quot;</span><span class="p">,</span> <span class="s2">&quot;WKT&quot;</span><span class="p">])</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">gemeinden</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+<span class="nn">File ~/miniconda3/envs/lehre/lib/python3.11/site-packages/pandas/io/parsers/readers.py:948,</span> in <span class="ni">read_csv</span><span class="nt">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, date_format, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, encoding_errors, dialect, on_bad_lines, delim_whitespace, low_memory, memory_map, float_precision, storage_options, dtype_backend)</span>
+<span class="g g-Whitespace">    </span><span class="mi">935</span> <span class="n">kwds_defaults</span> <span class="o">=</span> <span class="n">_refine_defaults_read</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">936</span>     <span class="n">dialect</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">937</span>     <span class="n">delimiter</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">944</span>     <span class="n">dtype_backend</span><span class="o">=</span><span class="n">dtype_backend</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">945</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">946</span> <span class="n">kwds</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwds_defaults</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">948</span> <span class="k">return</span> <span class="n">_read</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="n">kwds</span><span class="p">)</span>
+
+<span class="nn">File ~/miniconda3/envs/lehre/lib/python3.11/site-packages/pandas/io/parsers/readers.py:611,</span> in <span class="ni">_read</span><span class="nt">(filepath_or_buffer, kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">608</span> <span class="n">_validate_names</span><span class="p">(</span><span class="n">kwds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;names&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">610</span> <span class="c1"># Create the parser.</span>
+<span class="ne">--&gt; </span><span class="mi">611</span> <span class="n">parser</span> <span class="o">=</span> <span class="n">TextFileReader</span><span class="p">(</span><span class="n">filepath_or_buffer</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">613</span> <span class="k">if</span> <span class="n">chunksize</span> <span class="ow">or</span> <span class="n">iterator</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">614</span>     <span class="k">return</span> <span class="n">parser</span>
+
+<span class="nn">File ~/miniconda3/envs/lehre/lib/python3.11/site-packages/pandas/io/parsers/readers.py:1448,</span> in <span class="ni">TextFileReader.__init__</span><span class="nt">(self, f, engine, **kwds)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1445</span>     <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kwds</span><span class="p">[</span><span class="s2">&quot;has_index_names&quot;</span><span class="p">]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1447</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span><span class="p">:</span> <span class="n">IOHandles</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="ne">-&gt; </span><span class="mi">1448</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_engine</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">engine</span><span class="p">)</span>
+
+<span class="nn">File ~/miniconda3/envs/lehre/lib/python3.11/site-packages/pandas/io/parsers/readers.py:1723,</span> in <span class="ni">TextFileReader._make_engine</span><span class="nt">(self, f, engine)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1720</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1722</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1723</span>     <span class="k">return</span> <span class="n">mapping</span><span class="p">[</span><span class="n">engine</span><span class="p">](</span><span class="n">f</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1724</span> <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1725</span>     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">handles</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+<span class="nn">File ~/miniconda3/envs/lehre/lib/python3.11/site-packages/pandas/io/parsers/c_parser_wrapper.py:140,</span> in <span class="ni">CParserWrapper.__init__</span><span class="nt">(self, src, **kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">136</span> <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">orig_names</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">137</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">usecols_dtype</span> <span class="o">==</span> <span class="s2">&quot;string&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">set</span><span class="p">(</span><span class="n">usecols</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">138</span>     <span class="bp">self</span><span class="o">.</span><span class="n">orig_names</span>
+<span class="g g-Whitespace">    </span><span class="mi">139</span> <span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">140</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_validate_usecols_names</span><span class="p">(</span><span class="n">usecols</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">orig_names</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">142</span> <span class="c1"># error: Cannot determine type of &#39;names&#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">143</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">usecols</span><span class="p">):</span>  <span class="c1"># type: ignore[has-type]</span>
+<span class="g g-Whitespace">    </span><span class="mi">144</span>     <span class="c1"># error: Cannot determine type of &#39;names&#39;</span>
+
+<span class="nn">File ~/miniconda3/envs/lehre/lib/python3.11/site-packages/pandas/io/parsers/base_parser.py:969,</span> in <span class="ni">ParserBase._validate_usecols_names</span><span class="nt">(self, usecols, names)</span>
+<span class="g g-Whitespace">    </span><span class="mi">967</span> <span class="n">missing</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">usecols</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">968</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">missing</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">969</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">970</span>         <span class="sa">f</span><span class="s2">&quot;Usecols do not match columns, columns expected but not found: &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">971</span>         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">missing</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">972</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">974</span> <span class="k">return</span> <span class="n">usecols</span>
+
+<span class="ne">ValueError</span>: Usecols do not match columns, columns expected but not found: [&#39;WKT&#39;]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Wenn wir die Tabellen vergleichen, so stellen wir fest, dass alle eine etwas andere Struktur haben und meist nur einen Teil der Informationen erhalten. Wollen wir zum Beispiel wissen was die Bevölkerungsdichte in den Stadtbezirken mit Baustellen ist, so lässen sich dieses Wissen nicht sofort ableiten.</p>
+</section>
+<section id="tabellen-in-sqlite-speichern-mit-pandas">
+<h2>Tabellen in SQLite speichern mit Pandas<a class="headerlink" href="#tabellen-in-sqlite-speichern-mit-pandas" title="Permalink to this heading">#</a></h2>
+<p>Um diese Daten langfristig zu speichern wollen wir uns eine Datenbank anlegen. Da die Daten ja bereits als Tabellen vorliegen, nutzen wir eine relationale Datenbank. Eine sehr einfache, lokale relationale Datenbank, die ohne Server auskommt ist SQLite. Sie ist bereits in Python enthalten. Wir erzeugen uns eine neue Datenbank indem wir eine Verbindung zu einer neuen Datenbankdatei anlegen.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sqlite3</span>
+
+<span class="c1"># Create a SQL connection to our SQLite database</span>
+<span class="n">con</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;opendatahro.sqlite&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Wir schauen uns später an wie wir Tabellen direkt mit SQL erzeugen. Pandas hat diese Funktion bereits eingebaut, so dass wir unsere Tabelle direkt in der SQLite Datenbank speichern können.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">baustellen</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s2">&quot;baustellen&quot;</span><span class="p">,</span> <span class="n">con</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span>
+<span class="n">adressenliste</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s2">&quot;adressenliste&quot;</span><span class="p">,</span> <span class="n">con</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span>
+<span class="n">gemeinden</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s2">&quot;gemeinden&quot;</span><span class="p">,</span> <span class="n">con</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ProgrammingError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">baustellen</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s2">&quot;baustellen&quot;</span><span class="p">,</span> <span class="n">con</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">adressenliste</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s2">&quot;adressenliste&quot;</span><span class="p">,</span> <span class="n">con</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">gemeinden</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s2">&quot;gemeinden&quot;</span><span class="p">,</span> <span class="n">con</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s2">&quot;replace&quot;</span><span class="p">)</span>
+
+<span class="nn">File ~/miniconda3/envs/lehre/lib/python3.11/site-packages/pandas/util/_decorators.py:333,</span> in <span class="ni">deprecate_nonkeyword_arguments.&lt;locals&gt;.decorate.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">327</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">num_allow_args</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">328</span>     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">329</span>         <span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">arguments</span><span class="o">=</span><span class="n">_format_argument_list</span><span class="p">(</span><span class="n">allow_args</span><span class="p">)),</span>
+<span class="g g-Whitespace">    </span><span class="mi">330</span>         <span class="ne">FutureWarning</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">331</span>         <span class="n">stacklevel</span><span class="o">=</span><span class="n">find_stack_level</span><span class="p">(),</span>
+<span class="g g-Whitespace">    </span><span class="mi">332</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">333</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~/miniconda3/envs/lehre/lib/python3.11/site-packages/pandas/core/generic.py:3008,</span> in <span class="ni">NDFrame.to_sql</span><span class="nt">(self, name, con, schema, if_exists, index, index_label, chunksize, dtype, method)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2813</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">   </span><span class="mi">2814</span><span class="sd"> Write records stored in a DataFrame to a SQL database.</span>
+<span class="g g-Whitespace">   </span><span class="mi">2815</span><span class="sd"> </span>
+<span class="sd">   (...)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3004</span><span class="sd"> [(1,), (None,), (2,)]</span>
+<span class="g g-Whitespace">   </span><span class="mi">3005</span><span class="sd"> &quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+<span class="g g-Whitespace">   </span><span class="mi">3006</span> <span class="kn">from</span> <span class="nn">pandas.io</span> <span class="kn">import</span> <span class="n">sql</span>
+<span class="ne">-&gt; </span><span class="mi">3008</span> <span class="k">return</span> <span class="n">sql</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">3009</span>     <span class="bp">self</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3010</span>     <span class="n">name</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3011</span>     <span class="n">con</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3012</span>     <span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3013</span>     <span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3014</span>     <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3015</span>     <span class="n">index_label</span><span class="o">=</span><span class="n">index_label</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3016</span>     <span class="n">chunksize</span><span class="o">=</span><span class="n">chunksize</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3017</span>     <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3018</span>     <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3019</span> <span class="p">)</span>
+
+<span class="nn">File ~/miniconda3/envs/lehre/lib/python3.11/site-packages/pandas/io/sql.py:788,</span> in <span class="ni">to_sql</span><span class="nt">(frame, name, con, schema, if_exists, index, index_label, chunksize, dtype, method, engine, **engine_kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">783</span>     <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">784</span>         <span class="s2">&quot;&#39;frame&#39; argument should be either a Series or a DataFrame&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">785</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">787</span> <span class="k">with</span> <span class="n">pandasSQL_builder</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">,</span> <span class="n">need_transaction</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">pandas_sql</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">788</span>     <span class="k">return</span> <span class="n">pandas_sql</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">789</span>         <span class="n">frame</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">790</span>         <span class="n">name</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">791</span>         <span class="n">if_exists</span><span class="o">=</span><span class="n">if_exists</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">792</span>         <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">793</span>         <span class="n">index_label</span><span class="o">=</span><span class="n">index_label</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">794</span>         <span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">795</span>         <span class="n">chunksize</span><span class="o">=</span><span class="n">chunksize</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">796</span>         <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">797</span>         <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">798</span>         <span class="n">engine</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">799</span>         <span class="o">**</span><span class="n">engine_kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">800</span>     <span class="p">)</span>
+
+<span class="nn">File ~/miniconda3/envs/lehre/lib/python3.11/site-packages/pandas/io/sql.py:2441,</span> in <span class="ni">SQLiteDatabase.to_sql</span><span class="nt">(self, frame, name, if_exists, index, index_label, schema, chunksize, dtype, method, engine, **engine_kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2431</span> <span class="n">table</span> <span class="o">=</span> <span class="n">SQLiteTable</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">2432</span>     <span class="n">name</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2433</span>     <span class="bp">self</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2438</span>     <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2439</span> <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2440</span> <span class="n">table</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<span class="ne">-&gt; </span><span class="mi">2441</span> <span class="k">return</span> <span class="n">table</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">chunksize</span><span class="p">,</span> <span class="n">method</span><span class="p">)</span>
+
+<span class="nn">File ~/miniconda3/envs/lehre/lib/python3.11/site-packages/pandas/io/sql.py:1059,</span> in <span class="ni">SQLTable.insert</span><span class="nt">(self, chunksize, method)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1056</span>     <span class="k">break</span>
+<span class="g g-Whitespace">   </span><span class="mi">1058</span> <span class="n">chunk_iter</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">start_i</span><span class="p">:</span><span class="n">end_i</span><span class="p">]</span> <span class="k">for</span> <span class="n">arr</span> <span class="ow">in</span> <span class="n">data_list</span><span class="p">))</span>
+<span class="ne">-&gt; </span><span class="mi">1059</span> <span class="n">num_inserted</span> <span class="o">=</span> <span class="n">exec_insert</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">chunk_iter</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1060</span> <span class="c1"># GH 46891</span>
+<span class="g g-Whitespace">   </span><span class="mi">1061</span> <span class="k">if</span> <span class="n">num_inserted</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+<span class="nn">File ~/miniconda3/envs/lehre/lib/python3.11/site-packages/pandas/io/sql.py:2137,</span> in <span class="ni">SQLiteTable._execute_insert</span><span class="nt">(self, conn, keys, data_iter)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2135</span> <span class="k">def</span> <span class="nf">_execute_insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">data_iter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2136</span>     <span class="n">data_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">data_iter</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">2137</span>     <span class="n">conn</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">insert_statement</span><span class="p">(</span><span class="n">num_rows</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">data_list</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2138</span>     <span class="k">return</span> <span class="n">conn</span><span class="o">.</span><span class="n">rowcount</span>
+
+<span class="ne">ProgrammingError</span>: Error binding parameter 8: type &#39;Timestamp&#39; is not supported
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="daten-aus-tabellen-abfragen-mit-select">
+<h2>Daten aus Tabellen abfragen mit <code class="docutils literal notranslate"><span class="pre">SELECT</span></code><a class="headerlink" href="#daten-aus-tabellen-abfragen-mit-select" title="Permalink to this heading">#</a></h2>
+<p>SQL ist die Standartsprache um mit relationalen Datenbanken zu arbeiten. Sie bietet verschiedene Befehle um Tabellen zu definieren, Daten in ihnen zu speichern als auch die Daten abzufragen. Letzteres wird mit dem <code class="docutils literal notranslate"><span class="pre">SELECT</span></code> Befehl gemacht. SQL orientiert sich dabei etwas an natürlicher Sprache. Man fragt in SQL quasi nach den Daten aus (<code class="docutils literal notranslate"><span class="pre">FROM</span></code>) einer bestimmten Tabelle . Um zum Beispiel alle Spalten aus einer Tabelle abzufragen nutzen wir den Befehl mit dem Platzhalter <code class="docutils literal notranslate"><span class="pre">*</span></code> (=alle Spalten).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;SELECT * FROM baustellen;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Um den SQL Befehl an die Datenbank zu senden, erzeugen wir aus unserer Datenbankverbindung <code class="docutils literal notranslate"><span class="pre">con</span></code> einen neuen Cursor <code class="docutils literal notranslate"><span class="pre">cur</span></code>. Mit <code class="docutils literal notranslate"><span class="pre">cur.execute(sql)</span></code> führen wir den SQL Befehl aus und die Datenbank sendet und die Datenbank fängt an uns alle Ergebnisse der Anfrage Zeile für Zeile zurück zu senden. Der Cursor zeigt dabei immer auf die aktuelle Zeile. Damit will man vermeiden alle Daten, welche sehr (sehr) viele Zeilen sein können, auf einmal zu senden und damit ggf. das Netzwerk oder das Programm zu überlasten.</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+<span class="n">rows</span><span class="o">=</span><span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">line</span> <span class="mi">6</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">6</span> <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+
+<span class="ne">NameError</span>: name &#39;row&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<p>Wie wir sehen erhalten wir jede Zeile als Tuple zurück. Dabei kennen wir in diesem Fall nicht die Spaltennamen der Werte. Wir können diese vom Cursor abfragen mit</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cur</span><span class="o">.</span><span class="n">description</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>((&#39;index&#39;, None, None, None, None, None, None),
+ (&#39;latitude&#39;, None, None, None, None, None, None),
+ (&#39;longitude&#39;, None, None, None, None, None, None),
+ (&#39;strasse_schluessel&#39;, None, None, None, None, None, None),
+ (&#39;sparte&#39;, None, None, None, None, None, None),
+ (&#39;von&#39;, None, None, None, None, None, None),
+ (&#39;nach&#39;, None, None, None, None, None, None),
+ (&#39;baubeginn&#39;, None, None, None, None, None, None),
+ (&#39;bauende&#39;, None, None, None, None, None, None),
+ (&#39;verkehrsbeeintraechtigungen&#39;, None, None, None, None, None, None),
+ (&#39;baumassnahme&#39;, None, None, None, None, None, None))
+</pre></div>
+</div>
+</div>
+</div>
+<p>Meist fragt man allerdings nicht alle Spalten einer Tabelle mit dem Platzhalter <code class="docutils literal notranslate"><span class="pre">*</span></code> ab, sonder gibt geziehlt die Spalten an, die man erhalten möchte. So kann man unnötigen Datenverkehr spaaren.</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;SELECT strasse_schluessel, sparte, latitude, longitude, baumassnahme FROM baustellen;&#39;</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="filtern-von-ergebnissen-mit-where">
+<h2>Filtern von Ergebnissen mit <code class="docutils literal notranslate"><span class="pre">WHERE</span></code><a class="headerlink" href="#filtern-von-ergebnissen-mit-where" title="Permalink to this heading">#</a></h2>
+<p>Oft will man nur bestimmte Zeilen aus einer Tabelle in einer Datenbank abrufen. Diese Auswahl definiert man mit dem SQL Befehl <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> und zusätzlichen logischen Vergleichsoperatoren.</p>
+<p>Wollen wir zum Beispiel nur die Baustellen haben die einen Baubegin in 2023 haben, so können wir definieren</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT strasse_schluessel, sparte, latitude, longitude, baumassnahme, baubeginn, bauende</span>
+<span class="s1">       FROM baustellen</span>
+<span class="s1">       WHERE baubeginn &gt;= &#39;2023-01-01 00:00:00+01&#39;;&#39;&#39;&#39;</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Mehrere Bedingungen können durch logische Operatoren wie ‘AND’, ‘OR’ oder ‘NOT’ verknüpft werden. Wollen wir alle Baustellen die im 1 Quartal 2023 angefangen und beendet werden, so schreiben wir</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT strasse_schluessel, sparte, latitude, longitude, baumassnahme, baubeginn, bauende</span>
+<span class="s1">       FROM baustellen</span>
+<span class="s1">       WHERE baubeginn &gt;= &#39;2023-01-01 00:00:00+01&#39; AND bauende &lt; &#39;2024-04-01 00:00:00+01&#39;;&#39;&#39;&#39;</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="daten-aggregieren">
+<h2>Daten Aggregieren<a class="headerlink" href="#daten-aggregieren" title="Permalink to this heading">#</a></h2>
+<p>Da die Ergebnisse Zeile für Zeile übertragen werden, ist die Anzahl der Ergebnisse auch nicht unbedingt vorher bekannt. Deshalb unterstützen alle relationale Datenbanken die Aggregatfunktion <code class="docutils literal notranslate"><span class="pre">count(*)</span></code>, um die Anzahl der Zeilen der Ergebnisse zurück zu geben.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;SELECT count(*) FROM baustellen;&#39;</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0,)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Hier erhalten wir nur eine Ergebniszeile zurück, mit der Anzahl der Zeilen in der Tabelle.</p>
+<p>Darüber hinaus unerstützt SQL viele Aggregierfunktionen. Wollen wir zum Beispiel in unserem Beispieldatensatz die minimalen Baubeginn aller Baustellen identifizieren nutzen wir die <code class="docutils literal notranslate"><span class="pre">min()</span></code>-Funktion mit dem entsprechenden Spaltennamen.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;SELECT min(baubeginn) FROM baustellen;&#39;</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(None,)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Wieder erhalten wir ein Ergebnis mit dem Datum. Das entscheidende ist, dass diese Aggregatfunktionen direkt in der Datenbank ausgeführt wird. Wir müssen also nicht alle Daten runterladen, um einfache Kennwerte wie die Anzahl, das Minimum oder Maximum von Spalten zu erhalten. Dabei können wir auch mehrere Aggregierungen in einer Anfrage und mathematische Berechnungen ausführen. Das folgende Beispiel gibt uns die Anzahl der Baustellen sowie den minimalen Baubeginn und das maximale Bauende sowie die Baudauer. Die Baudauer berechnen wir direkt in der Datenbank als den arithmethischen Durchschnitt <code class="docutils literal notranslate"><span class="pre">avg</span></code> der Differenz zwischen Bauende und Baubeginn in Tagen im Julianischen Kalender.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT sparte, count(*), min(baubeginn), max(bauende), avg(JulianDay(bauende)-JulianDay(baubeginn))</span>
+<span class="s1">       FROM baustellen;&#39;&#39;&#39;</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(None, 0, None, None, None)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="statistiken-extrahieren-mit-aggregieren-von-gruppen-sortieren-und-limitieren">
+<h2>Statistiken Extrahieren mit Aggregieren von Gruppen, Sortieren und Limitieren<a class="headerlink" href="#statistiken-extrahieren-mit-aggregieren-von-gruppen-sortieren-und-limitieren" title="Permalink to this heading">#</a></h2>
+<p>Das letzte Beispiel zeigt bereits, wie wir SQL nutzen können um Statistiken der Daten in einer Datenbank zu berechnen. Das wird besonders dann interessant, wenn wir das mit Gruppierungen kombinieren. Gruppierungen fassen die abgefragten Zeilen in der Tabelle entlang den angegebenen Spaltennamen als Gruppe zusammen. Wollen wir zum Beispiel wissen, wie lange im Durchschnitt die Dauer der Baustellen je nach <code class="docutils literal notranslate"><span class="pre">sparte</span></code> ist, so können wir diese Spalte als Gruppe definieren und die mittleren Baudauer für jede Gruppe bestimmen. Dafür bietet SQL den Befehl <code class="docutils literal notranslate"><span class="pre">GROUP</span> <span class="pre">BY</span></code> an, hinter dem wir die Spalte angeben nach welcher gruppiert werden soll.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT sparte, count(*), min(baubeginn), max(bauende), avg(JulianDay(bauende)-JulianDay(baubeginn))</span>
+<span class="s1">       FROM baustellen </span>
+<span class="s1">       GROUP BY sparte;&#39;&#39;&#39;</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Wir sehen jetzt, dass ‘Hochbau’ die größte Gruppen mit 29 Zeilen (Baustellen) bildet, gefolgt von Straßenbau mit 14 Zeilen. Hochbau braucht Hochbau mit 507 Tagen fast doppelt so lange wie Strassenbau mit 274 Tagen.</p>
+<p>(Da wir die Daten tagesaktuell von Opendata-HRO laden, können sich diese Beispielzahlen im Verlauf der Zeit durchaus ändern).</p>
+<p>Um die Ergebnisse zu sortieren bietet SQL den <code class="docutils literal notranslate"><span class="pre">ORDER</span> <span class="pre">BY</span></code> Befehl. Wollen wir die Ergebnisse nach der Dauer absteigend (<code class="docutils literal notranslate"><span class="pre">DESC</span></code>) sortieren, so schreiben wir:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT sparte, count(*), min(baubeginn), max(bauende), avg(JulianDay(bauende)-JulianDay(baubeginn)) as Baudauer </span>
+<span class="s1">       FROM baustellen </span>
+<span class="s1">       GROUP BY sparte</span>
+<span class="s1">       ORDER BY Baudauer DESC;&#39;&#39;&#39;</span>  <span class="c1"># ASC - Aufsteigend, DESC - Absteigend</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Sind wir jetzt nur an der Top 3 interessiert, so können wir mit <code class="docutils literal notranslate"><span class="pre">LIMIT</span></code> die Anzahl an Ergebnissen die maximal zurück gegeben werden.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT sparte, count(*), min(baubeginn), max(bauende), avg(JulianDay(bauende)-JulianDay(baubeginn)) as Baudauer </span>
+<span class="s1">       FROM baustellen </span>
+<span class="s1">       GROUP BY sparte</span>
+<span class="s1">       ORDER BY Baudauer DESC</span>
+<span class="s1">       LIMIT 3;&#39;&#39;&#39;</span>
+
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="daten-aus-mehreren-tabellen-verknupfen-und-gleichzeitig-abfragen-mit-join">
+<h2>Daten aus mehreren Tabellen verknüpfen und gleichzeitig abfragen mit <code class="docutils literal notranslate"><span class="pre">JOIN</span></code><a class="headerlink" href="#daten-aus-mehreren-tabellen-verknupfen-und-gleichzeitig-abfragen-mit-join" title="Permalink to this heading">#</a></h2>
+<p>In unserm Beispiel kennen wir nicht die Straßennamen der Baustelle, sondern nur eine obskure ID namens <code class="docutils literal notranslate"><span class="pre">strasse_schluessel</span></code>. Diese finden wir auch in der Tabelle <code class="docutils literal notranslate"><span class="pre">adressenliste</span></code> zusammen mit dem gesuchten Straßennamen. Wir müssen also nun eine Abfrage über beide Tabellen gemeinsam durchführen, um auch die Straße für die Baustellen zu erfahren. Dafür nutzt man den SQL Befehl <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> und gibt an wo (<code class="docutils literal notranslate"><span class="pre">WHERE</span></code>) die Ergebnisse zusammenzuführen sind indem man eine Gleichheitsbedingung spezifiziert. Da die Spalte <code class="docutils literal notranslate"><span class="pre">strasse_schluessel</span></code> in beiden Tabellen vorkommt und es nicht ganz eindeutig ist auf welche man sich bezieht, gibt man jetzt auch bei den Spaltennamen die Tabelle mit der Dotnotation mit an, also:</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT baustellen.strasse_schluessel, baustellen.sparte, baustellen.latitude, baustellen.longitude, baustellen.baumassnahme, baustellen.baubeginn, baustellen.bauende, </span>
+<span class="s1">              adressenliste.gemeindeteil_name, adressenliste.strasse_name </span>
+<span class="s1">       FROM baustellen </span>
+<span class="s1">       JOIN adressenliste </span>
+<span class="s1">       WHERE baustellen.strasse_schluessel=adressenliste.strasse_schluessel;&#39;&#39;&#39;</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">19</span><span class="p">],</span> <span class="n">line</span> <span class="mi">6</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT baustellen.strasse_schluessel, baustellen.sparte, baustellen.latitude, baustellen.longitude, baustellen.baumassnahme, baustellen.baubeginn, baustellen.bauende, </span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span><span class="s1">               adressenliste.gemeindeteil_name, adressenliste.strasse_name </span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span><span class="s1">        FROM baustellen </span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span><span class="s1">        JOIN adressenliste </span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span><span class="s1">        WHERE baustellen.strasse_schluessel=adressenliste.strasse_schluessel;&#39;&#39;&#39;</span>
+<span class="ne">----&gt; </span><span class="mi">6</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+<span class="ne">OperationalError</span>: no such table: adressenliste
+</pre></div>
+</div>
+</div>
+</div>
+<p>Da diese ständige Wiederholung der Tabellennamen sehr schreiblastig ist, kann man in SQL mit dem Befehl <code class="docutils literal notranslate"><span class="pre">AS</span></code> auch kürzere Namen für Spalten und Tabellen verwenden</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT b.strasse_schluessel, b.sparte, b.latitude, b.longitude, b.baumassnahme, b.baubeginn, b.bauende, </span>
+<span class="s1">              a.gemeindeteil_name, a.strasse_name </span>
+<span class="s1">       FROM baustellen AS b </span>
+<span class="s1">       JOIN adressenliste AS a</span>
+<span class="s1">       WHERE b.strasse_schluessel=a.strasse_schluessel;&#39;&#39;&#39;</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">20</span><span class="p">],</span> <span class="n">line</span> <span class="mi">6</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT b.strasse_schluessel, b.sparte, b.latitude, b.longitude, b.baumassnahme, b.baubeginn, b.bauende, </span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span><span class="s1">               a.gemeindeteil_name, a.strasse_name </span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span><span class="s1">        FROM baustellen AS b </span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span><span class="s1">        JOIN adressenliste AS a</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span><span class="s1">        WHERE b.strasse_schluessel=a.strasse_schluessel;&#39;&#39;&#39;</span>
+<span class="ne">----&gt; </span><span class="mi">6</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+<span class="ne">OperationalError</span>: no such table: adressenliste
+</pre></div>
+</div>
+</div>
+</div>
+<p>Jetzt kommt es allerdings zu vielen Dopplungen in unseren Ergebnissen, da jede Ergebniszeile aus der Tabelle <code class="docutils literal notranslate"><span class="pre">baustellen</span></code> mit jeder Zeile aus der Tabelle <code class="docutils literal notranslate"><span class="pre">adressenliste</span></code> wiederholt wird, weil in der letzteren ja eine Straße mit dem gleichen <code class="docutils literal notranslate"><span class="pre">strasse_schluessel</span></code> mehrmals vorkommt. Diese Duplikate wollen wir rausfiltern mit dem SQL Befehl <code class="docutils literal notranslate"><span class="pre">DISTINCT</span></code></p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT DISTINCT b.strasse_schluessel, b.sparte, b.latitude, b.longitude, b.baumassnahme, a.gemeindeteil_name, a.strasse_name </span>
+<span class="s1">       FROM baustellen AS b</span>
+<span class="s1">       JOIN adressenliste AS a</span>
+<span class="s1">       WHERE b.strasse_schluessel=a.strasse_schluessel;&#39;&#39;&#39;</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">21</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT DISTINCT b.strasse_schluessel, b.sparte, b.latitude, b.longitude, b.baumassnahme, a.gemeindeteil_name, a.strasse_name </span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span><span class="s1">        FROM baustellen AS b</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span><span class="s1">        JOIN adressenliste AS a</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span><span class="s1">        WHERE b.strasse_schluessel=a.strasse_schluessel;&#39;&#39;&#39;</span>
+<span class="ne">----&gt; </span><span class="mi">5</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+<span class="ne">OperationalError</span>: no such table: adressenliste
+</pre></div>
+</div>
+</div>
+</div>
+<p>Jetzt kennen wir schon den richtigen Straßenname zu jeder Baustelle, allerdings fehlt uns die Gemeinde. Hierfür verknüpfen wir die Daten mit der Tabelle
+<code class="docutils literal notranslate"><span class="pre">gemeinden</span></code>. Dafür ergänzen wir die zusätzliche Tabelle im <code class="docutils literal notranslate"><span class="pre">JOIN</span></code> und definieren die weitere Verknüpfungsbedingung auf die Spalte <code class="docutils literal notranslate"><span class="pre">gemeinde_schluessel</span></code>.</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT DISTINCT b.strasse_schluessel, b.sparte, b.latitude, b.longitude, b.baumassnahme, a.gemeindeteil_name, a.strasse_name, g.gemeinde_name</span>
+<span class="s1">       FROM baustellen AS b</span>
+<span class="s1">       JOIN adressenliste AS a, gemeinden AS g</span>
+<span class="s1">       WHERE b.strasse_schluessel=a.strasse_schluessel AND a.gemeinde_schluessel=g.gemeinde_schluessel;&#39;&#39;&#39;</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">22</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT DISTINCT b.strasse_schluessel, b.sparte, b.latitude, b.longitude, b.baumassnahme, a.gemeindeteil_name, a.strasse_name, g.gemeinde_name</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span><span class="s1">        FROM baustellen AS b</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span><span class="s1">        JOIN adressenliste AS a, gemeinden AS g</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span><span class="s1">        WHERE b.strasse_schluessel=a.strasse_schluessel AND a.gemeinde_schluessel=g.gemeinde_schluessel;&#39;&#39;&#39;</span>
+<span class="ne">----&gt; </span><span class="mi">5</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+<span class="ne">OperationalError</span>: no such table: adressenliste
+</pre></div>
+</div>
+</div>
+</div>
+<p>Es gibt <a class="reference external" href="https://www.w3schools.com/sql/sql_join.asp">verschiedene Typen von Joins</a> je nachdem ob man nur die Ergebnisse haben will für die es:</p>
+<ul class="simple">
+<li><p>Einträge in beiden Tabellen gibt (INNER, Default)</p></li>
+<li><p>Einträge in mindestens der ersten Tabelle gibt (RIGHT)</p></li>
+<li><p>Einträge in mindestens der zweiten Tabelle gibt (LEFT)</p></li>
+<li><p>Einträge in mindestens der zweiten Tabelle gibt (OUTER)</p></li>
+</ul>
+<p>Der <code class="docutils literal notranslate"><span class="pre">NATURAL</span> <span class="pre">JOIN</span></code> Typen vereinfachen die Schreibarbeit. Beim <code class="docutils literal notranslate"><span class="pre">NATURAL</span> <span class="pre">JOIN</span></code> werden dabei die Spalten gematcht, welche identisch heißen. Er funktioniert somit nur wenn die Spalten in den zu matchenden Tabellen identisch heißen und alle anderen Spalten andere Namen haben, was eher seltener der Fall ist.</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sqlNJ</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT DISTINCT strasse_schluessel, sparte, latitude, longitude, baumassnahme, gemeindeteil_name, strasse_name, gemeinde_name</span>
+<span class="s1">       FROM baustellen</span>
+<span class="s1">       NATURAL JOIN adressenliste, gemeinden;&#39;&#39;&#39;</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sqlNJ</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">23</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">sqlNJ</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT DISTINCT strasse_schluessel, sparte, latitude, longitude, baumassnahme, gemeindeteil_name, strasse_name, gemeinde_name</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span><span class="s1">        FROM baustellen</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span><span class="s1">        NATURAL JOIN adressenliste, gemeinden;&#39;&#39;&#39;</span>
+<span class="ne">----&gt; </span><span class="mi">4</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sqlNJ</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+
+<span class="ne">OperationalError</span>: no such table: adressenliste
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Es funktioniert auch in diesem Beispiel nicht. Es werden zwar Ergebnisse zurück gegeben, allerdings, deutlich mehr als im letzten Join. Die Gemeinden werden hier kreuzkombiniert. Man sieht also, dass der <code class="docutils literal notranslate"><span class="pre">NATURAL</span> <span class="pre">JOIN</span></code> mit Vorsicht zu benutzen ist.</p>
+</div>
+</section>
+<section id="daten-mit-sql-und-pandas-abfragen-und-mit-geojson-visualisieren">
+<h2>Daten mit SQL und Pandas abfragen und mit GeoJSON visualisieren<a class="headerlink" href="#daten-mit-sql-und-pandas-abfragen-und-mit-geojson-visualisieren" title="Permalink to this heading">#</a></h2>
+<p>Wir haben am Anfang ja die Tabellen in der SQLite Datenbank bereits mit Pandas erzeugt. Wir können Pandas auch nutzen um Daten aus einer SQL Anfrage direkt als Dataframe (Pandas Tabelle) zu laden.</p>
+<p>Fügen wir einmal die Beispiele zusammen und lassen uns alle Baustellen mit Strasse und Gemeinde im ersten Quartal 2023 auf einer Karte anzeigen. Die SQL Abfrage dazu sieht wie folgt aus</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;SELECT DISTINCT b.strasse_schluessel, b.sparte, b.latitude, b.longitude, b.baumassnahme, b.baubeginn, b.bauende, a.gemeindeteil_name, a.strasse_name, g.gemeinde_name</span>
+<span class="s1">       FROM baustellen AS b</span>
+<span class="s1">       JOIN adressenliste AS a, gemeinden AS g</span>
+<span class="s1">       WHERE b.strasse_schluessel=a.strasse_schluessel AND a.gemeinde_schluessel=g.gemeinde_schluessel</span>
+<span class="s1">         AND b.baubeginn &gt;= &#39;2023-01-01 00:00:00+01&#39; AND b.bauende &lt; &#39;2024-04-01 00:00:00+01&#39;;&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Wir führen die SQL Abfrage direkt mit der Pandas Funktion <code class="docutils literal notranslate"><span class="pre">pd.read_sql(sql,</span> <span class="pre">con)</span></code> aus und erzeugen uns einen DataFrame der die gewünschten Daten enthält.</p>
+<div class="cell tag_output_scroll docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">baustellen_mit_strasse</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">con</span><span class="p">)</span>
+<span class="n">baustellen_mit_strasse</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">OperationalError</span><span class="g g-Whitespace">                          </span>Traceback (most recent call last)
+<span class="nn">File ~/miniconda3/envs/lehre/lib/python3.11/site-packages/pandas/io/sql.py:2264,</span> in <span class="ni">SQLiteDatabase.execute</span><span class="nt">(self, sql, params)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2263</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">2264</span>     <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2265</span>     <span class="k">return</span> <span class="n">cur</span>
+
+<span class="ne">OperationalError</span>: no such table: adressenliste
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">DatabaseError</span><span class="g g-Whitespace">                             </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">25</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">baustellen_mit_strasse</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">con</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">baustellen_mit_strasse</span>
+
+<span class="nn">File ~/miniconda3/envs/lehre/lib/python3.11/site-packages/pandas/io/sql.py:654,</span> in <span class="ni">read_sql</span><span class="nt">(sql, con, index_col, coerce_float, params, parse_dates, columns, chunksize, dtype_backend, dtype)</span>
+<span class="g g-Whitespace">    </span><span class="mi">652</span> <span class="k">with</span> <span class="n">pandasSQL_builder</span><span class="p">(</span><span class="n">con</span><span class="p">)</span> <span class="k">as</span> <span class="n">pandas_sql</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">653</span>     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pandas_sql</span><span class="p">,</span> <span class="n">SQLiteDatabase</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">654</span>         <span class="k">return</span> <span class="n">pandas_sql</span><span class="o">.</span><span class="n">read_query</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">655</span>             <span class="n">sql</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">656</span>             <span class="n">index_col</span><span class="o">=</span><span class="n">index_col</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">657</span>             <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">658</span>             <span class="n">coerce_float</span><span class="o">=</span><span class="n">coerce_float</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">659</span>             <span class="n">parse_dates</span><span class="o">=</span><span class="n">parse_dates</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">660</span>             <span class="n">chunksize</span><span class="o">=</span><span class="n">chunksize</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">661</span>             <span class="n">dtype_backend</span><span class="o">=</span><span class="n">dtype_backend</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">662</span>             <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">663</span>         <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">665</span>     <span class="k">try</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">666</span>         <span class="n">_is_table_name</span> <span class="o">=</span> <span class="n">pandas_sql</span><span class="o">.</span><span class="n">has_table</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+
+<span class="nn">File ~/miniconda3/envs/lehre/lib/python3.11/site-packages/pandas/io/sql.py:2328,</span> in <span class="ni">SQLiteDatabase.read_query</span><span class="nt">(self, sql, index_col, coerce_float, parse_dates, params, chunksize, dtype, dtype_backend)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2317</span> <span class="k">def</span> <span class="nf">read_query</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">2318</span>     <span class="bp">self</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2319</span>     <span class="n">sql</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2326</span>     <span class="n">dtype_backend</span><span class="p">:</span> <span class="n">DtypeBackend</span> <span class="o">|</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;numpy&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;numpy&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2327</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrame</span> <span class="o">|</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">DataFrame</span><span class="p">]:</span>
+<span class="ne">-&gt; </span><span class="mi">2328</span>     <span class="n">cursor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2329</span>     <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">col_desc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">col_desc</span> <span class="ow">in</span> <span class="n">cursor</span><span class="o">.</span><span class="n">description</span><span class="p">]</span>
+<span class="g g-Whitespace">   </span><span class="mi">2331</span>     <span class="k">if</span> <span class="n">chunksize</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+
+<span class="nn">File ~/miniconda3/envs/lehre/lib/python3.11/site-packages/pandas/io/sql.py:2276,</span> in <span class="ni">SQLiteDatabase.execute</span><span class="nt">(self, sql, params)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2273</span>     <span class="k">raise</span> <span class="n">ex</span> <span class="kn">from</span> <span class="nn">inner_exc</span>
+<span class="g g-Whitespace">   </span><span class="mi">2275</span> <span class="n">ex</span> <span class="o">=</span> <span class="n">DatabaseError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Execution failed on sql &#39;</span><span class="si">{</span><span class="n">sql</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">2276</span> <span class="k">raise</span> <span class="n">ex</span> <span class="kn">from</span> <span class="nn">exc</span>
+
+<span class="ne">DatabaseError</span>: Execution failed on sql &#39;SELECT DISTINCT b.strasse_schluessel, b.sparte, b.latitude, b.longitude, b.baumassnahme, b.baubeginn, b.bauende, a.gemeindeteil_name, a.strasse_name, g.gemeinde_name
+       <span class="n">FROM</span> <span class="n">baustellen</span> <span class="n">AS</span> <span class="n">b</span>
+       <span class="n">JOIN</span> <span class="n">adressenliste</span> <span class="n">AS</span> <span class="n">a</span><span class="p">,</span> <span class="n">gemeinden</span> <span class="n">AS</span> <span class="n">g</span>
+       <span class="n">WHERE</span> <span class="n">b</span><span class="o">.</span><span class="n">strasse_schluessel</span><span class="o">=</span><span class="n">a</span><span class="o">.</span><span class="n">strasse_schluessel</span> <span class="n">AND</span> <span class="n">a</span><span class="o">.</span><span class="n">gemeinde_schluessel</span><span class="o">=</span><span class="n">g</span><span class="o">.</span><span class="n">gemeinde_schluessel</span>
+         <span class="n">AND</span> <span class="n">b</span><span class="o">.</span><span class="n">baubeginn</span> <span class="o">&gt;=</span> <span class="s1">&#39;2023-01-01 00:00:00+01&#39;</span> <span class="n">AND</span> <span class="n">b</span><span class="o">.</span><span class="n">bauende</span> <span class="o">&lt;</span> <span class="s1">&#39;2024-04-01 00:00:00+01&#39;</span><span class="p">;</span><span class="s1">&#39;: no such table: adressenliste</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Die Tabelle enthält ja bereits die Latitude und Longitude. Mit dem Paket <code class="docutils literal notranslate"><span class="pre">pandas_geojson</span></code> können wir aus den Dataframe in ein GeoJSON FeatureCollection umwandeln. Wir installieren zuerst das Paket mit pip.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pandas_geojson</span> <span class="o">--</span><span class="n">quiet</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Note: you may need to restart the kernel to use updated packages.
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pandas_geojson</span> <span class="kn">import</span> <span class="n">to_geojson</span>
+
+<span class="n">geo_json</span> <span class="o">=</span> <span class="n">to_geojson</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">baustellen_mit_strasse</span><span class="p">,</span> <span class="n">lat</span><span class="o">=</span><span class="s1">&#39;latitude&#39;</span><span class="p">,</span> <span class="n">lon</span><span class="o">=</span><span class="s1">&#39;longitude&#39;</span><span class="p">,</span>
+                 <span class="n">properties</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;strasse_name&#39;</span><span class="p">,</span><span class="s1">&#39;sparte&#39;</span><span class="p">,</span><span class="s1">&#39;baumassnahme&#39;</span><span class="p">,</span> <span class="s1">&#39;baubeginn&#39;</span><span class="p">,</span> <span class="s1">&#39;bauende&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">27</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">from</span> <span class="nn">pandas_geojson</span> <span class="kn">import</span> <span class="n">to_geojson</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">geo_json</span> <span class="o">=</span> <span class="n">to_geojson</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">baustellen_mit_strasse</span><span class="p">,</span> <span class="n">lat</span><span class="o">=</span><span class="s1">&#39;latitude&#39;</span><span class="p">,</span> <span class="n">lon</span><span class="o">=</span><span class="s1">&#39;longitude&#39;</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>                  <span class="n">properties</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;strasse_name&#39;</span><span class="p">,</span><span class="s1">&#39;sparte&#39;</span><span class="p">,</span><span class="s1">&#39;baumassnahme&#39;</span><span class="p">,</span> <span class="s1">&#39;baubeginn&#39;</span><span class="p">,</span> <span class="s1">&#39;bauende&#39;</span><span class="p">])</span>
+
+<span class="ne">NameError</span>: name &#39;baustellen_mit_strasse&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<p>Jetzt können wir uns die Baustellen  mit dem schon bekannten Paket <code class="docutils literal notranslate"><span class="pre">geojsonio</span></code> auf einer Karte visualisieren.</p>
+<div class="cell tag_hide-output docutils container">
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">geojsonio</span>
+
+<span class="n">geojsonio</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">geo_json</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<details class="hide below-input">
+<summary aria-label="Toggle hidden content">
+<span class="collapsed">Show code cell output</span>
+<span class="expanded">Hide code cell output</span>
+</summary>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">28</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">json</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span> <span class="nn">geojsonio</span>
+<span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">geojsonio</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">geo_json</span><span class="p">))</span>
+
+<span class="ne">NameError</span>: name &#39;geo_json&#39; is not defined
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p><img alt="Baustellen" src="../_images/baustellen.png" /></p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Vorlesung"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="9_Datenhaltung.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Umgang mit Dateien</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="11_Datenbankentwurf.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Entwurf relationaler Datenbanken</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#praxisbeispiel">Praxisbeispiel</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabellen-in-sqlite-speichern-mit-pandas">Tabellen in SQLite speichern mit Pandas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#daten-aus-tabellen-abfragen-mit-select">Daten aus Tabellen abfragen mit <code class="docutils literal notranslate"><span class="pre">SELECT</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#filtern-von-ergebnissen-mit-where">Filtern von Ergebnissen mit <code class="docutils literal notranslate"><span class="pre">WHERE</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#daten-aggregieren">Daten Aggregieren</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#statistiken-extrahieren-mit-aggregieren-von-gruppen-sortieren-und-limitieren">Statistiken Extrahieren mit Aggregieren von Gruppen, Sortieren und Limitieren</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#daten-aus-mehreren-tabellen-verknupfen-und-gleichzeitig-abfragen-mit-join">Daten aus mehreren Tabellen verknüpfen und gleichzeitig abfragen mit <code class="docutils literal notranslate"><span class="pre">JOIN</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#daten-mit-sql-und-pandas-abfragen-und-mit-geojson-visualisieren">Daten mit SQL und Pandas abfragen und mit GeoJSON visualisieren</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Joern Ploennigs, AI 4 Sustainable Construction, University of Rostock
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright CC-BY-NC-SA 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
