@@ -2,9 +2,14 @@
 
 # Configuration
 BRANCH="gh-pages"
-HASH_FILE="/home/ploennigs/code/Programmierung-und-Datenbanken/commit_hash.txt"
+REPO_DIR="/home/ploennigs/code/Programmierung-und-Datenbanken/"
+HASH_FILE="commit_hash.txt"
 POD_NAME="coding-book"
 NAMESPACE="books"
+
+# Fetch the latest changes from the remote
+cd "$REPO_DIR" || { echo "Failed to change directory to $REPO_DIR"; exit 1; }
+git fetch origin
 
 # Ensure the hash file exists
 touch "$HASH_FILE"
