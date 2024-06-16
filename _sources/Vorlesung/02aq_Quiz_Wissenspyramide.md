@@ -7,7 +7,7 @@
 	shuffleAnswers: true
 	---
 
-    ### Ordne die Elemente der Wissenspyramide in der Reihenfolge von 1 bis 7 an.
+    ### Ordne die Elemente der Wissenspyramide richit an.
 
     ![Wissenspyramide Quizz](../_images/wissenspyramide_quizz1.png)
 
@@ -78,7 +78,7 @@
 
     ![Quelle: https://www.planet-wissen.de/geschichte/antike/hieroglyphen](../_images/hieroglyphs.png)
 
-    1. [x] Jede Hieroglyphe
+    1. [ ] Jede Hieroglyphe
       > Jede Hieroglyphen stellt ein Zeichen dar
     1. [ ] Jede Spalte
     1. [ ] Bedeutung der Hieroglyphe
@@ -90,7 +90,7 @@
     ![Quelle: https://www.planet-wissen.de/geschichte/antike/hieroglyphen](../_images/hieroglyphs.png)
 
     1. [ ] Jede Hieroglyphe
-    1. [x] Jede Spalte
+    1. [ ] Jede Spalte
       > Die Hieroglyphen sind in Spalten angeordnet. Wir lesen sie von oben nach unten und von rechts nach links.
     1. [ ] Bedeutung der Hieroglyphe
     1. [ ] Kontext aller Hieroglyphen
@@ -101,7 +101,7 @@
 
     1. [ ] Jede Hieroglyphe
     1. [ ] Jede Spalte
-    1. [x] Bedeutung der Hieroglyphe
+    1. [ ] Bedeutung der Hieroglyphe
       > Jede Hieroglyphen hat eine kontextspezifische Bedeutung welche  Bildzeichen, Lautzeichen oder Deutzeichen darstellen können.
     1. [ ] Kontext aller Hieroglyphen
 
@@ -112,6 +112,6 @@
     1. [ ] Jede Hieroglyphe
     1. [ ] Jede Spalte
     1. [ ] Bedeutung der Hieroglyphe
-    1. [x] Kontext aller Hieroglyphen
+    1. [ ] Kontext aller Hieroglyphen
       > Die Hieroglyphen können nur in Ihrem Kontext korrekt Interpretiert werden.
 ```

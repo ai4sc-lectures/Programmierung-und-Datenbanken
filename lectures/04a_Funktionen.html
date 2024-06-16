@@ -1,0 +1,808 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Funktionen &#8212; Programmierung und Datenbanken</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"></script>
+    <script>quizdown.init({"quizdown_js": "https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"});</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/04a_Funktionen';</script>
+    <link rel="canonical" href="https://ai4sc-lectures.github.io/Programmierung-und-Datenbanken/lectures/04a_Funktionen.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Objekte" href="04c_Objects.html" />
+    <link rel="prev" title="Schleifen" href="03b_Schleifen.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/ai4sc_logo_v2.svg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/ai4sc_logo_v2.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Programmierung und Datenbanken
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Grundlagen</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01c_Computerhardware.html">Computerhardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01d_Programmiersprachen.html">Programmiersprachen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01e_Softwarearchitektur.html">Softwarearchitekturen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02a_Wissenspyramide.html">Wissenspyramide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02aq_Quiz_Wissenspyramide.html">Quiz: Wissenspyramide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02b_Datentypen.html">Datentypen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02bq_Quiz_Datentypen.html">Quiz: Datentypen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02c_Operatoren.html">Operatoren</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02cq_Quiz_Logik.html">Quiz: Logische Operationen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03a_Verzweigung.html">Verzweigungen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03b_Schleifen.html">Schleifen</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modularisierung</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Funktionen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04c_Objects.html">Objekte</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_Rekursion.html">Rekursive Funktionen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05a_Programmablauf.html">Programmablauf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05b_Algorithmen.html">Such- und Sortieralgorithmen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06a_Exceptions.html">Exceptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06b_UnitTest.html">Unit-Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06c_Debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07a_Module.html">Pakete</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Datenbanken</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="9_Datenhaltung.html">Umgang mit Dateien</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10_Datenbanken.html">Relationale Datenbanken</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11_Datenbankentwurf.html">Entwurf relationaler Datenbanken</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/lectures/04a_Funktionen.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Funktionen</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#funktionsdefinition-und-funktionsaufruf">Funktionsdefinition und Funktionsaufruf</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ergebnisruckgabe">Ergebnisrückgabe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variablengultigkeit">Variablengültigkeit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#veranderte-und-unveranderte-argumente">Veränderte und unveränderte Argumente</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="funktionen">
+<h1>Funktionen<a class="headerlink" href="#funktionen" title="Permalink to this heading">#</a></h1>
+<section id="funktionsdefinition-und-funktionsaufruf">
+<h2>Funktionsdefinition und Funktionsaufruf<a class="headerlink" href="#funktionsdefinition-und-funktionsaufruf" title="Permalink to this heading">#</a></h2>
+<p>Alle höheren Programmiersprachen erlauben die Definition von Funktionen (oder Prozeduren), um sich ständig wiederholenden Code nur einmal schreiben zu müssen und komplexe Programme zu strukturieren.</p>
+<p>Funktionen werden in Python mit dem Schlüsselwort <code class="docutils literal notranslate"><span class="pre">def</span></code> definiert. Sie haben einen <code class="docutils literal notranslate"><span class="pre">funktionsnamen</span></code> und können mehrere Argumente als Eingabe in einer Klammer haben. Die Deklaration der Funktion wird mit <code class="docutils literal notranslate"><span class="pre">:</span></code> beendet. Der Körper der Funktion, also der Teil, welcher beim Aufrufen der Funktion ausgeführt werden soll, muss immer eingerückt werden.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">funktionsname</span><span class="p">(</span><span class="n">argument1</span><span class="p">,</span> <span class="n">argument2</span><span class="p">):</span>
+    <span class="c1"># Funktionskörper</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Datentyp von Argument 1 ist &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">argument1</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Datentyp von Argument 2 ist &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">argument2</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Hierbei müssen alle Teile der Funktion gleich eingerückt werden. Der folgende Code ist z.B. syntaktisch falsch</p>
+<div class="cell tag_raises-exception docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">funktionsname</span><span class="p">(</span><span class="n">argument1</span><span class="p">,</span> <span class="n">argument</span><span class="p">):</span>
+    <span class="c1"># Funktionskörper</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Datentyp von Argument 1 ist &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">argument1</span><span class="p">)))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Datentyp von Argument 2 ist &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">argument2</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Datentyp von Argument 2 ist &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">argument2</span><span class="p">)))</span>
+    <span class="o">^</span>
+<span class="ne">IndentationError</span>: unexpected indent
+</pre></div>
+</div>
+</div>
+</div>
+<p>Beim Aufruf der Funktion durch den <code class="docutils literal notranslate"><span class="pre">funktionsname(wert1,</span> <span class="pre">wert2)</span></code> müssen die Argumente mit Eingabewerten belegt werden. Die Argumente in Python werden wie andere Variablen dynamisch typisiert (Wir wissen also nicht unbedingt welchen Datentyp sie später haben werden. Das ist eine typische Fehlerquelle).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">funktionsname</span><span class="p">(</span><span class="s2">&quot;wert1&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Der Datentyp von Argument 1 ist &lt;class &#39;str&#39;&gt;
+Der Datentyp von Argument 2 ist &lt;class &#39;int&#39;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Das entscheidende ist, dass die Argumente ihre Werte ändern können.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">funktionsname</span><span class="p">(</span><span class="s2">&quot;anderer wert &quot;</span><span class="p">,</span> <span class="s2">&quot;noch ein anderer&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Der Datentyp von Argument 1 ist &lt;class &#39;str&#39;&gt;
+Der Datentyp von Argument 2 ist &lt;class &#39;str&#39;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="ergebnisruckgabe">
+<h2>Ergebnisrückgabe<a class="headerlink" href="#ergebnisruckgabe" title="Permalink to this heading">#</a></h2>
+<p>Die Anweisung <code class="docutils literal notranslate"><span class="pre">return</span></code> wird in Funktionen benutzt, um die Ausführung einer Funktion zu beenden und den zugewiesenen Wert(e) als Ergebnis der Funktion zurückzugeben.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">funktion_mit_einer_ausgabe</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s2">&quot;Ausgabewert&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dieser Teil wird nicht ausgeführt&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s2">&quot;Anderer Ausgabewert&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ergebnis</span> <span class="o">=</span> <span class="n">funktion_mit_einer_ausgabe</span><span class="p">()</span>
+<span class="n">ergebnis</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Ausgabewert&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Wir sehen, dass das Ergebnis <code class="docutils literal notranslate"><span class="pre">Ausgabewert</span></code> ist und die <code class="docutils literal notranslate"><span class="pre">print()</span></code> Funktion nicht aufgerufen worden ist.</p>
+<p>Es können mehrere Ausgabewerte mit <code class="docutils literal notranslate"><span class="pre">return</span></code> zurückgegeben werden.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">funktion_mit_zwei_ausgaben</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s2">&quot;Ausgabewert1&quot;</span><span class="p">,</span> <span class="s2">&quot;Ausgabewert2&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ergebnis</span> <span class="o">=</span> <span class="n">funktion_mit_zwei_ausgaben</span><span class="p">()</span>
+<span class="n">ergebnis</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;Ausgabewert1&#39;, &#39;Ausgabewert2&#39;)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Das Ergebnis von Funktionen mit mehreren Rückgaben ist ein Tuple.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">ergebnis</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tuple
+</pre></div>
+</div>
+</div>
+</div>
+<p>Auf die einzelnen Werte im Tuple kann durch den Index zugegriffen werden. Zur Erinnerung der Index einer Liste oder eines Tuples startet mit 0.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ergebnis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;Ausgabewert1&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Das Tuple kann allerdings auch durch Mehrfachzuweisung verhindert werden. Bei einer Mehrfachzuweisung listet man mehrere durch Komma getrennte Variablen links von der Zuweisung auf.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ergebnis1</span><span class="p">,</span> <span class="n">ergebnis2</span> <span class="o">=</span> <span class="n">funktion_mit_zwei_ausgaben</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ergebnis1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ergebnis2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">ergebnis1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">ergebnis2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ausgabewert1
+Ausgabewert2
+&lt;class &#39;str&#39;&gt;
+&lt;class &#39;str&#39;&gt;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="variablengultigkeit">
+<h2>Variablengültigkeit<a class="headerlink" href="#variablengultigkeit" title="Permalink to this heading">#</a></h2>
+<p>Variablen innerhalb von Funktionen sind nicht global gültig. So sind die Variablen der Argumente nur innerhalb der Funktion gültig. Auch neue Variablen, die in der Funktion definiert werden, sind nicht außerhalb der Funktion gültig. So sind in der folgenden Funktion:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">meine_funktion</span><span class="p">(</span><span class="n">argument</span><span class="p">):</span>
+    <span class="n">interne_variable</span> <span class="o">=</span> <span class="s2">&quot;geheim&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Wert von argument innerhalb der Funktion ist &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">argument</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Wert von intern innerhalb der Funktion ist &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">interne_variable</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>die Werte von <code class="docutils literal notranslate"><span class="pre">argument</span></code> und <code class="docutils literal notranslate"><span class="pre">intern</span></code> innerhalb der Funktion definiert und werden im ´print()´ Statement ausgegeben.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">meine_funktion</span><span class="p">(</span><span class="s2">&quot;argument_wert&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Der Wert von argument innerhalb der Funktion ist argument_wert
+Der Wert von intern innerhalb der Funktion ist geheim
+</pre></div>
+</div>
+</div>
+</div>
+<p>Die Variablen <code class="docutils literal notranslate"><span class="pre">argument</span></code> und <code class="docutils literal notranslate"><span class="pre">interne_variable</span></code> sind nach dem Ausführen der Funktion allerdings nicht global verfügbar.</p>
+<div class="cell tag_raises-exception docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">argument</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">14</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="nb">print</span><span class="p">(</span><span class="n">argument</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;argument&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_raises-exception docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">interne_variable</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">15</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="nb">print</span><span class="p">(</span><span class="n">interne_variable</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;interne_variable&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<p>Die erlaubt es auch Variablennamen außerhalb der Funktion zu definieren, welche innerhalb der Funktion einen anderen Wert haben können. So bleibt der Wert von <code class="docutils literal notranslate"><span class="pre">argument</span></code> unverändert.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">argument</span> <span class="o">=</span> <span class="mi">6</span> <span class="c1"># orginalwert</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Wert von argument vor der Funktion ist &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">argument</span><span class="p">))</span>
+<span class="n">meine_funktion</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Wert von argument nach der Funktion ist immer noch &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">argument</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Der Wert von argument vor der Funktion ist 6
+Der Wert von argument innerhalb der Funktion ist 4
+Der Wert von intern innerhalb der Funktion ist geheim
+Der Wert von argument nach der Funktion ist immer noch 6
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="veranderte-und-unveranderte-argumente">
+<h2>Veränderte und unveränderte Argumente<a class="headerlink" href="#veranderte-und-unveranderte-argumente" title="Permalink to this heading">#</a></h2>
+<p>Grundsätzlich werden Modifikationen an Argumenten primitiver Datentypen innerhalb der Funktion nicht übernommen (pass-by-value). So, lässt sich innerhalb der Funktion auch Argumenten neue Werte zuweisen.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">meine_funktion</span><span class="p">(</span><span class="n">argument</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Wert von argument am Anfang der Funktion ist &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">argument</span><span class="p">))</span>
+    <span class="n">argument</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Wert von argument am Ende der Funktion ist &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">argument</span><span class="p">))</span>
+
+<span class="n">argument</span> <span class="o">=</span> <span class="mi">6</span> <span class="c1"># orginalwert</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Wert von argument vor der Funktion ist &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">argument</span><span class="p">))</span>
+<span class="n">meine_funktion</span><span class="p">(</span><span class="n">argument</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Wert von argument nach der Funktion ist immer noch &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">argument</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Der Wert von argument vor der Funktion ist 6
+Der Wert von argument am Anfang der Funktion ist 6
+Der Wert von argument am Ende der Funktion ist 3
+Der Wert von argument nach der Funktion ist immer noch 6
+</pre></div>
+</div>
+</div>
+</div>
+<p>Das funktioniert auch bei komplexen Datentypen, wie <code class="docutils literal notranslate"><span class="pre">list</span></code>, <code class="docutils literal notranslate"><span class="pre">set</span></code>, <code class="docutils literal notranslate"><span class="pre">dict</span></code>, sofern sie komplett neu zugewiesen werden.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">meine_funktion</span><span class="p">(</span><span class="n">argument</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Wert von argument am Anfang der Funktion ist &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">argument</span><span class="p">))</span>
+    <span class="n">argument</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Wert von argument am Ende der Funktion ist &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">argument</span><span class="p">))</span>
+
+<span class="n">argument</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="c1"># orginalwert</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Wert von argument vor der Funktion ist &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">argument</span><span class="p">))</span>
+<span class="n">meine_funktion</span><span class="p">(</span><span class="n">argument</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Wert von argument nach der Funktion ist immer noch &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">argument</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Der Wert von argument vor der Funktion ist [6]
+Der Wert von argument am Anfang der Funktion ist [6]
+Der Wert von argument am Ende der Funktion ist [3]
+Der Wert von argument nach der Funktion ist immer noch [6]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Werden sie allerdings nur modifiziert (pass-by-reference), so sind diese Änderungen auch global.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">meine_funktion</span><span class="p">(</span><span class="n">argument</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Wert von argument am Anfang der Funktion ist &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">argument</span><span class="p">))</span>
+    <span class="n">argument</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># Wir fügen 3 der liste hinzu</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Wert von argument am Ende der Funktion ist &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">argument</span><span class="p">))</span>
+
+<span class="n">argument</span> <span class="o">=</span> <span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="c1"># orginalwert</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Wert von argument vor der Funktion ist &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">argument</span><span class="p">))</span>
+<span class="n">meine_funktion</span><span class="p">(</span><span class="n">argument</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Der Wert von argument nach der Funktion ist auf einmal &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">argument</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Der Wert von argument vor der Funktion ist [6]
+Der Wert von argument am Anfang der Funktion ist [6]
+Der Wert von argument am Ende der Funktion ist [6, 3]
+Der Wert von argument nach der Funktion ist auf einmal [6, 3]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Das kann sehr schnell zu Fehlern führen, wenn man unbeabsichtigt globale Datenstrukturen verändert.</p>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./lectures"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03b_Schleifen.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Schleifen</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="04c_Objects.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Objekte</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#funktionsdefinition-und-funktionsaufruf">Funktionsdefinition und Funktionsaufruf</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ergebnisruckgabe">Ergebnisrückgabe</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#variablengultigkeit">Variablengültigkeit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#veranderte-und-unveranderte-argumente">Veränderte und unveränderte Argumente</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Joern Ploennigs, AI 4 Sustainable Construction, University of Rostock
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright CC-BY-NC-SA 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
