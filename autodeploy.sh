@@ -2,7 +2,7 @@
 
 # Configuration
 BRANCH="gh-pages"
-REPO_DIR="/home/ploennigs/code/Programmierung-und-Datenbanken/"
+REPO_DIR="/home/ploennigs/code/Programmierung-und-Datenbanken"
 HASH_FILE="commit_hash.txt"
 POD_NAME="coding-book"
 NAMESPACE="books"
