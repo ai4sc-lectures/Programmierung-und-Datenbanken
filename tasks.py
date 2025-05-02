@@ -121,6 +121,10 @@ def build_quarto_book(c):
         c.run(f"quarto render  --output-dir ../_build/html_quarto")
 
 @task
+def config_book(c):
+    c.run("jupyter-book config sphinx .")
+
+@task
 def build_book(c, all=False):
     if all:
         info("Build jupyter book ALL")
@@ -251,6 +255,7 @@ def build_pdf(c):
 @task()
 def build(c, all=False):
     info("Build")
+    config_book(c)
     build_book(c, all)
     copy_images(c)
     #build_quarto(c)
@@ -279,7 +284,7 @@ def serve(c):
     if sys.platform == 'win32':
         c.run("weave 8080 to ./_build/html")
     elif sys.platform == 'darwin':
-        c.run("weave_mac 8080 to ./_build/html")
+        c.run("./weave_mac 8080 to ./_build/html")
     else:
         print("not supported ", sys.platform)
 

@@ -5,42 +5,37 @@
 ###############################################################################
 author = 'Joern Ploennigs, AI 4 Sustainable Construction, University of Rostock'
 bibtex_bibfiles = ['references.bib']
-comments_config = {'hypothesis': False, 'utterances': False}
+comments_config = {'hypothesis': True, 'utterances': False}
 copyright = 'CC-BY-NC-SA 2022'
-exclude_patterns = ['**.ipynb_checkpoints', '.DS_Store', 'Thumbs.db', '_build']
-extensions = ['sphinx_togglebutton', 'sphinx_copybutton', 'myst_nb', 'jupyter_book', 'sphinx_thebe', 'sphinx_comments', 'sphinx_external_toc', 'sphinx.ext.intersphinx', 'sphinx_design', 'sphinx_book_theme', 'sphinxcontrib.mermaid', 'sphinxcontrib.quizdown', 'sphinxcontrib.bibtex', 'sphinx_jupyterbook_latex']
+exclude_patterns = ['**.ipynb_checkpoints', '.DS_Store', '.quarto', 'Thumbs.db', '_build']
+extensions = ['sphinx_togglebutton', 'sphinx_copybutton', 'myst_nb', 'jupyter_book', 'sphinx_thebe', 'sphinx_comments', 'sphinx_external_toc', 'sphinx.ext.intersphinx', 'sphinx_design', 'sphinx_book_theme', 'sphinxcontrib.mermaid', 'sphinxcontrib.quizdown', 'sphinxcontrib.bibtex', 'sphinx_jupyterbook_latex', 'sphinx_multitoc_numbering']
 external_toc_exclude_missing = True
 external_toc_path = '_toc.yml'
 html_baseurl = 'https://code-book.ai4sc-lehre.auf.uni-rostock.de/'
+html_css_files = ['style.css']
 html_extra_path = ['lectures/geometry']
 html_favicon = ''
-html_logo = 'lectures/images/ai4sc_logo_v2.svg'
+html_js_files = ['https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js']
+html_logo = ''
 html_sourcelink_suffix = ''
-html_theme = 'sphinx_book_theme'
-html_theme_options = {'search_bar_text': 'Search this book...', 'launch_buttons': {'notebook_interface': 'classic', 'binderhub_url': '', 'jupyterhub_url': '', 'thebe': False, 'colab_url': '', 'repository_url': 'https://github.com/ai4sc-lectures/Programmierung-und-Datenbanken'}, 'path_to_docs': '', 'repository_url': 'https://github.com/ai4sc-lectures/Programmierung-und-Datenbanken', 'repository_branch': 'main', 'extra_footer': '', 'home_page_in_toc': True, 'announcement': '', 'analytics': {'google_analytics_id': ''}, 'use_repository_button': False, 'use_edit_page_button': False, 'use_issues_button': False}
+html_static_path = ['_static']
+html_theme = 'furo'
+html_theme_options = {'light_logo': 'ai4sc_logo_v2.svg', 'dark_logo': 'ai4sc_logo_v2.svg', 'light_css_variables': {'color-brand-primary': '#29465B', 'color-brand-content': '#29465B'}, 'dark_css_variables': {'color-brand-primary': '#98AFC7', 'color-brand-content': '#98AFC7'}}
 html_title = 'Programmierung und Datenbanken'
 latex_engine = 'pdflatex'
-myst_enable_extensions = ['colon_fence', 'deflist', 'dollarmath', 'html_image']
+myst_enable_extensions = ['colon_fence', 'deflist', 'amsmath', 'dollarmath', 'html_admonition', 'html_image']
 myst_url_schemes = ['mailto', 'http', 'https']
 nb_execution_allow_errors = True
 nb_execution_cache_path = ''
 nb_execution_excludepatterns = []
 nb_execution_in_temp = False
-nb_execution_mode = 'cache'
+nb_execution_mode = 'auto'
 nb_execution_timeout = 30
 nb_output_stderr = 'show'
 numfig = True
-pygments_style = 'sphinx'
+pygments_dark_style = 'monokai'
+pygments_style = 'xcode'
+quizdown_config = {'start_on_load': True, 'shuffle_answers': True, 'shuffle_questions': False, 'primary_color': '#FF851B', 'secondary_color': '#DDDDDD', 'text_color': 'black', 'locale': 'de', 'quizdown_js': 'https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js'}
 suppress_warnings = ['myst.domains']
 use_jupyterbook_latex = True
 use_multitoc_numbering = True
-quizdown_config = {
-    'start_on_load': True,			# detect and convert all divs with class quizdown
-    'shuffle_answers': True,		# shuffle answers for each question
-    'shuffle_questions': False,     # shuffle questsions for each quiz
-    'primary_color': '#FF851B',     # primary CSS color
-    'secondary_color': '#DDDDDD',   # secondary CSS color
-    'text_color': 'black',          # text color of interactive elements
-    'locale': 'de',                 # language of text in user interface
-    'quizdown_js': 'https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js', # quizdown javascript
-}
