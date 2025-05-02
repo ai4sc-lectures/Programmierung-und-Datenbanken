@@ -1,189 +1,222 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="prev" title="Relationale Datenbanken" href="10_Datenbanken.html" />
+        <link rel="canonical" href="https://code-book.ai4sc-lehre.auf.uni-rostock.de/lectures/11_Datenbankentwurf.html" />
 
-<!DOCTYPE html>
-
-
-<html lang="en" data-content_root="../" >
-
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <title>Entwurf relationaler Datenbanken &#8212; Programmierung und Datenbanken</title>
-  
-  
-  
-  <script data-cfasync="false">
-    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
-  </script>
-  
-  <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-
-  
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>Entwurf relationaler Datenbanken - Programmierung und Datenbanken</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d8a2add5" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=87e54e7c" />
-    <link rel="stylesheet" type="text/css" href="../_static/style.css?v=21b534a7" />
-  
-  <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css?v=93caba0e" />
+    
+    
 
-    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../_static/copybutton.js?v=f281be69"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script>let toggleHintShow = 'Click to show';</script>
-    <script>let toggleHintHide = 'Click to hide';</script>
-    <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
-    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js?v=f930bc37"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script src="https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"></script>
-    <script>quizdown.init({"quizdown_js": "https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"});</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/11_Datenbankentwurf';</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <link rel="canonical" href="https://code-book.ai4sc-lehre.auf.uni-rostock.de/lectures/11_Datenbankentwurf.html" />
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="Relationale Datenbanken" href="10_Datenbanken.html" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="en"/>
-  </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
+<style>
+  body {
+    --color-code-background: #ffffff;
+  --color-code-foreground: black;
+  --color-brand-primary: #29465B;
+  --color-brand-content: #29465B;
   
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #98AFC7;
+  --color-brand-content: #98AFC7;
   
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #98AFC7;
+  --color-brand-content: #98AFC7;
   
-  <div id="pst-scroll-pixel-helper"></div>
-  
-  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
 
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../intro.html"><div class="brand">Programmierung und Datenbanken</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../intro.html">
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
-<form class="bd-search d-flex align-items-center"
-      action="../search.html"
-      method="get">
-  <i class="fa-solid fa-magnifying-glass"></i>
-  <input type="search"
-         class="form-control"
-         name="q"
-         id="search-input"
-         placeholder="Search this book..."
-         aria-label="Search this book..."
-         autocomplete="off"
-         autocorrect="off"
-         autocapitalize="off"
-         spellcheck="false"/>
-  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../_static/ai4sc_logo_v2.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../_static/ai4sc_logo_v2.svg" alt="Dark Logo"/>
   </div>
-
-  <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
-</div>
-
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
-    </header>
+  <span class="sidebar-brand-text">Programmierung und Datenbanken</span>
   
-
-  <div class="bd-container">
-    <div class="bd-container__inner bd-page-width">
-      
-      
-      
-      <div class="bd-sidebar-primary bd-sidebar">
-        
-
-  
-  <div class="sidebar-header-items sidebar-primary__section">
-    
-    
-    
-    
-  </div>
-  
-    <div class="sidebar-primary-items__start sidebar-primary__section">
-        <div class="sidebar-primary-item">
-
-  
-
-<a class="navbar-brand logo" href="../intro.html">
-  
-  
-  
-  
-  
-    
-    
-      
-    
-    
-    <img src="../_static/ai4sc_logo_v2.svg" class="logo__image only-light" alt="Programmierung und Datenbanken - Home"/>
-    <script>document.write(`<img src="../_static/ai4sc_logo_v2.svg" class="logo__image only-dark" alt="Programmierung und Datenbanken - Home"/>`);</script>
-  
-  
-</a></div>
-        <div class="sidebar-primary-item">
-
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
-        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item navbar-nav active">
-        
-        <ul class="nav bd-sidenav bd-sidenav__home-link">
-            <li class="toctree-l1">
-                <a class="reference internal" href="../intro.html">
-                    Programmierung und Datenbanken
-                </a>
-            </li>
-        </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Grundlagen</span></p>
-<ul class="nav bd-sidenav">
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Grundlagen</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="01c_Computerhardware.html">Computerhardware</a></li>
 <li class="toctree-l1"><a class="reference internal" href="01d_Programmiersprachen.html">Programmiersprachen</a></li>
 <li class="toctree-l1"><a class="reference internal" href="01e_Softwarearchitektur.html">Softwarearchitekturen</a></li>
@@ -196,8 +229,8 @@
 <li class="toctree-l1"><a class="reference internal" href="03a_Verzweigung.html">Verzweigungen</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03b_Schleifen.html">Schleifen</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modularisierung</span></p>
-<ul class="nav bd-sidenav">
+<p class="caption" role="heading"><span class="caption-text">Modularisierung</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="04a_Funktionen.html">Funktionen</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04c_Objects.html">Objekte</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04b_Rekursion.html">Rekursive Funktionen</a></li>
@@ -208,218 +241,55 @@
 <li class="toctree-l1"><a class="reference internal" href="06c_Debugging.html">Debugging</a></li>
 <li class="toctree-l1"><a class="reference internal" href="07a_Module.html">Pakete</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Datenbanken</span></p>
-<ul class="current nav bd-sidenav">
+<p class="caption" role="heading"><span class="caption-text">Datenbanken</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="9_Datenhaltung.html">Umgang mit Dateien</a></li>
 <li class="toctree-l1"><a class="reference internal" href="10_Datenbanken.html">Relationale Datenbanken</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Entwurf relationaler Datenbanken</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Entwurf relationaler Datenbanken</a></li>
 </ul>
 
-    </div>
-</nav></div>
-    </div>
-  
-  
-  <div class="sidebar-primary-items__end sidebar-primary__section">
-  </div>
-  
-  <div id="rtd-footer-container"></div>
-
+</div>
+</div>
 
       </div>
       
-      <main id="main-content" class="bd-main" role="main">
-        
-        
-
-<div class="sbt-scroll-pixel-helper"></div>
-
-          <div class="bd-content">
-            <div class="bd-article-container">
-              
-              <div class="bd-header-article d-print-none">
-<div class="header-article-items header-article__inner">
-  
-    <div class="header-article-items__start">
-      
-        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <span class="fa-solid fa-bars"></span>
-</button></div>
-      
     </div>
-  
-  
-    <div class="header-article-items__end">
-      
-        <div class="header-article-item">
-
-<div class="article-header-buttons">
-
-
-
-
-
-<div class="dropdown dropdown-launch-buttons">
-  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
-    <i class="fas fa-rocket"></i>
-  </button>
-  <ul class="dropdown-menu">
-      
-      
-      
-      <li><a href="https://ml-lab.ai4sc-lehre.auf.uni-rostock.de/hub/user-redirect/git-pull?repo=https%3A//github.com/ai4sc-lectures/Programmierung-und-Datenbanken&urlpath=lab/tree/Programmierung-und-Datenbanken/lectures/11_Datenbankentwurf.ipynb&branch=main" target="_blank"
-   class="btn btn-sm dropdown-item"
-   title="Launch on JupyterHub"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  
-    <img alt="JupyterHub logo" src="../_static/images/logo_jupyterhub.svg">
-  </span>
-<span class="btn__text-container">JupyterHub</span>
-</a>
-</li>
-      
-  </ul>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/lectures/11_Datenbankentwurf.ipynb" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
 </div>
-
-
-
-
-
-
-<div class="dropdown dropdown-download-buttons">
-  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
-    <i class="fas fa-download"></i>
-  </button>
-  <ul class="dropdown-menu">
-      
-      
-      
-      <li><a href="../_sources/lectures/11_Datenbankentwurf.ipynb" target="_blank"
-   class="btn btn-sm btn-download-source-button dropdown-item"
-   title="Download source file"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="btn__text-container">.ipynb</span>
-</a>
-</li>
-      
-      
-      
-      
-      <li>
-<button onclick="window.print()"
-  class="btn btn-sm btn-download-pdf-button dropdown-item"
-  title="Print to PDF"
-  data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="btn__text-container">.pdf</span>
-</button>
-</li>
-      
-  </ul>
-</div>
-
-
-
-
-<button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
-  title="Fullscreen mode"
-  data-bs-placement="bottom" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-expand"></i>
-  </span>
-
-</button>
-
-
-
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
-  </button>
-`);
-</script>
-
-
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</button>
-</div></div>
-      
-    </div>
-  
-</div>
-</div>
-              
-              
-
-<div id="jb-print-docs-body" class="onlyprint">
-    <h1>Entwurf relationaler Datenbanken</h1>
-    <!-- Table of contents -->
-    <div id="print-main-content">
-        <div id="jb-print-toc">
-            
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#entwurfsvorgehen">Entwurfsvorgehen</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#er-diagramme">ER-Diagramme</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kardinalitaten">Kardinalitäten</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#beispiel-er-konzeptentwurf-fur-geometrieobjekte">Beispiel: ER Konzeptentwurf für Geometrieobjekte</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisierung-von-konzeptentwurfen-zu-logischen-entwurfen">Normalisierung von Konzeptentwürfen zu Logischen Entwürfen</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisierung-von-kardinalitaten">Normalisierung von Kardinalitäten</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#beispiel-geometrie">Beispiel Geometrie</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabellen-mit-sql-implementieren">Tabellen mit SQL implementieren</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#daten-hinzufugen">Daten hinzufügen</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#daten-loschen">Daten löschen</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabellen-umbenennen-und-verandern">Tabellen umbenennen und verändern</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabellen-loschen">Tabellen löschen</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anmerkung-zu-tabellen-in-sqlite-speichern-mit-pandas">Anmerkung zu Tabellen in SQLite speichern mit Pandas</a></li>
-</ul>
-            </nav>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
         </div>
-    </div>
-</div>
-
-              
-                
-<div id="searchbox"></div>
-                <article class="bd-article">
-                  
-  <section class="tex2jax_ignore mathjax_ignore" id="entwurf-relationaler-datenbanken">
-<h1>Entwurf relationaler Datenbanken<a class="headerlink" href="#entwurf-relationaler-datenbanken" title="Link to this heading">#</a></h1>
+        <article role="main" id="furo-main-content">
+          <section class="tex2jax_ignore mathjax_ignore" id="entwurf-relationaler-datenbanken">
+<h1>Entwurf relationaler Datenbanken<a class="headerlink" href="#entwurf-relationaler-datenbanken" title="Link to this heading">¶</a></h1>
 <section id="entwurfsvorgehen">
-<h2>Entwurfsvorgehen<a class="headerlink" href="#entwurfsvorgehen" title="Link to this heading">#</a></h2>
+<h2>Entwurfsvorgehen<a class="headerlink" href="#entwurfsvorgehen" title="Link to this heading">¶</a></h2>
 <p>Das klassische Entwurfsvorgehen von Datenbanken ähnelt dem Wasserfallmodell beim Softwareentwurf. Hierbei werden zuerst die Anforderungen und Anwendungsfälle</p>
 <ul class="simple">
 <li><p>Anforderungsanalyse: Welche Anforderungen und Anwendungsfälle stellen sich an die DB?</p></li>
@@ -433,7 +303,7 @@ document.write(`
 <p><img alt="Schritte im Datenbankentwurf" src="../_images/dbentwurf.png" /></p>
 </section>
 <section id="er-diagramme">
-<h2>ER-Diagramme<a class="headerlink" href="#er-diagramme" title="Link to this heading">#</a></h2>
+<h2>ER-Diagramme<a class="headerlink" href="#er-diagramme" title="Link to this heading">¶</a></h2>
 <p>Zur Darstellung der Entwürfe von Datenbanken nutzt man Entity-Relationship Diagramme. In ihnen visualisiert man die Entitäten mit Ihnen Attributen und die Relationen zwischen den Entitäten. Es gibt verschiedene varianten von ER-Diagrammen, wie in der folgenden Abbildung dargestellt. Gemein ist allen, dass sie Entitäten, Attribute (hier nicht dargestellt) und Relationen mit Kardinalitäten darstellen. Sie unterscheiden sich primär in der Notation, als im Gebrauch von Symbolen.</p>
 <p><img alt="ER-Diagramme in unterschiedlichen Notationen (https://de.wikipedia.org/wiki/Datei:ERD_Darstellungen.png)" src="../_images/er-diagramme.png" /></p>
 <p>Wir benutzen im Folgenden die UML-Notation, welche auf UML-Klassendiagrammen basiert.</p>
@@ -449,7 +319,7 @@ document.write(`
 <p>Ein einfaches Beispiel stellt das folgende Bild dar. Wir haben eine Person, die in einem Ort wohnt. Die Person hat die Attribute Ausweisnummer und einen Namen. Wir nutzen die Ausweisnummer als Primärschlüssel, da sie eindeutig ist. Der Ort hat eine Postleitzahl und einen Namen. Die Postleitzahl dient hier als Primärschlüssel der einfachheit halber (Da eine Postleitzahl viele Gemeinden umfassen kann oder ein Ort mehrere Postleitzahlen haben kann ist dies nicht ideal). Als Relation kennzeichnen wir hier, dass eine Person in genau einem Ort wohnt. Zu beachten ist hier die Leserichtung <code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span></code> und die Kardinalitäten 1 zu 1 die am Anfang und Ende der Relation stehen.</p>
 <center><img src="https://mermaid.ink/svg/pako:eNqNUEFqAzEM_IrROTn0akIg0FsLXZpb8UWslazBloMtE9Kwf8lb-rKKZk0p9BCYgzQeeYa5wpg9gYUxYq3PAY8Fk-Ovm1H4UGiUkNm8vnduoFKVcPDkwKzXy_BWxFhzzhOLCWy22y7_-XY5unbyjs2GWIJcfsV3VCmBj2bX6plC5ZYSFTO8_CtiTNQf5r-eGulBw6Chh1wlUpBPnOKDZrACTZYweK1PrYx2IROpBqyOng7YojhwPKsUm-T9hUewUhqtoJ08Ci2Fgz1grMqekD9y7vv8DX4bo1o" width="350"></center></section>
 <section id="kardinalitaten">
-<h2>Kardinalitäten<a class="headerlink" href="#kardinalitaten" title="Link to this heading">#</a></h2>
+<h2>Kardinalitäten<a class="headerlink" href="#kardinalitaten" title="Link to this heading">¶</a></h2>
 <p>In ER-Diagrammen spielt dabei insbesondere die Kardinalität von Relationen eine wichtige Rolle, da sich daraus unterschiedliche Tabellendarstellungen ableiten. Die Kardinalitäten beschreiben die Anzahl an minimalen und maximalen möglichen Beziehungen zwischen Entitäten für diese Beziehung. Grundsätzlich unterscheidet man die folgenden Kardinalitäten:</p>
 <table>
     <tr>
@@ -480,7 +350,7 @@ document.write(`
 </table><p>Es ist dabei zu beachten, dass die Leserichtung (<code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span></code> oder <code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span></code>) wichtig ist, da keine Aussage über die Kardinalität der Gegenrichtung gemacht wird! Es wird in dem obigen Beispiel also nur eine Aussage gemacht, in wie vielen Orten <em>eine</em> Person war und nicht darüber wie <em>viele</em> Personen in Orten sein können.</p>
 </section>
 <section id="beispiel-er-konzeptentwurf-fur-geometrieobjekte">
-<h2>Beispiel: ER Konzeptentwurf für Geometrieobjekte<a class="headerlink" href="#beispiel-er-konzeptentwurf-fur-geometrieobjekte" title="Link to this heading">#</a></h2>
+<h2>Beispiel: ER Konzeptentwurf für Geometrieobjekte<a class="headerlink" href="#beispiel-er-konzeptentwurf-fur-geometrieobjekte" title="Link to this heading">¶</a></h2>
 <p>Als Entwurfsbeispiel greifen wir auf die im Kapitel <a class="reference internal" href="#7a_Objects.html"><span class="xref myst">Objektorientierung</span></a> behandelten Beispiel der Geometrieobjekte. Wir haben die Klassen <code class="docutils literal notranslate"><span class="pre">Point</span></code>, <code class="docutils literal notranslate"><span class="pre">Line</span></code> und <code class="docutils literal notranslate"><span class="pre">Polygon</span></code> mit den Varianten <code class="docutils literal notranslate"><span class="pre">Triangle</span></code>, <code class="docutils literal notranslate"><span class="pre">Tetragon</span></code> und <code class="docutils literal notranslate"><span class="pre">Pentagon</span></code>.</p>
 <p>Der <code class="docutils literal notranslate"><span class="pre">Point</span></code> hat als Attribute die <code class="docutils literal notranslate"><span class="pre">x</span></code> und <code class="docutils literal notranslate"><span class="pre">y</span></code> Koordinaten vom Datentyp <code class="docutils literal notranslate"><span class="pre">float</span></code>, welche beide als <code class="docutils literal notranslate"><span class="pre">public</span></code> gekapselt sind, da mit <code class="docutils literal notranslate"><span class="pre">+</span></code> annotiert. Ferner gibt es unterschiedliche Methoden in <code class="docutils literal notranslate"><span class="pre">Point</span></code>, <code class="docutils literal notranslate"><span class="pre">Line</span></code> und <code class="docutils literal notranslate"><span class="pre">Polygon</span></code> zur Berechnung der Distanz, Fläche und Länge der jeweiligen Objekte.</p>
 <p>Im UML Diagramm haben wir dargestellt, dass ein <code class="docutils literal notranslate"><span class="pre">Polygon</span></code> die Aggregations-Assoziation mit der Multiplizität <code class="docutils literal notranslate"><span class="pre">1</span></code> zu <code class="docutils literal notranslate"><span class="pre">3..*</span></code> zur Klasse <code class="docutils literal notranslate"><span class="pre">Point</span></code> hat, also ein Polygon mit mindestens drei Punkten verknüpft ist. Die <code class="docutils literal notranslate"><span class="pre">Line</span></code> ist wiederum assoziiert mit dem Punkt <code class="docutils literal notranslate"><span class="pre">Point</span></code> mit der Multiplizität <code class="docutils literal notranslate"><span class="pre">1</span></code> zu <code class="docutils literal notranslate"><span class="pre">2</span></code>, also sind einer Linie genau zwei Punkte zugeordnet.</p>
@@ -499,7 +369,7 @@ document.write(`
 <p>In dem Konzeptentwurf gibt es drei Entitätstypen. Die Entität <code class="docutils literal notranslate"><span class="pre">Point</span></code> besitzt weiterhin <code class="docutils literal notranslate"><span class="pre">x</span></code> und <code class="docutils literal notranslate"><span class="pre">y</span></code>-Koordinate als die Attribute vom Datentyp <code class="docutils literal notranslate"><span class="pre">float</span></code>. Die Entität <code class="docutils literal notranslate"><span class="pre">Line</span></code> besitzt zwei Relationen zu <code class="docutils literal notranslate"><span class="pre">Point</span></code> für den Start-Punkt und End-Punkt. Die Entität <code class="docutils literal notranslate"><span class="pre">Polygon</span></code> hat die Relation mit der Kardinalität <code class="docutils literal notranslate"><span class="pre">1</span></code> zu <code class="docutils literal notranslate"><span class="pre">3..*</span></code> zu Punkt, umfasst also mindestens drei Punkte. Sie hat auch ein neues Attribut <code class="docutils literal notranslate"><span class="pre">PolygonType</span></code> vom Datentyp <code class="docutils literal notranslate"><span class="pre">str</span></code> um den Untertyp zu speichern. Für alle drei Entitäten haben wir einen numerischen Primärschlüssel definiert, da numerische Indexe sind mit am effizientesten sind.</p>
 </section>
 <section id="normalisierung-von-konzeptentwurfen-zu-logischen-entwurfen">
-<h2>Normalisierung von Konzeptentwürfen zu Logischen Entwürfen<a class="headerlink" href="#normalisierung-von-konzeptentwurfen-zu-logischen-entwurfen" title="Link to this heading">#</a></h2>
+<h2>Normalisierung von Konzeptentwürfen zu Logischen Entwürfen<a class="headerlink" href="#normalisierung-von-konzeptentwurfen-zu-logischen-entwurfen" title="Link to this heading">¶</a></h2>
 <p>Die Normalisierung ist ein wichtiger Schritt im Prozess der Abbildung eines Konzeptionellen Datenmodells auf ein Logisches und Physikalisches Datenmodell. Sie hat den Zweck, Redundanzen (mehrfaches Festhalten des gleichen Sachverhalts) zu minimieren, indem neue Tabellen erzeugt und durch neue Relationen verknüpft werden für</p>
 <ul class="simple">
 <li><p>komplexe Attribute (Listen, Dictionaries)</p></li>
@@ -523,7 +393,7 @@ document.write(`
 <p>Im letzten Beispiel speichern wir fehlerhaft das Attribut PolygonTyp in der Entität Punkt, obwohl sie zu der Entität Polygon gehört.</p>
 <center><img src="https://mermaid.ink/svg/pako:eNqVUctqwzAQ_JVljyUJLrmJkFMupT2Ypqeii2rJqageRl5BRfC_9Fv6ZV0ci2LopbCI0czuMiNdsYvaoMDOqXE8WXVJysvw_QVc2ibTkY0Bnp4rN_dBm8MHXSt3q8PBBLJUjsc1bwNBG_l8OEH7uNZ6FxXB519kWZMjJd7iyiWGlzJUbapgkUDivUTYbhnsd7s7xrNVEJB9z84Jfu0tUW6T_wozT6zisBGZm6Z5kwE36E3yymp-Vl4L7IXejTcSBUNtepUdSZRh4laVKZ5L6FBQymaDedCKzPIRKHrlRmYHFV5jrPfpB_QlrEw" width="400"></center></section>
 <section id="normalisierung-von-kardinalitaten">
-<h2>Normalisierung von Kardinalitäten<a class="headerlink" href="#normalisierung-von-kardinalitaten" title="Link to this heading">#</a></h2>
+<h2>Normalisierung von Kardinalitäten<a class="headerlink" href="#normalisierung-von-kardinalitaten" title="Link to this heading">¶</a></h2>
 <p>Entsprechend der 1. Normalform müssen wir Kardinalitäten entsprechend ihrer Ordnung unterschiedlich abbilden. Dabei können einfache Kardinalitäten (0 oder 1) als Attribut gespeichert werden, wärend höhere Kardinalitäten <code class="docutils literal notranslate"><span class="pre">&gt;1</span></code> als Relation in einer neuen Entität abgebildet werden. Hierbei spielt es im Logischen und Physikalischen Entwurf eine Rolle ob ein Attribut beim speichern einer neuen Entität in der Datenbank nicht angegeben werden muss (<code class="docutils literal notranslate"><span class="pre">Nullable</span></code>) oder zwingend angeben werden muss (<code class="docutils literal notranslate"><span class="pre">Not</span> <span class="pre">Null</span></code>).</p>
 <table>
     <tr>
@@ -553,7 +423,7 @@ document.write(`
     </tr>
 </table></section>
 <section id="beispiel-geometrie">
-<h2>Beispiel Geometrie<a class="headerlink" href="#beispiel-geometrie" title="Link to this heading">#</a></h2>
+<h2>Beispiel Geometrie<a class="headerlink" href="#beispiel-geometrie" title="Link to this heading">¶</a></h2>
 <p>Um den oben erstellten Konzeptentwurf für die Geometrieobjekte in ein Logischen Entwurf zu überführen, müssen wir den Entwurf normalisieren. Schauen wir uns den Entwurf noch einmal an.</p>
 <center><img src="https://mermaid.ink/svg/pako:eNqVUk1rwzAM_StCx9EWxm6m9NTLWA-h62n4osVKZ5bYwZGhofS_7Lfsl83Nx0ZIDysIIz-_Jz0ZnTH3hlFhXlLTbC0dA1XafX9BCmMD52K9g91-xHbWWQaNjxphuRySLLpPAQWNUBA28M4WNpt_SdiZmaDz0svOI9bHes1OrLR_3D6skyufn7eQvYxPl2m9ruMd9TKfzknBPorSk8DpFtjOWvdjanxarR4m4_uyPaaPVRCrIrmT2fgD4y7DneKG5UbC-Hpo61-TuMCKQ0XWpAVIjSCZkw-uWKNKqeGCYikatbtSKYp_bV2OSkLkBcbakPCwMqgKKpuE1uTevB_vlx87g-rt" width="500"></center><p>Wir haben die drei Entitäten <code class="docutils literal notranslate"><span class="pre">Linie</span></code>, <code class="docutils literal notranslate"><span class="pre">Punkt</span></code> und <code class="docutils literal notranslate"><span class="pre">Polygon</span></code> mit zwei 1:1-Relationen von <code class="docutils literal notranslate"><span class="pre">Linie</span></code> zu <code class="docutils literal notranslate"><span class="pre">Punkt</span></code> und einer 1:3..*-Relationen von <code class="docutils literal notranslate"><span class="pre">Polygon</span></code> zu <code class="docutils literal notranslate"><span class="pre">Punkt</span></code>.</p>
 <p>Wenden wir zuerst die Regeln der 1NF an und lösen diese Relationen auf entsprechend der oben gennanten Tabelle, so können wir die zwei 1:1-Relationen von <code class="docutils literal notranslate"><span class="pre">Linie</span></code> zu <code class="docutils literal notranslate"><span class="pre">Punkt</span></code> durch Fremdschlüssel in der Entität <code class="docutils literal notranslate"><span class="pre">Linie</span></code> darstellen.</p>
@@ -568,12 +438,12 @@ document.write(`
 <p>Damit sind wir auch schon direkt im SQL Thema wo wir uns mit der Erzeugung von Tabellen beschäftigen wollen.</p>
 </section>
 <section id="tabellen-mit-sql-implementieren">
-<h2>Tabellen mit SQL implementieren<a class="headerlink" href="#tabellen-mit-sql-implementieren" title="Link to this heading">#</a></h2>
+<h2>Tabellen mit SQL implementieren<a class="headerlink" href="#tabellen-mit-sql-implementieren" title="Link to this heading">¶</a></h2>
 <p>SQL erlaubt es uns nicht nur Daten aus bestehenden Tabellen abzufragen, sondern auch neue Tabellen zu erzeugen und diese zu verändern. Wir wollen diese Funktionalität im folgenden nutzen, um unseren Logischen Entwurf für die Geometrieobjekte zu implementieren.</p>
 <p>Hierfür nutzen wir wieder SQLite und erzeugen uns eine neue Datenbank <code class="docutils literal notranslate"><span class="pre">geometry.sqlite</span></code>. Wir setzten uns auch direkt einen Kursor <code class="docutils literal notranslate"><span class="pre">cur</span></code>, um SQL Befehle auf der Datenbank auszuführen.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sqlite3</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
 
 <span class="c1"># Create a SQL connection to our SQLite database</span>
 <span class="n">con</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;geometry.sqlite&quot;</span><span class="p">)</span>
@@ -583,7 +453,8 @@ document.write(`
 </div>
 </div>
 <p>Als erstes müssen wir die generischen Datentypen des logischen Entwurfs auf die konkreten Datentypen von SQLite abbilden. Grundsätzlich unterscheiden die Datentypen sich für jedes DBMS etwas und man muss immer schauen, welche Datentypen am besten geeignet ist. SQLite beschränkt sich auf relativ wenige Datentypen, welche gut mit den primitiven Datentypen von Python überein stimmen. Die folgende Tabelle vergleicht die Datentypen von SQLite mit Python.</p>
-<div class="pst-scrollable-table-container"><table class="table">
+<div class="table-wrapper colwidths-auto docutils container">
+<table class="docutils align-default">
 <thead>
 <tr class="row-odd"><th class="head"><p></p></th>
 <th class="head"><p>SQLite</p></th>
@@ -735,7 +606,7 @@ document.write(`
 </div>
 </section>
 <section id="daten-hinzufugen">
-<h2>Daten hinzufügen<a class="headerlink" href="#daten-hinzufugen" title="Link to this heading">#</a></h2>
+<h2>Daten hinzufügen<a class="headerlink" href="#daten-hinzufugen" title="Link to this heading">¶</a></h2>
 <p>Im nächsten Schritt wollen wir einige Werte in die Datenbank laden. Dies geschieht mit dem SQL Befehl <code class="docutils literal notranslate"><span class="pre">INSERT</span> <span class="pre">INTO</span></code> mit dem Tabellennamen und den einzutragenden Werten, in genau der Reihenfolge der vorher deklarierten Spalten (also point_id, x, y).</p>
 <p>Zum Beispiel wollen wir zwei Punkte mit den Koordinaten (54.083336, 12.108811) und (12.094167, 54.075211). Dabei geben wir auch den Wert des Primärindex als 1 und 2 mit an:</p>
 <div class="cell docutils container">
@@ -876,7 +747,7 @@ document.write(`
 </div>
 </section>
 <section id="daten-loschen">
-<h2>Daten löschen<a class="headerlink" href="#daten-loschen" title="Link to this heading">#</a></h2>
+<h2>Daten löschen<a class="headerlink" href="#daten-loschen" title="Link to this heading">¶</a></h2>
 <p>Um Einträge aus einer Tabelle zu löschen verwendet man in SQL den <code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">FROM</span></code> Befehl mit der Tabelle und einer <code class="docutils literal notranslate"><span class="pre">WHERE</span></code>-Bedingung, welche angibt welche Einträge zu löschen sind. Wollen wir zum Beispiel die eben verknüpften Punkte aus der Tabelle <code class="docutils literal notranslate"><span class="pre">PolygonPoints</span></code> wieder löschen so können wir schreiben, dass wir alle Zeilen löschen, wo die refernzierte Polygon die <code class="docutils literal notranslate"><span class="pre">polygon_id</span></code> 33 hat.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -894,7 +765,7 @@ document.write(`
 </div>
 </section>
 <section id="tabellen-umbenennen-und-verandern">
-<h2>Tabellen umbenennen und verändern<a class="headerlink" href="#tabellen-umbenennen-und-verandern" title="Link to this heading">#</a></h2>
+<h2>Tabellen umbenennen und verändern<a class="headerlink" href="#tabellen-umbenennen-und-verandern" title="Link to this heading">¶</a></h2>
 <p>Machmal ist es notwendig Tabellen zu sichern oder SQL Abfragen mit SQL Select zu “materialisieren”, also als neue Tabelle zu speichern. Dafür können wir den <code class="docutils literal notranslate"><span class="pre">CREATE</span> <span class="pre">TABLE</span> <span class="pre">...</span> <span class="pre">AS</span></code> mit einem <code class="docutils literal notranslate"><span class="pre">SELECT</span></code> benutzen. Dies ist sinnvoll um zum Beispiel eine Kopie einer Tabelle zu erzeugen, bevor man z.B. Änderungen vornimmt. Man beachte</p>
 <div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
@@ -925,7 +796,7 @@ document.write(`
 <p>Es ist zu beachten, dass dies die Spalte zwar anlegt aber keine Werte schreibt. Deshalb weisen wir hier der Spalten den Standartwert 0 mit <code class="docutils literal notranslate"><span class="pre">DEFAULT</span> <span class="pre">0</span></code> zu.</p>
 </section>
 <section id="tabellen-loschen">
-<h2>Tabellen löschen<a class="headerlink" href="#tabellen-loschen" title="Link to this heading">#</a></h2>
+<h2>Tabellen löschen<a class="headerlink" href="#tabellen-loschen" title="Link to this heading">¶</a></h2>
 <p>SQL bietet natürlich auch einen Befehl um Tabellen vollständig zu löschen. Möchte man nur alle Daten aus einer Tabelle löschen aber die Definition der Tabelle behalten (wenn man zum Beispiel die Daten austauscht), so kann man den <code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">FROM</span></code> ohne <code class="docutils literal notranslate"><span class="pre">WHERE</span></code>-Bedingung nutzen. Dies nennt man auch Truncating einer Tabelle.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -935,7 +806,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sqlite3.Cursor at 0x7f0634d22fc0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sqlite3.Cursor at 0x7f99306dd940&gt;
 </pre></div>
 </div>
 </div>
@@ -973,7 +844,7 @@ document.write(`
 </div>
 </section>
 <section id="anmerkung-zu-tabellen-in-sqlite-speichern-mit-pandas">
-<h2>Anmerkung zu Tabellen in SQLite speichern mit Pandas<a class="headerlink" href="#anmerkung-zu-tabellen-in-sqlite-speichern-mit-pandas" title="Link to this heading">#</a></h2>
+<h2>Anmerkung zu Tabellen in SQLite speichern mit Pandas<a class="headerlink" href="#anmerkung-zu-tabellen-in-sqlite-speichern-mit-pandas" title="Link to this heading">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>In der letzten Übung haben wir Tabellen direkt mit Pandas in SQLite erzeugt. Das ist durchaus sinnvoll, wenn man größere Datensätze mal schnell sicher in einer Datenbank speichern möchte. Es ist aber darauf hinzuweisen, dass die von Pandas erzeugten Tabellen keine Relationen mit Fremdschlüssel, Constraints (z.B. NotNull) oder Suchindizies definieren. Die resultierenden Tabellen sind also keinesfalls 3NF-Konform und optimiert für die Abfrage und das speichern großer Datenmengen in praktischen Anwendungen. Hier ist immer zu empfehlen einen richtigen ER-Entwurf zu machen. Die Tabellen mit <code class="docutils literal notranslate"><span class="pre">CREATE</span></code> mit allen Relationen, Constraints und Indizies zu erzeugen und dann erst mit Pandas Daten in die bestehenden Tabellen zu laden.</p>
@@ -1000,107 +871,98 @@ document.write(`
     }
     </script>
     <script>kernelName = 'python3'</script>
-
-                </article>
-              
-
-              
-              
-              
-              
-                <footer class="prev-next-footer d-print-none">
-                  
-<div class="prev-next-area">
-    <a class="left-prev"
-       href="10_Datenbanken.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Relationale Datenbanken</p>
+        </article>
       </div>
-    </a>
-</div>
-                </footer>
-              
+      <footer>
+        
+        <div class="related-pages">
+          
+          <a class="prev-page" href="10_Datenbanken.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Relationale Datenbanken</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; CC-BY-NC-SA 2022
             </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
-            
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#entwurfsvorgehen">Entwurfsvorgehen</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#er-diagramme">ER-Diagramme</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kardinalitaten">Kardinalitäten</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#beispiel-er-konzeptentwurf-fur-geometrieobjekte">Beispiel: ER Konzeptentwurf für Geometrieobjekte</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisierung-von-konzeptentwurfen-zu-logischen-entwurfen">Normalisierung von Konzeptentwürfen zu Logischen Entwürfen</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normalisierung-von-kardinalitaten">Normalisierung von Kardinalitäten</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#beispiel-geometrie">Beispiel Geometrie</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabellen-mit-sql-implementieren">Tabellen mit SQL implementieren</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#daten-hinzufugen">Daten hinzufügen</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#daten-loschen">Daten löschen</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabellen-umbenennen-und-verandern">Tabellen umbenennen und verändern</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabellen-loschen">Tabellen löschen</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#anmerkung-zu-tabellen-in-sqlite-speichern-mit-pandas">Anmerkung zu Tabellen in SQLite speichern mit Pandas</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
-              
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
             
           </div>
-          <footer class="bd-footer-content">
+          <div class="right-details">
             
-<div class="bd-footer-content__inner container">
-  
-  <div class="footer-item">
-    
-<p class="component-author">
-By Joern Ploennigs, AI 4 Sustainable Construction, University of Rostock
-</p>
-
-  </div>
-  
-  <div class="footer-item">
-    
-
-  <p class="copyright">
-    
-      © Copyright CC-BY-NC-SA 2022.
-      <br/>
-    
-  </p>
-
-  </div>
-  
-  <div class="footer-item">
-    
-  </div>
-  
-  <div class="footer-item">
-    
-  </div>
-  
-</div>
-          </footer>
+          </div>
+        </div>
         
-
-      </main>
+      </footer>
     </div>
-  </div>
-  
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Entwurf relationaler Datenbanken</a><ul>
+<li><a class="reference internal" href="#entwurfsvorgehen">Entwurfsvorgehen</a></li>
+<li><a class="reference internal" href="#er-diagramme">ER-Diagramme</a></li>
+<li><a class="reference internal" href="#kardinalitaten">Kardinalitäten</a></li>
+<li><a class="reference internal" href="#beispiel-er-konzeptentwurf-fur-geometrieobjekte">Beispiel: ER Konzeptentwurf für Geometrieobjekte</a></li>
+<li><a class="reference internal" href="#normalisierung-von-konzeptentwurfen-zu-logischen-entwurfen">Normalisierung von Konzeptentwürfen zu Logischen Entwürfen</a></li>
+<li><a class="reference internal" href="#normalisierung-von-kardinalitaten">Normalisierung von Kardinalitäten</a></li>
+<li><a class="reference internal" href="#beispiel-geometrie">Beispiel Geometrie</a></li>
+<li><a class="reference internal" href="#tabellen-mit-sql-implementieren">Tabellen mit SQL implementieren</a></li>
+<li><a class="reference internal" href="#daten-hinzufugen">Daten hinzufügen</a></li>
+<li><a class="reference internal" href="#daten-loschen">Daten löschen</a></li>
+<li><a class="reference internal" href="#tabellen-umbenennen-und-verandern">Tabellen umbenennen und verändern</a></li>
+<li><a class="reference internal" href="#tabellen-loschen">Tabellen löschen</a></li>
+<li><a class="reference internal" href="#anmerkung-zu-tabellen-in-sqlite-speichern-mit-pandas">Anmerkung zu Tabellen in SQLite speichern mit Pandas</a></li>
+</ul>
+</li>
+</ul>
 
-  <footer class="bd-footer">
-  </footer>
-  </body>
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script src="https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"></script>
+    <script>quizdown.init({"start_on_load": true, "shuffle_answers": true, "shuffle_questions": false, "primary_color": "#FF851B", "secondary_color": "#DDDDDD", "text_color": "black", "locale": "de", "quizdown_js": "https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"});</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    </body>
 </html>

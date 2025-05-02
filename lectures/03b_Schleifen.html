@@ -1,192 +1,222 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Funktionen" href="04a_Funktionen.html" /><link rel="prev" title="Verzweigungen" href="03a_Verzweigung.html" />
+        <link rel="canonical" href="https://code-book.ai4sc-lehre.auf.uni-rostock.de/lectures/03b_Schleifen.html" />
 
-<!DOCTYPE html>
-
-
-<html lang="en" data-content_root="../" >
-
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <title>Schleifen &#8212; Programmierung und Datenbanken</title>
-  
-  
-  
-  <script data-cfasync="false">
-    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
-  </script>
-  
-  <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-
-  
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=3ee479438cf8b5e0d341" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <!-- Generated with Sphinx 7.4.7 and Furo 2024.08.06 -->
+        <title>Schleifen - Programmierung und Datenbanken</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d8a2add5" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=87e54e7c" />
-    <link rel="stylesheet" type="text/css" href="../_static/style.css?v=21b534a7" />
-  
-  <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=3ee479438cf8b5e0d341"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css?v=93caba0e" />
+    
+    
 
-    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../_static/copybutton.js?v=f281be69"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script>let toggleHintShow = 'Click to show';</script>
-    <script>let toggleHintHide = 'Click to hide';</script>
-    <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
-    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js?v=f930bc37"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"></script>
-    <script>quizdown.init({"quizdown_js": "https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"});</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/03b_Schleifen';</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <link rel="canonical" href="https://code-book.ai4sc-lehre.auf.uni-rostock.de/lectures/03b_Schleifen.html" />
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Funktionen" href="04a_Funktionen.html" />
-    <link rel="prev" title="Verzweigungen" href="03a_Verzweigung.html" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="en"/>
-  </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
+<style>
+  body {
+    --color-code-background: #ffffff;
+  --color-code-foreground: black;
+  --color-brand-primary: #29465B;
+  --color-brand-content: #29465B;
   
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #98AFC7;
+  --color-brand-content: #98AFC7;
   
-  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #272822;
+  --color-code-foreground: #f8f8f2;
+  --color-brand-primary: #98AFC7;
+  --color-brand-content: #98AFC7;
   
-  <div id="pst-scroll-pixel-helper"></div>
-  
-  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
 
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../intro.html"><div class="brand">Programmierung und Datenbanken</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../intro.html">
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
-<form class="bd-search d-flex align-items-center"
-      action="../search.html"
-      method="get">
-  <i class="fa-solid fa-magnifying-glass"></i>
-  <input type="search"
-         class="form-control"
-         name="q"
-         id="search-input"
-         placeholder="Search this book..."
-         aria-label="Search this book..."
-         autocomplete="off"
-         autocorrect="off"
-         autocapitalize="off"
-         spellcheck="false"/>
-  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="../_static/ai4sc_logo_v2.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="../_static/ai4sc_logo_v2.svg" alt="Dark Logo"/>
   </div>
-
-  <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
-</div>
-
   
-    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
-    </header>
+  <span class="sidebar-brand-text">Programmierung und Datenbanken</span>
   
-
-  <div class="bd-container">
-    <div class="bd-container__inner bd-page-width">
-      
-      
-      
-      <div class="bd-sidebar-primary bd-sidebar">
-        
-
-  
-  <div class="sidebar-header-items sidebar-primary__section">
-    
-    
-    
-    
-  </div>
-  
-    <div class="sidebar-primary-items__start sidebar-primary__section">
-        <div class="sidebar-primary-item">
-
-  
-
-<a class="navbar-brand logo" href="../intro.html">
-  
-  
-  
-  
-  
-    
-    
-      
-    
-    
-    <img src="../_static/ai4sc_logo_v2.svg" class="logo__image only-light" alt="Programmierung und Datenbanken - Home"/>
-    <script>document.write(`<img src="../_static/ai4sc_logo_v2.svg" class="logo__image only-dark" alt="Programmierung und Datenbanken - Home"/>`);</script>
-  
-  
-</a></div>
-        <div class="sidebar-primary-item">
-
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
-        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item navbar-nav active">
-        
-        <ul class="nav bd-sidenav bd-sidenav__home-link">
-            <li class="toctree-l1">
-                <a class="reference internal" href="../intro.html">
-                    Programmierung und Datenbanken
-                </a>
-            </li>
-        </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Grundlagen</span></p>
-<ul class="current nav bd-sidenav">
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Grundlagen</span></p>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="01c_Computerhardware.html">Computerhardware</a></li>
 <li class="toctree-l1"><a class="reference internal" href="01d_Programmiersprachen.html">Programmiersprachen</a></li>
 <li class="toctree-l1"><a class="reference internal" href="01e_Softwarearchitektur.html">Softwarearchitekturen</a></li>
@@ -197,10 +227,10 @@
 <li class="toctree-l1"><a class="reference internal" href="02c_Operatoren.html">Operatoren</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02cq_Quiz_Logik.html">Quiz: Logische Operationen</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03a_Verzweigung.html">Verzweigungen</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Schleifen</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Schleifen</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modularisierung</span></p>
-<ul class="nav bd-sidenav">
+<p class="caption" role="heading"><span class="caption-text">Modularisierung</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="04a_Funktionen.html">Funktionen</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04c_Objects.html">Objekte</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04b_Rekursion.html">Rekursive Funktionen</a></li>
@@ -211,228 +241,62 @@
 <li class="toctree-l1"><a class="reference internal" href="06c_Debugging.html">Debugging</a></li>
 <li class="toctree-l1"><a class="reference internal" href="07a_Module.html">Pakete</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Datenbanken</span></p>
-<ul class="nav bd-sidenav">
+<p class="caption" role="heading"><span class="caption-text">Datenbanken</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="9_Datenhaltung.html">Umgang mit Dateien</a></li>
 <li class="toctree-l1"><a class="reference internal" href="10_Datenbanken.html">Relationale Datenbanken</a></li>
 <li class="toctree-l1"><a class="reference internal" href="11_Datenbankentwurf.html">Entwurf relationaler Datenbanken</a></li>
 </ul>
 
-    </div>
-</nav></div>
-    </div>
-  
-  
-  <div class="sidebar-primary-items__end sidebar-primary__section">
-  </div>
-  
-  <div id="rtd-footer-container"></div>
-
+</div>
+</div>
 
       </div>
       
-      <main id="main-content" class="bd-main" role="main">
-        
-        
-
-<div class="sbt-scroll-pixel-helper"></div>
-
-          <div class="bd-content">
-            <div class="bd-article-container">
-              
-              <div class="bd-header-article d-print-none">
-<div class="header-article-items header-article__inner">
-  
-    <div class="header-article-items__start">
-      
-        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <span class="fa-solid fa-bars"></span>
-</button></div>
-      
     </div>
-  
-  
-    <div class="header-article-items__end">
-      
-        <div class="header-article-item">
-
-<div class="article-header-buttons">
-
-
-
-
-
-<div class="dropdown dropdown-launch-buttons">
-  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
-    <i class="fas fa-rocket"></i>
-  </button>
-  <ul class="dropdown-menu">
-      
-      
-      
-      <li><a href="https://ml-lab.ai4sc-lehre.auf.uni-rostock.de/hub/user-redirect/git-pull?repo=https%3A//github.com/ai4sc-lectures/Programmierung-und-Datenbanken&urlpath=lab/tree/Programmierung-und-Datenbanken/lectures/03b_Schleifen.ipynb&branch=main" target="_blank"
-   class="btn btn-sm dropdown-item"
-   title="Launch on JupyterHub"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  
-    <img alt="JupyterHub logo" src="../_static/images/logo_jupyterhub.svg">
-  </span>
-<span class="btn__text-container">JupyterHub</span>
-</a>
-</li>
-      
-  </ul>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/lectures/03b_Schleifen.ipynb" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
 </div>
-
-
-
-
-
-
-<div class="dropdown dropdown-download-buttons">
-  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
-    <i class="fas fa-download"></i>
-  </button>
-  <ul class="dropdown-menu">
-      
-      
-      
-      <li><a href="../_sources/lectures/03b_Schleifen.ipynb" target="_blank"
-   class="btn btn-sm btn-download-source-button dropdown-item"
-   title="Download source file"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="btn__text-container">.ipynb</span>
-</a>
-</li>
-      
-      
-      
-      
-      <li>
-<button onclick="window.print()"
-  class="btn btn-sm btn-download-pdf-button dropdown-item"
-  title="Print to PDF"
-  data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="btn__text-container">.pdf</span>
-</button>
-</li>
-      
-  </ul>
-</div>
-
-
-
-
-<button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
-  title="Fullscreen mode"
-  data-bs-placement="bottom" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-expand"></i>
-  </span>
-
-</button>
-
-
-
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
-  </button>
-`);
-</script>
-
-
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</button>
-</div></div>
-      
-    </div>
-  
-</div>
-</div>
-              
-              
-
-<div id="jb-print-docs-body" class="onlyprint">
-    <h1>Schleifen</h1>
-    <!-- Table of contents -->
-    <div id="print-main-content">
-        <div id="jb-print-toc">
-            
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#for-loop-bei-bekannter-anzahl-an-wiederholungen">For-Loop bei bekannter Anzahl an Wiederholungen</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-each-loop-bei-sequenzen">For-Each-Loop bei Sequenzen</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-loop-bei-bekannter-anzahl-n-an-wiederholungen">For-Loop bei bekannter Anzahl <span class="math notranslate nohighlight">\(n\)</span> an Wiederholungen</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-each-loop-bei-dictionaries">For-Each-Loop bei Dictionaries</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-loop-beispiel">For-Loop Beispiel</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#while-loops-bei-unbekanner-schleifenlange">While-Loops bei unbekanner Schleifenlänge</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#while-loop">While-Loop</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#do-while-loops">Do-While-Loops</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#repeat-until-loop">Repeat-Until-Loop</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#endloos-schleifen">Endloos-Schleifen</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schleifen-vorzeitig-abbrechen-oder-elemente-uberspringen">Schleifen vorzeitig abbrechen oder Elemente überspringen</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#endlosschleifen-mit-timeout">Endlosschleifen mit Timeout</a></li>
-</ul>
-</li>
-</ul>
-            </nav>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
         </div>
-    </div>
-</div>
-
-              
-                
-<div id="searchbox"></div>
-                <article class="bd-article">
-                  
-  <section class="tex2jax_ignore mathjax_ignore" id="schleifen">
-<h1>Schleifen<a class="headerlink" href="#schleifen" title="Link to this heading">#</a></h1>
+        <article role="main" id="furo-main-content">
+          <section class="tex2jax_ignore mathjax_ignore" id="schleifen">
+<h1>Schleifen<a class="headerlink" href="#schleifen" title="Link to this heading">¶</a></h1>
 <p>Oft müssen im Code verschiedene Blöcke mehrmals durchgeführt werden. Ist die Anzahl oder die Menge der Wiederholungen vorher bekannt, verwendet man dafür den <code class="docutils literal notranslate"><span class="pre">for</span></code>-Loop. Man unterscheidet zwei Arten von For-Loops:</p>
 <ul class="simple">
 <li><p>For-Loop:			Wiederhole die Schleife genau <span class="math notranslate nohighlight">\(n\)</span> mal</p></li>
 <li><p>For-Each-Loop (Iterator):	Wiederhole die Schleife für jedes Element in einer Sequenz</p></li>
 </ul>
 <section id="for-loop-bei-bekannter-anzahl-an-wiederholungen">
-<h2>For-Loop bei bekannter Anzahl an Wiederholungen<a class="headerlink" href="#for-loop-bei-bekannter-anzahl-an-wiederholungen" title="Link to this heading">#</a></h2>
+<h2>For-Loop bei bekannter Anzahl an Wiederholungen<a class="headerlink" href="#for-loop-bei-bekannter-anzahl-an-wiederholungen" title="Link to this heading">¶</a></h2>
 <section id="for-each-loop-bei-sequenzen">
-<h3>For-Each-Loop bei Sequenzen<a class="headerlink" href="#for-each-loop-bei-sequenzen" title="Link to this heading">#</a></h3>
+<h3>For-Each-Loop bei Sequenzen<a class="headerlink" href="#for-each-loop-bei-sequenzen" title="Link to this heading">¶</a></h3>
 <p>Der <code class="docutils literal notranslate"><span class="pre">for</span></code>-Loop in Python ist ein For-Each-Loop. Er iteriert immer durch eine Sequenz an Werten, wie z.B. eine Liste. Die Variable des <em>Iterators</em> <code class="docutils literal notranslate"><span class="pre">e</span></code> enthält dabei den aktuellen Wert der Sequenz <code class="docutils literal notranslate"><span class="pre">seq</span></code>. Hiermit lässt sich sehr leicht durch Listen iterieren.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -469,7 +333,7 @@ c
 </div>
 </section>
 <section id="for-loop-bei-bekannter-anzahl-n-an-wiederholungen">
-<h3>For-Loop bei bekannter Anzahl <span class="math notranslate nohighlight">\(n\)</span> an Wiederholungen<a class="headerlink" href="#for-loop-bei-bekannter-anzahl-n-an-wiederholungen" title="Link to this heading">#</a></h3>
+<h3>For-Loop bei bekannter Anzahl <span class="math notranslate nohighlight">\(n\)</span> an Wiederholungen<a class="headerlink" href="#for-loop-bei-bekannter-anzahl-n-an-wiederholungen" title="Link to this heading">¶</a></h3>
 <p>Der <code class="docutils literal notranslate"><span class="pre">for</span></code>-Loop in Python kann auch als klassischer For-Loop verwendet werden, bei der man <span class="math notranslate nohighlight">\(n\)</span>-mal etwas wiederholt. Dazu erzeugt man mit der <code class="docutils literal notranslate"><span class="pre">range(n)</span></code> Funktion eine Folge an Zahlen, durch die dann wie gewohnt als For-Each-Loop iteriert wird. Der Iterator <code class="docutils literal notranslate"><span class="pre">i</span></code> nimmt dabei den Wert des Zählindexes an.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -525,7 +389,7 @@ Index: 2; Wert c
 </div>
 </section>
 <section id="for-each-loop-bei-dictionaries">
-<h3>For-Each-Loop bei Dictionaries<a class="headerlink" href="#for-each-loop-bei-dictionaries" title="Link to this heading">#</a></h3>
+<h3>For-Each-Loop bei Dictionaries<a class="headerlink" href="#for-each-loop-bei-dictionaries" title="Link to this heading">¶</a></h3>
 <p>Auch durch Dictionaries kann man mit einem For-Loop iterieren. Hierfür kann man entweder durch die Schlüssel iterieren und dann den Wert separat über <code class="docutils literal notranslate"><span class="pre">seq[key]</span></code> nachschlagen.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -562,7 +426,7 @@ Schlüssel: key3; Wert wert3
 </div>
 </section>
 <section id="for-loop-beispiel">
-<h3>For-Loop Beispiel<a class="headerlink" href="#for-loop-beispiel" title="Link to this heading">#</a></h3>
+<h3>For-Loop Beispiel<a class="headerlink" href="#for-loop-beispiel" title="Link to this heading">¶</a></h3>
 <p>Damit kann man dann zum Beispiel eine Liste an Messwerten aus imperialen Fuß in metrische Meter umrechnen.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -599,7 +463,7 @@ Schlüssel: key3; Wert wert3
 </section>
 </section>
 <section id="while-loops-bei-unbekanner-schleifenlange">
-<h2>While-Loops bei unbekanner Schleifenlänge<a class="headerlink" href="#while-loops-bei-unbekanner-schleifenlange" title="Link to this heading">#</a></h2>
+<h2>While-Loops bei unbekanner Schleifenlänge<a class="headerlink" href="#while-loops-bei-unbekanner-schleifenlange" title="Link to this heading">¶</a></h2>
 <p>While-Loops werden primär verwendet, wenn die Länge der Schleife am Anfang noch nicht bekannt ist. Dabei wird die Schleife so lange wiederholt, wie eine bestimmte Bedingung gegeben ist. Man unterscheidet in der Informatik die Typen:</p>
 <ul class="simple">
 <li><p>While-Loop: 			Wiederhole solange eine Bedingung wahr ist (ggf. nie)</p></li>
@@ -607,7 +471,7 @@ Schlüssel: key3; Wert wert3
 <li><p>Repeat-Until-Loop:   Wiederhole bis eine Bedingung wahr wird (d.h. mindestens einmal)</p></li>
 </ul>
 <section id="while-loop">
-<h3>While-Loop<a class="headerlink" href="#while-loop" title="Link to this heading">#</a></h3>
+<h3>While-Loop<a class="headerlink" href="#while-loop" title="Link to this heading">¶</a></h3>
 <p>Im While-Loop kann die Bedingung schon am Anfang falsch sein. Die Schleife muss also nicht ausgeführt werden.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -640,7 +504,7 @@ Die While-Schleife wird ausgeführt wenn die Bedingung am Anfang der Schleife 1 
 </div>
 </section>
 <section id="do-while-loops">
-<h3>Do-While-Loops<a class="headerlink" href="#do-while-loops" title="Link to this heading">#</a></h3>
+<h3>Do-While-Loops<a class="headerlink" href="#do-while-loops" title="Link to this heading">¶</a></h3>
 <p>Im Do-While-Loop wird die Bedingung erst am Ende geprüft. Die Schleife wird also immer mindestens einmal durchlaufen. Das ist jedoch identisch im Verhalten mit einem While-Loop bei der die Bedingung am Anfang als True gesetzt wurde und in der Schleife geändert wird.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -682,7 +546,7 @@ Die Do-While-Schleife wird mindestens einmal ausgeführt bis die Bedingung am En
 </div>
 </section>
 <section id="repeat-until-loop">
-<h3>Repeat-Until-Loop<a class="headerlink" href="#repeat-until-loop" title="Link to this heading">#</a></h3>
+<h3>Repeat-Until-Loop<a class="headerlink" href="#repeat-until-loop" title="Link to this heading">¶</a></h3>
 <p>Beim Repeat-Until-Loop wird die Bedingung auch erst am Ende geprüft. Die Schleife wird also auch immer mindestens einmal durchlaufen. Die Schleife wird allerdings wiederholt bis die Bedingung Wahr wird. Es ist also eine Negation des Do-While-Loops.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -725,7 +589,7 @@ Die Repeat-Until-Schleife wird mindestens einmal ausgeführt bis die Bedingung a
 </div>
 </section>
 <section id="endloos-schleifen">
-<h3>Endloos-Schleifen<a class="headerlink" href="#endloos-schleifen" title="Link to this heading">#</a></h3>
+<h3>Endloos-Schleifen<a class="headerlink" href="#endloos-schleifen" title="Link to this heading">¶</a></h3>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>While-Schleifen haben keine maximale Wiederholungsanzahl. Sie können potentiell für immer laufen, wenn sich die Bedingung nie ändert.
@@ -749,7 +613,7 @@ Es ist daher immer wichtig zu durchdenken, ob es den Fall gibt in dem sich die B
 <p>Es sieht erstmal so aus, als ob das nicht möglich ist. Wir werden dennoch sicherheitshalber eine zweite Variante mit zusätzlicher Abbruchbedingung definieren.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">while_loop_mit_abbruch</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">max_iterations</span><span class="o">=</span><span class="mi">99</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">while_loop_mit_abbruch</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">max_iterations</span><span class="o">=</span><span class="mi">99</span><span class="p">):</span>
 	<span class="n">iterations</span> <span class="o">=</span> <span class="mi">0</span>
 	<span class="k">while</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">iterations</span> <span class="o">&lt;</span> <span class="n">max_iterations</span><span class="p">:</span>
 		<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Die While-Schleife wird ausgeführt wenn die Bedingung am Anfang der Schleife </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> &gt; 0 wahr ist&quot;</span><span class="p">)</span>
@@ -779,7 +643,7 @@ Die While-Schleife wurde nach 3 von 99 beendet
 <p>Was passiert allerdings wenn wir die Funktion mit Unendlich (Infinity) initialisieren? Die Subtraktion/Addition einer Zahl, ungleich Unendlich, zu Unendlich ist Unendlich. Die Variable <code class="docutils literal notranslate"><span class="pre">n</span></code> wird sich also nie ändern.</p>
 <div class="cell tag_output_scroll docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span> <span class="c1"># die Zahl unendlich ist in der math bibliothek definiert</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span> <span class="c1"># die Zahl unendlich ist in der math bibliothek definiert</span>
 
 <span class="n">while_loop_mit_abbruch</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
 </pre></div>
@@ -892,7 +756,7 @@ Die While-Schleife wurde nach 99 von 99 beendet
 </div>
 </section>
 <section id="schleifen-vorzeitig-abbrechen-oder-elemente-uberspringen">
-<h3>Schleifen vorzeitig abbrechen oder Elemente überspringen<a class="headerlink" href="#schleifen-vorzeitig-abbrechen-oder-elemente-uberspringen" title="Link to this heading">#</a></h3>
+<h3>Schleifen vorzeitig abbrechen oder Elemente überspringen<a class="headerlink" href="#schleifen-vorzeitig-abbrechen-oder-elemente-uberspringen" title="Link to this heading">¶</a></h3>
 <p>Manchmal möchte man eine for/while-Schleife verfrüht abbrechen. Hierfür bietet Python den <code class="docutils literal notranslate"><span class="pre">break</span></code>–Befehl. Er bricht die Wiederholschleife an der aktuellen Position ab (ähnlich wie repeat in einer Funktion). Damit lassen sich zusätzliche Abbruchbedingungen in der Schleife implementieren.</p>
 <p>Der <code class="docutils literal notranslate"><span class="pre">continue</span></code>-Befehl bricht die Schleife nicht ab, sondern beginnt direkt die nächste Iteration. Das ist sinnvoll wenn z.B. eine Filterbedingung nicht erfüllt ist.</p>
 <p>Der folgende Loop soll das erste essbare Ding in meinem Rucksack finden.</p>
@@ -930,11 +794,11 @@ Ergebnis ist Apfel
 <p>Beides sind typische Befehle, um die Performance von Loops zu verbessern.</p>
 </section>
 <section id="endlosschleifen-mit-timeout">
-<h3>Endlosschleifen mit Timeout<a class="headerlink" href="#endlosschleifen-mit-timeout" title="Link to this heading">#</a></h3>
+<h3>Endlosschleifen mit Timeout<a class="headerlink" href="#endlosschleifen-mit-timeout" title="Link to this heading">¶</a></h3>
 <p>Mit <code class="docutils literal notranslate"><span class="pre">break</span></code> lassen sich zusätzliche Abbruchbedingungen realisieren, wie z.B. eine maximale Ausführzeit. Z.B. definieren wie einen zusätzlichen Timeout in einer Endlosschleife von 10 Sekunden mit Hilfe der <code class="docutils literal notranslate"><span class="pre">time()</span></code>-Funktion aus dem Paket <code class="docutils literal notranslate"><span class="pre">time</span></code>, welche die aktuelle Zeit (seit 1970) in Sekunden ausgibt.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 
 <span class="n">iterations</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="c1"># wir speichern die Anfangszeit</span>
@@ -948,7 +812,7 @@ Ergebnis ist Apfel
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Timeout after 3.000000238418579s and 15996502 iterations
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Timeout after 3.000000238418579s and 18008744 iterations
 </pre></div>
 </div>
 </div>
@@ -965,7 +829,7 @@ Ergebnis ist Apfel
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sleeped for 3.0002667903900146s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sleeped for 3.000220775604248s
 </pre></div>
 </div>
 </div>
@@ -993,119 +857,111 @@ Ergebnis ist Apfel
     }
     </script>
     <script>kernelName = 'python3'</script>
-
-                </article>
-              
-
-              
-              
-              
-              
-                <footer class="prev-next-footer d-print-none">
-                  
-<div class="prev-next-area">
-    <a class="left-prev"
-       href="03a_Verzweigung.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Verzweigungen</p>
+        </article>
       </div>
-    </a>
-    <a class="right-next"
-       href="04a_Funktionen.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Funktionen</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
-</div>
-                </footer>
-              
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="04a_Funktionen.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Funktionen</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="03a_Verzweigung.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">Verzweigungen</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; CC-BY-NC-SA 2022
             </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
-            
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#for-loop-bei-bekannter-anzahl-an-wiederholungen">For-Loop bei bekannter Anzahl an Wiederholungen</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-each-loop-bei-sequenzen">For-Each-Loop bei Sequenzen</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-loop-bei-bekannter-anzahl-n-an-wiederholungen">For-Loop bei bekannter Anzahl <span class="math notranslate nohighlight">\(n\)</span> an Wiederholungen</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-each-loop-bei-dictionaries">For-Each-Loop bei Dictionaries</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#for-loop-beispiel">For-Loop Beispiel</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#while-loops-bei-unbekanner-schleifenlange">While-Loops bei unbekanner Schleifenlänge</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#while-loop">While-Loop</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#do-while-loops">Do-While-Loops</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#repeat-until-loop">Repeat-Until-Loop</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#endloos-schleifen">Endloos-Schleifen</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schleifen-vorzeitig-abbrechen-oder-elemente-uberspringen">Schleifen vorzeitig abbrechen oder Elemente überspringen</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#endlosschleifen-mit-timeout">Endlosschleifen mit Timeout</a></li>
-</ul>
-</li>
-</ul>
-  </nav></div>
-
-</div></div>
-              
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
             
           </div>
-          <footer class="bd-footer-content">
+          <div class="right-details">
             
-<div class="bd-footer-content__inner container">
-  
-  <div class="footer-item">
-    
-<p class="component-author">
-By Joern Ploennigs, AI 4 Sustainable Construction, University of Rostock
-</p>
-
-  </div>
-  
-  <div class="footer-item">
-    
-
-  <p class="copyright">
-    
-      © Copyright CC-BY-NC-SA 2022.
-      <br/>
-    
-  </p>
-
-  </div>
-  
-  <div class="footer-item">
-    
-  </div>
-  
-  <div class="footer-item">
-    
-  </div>
-  
-</div>
-          </footer>
+          </div>
+        </div>
         
-
-      </main>
+      </footer>
     </div>
-  </div>
-  
-  <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=3ee479438cf8b5e0d341"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=3ee479438cf8b5e0d341"></script>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Schleifen</a><ul>
+<li><a class="reference internal" href="#for-loop-bei-bekannter-anzahl-an-wiederholungen">For-Loop bei bekannter Anzahl an Wiederholungen</a><ul>
+<li><a class="reference internal" href="#for-each-loop-bei-sequenzen">For-Each-Loop bei Sequenzen</a></li>
+<li><a class="reference internal" href="#for-loop-bei-bekannter-anzahl-n-an-wiederholungen">For-Loop bei bekannter Anzahl <span class="math notranslate nohighlight">\(n\)</span> an Wiederholungen</a></li>
+<li><a class="reference internal" href="#for-each-loop-bei-dictionaries">For-Each-Loop bei Dictionaries</a></li>
+<li><a class="reference internal" href="#for-loop-beispiel">For-Loop Beispiel</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#while-loops-bei-unbekanner-schleifenlange">While-Loops bei unbekanner Schleifenlänge</a><ul>
+<li><a class="reference internal" href="#while-loop">While-Loop</a></li>
+<li><a class="reference internal" href="#do-while-loops">Do-While-Loops</a></li>
+<li><a class="reference internal" href="#repeat-until-loop">Repeat-Until-Loop</a></li>
+<li><a class="reference internal" href="#endloos-schleifen">Endloos-Schleifen</a></li>
+<li><a class="reference internal" href="#schleifen-vorzeitig-abbrechen-oder-elemente-uberspringen">Schleifen vorzeitig abbrechen oder Elemente überspringen</a></li>
+<li><a class="reference internal" href="#endlosschleifen-mit-timeout">Endlosschleifen mit Timeout</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
-  <footer class="bd-footer">
-  </footer>
-  </body>
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"></script>
+    <script>quizdown.init({"start_on_load": true, "shuffle_answers": true, "shuffle_questions": false, "primary_color": "#FF851B", "secondary_color": "#DDDDDD", "text_color": "black", "locale": "de", "quizdown_js": "https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"});</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    </body>
 </html>
