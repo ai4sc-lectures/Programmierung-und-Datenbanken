@@ -258,7 +258,7 @@ def build(c, all=False):
     config_book(c)
     build_book(c, all)
     copy_images(c)
-    #build_quarto(c)
+    build_quarto(c)
     build_book_slides(c)
     build_excercise_slides(c)
 
