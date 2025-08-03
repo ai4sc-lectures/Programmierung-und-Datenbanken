@@ -6,7 +6,7 @@ Computer
 
 ![Computeraufbau](images/computeraufbau.svg)
 
-Die Kernmodule eines Computers sind die CPU als zentrale Recheneinheit, die GPU für graphische Anwendungen, der RAM als Arbeitsspeicher und die HDD/SSD als
+Die Kernmodule eines Computers sind die CPU als zentrale Recheneinheit, die GPU für graphische Anwendungen, der RAM als Arbeitsspeicher und ein Harddrive (HDD) oder Solid State Drive (SSD)
 
 Der Computer hat ähnliche Gedächtnisarten wie der Mensch:
 - CPU und GPU haben kleine Register und Cache Speicher (Ultra-Kurzzeitgedächtnis)
