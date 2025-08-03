@@ -149,4 +149,28 @@
     - [ ] Mengen
     - [X] Wörterbuch
 
+    ### Welche der folgenden Python-Datentypen sind **mutabel**?
+
+    > Drei Datentypen sind richtig
+
+    - [x] list
+    - [x] set
+    - [x] dict
+    - [ ] tuple
+    - [ ] str
+
+    ### Welche Aussage zur Mutabilität ist **korrekt**?
+
+    - [ ] Ein `tuple` kann nach seiner Erstellung verändert werden.
+    - [ ] `frozenset` ist eine mutierbare Variante von `set`.
+    - [x] `bytearray` ist eine mutierbare Version von `bytes`.
+    - [ ] Strings (`str`) in Python sind mutabel.
+
+
+    ### Was bedeutet „mutabel“ im Kontext von Python-Datentypen?
+
+    - [x] Der Inhalt eines Objekts kann nach der Erstellung verändert werden.
+    - [ ] Das Objekt kann nicht kopiert werden.
+    - [ ] Das Objekt belegt immer mehr Speicher als ein immutables Objekt.
+    - [ ] Ein mutables Objekt kann nicht Teil eines Sets sein.
 ```
