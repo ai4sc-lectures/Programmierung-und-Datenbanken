@@ -1,12 +1,46 @@
 # Computerhardware
-## Komponenten
+
+## <a href="/slides/01c_Computerhardware.html">Folien</a>
+<iframe src="/slides/01c_Computerhardware.html" width="750" height="500"></iframe>
+
+
+## Computer
+
+:::{admonition} Definition
+:class: definition
 
 Computer
 : Ein Computer ist ein Gerät, das mittels programmierbarer Rechenvorschriften Daten verarbeitet
 
-![Computeraufbau](images/computeraufbau.svg)
+:::
 
-Die Kernmodule eines Computers sind die CPU als zentrale Recheneinheit, die GPU für graphische Anwendungen, der RAM als Arbeitsspeicher und ein Harddrive (HDD) oder Solid State Drive (SSD)
+
+
+## Computerarten
+
+Es gibt viele verschiedene Arten von Computern, die sich in Größe, Leistung und Anwendungsbereich unterscheiden:
+
+- Supercomputer – Spezielle Computer mit sehr vielen CPUs und GPUs zur hochparallelen Verarbeitung komplexer Probleme (z. B. Wettersimulation)
+- Mainframe – Spezielle Großrechner mit sehr hoher Zuverlässigkeit z. B. in Banken
+- Server – Computer in Rechenzentren ohne Bildschirm für das Internet oder Cloud-Computing
+- Personal Computer (PC) – Desktop Computer in Büros oder daheim für Arbeit, Spielen, etc.
+- Laptops – Mobile Computer unterwegs fürs arbeiten, spielen, studieren
+- Smartphones – Mobiler Rechner mit Touchscreen und wenig Telefonfunktion
+- Tablets – Mobiler Computer mit viel Touchscreen und ohne Telefonfunktion
+- Eingebettete Computer – kleine Rechner in Autos, Robotern und Smart-Homes
+
+## Komponenten eines Computers
+
+![Computeraufbau](images/01c_Computerhardware/computer_hardware.svg)
+
+Die Kernmodule eines Computers sind:
+
+- die CPU als zentrale Recheneinheit, 
+- die GPU für graphische Anwendungen, 
+- der RAM als Arbeitsspeicher und 
+- ein Harddrive (HDD) oder Solid State Drive (SSD)
+
+![Computerspeicher](images/01c_Computerhardware/computer_hardware2.svg)
 
 Der Computer hat ähnliche Gedächtnisarten wie der Mensch:
 - CPU und GPU haben kleine Register und Cache Speicher (Ultra-Kurzzeitgedächtnis)

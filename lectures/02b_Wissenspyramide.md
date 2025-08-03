@@ -1,5 +1,10 @@
 # Wissenspyramide
 
+## <a href="/slides/02b_Wissenspyramide.html">Folien</a>
+<iframe src="/slides/02b_Wissenspyramide.html" width="750" height="500"></iframe>
+
+## Wissenspyramide
+
 Die Wissenspyradmide ist ein Modell zur Darstellung der Extraktion von Wissen durch Computer. Sie dient gut der Erklärung einger Grundbegriffe der Informatik wie Zeichen, Syntax, Daten, Semantik, Informaitonen, Datenverarbeitung und Wissen. Diese Begriffe werden pyramidenförmig als 4 Ebenen und Transformationsprozesse dargestellt.
 
 ![Wissenspyramide](images/wissenspyramide.svg)
