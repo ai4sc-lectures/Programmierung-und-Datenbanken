@@ -1,4 +1,4 @@
-## Funktionen
+## Programmablauf
 
 ```{quizdown}
 	---
