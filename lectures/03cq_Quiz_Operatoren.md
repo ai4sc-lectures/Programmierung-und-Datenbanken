@@ -134,4 +134,13 @@ Die Computer CPU kann nur einfache logische Operationen ausführen wie NOT, AND,
     1. [ ]   Wahr (0),   Wahr (0),   Wahr (0), Falsch (0)
     1. [x]   Wahr (0), Falsch (0) (0), Falsch (0) (0),   Wahr (0)
         > Die XNOR-Operation (auch als Äquivalenzoperation bezeichnet) ist eine logische Operation in der Booleschen Algebra und der Digitaltechnik. Der Name "XNOR" steht für "NOT XOR" und zeigt an, dass es eine Kombination aus der XOR-Operation und der NOT-Operation ist und das Gegenteil des Ergebnisses der XOR-Operation ergibt. Die XNOR-Operation ergibt "1" (Wahr), wenn beide Eingangssignale gleich sind (entweder beide "0" oder beide "1"). Sie ergibt "0" (Falsch), wenn die Eingangssignale unterschiedlich sind (eins "0" und das andere "1").
+
+
+    ### Wie verknüpft man mehrere logische Bedingungen in Python?
+
+    - [x] Mit `AND`, `OR`, `NOT`
+    - [ ] Mit `&&`, `||`, `!`
+    - [ ] Mit `+`, `-`, `*`
+    - [ ] Mit `COMBINE`, `MERGE`, `JOIN`
+    - [ ] Mit `IF`, `ELSE`, `THEN`
 ```

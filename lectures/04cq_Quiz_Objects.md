@@ -211,4 +211,37 @@
     - [ ] Das Klassenattribut wird überschrieben
     - [ ] Eine neue Instanz wird erzeugt
 
+    ### Was ist Polymorphismus?
+    - [x] Die Fähigkeit, dass verschiedene Klassen die gleiche Methode unterschiedlich implementieren
+    - [ ] Eine spezielle Art von Schleife
+    - [ ] Eine Methode, die nur in einer Klasse existiert
+    - [ ] Eine Variable, die mehrere Typen annehmen kann
+
+    ### Was ist Kapselung?
+    - [x] Das Verbergen von Implementierungsdetails und Zugriff auf Attribute über Methoden
+    - [ ] Eine spezielle Art von Datenstruktur
+    - [ ] Eine Methode, die nur in einer Klasse existiert
+    - [ ] Eine Variable, die nur innerhalb der Klasse sichtbar ist
+
+    ### Was ist Vererbung?
+    - [x] Die Möglichkeit, eine Klasse von einer anderen abzuleiten und deren Eigenschaften zu übernehmen
+    - [ ] Eine spezielle Art von Schleife
+    - [ ] Eine Methode, die nur in einer Klasse existiert
+    - [ ] Eine Variable, die mehrere Typen annehmen kann
+    - [ ] Eine Klasse, die keine Attribute hat
+
+    ### Was sind objektorientierte Programmierparadigmen?
+    - [x] Polymorphismus
+    - [x] Kapselung
+    - [ ] Multiplizität
+    - [ ] Redundanz
+    - [x] Vererbung
+    - [x] Generalisierung
+    - [ ] Spezialisierung
+
+    ### Was ist UML?
+    - [x] Eine grafische Notation für Software-Design
+    - [ ] Die Programmiersprache
+    - [ ] Die Datenbank-Sprache
+    - [ ] Eine Art von Algorithmus 
 ```
