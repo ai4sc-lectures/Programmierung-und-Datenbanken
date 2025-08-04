@@ -36,14 +36,23 @@ jobs:
       run: |
         pip install -r requirements.txt
 
+    - name: Install dev dependencies
+      run: |
+        pip install -r requirements-dev.txt
+
+    # Build the book
+    #- name: Build the book
+    #  run: |
+    #    jupyter-book build .
+
     # Build the book
     - name: Build the book
       run: |
-        jupyter-book build .
+        invoke build
 
-    - name: Copy images
-      run: |
-        cp lectures/images/*.* _build/html/_images/
+#    - name: Copy images
+#      run: |
+#        cp lectures/images/*.* _build/html/_images/
 
     # Push the book's HTML to github-pages
     - name: GitHub Pages action
