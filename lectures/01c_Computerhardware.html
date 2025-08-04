@@ -59,6 +59,8 @@
     <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"></script>
     <script>quizdown.init({"start_on_load": true, "shuffle_answers": true, "shuffle_questions": false, "primary_color": "#FF851B", "secondary_color": "#DDDDDD", "text_color": "black", "locale": "de", "quizdown_js": "https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"});</script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/01c_Computerhardware';</script>
@@ -183,13 +185,10 @@
 <li class="toctree-l1"><a class="reference internal" href="01d_Programmiersprachen.html">Programmiersprachen</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02a_Softwarearchitektur.html">Softwarearchitektur</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02b_Wissenspyramide.html">Wissenspyramide</a></li>
-<li class="toctree-l1"><a class="reference internal" href="02bq_Quiz_Wissenspyramide.html">Quiz: Wissenspyramide</a></li>
 <li class="toctree-l1"><a class="reference internal" href="02c_Datentypen.html">Datentypen</a></li>
-<li class="toctree-l1"><a class="reference internal" href="02bq_Quiz_Datentypen.html">Quiz: Datentypen</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03a_Verzweigung.html">Verzweigungen</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03b_Schleifen.html">Schleifen</a></li>
 <li class="toctree-l1"><a class="reference internal" href="03c_Operatoren.html">Operatoren</a></li>
-<li class="toctree-l1"><a class="reference internal" href="03cq_Quiz_Operatoren.html">Quiz: Logische Operationen</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Modularisierung</span></p>
 <ul class="nav bd-sidenav">
@@ -197,6 +196,7 @@
 <li class="toctree-l1"><a class="reference internal" href="04c_Objects.html">Objekte</a></li>
 <li class="toctree-l1"><a class="reference internal" href="04b_Rekursion.html">Rekursive Funktionen</a></li>
 <li class="toctree-l1"><a class="reference internal" href="05a_Programmablauf.html">Programmablauf</a></li>
+
 <li class="toctree-l1"><a class="reference internal" href="05b_Algorithmen.html">Such- und Sortieralgorithmen</a></li>
 <li class="toctree-l1"><a class="reference internal" href="06a_Exceptions.html">Exceptions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="06b_UnitTest.html">Unit-Tests</a></li>
@@ -359,12 +359,22 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#folien"><a href="/slides/01c_Computerhardware.html">Folien</a></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computer">Computer</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computerarten">Computerarten</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#komponenten-eines-computers">Komponenten eines Computers</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#zentrale-verarbeitungseinheit-cpu">Zentrale Verarbeitungseinheit CPU</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grafikkarte-gpu">Grafikkarte GPU</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arbeitsspeicher-ram">Arbeitsspeicher RAM</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#festspeicher-hdd-ssd">Festspeicher HDD/SSD</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mainboard-mit-dem-kommunikationsbus">Mainboard mit dem Kommunikationsbus</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#komponenten-eines-computers">Komponenten eines Computers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zentrale-verarbeitungseinheit-cpu">Zentrale Verarbeitungseinheit CPU</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grafikkarte-gpu">Grafikkarte GPU</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#arbeitsspeicher-ram">Arbeitsspeicher RAM</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#festspeicher-hdd-ssd">Festspeicher HDD/SSD</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mainboard-mit-dem-kommunikationsbus">Mainboard mit dem Kommunikationsbus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binaren-zahlen">Binären Zahlen</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#darstellung-von-ganzen-zahlen-im-binarsystem">Darstellung von ganzen Zahlen im Binärsystem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#darstellung-von-reellen-zahlen-im-binarsystem">Darstellung von reellen Zahlen im Binärsystem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#abbildung-von-zeichen-im-computer">Abbildung von Zeichen im Computer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#abbildung-von-bildern-im-computer">Abbildung von Bildern im Computer</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
 </ul>
             </nav>
         </div>
@@ -423,27 +433,480 @@ document.write(`
 <li><p>Der RAM ist ein volatiler Speicher, d.h. der Inhalt geht beim ausschalten verloren (Kurzzeitgedächtnis)</p></li>
 <li><p>Die HDD/SSD ist ein permanenter Speicher, d.h. der Inhalt bleibt erhalten (Langzeitgedächtnis)</p></li>
 </ul>
-</section>
 <section id="zentrale-verarbeitungseinheit-cpu">
-<h2>Zentrale Verarbeitungseinheit CPU<a class="headerlink" href="#zentrale-verarbeitungseinheit-cpu" title="Link to this heading">#</a></h2>
+<h3>Zentrale Verarbeitungseinheit CPU<a class="headerlink" href="#zentrale-verarbeitungseinheit-cpu" title="Link to this heading">#</a></h3>
 <p>Die CPU (Central Processing Unit) ist die Recheneinheit des Computers und ist zuständig für die Ausführung von Anwendungen und von Berechnungen und Operationen zuständig. Sie bearbeitet eine Sequenz an Befehlen in Form eines Computerprogramms. Moderne CPUs bestehen aus wenigen Rechenkernen (2-32) mit sehr hoher Leistungsfähigkeit um komplexe Berechnungen sehr schnell auszuführen. Eine CPU besteht aus Millionen an Transistoren die nur wenige Nanometer (1000000nm=1cm) groß sind. Wenige Transistoren können nur eine einzelne logische Operation berechnen.</p>
 </section>
 <section id="grafikkarte-gpu">
-<h2>Grafikkarte GPU<a class="headerlink" href="#grafikkarte-gpu" title="Link to this heading">#</a></h2>
+<h3>Grafikkarte GPU<a class="headerlink" href="#grafikkarte-gpu" title="Link to this heading">#</a></h3>
 <p>Die Grafikkarte GPU (Graphic Processing Unit) ist verantwortlich für die Verarbeitung von Grafiken (2D, 3D und Videos) und parallelen Berechnungen. In einigen Computern ist die GPU in die CPU integriert, während Gaming-Computer und Workstations oft separate, leistungsstarke Grafikkarten verwenden. Moderne GPUs bestehen aus tausenden sehr einfachen Recheneinheiten, die nur wenig Rechenleistung und Speicher haben, aber durch die Anzahl sehr viele parallele Berechnungen ausführen können im Gegensatz zur CPU.</p>
 </section>
 <section id="arbeitsspeicher-ram">
-<h2>Arbeitsspeicher RAM<a class="headerlink" href="#arbeitsspeicher-ram" title="Link to this heading">#</a></h2>
+<h3>Arbeitsspeicher RAM<a class="headerlink" href="#arbeitsspeicher-ram" title="Link to this heading">#</a></h3>
 <p>Der RAM (Random Access Memory) ist der temporäre Speicher, in dem Daten und Programme während des Betriebs geladen werden. Ein größerer RAM ermöglicht schnellere Leistung und Multitasking-Fähigkeiten.</p>
 </section>
 <section id="festspeicher-hdd-ssd">
-<h2>Festspeicher HDD/SSD<a class="headerlink" href="#festspeicher-hdd-ssd" title="Link to this heading">#</a></h2>
+<h3>Festspeicher HDD/SSD<a class="headerlink" href="#festspeicher-hdd-ssd" title="Link to this heading">#</a></h3>
 <p>HDD und SSD (Hard Disk Drive / Solid State Drive) sind die dauerhaften Speicher des Computers, auf dem das Betriebssystem, Programme und Daten gespeichert werden. HDDs (Festplattenlaufwerke) speichern Daten auf rotierenden Scheiben, während SSDs (Solid-State-Laufwerke) Flash-Speicher verwenden und in der Regel schneller sind.</p>
 </section>
 <section id="mainboard-mit-dem-kommunikationsbus">
-<h2>Mainboard mit dem Kommunikationsbus<a class="headerlink" href="#mainboard-mit-dem-kommunikationsbus" title="Link to this heading">#</a></h2>
+<h3>Mainboard mit dem Kommunikationsbus<a class="headerlink" href="#mainboard-mit-dem-kommunikationsbus" title="Link to this heading">#</a></h3>
 <p>Das Mainboard ist die Hauptplatine des Computers, auf der CPU, RAM, GPU und andere Komponenten angeschlossen sind. Die Komponenten tauschen Informationen über ein Kommunikationsbus aus.</p>
 </section>
+</section>
+<section id="binaren-zahlen">
+<h2>Binären Zahlen<a class="headerlink" href="#binaren-zahlen" title="Link to this heading">#</a></h2>
+<p>Computer speichern, verarbeiten und übertragen Daten in Form von binären Zahlen. Dies liegt daran, dass Transistoren in der CPU nur zwei Zustände unterscheiden können und somit ausschließlich logische Operationen ausführen. Das Wort „binär“ stammt vom lateinischen „binarius“ und bedeutet „zweifach“ oder „doppelt“. Das binäre System ist das kleinste sinnvolle Zahlensystem und verwendet nur zwei verschiedene Zeichen: 0 und 1. Diese beiden Werte können auf unterschiedliche Weise interpretiert werden, zum Beispiel als „aus“ und „an“, „falsch“ und „wahr“ oder einfach als die Zahlen 0 und 1. Durch die Kombination vieler solcher binärer Stellen (Bits) lassen sich komplexe Daten und Informationen im Computer darstellen und verarbeiten.</p>
+<div class="warning admonition">
+<p class="admonition-title">Achtung</p>
+<p>Aufgrund der binären Darstellung werden übliche Einheitenvorsätze wie Kilo-, Mega-, etc. auf Basis von 1024 und nicht auf Basis von 1000 definiert.</p>
+<p><img alt="© Wikipedia" src="../_images/image_11.png" /></p>
+</div>
+<section id="darstellung-von-ganzen-zahlen-im-binarsystem">
+<h3>Darstellung von ganzen Zahlen im Binärsystem<a class="headerlink" href="#darstellung-von-ganzen-zahlen-im-binarsystem" title="Link to this heading">#</a></h3>
+<p>Grundsätzlich werden ganze Zahlen im Computer in dem Binärsystem dargestellt. Hierfür wird das Dezimalsystem, das auf der Basis 10 beruht und die Ziffern 0 bis 9 verwendet, in das Binärsystem auf der Basis 2 mit den Ziffern 0 und 1 umgerechnet. Jede Stelle einer Binärzahl entspricht einer Potenz von 2, beginnend ganz rechts mit <span class="math notranslate nohighlight">\(2^0\)</span>. Um eine Dezimalzahl in eine Binärzahl umzuwandeln, wird die Zahl in Summen von Zweierpotenzen zerlegt.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Dezimal</p></th>
+<th class="head"><p>Binär</p></th>
+<th class="head"><p>Hexadezimal</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>0000</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>0001</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>0010</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>0011</p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>0100</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>0101</p></td>
+<td><p>5</p></td>
+</tr>
+<tr class="row-even"><td><p>6</p></td>
+<td><p>0110</p></td>
+<td><p>6</p></td>
+</tr>
+<tr class="row-odd"><td><p>7</p></td>
+<td><p>0111</p></td>
+<td><p>7</p></td>
+</tr>
+<tr class="row-even"><td><p>8</p></td>
+<td><p>1000</p></td>
+<td><p>8</p></td>
+</tr>
+<tr class="row-odd"><td><p>9</p></td>
+<td><p>1001</p></td>
+<td><p>9</p></td>
+</tr>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>1010</p></td>
+<td><p>A</p></td>
+</tr>
+<tr class="row-odd"><td><p>11</p></td>
+<td><p>1011</p></td>
+<td><p>B</p></td>
+</tr>
+<tr class="row-even"><td><p>12</p></td>
+<td><p>1100</p></td>
+<td><p>C</p></td>
+</tr>
+<tr class="row-odd"><td><p>13</p></td>
+<td><p>1101</p></td>
+<td><p>D</p></td>
+</tr>
+<tr class="row-even"><td><p>14</p></td>
+<td><p>1110</p></td>
+<td><p>E</p></td>
+</tr>
+<tr class="row-odd"><td><p>15</p></td>
+<td><p>1111</p></td>
+<td><p>F</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Beispiel:</strong> Die Dezimalzahl 13 wird so binär dargestellt:</p>
+<ul class="simple">
+<li><p>Zerlegung in Zweierpotenzen:
+<span class="math notranslate nohighlight">\(13 = 8 + 4 + 1 = 2^3 + 2^2 + 2^0\)</span></p></li>
+<li><p>In Binärform wird dies als <span class="math notranslate nohighlight">\(1101\)</span> geschrieben. Jede Stelle (von rechts nach links) steht für <span class="math notranslate nohighlight">\(2^0\)</span>, <span class="math notranslate nohighlight">\(2^1\)</span>, <span class="math notranslate nohighlight">\(2^2\)</span>, <span class="math notranslate nohighlight">\(2^3\)</span>, usw. Die Ziffer ist 1, wenn die jeweilige Potenz in der Zahl enthalten ist, sonst 0.</p></li>
+<li><p>Man schreibt auch <span class="math notranslate nohighlight">\(13_{10} = 1101_2\)</span>, also 13 zur Basis 10 und 1101 zur Basis 2.</p></li>
+</ul>
+<p>So kann jede beliebige Zahl als Folge von Nullen und Einsen dargestellt werden. Computer speichern und verarbeiten Zahlen intern immer in dieser binären Form.</p>
+</section>
+<section id="darstellung-von-reellen-zahlen-im-binarsystem">
+<h3>Darstellung von reellen Zahlen im Binärsystem<a class="headerlink" href="#darstellung-von-reellen-zahlen-im-binarsystem" title="Link to this heading">#</a></h3>
+<p>Reelle Zahlen können im Computer nicht exakt dargestellt werden, da sie oft viele und bis zu unendlich viele Nachkommastellen besitzen können (z. B. <span class="math notranslate nohighlight">\(1/3\)</span>, <span class="math notranslate nohighlight">\(\pi\)</span>). Stattdessen verwendet der Computer eine angenäherte Darstellung, die sogenannte Gleitkommazahl (engl. <em>floating point number</em>). Diese basiert auf einer Exponentialschreibweise, ähnlich wie in der Mathematik:</p>
+<div class="math notranslate nohighlight">
+\[
+\pm\ m \times 10^e
+\]</div>
+<p>wobei <span class="math notranslate nohighlight">\(m\)</span> die Mantisse, <span class="math notranslate nohighlight">\(e\)</span> der Exponent und das Vorzeichen <span class="math notranslate nohighlight">\(\pm\)</span> ist. Im Computer wird jedoch das Binärsystem verwendet, daher lautet die Darstellung:</p>
+<div class="math notranslate nohighlight">
+\[
+\pm\ m \times 2^e
+\]</div>
+<p>Hierbei ist <span class="math notranslate nohighlight">\(m\)</span> die Binärmantisse (zwischen 1 und 2), <span class="math notranslate nohighlight">\(e\)</span> der Binärexponent.</p>
+<p><strong>Beispiel:</strong> Wir möchten die Zahl <span class="math notranslate nohighlight">\(-13,25\)</span> als Gleitkommazahl im Format <span class="math notranslate nohighlight">\(\pm m \times 2^e\)</span> darstellen:</p>
+<ol class="arabic simple">
+<li><p><em>Vorzeichen:</em> Die Zahl ist negativ, also <span class="math notranslate nohighlight">\(1\)</span>.</p></li>
+<li><p><em>Dezimalzahl in Binärform:</em> <span class="math notranslate nohighlight">\(13,25_{10} = 1101,01_2\)</span></p></li>
+<li><p><em>Exponentialverschiebung:</em> <span class="math notranslate nohighlight">\(1101,01_2 = 1,10101_2 \times 2^3\)</span></p></li>
+<li><p><em>Zerlegung</em> in Mantisse: <span class="math notranslate nohighlight">\(1,10101_2\)</span> und Exponent: <span class="math notranslate nohighlight">\(3\)</span></p></li>
+<li><p><em>Ergebnis:</em> <span class="math notranslate nohighlight">\(-13,25 = -1,10101_2 \times 2^3\)</span></p></li>
+</ol>
+<p>In der Praxis werden die Zahlen meist im standartisierten IEEE 754 Standard als 32-Bit-Gleitkommazahl (<em>float</em>) oder 64-Bit (<em>double</em>) gespeichert. Dabei werden die Bits zusätzlich aufgefüllt, so dass sie in die 32 oder 64 Bit passen. Dadurch ändert sich die Darstellung etwas:</p>
+<ul class="simple">
+<li><p>Vorzeichenbit: <span class="math notranslate nohighlight">\(1\)</span> (negativ)</p></li>
+<li><p>Exponent mit Bias: <span class="math notranslate nohighlight">\(3 + 127 = 130_{10}\)</span> (<span class="math notranslate nohighlight">\(10000010_2\)</span>)</p></li>
+<li><p>Mantisse mit Nullen aufgefüllt: <span class="math notranslate nohighlight">\(10101000000000000000000\)</span></p></li>
+<li><p>Die Binärdarstellung im Speicher lautet also: <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">10000010</span> <span class="pre">10101000000000000000000</span></code></p></li>
+</ul>
+<p>So werden beliebige reelle Zahlen im Computer als Gleitkommazahlen nach IEEE 754 gespeichert.</p>
+<div class="warning admonition">
+<p class="admonition-title">Grenzen</p>
+<p>Durch die begrenzte Anzahl an Bits können nicht alle reellen Zahlen exakt dargestellt werden. Es kommt zu Rundungsfehlern und einer endlichen Genauigkeit.</p>
+</div>
+</section>
+<section id="abbildung-von-zeichen-im-computer">
+<h3>Abbildung von Zeichen im Computer<a class="headerlink" href="#abbildung-von-zeichen-im-computer" title="Link to this heading">#</a></h3>
+<p>Text wird im Computer als Folge von Zahlen gespeichert, die wiederum binär codiert sind. Jeder Buchstabe, jedes Satzzeichen und jedes andere Zeichen wird durch eine bestimmte Zahl dargestellt. Diese Zuordnung ist in sogenannten Zeichencodierungen wie ASCII oder Unicode festgelegt.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Kleinbuchstabe</p></th>
+<th class="head"><p>Dezimal</p></th>
+<th class="head"><p>Binär</p></th>
+<th class="head"><p>Großbuchstabe</p></th>
+<th class="head"><p>Dezimal</p></th>
+<th class="head"><p>Binär</p></th>
+<th class="head"><p>Zahlen/Sonderz.</p></th>
+<th class="head"><p>Dezimal</p></th>
+<th class="head"><p>Binär</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>a</p></td>
+<td><p>97</p></td>
+<td><p>01100001</p></td>
+<td><p>A</p></td>
+<td><p>65</p></td>
+<td><p>01000001</p></td>
+<td><p>0</p></td>
+<td><p>48</p></td>
+<td><p>00110000</p></td>
+</tr>
+<tr class="row-odd"><td><p>b</p></td>
+<td><p>98</p></td>
+<td><p>01100010</p></td>
+<td><p>B</p></td>
+<td><p>66</p></td>
+<td><p>01000010</p></td>
+<td><p>1</p></td>
+<td><p>49</p></td>
+<td><p>00110001</p></td>
+</tr>
+<tr class="row-even"><td><p>c</p></td>
+<td><p>99</p></td>
+<td><p>01100011</p></td>
+<td><p>C</p></td>
+<td><p>67</p></td>
+<td><p>01000011</p></td>
+<td><p>2</p></td>
+<td><p>50</p></td>
+<td><p>00110010</p></td>
+</tr>
+<tr class="row-odd"><td><p>d</p></td>
+<td><p>100</p></td>
+<td><p>01100100</p></td>
+<td><p>D</p></td>
+<td><p>68</p></td>
+<td><p>01000100</p></td>
+<td><p>3</p></td>
+<td><p>51</p></td>
+<td><p>00110011</p></td>
+</tr>
+<tr class="row-even"><td><p>e</p></td>
+<td><p>101</p></td>
+<td><p>01100101</p></td>
+<td><p>E</p></td>
+<td><p>69</p></td>
+<td><p>01000101</p></td>
+<td><p>4</p></td>
+<td><p>52</p></td>
+<td><p>00110100</p></td>
+</tr>
+<tr class="row-odd"><td><p>f</p></td>
+<td><p>102</p></td>
+<td><p>01100110</p></td>
+<td><p>F</p></td>
+<td><p>70</p></td>
+<td><p>01000110</p></td>
+<td><p>5</p></td>
+<td><p>53</p></td>
+<td><p>00110101</p></td>
+</tr>
+<tr class="row-even"><td><p>g</p></td>
+<td><p>103</p></td>
+<td><p>01100111</p></td>
+<td><p>G</p></td>
+<td><p>71</p></td>
+<td><p>01000111</p></td>
+<td><p>6</p></td>
+<td><p>54</p></td>
+<td><p>00110110</p></td>
+</tr>
+<tr class="row-odd"><td><p>h</p></td>
+<td><p>104</p></td>
+<td><p>01101000</p></td>
+<td><p>H</p></td>
+<td><p>72</p></td>
+<td><p>01001000</p></td>
+<td><p>7</p></td>
+<td><p>55</p></td>
+<td><p>00110111</p></td>
+</tr>
+<tr class="row-even"><td><p>i</p></td>
+<td><p>105</p></td>
+<td><p>01101001</p></td>
+<td><p>I</p></td>
+<td><p>73</p></td>
+<td><p>01001001</p></td>
+<td><p>8</p></td>
+<td><p>56</p></td>
+<td><p>00111000</p></td>
+</tr>
+<tr class="row-odd"><td><p>j</p></td>
+<td><p>106</p></td>
+<td><p>01101010</p></td>
+<td><p>J</p></td>
+<td><p>74</p></td>
+<td><p>01001010</p></td>
+<td><p>9</p></td>
+<td><p>57</p></td>
+<td><p>00111001</p></td>
+</tr>
+<tr class="row-even"><td><p>k</p></td>
+<td><p>107</p></td>
+<td><p>01101011</p></td>
+<td><p>K</p></td>
+<td><p>75</p></td>
+<td><p>01001011</p></td>
+<td><p>!</p></td>
+<td><p>33</p></td>
+<td><p>00100001</p></td>
+</tr>
+<tr class="row-odd"><td><p>l</p></td>
+<td><p>108</p></td>
+<td><p>01101100</p></td>
+<td><p>L</p></td>
+<td><p>76</p></td>
+<td><p>01001100</p></td>
+<td><p>?</p></td>
+<td><p>63</p></td>
+<td><p>00111111</p></td>
+</tr>
+<tr class="row-even"><td><p>m</p></td>
+<td><p>109</p></td>
+<td><p>01101101</p></td>
+<td><p>M</p></td>
+<td><p>77</p></td>
+<td><p>01001101</p></td>
+<td><p>.</p></td>
+<td><p>46</p></td>
+<td><p>00101110</p></td>
+</tr>
+<tr class="row-odd"><td><p>n</p></td>
+<td><p>110</p></td>
+<td><p>01101110</p></td>
+<td><p>N</p></td>
+<td><p>78</p></td>
+<td><p>01001110</p></td>
+<td><p>,</p></td>
+<td><p>44</p></td>
+<td><p>00101100</p></td>
+</tr>
+<tr class="row-even"><td><p>o</p></td>
+<td><p>111</p></td>
+<td><p>01101111</p></td>
+<td><p>O</p></td>
+<td><p>79</p></td>
+<td><p>01001111</p></td>
+<td><p>(Leerstelle)</p></td>
+<td><p>32</p></td>
+<td><p>00100000</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Moderne Computer verwenden oft Unicode (z. B. UTF-8), um auch Zeichen aus anderen Sprachen und Sonderzeichen darstellen zu können. Auch hier werden die Zeichen in Zahlen übersetzt und dann binär gespeichert. So zieht sich die binäre Codierung von Zeichen durch alle Ebenen der Computertechnik, vom Speichern im RAM bis zur Darstellung in der GPU zur Anzeige auf dem Bildschirm.</p>
+</section>
+<section id="abbildung-von-bildern-im-computer">
+<h3>Abbildung von Bildern im Computer<a class="headerlink" href="#abbildung-von-bildern-im-computer" title="Link to this heading">#</a></h3>
+<p>Bilder werden im Computer als eine Sammlung von kleinen Bildpunkten, sogenannten Pixeln, gespeichert. Jedes Pixel stellt einen winzigen Teil des Bildes dar und besitzt eine bestimmte Farbe. Um ein Bild digital zu speichern, wird das Bild zunächst in ein Raster aus Pixeln mit einer bestimmten Auflösung (z. B. 1920 × 1080 Pixel) unterteilt.</p>
+<p><img alt="© Mahmut Sinecen: Digital Image Processing with MATLAB, 2015" src="../_images/image_10.png" /></p>
+<p>Die Farbe jedes Pixels wird durch Zahlenwerte beschrieben. Bei Farbbildern wird häufig das RGB-Farbmodell verwendet, bei dem jede Farbe aus den drei Grundfarben Rot, Grün und Blau zusammengesetzt wird. Für jede dieser Farben wird ein Zahlenwert gespeichert, meist im Bereich von 0 bis 255 (das entspricht 1 Byte pro Farbkanal). Ein einzelnes Pixel benötigt somit 3 Byte (24 Bit), um alle Farbinformationen zu speichern.</p>
+<p><strong>Beispiel:</strong> Ein Pixel mit den Werten Rot = 120, Grün = 200, Blau = 150 wird im Computer als drei Zahlen gespeichert. Diese Zahlen werden wiederum in Binärzahlen umgewandelt, z. B.</p>
+<ul class="simple">
+<li><p>120 (Rot) → 01111000</p></li>
+<li><p>200 (Grün) → 11001000</p></li>
+<li><p>150 (Blau) → 10010110</p></li>
+</ul>
+<p>Alle Pixel eines Bildes werden so als lange Folge von Binärzahlen im Speicher abgelegt. Dadurch kann der Computer das Bild rekonstruieren, anzeigen oder weiterverarbeiten.</p>
+</section>
+</section>
+<section id="quiz">
+<h2>Quiz<a class="headerlink" href="#quiz" title="Link to this heading">#</a></h2>
+<div class="quizdown">    ---
+    shuffleQuestions: true
+    shuffleAnswers: true
+    ---
+
+    ### Was ist ein Computer?
+    - [ ] Ein Gerät, das nur zur Anzeige von Informationen dient  
+    - [x] Ein Gerät, das mittels programmierbarer Rechenvorschriften Daten verarbeitet  
+    - [ ] Ein Speichermedium  
+    - [ ] Ein Peripheriegerät wie Drucker oder Scanner
+
+    ### Welche der folgenden Aussagen über Supercomputer ist korrekt?
+    - [x] Sie besitzen viele CPUs und GPUs zur parallelen Verarbeitung komplexer Aufgaben  
+    - [ ] Sie sind für den Heimgebrauch gedacht  
+    - [ ] Sie haben eine geringere Leistung als Laptops  
+    - [ ] Sie dienen ausschließlich der Textverarbeitung
+
+    ### Welche Aussage über Server ist korrekt?
+    - [ ] Server besitzen immer einen Bildschirm  
+    - [ ] Server sind nur für Gaming geeignet  
+    - [x] Server werden in Rechenzentren für Internet- und Cloud-Dienste eingesetzt  
+    - [ ] Server sind ausschließlich mobile Geräte
+
+    ### Welche dieser Geräte zählen zu den Personal Computern?
+    - [x] Desktop-Computer  
+    - [ ] Mainframes  
+    - [ ] Supercomputer  
+    - [ ] Smartphones 
+    - [x] Laptops
+
+    ### Was zählt zu den Kernmodulen eines Computers?
+    - [x] CPU  
+    - [x] GPU  
+    - [x] RAM  
+    - [x] HDD oder SSD
+
+    ### Was ist der Unterschied zwischen RAM und SSD?
+    - [ ] RAM ist ein permanenter Speicher, SSD ein flüchtiger Speicher  
+    - [x] RAM ist ein flüchtiger Speicher, SSD ist ein permanenter Speicher  
+    - [ ] Beide sind gleich aufgebaut  
+    - [ ] RAM wird nur in Smartphones verwendet
+
+    ### Welche Aussagen zur CPU sind korrekt?
+    - [x] Führt Programme und Berechnungen aus  
+    - [x] Besteht aus Millionen von Transistoren  
+    - [ ] Ist nur für die Bildausgabe zuständig  
+    - [x] Hat oft mehrere Rechenkerne
+
+    ### Was beschreibt am besten die Funktion einer GPU?
+    - [x] Verarbeitung von 2D, 3D und Video-Grafiken  
+    - [ ] Steuerung von Netzwerken  
+    - [ ] Verwaltung von Benutzerdaten  
+    - [x] Durchführung paralleler Berechnungen mit vielen einfachen Kernen
+
+    ### Welcher dieser Speicher ist flüchtig und verliert seine Daten beim Ausschalten?
+    - [ ] SSD  
+    - [ ] HDD  
+    - [x] RAM  
+    - [x] Register
+
+    ### Warum arbeiten Computer mit binären Zahlen?
+    - [x] Weil Transistoren nur zwei Zustände unterscheiden können  
+    - [ ] Weil Dezimalzahlen zu unsicher sind  
+    - [ ] Weil binäre Zahlen leichter lesbar sind  
+    - [ ] Weil sie farblich besser kodiert werden können
+
+    ### Welche Zeichen verwendet das Binärsystem?
+    - [x] 0 und 1  
+    - [ ] 1 und 2  
+    - [ ] A und B  
+    - [ ] F und T
+
+    ### Was kann ein Bit im binären System darstellen?
+    - [x] An oder Aus  
+    - [x] Wahr oder Falsch  
+    - [x] 0 oder 1  
+    - [ ] 0 bis 9
+
+    ### Welche Basis hat das Binärsystem?
+    - [x] 2  
+    - [ ] 8  
+    - [ ] 10  
+    - [ ] 16
+
+    ### Wie wird ein Zeichen wie „A“ im Computer gespeichert?
+    - [ ] Als Farbe  
+    - [x] Als Zahl, die dann binär codiert wird  
+    - [ ] Als Bild  
+    - [ ] Direkt als Buchstabe
+
+    ### Was ist ein Pixel?
+    - [x] Der kleinste Bildpunkt eines digitalen Bildes  
+    - [ ] Ein Farbmodell  
+    - [ ] Ein Softwarefilter  
+    - [ ] Eine Dateiendung
+
+    ### Wie wird die Farbe eines Pixels im RGB-Modell gespeichert?
+    - [ ] Als eine Zahl zwischen 0 und 10  
+    - [x] Als drei Zahlen für Rot, Grün und Blau im Bereich 0–255  
+    - [ ] Als Buchstaben „R“, „G“ und „B“  
+    - [ ] Nur als Graustufe zwischen 0 und 1
+
+    ### Warum können reelle Zahlen nicht exakt im Computer dargestellt werden?
+    - [x] Weil sie unendlich viele Nachkommastellen haben können  
+    - [x] Weil der Speicherplatz im Computer begrenzt ist  
+    - [ ] Weil sie keine Binärdarstellung besitzen  
+    - [ ] Weil Gleitkommazahlen nur ganze Zahlen speichern
+
+    ### Wie lautet die allgemeine Form der Gleitkommazahl im Computer?
+    - [ ] ± m × 10^e  
+    - [x] ± m × 2^e  
+    - [ ] ± e × 2^m  
+    - [ ] ± m × e^2
+
+    ### Was ist eine Gleitkommazahl?
+    - [x] Eine Zahl in der Form: Vorzeichen × Mantisse × 2^Exponent  
+    - [ ] Eine feste ganze Zahl  
+    - [ ] Eine Zahl mit nur zwei Nachkommastellen  
+    - [ ] Eine Zahl, die nur für Grafiken verwendet wird
+
+    ### Wozu braucht man den Exponenten bei Gleitkommazahlen?
+    - [x] Um Zahlen sehr groß oder sehr klein darstellen zu können  
+    - [ ] Um Farben im Bild zu codieren  
+    - [ ] Um Rechenzeit zu sparen  
+
+    ### Was bedeutet IEEE 754?
+    - [x] Ein Standard zur Speicherung von Gleitkommazahlen  
+    - [ ] Eine Programmiersprache  
+    - [ ] Eine Methode zur Speicherung von Bildern  
+    - [ ] Ein Internetprotokoll
+
+    ### Wie merkt sich der Computer das Vorzeichen bei einer Gleitkommazahl?
+    - [x] Mit einem einzelnen Bit (0 = positiv, 1 = negativ)  
+    - [ ] Mit einem Kommazeichen  
+    - [ ] Mit einem Sonderzeichen wie „-”  
+    - [ ] Er erkennt das automatisch</div></section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -513,12 +976,22 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#folien"><a href="/slides/01c_Computerhardware.html">Folien</a></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computer">Computer</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#computerarten">Computerarten</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#komponenten-eines-computers">Komponenten eines Computers</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#zentrale-verarbeitungseinheit-cpu">Zentrale Verarbeitungseinheit CPU</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#grafikkarte-gpu">Grafikkarte GPU</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#arbeitsspeicher-ram">Arbeitsspeicher RAM</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#festspeicher-hdd-ssd">Festspeicher HDD/SSD</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mainboard-mit-dem-kommunikationsbus">Mainboard mit dem Kommunikationsbus</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#komponenten-eines-computers">Komponenten eines Computers</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zentrale-verarbeitungseinheit-cpu">Zentrale Verarbeitungseinheit CPU</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#grafikkarte-gpu">Grafikkarte GPU</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#arbeitsspeicher-ram">Arbeitsspeicher RAM</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#festspeicher-hdd-ssd">Festspeicher HDD/SSD</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mainboard-mit-dem-kommunikationsbus">Mainboard mit dem Kommunikationsbus</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binaren-zahlen">Binären Zahlen</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#darstellung-von-ganzen-zahlen-im-binarsystem">Darstellung von ganzen Zahlen im Binärsystem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#darstellung-von-reellen-zahlen-im-binarsystem">Darstellung von reellen Zahlen im Binärsystem</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#abbildung-von-zeichen-im-computer">Abbildung von Zeichen im Computer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#abbildung-von-bildern-im-computer">Abbildung von Bildern im Computer</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
 </ul>
   </nav></div>
 
