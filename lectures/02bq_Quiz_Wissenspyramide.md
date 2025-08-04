@@ -1,5 +1,5 @@
 
-## Quiz: Wissenspyramide
+## Wissenspyramide
 
 ```{quizdown}
 	---

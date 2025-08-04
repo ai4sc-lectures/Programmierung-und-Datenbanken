@@ -1,5 +1,5 @@
 
-## Quiz: Datentypen
+## Datentypen
 
 ```{quizdown}
 	---
