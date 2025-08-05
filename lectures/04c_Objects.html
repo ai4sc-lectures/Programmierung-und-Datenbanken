@@ -371,11 +371,11 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#klasseninstanzen">Klasseninstanzen</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#referenzen">Referenzen</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kapzelung-von-attributen-und-methoden">Kapzelung von Attributen und Methoden</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vererbung">Vererbung</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vererbung-generalisierung-und-polymorphismus">Vererbung, Generalisierung und Polymorphismus</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objektorientierter-softwareentwurf-mit-uml">Objektorientierter Softwareentwurf mit UML</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#klassen-attribute-und-methoden">Klassen, Attribute und Methoden</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Referenzen</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Vererbung</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vererbung">Vererbung</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
@@ -755,8 +755,8 @@ Da wir die Datenstrukturen normieren wollen, muss wir die Struktur dieser Objekt
 </div>
 </div>
 </section>
-<section id="vererbung">
-<h2>Vererbung<a class="headerlink" href="#vererbung" title="Link to this heading">#</a></h2>
+<section id="vererbung-generalisierung-und-polymorphismus">
+<h2>Vererbung, Generalisierung und Polymorphismus<a class="headerlink" href="#vererbung-generalisierung-und-polymorphismus" title="Link to this heading">#</a></h2>
 <p>Vererbung ist eine der wichtigsten Eigenschaften von Objektorientierung. Ziel der Vererbung ist es Attribute und Methoden, die in vielen ähnlichen Klassen vorkommen nur einmal definieren zu müssen.</p>
 <p>Hierfür unterteilt man die Klassen in <em>Oberklassen</em> (Eltern) welche Attribute und Methoden an <em>Unterklassen</em> (Kinder) vererben. Das heißt jede Unterklasse (Kind) besitzt alle Attribute und Methoden der Oberklasse (Eltern), wir müssen sie also nicht noch einmal definieren. Neue Attribute und Methoden, die für eine Unterklasse definiert werden, werden jedoch nicht an die Eltern oder Geschwister übertragen. Deshalb spricht man bei den Unterklassen von einer <em>Spezialisierung</em> und den Oberklassen von einer <em>Generalisierung</em>, da sie für mehrere Klassen gelten.</p>
 <p>Zum Beispiel stellen wir fest, dass verschiedenen geometrischen Objekte wie Dreieck, Viereck, Fünfeck, etc. alle Polygone darstellen, welche sich aus mit Linien verbundene Punkte darstellen. Dreieck, Viereck, Fünfeck sind hierbei Spezialisierungen der Klasse Polygon. Wir definieren also zuerst die generische Klasse <code class="docutils literal notranslate"><span class="pre">Polygon</span></code> welche als Instanzattribut eine <code class="docutils literal notranslate"><span class="pre">list</span></code> von mehr als 2 <code class="docutils literal notranslate"><span class="pre">ImmutablePoint</span></code> akzeptiert und als privates Attribut <code class="docutils literal notranslate"><span class="pre">__points</span></code> abspeichert. Wir definieren weiterhin ein optionales Attribut <code class="docutils literal notranslate"><span class="pre">name</span></code> welches public und veränderbar ist.</p>
@@ -800,7 +800,24 @@ Da wir die Datenstrukturen normieren wollen, muss wir die Struktur dieser Objekt
 </div>
 </div>
 </div>
-<p>Hierbei überschreiben wir auch die Standardmethode <code class="docutils literal notranslate"><span class="pre">__str__(self)</span></code> eines Objektes, welche immer aufgerufen wird, wenn das Objekt in einen String konvertiert werden soll. Die Funktion wird auch von der <code class="docutils literal notranslate"><span class="pre">print()</span></code>-Anweisung genutzt, weshalb wir diese lesbarer gestalten können.</p>
+<p>Hierbei überschreiben wir auch die Standardmethode <code class="docutils literal notranslate"><span class="pre">__str__(self)</span></code> eines Objektes, welche immer aufgerufen wird, wenn das Objekt in einen String konvertiert werden soll. Die Funktion wird auch von der <code class="docutils literal notranslate"><span class="pre">print()</span></code>-Anweisung genutzt, weshalb wir diese lesbarer gestalten können. Dieses Fähigkeit des Überschreiben von Methoden nennt man <em>Polymorphismus</em> oder auch <em>Methodenüberladung</em> (Overloading). Damit haben wir alle Programmierparadigmen der Objektorientierung kennen gelernt.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Vererbung</p></th>
+<th class="head"><p>Generalisierung</p></th>
+<th class="head"><p>Polymorphismus</p></th>
+<th class="head"><p>Kapzelung</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Attribute und Methoden von Elternklassen werden an Kinder vererbt. Das hilft Redundanzen und Fehler zu vermeiden.</p></td>
+<td><p>Gemeinsamkeiten werden in generalisierten Eltern-Klassen implementiert</p></td>
+<td><p>Kinderklassen können Methoden überschreiben und somit umdefinieren.</p></td>
+<td><p>Kapselung von Daten und Methoden in Objekten ist ein Schutzmechanismus, um schadhafte Änderungen einzuschränken.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <p>Wir definieren auch die Funktion <code class="docutils literal notranslate"><span class="pre">area()</span></code> welches die Fläche des Polygons (konkav und ohne Löcher) mit der <a class="reference external" href="https://de.wikipedia.org/wiki/Gau%C3%9Fsche_Trapezformel">Gaußchen Trapezformel</a> berechnet.</p>
 <p>Jetzt wollen wir die Untertypen Dreieck, Viereck und Fünfeck definieren. Hierzu geben wir beim Deklarieren der neuen Klasse die Oberklasse in Klammern mit an. Wir können dann auch einen neuen Konstruktor definieren (sonst wird der der Oberklasse genommen). Dabei müssen wir immer den Konstruktor der Oberklasse mit aufrufen, welche wir mit der Funktion <code class="docutils literal notranslate"><span class="pre">super()</span></code> erhalten. Wir definieren z.B Konstruktoren welche genau die richtige Anzahl an Punkten akzeptiert.</p>
 <div class="cell docutils container">
@@ -912,8 +929,8 @@ Man modelliert im Entwurf wie:</p>
 </tr>
 </table></center><p>Die zuvor definierte Klasse <code class="docutils literal notranslate"><span class="pre">Line</span></code> beinhaltet den <code class="docutils literal notranslate"><span class="pre">start</span></code>- und <code class="docutils literal notranslate"><span class="pre">end</span></code>-Punkt. Das stellt in UML eine <em>Aggregation</em> dar, weil die Punkte ja zur Linie gehören, allerdings durchaus auch separat existieren können (wir brauchen ja keine Linie um einen Punkt zu definieren). Die Multiplizität ist hierbei, dass je <code class="docutils literal notranslate"><span class="pre">1</span></code> Instanz einer <code class="docutils literal notranslate"><span class="pre">Line</span></code> je <code class="docutils literal notranslate"><span class="pre">2</span></code> Instanzen der Klasse <code class="docutils literal notranslate"><span class="pre">Point</span></code> besitzt.</p>
 <center><img src="https://mermaid.ink/svg/pako:eNpdT0EKwkAM_ErISbEe9Lhnjx4Eb7KX0E3rwjYrbQoW6d8NqxY1p5lhZsI8sM6B0WGdaBgOkdqeOi9gVxQ45Sj6eCkAmyZlUrj_8WnhIQ5KUvOq5NYvff4uPEZhWAotklhava5-vcXlcecR8nZraG-odIIDe9FrBSwBK-y47ygGm1BKPeqVO_boDAZuaEzq0ctsVho1nyep0Wk_coXjLZDyezS6htJg6o3kkvOHz0_cjFoV" width="150"></center></section>
-<section id="id2">
-<h3>Vererbung<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<section id="vererbung">
+<h3>Vererbung<a class="headerlink" href="#vererbung" title="Link to this heading">#</a></h3>
 <p>Ein wichtiger Aspekt in der Arbeit mit UML ist die Vererbung. Die Vererbung wird in UML durch eine Referenz mit einem gefüllten Dreick “▲” bei der Oberklasse (es ist kein Pfeil) gezeichnet. Um zum Beispiel auszudrücken, dass <code class="docutils literal notranslate"><span class="pre">Triangle</span></code>, <code class="docutils literal notranslate"><span class="pre">Tetragon</span></code> und <code class="docutils literal notranslate"><span class="pre">Pentagon</span></code> Unterklassen des Polygons sind, können wir zeichnen.</p>
 <center><img src="https://mermaid.ink/svg/pako:eNptjz0KwzAMha9iNLU0vYDp2AME2qkYjIiVNOCfYMtDSHP3OkkDHaJFet-T4GmCJhgCCY3FlO49dhGd8qLUSkQd7NgFL6YNLnXBSHg6_wGtE0etdzZvbT-9fa5X8Yw9-s7SkUUccVEHXk2eFw8qcBQd9qZkXbMo4Dc5UiDLaKjFbFmB8nNZxczhMfoGJMdMFeTBINPvO5At2lTogP4Vwq7nLzIuVXA" width="300"></center><p>Fügen wir die einzelnen Elemente zusammen, so sieht das UML-Diagramm unseres Klassen-Modells wie folgt aus:</p>
 <center><img src="https://mermaid.ink/svg/pako:eNptUcFqwzAM_RWjU7o1hW03s-OOOxS20zAEEStpwJGDrcBCl3-fkyxlKfFJ7-m9JxldofSWQEPpMMa3BuuArWGV3syos29Yrguj1GPlPIr6vsPDDdsmCnJJ2ew7LPy4DXRD7VndMpMLA2F2-EcURZRQFNlewHvDtHE74loud9p5vjLwbEDluU_VU6pmr1ZpxyBHRWy34pfT6WGjX5fVqpskcZUv7OtPnqvP0CDXjvZaJAEntNM7E8vUgyO0FFpsbDrC_CsDcqGWDOhUWqqwd2LA8Jik2Iv_GLgELaGnI_SdRaG_s4Gu0MXEdshf3q94_AW6H5O5"  width="300"></center><p>Auf Basis dieses UML-Diagramms, würde ein Programmierer die Zusammenhänge der Klassen verstehen und könnte diese entsprechend implementieren. Sie eignen sich besonders gut, um solche Datenstrukturen zu definieren und zu kommunizieren.</p>
@@ -1250,11 +1267,11 @@ Man modelliert im Entwurf wie:</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#klasseninstanzen">Klasseninstanzen</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#referenzen">Referenzen</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kapzelung-von-attributen-und-methoden">Kapzelung von Attributen und Methoden</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vererbung">Vererbung</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vererbung-generalisierung-und-polymorphismus">Vererbung, Generalisierung und Polymorphismus</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#objektorientierter-softwareentwurf-mit-uml">Objektorientierter Softwareentwurf mit UML</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#klassen-attribute-und-methoden">Klassen, Attribute und Methoden</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Referenzen</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Vererbung</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vererbung">Vererbung</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
