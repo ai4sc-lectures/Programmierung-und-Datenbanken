@@ -1,0 +1,320 @@
+---
+title: "Einführung in Programmierung und Datenbanken"
+subtitle: "Funktionen"
+author: "Joern Ploennigs"
+format: 
+  revealjs:
+    theme: default
+    transition: slide
+    background-transition: fade
+    highlight-style: github
+    code-line-numbers: true
+---
+
+## Überblick {background-color="#1e3a8a"}
+
+::: {.columns}
+
+::: {.column width="50%"}
+**Programmierung und Datenbanken**
+
+- Motivation Computer und Architekturen
+- Programmierung und Datentypen  
+- Fehler und Debugging
+- Objektorientierung u. Softwareentwurf
+:::
+
+::: {.column width="50%"}
+- Verzweigungen und Schleifen
+- **Funktionen und Rekursion** ← *Heute*
+- Grundlagen
+- Modellierung
+:::
+
+:::
+
+---
+
+## Funktionen {background-image="images/fractal_function.jpg" background-opacity="0.3"}
+
+*"Vaulted Ceiling of Fractal Function"*
+
+---
+
+## Funktionen - Mathematisch
+
+::: {.columns}
+
+::: {.column width="60%"}
+**Mathematisches Konzept:**
+
+- Funktionen setzen in Programmiersprachen das mathematische Konzept der Funktion um
+- Sie stellen eine Abbildung von einer Eingabemenge auf eine Ausgabemenge dar
+:::
+
+::: {.column width="40%"}
+**Abbildung:**
+
+Eine Funktion f ordnet jedem Element x eine Definitionsmenge D, ein Element y und eine Zielmenge Z zu.
+
+```
+f : D ➜ Z, x ↦ y
+```
+:::
+
+:::
+
+---
+
+## Funktionen - Programmierung
+
+**Wiederverwendbarer Programmcode** der eine bestimmte Aufgabe ausführt
+
+**Funktionen (auf unserem derzeitigen Wissensstand):**
+
+- Nehmen ein Tupel an Eingabewerten (Argumente)
+- Führen eine festgelegte Folge von Ausdrücken und Zuweisungen aus  
+- Geben ein Tupel an Ausgabewerten zurück (Rückgabewerte)
+- Funktionen werden nur ausgeführt wenn sie in einem Ausdruck aufgerufen werden
+
+---
+
+## Funktionen in Python
+
+**Funktionsdefinitionen beginnen mit `def`**
+
+```python
+def funktionsname(arg1, arg2):
+    Statement1
+    Statement2
+```
+
+- Es folgt ein Name (ähnlich wie eine Variable), ein Tupel mit Variablen und ein „:"
+- Diese Variablen ("Argumente") sind für den ganzen Rest der Funktion gültig
+- Argumente werden beim Aufruf der Funktion mit den Eingabedaten belegt
+- **Einrücken** definiert den Codeblock der Funktionsdefinition
+
+---
+
+## Funktionen Ausgabe
+
+**In Funktionen kann die Anweisung `return` genutzt werden.**
+
+```python
+def funktionsname(arg1):
+    Statement1
+    return Ausgabewert
+```
+
+- Diese beendet die Ausführung der Funktion und gibt Ausgabewerte zurück
+- **"Zurückgeben"** heißt hier: Setzt den Wert von Statement2 in den ursprünglichen Aufruf ein, so als wäre der Funktionsaufruf eine Variable
+- Der Wert kann dann weiterverwendet werden
+- Ist kein `return` definiert, gibt die Funktion `None` zurück
+
+---
+
+## Beispiel: Verdopplung eines Wertes
+
+::: {.columns}
+
+::: {.column width="50%"}
+**Definieren der Funktion:**
+
+```python
+def mal2(arg1):
+    return arg1 * 2
+```
+:::
+
+::: {.column width="50%"}
+**Die Funktion aufrufen:**
+
+```python
+x = mal2(2)  # x ist nun 4
+x = mal2(x)  # x ist nun 8
+```
+:::
+
+:::
+
+---
+
+## Alternative Implementierung
+
+::: {.columns}
+
+::: {.column width="50%"}
+**Definieren der Funktion:**
+
+```python
+def mal2(arg1):
+    return arg1 << 1  # das geht auch
+```
+
+*Bitverschiebung um 1 Position nach links = Multiplikation mit 2*
+:::
+
+::: {.column width="50%"}
+**Die Funktion aufrufen:**
+
+```python
+x = mal2(2)  # x ist nun 4
+x = mal2(x)  # x ist nun 8
+```
+:::
+
+:::
+
+---
+
+## Beispiel: Euklidische Distanz
+
+::: {.columns}
+
+::: {.column width="60%"}
+**Definieren der Funktion:**
+*(mit Nutzung der Quadratwurzel durch sqrt Funktion)*
+
+```python
+def distance(a1, a2, b1, b2):
+    return sqrt((a1 - b1)**2 + (a2 - b2)**2)
+```
+:::
+
+::: {.column width="40%"}
+**Punkte definieren und Funktion aufrufen:**
+
+```python
+a1, a2 = 2, 3
+b1, b2 = 6, 6
+x = distance(a1, a2, b1, b2)  # x ist nun 5
+```
+:::
+
+:::
+
+---
+
+## Funktionen - Default Values
+
+**Beim Definieren einer Funktion können den Argumenten Standardwerte gegeben werden.**
+
+```python
+def funktionsname(arg1, arg2="default"):
+    return Statement1
+```
+
+- Dadurch werden diese beim Aufruf der Funktion **optional**
+- Werden sie genutzt wird der Standardwert überschrieben
+
+---
+
+## Beispiel: Maßeinheit zu Zahl hinzufügen
+
+::: {.columns}
+
+::: {.column width="50%"}
+**Definieren der Funktion:**
+*(mit der str Funktion, die eine Zahl in einen String überführt)*
+
+```python
+def measurement(number, unit="meters"):
+    return str(number) + ' ' + unit
+```
+:::
+
+::: {.column width="50%"}
+**Funktion aufrufen:**
+
+```python
+x = measurement(12)         # x ist nun "12 meters"
+x = measurement(5.5, "kg")  # x ist nun "5.5 kg"
+```
+:::
+
+:::
+
+---
+
+## Übergeben von Argumentwerten
+
+::: {.columns}
+
+::: {.column width="50%"}
+**Pass-by-value**
+
+- Beim Aufrufen der Funktion werden nur die Werte der Variablen kopiert
+- Die eingegebenen Variablen sind in der Funktion nicht zugreifbar
+- Ist „sicherer", da Variablen nicht unerwartet neu belegt werden
+:::
+
+::: {.column width="50%"}
+**Pass-by-reference**
+
+- Geben wir einer Funktion Variablen als Argumente, sind diese in der Funktion voll zugreifbar (veränderbar)
+- Benötigt weniger Zeit und Speicher
+:::
+
+:::
+
+---
+
+## Argumentwerte in Python
+
+**Nutzt „Mischvariante", meistens bezeichnet als Pass-by-assignment**
+
+- **Variablen mit mutable Datentyp:** Pass-by-reference
+- **Variablen mit immutable Datentyp:** Pass-by-value
+- Wird eine Variable mit mutablem Datentyp jedoch in der Funktion ganz neu belegt, wird dies außerhalb der Funktion nicht übernommen
+
+---
+
+## Built-in Python Funktionen
+
+::: {.columns}
+
+::: {.column width="50%"}
+```python
+print(), input()           # Ausgabe, Eingabe
+id(), type()              # Variablen ID, Variablen Datentyp
+int(), str(), float()     # Datentyp Konvertierung
+list(), tuple(), set(), dict()  # Komplexe Datentypen
+```
+:::
+
+::: {.column width="50%"}
+```python
+len()                     # Länge eines komplexen Datentyps
+abs(), max(), min()       # Mathematische Grundfunktionen
+exit()                    # Programm Beenden
+sorted()                  # Sortieren
+# ...
+```
+:::
+
+:::
+
+---
+
+## Wozu werden Funktionen genutzt?
+
+**Übersichtlichkeit, Modularität, Wiederverwendbarkeit**
+
+> *"Write once, use anywhere"*
+
+**Moderner Programmierstil:** Programme so weit wie möglich in grundlegende Funktionen aufteilen
+
+---
+
+## Literaturhinweise
+
+- **Umfassende Erklärung:** [https://docs.python.org/3/reference/datamodel.html](https://docs.python.org/3/reference/datamodel.html)
+- **Python Standardfunktionen:** [https://docs.python.org/3/library/functions.html](https://docs.python.org/3/library/functions.html)
+
+---
+
+## Fragen? {background-image="images/psychedelic_dj.jpg" background-opacity="0.4"}
+
+*"A psychedelic DJ with a question mark for a head"*
+
+**Hörsaalfrage**
