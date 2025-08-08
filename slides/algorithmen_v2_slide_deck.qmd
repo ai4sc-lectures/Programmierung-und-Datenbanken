@@ -1,0 +1,177 @@
+---
+title: "Programmieren und Datenbanken - Algorithmen"
+author: "Joern Ploennigs"
+format: revealjs
+---
+
+# Was ist ein Algorithmus?
+
+- Wohldefinierte, eindeutige Handlungsanweisungen
+- Endlich, computerausführbar
+
+<div class="flex">
+<div class="column">
+**Beispiele:**  
+- Schriftliche Division  
+- Dreieckskonstruktion  
+</div>
+<div class="column">
+**Informatik:**  
+- Kombination von Algorithmen + Datenstrukturen  
+- Ziel: Eingabe → Ausgabe  
+</div>
+</div>
+
+---
+
+# Beispiel: Binäre Suche (Teile und Herrsche)
+
+```text
+Start
+ |
+Wähle mittleren Index
+ |
+Gleich?
+ /      \
+Ja      Nein
+        /   \
+    Größer Kleiner
+    → rechts → links
+```
+
+---
+
+# Heuristiken
+
+- Basieren auf Erfahrung, nicht formaler Logik
+- Ziel: „gut genug“ in kurzer Zeit
+- Keine Garantie für optimale Lösung
+
+---
+
+# Beispiel Heuristik: A* Suchalgorithmus
+
+```text
+Start
+ |
+Berechne Nachbarn
+ |
+Nachbarn übrig?
+ /      \
+Nein     Ja
+ |        |
+Zurück   Besten wählen
+ |
+Ziel erreicht?
+ /     \
+Ja     Nein
+ |
+Ende
+```
+
+---
+
+# Fast Inverse Square Root (Quake III)
+
+```c
+long i;
+float x2, y;
+const float threehalfs = 1.5F;
+
+x2 = number * 0.5F;
+y  = number;
+i  = *(long *)&y;
+i  = 0x5f3759df - (i >> 1);
+y  = *(float *)&i;
+y  = y * (threehalfs - (x2 * y * y));
+return y;
+```
+
+---
+
+# Punkt-in-Polygon-Problem
+
+> Anwendung z. B. in Umweltplanung (z. B. Schutzgebiet)
+
+**Frage:**  
+Liegt ein Punkt X innerhalb eines Polygons?
+
+---
+
+<div class="flex">
+<div class="column">
+**Eingaben:**  
+- Punkt X  
+- Polygon (Liste von Linien)  
+</div>
+<div class="column">
+**Ausgabe:**  
+- Boolean (True/False)  
+</div>
+</div>
+
+---
+
+# Lösungsidee: Konvex vs. Konkav
+
+- Punkt auf gleicher Seite aller Linien? → **Konvex**  
+- Gilt nicht für **konkave** Polygone → Heuristik
+
+---
+
+# Alternative: Strahlschnitt-Methode
+
+- Strahl von Punkt X in eine Richtung ziehen
+- Schnittpunkte mit Polygon-Kanten zählen
+
+```text
+ungerade = im Polygon  
+gerade = außerhalb
+```
+
+---
+
+# Algorithmus als Ablaufplan
+
+```text
+Start
+ |
+Input: Polygon & Punkt
+ |
+Strahl in zufällige Richtung
+ |
+Schnittpunkte zählen
+ |
+Anzahl ungerade?
+ /     \
+Ja     Nein
+ |       |
+Punkt   Punkt
+IN      NICHT IN
+```
+
+---
+
+# Funktionen für das Problem
+
+- Strahl konstruieren  
+- Schnitttests implementieren  
+- Hauptfunktion ruft alle auf (z. B. `main()`)
+
+---
+
+# Nächstes Problem: Schleifen
+
+```text
+Schnitttest für jede Linie im Polygon?
+→ Wiederholung nötig
+→ Schleifen fehlen noch
+```
+
+**Mehr dazu in der nächsten Vorlesung!**
+
+---
+
+# Fragen?
+
+> DALL·E 2: A psychedelic DJ with a question mark for a head

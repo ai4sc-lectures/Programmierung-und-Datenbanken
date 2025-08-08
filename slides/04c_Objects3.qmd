@@ -1,0 +1,203 @@
+---
+title: "Programmieren und Datenbanken - Objektorientierung"
+author: "Joern Ploennigs"
+format: revealjs
+---
+
+# Zielsetzung
+
+<div class="flex">
+<div class="column">
+- Grundidee der Objektorientierung  
+- Programmieren mit Objekten  
+- Unterschiede: Datentypen vs. Klassen  
+- Unterschiede: Funktionen vs. Methoden  
+</div>
+<div class="column">
+- Einführung in Konzepte wie Vererbung  
+- Nutzung komplexer Datentypen  
+- Verständnis für Zustände & Verhalten  
+</div>
+</div>
+
+---
+
+# Was ist OOP?
+
+Objektorientierte Programmierung (OOP) ist ein Paradigma, bei dem Programme aus **Objekten** bestehen.
+
+<div class="flex">
+<div class="column">
+**Objekte haben:**  
+- Attribute (Zustände)  
+- Methoden (Verhalten)
+</div>
+<div class="column">
+**Ziel:**  
+- Modularität  
+- Wiederverwendbarkeit  
+- Klar strukturierter Code
+</div>
+</div>
+
+---
+
+# Warum Objekte? – Syntaktisches Problem
+
+```python
+punkt_1 = (54.083336, 12.108811)
+punkt_2 = [12.108811, 54.083336]
+```
+
+Syntax uneinheitlich → schwer lesbar & fehleranfällig  
+→ Objekte sorgen für **klare Struktur**
+
+---
+
+# Warum Objekte? – Semantisches Problem
+
+```python
+punkt_1 = (54.083336, 12.108811)
+punkt_2 = (12.108811, 54.083336)
+```
+
+Was bedeuten die Werte?  
+→ Objekte definieren **Bedeutung (Semantik)** explizit.
+
+---
+
+# Warum Objekte? – Verhaltensproblem
+
+```python
+def distanz(a, b):
+    return math.sqrt((a[0] - b[0])**2 + (a[1] - b[1])**2)
+
+punkt_1 = (54.08, 12.11)
+linie_1 = [(54.08, 12.11), (54.10, 12.11)]
+distanz(punkt_1, linie_1)  # falsch verwendbar!
+```
+
+→ Methoden in Objekten begrenzen gültige Operationen.
+
+---
+
+# Grundlagen der Objektorientierung
+
+- Objekte fassen Daten und Verhalten zusammen  
+- Klassen sind **Baupläne** für Objekte  
+- Objekte sind **Instanzen** von Klassen
+
+---
+
+# Klassen und Instanzen
+
+```text
+Klasse
+ ├── Instanz 1
+ └── Instanz n
+```
+
+Alle Instanzen:  
+- gleiche Struktur  
+- eigene Attributwerte
+
+---
+
+# Objektorientierung in Python
+
+- Alles ist ein Objekt  
+- Datentypen haben Methoden  
+- Variablen sind Referenzen auf Objekte
+
+---
+
+# Klassen definieren
+
+```python
+class Klassenname:
+    # Klassendefinition
+```
+
+---
+
+# Konstruktor (__init__)
+
+```python
+class Punkt:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+```
+
+- `__init__` erzeugt neue Instanz  
+- `self` = Referenz auf das Objekt  
+- Initialisierung von Attributen
+
+---
+
+# Instanzen erzeugen
+
+```python
+punkt_1 = Punkt(54.08, 12.11)
+punkt_2 = Punkt(12.11, 54.08)
+```
+
+→ Klassenname wie Funktionsaufruf
+
+---
+
+# Instanzattribute
+
+```python
+class Punkt:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+```
+
+- individuell pro Objekt  
+- definiert in `__init__`
+
+---
+
+# Klassenattribute
+
+```python
+class Punkt:
+    einheit = "m"
+```
+
+- gleich für **alle Instanzen**  
+- verändert sich überall, wenn geändert
+
+---
+
+# Methoden
+
+```python
+class Punkt:
+    def distanz(self, punkt_2):
+        return math.sqrt((self.x - punkt_2.x)**2 + (self.y - punkt_2.y)**2)
+```
+
+- wie Funktionen, aber mit `self`  
+- Zugriff auf Attribute & andere Methoden
+
+---
+
+# Methoden aufrufen
+
+```python
+punkt_1.distanz(punkt_2)
+print(punkt_1.x, punkt_1.y)
+punkt_1.x = 20
+```
+
+- Zugriff mit Punkt-Syntax  
+- Methoden sind **instanzgebunden**
+
+---
+
+# Fragen?
+
+> Midjourney: A psychedelic DJ with a question mark for a head

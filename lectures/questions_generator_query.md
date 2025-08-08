@@ -23,3 +23,7 @@ und Fragen zur Fehleridentifikation im Format
     - [ ] Der `print`-Befehl ist veraltet
     - [ ] Zahlen dürfen nicht verglichen werden
 ```
+
+
+
+convert the slide deck in a quardro qmd slide deck. use two columns on if the original slides use them. instead of column use flex div. erzeuge ein downloadbares qmd file.

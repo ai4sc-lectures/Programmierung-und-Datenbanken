@@ -1,0 +1,161 @@
+---
+title: "EINFÜHRUNG IN PROGRAMMIERUNG UND DATENBANKEN"
+subtitle: "Rekursion in Funktionen"
+author: "joern ploennigs"
+format: 
+  revealjs:
+    theme: default
+    transition: slide
+    background-transition: fade
+---
+
+## REKURSION IN FUNKTIONEN
+
+![DALL·E 2: Library of Babel](images/library_of_babel.png)
+
+*programmieren und datenbanken - rekursion*
+
+---
+
+## REKURSION - ALLGEMEIN
+
+Wikipedia: „Als Rekursion (lateinisch recurrere ‚zurücklaufen') wird ein prinzipiell unendlicher Vorgang, der sich selbst als Teil enthält oder mithilfe von sich selbst definierbar ist, bezeichnet."
+
+**Praktisch gesprochen:** Rekursion geschieht immer dann, wenn eine Funktion sich selbst aufruft.
+
+Rekursionen werden insbesondere bei Divide-and-Conquer-Algorithmen oder bei kombinatorischen Problemen verwendet.
+
+---
+
+## REKURSION - IN PYTHON
+
+Wir benötigen nichts weiter als eine Funktionsdefinition die sich wieder selbst aufruft
+
+```python
+def rekursive_funktion():
+    Statement1
+    rekursive_funktion()
+```
+
+---
+
+## REKURSION - BEISPIEL: FAKULTÄT
+
+Die Fakultät einer Zahl ist definiert als Produkt der natürlichen Zahlen von 1 bis n
+
+```python
+def factorial_recursiv(x):
+    if x > 1:
+        return x * factorial_recursiv(x-1)
+    else:
+        return 1
+```
+
+---
+
+## INFORMATIK-EXKURS: ENDLOSREKURSION, STACK
+
+::: {style="display: flex; align-items: flex-start; gap: 2rem;"}
+
+::: {style="flex: 1;"}
+Bei rekursiven Funktionen gibt es das selbe Problem, wie bei while-Schleifen: Sie können sich (theoretisch) endlos verzweigen!
+
+Deshalb sollte mindestens ein Pfad in der Funktion nicht rekursiv sein.
+
+Praktisch kommt es allerdings bei endloser Rekursion zu Stack-Overflow-Fehlern. Das liegt daran, dass Python nachvollziehen muss, welche Funktion welche andere aufgerufen hat, um beim beenden in die richtige Funktion und Position zurückzukehren. Das geschieht über eine Liste die sich Stack nennt.
+:::
+
+::: {style="flex: 0 0 200px;"}
+```
+main()
+factorial(1)
+factorial(2)
+factorial(3)
+factorial(4)
+factorial(5)
+```
+**Stack-Größe →**
+:::
+
+:::
+
+---
+
+## INFORMATIK-EXKURS: ENDLOSREKURSION, STACK
+
+::: {style="display: flex; align-items: flex-start; gap: 2rem;"}
+
+::: {style="flex: 1;"}
+Der Stack ist eine LIFO-Liste (Last In First Out) bei der das letzte Element das hinzugefügt wird (die neu aufgerufene Funktion) auch das erste sein muss, was entfernt wird (wenn die neu aufgerufene Funktion wird beendet). Quasi wie ein Bücherstapel.
+:::
+
+::: {style="flex: 0 0 200px;"}
+```
+main()
+factorial(1)
+factorial(2)
+factorial(3)
+factorial(4)
+factorial(5)
+```
+**Stack-Größe →**
+:::
+
+:::
+
+---
+
+## INFORMATIK-EXKURS: ENDLOSREKURSION, STACK
+
+::: {style="display: flex; align-items: flex-start; gap: 2rem;"}
+
+::: {style="flex: 1;"}
+Die Stack wird bei endloser Rekursion so groß, dass er nicht mehr in den vorgesehenen Speicher passt, so das es ein Stack-Overflow-Fehler ist.
+
+Das ist ein fataler Fehler der nicht abgefangen werden kann und zum Absturz des Programmes führt.
+:::
+
+::: {style="flex: 0 0 200px;"}
+```
+main()
+factorial(1)
+factorial(2)
+factorial(3)
+factorial(4)
+factorial(5)
+factorial(…)
+```
+**Stack-Größe →**
+:::
+
+:::
+
+---
+
+## INFORMATIK-EXKURS: ENDLOSREKURSION, HEAP
+
+::: {style="display: flex; align-items: center; gap: 2rem;"}
+
+::: {style="flex: 1;"}
+Übrigens werden die Variablen nicht im Stack abgespeichert, sondern liegen im Heap. Dieser kann im Vergleich zum Stack so groß werden wie der Arbeitsspeicher und gleicht mehr einer FIFO-Liste (First In First Out), da der Speicher von alten Variablen, die nicht mehr Gültigkeit haben frei gegeben wird.
+:::
+
+::: {style="flex: 0 0 250px;"}
+```
+Stack
+(Funktionsaufrufe)
+
+Heap
+(Variablen)
+```
+:::
+
+:::
+
+---
+
+## Hörsaalfrage: FRAGEN? {.center}
+
+![DALL·E 2: A psychedelic DJ with a question mark for a head](images/dj_question.png)
+
+*programmieren und datenbanken - rekursion*
