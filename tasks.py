@@ -169,6 +169,8 @@ def build_book_slides(c):
         progress: true,
         keyboard: true,
         overview: true,
+        center: false,
+        disableLayout: false,
         touch: true,
         loop: false,
         rtl: false,
