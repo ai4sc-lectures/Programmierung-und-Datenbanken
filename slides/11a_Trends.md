@@ -1,0 +1,180 @@
+---
+title: "Einführung in Programmierung und Datenbanken"
+subtitle: "Trends und KI"
+author: "Jörn Plönnigs"
+format: 
+  revealjs:
+    theme: default
+    transition: slide
+    background-transition: fade
+    highlight-style: github
+    code-line-numbers: true
+    slide-number: true
+    chalkboard: true
+    multiplex: true
+execute:
+  echo: false
+---
+
+## Kursüberblick
+
+::: {.flex}
+::: {.flex-item style="flex: 1;"}
+- Fehler und Debugging
+- Objektorientierung u. Softwareentwurf
+- Funktionen und Rekursion
+:::
+::: {.flex-item style="flex: 1;"}
+- Datenhaltung Datenbanken
+- Datenbankentwurf
+- Trends und KI
+:::
+:::
+
+---
+
+## Lessons Learned
+
+> **Welcher Architekt hat dieses Bauwerk entworfen?**
+
+---
+
+## Das ist ein KI Entwurf
+
+::: {.flex}
+::: {.flex-item style="flex: 1;"}
+Das Bild wurde durch zwei KI-Generatoren aus einer Texteingabe von Tim Fu (Zarah Hadid CODE Büro) entworfen und nachbearbeitet.
+
+Die KI-Generatoren sind:
+- Midjourney 
+- DALL-E 2
+:::
+::: {.flex-item style="flex: 1;"}
+> "Als Kreative kommen wir immer zu dem Punkt wo wir stecken bleiben. Hier liegt die Macht der KI. Sie hilft uns unsere Grenzen zu erweitern, so wie ein Flugzeug uns erlaubt zu fliegen. Es ist eine weitere Barriere, die wir durchbrechen."
+
+*Hassan Ragab*
+:::
+:::
+
+---
+
+## Ausblick und Trends
+
+*Midjourney: Robot on a construction site*
+
+---
+
+## Das Gartner Hype Cycle Modell
+
+Hype Cycle ist ein Modell um Megatrends zu erklären.
+
+::: {.incremental}
+- Die Idee ist das Trends mit einem **Hype** starten, durch den das Potential zuerst überschätzt wird
+- Dadurch gibt es zu hohe Erwartungen, die sich in der Praxis nicht bestätigen
+- Weshalb der Trend erstmal enttäuscht (**Trough of Disillusion**)
+- Die sinnvollen Verbesserungen gehen dann dennoch in die **produktive Nutzung** über
+- Welche nicht alle Versprechen des Hypes hält, allerdings doch einiges sich etabliert
+:::
+
+---
+
+## Was ist in Zukunft relevant?
+
+::: {.flex}
+::: {.flex-item style="flex: 1;"}
+- **Digital Twins** – Digitale Modelle zur Planung und Vorhersage
+- **Generative Design AI** – AI Modelle die Bilder und Pläne erzeugen (Midjourney)
+- **ML Code Generation** – AI Modelle die einfachen Code erzeugen (Chat GPT)
+:::
+::: {.flex-item style="flex: 1;"}
+- **Foundation Models** – Sehr große Sprachmodelle (GPT3)
+- **Industry Cloud Platforms** – Spezialisierte Cloud Lösungen (Autodesk A360, ArcGIS)
+- **Cloud Sustainability** – Nachhaltige Cloud Lösungen durch Erneuerbare Energien
+:::
+:::
+
+---
+
+## Der Bedarf an Künstlicher Intelligenz in Zukunft
+
+::: {.flex}
+::: {.flex-item style="flex: 1;"}
+### Herausforderungen
+- Die Digitalisierung erzeugt immer mehr Daten
+- Gleichzeitig werden unsere Bildschirme mobil und kleiner
+- KI Algorithmen sind der wichtige Schritt um die Daten auf das Wesentliche zusammenzufassen
+
+*Ref.: The Future of IoT, IEEE IoT Magazine, 2018*
+:::
+::: {.flex-item style="flex: 1;"}
+### Entwicklung 2010-2020
+- **Benutzerschnittstellen** werden kleiner
+- **Datenmengen** wachsen
+- **Bedarf an KI** Ansätzen steigt
+
+### Globale Trends
+- Klimawandel
+- Demographischer Wandel
+- Ressourcenknappheit
+:::
+:::
+
+---
+
+## Beispiel – Supermarktkette Tesco Irland
+
+::: {.flex}
+::: {.flex-item style="flex: 1;"}
+### Das Problem
+Tesco hat sehr stark in Monitoring für Ihre Supermärkte investiert, um Energie zu sparen.
+
+Die gesammelten Daten wuchsen so schnell, dass die beauftragten Mitarbeiter sie nicht mehr verarbeiten konnten.
+:::
+::: {.flex-item style="flex: 1;"}
+### Die Lösung
+Wir haben die Daten analysiert und konnten ca. 20% des Energieverbrauchs reduzieren.
+
+### Kennzahlen
+- **160** Stores
+- **110.956** Data Objects  
+- **678 TB** Data per annum
+- **25 million EUR** savings per year
+- **20%** reduced cooling
+:::
+:::
+
+---
+
+## Hörsaalfrage
+
+### Fragen Fragen
+
+*Midjourney: student asking questions in lecture hall*
+
+---
+
+## CSS Styles
+
+```{css}
+.flex {
+  display: flex;
+  gap: 2rem;
+  align-items: start;
+}
+
+.flex-item {
+  flex: 1;
+}
+
+.reveal .slides section .fragment.highlight-current-blue {
+  opacity: 1;
+  visibility: inherit;
+}
+
+.reveal .slides section .fragment.highlight-current-blue.current-fragment {
+  background: #1f4788;
+  color: white;
+  padding: 0.2em 0.4em;
+  border-radius: 0.2em;
+}
+```

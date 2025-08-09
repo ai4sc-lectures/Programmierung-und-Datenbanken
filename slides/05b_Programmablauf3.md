@@ -16,7 +16,7 @@ format:
 
 ::: {style="display: flex; justify-content: space-between; align-items: center;"}
 ::: {style="flex: 1;"}
-**Themenübersicht:**
+*Themenübersicht:*
 
 - Motivation Computer und Architekturen
 - Programmierung und Datentypen
@@ -27,8 +27,8 @@ format:
 :::
 
 ::: {style="flex: 1; text-align: center;"}
-**Grundlagen**  
-**Modellierung**
+*Grundlagen*  
+*Modellierung*
 :::
 :::
 
@@ -44,7 +44,7 @@ format:
 
 - Die wichtigste Fähigkeit beim Programmieren ist es, ein Problem der echten Welt in einzelne Programmanweisungen (also Operationen in Zeichen) zu übersetzen.
 
-- **Erster Schritt:** Was sind Eingaben, was sind Ausgaben des aktuellen Problems?
+- *Erster Schritt:* Was sind Eingaben, was sind Ausgaben des aktuellen Problems?
 
 - Nicht unähnlich dazu wie eine Funktion definiert wird!
   - Eingabeparameter
@@ -55,20 +55,20 @@ format:
 ## Hörsaalfrage {.smaller}
 
 ::: {style="font-size: 2em; text-align: center; color: #2c3e50; padding: 2em;"}
-**Welche Ein- und Ausgaben gibt es bei der Volumenberechnung eines Quaders (Haus)?**
+*Welche Ein- und Ausgaben gibt es bei der Volumenberechnung eines Quaders (Haus)?*
 :::
 
 ---
 
 ## Programmkonzeption - Beispiel: Volumenberechnung eines Quaders (Haus)
 
-- **Vereinfachung:** Das Haus ist rechteckig und hat ein Flachdach.
+- *Vereinfachung:* Das Haus ist rechteckig und hat ein Flachdach.
 
-- **Eingaben:** Seitenlängen a und b, Höhe h (in m)
+- *Eingaben:* Seitenlängen a und b, Höhe h (in m)
 
-- **Ausgaben:** Volumen in m³
+- *Ausgaben:* Volumen in m³
 
-- **Erste Überlegungen:**
+- *Erste Überlegungen:*
   - Welche Datentypen haben diese Ein- und Ausgaben?
   - Welche verschiedenen Situationen gibt es?
 
@@ -76,44 +76,44 @@ format:
 
 ## Programmkonzeption - Problem in Schritte Aufteilen
 
-- **Die Kernfrage:**  
+- *Die Kernfrage:*  
   *„Wie gelangen wir von der gegebenen Eingabe zu der gewünschten Ausgabe?"*
 
-- **Nicht Einfach:** Um diese Frage für beliebige Probleme beantworten zu können, muss man sich eine Denkweise aneignen, das Problem in Schritte zu zerlegen und abzuarbeiten.
+- *Nicht Einfach:* Um diese Frage für beliebige Probleme beantworten zu können, muss man sich eine Denkweise aneignen, das Problem in Schritte zu zerlegen und abzuarbeiten.
 
-- **Unser Vorteil:** Das Zerlegen und Lösen von Problemen ist eine Grundfähigkeit von Ingenieuren.
+- *Unser Vorteil:* Das Zerlegen und Lösen von Problemen ist eine Grundfähigkeit von Ingenieuren.
 
 ---
 
 ## Programmablaufpläne - Ein Werkzeug zum Entwerfen von Algorithmen
 
-- Auch **„Flussdiagramme"** genannt
+- Auch *„Flussdiagramme"* genannt
 - Beschreiben Abfolgen von Operationen
 - Kann folgende Elemente haben, welche mit Pfeilen verbunden werden:
 
 ::: {style="display: flex; justify-content: space-around; align-items: center; margin: 2em 0;"}
 ::: {style="text-align: center;"}
-**Beginn/Ende**  
+*Beginn/Ende*  
 ![Oval](images/oval.svg)
 :::
 
 ::: {style="text-align: center;"}
-**Statement**  
+*Statement*  
 ![Rectangle](images/rectangle.svg)
 :::
 
 ::: {style="text-align: center;"}
-**Unterprogramm**  
+*Unterprogramm*  
 ![Double Rectangle](images/double_rectangle.svg)
 :::
 
 ::: {style="text-align: center;"}
-**Eingabe/Ausgabe**  
+*Eingabe/Ausgabe*  
 ![Parallelogram](images/parallelogram.svg)
 :::
 
 ::: {style="text-align: center;"}
-**Verzweigung**  
+*Verzweigung*  
 ![Diamond](images/diamond.svg)
 :::
 :::
@@ -122,17 +122,17 @@ format:
 
 ## Programmablaufpläne - Grundlagen
 
-- **Die wichtigsten Blöcke:**
+- *Die wichtigsten Blöcke:*
 
 ::: {style="display: flex; justify-content: space-around; align-items: center; margin: 2em 0;"}
 ::: {style="text-align: center;"}
-**Statement**  
+*Statement*  
 ![Statement Block](images/statement.svg)  
 *Eingang → Ausgang*
 :::
 
 ::: {style="text-align: center;"}
-**Bedingung**  
+*Bedingung*  
 ![Condition Block](images/condition.svg)  
 *Eingang → Ja/Nein (Ausgang)*
 :::
@@ -162,7 +162,7 @@ flowchart TD
 
 ::: {style="display: flex; justify-content: space-between; align-items: flex-start;"}
 ::: {style="flex: 1; margin-right: 2em;"}
-**Prozessmodellierung**
+*Prozessmodellierung*
 
 - Geothermie-Verfahrensabläufe
 - IP-Management Prozessoptimierung
@@ -171,7 +171,7 @@ flowchart TD
 :::
 
 ::: {style="flex: 1;"}
-**Patente**
+*Patente*
 
 - Algorithmische Beschreibungen
 - Verfahrenspatente
@@ -192,17 +192,17 @@ flowchart TD
 ::: {style="text-align: center; padding: 3em;"}
 ![DALL·E 2: A psychedelic DJ with a question mark for a head](images/dalle_dj_question.png){width="400px"}
 
-**Haben Sie Fragen zum Programmablauf?**
+*Haben Sie Fragen zum Programmablauf?*
 :::
 
 ---
 
 ## Zusammenfassung
 
-- **Problemdefinition:** Ein- und Ausgaben identifizieren
-- **Schrittweise Zerlegung:** Komplexe Probleme in einfache Schritte aufteilen
-- **Programmablaufpläne:** Visualisierung von Algorithmen
-- **Praktische Anwendung:** Von der Programmierung bis zur Prozessmodellierung
+- *Problemdefinition:* Ein- und Ausgaben identifizieren
+- *Schrittweise Zerlegung:* Komplexe Probleme in einfache Schritte aufteilen
+- *Programmablaufpläne:* Visualisierung von Algorithmen
+- *Praktische Anwendung:* Von der Programmierung bis zur Prozessmodellierung
 
 ::: {style="margin-top: 2em; text-align: center; font-style: italic;"}
 *„Das Zerlegen und Lösen von Problemen ist eine Grundfähigkeit von Ingenieuren."*

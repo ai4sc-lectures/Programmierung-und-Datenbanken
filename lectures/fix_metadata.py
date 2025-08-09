@@ -1,7 +1,7 @@
 import nbformat
 
 # Notebook-Dateipfad
-nb_path = "/Users/jplonnigs/Documents/code/Lehre/ProgrammierUebung/lectures/05b_Programmablauf.ipynb"  # Passe das an
+nb_path = "/Users/jplonnigs/Documents/code/Lehre/ProgrammierUebung/lectures/05c_Algorithmen.ipynb"  # Passe das an
 
 print("Analyze: ", nb_path)
 # Notebook laden

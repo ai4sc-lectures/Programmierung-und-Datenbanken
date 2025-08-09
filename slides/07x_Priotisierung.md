@@ -1,15 +1,7 @@
 ---
-title: "Priorisierung"
-subtitle: "Programmieren und Datenbanken"
-format: 
-  revealjs:
-    theme: default
-    transition: slide
-    background-transition: fade
-    highlight-style: github
-    code-line-numbers: false
-    fig-cap-location: bottom
-    incremental: false
+title: "Programmieren und Datenbanken - Programmablauf"
+author: "Joern Ploennigs"
+format: revealjs
 ---
 
 ## Lessons Learned {.smaller}
@@ -26,7 +18,7 @@ format:
 programmieren und datenbanken - priotisierung
 :::
 
----
+
 
 ## PRIORISIERUNG {.smaller}
 
@@ -36,11 +28,11 @@ programmieren und datenbanken - priotisierung
 
 <!-- Quadrant Labels -->
 ::: {style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); font-weight: bold; font-size: 1.1em;"}
-**Dringend**
+*Dringend*
 :::
 
 ::: {style="position: absolute; left: -80px; top: 50%; transform: translateY(-50%) rotate(-90deg); font-weight: bold; font-size: 1.1em;"}
-**Wichtig**
+*Wichtig*
 :::
 
 <!-- Vertical and Horizontal Lines -->
@@ -98,31 +90,31 @@ Ignoriere & Minimiere
 programmieren und datenbanken - priotisierung
 :::
 
----
+
 
 ## Zusammenfassung
 
-Die **Eisenhower-Matrix** hilft bei der Priorisierung von Aufgaben:
+Die *Eisenhower-Matrix* hilft bei der Priorisierung von Aufgaben:
 
 ::: {style="display: flex; flex-wrap: wrap; gap: 20px; margin-top: 2em;"}
 
 ::: {style="flex: 1; min-width: 200px; padding: 15px; background-color: #ffebee; border-left: 4px solid #c62828; border-radius: 4px;"}
-**Quadrant I** (Wichtig & Dringend)  
+*Quadrant I* (Wichtig & Dringend)  
 → Sofort und mit voller Aufmerksamkeit bearbeiten
 :::
 
 ::: {style="flex: 1; min-width: 200px; padding: 15px; background-color: #e8f5e8; border-left: 4px solid #2e7d32; border-radius: 4px;"}
-**Quadrant II** (Wichtig & Nicht Dringend)  
+*Quadrant II* (Wichtig & Nicht Dringend)  
 → Planen und regelmäßig Zeit einräumen
 :::
 
 ::: {style="flex: 1; min-width: 200px; padding: 15px; background-color: #fff3e0; border-left: 4px solid #ef6c00; border-radius: 4px;"}
-**Quadrant III** (Unwichtig & Dringend)  
+*Quadrant III* (Unwichtig & Dringend)  
 → Delegieren oder schnell abarbeiten
 :::
 
 ::: {style="flex: 1; min-width: 200px; padding: 15px; background-color: #f5f5f5; border-left: 4px solid #757575; border-radius: 4px;"}
-**Quadrant IV** (Unwichtig & Nicht Dringend)  
+*Quadrant IV* (Unwichtig & Nicht Dringend)  
 → Eliminieren oder minimieren
 :::
 

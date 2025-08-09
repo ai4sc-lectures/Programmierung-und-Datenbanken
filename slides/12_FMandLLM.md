@@ -1,0 +1,417 @@
+---
+title: "Einführung in Programmierung und Datenbanken"
+subtitle: "Foundation Models und Large Language Models"
+author: "Joern Ploennigs"
+format: 
+  revealjs:
+    theme: default
+    slide-number: true
+    chalkboard: true
+    preview-links: auto
+    logo: ""
+    css: custom.css
+---
+
+## Evaluation
+
+**Bewertung über EvaSys:**
+
+[https://evasys.uni-rostock.de/evasys/online.php?p=1312G](https://evasys.uni-rostock.de/evasys/online.php?p=1312G)
+
+---
+
+## Motivation
+
+*"AI auf einem Stapel von Papieren, die eine Frage beantworten"*
+*(Midjourney-generiertes Bild)*
+
+:::{.flex}
+:::{.flex-item}
+- **KI GRUNDLAGEN**
+- **KI IM BAUWESEN** 
+- **BEISPIELE**
+- **SCHLUSSFOLGERUNG**
+:::
+:::
+
+---
+
+## Gebiete der Künstlichen Intelligenz
+
+:::{.flex}
+:::{.flex-item}
+**Neural Network Age (2018)**
+
+- KNN
+- Machine Learning  
+- Robotik
+- Optimierung
+:::
+:::{.flex-item}
+**Semantic and Machine Learning Age (2012)**
+
+- Semantic Reasoning (Logik)
+- Machine Learning
+- KNN
+- Robotik
+- Optimierung
+:::
+:::
+
+---
+
+## Large Foundation Model Age (2022)
+
+**(a.k.a. Generative Models)**
+
+:::{.flex}
+:::{.flex-item}
+**Kernbereiche:**
+
+- **KNN** – Künstliche Neuronale Netzwerke
+- **CV (LVM)** – Computer Vision und Large Vision Models  
+- **NLP (LLM)** – Natural Language Processing und Large Language Models
+- Machine Learning
+- Robotik
+- Reasoning
+- Optimierung
+:::
+:::
+
+---
+
+## KNN – Künstliche Neuronale Netzwerke (1943)
+
+:::{.flex}
+:::{.flex-item}
+**Grundprinzip:**
+- Mathematische Nachbildung der Neuronen im menschlichen Gehirn
+- Ein Neuronales Netzwerk setzt sich aus (sehr) vielen Neuronen zusammen
+- Jedes Neuron ist meist einfach aufgebaut
+
+**Funktionsweise:**
+- Eingänge $x_1, x_2, ..., x_n$ multipliziert mit
+- Gewichten $w_1, w_2, ..., w_n$ plus
+- Bias $b$
+:::
+:::{.flex-item}
+**Mathematische Formel:**
+
+$$y = f\left(b + \sum_{i=1}^{n} w_i x_i\right)$$
+
+**Lernprozess:**
+- Wir gewichten die Eingänge nach „Wichtigkeit"
+- Aufgabe beim Lernen: Gewichte $w_1, w_2, ..., w_n$ und Bias $b$ bestimmen
+- **Der Trick:** Neuronale Netzwerke bestehen aus einfachen Bausteinen (→ gut zu rechnen)
+:::
+:::
+
+---
+
+## DNN – Tiefe Neuronale Netzwerke (seit 2011 skalierbar)
+
+:::{.flex}
+:::{.flex-item}
+**Struktur:**
+- Enthalten sehr viele (3-100) tiefe Schichten von Neuronen
+- Mit jeder Schicht steigt die Anzahl der Parameter multiplikativ
+- Tausende von Parametern
+
+**Entwicklungen ab 2011:**
+- Parallelisierung in Graphikkarten mit tausenden Recheneinheiten
+- Bessere Algorithmen für große Parameteranzahl
+:::
+:::{.flex-item}
+**Der Trick:**
+Mit tieferen Schichten kann das Neuronale Netzwerk Wissen besser:
+
+- **Abstrahieren** – Eingänge werden immer mehr zusammengeführt
+- **Verknüpfen** – Mit jeder Schicht wird abstrahiertes Wissen besser verknüpft und das Wichtige betont
+:::
+:::
+
+---
+
+## Große Sprachmodelle (Large Language Models LLM) (seit 2017)
+
+:::{.flex}
+:::{.flex-item}
+**Beispieltext:**
+```
+Rostock ist eine schöne Stadt.
+Das Wetter könnte besser sein.
+```
+
+**Funktionsweise:**
+- Erhöhen die Anzahl der Parameter auf mehrere Milliarden
+- Netzwerke zerlegen Texte in Worte
+- Lernen Wahrscheinlichkeiten der Wortfolgen
+- Entdeckung von Transformer Netzwerken (2017)
+:::
+:::{.flex-item}
+**Der Trick:**
+Das Netzwerk lernt:
+
+- **Abstrahieren** – wichtige Worte in einem Text identifizieren
+- **Verknüpfen** – welche Worte mit wichtigen Worten über Sätze verknüpft sind
+
+**Bei ChatGPT:**
+Wird umgekehrt angewendet → generiert wahrscheinliche Wortfolge für Anfragen
+:::
+:::
+
+---
+
+## Große Bildmodelle (Large Visual Models) (seit 2015)
+
+:::{.flex}
+:::{.flex-item}
+**Kombination aus:**
+- Sprachmodellen (um Anfragen zu verstehen)
+- Diffusionsmodelle zur Bildgenerierung
+
+**Problem:**
+Da Bilder komplexer als Text sind, können vollständige Bilder nicht direkt generiert werden.
+:::
+:::{.flex-item}
+**Der Trick:**
+Das Modell lernt nur Bilder zu reparieren:
+
+- Training durch Hinzufügen von Störungen zu Bildern
+- Modell lernt kontinuierliches Reparieren
+- **Bei Anfragen:** Modell repariert Rauschbild solange, bis fertiges Bild entsteht
+:::
+:::
+
+---
+
+## Grundlagen KI Model (Foundation Models)
+
+:::{.flex}
+:::{.flex-item}
+**Foundation Models:**
+*(GPT 3, GPT 4, LLaMA, BERT, etc.)*
+
+- Sehr viele Daten zum Trainieren
+- Sehr teuer zu trainieren
+
+**Spezialisierte Modelle:**
+- FM für Zeitreihen (NASA)
+- FM für Chemie (ChemDFM) 
+- FM für Sprache (ChatGPT)
+- FM für Bilder (DALL-E)
+:::
+:::{.flex-item}
+**Domänen Modelle:**
+
+- Wenige Daten zum Trainieren (Few-shot learning)
+- Viel preiswerter zu trainieren
+- **Tuning** möglich
+
+**Warum kein Modell für das Bauwesen?**
+:::
+:::
+
+---
+
+## Die Fähigkeiten neuer Grundlagen KI-Modelle
+
+:::{.flex}
+:::{.flex-item}
+**VERSTEHEN**
+- Zusammenfassen sehr großer Datenmengen
+- Erklären von Grundlagenwissen und Zusammenhängen in Standards
+- Übersetzen in unterschiedliche (Fach-)Sprachen
+- Vereinfachung von Wissens- und Verständnisbarrieren
+:::
+:::{.flex-item}
+**ANPASSEN**
+- Few-Shot-Learning erlaubt große Modelle mit wenigen Beispielen anzupassen
+- Lernen von Domänenwissen (Standards)
+- Lernen von Projektwissen (BIM Modelle)
+- Lernen von Projektkommunikation (E-Mails)
+- Lernen von physikalischen Parametern (Bauphysik, Statik)
+:::
+:::
+
+---
+
+## Die Fähigkeiten neuer Grundlagen KI-Modelle (Fortsetzung)
+
+**GENERIEREN**
+
+:::{.flex}
+:::{.flex-item}
+- Ideenfindung mit Bildern aus Anforderungen
+- Assistenz im Entwurf mit Ratschlägen zu Entwurfsentscheidungen
+- Kommunikation durch Generierung von E-Mails
+:::
+:::{.flex-item}
+- Dokumentation mit komplexeren Texten im Zusammenhang
+- Optimierung zum energieeffizienten Entwurf und Betrieb
+:::
+:::
+
+---
+
+## Die Gefahren neuer Grundlagen KI-Modelle
+
+:::{.flex}
+:::{.flex-item}
+**VERSTEHEN**
+- Fehlendes räumliches und numerisches Verständnis
+- Fehlendes logisches Erschließen komplexer Zusammenhänge (obwohl einfache funktionieren)
+- Auslassen statistisch irrelevanter aber fachlich wichtiger Details
+- Übersetzen mit False-Friends, die in der Domäne andere Bedeutungen haben
+:::
+:::{.flex-item}
+**ANPASSEN**
+- Keine BIM-Unterstützung zur Datenverarbeitung in KI-Modellen
+- Fehlende große Datensätze
+- Unerklärliche Black-Box-Modelle
+- Hohe Kosten für regelmäßiges Training
+- Fehlendes Wissen zu den Modellen
+:::
+:::
+
+---
+
+## Die Gefahren neuer Grundlagen KI-Modelle (Fortsetzung)
+
+**GENERIEREN**
+
+:::{.flex}
+:::{.flex-item}
+- Halluzination von falschen Inhalten
+- Fehlassistenz durch fehlerhafte Ratschläge
+- Inkonsistenz von generierten Inhalten (mehrere Sichten)
+:::
+:::{.flex-item}
+- Bias der Vorurteile/Falschaussagen in den Trainingsdaten überbetont
+- Ineffizienz durch generierte Texte, die keiner mehr liest
+- Fehloptimierungen durch Lernen von Korrelationen in Trainingsdaten
+:::
+:::
+
+---
+
+## Hörsaalfrage
+
+**WELCHE STUFEN HATTE DIE WISSENSPYRAMIDE?**
+
+*Midjourney: Wissenspyramide*
+
+---
+
+## Wissenspyramide
+
+:::{.flex}
+:::{.flex-item}
+**Definition:**
+Die Wissenspyramide ist ein Modell zur Darstellung der Entstehung von Wissen. Die vier Elementtypen werden pyramidenförmig als 4 Ebenen dargestellt, wobei die Zeichen die Basis und das Wissen die Spitze der Pyramide bilden.
+:::
+:::{.flex-item}
+**Aufbau (von unten nach oben):**
+
+1. **Zeichen** (Syntax)
+2. **Daten** (Verarbeitung) 
+3. **Informationen** (Semantik)
+4. **Wissen**
+:::
+:::
+
+---
+
+## Lessons Learned
+
+**VON DER THEORIE ZUR PRAXIS**
+
+*Microsoft: Fliegende Formeln*
+
+---
+
+## Wissenstreppe
+
+:::{.flex}
+:::{.flex-item}
+**Explizites, Theoretisches Wissen**
+
+- **Zeichen**
+- **Daten** (Syntax)
+- **Information** (Semantik)  
+- **Wissen** (Vernetzung, Kontext, Erfahrung, Erwartung)
+:::
+:::{.flex-item}
+**Implizites, Operatives Wissen**
+
+- **Können** (Anwendungsbezug)
+- **Handeln** (Anwendung, Motivation)
+- **Kompetenz** (Richtiges Handeln)
+- **Wettbewerbsfähigkeit** (Einzigartigkeit, Bessere Ergebnisse)
+:::
+:::
+
+**Verfügbare Daten**
+
+*NORTH, K. (2011): Wissensorientierte Unternehmensführung. Wertschöpfung durch Wissen.*
+
+---
+
+## Wissenstreppe und ChatGPT
+
+:::{.flex}
+:::{.flex-item}
+**Explizites, Theoretisches Wissen**
+
+- **Zeichen**
+- **Daten** (Syntax)
+- **Information** (Semantik)  
+- **Wissen** (Vernetzung, Kontext, Erfahrung, Erwartung)
+
+**→ ChatGPT & Co.**
+:::
+:::{.flex-item}
+**Implizites, Operatives Wissen**
+
+- **Können** (Anwendungsbezug)
+- **Handeln** (Anwendung, Motivation)
+- **Kompetenz** (Richtiges Handeln)
+- **Wettbewerbsfähigkeit** (Einzigartigkeit, Bessere Ergebnisse)
+:::
+:::
+
+**Verfügbare Daten**
+
+*NORTH, K. (2011): Wissensorientierte Unternehmensführung. Wertschöpfung durch Wissen.*
+
+---
+
+## Hörsaalfrage
+
+**FRAGEN FRAGEN**
+
+*Midjourney: student asking questions in lecture hall*
+
+---
+
+## CSS für Flex Layout
+
+```css
+.flex {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.flex-item {
+  flex: 1;
+}
+
+.reveal .slides section .flex {
+  height: auto;
+}
+
+.reveal .slides section .flex-item {
+  text-align: left;
+}
+```

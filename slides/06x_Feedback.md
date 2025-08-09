@@ -1,17 +1,12 @@
 ---
-title: "Feedback - Selbst und Fremdbild"
-subtitle: "Programmieren und Datenbanken"
-format: 
-  revealjs:
-    theme: default
-    transition: slide
-    background-transition: fade
-    highlight-style: github
+title: "Programmieren und Datenbanken - Programmablauf"
+author: "Joern Ploennigs"
+format: revealjs
 ---
 
 ## Hörsaalfrage
 
-**WOFÜR IST FEEDBACK GUT?**
+*WOFÜR IST FEEDBACK GUT?*
 
 ::: {style="text-align: center; margin-top: 2em;"}
 *Midjourney: Dorian Gray looking at his picture seeing an old monster*
@@ -21,7 +16,7 @@ format:
 programmieren und datenbanken - selbst und fremdbild
 :::
 
----
+
 
 ## Lessons Learned
 
@@ -30,11 +25,11 @@ programmieren und datenbanken - selbst und fremdbild
 ::: {.flex style="display: flex; gap: 2em; align-items: flex-start;"}
 
 ::: {.flex-item style="flex: 1;"}
-• **Unser Selbstbild stimmt nie mit dem Fremdbild überein**, da wir unsere Erfahrungen und Gedanken mit einbringen
+• *Unser Selbstbild stimmt nie mit dem Fremdbild überein*, da wir unsere Erfahrungen und Gedanken mit einbringen
 
-• **Das Fremdbild wird nur durch Beobachtung** und Schilderungen von unserer Person gebildet
+• *Das Fremdbild wird nur durch Beobachtung* und Schilderungen von unserer Person gebildet
 
-• **Feedback ist entscheidend**, um das Selbstbild und Fremdbild abzugleichen
+• *Feedback ist entscheidend*, um das Selbstbild und Fremdbild abzugleichen
 :::
 
 :::
@@ -43,7 +38,7 @@ programmieren und datenbanken - selbst und fremdbild
 programmieren und datenbanken - selbst und fremdbild
 :::
 
----
+
 
 ## Zusammenfassung
 
@@ -66,5 +61,5 @@ programmieren und datenbanken - selbst und fremdbild
 :::
 
 ::: {style="text-align: center; margin-top: 2em;"}
-**→ Feedback schließt diese Lücke**
+*→ Feedback schließt diese Lücke*
 :::

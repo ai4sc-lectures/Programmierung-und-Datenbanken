@@ -1,26 +1,20 @@
 ---
-title: "Einführung in Programmierung und Datenbanken"
-subtitle: "Entwurfsvorgehen"
+title: "Programmieren und Datenbanken - Programmablauf"
 author: "Joern Ploennigs"
-format: 
-  revealjs:
-    theme: default
-    transition: slide
-    background-transition: fade
-    highlight-style: github
+format: revealjs
 ---
 
 ## Programmierung und Datenbanken - Entwurfsvorgehen
 
 ::: {style="text-align: center; margin-top: 2em;"}
-**PROGRAMMIERUNG UND DATENBANKEN**
+*PROGRAMMIERUNG UND DATENBANKEN*
 
 Motivation Computer und Architekturen • Programmierung und Datentypen • Fehler und Debugging • Objektorientierung u. Softwareentwurf • Verzweigungen und Schleifen • Funktionen und Rekursion
 
-**grundlagen** • **modellierung**
+*grundlagen* • *modellierung*
 :::
 
----
+
 
 ## Entwurfsvorgehen
 
@@ -28,96 +22,96 @@ Motivation Computer und Architekturen • Programmierung und Datentypen • Fehl
 ![Midjourney: Software Waterfall](waterfall-image-placeholder.jpg){fig-alt="Software Waterfall visualization"}
 :::
 
----
+
 
 ## Softwareentwurf
 
 Software wird selten allein entwickelt, sondern oft im Team über eine längere Zeit. Hierfür braucht man einen Projektplan wie die Software auszusehen hat und arbeitsteilig entwickelt werden kann. Dieser Projektplan umfasst den Bauplan (Klassenentwurf) als auch die Bauablaufplanung (Programmiervorgehen) für die zu konstruierende Software.
 
-Das Erstellen dieses Projektplan wird als **Softwareentwurf** bezeichnet. Sie gleicht im Vorgehen stark dem Entwurfsvorgehen im Umwelt- und Bauingenieurwesen.
+Das Erstellen dieses Projektplan wird als *Softwareentwurf* bezeichnet. Sie gleicht im Vorgehen stark dem Entwurfsvorgehen im Umwelt- und Bauingenieurwesen.
 
----
+
 
 ## Softwareentwurf - Phasen
 
 Es gibt ähnliche Phasen wie:
 
-- **die Anforderungsdefinition** – Definition was die Software etwas realisieren soll (vgl. dokumentieren welche Funktionen und Randbedingungen das Bauwerk erfüllt)
+- *die Anforderungsdefinition* – Definition was die Software etwas realisieren soll (vgl. dokumentieren welche Funktionen und Randbedingungen das Bauwerk erfüllt)
 
-- **den Entwurf**
+- *den Entwurf*
   - Modul- und Klassenentwurf – Definition wie die Software umgesetzt wird und (Grobplanung im Bau)
   - Ausführungsplanung – Was wird wann, durch wen, und wie implementiert (Gewerkplanung im Bau)
 
----
+
 
 ## Softwareentwurf - Phasen (Fortsetzung)
 
-- **die Ausführung**
+- *die Ausführung*
   - Implementation – Programmieren der einzelnen Klassen & Module (vgl. Gewerke im Bau umsetzen)
   - Integration – Zusammenführen der Module zur fertigen Lösung (vgl. Gewerke im Bau verbinden, wie Energie, Klima, Wasser, etc.)
 
-- **die Abnahme** – Test des fertigen Softwareprogramms
+- *die Abnahme* – Test des fertigen Softwareprogramms
   - Modultest – Unit-Test von Modulen (vgl. einzelne Gewerke abnehmen)
   - Integrationstest – Kombination von Module testen (vgl. mehrere Gewerke gemeinsam testen)
   - Systemtest – Gesamtheit der Module testen (vgl. Gesamtbauwerk abnehmen)
 
----
+
 
 ## Vergleich: Software- vs. Bauingenieurwesen
 
 ::: {style="display: flex; gap: 2em;"}
 ::: {style="flex: 1;"}
-**Äquivalente Schritte im Bauingeneurwesen**
+*Äquivalente Schritte im Bauingeneurwesen*
 
-- **Ausschreibung:** Dokumentieren welche Funktionen und Randbedingungen das Bauwerk erfüllen
-- **Entwurf**
+- *Ausschreibung:* Dokumentieren welche Funktionen und Randbedingungen das Bauwerk erfüllen
+- *Entwurf*
   - Architektur und Grobentwurf – Definition wir das Bauwerk grob strukturiert ist
   - Fein- und Gewerkplanung - Definition wie Teile und die Gewerke umgesetzt werden
   - Ausführungsplanung – Was wird wann, durch wen, und wie gebaut
 :::
 
 ::: {style="flex: 1;"}
-**Schritte im Softwareentwurf**
+*Schritte im Softwareentwurf*
 
-- **Anforderungsdefinition** – Definition welche Funktionen und Randbedingungen die Software realisieren soll
-- **Entwurf**
+- *Anforderungsdefinition* – Definition welche Funktionen und Randbedingungen die Software realisieren soll
+- *Entwurf*
   - Modulentwurf – Definition welche Teile die Software hat
   - Klassenentwurf – Definition in welche Klassen die Software strukturiert ist
   - Ausführungsplanung – Was wird wann, durch wen, und wie implementiert
 :::
 :::
 
----
+
 
 ## Vergleich: Software- vs. Bauingenieurwesen (Fortsetzung)
 
 ::: {style="display: flex; gap: 2em;"}
 ::: {style="flex: 1;"}
-**Bauingenieurwesen (Fortsetzung)**
+*Bauingenieurwesen (Fortsetzung)*
 
-- **Ausführung**
+- *Ausführung*
   - Einzelne Gewerke werden umgesetzt
   - Gewerke im Bau integrieren, wie Energie und Wasser mit Klima integrieren
-- **Abnahme**
+- *Abnahme*
   - Abnahme einzelner Gewerke
   - Test mehrerer Gewerke gemeinsam
   - Gesamtbauwerk abnehmen
 :::
 
 ::: {style="flex: 1;"}
-**Softwareentwurf (Fortsetzung)**
+*Softwareentwurf (Fortsetzung)*
 
-- **Ausführung**
+- *Ausführung*
   - Implementation – Programmieren der einzelnen Klassen & Module
   - Integration – Zusammenführen der Module zur fertigen Lösung
-- **Abnahme**
+- *Abnahme*
   - Modultest – Unit-Test von Modulen
   - Integrationstest – Kombination von Module testen
   - Systemtest – Gesamtheit der Module testen
 :::
 :::
 
----
+
 
 ## Lineare Methode - Wasserfallmethode
 
@@ -129,7 +123,7 @@ Es gibt ähnliche Phasen wie:
 
 - Jeder Aktivität wird dokumentiert → Gut geeignet für Ausschreibungen (nach der Anforderungsdefinition oder dem Entwurf, ISO 9000)
 
----
+
 
 ## V-Methode
 
@@ -143,7 +137,7 @@ Es gibt ähnliche Phasen wie:
 
 - Benutzerbeteiligung in der Anforderungsdefinition und im Abnahmetest
 
----
+
 
 ## Agile Methode
 
@@ -157,12 +151,12 @@ Es gibt ähnliche Phasen wie:
 
 - Entwurfsfehler der ersten Iterationen können zu kompletten Neuentwurf führen
 
----
+
 
 ## Hörsaalfrage
 
 ::: {style="text-align: center; margin-top: 3em;"}
-**FRAGEN?**
+*FRAGEN?*
 
 ![Midjourney: A psychedelic DJ with a question mark for a head](dj-question-placeholder.jpg){fig-alt="Psychedelic DJ with question mark head"}
 :::

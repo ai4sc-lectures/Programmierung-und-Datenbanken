@@ -1,14 +1,7 @@
 ---
-title: "Bibliotheken und Pakete"
-subtitle: "Einführung in Programmierung und Datenbanken"
+title: "Programmieren und Datenbanken - Programmablauf"
 author: "Joern Ploennigs"
-format:
-  revealjs:
-    theme: default
-    slide-number: true
-    chalkboard: true
-    preview-links: auto
-    css: custom.css
+format: revealjs
 ---
 
 ## Bibliotheken und Pakete {.center}
@@ -19,13 +12,13 @@ format:
 :::
 :::
 
----
+
 
 ## Organisieren von Projekten über mehrere Dateien
 
 ::: {.flex}
 ::: {.flex-item style="flex: 1;"}
-**Herausforderungen großer Programme:**
+*Herausforderungen großer Programme:*
 
 • Dutzende Klassen mit hunderten Funktionen
 • Viele tausende Zeilen Code
@@ -34,49 +27,49 @@ format:
 :::
 
 ::: {.flex-item style="flex: 1;"}
-**Lösung - Code aufteilen in .py Dateien:**
+*Lösung - Code aufteilen in .py Dateien:*
 
-• **Pro Klasse** eine Datei (bei Klassendefinitionen)
-• **Pro Thema** eine Datei (z.B. Mathematik-Funktionen)
-• **Pro Aufgabenbereich** eine Datei (z.B. Laden vs. Verarbeitung)
+• *Pro Klasse* eine Datei (bei Klassendefinitionen)
+• *Pro Thema* eine Datei (z.B. Mathematik-Funktionen)
+• *Pro Aufgabenbereich* eine Datei (z.B. Laden vs. Verarbeitung)
 :::
 :::
 
----
+
 
 ## Die main()-Funktion als Standardfunktion
 
 ::: {.flex}
 ::: {.flex-item}
-**Woher weiß Python was ausgeführt werden soll?**
+*Woher weiß Python was ausgeführt werden soll?*
 
-• Eine bestimmte Datei als **Zentrum des Projektes** deklarieren
+• Eine bestimmte Datei als *Zentrum des Projektes* deklarieren
 • Diese enthält eine spezielle Funktion namens `main()`
 • Existiert in fast jeder Programmiersprache
-• Gibt den **Startpunkt des Programms** an
+• Gibt den *Startpunkt des Programms* an
 • Kann keine oder dynamische Argumente erhalten (Kommandozeilenargumente)
 
-**Beispiel:** Doppelklick auf Python-Datei ruft `main()` auf
+*Beispiel:* Doppelklick auf Python-Datei ruft `main()` auf
 :::
 :::
 
----
+
 
 ## Die main()-Funktion in Python
 
 ::: {.flex}
 ::: {.flex-item style="flex: 1;"}
-**Verschiedene Ausführungsmöglichkeiten:**
+*Verschiedene Ausführungsmöglichkeiten:*
 
 1. Als Skript in Kommandozeile/Gesamtprogramm
 2. Importiert in interaktive Python-Konsole  
 3. Importiert in andere Python-Datei
 
-**Problem:** In Fall 1 wollen wir das gesamte Skript, in Fall 2+3 nur Teile nutzen
+*Problem:* In Fall 1 wollen wir das gesamte Skript, in Fall 2+3 nur Teile nutzen
 :::
 
 ::: {.flex-item style="flex: 1;"}
-**Die Lösung - Variable `__name__`:**
+*Die Lösung - Variable `__name__`:*
 
 ```python
 def main():
@@ -90,69 +83,69 @@ if __name__ == "__main__":
 :::
 :::
 
----
+
 
 ## Best Practice für main()-Funktion
 
 ::: {.flex}
 ::: {.flex-item style="flex: 1;"}
-**Was gehört VOR die main()-Definition:**
+*Was gehört VOR die main()-Definition:*
 
-✅ **Nur erlaubt:**
+✅ *Nur erlaubt:*
 • Funktionsdefinitionen
 • Klassendefinitionen
 
-❌ **Vermeiden:**
+❌ *Vermeiden:*
 • Variablenbelegungen (globale Variablen)
 • Funktionsaufrufe (Nebeneffekte)
 :::
 
 ::: {.flex-item style="flex: 1;"}
-**Vorteile dieser Struktur:**
+*Vorteile dieser Struktur:*
 
-• **Programmfluss** wird übersichtlicher
-• **Programm** einfach modifizierbar
-• **Programm** besser weiterverwendbar
+• *Programmfluss* wird übersichtlicher
+• *Programm* einfach modifizierbar
+• *Programm* besser weiterverwendbar
 
 Alle Funktionalitäten in Klassen und Funktionen auslagern, dann in main() nutzen
 :::
 :::
 
----
+
 
 ## Programmfluss über mehrere Dateien
 
 ::: {.flex}
 ::: {.flex-item}
-**Jetzt haben wir einen zentralen Startpunkt...**
+*Jetzt haben wir einen zentralen Startpunkt...*
 
-**Wie rufen wir Code aus anderen Dateien auf?**
+*Wie rufen wir Code aus anderen Dateien auf?*
 
 Jede Programmiersprache hat Befehle zum Laden externen Codes:
 • `import` und `include`
 • Spezielle "Header-Dateien"
 • Definieren Zusammenhänge zwischen Dateien
 
-**In Python:** Kombination aus Fall 1 und Fall 3 mit `import`-Statement
+*In Python:* Kombination aus Fall 1 und Fall 3 mit `import`-Statement
 :::
 :::
 
----
+
 
 ## Programmfluss in Python - import Statement
 
 ::: {.flex}
 ::: {.flex-item style="flex: 1;"}
-**Strategie:**
+*Strategie:*
 • Eine .py-Datei enthält `main()` (Fall 1)
 • Alle anderen ohne `main()` oder mit `__name__` ignoriert (Fall 3)
 • `import`-Statement lädt externe Dateien
 
-**Achtung:** Kompletter Code wird ausgeführt, auch Variablen und Funktionsaufrufe!
+*Achtung:* Kompletter Code wird ausgeführt, auch Variablen und Funktionsaufrufe!
 :::
 
 ::: {.flex-item style="flex: 1;"}
-**Beispiel:**
+*Beispiel:*
 
 ```python
 import external_file
@@ -165,29 +158,29 @@ Variablen/Funktionen/Klassen aus `external_file.py` werden in Objekt `external_f
 :::
 :::
 
----
+
 
 ## Import externer Bibliotheken (Packages)
 
 ::: {.flex}
 ::: {.flex-item}
-**Terminologie:**
-• **Module:** Importierte Skripte
-• **Namespace:** Das entstehende Objekt (Typ: module)
-• **Package:** Modul mit weiteren Untermodulen
+*Terminologie:*
+• *Module:* Importierte Skripte
+• *Namespace:* Das entstehende Objekt (Typ: module)
+• *Package:* Modul mit weiteren Untermodulen
 
-**Package-Struktur:**
+*Package-Struktur:*
 Verhält sich wie Ordnerstruktur, aber für Sammlungen von Klassen und Funktionen anstatt Dateien
 :::
 :::
 
----
+
 
 ## Grundlagen der Projektstruktur
 
 ::: {.flex}
 ::: {.flex-item style="flex: 1;"}
-**Allgemeine Struktur:**
+*Allgemeine Struktur:*
 
 ```
 main.py [enthält main()]
@@ -204,7 +197,7 @@ import helpers
 :::
 
 ::: {.flex-item style="flex: 1;"}
-**Beispiel - Stadtprojekt:**
+*Beispiel - Stadtprojekt:*
 
 ```
 city.py
@@ -221,18 +214,18 @@ import geometry
 :::
 :::
 
----
+
 
 ## Das import-Statement: Erweiterte Nutzungen
 
 ::: {.flex}
 ::: {.flex-item}
-**Zusätzliche Import-Konstrukte:**
+*Zusätzliche Import-Konstrukte:*
 
-**from-import-Statement:**
+*from-import-Statement:*
 Importiert Submodul/Teil direkt ohne übergeordneten Namespace
 
-**from-import-as-Statement:**  
+*from-import-as-Statement:*  
 Arbeitet genauso, benennt aber das importierte Objekt um
 
 ```python
@@ -243,47 +236,47 @@ Die Import-Funktionen von Python sind komplex und vielschichtig - dies sind die 
 :::
 :::
 
----
+
 
 ## Import-Statements – Das Tor zur Welt
 
 ::: {.flex}
 ::: {.flex-item style="flex: 1;"}
-**Nicht nur eigene Pakete importieren!**
+*Nicht nur eigene Pakete importieren!*
 
 Auch Pakete von anderen Personen/Organisationen
 
-**Zugriffsmöglichkeiten:**
+*Zugriffsmöglichkeiten:*
 • Paket in Python mitgeliefert
 • Direkt als .py-Dateien herunterladen
-• **Package-Manager benutzen** (Besser!)
+• *Package-Manager benutzen* (Besser!)
 :::
 
 ::: {.flex-item style="flex: 1;"}
-**Python Package Index (PyPI):**
+*Python Package Index (PyPI):*
 • Offizielle Anlaufstelle für Packages
-• Derzeit über **418.000 frei verfügbare** Pakete
-• Installation meist mit **einem einzigen Befehl/Klick**
+• Derzeit über *418.000 frei verfügbare* Pakete
+• Installation meist mit *einem einzigen Befehl/Klick*
 :::
 :::
 
----
+
 
 ## Packages - Die eigentliche Macht von Python
 
 ::: {.flex}
 ::: {.flex-item}
-**Warum ist Python so populär?**
+*Warum ist Python so populär?*
 
-Python hat sich zur **Interface- und Pipeline-Sprache** entwickelt
+Python hat sich zur *Interface- und Pipeline-Sprache* entwickelt
 
-**Fast jedes durch Computer lösbare Problem** kann durch geschicktes Verschalten der richtigen Python-Packages gelöst werden
+*Fast jedes durch Computer lösbare Problem* kann durch geschicktes Verschalten der richtigen Python-Packages gelöst werden
 
-**Pythons Erfolg basiert auf seinem Package-Ökosystem** - nicht nur auf der Sprache selbst
+*Pythons Erfolg basiert auf seinem Package-Ökosystem* - nicht nur auf der Sprache selbst
 :::
 :::
 
----
+
 
 ## Fragen? {.center}
 

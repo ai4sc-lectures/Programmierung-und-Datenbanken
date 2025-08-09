@@ -1,32 +1,26 @@
 ---
-title: "Zielsetzung"
-subtitle: "Programmieren und Datenbanken"
-author: ""
-format: 
-  revealjs:
-    theme: default
-    transition: slide
-    background-transition: fade
-    highlight-style: github
+title: "Programmieren und Datenbanken - Programmablauf"
+author: "Joern Ploennigs"
+format: revealjs
 ---
 
 ## Lessons Learned {.center}
 
-**ZIELSETZUNG**
+*ZIELSETZUNG*
 
 ::: {.fragment}
 Midjourney: Wilhelm Tell child with an apple on his head that has an arrow in it
 :::
 
----
+
 
 ## Programmieren und Datenbanken - Zielsetzung {.center}
 
-**Lessons Learned**
+*Lessons Learned*
 
-**ZIELSETZUNG**
+*ZIELSETZUNG*
 
----
+
 
 ## SMART Zielsetzung
 
@@ -35,30 +29,30 @@ Midjourney: Wilhelm Tell child with an apple on his head that has an arrow in it
 ::: {style="flex: 1;"}
 ### Die SMART-Kriterien
 
-- **S**pezifisch
-- **M**essbar  
-- **A**ttraktiv
-- **R**ealistisch
-- **T**erminiert
+- *S*pezifisch
+- *M*essbar  
+- *A*ttraktiv
+- *R*ealistisch
+- *T*erminiert
 :::
 
 ::: {style="flex: 2;"}
 ### Erläuterungen
 
-**Spezifisch:** Ziel leicht verständlich und mit nur zwei Sätzen genau beschreiben.
+*Spezifisch:* Ziel leicht verständlich und mit nur zwei Sätzen genau beschreiben.
 
-**Messbar:** Die Zielerreichung ist quantitativ oder qualitativ feststellbar.
+*Messbar:* Die Zielerreichung ist quantitativ oder qualitativ feststellbar.
 
-**Attraktiv:** Die Erreichung des Zieles ist für EUCH erstrebenswert (ich-Bezug).
+*Attraktiv:* Die Erreichung des Zieles ist für EUCH erstrebenswert (ich-Bezug).
 
-**Realistisch:** Das Ziel ist ambitioniert und erreichbar.
+*Realistisch:* Das Ziel ist ambitioniert und erreichbar.
 
-**Terminiert:** Konkreten Termin bis wann das Ziel erreicht werden soll.
+*Terminiert:* Konkreten Termin bis wann das Ziel erreicht werden soll.
 :::
 
 :::
 
----
+
 
 ## Anwendung der SMART-Kriterien
 
@@ -82,7 +76,7 @@ Midjourney: Wilhelm Tell child with an apple on his head that has an arrow in it
 
 :::
 
----
+
 
 ## Zusammenfassung
 
