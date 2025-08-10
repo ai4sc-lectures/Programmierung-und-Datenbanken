@@ -6992,10 +6992,7 @@ all of MD as it is not optimized for dense, information rich UIs.
   --jp-content-font-color2: rgba(0, 0, 0, 0.54);
   --jp-content-font-color3: rgba(0, 0, 0, 0.38);
   --jp-content-link-color: var(--md-blue-900);
-  --jp-content-font-family: system-ui, -apple-system, blinkmacsystemfont,
-    'Segoe UI', helvetica, arial, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol';
-
+  --jp-content-font-family: "IBM Plex Sans", sans-serif;
   /*
    * Code Fonts
    *
@@ -7429,7 +7426,7 @@ main {
     init_mathjax();
     </script>
 <!-- End of mathjax configuration --><!-- Reveal Theme -->
-<link href="https://unpkg.com/reveal.js@4.0.2/dist/theme/simple.css" id="theme" rel="stylesheet"/>
+<link href="https://unpkg.com/reveal.js@4.0.2/dist/theme/simple.css" id="theme"  rel="stylesheet"/>
 <link href="rise.css" rel="stylesheet"/>
 </head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
@@ -7441,1766 +7438,393 @@ main {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Objekte">Objekte<a class="anchor-link" href="#Objekte">¶</a></h1>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<div class="vslide">
+<div class="vslide-title">
+<p style="font-family: Protomolecule; font-size: 2.3em; line-height: 90%; margin: 0px auto; text-align: center; width: 100%;"><span style="letter-spacing: .04rem;">programmierung</span><br/><span style="letter-spacing: .0rem;">und datenbanken</span></p>
+<p class="author" style="font-family: Protomolecule; margin: 0px auto;  text-align: center; width: 100%; font-size: 1.2em;">Joern Ploennigs</p>
+<p class="subtitle" style="font-family: Protomolecule; margin: 1em auto; text-align: center; width: 100%; font-size: 1.2em;">Objekte</p>
+</div>
+<script>
+  function setSectionBackground(c,v){
+    let e=document.currentScript.previousElementSibling;
+    while(e&&e.tagName!=='SECTION')e=e.parentElement;
+    if(e){
+      if(c)e.setAttribute('data-background-color',c);
+      if(v){
+        e.setAttribute('data-background-video',v);
+        e.setAttribute('data-background-video-loop','true');
+        e.setAttribute('data-background-video-muted','true');
+      }
+    }
+  }
+  setSectionBackground('#000000', '../_images/04c_Objects/mj_title.mp4');
+</script>
+<style>
+.flex-row{display:flex; gap:2rem; align-items:flex-start; justify-content:space-between;}
+.flex-row .col1{flex:1; min-width:10px}
+.flex-row .col2{flex:2; min-width:10px}
+.flex-row .col3{flex:3; min-width:10px}
+.flex-row .col4{flex:4; min-width:10px}
+.flex-row .col5{flex:5; min-width:10px}
+.flex-row .col6{flex:6; min-width:10px}
+.flex-row .col7{flex:7; min-width:10px}
+.vcent{display:flex; align-items:center; justify-content:center}
+</style>
 </div>
 </div>
 </div>
 </div>
+</div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Objektorientierte Programmierung (OOP) ist ein Programmierparadigma das annimmt, dass ein Programm ausschließlich aus <strong>Objekten</strong> besteht, die miteinander kooperativ interagieren. Jedes Objekt verfügt über <strong>Attribute</strong> (Eigenschaften) und <strong>Methoden</strong>. Die Attribute definieren dabei über ihre Werte den Zustand eines Objektes, die Methoden die möglichen Zustandsänderungen (Handlungen) eines Objektes.</p>
-<p>Die Objektorientierung löst dabei einige Problem im Umgang mit sich oft wiederholenden Datenstrukturen in großen Programmen.</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Ablauf">Ablauf<a class="anchor-link" href="#Ablauf">¶</a></h2><p><img alt="" src="../_images/partA_6.svg"/></p>
 </div>
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Herausforderungen-mit-sich-stark-wiederholenden-Datenstrukturen">Herausforderungen mit sich stark wiederholenden Datenstrukturen<a class="anchor-link" href="#Herausforderungen-mit-sich-stark-wiederholenden-Datenstrukturen">¶</a></h2>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Zielsetzung">Zielsetzung<a class="anchor-link" href="#Zielsetzung">¶</a></h2><ul>
+<li><p>Lernen der Grundidee der Objektorientierung</p>
+</li>
+<li><p>Ein grundsätzliches Verständnis der Programmierung mit Objekten</p>
+</li>
+<li><p>Datentypen vs. Klassen</p>
+</li>
+<li><p>Funktionen vs. Methoden</p>
+</li>
+<li><p>Einführung in erweiterte Konzepte wie z.B. Vererbung</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Das-syntaktische-Problem">Das syntaktische Problem<a class="anchor-link" href="#Das-syntaktische-Problem">¶</a></h3>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Objektorientierte-Programmierung">Objektorientierte Programmierung<a class="anchor-link" href="#Objektorientierte-Programmierung">¶</a></h2><div class="alert alert-block alert-success">
+<b>📘 Definition: Objektorientierte Programmierung</b>
+<p>Objektorientierte Programmierung (OOP) ist ein Programmierparadigma das annimmt, dass ein Programm ausschließlich aus Objekten besteht, die miteinander kooperativ interagieren.</p>
+</div>
+<p>Jedes Objekt verfügt über:</p>
+<ul>
+<li><em>Attribute</em> (Eigenschaften): Definiert den Wert  über den Zustand eines Objektes.</li>
+<li><em>Methoden</em> definieren die möglichen Zustandsänderungen (Handlungen) eines Objektes.</li>
+</ul>
 </div>
 </div>
 </div>
-</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Objekte werden verwendet, um festzulegen wie sich stark wiederholende Datenstrukturen gespeichert werden. Hierbei geht es darum, dass der Syntax der Datenstruktur eindeutig ist.</p>
-<p>Wächst das Programm an, so wächst auch die Menge der Variablen und Datenstrukturen</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Warum-Objekte-%E2%80%93-Das-syntaktische-Problem-wiederholter-Datenstrukturen">Warum Objekte – Das syntaktische Problem wiederholter Datenstrukturen<a class="anchor-link" href="#Warum-Objekte-%E2%80%93-Das-syntaktische-Problem-wiederholter-Datenstrukturen">¶</a></h2><ul>
+<li><p>Objekte werden verwendet, um festzulegen wie sich wiederholen Datenstrukturen gespeichert werden.</p>
+</li>
+<li><p>Wächst das Programm an, so wächst auch die Menge der Variablen und Datenstrukturen</p>
 <ul>
 <li>zur Speicherung von Daten</li>
 <li>zur Kontrolle des Programmflusses</li>
 <li>zum Abspeichern von Zuständen</li>
 <li>zum Verarbeiten von Ein- und Ausgaben</li>
 </ul>
-<p>Dabei basieren die zugrundeliegenden Elemente meist auf sich wiederholenden Datenstrukturen. Analysiert man z.B. Baupläne oder Karten so verwaltet man viele Punkt-Koordinaten. Hierbei kann man allerdings eine Koordinate unterschiedlich z.B. als Tupel oder als Liste ausdrücken.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">point_1</span> <span class="o">=</span> <span class="p">(</span><span class="mf">54.083336</span><span class="p">,</span> <span class="mf">12.108811</span><span class="p">)</span>
-<span class="n">point_2</span> <span class="o">=</span> <span class="p">[</span><span class="mf">12.094167</span><span class="p">,</span> <span class="mf">54.075211</span><span class="p">]</span>
+</li>
+<li><p>Die zugrundeliegenden Elemente basieren meist auf sich wiederholenden Datenstrukturen.</p>
+</li>
+<li><p>Z.B. Punkt-Koordinaten in Baupläne oder Karten könnte man als Tupel oder Liste ausdrücken.</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="n">punkt_1</span> <span class="o">=</span> <span class="p">(</span><span class="mf">54.083336</span><span class="p">,</span> <span class="mf">12.108811</span><span class="p">)</span> <span class="c1"># Was ist der richtige Syntax?</span>
+<span class="n">punkt_2</span> <span class="o">=</span> <span class="p">[</span><span class="mf">12.108811</span><span class="p">,</span> <span class="mf">54.083336</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Will man diese Punkte verarbeiten so ergeben sich ggf. Probleme da beide unterschiedliche Datentypen besitzen. Das ist das syntaktische Problem im Umgang mit Variablen in großen Programmen. Hier will man den Syntax der Datenstruktur definieren können.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Das-semantische-Problem">Das semantische Problem<a class="anchor-link" href="#Das-semantische-Problem">¶</a></h3>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Objekte werden auch verwendet, um die Semantik von Werten einer Datenstrukturen eindeutig zu definieren.</p>
-<p>Haben wir uns z.B. darauf geeinigt, dass wir ein Punkt syntaktisch durch ein Tupel repräsentieren, so ist die Bedeutung der Werte dennoch nicht bekannt.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">point_1</span> <span class="o">=</span> <span class="p">(</span><span class="mf">54.083336</span><span class="p">,</span> <span class="mf">12.108811</span><span class="p">)</span>
-<span class="n">point_2</span> <span class="o">=</span> <span class="p">(</span><span class="mf">12.094167</span><span class="p">,</span> <span class="mf">54.075211</span><span class="p">)</span>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Warum-Objekte-%E2%80%93-Das-semantische-Problem-wiederholter-Datenstrukturen">Warum Objekte – Das semantische Problem wiederholter Datenstrukturen<a class="anchor-link" href="#Warum-Objekte-%E2%80%93-Das-semantische-Problem-wiederholter-Datenstrukturen">¶</a></h2><ul>
+<li><p>Objekte werden auch verwendet, um die Semantik von Werten einer Datenstruktur eindeutig zu definieren.</p>
+</li>
+<li><p>Haben wir uns z.B. darauf geeinigt, dass wir ein Punkt syntaktisch durch ein Tupel repräsentieren, so ist die Bedeutung der Werte dennoch nicht bekannt</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="n">punkt_1</span> <span class="o">=</span> <span class="p">(</span><span class="mf">54.083336</span><span class="p">,</span> <span class="mf">12.108811</span><span class="p">)</span> <span class="c1"># Was ist die Semantik dieser Werte?</span>
+<span class="n">punkt_2</span> <span class="o">=</span> <span class="p">(</span><span class="mf">12.108811</span><span class="p">,</span> <span class="mf">54.083336</span><span class="p">)</span> <span class="c1"># Also was ist Latitude, was Longitude?</span>
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Ein anderer Programmierer wird hier aber ggf. nicht die semantische Bedeutung verstehen. In diesem Beispiel kann man vermuten, dass der erste Wert die <code>x</code>-Koordinate ist und der zweite die <code>y</code>-Koordinate. Vieleicht ist es aber auch andersherum. Ggf. handelt es sich aber nicht um ein kartesisches Koordinatensystem, sondern um ein radiales. Um solche Unklarheiten zu beseitigen, will man der Datenstruktur eine klare semantische Definition geben, wo eindeutig ist, was die Werte bedeuten.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Das-Verhaltensproblem">Das Verhaltensproblem<a class="anchor-link" href="#Das-Verhaltensproblem">¶</a></h3>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Objekte werden zudem verwendet, um die Funktionen zur Verarbeitung der Datenstrukturen direkt mit dieser zu bündeln, so dass die Datenstruktur nur jene Funktionen anbietet, welche auch sinnvoll anwendbar sind.</p>
-<p>Definieren wir z.B. eine Funktion, um die Distanz zweier Punkte zu berechnen:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">distance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Warum-Objekte-%E2%80%93-Das-Verhaltensproblem-wiederholter-Datenstrukturen">Warum Objekte – Das Verhaltensproblem wiederholter Datenstrukturen<a class="anchor-link" href="#Warum-Objekte-%E2%80%93-Das-Verhaltensproblem-wiederholter-Datenstrukturen">¶</a></h2><ul>
+<li><p>Objekte bündeln Funktionen und Datenstrukturen.</p>
+</li>
+<li><p>Eine Distanzfunktion kann auf falsche Datenstrukturen angewendet werden, z.B. auf Linien statt Punkte.</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">distanz</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">b</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">punkt_1</span> <span class="o">=</span> <span class="p">(</span><span class="mf">54.083336</span><span class="p">,</span> <span class="mf">12.108811</span><span class="p">)</span>
+<span class="n">punkt_2</span> <span class="o">=</span> <span class="p">(</span><span class="mf">12.108811</span><span class="p">,</span> <span class="mf">54.083336</span><span class="p">)</span>
+
+<span class="n">distanz</span><span class="p">(</span><span class="n">punkt_1</span><span class="p">,</span> <span class="n">punkt_2</span><span class="p">)</span>
+
+<span class="n">linie_1</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">54.08</span><span class="p">,</span> <span class="mf">12.11</span><span class="p">),</span> <span class="p">(</span><span class="mf">54.10</span><span class="p">,</span> <span class="mf">12.11</span><span class="p">)]</span>
+<span class="n">linie_2</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">12.11</span><span class="p">,</span> <span class="mf">54.08</span><span class="p">),</span> <span class="p">(</span><span class="mf">12.20</span><span class="p">,</span> <span class="mf">54.10</span><span class="p">)]</span>
+
+<span class="n">distanz</span><span class="p">(</span><span class="n">linie_1</span><span class="p">,</span> <span class="n">linie_2</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-</div>
+</div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Diese Funktion kann man aufgrund der dynamischen Typisierung in Python ja auch auf andere Datenstrukturen anwenden, z.B. auf eine Line. Das führt zu semantischen oder logischen Fehlern. Um das zu vermeiden, müsste man für jede Variante eine andere Funktion definieren, diese zuordbar benennen und viele Datentyp-Tests vornehmen. Einfacher ist es, sicher zu stellen, dass eine solche Funktion nur für die entsprechende Datenstruktur verfügbar ist.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Objektorientierung">Objektorientierung<a class="anchor-link" href="#Objektorientierung">¶</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Klassen-deklarieren">Klassen deklarieren<a class="anchor-link" href="#Klassen-deklarieren">¶</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Anstatt unübersichtlich viele verstreute Datenstrukturen und Funktionen zu benutzen, gruppieren wir diese in Objekte.
-Da wir die Datenstrukturen normieren wollen, muss wir die Struktur dieser Objekte vor Verwendung definiert werden. Dies geschieht über <strong>Klassen</strong>, welche eine Art Bauplan für die damit normierten Objekte darstellt. Eine Klasse definiert:</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Grundlagen-der-Objektorientierung">Grundlagen der Objektorientierung<a class="anchor-link" href="#Grundlagen-der-Objektorientierung">¶</a></h2><ul>
+<li><p>Anstatt unübersichtlich viele verstreute Datenstrukturen und Funktionen zu benutzen, gruppieren wir diese in Objekte.</p>
+</li>
+<li><p>Die Struktur dieser Objekte wird in Form von <em>Klassen</em> definiert, welche eine Art Bauplan darstellt. Eine Klasse definiert:</p>
 <ul>
-<li>welche Attribute (Eigenschaften) ein Objekt dieser Klasse besitzt</li>
-<li>und welche Methoden (Funktionen) ein Objekt der Klasse bereitstellt</li>
+<li>welche <em>Attribute</em> (Variablen / Eigenschaften) ein Objekt dieser Klasse besitzt.</li>
+<li>welche <em>Methoden</em> (Funktionen) ein Objekt der Klasse bereit stellt</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 </div>
-</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Der erste Schritt zu einem Objekt ist das Definieren einer neuen Klasse für den Typ des Objektes. Dies geschieht über den <code>class</code>-Kennwort auf welches der Klassenname folgt. Danach wird wie die Klassendefinition eingerückt. Diese legt fest welche Attribute und Methoden die Klasse besitzt.</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Klassen-und-Instanzen">Klassen und Instanzen<a class="anchor-link" href="#Klassen-und-Instanzen">¶</a></h2><ul>
+<li>Objekte sind <em>Instanzen</em> einer Klasse (die Klasse ist ja nur ein Bauplan).</li>
+<li>Eine Klasse kann beliebig viele Instanzen haben.</li>
+<li>Alle Instanzen sind gleich aufgebaut</li>
+<li>Instanzen besitzen aber nicht unbedingt die gleichen Werte in den Attributen.</li>
+</ul>
+<div class="flex-row">
+<div class="col1">
+<p><img alt="" src="https://mermaid.ink/svg/pako:eNp9kT1vgzAQhv-KdTNBODh8eOjQdkFtl6pT4wwWNmAJ7MiYfoTw32sgZKyX8z3vvXfS3QilERIoVK35LhtuHXr8YBr599LyvpfHNZyYXqlQVpZOGY1e31dS4GOhe8f1BeHTDek70ndngdFu93BVvUOb-GX09TZnM_5XAwHUVgmgzg4ygE7ajs8pjLObgWtkJxlQ_xWy4kPrGDA9eduZ609jus1pzVA3QCve9j4bzoI7-ax4bXl3p1ZqIe2TGbQDSiKyNAE6wg9QHCchjj3MSIJzTKIkgN-5KtyTPM8TnB3iaJ_GZArgssyNwiydJS_gPI3IwfeTQjlj39b9L2eY_gD5vnxs"/></p>
+</div>
+<div class="col1">
+<p><img alt="" src="https://mermaid.ink/svg/pako:eNp9kTtvgzAQgP8KupkgG8zDHjq0XaK2UlV1aslgYQNWwY6M6SOE_15eyRhPvu_uu5PuBiiMkMCgbMxPUXPrvPv3XHvTe2p418nP115_uUOuVyiUlYVTRnvPbyvZ47XEw4cN6A3oq7XH3m53d1adm7Kd4_rkfRt93kZctFs14ENllQDmbC99aKVt-RzCMNs5uFq2Mgc2fYUsed-4HHI9TtqR6w9j2otpTV_VwEredFPUHwV38lHxyvL2Sq3UQtoH02sHLEZoaQJsgF9gOEoCHBFEMpJgiglKfPgDRlAQEkppgrM4QmEakdGH0zIXBVk6p2iYJDSNaIx9kEI5Y1_W1S8XGP8BBLJ6eQ"/></p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Klassenname</span><span class="p">:</span>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Objektorientierung-in-Python">Objektorientierung in Python<a class="anchor-link" href="#Objektorientierung-in-Python">¶</a></h2><ul>
+<li><p>Python ist von Grund auf objektorientiert – ein Fakt den wir bisher ignoriert haben</p>
+</li>
+<li><p>Alle Datentypen in Python sind Objekte (deshalb haben sie ja auch eigene Methoden)</p>
+</li>
+<li><p>Selbst definierte Klassen sind immer ein zusammengesetzter (komplexer) Datentyp</p>
+<ul>
+<li>Jeder Datentyp hat: Wert, Typ, Identität</li>
+<li>Variablen sind Referenzen</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Klassen-definieren">Klassen definieren<a class="anchor-link" href="#Klassen-definieren">¶</a></h2><p>Der erste Schritt zu einem Objekt ist das Definieren einer neuen Klasse für den Typ des Objektes. Dies geschieht über das <code>class</code>-Kennwort:</p>
+<div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Klassenname</span><span class="p">:</span>
     <span class="c1"># Klassendefinition</span>
-    <span class="k">pass</span>
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Konstruktor">Konstruktor<a class="anchor-link" href="#Konstruktor">¶</a></h3>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Eine der wichtigsten Methoden einer Klasse ist der Konstruktor <code>__init__()</code>. Das ist eine spezielle Methode, die festlegt, wie eine neue Instanz der Klasse erzeugt werden kann. Er wird genutzt, um Attribute initial zuzuweisen als auch Initialisierungsschritte (Tests, Berechnungen, Konfiguration, etc.) durchzuführen.</p>
-<p>Jede Klasse muss genau einen Konstruktor haben. Wird dieser nicht definiert, so wird ein leerer Konstruktor von Python erzeugt, der nichts macht, wie das folgende Beispiel.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Klassenname</span><span class="p">:</span>
-    <span class="c1"># Leerer Konstruktor</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Instanzattribute">Instanzattribute<a class="anchor-link" href="#Instanzattribute">¶</a></h3>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Der Konstruktor wird als Funktion <code>__init__(self)</code> mit dem Parameter <code>self</code> definiert. <code>self</code> ist dabei eine Selbst-Referenz auf die neue Instanz der Klasse. Sie dient dazu, dass man Instanzattribute direkt beim Erzeugen der Instanz zuweisen kann. <strong>Instanzattribute</strong> sind Attribute, die in jeder Instanz unterschiedlich sein können, also wenn es individuelle Werte der Eigenschaft gibt.</p>
-<p>Definieren wir z.B. die Klasse eines Punktes mit <code>x</code>- und <code>y</code>-Koordinaten. Da jede Instanz diese beiden Koordinaten haben muss und sie auch für jede Instanz unterschiedlich sein können, weisen wir sie bereits im Konstruktor als Instanzattribute zu. Damit ist festgelegt, dass jede Instanz der Klasse diese Attribute hat.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Point</span><span class="p">:</span>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Konstruktoren-mit-der-init-Methode">Konstruktoren mit der init-Methode<a class="anchor-link" href="#Konstruktoren-mit-der-init-Methode">¶</a></h2><p>Der Konstruktor <code>__init__()</code> ist eine spezielle Methode, die festlegt wie eine neue Instanz der Klasse erzeugt wird.</p>
+<div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Punkt</span><span class="p">:</span>
     <span class="c1"># Konstruktor</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
 </pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Die Zuweisung erfolgt hierbei über den Punkt-Syntax bei dem ein Punkt die Instanzvariable (<code>self</code>) von dem Attributnamen <code>x</code> trennt. <code>self.x</code> ist somit eine Referenz auf das Attribut <code>x</code> der Instanz <code>self</code>. Die Zuweisung <code>self.x = x</code> bedeutet, dass wir dem neuen Instanzattribut <code>x</code> der Instanz <code>self</code> den Wert der Variablen <code>x</code> zuweise. Obwohl beide gleich heißen, sind sie nicht die gleiche Variable, weil <code>self.x</code> ja ein Attribut der Instanz ist und <code>x</code> ein Parameter der Funktion ist und nur in dieser gültig ist.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Da <code>__init__()</code> eine Funktion ist, wenn auch besonders, kann man auch Defaults definieren. Wollen wir z.B. definieren wir, dass <code>x</code> und <code>y</code> mit 0 initialisiert werden, wenn sie nicht angegeben werden, so können wir auch dies als Defaultwerte deklarieren</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Point</span><span class="p">:</span>
-    <span class="c1"># Konstruktor</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Klassenattribute">Klassenattribute<a class="anchor-link" href="#Klassenattribute">¶</a></h3>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Neben Instanzattributen gibt es auch <strong>Klassenattribute</strong>. Dies sind Attribute, welche für alle Instanzen einer Klasse den gleichen Wert haben sollen.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Point</span><span class="p">:</span>
-    <span class="c1"># Attribut aller Instanzen</span>
-    <span class="n">unit</span> <span class="o">=</span> <span class="s2">"m"</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>:::{warning}
-<strong>Klassenattribute</strong> gelten für alle Instanzen. Insbesondere bei zusammengesetzten Datentypen bedeutet das, wenn eine Instanz den Wert ändert, so ändert er sich in allen anderen Instanzen auch.
-:::</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Methoden">Methoden<a class="anchor-link" href="#Methoden">¶</a></h3>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Klassen definieren häufig auch eigene Methoden, also Funktionen die speziell nur auf Instanzen dieser Klasse angewendet werden sollen und nicht auf andere Objekte.</p>
-<p>Methoden werden als Funktionen innerhalb der Einrückung der Klassendefinition deklariert. Diese Methoden sind dann in allen Instanzen verfügbar. Methoden besitzen immer <code>self</code> als ersten Parameter. Auch hier ist das eine Referenz auf die aktuelle Instanz. Dadurch kann man dann auf die Attribute oder andere Methoden zugreifen.</p>
-<p>So können wir zum Beispiel die am Anfang definierte <code>distance</code>-Funktion als Methode definieren, dass sie nun die Distanz zweier Punkte <code>self</code> und <code>other</code> berechnen.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Point</span><span class="p">:</span>
-    <span class="c1"># Attribut aller Instanzen</span>
-    <span class="n">unit</span> <span class="o">=</span> <span class="s2">"m"</span>
-    
-    <span class="c1"># Konstruktor</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
-
-    <span class="c1"># Eigene Methode</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Klasseninstanzen">Klasseninstanzen<a class="anchor-link" href="#Klasseninstanzen">¶</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Objekte selbst sind immer Instanzen einer Klasse (die Klasse ist ja nur ein Bauplan). Eine Klasse kann beliebig viele Instanzen haben oder gar keine. Alle Instanzen sind gleich aufgebaut, besitzen aber nicht unbedingt die gleiche Werte in den Attributen.</p>
-<p>Mit der neuen Klasse <code>Punkt</code> können wir nun die Punkte am Anfang jetzt syntaktisch, semantisch und im Verhalten eindeutig definieren. Dabei erzeugen wir Instanzen der Klasse nicht direkt mit dem Konstruktor sondern indem wir den Klassennahmen wie eine Funktion aufrufen, mit den Parametern des Konstruktors. Dabei wird der <code>self</code>-Parameter weggelassen (er wird von Python zugewiesen).</p>
-<p>Dabei können wir die Parameter auch bennenen und so semantische Unklarheiten umgehen.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">point_1</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">54.083336</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">12.108811</span><span class="p">)</span>
-<span class="n">point_2</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">12.094167</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">54.075211</span><span class="p">)</span> <span class="c1"># bei bennanten Parametern können wir die Reihenfolge verändern</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Auch die Werte des Objektes sind nun semantisch klar definiert. Wir können auf sie mit dem Punkt-Syntax zugreifen, wobei der Variablenname des Objektes links steht und der Attributname rechts. Um auf das Attribut <code>x</code> zuzugreifen schreiben wir</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">point_1</span><span class="o">.</span><span class="n">x</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[11]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>54.083336</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Das funktioniert auch für die Klassenattribute. In voller Schönheit können wir dann z.B. schreiben</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Der Punkt liegt bei x: </span><span class="si">{</span><span class="n">point_1</span><span class="o">.</span><span class="n">x</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">point_1</span><span class="o">.</span><span class="n">unit</span><span class="si">}</span><span class="s2">; y: </span><span class="si">{</span><span class="n">point_1</span><span class="o">.</span><span class="n">y</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">point_1</span><span class="o">.</span><span class="n">unit</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Der Punkt liegt bei x: 54.083336 m; y: 12.108811 m
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>In gleicher Weise können wir den Attributen neue Werte zuweisen.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [13]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">point_1</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mf">54.08</span>
-<span class="n">point_1</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="mf">12.11</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Der Punkt liegt bei x: </span><span class="si">{</span><span class="n">point_1</span><span class="o">.</span><span class="n">x</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">point_1</span><span class="o">.</span><span class="n">unit</span><span class="si">}</span><span class="s2">; y: </span><span class="si">{</span><span class="n">point_1</span><span class="o">.</span><span class="n">y</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">point_1</span><span class="o">.</span><span class="n">unit</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Der Punkt liegt bei x: 54.08 m; y: 12.11 m
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Mit dem Punkt-Syntax können wir auch die Methoden aufrufen. Wollen wir die Distanz von <code>point_1</code> und <code>point_2</code> berechnen, so schreiben wir</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">point_1</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">point_2</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[15]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>0.016541414993884864</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Referenzen">Referenzen<a class="anchor-link" href="#Referenzen">¶</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>In Programmen stehen Objekte meist im Zusammenhang. Z.B. besteht eine Linie aus zwei Punkten. Diesen Zusammenhang zweier Objekt-Klassen bezeichnet man als Referenz. Diesen Zusammenhang zweier Objekt-Klassen bezeichnet man als Referenz.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Um Referenzen in Python zu erstellen, erstellt man einfach ein Attribut vom Datentyp des anderen Objektes. So kann eine Linie als Verbindung zweier Punkte definiert werden mit der Länge berechnet durch die zuvor definierte Methode <code>distance</code>.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Line</span><span class="p">:</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">:</span> <span class="n">Point</span><span class="p">,</span> <span class="n">end</span><span class="p">:</span> <span class="n">Point</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">start</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="n">end</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">linie_1</span> <span class="o">=</span> <span class="n">Line</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">point_1</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">point_2</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [18]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">linie_1</span><span class="o">.</span><span class="n">length</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[18]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>0.016541414993884864</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Kapzelung-von-Attributen-und-Methoden">Kapzelung von Attributen und Methoden<a class="anchor-link" href="#Kapzelung-von-Attributen-und-Methoden">¶</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Häufig möchte man in der Programmierung Kontrolle darüber haben ob und wie Attribute verändert werden und wer welche Methoden aufrufen darf.</p>
-<p>Hierfür erlaubt Python die Unterscheidung in <em>private</em>, <em>protected</em> und <em>public</em> Attribute und Methoden. Wenn nicht anders festgelegt sind alle Attribute und Methoden <em>public</em>. Ein <em>public</em> Attribut oder Methode ist außerhalb der Klasse für alle sichtbar, lesbar und veränderbar. Das haben wir oben genutzt um oben <code>point_1.x</code> auszulesen und mit <code>point_1.x = 54.08</code> einen neuen Wert zuzuweisen. Damit diese Attribute oder Methoden nicht mehr zugreifbar sind müssen wir sie als <em>private</em> oder <em>protected</em> deklarieren, womit sie nur innerhalb der Klasse (<em>private</em>) oder Unterklasse (<em>protected</em>) über <code>self</code> zugreifbar sind. Um ein Attribut oder Methode als privat zu deklarieren fügen wir dem Namen ein <code>__</code> am Anfang hinzu oder ein <code>_</code> für protected.</p>
-<p>Zum Beispiel wollen wir sicherstellen, dass die Position des Objektes <code>Point</code> nach Erstellung nicht mehr veränderbar ist. Ein solches unveränderliches Objekt nennt man <em>immutable</em>. Ein Grund dafür kann sein, dass eine Änderung Inkonsistenzen und potenzielle Fehler erzeugen würden. Wollen wir z.B. ein Rechteck aus den Punkten erzeugen, so müssen wir in der Init-Funktion prüfen, ob alle Linien rechtwinklig sind. Wären die Punkte verschiebbar, so müssten wir bei einer Änderung entweder neu prüfen oder wir verbieten die Veränderung einfach.</p>
-<p>Um sicher zu stellen, dass niemand mehr die Koordinaten ändern kann, müssen wir <code>x</code> und <code>y</code> als privat zu deklarieren, indem wir sie in <code>__x</code> und <code>__y</code> benennen. Jetzt kann aber niemand außerhalb der Instanz die Werte lesen. Um das zu ermöglichen definieren wir zwei public Getter-Methoden <code>get_x()</code> und <code>get_y()</code> die nur den Wert zurück geben. Sollten wir den Wert veränderbar machen, müssten wir auch noch Setter-Methoden definieren, welche die Werte setzen würden.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [19]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ImmutablePoint</span><span class="p">:</span>
-    <span class="n">unit</span> <span class="o">=</span> <span class="s2">"m"</span>
-    
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__x</span> <span class="o">=</span> <span class="n">x</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__y</span> <span class="o">=</span> <span class="n">y</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">__x</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">__x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__y</span> <span class="o">-</span> <span class="n">other</span><span class="o">.</span><span class="n">__y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__x</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__y</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Definieren wir nun wieder unsere zwei Instanzen</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [20]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">point_1</span> <span class="o">=</span> <span class="n">ImmutablePoint</span><span class="p">(</span><span class="mf">54.083336</span><span class="p">,</span> <span class="mf">12.108811</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>und versuchen den Wert <code>__x</code> oder <code>__y</code> zu lesen, so erhalten wir nun eine Fehlermeldung.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell celltag_raises-exception">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Der Punkt liegt bei x: </span><span class="si">{</span><span class="n">point_1</span><span class="o">.</span><span class="n">__x</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">point_1</span><span class="o">.</span><span class="n">unit</span><span class="si">}</span><span class="s2">; y: </span><span class="si">{</span><span class="n">point_1</span><span class="o">.</span><span class="n">__y</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">point_1</span><span class="o">.</span><span class="n">unit</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>                            Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">c:\Users\ploennigs\Documents\code\Lehre\Programmierung-und-Datenbanken\Vorlesung\7a_Objects.ipynb Zelle 62</span> in <span class="ansi-cyan-fg">&lt;cell line: 1&gt;</span><span class="ansi-blue-intense-fg ansi-bold">()</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; &lt;a href='vscode-notebook-cell:/c%3A/Users/ploennigs/Documents/code/Lehre/Programmierung-und-Datenbanken/Vorlesung/7a_Objects.ipynb#Y115sZmlsZQ%3D%3D?line=0'&gt;1&lt;/a&gt;</span> print(f"Der Punkt liegt bei x: {point_1.__x} {point_1.unit}; y: {point_1.__y} {point_1.unit}")
-
-<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>: 'ImmutablePoint' object has no attribute '__x'</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Zum Auslesen der Werte müssen wir stattdessen die Getter-Methode benutzen.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [22]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Der Punkt liegt bei x: </span><span class="si">{</span><span class="n">point_1</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">point_1</span><span class="o">.</span><span class="n">unit</span><span class="si">}</span><span class="s2">; y: </span><span class="si">{</span><span class="n">point_1</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">point_1</span><span class="o">.</span><span class="n">unit</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Der Punkt liegt bei x: 54.083336 m; y: 12.108811 m
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Wir können die Werte auch nicht verändern. Wir können es zwar versuchen:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">point_1</span><span class="o">.</span><span class="n">__x</span> <span class="o">=</span> <span class="mf">54.08</span>
-<span class="n">point_1</span><span class="o">.</span><span class="n">__y</span> <span class="o">=</span> <span class="mf">12.11</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>aber es hat keine Auswirkung.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [24]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Der Punkt liegt bei x: </span><span class="si">{</span><span class="n">point_1</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">point_1</span><span class="o">.</span><span class="n">unit</span><span class="si">}</span><span class="s2">; y: </span><span class="si">{</span><span class="n">point_1</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">point_1</span><span class="o">.</span><span class="n">unit</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Der Punkt liegt bei x: 54.083336 m; y: 12.108811 m
-</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Vererbung,-Generalisierung-und-Polymorphismus">Vererbung, Generalisierung und Polymorphismus<a class="anchor-link" href="#Vererbung,-Generalisierung-und-Polymorphismus">¶</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Vererbung ist eine der wichtigsten Eigenschaften von Objektorientierung. Ziel der Vererbung ist es Attribute und Methoden, die in vielen ähnlichen Klassen vorkommen nur einmal definieren zu müssen.</p>
-<p>Hierfür unterteilt man die Klassen in <em>Oberklassen</em> (Eltern) welche Attribute und Methoden an <em>Unterklassen</em> (Kinder) vererben. Das heißt jede Unterklasse (Kind) besitzt alle Attribute und Methoden der Oberklasse (Eltern), wir müssen sie also nicht noch einmal definieren. Neue Attribute und Methoden, die für eine Unterklasse definiert werden, werden jedoch nicht an die Eltern oder Geschwister übertragen. Deshalb spricht man bei den Unterklassen von einer <em>Spezialisierung</em> und den Oberklassen von einer <em>Generalisierung</em>, da sie für mehrere Klassen gelten.</p>
-<p>Zum Beispiel stellen wir fest, dass verschiedenen geometrischen Objekte wie Dreieck, Viereck, Fünfeck, etc. alle Polygone darstellen, welche sich aus mit Linien verbundene Punkte darstellen. Dreieck, Viereck, Fünfeck sind hierbei Spezialisierungen der Klasse Polygon. Wir definieren also zuerst die generische Klasse <code>Polygon</code> welche als Instanzattribut eine <code>list</code> von mehr als 2 <code>ImmutablePoint</code> akzeptiert und als privates Attribut <code>__points</code> abspeichert. Wir definieren weiterhin ein optionales Attribut <code>name</code> welches public und veränderbar ist.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
-
-<span class="k">class</span><span class="w"> </span><span class="nc">Polygon</span><span class="p">:</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Point</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Polygon"</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"points not of type list"</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">points</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"points need to contain at least 2 Points"</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">points</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">ImmutablePoint</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"Point not of type ImmutablePoint"</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__points</span> <span class="o">=</span> <span class="n">points</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__points</span>
-
-    <span class="c1"># Fläche des Polygons entsprechend der Gaußsche Trapezformel</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">area</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__points</span><span class="p">)</span> <span class="c1"># of corners</span>
-        <span class="n">area</span> <span class="o">=</span> <span class="mf">0.0</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-            <span class="n">j</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span>
-            <span class="n">area</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">__points</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span>
-            <span class="n">area</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__points</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">__points</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span>
-        <span class="n">area</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">area</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
-        <span class="k">return</span> <span class="n">area</span>
-
-    <span class="c1"># Überschriebene Standardmethode zur Erzeugung eines Strings</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">description</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> has an area of </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">area</span><span class="p">()</span><span class="si">}</span><span class="s2"> and is defined by</span><span class="se">\n</span><span class="s2">"</span> <span class="c1"># \n ist ein Zeilenumbruch</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">point</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__points</span><span class="p">):</span>
-            <span class="n">description</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">"  Point </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> at x: </span><span class="si">{</span><span class="n">point</span><span class="o">.</span><span class="n">get_x</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">point</span><span class="o">.</span><span class="n">unit</span><span class="si">}</span><span class="s2">; y: </span><span class="si">{</span><span class="n">point</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">point</span><span class="o">.</span><span class="n">unit</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
-        <span class="k">return</span> <span class="n">description</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Hierbei überschreiben wir auch die Standardmethode <code>__str__(self)</code> eines Objektes, welche immer aufgerufen wird, wenn das Objekt in einen String konvertiert werden soll. Die Funktion wird auch von der <code>print()</code>-Anweisung genutzt, weshalb wir diese lesbarer gestalten können. Dieses Fähigkeit des Überschreiben von Methoden nennt man <em>Polymorphismus</em> oder auch <em>Methodenüberladung</em> (Overloading). Damit haben wir alle Programmierparadigmen der Objektorientierung kennen gelernt.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<table>
-<thead>
-<tr>
-<th>Vererbung</th>
-<th>Generalisierung</th>
-<th>Polymorphismus</th>
-<th>Kapzelung</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Attribute und Methoden von Elternklassen werden an Kinder vererbt. Das hilft Redundanzen und Fehler zu vermeiden.</td>
-<td>Gemeinsamkeiten werden in generalisierten Eltern-Klassen implementiert</td>
-<td>Kinderklassen können Methoden überschreiben und somit umdefinieren.</td>
-<td>Kapselung von Daten und Methoden in Objekten ist ein Schutzmechanismus, um schadhafte Änderungen einzuschränken.</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Wir definieren auch die Funktion <code>area()</code> welches die Fläche des Polygons (konkav und ohne Löcher) mit der <a href="https://de.wikipedia.org/wiki/Gau%C3%9Fsche_Trapezformel">Gaußchen Trapezformel</a> berechnet.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Jetzt wollen wir die Untertypen Dreieck, Viereck und Fünfeck definieren. Hierzu geben wir beim Deklarieren der neuen Klasse die Oberklasse in Klammern mit an. Wir können dann auch einen neuen Konstruktor definieren (sonst wird der der Oberklasse genommen). Dabei müssen wir immer den Konstruktor der Oberklasse mit aufrufen, welche wir mit der Funktion <code>super()</code> erhalten. Wir definieren z.B Konstruktoren welche genau die richtige Anzahl an Punkten akzeptiert.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Triangle</span><span class="p">(</span><span class="n">Polygon</span><span class="p">):</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span> <span class="s2">"Triangle"</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="p">[</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
-
-<span class="k">class</span><span class="w"> </span><span class="nc">Tetragon</span><span class="p">(</span><span class="n">Polygon</span><span class="p">):</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> <span class="n">p4</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span> <span class="s2">"Tetragon"</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="p">[</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> <span class="n">p4</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
-
-<span class="k">class</span><span class="w"> </span><span class="nc">Pentagon</span><span class="p">(</span><span class="n">Polygon</span><span class="p">):</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> <span class="n">p4</span><span class="p">,</span> <span class="n">p5</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Pentagon"</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">points</span><span class="o">=</span><span class="p">[</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> <span class="n">p4</span><span class="p">,</span> <span class="n">p5</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Das entscheidende bei der Vererbung ist nun, dass alle Instanzen von <code>Triangle</code>, <code>Tetragon</code> oder <code>Pentagon</code> die Attribute <code>__points</code> (es ist allerdings nicht sichtbar), <code>name</code> und die Methoden <code>get_points</code> und <code>__str__</code> haben.</p>
-<p>Definieren wir z.B. ein Dreieck und wenden darauf <code>print()</code> an, so wird intern die geerbte Funktion <code>__str__</code> der Oberklasse <code>Polygon</code> angewendet.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [27]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">dreieck_1</span> <span class="o">=</span> <span class="n">Triangle</span><span class="p">(</span><span class="n">ImmutablePoint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">ImmutablePoint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">ImmutablePoint</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="s2">"Dreieck"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">dreieck_1</span><span class="p">)</span>
-<span class="n">dreieck_1</span><span class="o">.</span><span class="n">area</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Dreieck has an area of 1.0 and is defined by
-  Point 0 at x: 0 m; y: 0 m
-  Point 1 at x: 1 m; y: 1 m
-  Point 2 at x: 2 m; y: 0 m
-
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[27]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>1.0</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Das Gleiche funktioniert auch für Vierecke und Fünfecke:</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">viereck_1</span> <span class="o">=</span> <span class="n">Tetragon</span><span class="p">(</span><span class="n">ImmutablePoint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">ImmutablePoint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">ImmutablePoint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">ImmutablePoint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="s2">"Viereck"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">viereck_1</span><span class="p">)</span>
-<span class="n">viereck_1</span><span class="o">.</span><span class="n">area</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Viereck has an area of 1.0 and is defined by
-  Point 0 at x: 0 m; y: 0 m
-  Point 1 at x: 0 m; y: 1 m
-  Point 2 at x: 1 m; y: 1 m
-  Point 3 at x: 1 m; y: 0 m
-
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[28]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>1.0</pre>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">fuenfeck_1</span> <span class="o">=</span> <span class="n">Pentagon</span><span class="p">(</span><span class="n">ImmutablePoint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">ImmutablePoint</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span><span class="n">ImmutablePoint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="n">ImmutablePoint</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">ImmutablePoint</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="s2">"Fünfeck"</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">fuenfeck_1</span><span class="p">)</span>
-<span class="n">fuenfeck_1</span><span class="o">.</span><span class="n">area</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell-outputWrapper">
-<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
-</div>
-<div class="jp-OutputArea jp-Cell-outputArea">
-<div class="jp-OutputArea-child">
-<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Fünfeck has an area of 4.0 and is defined by
-  Point 0 at x: 0 m; y: 0 m
-  Point 1 at x: -1 m; y: 1 m
-  Point 2 at x: 1 m; y: 2 m
-  Point 3 at x: 2 m; y: 1 m
-  Point 4 at x: 2 m; y: 0 m
-
-</pre>
-</div>
-</div>
-<div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[29]:</div>
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain" tabindex="0">
-<pre>4.0</pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Objektorientierter-Softwareentwurf-mit-UML">Objektorientierter Softwareentwurf mit UML<a class="anchor-link" href="#Objektorientierter-Softwareentwurf-mit-UML">¶</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Im objektorientierten Softwareentwurf, wird ein Programm so entworfen, dass es nur aus Objekten besteht. Hierbei verwendet man meist die Modellierungssprache <a href="https://de.wikipedia.org/wiki/Unified_Modeling_Language">UML</a> können Klassen auch visuell entworfen werden.
-Man modelliert im Entwurf wie:</p>
 <ul>
-<li>diese Objekte in Form von Klassen definiert sind,</li>
-<li>welche Attribute und Methoden sie besitzen,</li>
-<li>wie diese Klassen aufeinander aufbauen (Vererbung),</li>
-<li>als auch wie sie miteinander in statischer Beziehung stehen (Referenzen)</li>
-<li>und wie sie dynamisch interagieren (Verhalten)</li>
+<li><code>self</code> beschreibt eine Selbst-Referenz auf die neue Instanz der Klasse</li>
+<li>Auf die Attribute einer Instanz kann durch den Punkt-Syntax zugegriffen werden</li>
+<li><code>self.x</code> ist somit eine Referenz auf das Attribut x der Instanz</li>
+<li><code>self.x = x</code> bedeutet dass wir den Wert der Variablen x dem neuen Instanzattribut x zuweisen</li>
+<li>Da <code>__init__</code> eine Funktion ist, kann man auch Defaults definieren</li>
 </ul>
 </div>
 </div>
 </div>
-</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Klassen,-Attribute-und-Methoden">Klassen, Attribute und Methoden<a class="anchor-link" href="#Klassen,-Attribute-und-Methoden">¶</a></h3>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Instanzen-erzeugen">Instanzen erzeugen<a class="anchor-link" href="#Instanzen-erzeugen">¶</a></h2><p>Instanzen der Klasse werden erzeugt indem der Klassenname wie ein Funktionsname benutzt wird.</p>
+<p>Um Instanzen zu erstellen wird der Klassenname wie ein Funktionsname benutzt (dies ruft den Konstruktor impliziert auf). Hierbei wird der <code>self</code>-Parameter nicht mit angegeben.</p>
+<div class="highlight"><pre><span></span><span class="n">punkt_1</span> <span class="o">=</span> <span class="n">Punkt</span><span class="p">(</span><span class="mf">54.083336</span><span class="p">,</span> <span class="mf">12.108811</span><span class="p">)</span>
+<span class="n">punkt_2</span> <span class="o">=</span> <span class="n">Punkt</span><span class="p">(</span><span class="mf">12.108811</span><span class="p">,</span> <span class="mf">54.083336</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 </div>
-</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Eine Klasse ist hierbei nur ein Viereck mit drei Ebenen. In der ersten Ebene schreibt man den Klassennamen. In der zweiten Ebene listet man alle primitiven Attribute einer Klasse (welche keine Referenzen darstellen). Die dritte Ebene enthält alle Methoden der Klasse. Für den zuvor definierten <code>Point</code> mit den Attributen <code>x</code> und <code>y</code> und der Methode <code>distance()</code> eines anderen Punktes sieht die Klasse in UML so aus:</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Attribute-auf-Instanzebene">Attribute auf Instanzebene<a class="anchor-link" href="#Attribute-auf-Instanzebene">¶</a></h2><ul>
+<li>Instanzattribute können in jeder Instanz unterschiedlich sein</li>
+<li>Ändert eine Instanz das Attribut, so wirkt sich die Änderung nicht auf andere Instanzen aus (Isolierung)</li>
+<li>Sie werden in dem Konstruktor <code>__init__</code> definiert</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Punkt</span><span class="p">:</span>
+    <span class="c1"># Konstruktor</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+</pre></div>
 </div>
 </div>
 </div>
-</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<center><img alt="No description has been provided for this image" src="https://mermaid.ink/svg/pako:eNpdjk0OAiEMRq9CutI4J2DtAUzcGTYNFCWBMoGSOJnM3UVGXdhV30t_vhVsdgQabMRazwHvBZNh1WsYdcmBZd2NUicfM4p6_vHyYxeqIFs6jL3j7jeYIFFJGFz_NI4ZkAclMqB768hji2LA8HsUm-Trwha0lEYTtNmh0CcbaI-xdjsj33L-8vYCAldBOA" width="150"/></center>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Attribute-auf-Klassenebene">Attribute auf Klassenebene<a class="anchor-link" href="#Attribute-auf-Klassenebene">¶</a></h2><ul>
+<li>Klassenattribute sind Attribute welche für alle Instanzen einer Klasse den gleichen Wert haben</li>
+<li>Sie werden unter dem <code>class</code>-Kennwort wie eine Variable definiert</li>
+<li><em>Wichtig!</em> Sie gelten für alle Instanzen, wenn also eine Instanz den Wert ändert, so ändert er sich in allen anderen Instanzen</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Punkt</span><span class="p">:</span>
+    <span class="c1"># Attribut aller Instanzen</span>
+    <span class="n">einheit</span> <span class="o">=</span> <span class="s2">"m"</span>
+</pre></div>
 </div>
 </div>
 </div>
-</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Referenzen">Referenzen<a class="anchor-link" href="#Referenzen">¶</a></h3>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Methoden">Methoden<a class="anchor-link" href="#Methoden">¶</a></h2><ul>
+<li>Methoden werden wie Funktionen mit dem Schlüsselwort <code>def</code> definiert, auf der gleichen Ebene eingerückt wie die Klasse</li>
+<li>Diese Methoden sind dann in allen Instanzen verfügbar</li>
+<li>Methoden besitzen immer <code>self</code> als ersten Parameter (Referenz auf aktuelle Instanz)</li>
+<li>Dadurch kann man dann auf die Attribute oder andere Methoden zugreifen</li>
+<li>Man kann Parametern der Methoden auch Defaults zuweisen</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Punkt</span><span class="p">:</span>
+    <span class="c1"># Methode</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">distanz</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">punkt_2</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">punkt_2</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">punkt_2</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
 </div>
 </div>
 </div>
-</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Eine sehr wichtige Arbeit mit UML ist die Visualisierung von Abhängigkeiten zwischen Klassen in Form von Referenzen. Man unterscheidet in UML die Referenzen in der Art der Besitzverhältnisse, also ob ein Objekt Teil eines anderen ist und ohne ihn existieren kann (Aggregated) oder nicht ohne diesen existieren kann (Composition) oder komplett unabhängig ist (Assoziation). Hierfür definiert UML unterschiedliche Pfeiltypen. Hierbei kann man an den Linien die Häufigkeit (Multiplizität) der Ursprungs- und Zielklasse angeben.</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Methoden-aufrufen">Methoden aufrufen<a class="anchor-link" href="#Methoden-aufrufen">¶</a></h2><p>Klassenmethoden sind in allen Instanzen verfügbar. Sie werden durch den Punkt-Syntax aufgerufen:</p>
+<div class="highlight"><pre><span></span><span class="n">punkt_1</span><span class="o">.</span><span class="n">distanz</span><span class="p">()</span>
+</pre></div>
+<p>Auf gleiche Weise kann auch auf Attribute zugegriffen werden:</p>
+<div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">punkt_1</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">punkt_1</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+<p>und diese verändert werden:</p>
+<div class="highlight"><pre><span></span><span class="n">punkt_1</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">20</span>
+</pre></div>
 </div>
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<center><table><tr>
-<td style="border: none;"><img alt="No description has been provided for this image" src="https://mermaid.ink/svg/pako:eNpljj0KwzAMha8iNJYk0NVb2t6gWxEEESuuwT_BsYcScvc6bTpVg3jv00PSimPUggpHx8tys2wSewpQ60Pguveh_0eXLzrmQHgmhNi2u-q6UzVHDhT0xiQxnG0MgA16SZ6trlfXfQlhfooXQlWllomLy4QUthrlkuP9FUZUORVpsMyasxx_oprYLZXOHB4x_vz2BiRzRRk" width="150"/></td>
-<td style="border: none;"><img alt="No description has been provided for this image" src="https://mermaid.ink/svg/pako:eNpljjEKwzAMRa9iNIYk0NVbm96gWxEEESutwbZMbA8l5O512nSqBvH_00fSCpMYBg2To5Sulh4LeQyq1oeoYe_j-R9dvuiYK4QTgmq6bld931Rz5JRWg_goyWYrAVrwvHiyph5d9x0I-cmeEXSVhmcqLiNg2GqUSpbbK0yg81K4hRINZT7eBD2TS5VGCneRn9_e4yBE4A" width="150"/></td>
-<td style="border: none;"><img alt="No description has been provided for this image" src="https://mermaid.ink/svg/pako:eNpljkELwjAMhf9KeUfZBl57EKb-A28SkNBmWlhbWduDjP13O50ncwjvfXkkmWGiFWiYkVM6O75P7CmoWh-iTmu_9f_o-EXbXBH2BNW2h1V13a6aLae06lOKxnF2MaCBl8mzs_XovO4g5Id4IegqrQxcxkygsNQolxwvr2Cg81SkQXlazrK9CT3wmCp9crjG-PPLG-QFRN0" width="150"/></td>
-</tr>
-</table></center>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<div class="vslide">
+<div class="vslide-title">
+<p style="font-family: Protomolecule; font-size: 2.3em; margin: 0px auto; text-align: center; width: 100%;">fragen?</p>
 </div>
+<script>setSectionBackground('#000000', '../_images/mj_questions.mp4');</script>
 </div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Die zuvor definierte Klasse <code>Line</code> beinhaltet den <code>start</code>- und <code>end</code>-Punkt. Das stellt in UML eine <em>Aggregation</em> dar, weil die Punkte ja zur Linie gehören, allerdings durchaus auch separat existieren können (wir brauchen ja keine Linie um einen Punkt zu definieren). Die Multiplizität ist hierbei, dass je <code>1</code> Instanz einer <code>Line</code> je <code>2</code> Instanzen der Klasse <code>Point</code> besitzt.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<center><img alt="No description has been provided for this image" src="https://mermaid.ink/svg/pako:eNpdT0EKwkAM_ErISbEe9Lhnjx4Eb7KX0E3rwjYrbQoW6d8NqxY1p5lhZsI8sM6B0WGdaBgOkdqeOi9gVxQ45Sj6eCkAmyZlUrj_8WnhIQ5KUvOq5NYvff4uPEZhWAotklhava5-vcXlcecR8nZraG-odIIDe9FrBSwBK-y47ygGm1BKPeqVO_boDAZuaEzq0ctsVho1nyep0Wk_coXjLZDyezS6htJg6o3kkvOHz0_cjFoV" width="150"/></center>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Vererbung">Vererbung<a class="anchor-link" href="#Vererbung">¶</a></h3>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Ein wichtiger Aspekt in der Arbeit mit UML ist die Vererbung. Die Vererbung wird in UML durch eine Referenz mit einem gefüllten Dreick "▲" bei der Oberklasse (es ist kein Pfeil) gezeichnet. Um zum Beispiel auszudrücken, dass <code>Triangle</code>, <code>Tetragon</code> und <code>Pentagon</code> Unterklassen des Polygons sind, können wir zeichnen.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<center><img alt="No description has been provided for this image" src="https://mermaid.ink/svg/pako:eNptjz0KwzAMha9iNLU0vYDp2AME2qkYjIiVNOCfYMtDSHP3OkkDHaJFet-T4GmCJhgCCY3FlO49dhGd8qLUSkQd7NgFL6YNLnXBSHg6_wGtE0etdzZvbT-9fa5X8Yw9-s7SkUUccVEHXk2eFw8qcBQd9qZkXbMo4Dc5UiDLaKjFbFmB8nNZxczhMfoGJMdMFeTBINPvO5At2lTogP4Vwq7nLzIuVXA" width="300"/></center>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Fügen wir die einzelnen Elemente zusammen, so sieht das UML-Diagramm unseres Klassen-Modells wie folgt aus:</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<center><img alt="No description has been provided for this image" src="https://mermaid.ink/svg/pako:eNptUcFqwzAM_RWjU7o1hW03s-OOOxS20zAEEStpwJGDrcBCl3-fkyxlKfFJ7-m9JxldofSWQEPpMMa3BuuArWGV3syos29Yrguj1GPlPIr6vsPDDdsmCnJJ2ew7LPy4DXRD7VndMpMLA2F2-EcURZRQFNlewHvDtHE74loud9p5vjLwbEDluU_VU6pmr1ZpxyBHRWy34pfT6WGjX5fVqpskcZUv7OtPnqvP0CDXjvZaJAEntNM7E8vUgyO0FFpsbDrC_CsDcqGWDOhUWqqwd2LA8Jik2Iv_GLgELaGnI_SdRaG_s4Gu0MXEdshf3q94_AW6H5O5" width="300"/></center>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Auf Basis dieses UML-Diagramms, würde ein Programmierer die Zusammenhänge der Klassen verstehen und könnte diese entsprechend implementieren. Sie eignen sich besonders gut, um solche Datenstrukturen zu definieren und zu kommunizieren.</p>
-<p>Dieses Modell können wir jetzt weiter verfeinern und weitere spezifischer Klassen für Dreiecke einführen wie rechtwinklige (Right), spitzwinklige (Acute) und stumpfwinklige (Obtuse) Dreiecke die unregelmäßig (Scalene), gleichschenklig (Isosceles) oder gleichseitig (Equilateral) sein können. Genauso können wir Vierecke klassifizieren in Trapeze, Parallelogramme und Drachen (Kite) mit den Spezialisierungen Rhombus, Rechteck und Quadrat (Square).</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<center><img alt="No description has been provided for this image" src="https://mermaid.ink/svg/pako:eNp9k01PwzAMhv9KlNMG6yTgVnFBggMCiWnbCVWqTOt1kdJkSxyJMfbfyZp2NFW1nmK_j1-7-TjyQpfIU15IsPZZQGWgzhTzX5NhCy0UHUOGsduN1EDsexAfLnEpLIEqcNLUTUP-FBvKQ6UVu3j6KjAIk2kvkeeWTJ5PxgzehcKoWqKqaDtgm_4s4_cZZ0mi_erOr5ralPkZDc0YqjKGH-bzm4jvhk3Z7ozYDg_Zx98kYWsjQFUSg9RFQVsV4IfDfCmqLV0DPr7I2asWT4WjFohcA_VqtS1Qou23is2HYL9l1GQI9joPkiygL3snJBAakGP7g2TgHI1oC1R01tof78iggfeTKPX_jYyBtYEd_owpb6IbODIJ4nKr6y_XnuSZHEkH61bAgnoHPOYYE5ewPcC989e7lUKTvsBnvEZTgyj9I2xudcZpizVmPPXLEjfgJGU8UyePgiO9OqiCp2QczrjblX7j22fL0w1I67M7UJ9ad_HpD1l7PXc"/></center>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Jede Instanz dieser speziellen Klassen erbt dabei die Funktionen <code>area()</code> und <code>__str__()</code>. Wir haben also mit der einen generischen Implementation von <code>area()</code> zur Flächenberechnung eines Polygons, nur eine einzige Methode implementieren müssen, die die Flächenberechnung aller geometrischen Grundelemente abdeckt, ohne eine weitere Zeile Code für diese schreiben zu müssen.</p>
-<p>Entlang der Vererbungshierarchie könnte man jetzt weitere Attribute und Methoden definieren, welche spezifische Berechnungen durchführen können oder z.B. testen ob die Punkte, Linien und Winkel den entsprechenden Bedingungen entsprechen. Dies ist jedoch außerhalb des Rahmens dieses Beispiels.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Quiz">Quiz<a class="anchor-link" href="#Quiz">¶</a></h2><pre><code class="language-{quizdown}">{quizdown}
-	---
-	shuffleQuestions: true
-	shuffleAnswers: true
-	---
-
-    ### Was beschreibt ein Objekt in der objektorientierten Programmierung?
-    - [x] Eine Einheit mit Zustand (Attribute) und Verhalten (Methoden)
-    - [ ] Eine reine Datenstruktur ohne Funktionen
-    - [ ] Nur eine Methode in einem Programm
-    - [ ] Eine Zeile in einer Datenbank
-
-    ### Wozu dienen Methoden in einem Objekt?
-    - [x] Zur Änderung des Objektzustands
-    - [ ] Zur Definition von Klassen
-    - [ ] Zum Kompilieren des Codes
-    - [ ] Zur Initialisierung von Attributen
-
-    ### Warum verwendet man Objekte bei wiederholenden Datenstrukturen?
-    - [x] Um missverständliche Strukturen zu vermeiden
-    - [x] Um redundante Strukturen zu vermeiden
-    - [ ] Um Daten alphabetisch zu sortieren
-    - [ ] Um den Programmfluss zu verlangsamen
-
-    ### Welcher Nachteil ergibt sich aus unterschiedlichen Datentypen wie Liste und Tupel zur Darstellung eines Punkts?
-    - [x] Sie haben unterschiedliche Syntax und Verhalten
-    - [x] Sie führen zu uneinheitlichem Zugriff
-    - [ ] Sie sind nicht speicherbar in Python
-    - [ ] Sie brauchen zwingend gleiche Länge
-
-    ### Warum helfen Objekte bei semantischen Problemen?
-    - [x] Sie machen Bedeutung der Werte durch Attributnamen klar
-    - [ ] Sie ersetzen alle Werte automatisch durch Strings
-    - [ ] Sie benötigen keine Werte zur Laufzeit
-    - [ ] Sie wandeln alles in Listen um
-
-    ### Warum kann die Funktion `distance(a, b)` problematisch sein?
-    ```python
-    def distance(a, b):
-        return math.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
-    ```
-    - [x] Sie ist nicht auf einen bestimmten Typ beschränkt
-    - [ ] Sie verwendet `math` und das ist nicht erlaubt
-    - [ ] Sie benötigt Strings statt Zahlen
-    - [ ] Sie berechnet die Distanz nicht korrekt
-
-    ### Sortiere die folgenden Zeilen, um eine einfache Klasse `Punkt` korrekt zu definieren:
-    ```python
-    # Instanziiere ein Objekt
-    ```
-    1. `class Punkt:`
-    2. `  def __init__(self, x, y):`
-    3. `    self.x = x`
-    4. `    self.y = y`
-    5. `p = Punkt(1, 2)`
-
-    ### Welcher Fehler steckt in diesem Beispiel?
-    ```python
-    class Hund:
-        def bellen():
-            print("Wuff")
-
-    h = Hund()
-    h.bellen()
-    ```
-    - [x] Der Methode fehlt der Parameter `self`
-    - [ ] Die Methode heißt falsch
-    - [ ] Die Klasse `Hund` darf nicht so definiert werden
-    - [ ] Methoden dürfen nicht `print` verwenden
-
-    ### Welcher Fehler kann in folgendem Beispiel auftreten?
-    ```python
-    import math
-
-    def distance(a, b):
-        return math.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
-
-    print(distance("Berlin", "Paris"))
-    ```
-    - [x] Strings sind keine gültigen Punktkoordinaten
-    - [ ] Der Funktionsname ist reserviert
-    - [ ] `math.sqrt` funktioniert nicht
-    - [ ] Die Funktion hat keine Rückgabe
-
-
-    ### Was ist der Zweck des Konstruktors `__init__()`?
-    - [x] Initialisierung von Attributen beim Erzeugen eines Objekts
-    - [x] Durchführung von Startaufgaben wie Berechnungen oder Prüfungen
-    - [ ] Erstellen von Klassennamen
-    - [ ] Kompilieren von Methoden
-
-    ### Was passiert, wenn kein Konstruktor definiert wird?
-    - [x] Python erzeugt automatisch einen leeren Konstruktor
-    - [ ] Das Programm wird nicht ausgeführt
-    - [ ] Es wird ein Fehler geworfen
-    - [ ] Alle Attribute werden automatisch gesetzt
-
-    ### Was beschreibt ein Instanzattribut?
-    - [x] Eine Eigenschaft, die in jeder Objektinstanz unterschiedlich sein kann
-    - [ ] Eine Eigenschaft, die alle Klassen gemeinsam haben
-    - [ ] Ein Modul-Import
-    - [ ] Eine Klasse im Konstruktor
-
-    ### Warum verwendet man `self` im Konstruktor?
-    - [x] Um Attribute der Instanz zu definieren
-    - [ ] Um Klassenmethoden zu importieren
-    - [ ] Um globale Variablen zu ersetzen
-    - [ ] Um den Konstruktor aufzurufen
-
-    ### Warum verwendet man Klassen in Python?
-    - [x] Um Objekte zu strukturieren und Daten + Verhalten zu bündeln
-    - [x] Um einen Bauplan für gleichartige Objekte zu schaffen
-    - [ ] Um schneller zu kompilieren
-    - [ ] Um Variablennamen zu ersetzen
-
-    ### Was gehört typischerweise zur Definition einer Klasse?
-    - [x] Welche Attribute ein Objekt hat
-    - [x] Welche Methoden ein Objekt bereitstellt
-    - [ ] Welche Module importiert werden
-    - [ ] Welche Variablen global verfügbar sind
-
-    ### Sortiere die folgenden Zeilen, um eine vollständige Klasse `Hund` mit Konstruktor zu definieren:
-    ```python
-    # Erzeuge ein Objekt mit Eigenschaften
-    ```
-    1. `class Hund:`
-    2. `  def __init__(self, name):`
-    3. `    self.name = name`
-    4. `mein_hund = Hund("Fiffi")`
-
-
-    ### Was passiert, wenn bei folgender Klasse keine Argumente übergeben werden?
-    ```python
-    class Point:
-        def __init__(self, x = 0.0, y = 0.0):
-            self.x = x
-            self.y = y
-
-    p = Point()
-    ```
-    - [x] Die Werte `0.0` werden für `x` und `y` verwendet
-    - [ ] Es wird ein Fehler ausgegeben
-    - [ ] Die Attribute bleiben undefiniert
-    - [ ] Die Konstruktion ist in Python nicht erlaubt
-
-    ### Was ist ein Klassenattribut?
-    - [x] Ein Attribut, das allen Instanzen einer Klasse gemeinsam ist
-    - [ ] Ein Attribut, das innerhalb der Methode `__init__()` definiert wird
-    - [ ] Eine Methode mit Funktionsinhalt
-    - [ ] Ein lokal verwendetes Attribut
-
-    ### Welche Gefahr besteht bei veränderlichen Klassenattributen?
-    - [x] Änderungen durch eine Instanz wirken sich auf alle anderen aus
-    - [ ] Sie sind nicht zugänglich von Methoden
-    - [ ] Sie werden nicht gespeichert
-    - [ ] Sie führen zu Syntaxfehlern
-
-    ### Was ist eine Methode in einer Klasse?
-    - [x] Eine Funktion, die auf eine Instanz der Klasse angewendet wird
-    - [ ] Eine globale Funktion
-    - [ ] Eine Variable mit Funktionsinhalt
-    - [ ] Eine Schleife mit Klassenname
-
-    ### Warum hat eine Methode in einer Klasse immer `self` als ersten Parameter?
-    - [x] Damit sie auf Attribute der Instanz zugreifen kann
-    - [ ] Damit der Konstruktor korrekt aufgerufen wird
-    - [ ] Damit man sie nur einmal aufrufen kann
-    - [ ] Damit sie von außen nicht sichtbar ist
-
-    ### Was ist eine Klasseninstanz?
-    - [x] Ein konkretes Objekt, das nach dem Bauplan der Klasse erstellt wurde
-    - [ ] Eine Methode einer Klasse
-    - [ ] Eine spezielle Variable im Konstruktor
-    - [ ] Eine Liste von Methoden
-
-    ### Wie wird eine Instanz einer Klasse erzeugt?
-    - [x] Durch Aufruf des Klassennamens mit passenden Argumenten
-    - [ ] Durch Aufruf von `__init__()` direkt
-    - [ ] Durch eine Zuweisung im Konstruktor
-    - [ ] Durch Deklaration mit `new`
-
-    ### Was ist der Vorteil benannter Parameter bei der Objekterzeugung?
-    - [x] Die Reihenfolge der Argumente spielt keine Rolle mehr
-    - [ ] Die Parameter werden automatisch validiert
-    - [ ] Es wird automatisch `self` übergeben
-    - [ ] Nur benannte Parameter sind erlaubt in Python
-
-    ### Wie greift man auf das Attribut `x` eines Objekts `p` zu?
-    - [x] Mit `p.x`
-    - [ ] Mit `x.p`
-    - [ ] Mit `p-&gt;x`
-    - [ ] Mit `get(x, p)`
-
-    ### Was gibt folgender Ausdruck zurück?
-    ```python
-    point_1.unit
-    ```
-    - [x] Das Klassenattribut `unit` von `point_1`
-    - [ ] Den Standardwert von `x`
-    - [ ] Die Methode `unit()` als Funktion
-    - [ ] Eine Fehlermeldung
-
-    ### Was passiert bei folgender Anweisung?
-    ```python
-    point_1.x = 54.08
-    ```
-    - [x] Der Wert des Attributs `x` von `point_1` wird auf `54.08` gesetzt
-    - [ ] Es wird ein neues Attribut `x` erstellt
-    - [ ] Das Klassenattribut wird überschrieben
-    - [ ] Eine neue Instanz wird erzeugt
-
-    ### Was ist Polymorphismus?
-    - [x] Die Fähigkeit, dass verschiedene Klassen die gleiche Methode unterschiedlich implementieren
-    - [ ] Eine spezielle Art von Schleife
-    - [ ] Eine Methode, die nur in einer Klasse existiert
-    - [ ] Eine Variable, die mehrere Typen annehmen kann
-
-    ### Was ist Kapselung?
-    - [x] Das Verbergen von Implementierungsdetails und Zugriff auf Attribute über Methoden
-    - [ ] Eine spezielle Art von Datenstruktur
-    - [ ] Eine Methode, die nur in einer Klasse existiert
-    - [ ] Eine Variable, die nur innerhalb der Klasse sichtbar ist
-
-    ### Was ist Vererbung?
-    - [x] Die Möglichkeit, eine Klasse von einer anderen abzuleiten und deren Eigenschaften zu übernehmen
-    - [ ] Eine spezielle Art von Schleife
-    - [ ] Eine Methode, die nur in einer Klasse existiert
-    - [ ] Eine Variable, die mehrere Typen annehmen kann
-    - [ ] Eine Klasse, die keine Attribute hat
-
-    ### Was sind objektorientierte Programmierparadigmen?
-    - [x] Polymorphismus
-    - [x] Kapselung
-    - [ ] Multiplizität
-    - [ ] Redundanz
-    - [x] Vererbung
-    - [x] Generalisierung
-    - [ ] Spezialisierung
-
-    ### Was ist UML?
-    - [x] Eine grafische Notation für Software-Design
-    - [ ] Die Programmiersprache
-    - [ ] Die Datenbank-Sprache
-    - [ ] Eine Art von Algorithmus 
-</code></pre>
 </div>
 </div>
 </div>
 </div></section></section>
-</div>
-</div>
+<img src="../_images/ai4sc_logo_v2.svg" class="slide-logo">
+<div class="footer footer-default" style="display: block;">
+<span style="letter-spacing: .04rem;">programmierung</span><br><span style="letter-spacing: .0rem;">und datenbanken</span>
+</div></div></div>
 </main>
 </body>
 <script>
@@ -9212,7 +7836,12 @@ require(
     },
     [
       "https://unpkg.com/reveal.js@4.0.2/dist/reveal.js",
-      "https://unpkg.com/reveal.js@4.0.2/plugin/notes/notes.js"
+       "https://unpkg.com/reveal.js@4.0.2/plugin/notes/notes.js",
+      "https://unpkg.com/reveal.js@4.0.2/plugin/markdown/markdown.js",
+      "https://unpkg.com/reveal.js@4.0.2/plugin/math/math.js",
+      "https://unpkg.com/reveal.js@4.0.2/plugin/search/search.js",
+      "https://unpkg.com/reveal.js@4.0.2/plugin/zoom/zoom.js",
+      "https://unpkg.com/reveal.js@4.0.2/plugin/highlight/highlight.js" 
     ],
 
     function(Reveal, RevealNotes){
@@ -9222,9 +7851,30 @@ require(
             progress: true,
             history: true,
             transition: "slide",
-            slideNumber: "",
+            slideNumber: "c/t",
+                        progress: true,
+            keyboard: true,
+            overview: true,
+            center: false,
+            disableLayout: false,
+            touch: true,
+            loop: false,
+            rtl: false,
+            navigationMode: 'default',
+            pause: true,
+            autoPlayMedia: true,
+            mouseWheel: true,
+            display: 'block',
+            pdfSeparateFragments: true,
+            previewLinks: false,
+            transition: 'convex',
+            transitionSpeed: 'fast',
+            backgroundTransition: 'none',
+            viewDistance: 3,
+            mobileViewDistance: 2,
+            margin: 0.01,
             plugins: [RevealNotes],
-            width: 960,
+            width: 1050,
 			      height: 700,
 
         });

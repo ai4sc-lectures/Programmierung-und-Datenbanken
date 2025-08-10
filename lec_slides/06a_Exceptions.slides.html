@@ -6992,10 +6992,7 @@ all of MD as it is not optimized for dense, information rich UIs.
   --jp-content-font-color2: rgba(0, 0, 0, 0.54);
   --jp-content-font-color3: rgba(0, 0, 0, 0.38);
   --jp-content-link-color: var(--md-blue-900);
-  --jp-content-font-family: system-ui, -apple-system, blinkmacsystemfont,
-    'Segoe UI', helvetica, arial, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol';
-
+  --jp-content-font-family: "IBM Plex Sans", sans-serif;
   /*
    * Code Fonts
    *
@@ -7429,7 +7426,7 @@ main {
     init_mathjax();
     </script>
 <!-- End of mathjax configuration --><!-- Reveal Theme -->
-<link href="https://unpkg.com/reveal.js@4.0.2/dist/theme/simple.css" id="theme" rel="stylesheet"/>
+<link href="https://unpkg.com/reveal.js@4.0.2/dist/theme/simple.css" id="theme"  rel="stylesheet"/>
 <link href="rise.css" rel="stylesheet"/>
 </head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
@@ -7441,593 +7438,504 @@ main {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Exceptions">Exceptions<a class="anchor-link" href="#Exceptions">¶</a></h1>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<div class="vslide">
+<div class="vslide-title">
+<p style="font-family: Protomolecule; font-size: 2.3em; line-height: 90%; margin: 0px auto; text-align: center; width: 100%;"><span style="letter-spacing: .04rem;">programmierung</span><br/><span style="letter-spacing: .0rem;">und datenbanken</span></p>
+<p class="author" style="font-family: Protomolecule; margin: 0px auto;  text-align: center; width: 100%; font-size: 1.2em;">Joern Ploennigs</p>
+<p class="subtitle" style="font-family: Protomolecule; margin: 1em auto; text-align: center; width: 100%; font-size: 1.2em;">Exceptions</p>
+</div>
+<script>
+  function setSectionBackground(c,v){
+    let e=document.currentScript.previousElementSibling;
+    while(e&&e.tagName!=='SECTION')e=e.parentElement;
+    if(e){
+      if(c)e.setAttribute('data-background-color',c);
+      if(v){
+        e.setAttribute('data-background-video',v);
+        e.setAttribute('data-background-video-loop','true');
+        e.setAttribute('data-background-video-muted','true');
+      }
+    }
+  }
+  setSectionBackground('#000000', '../_images/06a_Exceptions/mj_title.mp4');
+</script>
+<style>
+.flex-row{display:flex; gap:2rem; align-items:flex-start; justify-content:space-between;}
+.flex-row .col1{flex:1; min-width:10px}
+.flex-row .col2{flex:2; min-width:10px}
+.flex-row .col3{flex:3; min-width:10px}
+.flex-row .col4{flex:4; min-width:10px}
+.flex-row .col5{flex:5; min-width:10px}
+.flex-row .col6{flex:6; min-width:10px}
+.flex-row .col7{flex:7; min-width:10px}
+.vcent{display:flex; align-items:center; justify-content:center}
+</style>
 </div>
 </div>
 </div>
 </div>
+</div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Fehler-mit-Exceptions-behandeln">Fehler mit Exceptions behandeln<a class="anchor-link" href="#Fehler-mit-Exceptions-behandeln">¶</a></h2>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Ablauf">Ablauf<a class="anchor-link" href="#Ablauf">¶</a></h2><p><img alt="" src="../_images/partA_7.svg"/></p>
 </div>
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Exceptions unterbrechen den normalen Verlauf eines Programmes in einem Fehlerfall. Sie dienen dazu den Fehler im Programm zu kommunizieren (sie haben meist eine Fehlermeldung) und werden genutzt, um im Fehlerfall unkontrolliertes Abstürzen des Programmes zu verhindern.</p>
-<p>Bekannte Exceptions sollten immer abgefangen. In Python werden sie durch den <code>try-except</code>-Block abgefangen. Dieser startet mit einem <code>try</code> und endet mit einem <code>except</code>. Nach dem <code>try</code> folgt der Block mit der bekannten (oder unbekannten) Exception. Nach dem <code>except</code> folgt der Block zur Fehlerbehandlung.</p>
-<p>Es ist zu beachten, dass bei Exceptions keine Wertzuweisung stattfindet (der Wert ist ja nicht bekannt). Betrachten wir mal wieder, die aus der <a href="4a_Verzweigung.html#elif_-_F%C3%BCr_noch_mehr_Alternativen">Verzweigung bekannte Division durch 0</a> mit ihren verschiedenen Fehlerfällen der Null-Division und falscher Datentypen der Eingaben. Ohne diese Fehlerfälle genau zu spezifizieren können wir schreiben.</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Warum-machen-wir-Fehler?">Warum machen wir Fehler?<a class="anchor-link" href="#Warum-machen-wir-Fehler?">¶</a></h2><div class="flex-row">
+<div class="col1">
+<p><em>Gewollte Fehler passieren, wenn:</em></p>
+<ul>
+<li>wir bewusst Fakten ignorieren und lieber unserem Bauch vertrauen</li>
+<li>wenn wir Tests durchführen, um zu prüfen ob ein Programm diese Fehler behandelt</li>
+<li>durch gezielte Sabotage (Insider Thread in der Datensicherheit)</li>
+</ul>
 </div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">nenner</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">ergebnis</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="c1"># Block mit bekannter Exception</span>
-    <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
-    <span class="c1"># Dieser Teil wird nur ausgeführt wenn keine Exception auftrat</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"Die Division war erfolgreich"</span><span class="p">)</span>
-<span class="k">except</span><span class="p">:</span>
-    <span class="c1"># Fehlerbehandlung</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"Divisionsfehler"</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
+<div class="col1">
+<p><em>Ungewollte Fehler passieren u.a. durch:</em></p>
+<ul>
+<li>falsche Annahmen da z.B. die Anforderungen nicht hinreichend analysiert worden oder man nicht alle Fehlerfälle durchdacht hat</li>
+<li>Unaufmerksamkeit (Flüchtigkeitsfehler) durch Müdigkeit, Zeitdruck oder Desinteresse</li>
+<li>weil wir an kognitive/körperliche Limits stoßen (z.B. optische Täuschungen)</li>
+</ul>
 </div>
 </div>
 </div>
 </div>
 </div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Das <code>except</code> is in dem obigen Fall untypisiert. Damit lassen sich alle Fehler, die auftreten können abfangen (auch unbekannte). Damit fängt der <code>try-except</code>-Block auch Fehler eines falschen Datentyps ab.</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Fehler-sind-Menschlich">Fehler sind Menschlich<a class="anchor-link" href="#Fehler-sind-Menschlich">¶</a></h2><ul>
+<li><em>Computer sind von Menschen gemacht</em></li>
+<li>Die mentalen Modelle anderer Menschen haben (oft subtile) Unterschiede zu unseren eigenen, z.B. wegen:<ul>
+<li>Alter</li>
+<li>Herkunft</li>
+<li>Ausbildung</li>
+<li>Erfahrung</li>
+<li>Kultur</li>
+</ul>
+</li>
+<li>Die meisten Fehler im Alltag passieren an der <em>Schnittstelle zwischen uns und den internen Vorgängen</em>: Nutzeroberflächen, Hardware, etc.</li>
+</ul>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="s1">'keine_zahl'</span>
-<span class="n">nenner</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">ergebnis</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
-<span class="k">except</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"Divisionsfehler"</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Das Problem hierbei ist, dass wir keine Information über die Exception erhalten. Deshalb ist es immer sinnvoll die genaue Exception abzufangen und die Fehlermeldung auszugeben. Der allgemeinste Fehlertyp in Python ist die <code>Exception</code> welche wir wie folgt als Variable <code>e</code> abfangen.</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="H%C3%B6rsaalfrage">Hörsaalfrage<a class="anchor-link" href="#H%C3%B6rsaalfrage">¶</a></h2><script>setSectionBackground('#FFD966');</script>
+<div class="flex-row">
+<div class="col4 vcent">
+<p><strong>Was bedeutet dieses Zeichen?</strong></p>
 </div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="s1">'keine_zahl'</span>
-<span class="n">nenner</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">ergebnis</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
-<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Divisionsfehler mit Fehler vom typ `</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">` und Meldung `</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">`"</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
+<div class="col6">
+<figure class="mj-fig">
+<img alt="No description has been provided for this image" class="mj-fig-img" src="../_images/06a_Fehler/diskette.png"/>
+<figcaption class="mj-fig-cap">
+            icon-icons.com
+        </figcaption>
+</figure>
 </div>
 </div>
 </div>
 </div>
 </div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Sind die Exceptions bekannt sollten sie auch typisiert behandelt werden, um spezifische Meldungen auszugeben.</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Was-bedeutet-dieses-Zeichen?">Was bedeutet dieses Zeichen?<a class="anchor-link" href="#Was-bedeutet-dieses-Zeichen?">¶</a></h2><ul>
+<li>Das Diskettensymbol wird häufig zum Abspeichern benutzt.</li>
+<li>Es stammt ursprünglich aus den 90er wo Daten noch auf Disketten gespeichert wurden.</li>
+<li>Heutzutage haben viele diesen Kontext nicht und können das Symbol nicht intuitiv deuten.</li>
+<li>Beispiel für unterschiedliche mentale Modelle zwischen Generationen</li>
+</ul>
+<div class="flex-row">
+<div class="col1">
+<figure class="mj-fig">
+<img alt="No description has been provided for this image" class="mj-fig-img" src="../_images/06a_Fehler/diskette.png"/>
+<figcaption class="mj-fig-cap">
+            icon-icons.com
+        </figcaption>
+</figure>
 </div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="s1">'keine_zahl'</span>
-<span class="n">nenner</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">ergebnis</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
-<span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Zaehler oder Nenner nicht vom Datentyp `int`"</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">ZeroDivisionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"Teilung durch 0"</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
-</div>
+<div class="col1">
+<figure class="mj-fig">
+<img alt="No description has been provided for this image" class="mj-fig-img" src="../_images/06a_Fehler/diskette2.jpg"/>
+<figcaption class="mj-fig-cap">
+            www.pxfuel.com
+        </figcaption>
+</figure>
 </div>
 </div>
 </div>
 </div>
+</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Der <code>try-except</code>-Block unterstütz auch die <code>else</code>-Anweisung, welche immer ausgeführt wird, wenn <strong>keine</strong> Exception auftritt. Ferner gibt es die <code>finally</code>-Anweisung, welche <strong>immer</strong> ausgeführt wird also im fehlerfreien Fall und im Fehlerfall.</p>
-<p>Soll zum Beispiel eine Ausgabe nur gemacht werden, wenn der <code>try</code>-Block erfolgreich war, nutzen wir <code>else</code>.</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Wann-machen-Computer-Fehler?">Wann machen Computer Fehler?<a class="anchor-link" href="#Wann-machen-Computer-Fehler?">¶</a></h2><ul>
+<li>Computer machen nur sehr selten Fehler (z.B. Bitfehler durch kosmische Strahlung, Fehler bei Berechnungen mit Fließkommazahlen, Überläufe von Integer, Fehler bei der Datenübertragung oder Speicherung)</li>
+<li>Meistens ist es allerdings der Nutzer oder Programmierer der die Fehler erst ermöglicht hat (Falsche Datentypen, keine gute Ausnahmen- oder Fehlerbehandlung)</li>
+<li>Die eigentliche Frage ist: Gibt es Fehler im System abseits von unserem eigenen Programmcode?</li>
+</ul>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="n">nenner</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">ergebnis</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
-<span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Zaehler oder Nenner nicht vom Datentyp `int`"</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">ZeroDivisionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"Teilung durch 0"</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Die Division war erfolgreich und resultiert in </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
+</div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Soll immer eine Ausgabe erfolgen können wir <code>finally</code> verwenden. Dies wird häufig verwendet, um Schritte durchzuführen die auch im Fehlerfall gemacht werden sollen, z.B. um Verbindungen zu Dateien oder zu einer Datenbank zu schließen, damit diese nicht unendlich lange offen bleiben (und irgendwann zu Fehlern führen).</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Wie-beugt-man-Fehlern-vor?">Wie beugt man Fehlern vor?<a class="anchor-link" href="#Wie-beugt-man-Fehlern-vor?">¶</a></h2><ul>
+<li><em>Nutzen einer integrierten Entwicklungsumgebung (IDE)</em><ul>
+<li>Automatische Fehlererkennung von Syntaxfehlern</li>
+<li>Code-Vervollständigung</li>
+<li>Code-Generierung (z.B. aus Diagrammen)</li>
+</ul>
+</li>
+<li><em>Umfangreiches Planen</em> der Software mit Anforderungsanalyse, Softwareentwurf, Testentwurf, etc.</li>
+<li><em>TESTEN, TESTEN, TESTEN</em> mittels spezieller Testfälle (Unit-Tests)!<ul>
+<li>Nicht nur reiner Funktionstest (macht es was es soll?)</li>
+</ul>
+</li>
+</ul>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="s1">'keine_zahl'</span>
-<span class="n">nenner</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">ergebnis</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
-<span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Zaehler oder Nenner nicht vom Datentyp `int`"</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">ZeroDivisionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">"Teilung durch 0"</span><span class="p">)</span>
-<span class="k">finally</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Exceptions-selbst-erzeugen">Exceptions selbst erzeugen<a class="anchor-link" href="#Exceptions-selbst-erzeugen">¶</a></h2>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Klassen-von-Fehlern">Klassen von Fehlern<a class="anchor-link" href="#Klassen-von-Fehlern">¶</a></h2><div class="flex-row">
+<div class="col3">
+<p><em>Entlang der Wissenspyramide:</em></p>
+<ul>
+<li><em>Lexikalisch</em> – Code enthält ungültige Zeichen oder Zeichenketten</li>
+<li><em>Syntaktisch</em> – Code kombiniert lexikalisch gültige Wörter in ungültiger Weise</li>
+<li><em>Semantisch</em> – Code ist syntaktisch gültig, aber liefert keine Ergebnisse/stürzt ab</li>
+<li><em>Logisch</em> – Code ist semantisch gültig, aber löst das gegebene Problem nicht</li>
+</ul>
+</div>
+<div class="col2">
+<p><img alt="Wissenspyramide" src="../_images/wissenspyramide.svg"/></p>
 </div>
 </div>
 </div>
 </div>
+</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Exceptions können auch selbst mit <code>raise</code> erzeugt werden. Das ist sinnvoll, wenn in dem eigenen Code Fehler auftreten können, die woanders behandelt werden müssen. Hierbei muss ein Fehlertyp angegeben werden. Entweder man nutzt den allgemeinsten Fehlertyp <code>Exception</code>, einen passenden Standardfehler von Python oder einen selbst definierten. Es ist ratsam meist spezifische Fehlertypen zu nutzen, da der Typ des Fehlers viel beim Behandeln und Debuggen hilft.</p>
-<p>Definieren wir als Beispiel unsere eigene Divisionsfunktion mit klarer Fehlerbenenung ob Zähler oder Nenner vom falschen Typ sind. Hier wollen wir, dass anstatt des <code>TypeError</code> ein <code>ValueError</code> erzeugt wird. Bei einer Division durch 0 soll anstatt eines Fehlers der Wert <code>None</code> zurückgegeben werden.</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Andere-Klassifizierungen-von-Fehlern">Andere Klassifizierungen von Fehlern<a class="anchor-link" href="#Andere-Klassifizierungen-von-Fehlern">¶</a></h2><div class="flex-row">
+<div class="col1">
+<p><em>Nach Häufigkeit und Reproduzierbarkeit:</em></p>
+<ul>
+<li><em>Deterministische Fehler</em> - treten immer auf und lassen sich reproduzieren</li>
+<li><em>Sporadische Fehler</em> - treten nur selten und in besonderen Zuständen auf. Sind schwer zu reproduzieren</li>
+</ul>
 </div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">):</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nenner</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Nenner nicht vom Datentyp `int` oder `float`"</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Zaehler nicht vom Datentyp `int` oder `float`"</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">nenner</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">"Warnung Division durch 0"</span><span class="p">)</span>
-        <span class="k">return</span> <span class="kc">None</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">ergebnis</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs celltag_raises-exception">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="s1">'keine_zahl'</span>
-<span class="n">nenner</span> <span class="o">=</span> <span class="mi">0</span>
-
-<span class="n">ergebnis</span> <span class="o">=</span> <span class="n">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">zaehler</span><span class="o">=</span> <span class="mi">10</span>
-<span class="n">nenner</span> <span class="o">=</span> <span class="mi">2</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">zaehler</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">nenner</span> <span class="o">=</span> <span class="mi">1</span>
-
-<span class="n">ergebnis</span> <span class="o">=</span> <span class="n">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">)</span>
-</pre></div>
+<div class="col1">
+<p><em>Nach Auftreten:</em></p>
+<ul>
+<li><em>Statische Fehler</em> - Direkt im geschriebenen Code erkennbar</li>
+<li><em>Dynamische Fehler</em> - Treten erst beim Ausführen des Programms auf</li>
+</ul>
 </div>
 </div>
 </div>
 </div>
 </div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Fehlerbehandlung-bei-Funktionen-im-Stack">Fehlerbehandlung bei Funktionen im Stack<a class="anchor-link" href="#Fehlerbehandlung-bei-Funktionen-im-Stack">¶</a></h3>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Lexikalische-&amp;-Syntaktische-Fehler">Lexikalische &amp; Syntaktische Fehler<a class="anchor-link" href="#Lexikalische-&amp;-Syntaktische-Fehler">¶</a></h2><ul>
+<li>Sind in den meisten Fällen <em>statisch</em> und <em>deterministisch</em></li>
+<li>Erzeugen <em>immer</em> eine Fehlermeldung<ul>
+<li>Schon in IDE, beim Compilieren oder nach dem Ausführen</li>
+</ul>
+</li>
+<li><em>Diese Fehlermeldungen können allerdings trügerisch sein!</em></li>
+</ul>
 </div>
 </div>
 </div>
-</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Exceptions werden im Stack (Aufrufreihenfolge der Funktionen) nach oben weitergegeben, bis sie entweder abgefangen und behandelt werden oder das Programm abstürzt, wenn das Ende des Stacks erreicht wird. Ziel des Abfangens und Behandelns von Exceptions ist es das Programm zurück in einen Zustand zu bringen in dem es weiterlaufen kann.</p>
-<p>Als Beispiel wollen wir eine rekursive Funktion definieren, welche uns einen Fehler ausgibt, wenn die Rekurssionstiefe zu groß wird um einen Stack-Overflow-Fehler zu vermeiden. Wir nutzen als Beispiel die Fakultät aus dem <a href="5b_Rekursion.html">Rekursionbeispiel</a>.</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Lexikalische-&amp;-Syntaktische-Fehler---Beispiele">Lexikalische &amp; Syntaktische Fehler - Beispiele<a class="anchor-link" href="#Lexikalische-&amp;-Syntaktische-Fehler---Beispiele">¶</a></h2><ul>
+<li>Ein <em>Schlüsselwort</em> ist falsch geschrieben</li>
+<li><em>Nicht geschlossene</em> Anführungszeichen oder Klammern</li>
+<li>Einen <em>Doppelpunkt</em> nach einer Bedingung oder Funktion vergessen</li>
+<li><em>Falsche Einrückung</em> nach einer Bedingung, Schleife oder Funktion</li>
+<li>Ggf. auch falsches Einrücken durch <em>Tabs vs. Leerzeichen</em></li>
+</ul>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">factorial_recursiv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">depth</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">RecursionError</span><span class="p">(</span><span class="s2">"Recursion zu tief"</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">factorial_recursiv</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">1</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">factorial_recursiv</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs celltag_raises-exception">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">factorial_recursiv</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>In der obigen Fehlermeldung bringt das Programm selbst zum erliegen (es stürtzt allerdings nicht der ganze Kernel ab, wie beim Stack-Overflow-Fehler). Um das zu vermeiden müssen wir den Fehler mit <code>try-except</code> abfangen. In der Fehlermeldung oben deutet sich schon der Stack-Trace an, also die Liste der Funktionsaufrufe die auf dem Stack gesammelt wurde.</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Lexikalische-&amp;-Syntaktische-Fehler---Behandlung">Lexikalische &amp; Syntaktische Fehler - Behandlung<a class="anchor-link" href="#Lexikalische-&amp;-Syntaktische-Fehler---Behandlung">¶</a></h2><ul>
+<li><em>Erster Blick:</em> In welcher Zeile ist der Fehler aufgetreten?</li>
+<li>Gibt der <em>Text der Fehlermeldung</em> einen Hinweis?</li>
+<li>Liegt der Fehler in der Zeile oder ist der Fehler nur ein <em>Symptom</em> und der Fehler liegt in einer Zeile davor?</li>
+<li>Normalerweise <em>einfach zu beheben</em> und von der Fehlerzeile den Code Zeile für Zeile rückwärts durchgehen</li>
+<li>Falls nicht: <em>Refactoring</em> - Code zur besseren Lesbarkeit umstrukturieren ohne das Verhalten zu verändern</li>
+</ul>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">traceback</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">factorial_recursiv</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">RecursionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-    <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Quiz">Quiz<a class="anchor-link" href="#Quiz">¶</a></h2><pre><code class="language-{quizdown}">{quizdown}
-    ---
-    shuffleQuestions: true
-    shuffleAnswers: true
-    ---
-
-    ### Was ist eine Exception in Python?
-    - [x] Eine Ausnahme, die den normalen Ablauf des Programms unterbricht
-    - [ ] Ein Spezialfall bei Loops
-    - [ ] Eine Warnung, die ignoriert werden kann
-    - [ ] Eine globale Variable
-
-    ### Warum verwendet man `try-except`-Blöcke?
-    - [x] Um kontrolliert auf Fehler zu reagieren
-    - [x] Um das Programm vor Abstürzen zu bewahren
-    - [ ] Um Variablen zu initialisieren
-    - [ ] Um Funktionen automatisch zu wiederholen
-
-    ### Was passiert, wenn eine Exception im `try`-Block auftritt?
-    - [x] Der Code im `except`-Block wird ausgeführt
-    - [ ] Der `try`-Block wird ignoriert
-    - [ ] Das Programm wird automatisch beendet
-    - [ ] Der Fehler wird immer ignoriert
-
-    ### Sortiere die folgenden Zeilen, um einen vollständigen `try-except`-Block korrekt aufzubauen:
-    ```python
-    # Annahme: Fehlerhafte Division
-    ```
-    1. `try:`
-    2. `  ergebnis = 10 / 0`
-    3. `  print("Ergebnis:", ergebnis)`
-    4. `except:`
-    5. `  print("Fehler bei der Division")`
-
-    ### Welcher Fehler steckt in diesem Beispiel?
-    ```python
-    x = 10
-    y = 0
-    z = x / y
-    print("Ergebnis:", z)
-    ```
-    - [x] Division durch null führt zu einer `ZeroDivisionError`-Exception
-    - [ ] `print` darf nicht in try-Blöcken verwendet werden
-    - [ ] `x` darf nicht 10 sein
-    - [ ] `y` muss als String deklariert werden
-
-    ### Was ist der Vorteil, wenn man `Exception as e` verwendet?
-    - [x] Man kann Typ und Fehlermeldung der Exception gezielt ausgeben
-    - [ ] Dadurch wird die Exception automatisch gelöst
-    - [ ] Der Code wird kürzer
-    - [ ] `as` ist Pflicht in jeder Fehlerbehandlung
-
-    ### Warum sollte man bekannte Exception-Typen (wie `TypeError`) explizit abfangen?
-    - [x] Um unterschiedliche Fehler gezielt zu behandeln
-    - [ ] Weil Python sonst nicht funktioniert
-    - [ ] Damit die Ausgabe schöner wird
-    - [ ] Das ist nur bei `int`-Werten nötig
-
-    ### Sortiere die folgenden Zeilen, um eine typisierte Fehlerbehandlung für Divisionen korrekt aufzubauen:
-    ```python
-    # Beispiel mit Division durch 0 und falschem Typ
-    ```
-    1. `try:`
-    2. `  ergebnis = "zehn" / 0`
-    3. `except TypeError:`
-    4. `  print("Falscher Datentyp")`
-    5. `except ZeroDivisionError:`
-    6. `  print("Division durch 0")`
-
-    ### Wann wird der `else`-Block bei `try-except-else` ausgeführt?
-    - [x] Nur wenn im `try`-Block **keine** Exception auftritt
-    - [ ] Wenn irgendein Fehler auftritt
-    - [ ] Immer nach dem `except`
-    - [ ] Wenn `print()` im `try` verwendet wird
-
-    ### Was bewirkt ein `finally`-Block in Python?
-    - [x] Der Code im `finally` wird **immer** ausgeführt – egal ob Fehler oder nicht
-    - [ ] Der Code wird übersprungen bei Fehlern
-    - [ ] Nur verwendet bei Netzwerken
-    - [ ] Dient zur Initialisierung von Variablen
-
-    ### Wann sollte man eigene Exceptions mit `raise` erzeugen?
-    - [x] Wenn man Fehler gezielt kennzeichnen und weiterreichen will
-    - [ ] Wenn man eine Schleife abbrechen will
-    - [ ] Nur bei Syntaxfehlern
-    - [ ] Nur für Debugging-Zwecke
-
-    ### Warum ist es sinnvoll, spezifische Fehlertypen wie `ValueError` zu verwenden?
-    - [x] Damit Fehler gezielter behandelt und unterschieden werden können
-    - [ ] Damit `try`-Blöcke kürzer werden
-    - [ ] Damit das Programm schneller läuft
-    - [ ] Weil `Exception` in Python nicht erlaubt ist
-
-    ### Welcher Fehler steckt in diesem Beispiel?
-    ```python
-    if not isinstance(x, int):
-        raise "Fehler"
-    ```
-    - [x] `raise` erwartet ein Exception-Objekt, kein String
-    - [ ] `raise` ist kein gültiges Python-Schlüsselwort
-    - [ ] Strings dürfen nicht mit `if` verglichen werden
-    - [ ] `int` ist kein gültiger Typ
-
-    ### Sortiere die folgenden Zeilen, um eine sichere Divisionsfunktion mit Fehlern zu definieren:
-    ```python
-    # Annahme: Division mit Typprüfung und Division durch 0
-    ```
-    1. `def division(zaehler, nenner):`
-    2. `  if not isinstance(zaehler, (int, float)):`
-    3. `    raise ValueError("Zaehler ist ungültig")`
-    4. `  if nenner == 0:`
-    5. `    return None`
-    6. `  return zaehler / nenner`
-
-    ### Wie verhalten sich Exceptions in einem Funktionsaufruf-Stack?
-    - [x] Sie steigen nach oben, bis sie behandelt oder zum Absturz führen
-    - [ ] Sie verschwinden nach dem ersten Funktionsaufruf
-    - [ ] Sie führen nur in der aktuellen Funktion zum Fehler
-    - [ ] Sie werden automatisch ignoriert
-
-    ### Was bewirkt folgende Zeile in einer rekursiven Funktion?
-    ```python
-    raise RecursionError("Recursion zu tief")
-    ```
-    - [x] Sie erzeugt gezielt einen Fehler, wenn die Rekursion zu tief wird
-    - [ ] Sie verhindert eine Exception
-    - [ ] Sie beendet die Rekursion erfolgreich
-    - [ ] Sie wandelt den Rückgabewert in eine Exception um
-
-    ### Was ist der Stack?
-    - [x] Eine Datenstruktur, die Funktionsaufrufe speichert
-    - [ ] Eine Liste aller Variablen im Programm
-    - [ ] Ein spezieller Datentyp für Schleifen
-    - [ ] Eine Art von Exception
-
-    ### Was ist der Heap?
-    - [x] Ein Speicherbereich für dynamisch erzeugte Objekte
-    - [ ] Eine spezielle Art von Schleife
-    - [ ] Ein Datentyp für Zahlen
-    - [ ] Ein Bereich für globale Variablen
-
-    ### Was ist der Unterschied zwischen Stack und Heap?
-    - [x] Stack speichert Funktionsaufrufe, Heap dynamisch erzeugte Objekte
-    - [ ] Stack ist schneller, Heap langsamer
-    - [ ] Stack ist für Schleifen, Heap für Bedingungen
-    - [ ] Stack ist für globale Variablen, Heap für lokale
-
-    
-</code></pre>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Semantische-Fehler---Grundlagen">Semantische Fehler - Grundlagen<a class="anchor-link" href="#Semantische-Fehler---Grundlagen">¶</a></h2><ul>
+<li>Entstehen durch die <em>fehlerhafte Anwendung</em> von syntaktisch korrekten Programmstrukturen auf ein bestimmtes Problem</li>
+<li>Semantische Fehler können <em>erkennbar</em> oder <em>unerkennbar</em> sein. Sie sind immer deterministisch, aber können statisch oder dynamisch auftreten</li>
+<li><em>Erkennbare Fehler</em> sind Fehler von denen man weiß, dass sie auftreten können (z.B. Division durch Null, keine Internetverbindung, etc.)<ul>
+<li>Sollten <em>immer</em> abgefangen und behandelt werden</li>
+</ul>
+</li>
+<li><em>Unerkannte Fehler</em> sind beim Erstellen des Programms unbekannt. Deutlich schwieriger abzufangen</li>
+</ul>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Semantische-Fehler---Beispiele">Semantische Fehler - Beispiele<a class="anchor-link" href="#Semantische-Fehler---Beispiele">¶</a></h2><ul>
+<li>Eine <em>Variable wird als Funktion</em> aufgerufen<br>
+<em>(statisch, deterministisch)</em></br></li>
+<li>Ein <em>Operator wird mit einem Wert des falschen Typs</em> genutzt<br/>
+<em>(statisch oder dynamisch, deterministisch)</em></li>
+<li>Ein <em>Wert des falschen Typs</em> wird in eine Funktion übergeben<br/>
+<em>(statisch oder dynamisch, deterministisch)</em></li>
+<li>Es geschieht eine <em>Division durch 0</em><br/>
+<em>(dynamisch, deterministisch)</em></li>
+</ul>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Semantische-Fehler---Behandlung">Semantische Fehler - Behandlung<a class="anchor-link" href="#Semantische-Fehler---Behandlung">¶</a></h2><p><em>Erster Schritt: Verstehen der Fehlermeldung</em></p>
+<ul>
+<li><em>Idealfall:</em> Gibt das exakte Problem an</li>
+<li><em>Meistens:</em> Gibt Hinweise auf ein Problem<ul>
+<li>Ort</li>
+<li>Art des Problems</li>
+<li>Die betroffene Variable/Operation</li>
+</ul>
+</li>
+<li><em>Oft:</em> Die Fehlermeldung ist nur ein Symptom des eigentlichen Problems</li>
+</ul>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Semantische-Fehler---Behandlung-(2)">Semantische Fehler - Behandlung (2)<a class="anchor-link" href="#Semantische-Fehler---Behandlung-(2)">¶</a></h2><p><em>Falls die Fehlermeldung nicht genug Informationen gibt:</em></p>
+<ul>
+<li><p><em>Programmablauf loggen</em> und so besser nachvollziehen:</p>
+<ul>
+<li>Weitere Ausgaben hinzufügen (z.B. über <code>print()</code>-Funktion)</li>
+<li>Variablenzustände prüfen oder prüfen ob gewisse Zeilen erreicht werden</li>
+</ul>
+</li>
+<li><p><em>Debugging-Tools</em> nutzen:</p>
+<ul>
+<li>Programmablauf an bestimmten Punkten (<em>Breakpoints</em>) pausieren</li>
+<li>Programmablauf <em>Schritt für Schritt</em> nachvollziehen</li>
+<li><em>Variablen beobachten</em> in diesem Moment</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Logische-Fehler---Grundlagen">Logische Fehler - Grundlagen<a class="anchor-link" href="#Logische-Fehler---Grundlagen">¶</a></h2><p><em>Entstehen durch:</em></p>
+<ul>
+<li>Fehler in der <em>Programmlogik</em></li>
+<li>Ein <em>falsches mentales Modell</em></li>
+<li>Einen grundlegenden <em>Fehler im Programmentwurf</em></li>
+<li><em>Flüchtigkeitsfehler</em> bei der Übersetzung vom Entwurf zur Implementierung</li>
+</ul>
+<p><em>Charakteristika:</em></p>
+<ul>
+<li>Erzeugen <em>nur selten Exceptions</em> sondern falsches Verhalten/Ergebnisse</li>
+<li>Bleiben oft <em>unentdeckt</em> und treten erst dynamisch auf</li>
+<li>Können <em>deterministisch</em> oder <em>sporadisch</em> sein</li>
+</ul>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Logische-Fehler---Beispiele">Logische Fehler - Beispiele<a class="anchor-link" href="#Logische-Fehler---Beispiele">¶</a></h2><div class="flex-row">
+<div class="col1">
+<p><em>Deterministische Fehler:</em></p>
+<ul>
+<li>Verwendung eines <em>falschen Faktors</em> in einer Einheitenkonvertierung</li>
+<li>Verwenden der <em>falschen Art von Schleife</em> oder falsche Schachtelung</li>
+<li>Verwenden einer <em>falschen Zeitzone</em> beim Schreiben von Sensor-Daten</li>
+</ul>
+</div>
+<div class="col1">
+<p><em>Sporadische Fehler:</em></p>
+<ul>
+<li>Probleme mit <em>Sommer-/Winterzeitkonvertierung</em> bei Sensor-Daten</li>
+<li>Die Bedingung in einer Schleife hat Fälle in der sie <em>immer True</em> ist und so endlos wird</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Logische-Fehler---Behandlung">Logische Fehler - Behandlung<a class="anchor-link" href="#Logische-Fehler---Behandlung">¶</a></h2><div class="flex-row">
+<div class="col1">
+<p><em>Deterministische Fehler:</em></p>
+<ul>
+<li><em>Testfälle erstellen</em> um zu reproduzieren wann und wie unerwartetes Verhalten stattfindet</li>
+<li><em>Debugger nutzen</em> um die Ausführung nachzuvollziehen und Fehlerursache zu isolieren</li>
+<li>Werte <em>systematisch verfolgen</em> und Schritt-für-Schritt auf Korrektheit prüfen</li>
+</ul>
+</div>
+<div class="col1">
+<p><em>Sporadische Fehler:</em></p>
+<ul>
+<li>Mittels <em>Logging</em> (<code>print()</code>) den Zustand des Fehlers identifizieren, so dass er reproduzierbar wird</li>
+<li><em>Bedingte Breakpoints</em> im Debugging nutzen (Programm bleibt nur stehen, wenn eine Fehlerbedingung gegeben ist)</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Zusatz:-Warnungen-in-der-IDE-oder-vom-Compiler">Zusatz: Warnungen in der IDE oder vom Compiler<a class="anchor-link" href="#Zusatz:-Warnungen-in-der-IDE-oder-vom-Compiler">¶</a></h2><ul>
+<li><p>Weisen auf Code hin, der <em>syntaktisch und semantisch korrekt</em> scheint, seinen Zweck aber wahrscheinlich <em>nicht erfüllen</em> wird</p>
+</li>
+<li><p>Basieren z.B. auf <em>Erfahrungswerten</em></p>
+</li>
+<li><p>Können dabei helfen <em>semantische und logische Fehler frühzeitig</em> zu erkennen</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div></section></section><section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<div class="vslide">
+<div class="vslide-title">
+<p style="font-family: Protomolecule; font-size: 2.3em; margin: 0px auto; text-align: center; width: 100%;">fragen?</p>
+</div>
+<script>setSectionBackground('#000000', '../_images/mj_questions.mp4');</script>
+</div>
 </div>
 </div>
 </div>
 </div></section></section>
-</div>
-</div>
+<img src="../_images/ai4sc_logo_v2.svg" class="slide-logo">
+<div class="footer footer-default" style="display: block;">
+<span style="letter-spacing: .04rem;">programmierung</span><br><span style="letter-spacing: .0rem;">und datenbanken</span>
+</div></div></div>
 </main>
 </body>
 <script>
@@ -8039,7 +7947,12 @@ require(
     },
     [
       "https://unpkg.com/reveal.js@4.0.2/dist/reveal.js",
-      "https://unpkg.com/reveal.js@4.0.2/plugin/notes/notes.js"
+       "https://unpkg.com/reveal.js@4.0.2/plugin/notes/notes.js",
+      "https://unpkg.com/reveal.js@4.0.2/plugin/markdown/markdown.js",
+      "https://unpkg.com/reveal.js@4.0.2/plugin/math/math.js",
+      "https://unpkg.com/reveal.js@4.0.2/plugin/search/search.js",
+      "https://unpkg.com/reveal.js@4.0.2/plugin/zoom/zoom.js",
+      "https://unpkg.com/reveal.js@4.0.2/plugin/highlight/highlight.js" 
     ],
 
     function(Reveal, RevealNotes){
@@ -8049,9 +7962,30 @@ require(
             progress: true,
             history: true,
             transition: "slide",
-            slideNumber: "",
+            slideNumber: "c/t",
+                        progress: true,
+            keyboard: true,
+            overview: true,
+            center: false,
+            disableLayout: false,
+            touch: true,
+            loop: false,
+            rtl: false,
+            navigationMode: 'default',
+            pause: true,
+            autoPlayMedia: true,
+            mouseWheel: true,
+            display: 'block',
+            pdfSeparateFragments: true,
+            previewLinks: false,
+            transition: 'convex',
+            transitionSpeed: 'fast',
+            backgroundTransition: 'none',
+            viewDistance: 3,
+            mobileViewDistance: 2,
+            margin: 0.01,
             plugins: [RevealNotes],
-            width: 960,
+            width: 1050,
 			      height: 700,
 
         });

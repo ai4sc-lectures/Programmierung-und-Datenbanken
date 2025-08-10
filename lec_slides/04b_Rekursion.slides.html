@@ -6992,10 +6992,7 @@ all of MD as it is not optimized for dense, information rich UIs.
   --jp-content-font-color2: rgba(0, 0, 0, 0.54);
   --jp-content-font-color3: rgba(0, 0, 0, 0.38);
   --jp-content-link-color: var(--md-blue-900);
-  --jp-content-font-family: system-ui, -apple-system, blinkmacsystemfont,
-    'Segoe UI', helvetica, arial, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol';
-
+  --jp-content-font-family: "IBM Plex Sans", sans-serif;
   /*
    * Code Fonts
    *
@@ -7429,7 +7426,7 @@ main {
     init_mathjax();
     </script>
 <!-- End of mathjax configuration --><!-- Reveal Theme -->
-<link href="https://unpkg.com/reveal.js@4.0.2/dist/theme/simple.css" id="theme" rel="stylesheet"/>
+<link href="https://unpkg.com/reveal.js@4.0.2/dist/theme/simple.css" id="theme"  rel="stylesheet"/>
 <link href="rise.css" rel="stylesheet"/>
 </head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
@@ -7441,406 +7438,229 @@ main {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Rekursive-Funktionen">Rekursive Funktionen<a class="anchor-link" href="#Rekursive-Funktionen">¶</a></h1>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<div class="vslide">
+<div class="vslide-title">
+<p style="font-family: Protomolecule; font-size: 2.3em; line-height: 90%; margin: 0px auto; text-align: center; width: 100%;"><span style="letter-spacing: .04rem;">programmierung</span><br/><span style="letter-spacing: .0rem;">und datenbanken</span></p>
+<p class="author" style="font-family: Protomolecule; margin: 0px auto;  text-align: center; width: 100%; font-size: 1.2em;">Joern Ploennigs</p>
+<p class="subtitle" style="font-family: Protomolecule; margin: 1em auto; text-align: center; width: 100%; font-size: 1.2em;">Rekursion</p>
+</div>
+<script>
+  function setSectionBackground(c,v){
+    let e=document.currentScript.previousElementSibling;
+    while(e&&e.tagName!=='SECTION')e=e.parentElement;
+    if(e){
+      if(c)e.setAttribute('data-background-color',c);
+      if(v){
+        e.setAttribute('data-background-video',v);
+        e.setAttribute('data-background-video-loop','true');
+        e.setAttribute('data-background-video-muted','true');
+      }
+    }
+  }
+  setSectionBackground('#000000', '../_images/04b_Rekursion/mj_title.mp4');
+</script>
+<style>
+.flex-row{display:flex; gap:2rem; align-items:flex-start; justify-content:space-between;}
+.flex-row .col1{flex:1; min-width:10px}
+.flex-row .col2{flex:2; min-width:10px}
+.flex-row .col3{flex:3; min-width:10px}
+.flex-row .col4{flex:4; min-width:10px}
+.flex-row .col5{flex:5; min-width:10px}
+.flex-row .col6{flex:6; min-width:10px}
+.flex-row .col7{flex:7; min-width:10px}
+.vcent{display:flex; align-items:center; justify-content:center}
+</style>
 </div>
 </div>
 </div>
 </div>
+</div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Rekursive Funktionen sind Funktionen, die sich selbst aufrufen. Als Rekursion (lateinisch recurrere 'zurücklaufen') wird ein unendlicher Vorgang, der sich selbst als Teil enthält oder mithilfe von sich selbst definierbar ist, bezeichnet.</p>
-<p>Rekursionen werden insbesondere bei Divide-and-Conquer-Algorithmen oder bei kombinatorischen Problemen verwendet.</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Ablauf">Ablauf<a class="anchor-link" href="#Ablauf">¶</a></h2><p><img alt="" src="../_images/partA_5.svg"/></p>
 </div>
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Um in Python eine rekursive Funktion zu definieren, brauchen wir nur eine Funktion, die sich selbst aufruft.</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Rekursion---Allgemein">Rekursion - Allgemein<a class="anchor-link" href="#Rekursion---Allgemein">¶</a></h2><div class="alert alert-block alert-success">
+<b>📘 Definition: Rekursion</b>
+<p>Rekursion (lateinisch <em>recurrere</em> – ‚zurücklaufen‘) ist ein prinzipiell unendlicher Vorgang, der sich selbst als Teil enthält oder mithilfe von sich selbst definierbar ist. In der Informatik geschieht Rekursion immer dann, wenn eine Funktion <em>sich selbst aufruft</em>.</p>
+</div>
+<ul>
+<li>Typische Anwendungen sind Divide-and-Conquer-Algorithmen und Kombinatorische Probleme</li>
+</ul>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">rekursive_funktion</span><span class="p">():</span>
-	<span class="c1"># Statement</span>
-	<span class="n">rekursive_funktion</span><span class="p">()</span> <span class="c1"># Wir rufen uns selbst (als funktion) nocheinmal auf</span>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Rekursion-in-Python">Rekursion in Python<a class="anchor-link" href="#Rekursion-in-Python">¶</a></h2><p>Rekursion in Python erreicht man indem eine Funktion sich selbst wieder aufruft.</p>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">rekursive_funktion</span><span class="p">():</span>
+    <span class="n">Statement1</span>
+    <span class="n">rekursive_funktion</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Mit rekursiven Funktionen lassen sich zum Beispiel Schleifen implementieren.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">while_loop</span><span class="p">(</span><span class="n">n</span><span class="p">):</span> <span class="c1"># n als die maximale tiefe der rekursion</span>
-	<span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-		<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Die Funktion wird rekursiv ausgeführt bis die Bedingung am Anfang der Schleife </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> &gt; 0 wahr ist"</span><span class="p">)</span>
-		<span class="n">while_loop</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># wir zählen die variable n runter</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Die rekursive Funktion wird 3-mal ausgeführt da die Bedingung wahr ist und wir bis 0 runter zählen. Genauso wie bei der While-Schleife.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">while_loop</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Damit zeigt sich, dass sich Schleifen sich immer als Rekursion implementieren lassen. Etwas was funktionsorientierte Programmiersprachen nutzen, die nur Funktionen kennen.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Beispiel-Rekursiver-Funktion---Fakult%C3%A4t">Beispiel Rekursiver Funktion - Fakultät<a class="anchor-link" href="#Beispiel-Rekursiver-Funktion---Fakult%C3%A4t">¶</a></h3>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Das Standardbeispiel einer rekursiven Funktion ist die Berechnung der Fakultät einer Zahl. Sie ist definiert als Produkt der natürlichen Zahlen von 1 bis $n$.</p>
-<p>$n! = 1 \cdot 2 \cdot 3 \cdots n = \prod_{k=1}^n k$</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">factorial_recursiv</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h3 id="Beispiel:-Fakult%C3%A4t">Beispiel: Fakultät<a class="anchor-link" href="#Beispiel:-Fakult%C3%A4t">¶</a></h3><p>Die Fakultät einer Zahl ist definiert als Produkt der natürlichen Zahlen von $1$ bis $n$</p>
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">factorial_recursiv</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">factorial_recursiv</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">factorial_recursiv</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">1</span>
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Die Fakultät der Zahl 10 ist definiert als:</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Achtung:-Endlosrekursion">Achtung: Endlosrekursion<a class="anchor-link" href="#Achtung:-Endlosrekursion">¶</a></h2><ul>
+<li><p>Bei rekursiven Funktionen gibt es das selbe Problem, wie bei while-Schleifen: Sie können sich (theoretisch) endlos verzweigen!</p>
+</li>
+<li><p>Deshalb sollte mindestens ein Pfad in der Funktion nicht rekursiv sein.</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="mi">10</span> <span class="o">*</span> <span class="mi">9</span> <span class="o">*</span> <span class="mi">8</span> <span class="o">*</span> <span class="mi">7</span> <span class="o">*</span> <span class="mi">6</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">1</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
+</div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>was identisch ist mit dem Ergebnis unserer Funktion</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Hintergrund:-Stack-Overflow-Fehler">Hintergrund: Stack Overflow Fehler<a class="anchor-link" href="#Hintergrund:-Stack-Overflow-Fehler">¶</a></h2><div class="flex-row">
+<div class="col1">
+<ul>
+<li>Der Stack ist eine Liste in der nachvollzogen wird welche Funktionen gerade aufgerufen wurden</li>
+<li>Damit ist bekannt, wohin man zurückkehrt, wenn eine Funktion beendet wird</li>
+<li>Bei endloser Rekursion, wird die Liste unendlich groß</li>
+</ul>
 </div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">factorial_recursiv</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</pre></div>
-</div>
+<div class="col1">
+<figure class="mj-fig">
+<img alt="No description has been provided for this image" class="mj-fig-img" src="../_images/04b_Rekursion/stack_1.svg"/>
+</figure>
 </div>
 </div>
 </div>
 </div>
+</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Wenn wir die Funktion aufrufen, so ruft diese sich wiederholt selbst auf und zählt dabei von <code>x=10</code> runter bis zu 1. Jeder Funktionsaufruf kann dabei als Klammer gesehen werden, so dass am Ende die folgende Berechnung durchgeführt ist, die mit der obigen Berechnung übereinstimmt.</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Hintergrund:-Stack-Overflow-Fehler">Hintergrund: Stack Overflow Fehler<a class="anchor-link" href="#Hintergrund:-Stack-Overflow-Fehler">¶</a></h2><div class="flex-row">
+<div class="col1">
+<ul>
+<li><p>Der Stack ist eine Liste in der nachvollzogen wird welche Funktionen gerade aufgerufen wurden</p>
+</li>
+<li><p>Damit ist bekannt, wohin man zurückkehrt, wenn eine Funktion beendet wird</p>
+</li>
+<li><p>Bei endloser Rekursion, wird die Liste unendlich groß</p>
+</li>
+<li><p>Es kommt bei endloser Rekursion zu Stack-Overflow-Fehlern</p>
+</li>
+<li><p>Es kommt zum harten Absturz des Programmes</p>
+</li>
+</ul>
+</div>
+<div class="col1">
+<figure class="mj-fig">
+<img alt="No description has been provided for this image" class="mj-fig-img" src="../_images/04b_Rekursion/stack_2.svg"/>
+</figure>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="mi">10</span> <span class="o">*</span> <span class="p">(</span><span class="mi">9</span> <span class="o">*</span> <span class="p">(</span><span class="mi">8</span> <span class="o">*</span> <span class="p">(</span><span class="mi">7</span> <span class="o">*</span> <span class="p">(</span><span class="mi">6</span> <span class="o">*</span> <span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="p">)))))))))</span>
-</pre></div>
 </div>
 </div>
-</div>
-</div>
-</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Dieses einfache Beispiel kann auch durch eine Schleife implementiert werden.</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Heap-vs-Stack">Heap vs Stack<a class="anchor-link" href="#Heap-vs-Stack">¶</a></h2><div class="flex-row">
+<div class="col1">
+<div class="alert alert-block alert-success">
+<b>📘 Definition: Stack</b>
+<p>Der Stack ist ein Speicherbereich, in dem Funktionsaufrufe und deren lokale Variablen nach dem LIFO-Prinzip (Last In First Out) verwaltet werden. Jeder neue Funktionsaufruf wird oben auf den Stack gelegt und beim Beenden wieder entfernt. Ist der Stack voll, kommt es zum StackOverflow-Fehler.</p>
 </div>
+<ul>
+<li>Für Funktionsaufrufe</li>
+<li>LIFO-Prinzip</li>
+<li>Begrenzter Speicher</li>
+</ul>
 </div>
+<div class="col1">
+<div class="alert alert-block alert-success">
+<b>📘 Definition: Heap</b>
+<p>Als Heap bezeichnet man einen Speicherbereich, in dem Variablen verwaltet werden. Der Heap ist im Gegensatz zum Stack nicht begrenzt sondern wächst dynamisch mit dem Bedarf. Speicher im Heap wird nach dem FIFO-Prinzip (First In First Out) verwaltet und muss explizit freigegeben werden.</p>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">factorial_schleife</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">x</span>
-    <span class="n">i</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="mi">1</span>
-    <span class="k">while</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">res</span> <span class="o">*=</span> <span class="n">i</span>
-        <span class="n">i</span> <span class="o">-=</span> <span class="mi">1</span>
-    <span class="k">return</span> <span class="n">res</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">factorial_schleife</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</pre></div>
+<ul>
+<li>Für Variablen</li>
+<li>FIFO-ähnlich</li>
+<li>Dynamisch groß (RAM)</li>
+</ul>
 </div>
 </div>
 </div>
 </div>
 </div>
+</div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Dies ist meist performanter, da Funktionen grundsätzlich etwas länger zum Ausführen brauchen, da sie ja z.B. ihr eigenen Variablenbereich haben und auf dem Stack laufen (siehe nächsten Abschnitt).</p>
-<p>Wir machen einmal einen Laufzeitvergleich mit der <code>timeit</code> Funktion des Jupyter Notebooks. Dies ruft die Funktion mehrmals auf und berechnet die durchschnittliche Ausführzeit.</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<div class="vslide">
+<div class="vslide-title">
+<p style="font-family: Protomolecule; font-size: 2.3em; margin: 0px auto; text-align: center; width: 100%;">fragen?</p>
 </div>
+<script>setSectionBackground('#000000', '../_images/mj_questions.mp4');</script>
 </div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">timeit</span> factorial_recursiv(1000)
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">timeit</span> factorial_schleife(1000)
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Wir sehen, dass die Schleifenvariante etwas schneller ist als die rekursive Variante.</p>
-<p>Allerdings sind rekursive Funktionen meist lesbarer und können nicht immer in Schleifen aufgelöst werden, wenn z.B. mehrere Variablen manipuliert werden.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Endlosrekursion,-Stack-und-Heap">Endlosrekursion, Stack und Heap<a class="anchor-link" href="#Endlosrekursion,-Stack-und-Heap">¶</a></h3>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>:::{warning} Da rekursive Funktionen den Schleifen konzeptionell ähneln, gibt es hier auch dasselbe Problem von Endlosrekursionen. Wie bei while-Schleifen können rekursive Funktionen sich <em>theoretisch</em> endlos verzweigen!</p>
-<p>Deshalb <strong>muss mindestens ein</strong> Pfad in der Funktion nicht rekursiv sein.
-:::</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><em>Praktisch</em> kommt es allerdings bei endloser Rekursion zu Stack-Overflow-Fehlern. Das liegt daran, dass Python nachvollziehen muss, welche Funktion welche andere aufgerufen hat, um beim Beenden in die richtige Funktion und Position zurückzukehren. Das geschieht über eine Liste, die sich <em>Stack</em> nennt.</p>
-<p>Der <em>Stack</em> ist eine LIFO-Liste (Last In First Out) bei der das letzte Element das hinzugefügt wird (die neu aufgerufene Funktion) auch das erste sein muss, was entfernt wird (wenn die neu aufgerufene Funktion wird beendet). Quasi wie ein Bücherstapel. Der Stack wird bei endloser Rekursion so groß, dass er nicht mehr in den vorgesehenen Speicher passt, was der Stack-Overflow-Fehler ist.</p>
-<p>Nebenbei, die Variablen werden nicht im Stack abgespeichert, sondern liegen im <em>Heap</em>. Dieser kann im Vergleich zum Stack so groß werden wie der Arbeitsspeicher und gleicht mehr einer FIFO-Liste (First In First Out), da Speicher von alten Variablen, die nicht mehr Gültigkeit haben frei gegeben werden.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Ein Stack-Overflow-Fehler ist ein <strong>kritischer Programmfehler</strong>, der nicht abgefangen werden kann, sondern immer zum Beenden des Programmes führt. Als Beispiel rufen wir unser als erste definierte rekursive Funktion auf und sehen die Fehlermeldung vom Absturz des Python-Kernels.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Wenn wir die folgende Funktion ausführen erhalten wir die darunter stehende Fehlermeldung</span>
-
-<span class="c1">#rekursive_funktion()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><span style="color: red">Canceled future for execute_request message before replies were done</span></p>
-<p><span style="color: red">Der Kernel ist beim Ausführen von Code in der aktuellen Zelle oder einer vorherigen Zelle abgestürzt. Bitte überprüfen Sie den Code in der/den Zelle(n), um eine mögliche Fehlerursache zu identifizieren. Klicken Sie hier, um weitere Informationen zu erhalten. Weitere Details finden Sie in Jupyter log.</span></p>
 </div>
 </div>
 </div>
 </div></section></section>
-</div>
-</div>
+<img src="../_images/ai4sc_logo_v2.svg" class="slide-logo">
+<div class="footer footer-default" style="display: block;">
+<span style="letter-spacing: .04rem;">programmierung</span><br><span style="letter-spacing: .0rem;">und datenbanken</span>
+</div></div></div>
 </main>
 </body>
 <script>
@@ -7852,7 +7672,12 @@ require(
     },
     [
       "https://unpkg.com/reveal.js@4.0.2/dist/reveal.js",
-      "https://unpkg.com/reveal.js@4.0.2/plugin/notes/notes.js"
+       "https://unpkg.com/reveal.js@4.0.2/plugin/notes/notes.js",
+      "https://unpkg.com/reveal.js@4.0.2/plugin/markdown/markdown.js",
+      "https://unpkg.com/reveal.js@4.0.2/plugin/math/math.js",
+      "https://unpkg.com/reveal.js@4.0.2/plugin/search/search.js",
+      "https://unpkg.com/reveal.js@4.0.2/plugin/zoom/zoom.js",
+      "https://unpkg.com/reveal.js@4.0.2/plugin/highlight/highlight.js" 
     ],
 
     function(Reveal, RevealNotes){
@@ -7862,9 +7687,30 @@ require(
             progress: true,
             history: true,
             transition: "slide",
-            slideNumber: "",
+            slideNumber: "c/t",
+                        progress: true,
+            keyboard: true,
+            overview: true,
+            center: false,
+            disableLayout: false,
+            touch: true,
+            loop: false,
+            rtl: false,
+            navigationMode: 'default',
+            pause: true,
+            autoPlayMedia: true,
+            mouseWheel: true,
+            display: 'block',
+            pdfSeparateFragments: true,
+            previewLinks: false,
+            transition: 'convex',
+            transitionSpeed: 'fast',
+            backgroundTransition: 'none',
+            viewDistance: 3,
+            mobileViewDistance: 2,
+            margin: 0.01,
             plugins: [RevealNotes],
-            width: 960,
+            width: 1050,
 			      height: 700,
 
         });

@@ -6992,10 +6992,7 @@ all of MD as it is not optimized for dense, information rich UIs.
   --jp-content-font-color2: rgba(0, 0, 0, 0.54);
   --jp-content-font-color3: rgba(0, 0, 0, 0.38);
   --jp-content-link-color: var(--md-blue-900);
-  --jp-content-font-family: system-ui, -apple-system, blinkmacsystemfont,
-    'Segoe UI', helvetica, arial, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol';
-
+  --jp-content-font-family: "IBM Plex Sans", sans-serif;
   /*
    * Code Fonts
    *
@@ -7429,7 +7426,7 @@ main {
     init_mathjax();
     </script>
 <!-- End of mathjax configuration --><!-- Reveal Theme -->
-<link href="https://unpkg.com/reveal.js@4.0.2/dist/theme/simple.css" id="theme" rel="stylesheet"/>
+<link href="https://unpkg.com/reveal.js@4.0.2/dist/theme/simple.css" id="theme"  rel="stylesheet"/>
 <link href="rise.css" rel="stylesheet"/>
 </head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
@@ -7441,775 +7438,364 @@ main {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="Pakete">Pakete<a class="anchor-link" href="#Pakete">¶</a></h1>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<div class="vslide">
+<div class="vslide-title">
+<p style="font-family: Protomolecule; font-size: 2.3em; line-height: 90%; margin: 0px auto; text-align: center; width: 100%;"><span style="letter-spacing: .04rem;">programmierung</span><br/><span style="letter-spacing: .0rem;">und datenbanken</span></p>
+<p class="author" style="font-family: Protomolecule; margin: 0px auto;  text-align: center; width: 100%; font-size: 1.2em;">Joern Ploennigs</p>
+<p class="subtitle" style="font-family: Protomolecule; margin: 1em auto; text-align: center; width: 100%; font-size: 1.2em;">Modularisierung</p>
+</div>
+<script>
+  function setSectionBackground(c,v){
+    let e=document.currentScript.previousElementSibling;
+    while(e&&e.tagName!=='SECTION')e=e.parentElement;
+    if(e){
+      if(c)e.setAttribute('data-background-color',c);
+      if(v){
+        e.setAttribute('data-background-video',v);
+        e.setAttribute('data-background-video-loop','true');
+        e.setAttribute('data-background-video-muted','true');
+      }
+    }
+  }
+  setSectionBackground('#000000', '../_images/07a_Module/mj_title.mp4');
+</script>
+<style>
+.flex-row{display:flex; gap:2rem; align-items:flex-start; justify-content:space-between;}
+.flex-row .col1{flex:1; min-width:10px}
+.flex-row .col2{flex:2; min-width:10px}
+.flex-row .col3{flex:3; min-width:10px}
+.flex-row .col4{flex:4; min-width:10px}
+.flex-row .col5{flex:5; min-width:10px}
+.flex-row .col6{flex:6; min-width:10px}
+.flex-row .col7{flex:7; min-width:10px}
+.vcent{display:flex; align-items:center; justify-content:center}
+</style>
 </div>
 </div>
 </div>
 </div>
+</div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Code-in-Dateien,-Module-und-Pakete-aufteilen">Code in Dateien, Module und Pakete aufteilen<a class="anchor-link" href="#Code-in-Dateien,-Module-und-Pakete-aufteilen">¶</a></h2>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Ablauf">Ablauf<a class="anchor-link" href="#Ablauf">¶</a></h2><p><img alt="" src="../_images/partB_1.svg"/></p>
 </div>
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Größere Programme enthalten oft dutzende Klassen mit hunderten Funktionen und vielen tausend Zeilen Code. Hier wird es sehr schnell schwer einen Überblick zu behalten, wenn alle Klassen in einer Datei definiert sind. Insbesondere wenn verschiedene Programmierer an verschiedenen Stellen im Programm arbeiten, kommt es dann sehr schnell zu Versionskonflikten, wenn Leute an ähnlichen Dateien arbeiten.</p>
-<p>Um dies organisiert und übersichtlich zu halten, wird Code in mehrere Dateien mit der Erweiterung <code>.py</code> aufgespalten. Dabei ist es üblich jeweils eine Datei</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Organisieren-von-Projekten-%C3%BCber-mehrere-Dateien">Organisieren von Projekten über mehrere Dateien<a class="anchor-link" href="#Organisieren-von-Projekten-%C3%BCber-mehrere-Dateien">¶</a></h2><div class="flex-row">
+<div class="col1">
+<p>Herausforderungen großer Programme:</p>
 <ul>
-<li>pro Klasse, wenn Klassen definiert werden</li>
-<li>pro Thema, wenn Hilfsfunktionen definiert werden (z.B. Mathematik-Funktionen, …)</li>
-<li>pro Aufgabenbereich, wenn (z.B. Laden von Daten getrennt von deren Verarbeitung. So kann man z.B. später andere Verarbeitungsschritte definieren und das Laden wiederverwenden)</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Speichern wir jede Klasse der Geometrieelemente aus dem Teil der <a href="7a_Objects.ipynb">Klassendefinition</a> aus der letzten Vorlesung so hätten wir dann z.B. eine Projektstruktur entsprechend:</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<ul>
-<li>📁 geometry<ul>
-<li>📄 <a href="points/ImmutablePoint.py">ImmutablePoint.py</a></li>
-<li>📄 <a href="points/Point.py">Point.py</a></li>
-<li>📄 <a href="shapes/Line.py">Line.py</a></li>
-<li>📄 <a href="shapes/Pentagon.py">Pentagon.py</a></li>
-<li>📄 <a href="shapes/Polygon.py">Polygon.py</a></li>
-<li>📄 <a href="shapes/Tetragon.py">Tetragon.py</a></li>
-<li>📄 <a href="shapes/Triangle.py">Triangle.py</a></li>
-</ul>
+<li><p>Dutzende Klassen mit hunderten Funktionen</p>
 </li>
-</ul>
-<!-- <center><img src="../_images/files.png" style="width: 40ex"></center> -->
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Dabei enthält jede Datei nur den Code der gleichnamigen Klasse, auch wenn dies nur wenige Zeilen sind, wie im Fall der Klassen <code>Triangle</code>, <code>Tetragon</code> und <code>Pentagon</code>. Entscheidend ist, dass wenn ein Programmierer nach dem Code für eine Klasse sucht, er genau sieht in welcher Datei dieser zu finden ist und nicht groß suchen muss.</p>
-<p>Noch größere Projekte spalten man in mehrere <em>Module</em> indem man weitere Unterverzeichnisse anlegt. So wollen wir z.B. alle generischen Klassen für Punkte in das Verzeichnis <code>points</code> gruppieren und alle geometrischen Formen in das Verzeichnis <code>shapes</code>. So lassen sich größere Projekte gut strukturieren.</p>
-<p>Die Summe aller Module formt dann ein <em>Package</em>. In diesem Fall das Package <code>geometry</code>, welches wir in verschiedenen Implementierungen wieder verwenden können.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<ul>
-<li>📁 geometry<ul>
-<li>📁 points<ul>
-<li>📄 <a href="geometry/points/ImmutablePoint.py">ImmutablePoint.py</a></li>
-<li>📄 <a href="geometry/points/Point.py">Point.py</a></li>
-</ul>
+<li><p>Viele tausende Zeilen Code</p>
 </li>
-<li>📁 shapes<ul>
-<li>📄 <a href="geometry/shapes/Line.py">Line.py</a></li>
-<li>📄 <a href="geometry/shapes/Pentagon.py">Pentagon.py</a></li>
-<li>📄 <a href="geometry/shapes/Polygon.py">Polygon.py</a></li>
-<li>📄 <a href="geometry/shapes/Tetragon.py">Tetragon.py</a></li>
-<li>📄 <a href="geometry/shapes/Triangle.py">Triangle.py</a></li>
-</ul>
+<li><p>Schwer Überblick zu behalten</p>
 </li>
-</ul>
-</li>
-</ul>
-<!-- <center><img src="../_images/shapes.png" style="width: 40ex"></center> -->
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="main()---Der-Startpunkt-eines-Programmes"><code>main()</code> - Der Startpunkt eines Programmes<a class="anchor-link" href="#main()---Der-Startpunkt-eines-Programmes">¶</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Wenn Code über mehrere Dateien verteilt ist, braucht Python einen Hinweis welcher Code ausgeführt werden soll. Hierfür definiert man die spezielle Einstiegsfunktion <code>main()</code>. Sie gibt es in fast allen Programmiersprachen und gibt immer den Startpunkt eines Programms an.</p>
-<p>In Python hat sie entweder keine Argumente oder sie erhält diese dynamisch, wenn sie vom Nutzer / von einem anderen Programm aufgerufen wird (a.k.a. Kommandozeilenargumente).</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-	<span class="nb">print</span><span class="p">(</span><span class="s2">"This is the main function"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Allerdings möchte man vermeiden, dass die Funktion <code>main()</code> auch aufgerufen wird, wenn die Python-Datei zum Beispiel als Bibliothek eingebunden wird, wo man nur an den Funktionen interessiert ist. Deshalb nutzt man am Ende einer Datei mit einer <code>main()</code>-Funktion die folgende Verzweigung.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
-	<span class="n">main</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Sie nutzt aus, dass der Wert der Standardvariable <code>__name__</code> in der Hauptdatei immer <code>'__main__'</code> lautet. Während sie in einer importierten Datei den Namen der Hauptdatei angibt.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Importieren-von-Modulen">Importieren von Modulen<a class="anchor-link" href="#Importieren-von-Modulen">¶</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Um zu vermeiden, dass ständig unnötiger Code geladen wird lädt Python diesen Code nicht automatisch. Wollen wir also den Code in unseren Dateien, Modulen und Packages nutzen so müssen wir vorher Python anweisen diesen zu laden. Dieses <em>Importieren</em> weist man mit dem Befehl <code>import</code> an.</p>
-<p>Ein einfacher Import ist der import ganzer Pakete. Dies geschieht, indem wir <code>import</code> und dem Paketnamen schreiben.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">geometry.points.ImmutablePoint</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">geometry.shapes.Line</span>
+<li><p>Versionskonflikte bei mehreren Programmierern</p>
+</li></ul></div>
+<div class="col1">
 
-<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-	<span class="n">point_1</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">ImmutablePoint</span><span class="o">.</span><span class="n">ImmutablePoint</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">54.083336</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">12.108811</span><span class="p">)</span>
-	<span class="n">point_2</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">ImmutablePoint</span><span class="o">.</span><span class="n">ImmutablePoint</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">12.094167</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">54.075211</span><span class="p">)</span>
-	<span class="n">linie_1</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">Line</span><span class="o">.</span><span class="n">Line</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">point_1</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">point_2</span><span class="p">)</span>
-	<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Die Länge der Linie zwischen Punkt 1 und 2 ist: </span><span class="si">{</span><span class="n">linie_1</span><span class="o">.</span><span class="n">length</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<p>Lösung - Code aufteilen in .py Dateien:</p>
+<ul>
+<li><p><em>Pro Klasse</em> eine Datei (bei Klassendefinitionen)</p>
+</li>
+<li><p><em>Pro Thema</em> eine Datei (z.B. Mathematik-Funktionen)</p>
+</li>
+<li><p><em>Pro Aufgabenbereich</em> eine Datei (z.B. Laden vs. Verarbeitung)</p>
+</li></ul></div>
+</div>
+
+
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Die-main()-Funktion-als-Standardfunktion">Die main()-Funktion als Standardfunktion<a class="anchor-link" href="#Die-main()-Funktion-als-Standardfunktion">¶</a></h2><p>Woher weiß Python was ausgeführt werden soll?</p>
+<ul>
+<li>Eine bestimmte Datei als <em>Zentrum des Projektes</em> deklarieren</li>
+<li>Diese enthält eine spezielle Funktion namens <code>main()</code></li>
+<li>Existiert in fast jeder Programmiersprache</li>
+<li>Gibt den <em>Startpunkt des Programms</em> an</li>
+<li>Kann keine oder dynamische Argumente erhalten (Kommandozeilenargumente)</li>
+</ul>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Die-main()-Funktion-in-Python">Die main()-Funktion in Python<a class="anchor-link" href="#Die-main()-Funktion-in-Python">¶</a></h2><div class="flex-row">
+<div class="col1">
+<p>Verschiedene Ausführungsmöglichkeiten:</p>
+<ol>
+<li>Als Skript in Kommandozeile/Gesamtprogramm</li>
+<li>Importiert in interaktive Python-Konsole</li>
+<li>Importiert in andere Python-Datei</li>
+</ol>
+<p>Problem: In Fall 1 wollen wir das gesamte Skript, in Fall 2+3 nur Teile nutzen</p>
+<p>Die Lösung - Variable <code>__name__</code>:</p>
+</div>
+<div class="col1">
+<div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"This is the main function"</span><span class="p">)</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
-	<span class="n">main</span><span class="p">()</span>
+    <span class="n">main</span><span class="p">()</span>  <span class="c1"># nur bei direktem Aufruf</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 </div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Der Nachteil des Imports ganzer Pakete ist, dass wenn wir hieraus einzelne Klassen referenzieren wollen, die sich in Untermodulen befinden, so müssen wir den kompletten Pfad der Klasse angeben. In dem Beispiel oben zum Beispiel <code>geometry.points.ImmutablePoint.ImmutablePoint</code>.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Deshalb importiert man meist einzelne Module indem man den Pfad eines Moduls angibt, wie zum Beispiel <code>geometry.points.ImmutablePoint.ImmutablePoint</code>. Hierbei kann man den importierten Modulen auch neue Namen geben wie <code>point</code> oder <code>line</code> in dem Beispiel unten.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">geometry.points.ImmutablePoint</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">point</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">geometry.shapes.Line</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">line</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-	<span class="n">point_1</span> <span class="o">=</span> <span class="n">point</span><span class="o">.</span><span class="n">ImmutablePoint</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">54.083336</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">12.108811</span><span class="p">)</span>
-	<span class="n">point_2</span> <span class="o">=</span> <span class="n">point</span><span class="o">.</span><span class="n">ImmutablePoint</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">12.094167</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">54.075211</span><span class="p">)</span>
-	<span class="n">linie_1</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">Line</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">point_1</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">point_2</span><span class="p">)</span>
-	<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Die Länge der Linie zwischen Punkt 1 und 2 ist: </span><span class="si">{</span><span class="n">linie_1</span><span class="o">.</span><span class="n">length</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
-	<span class="n">main</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Alternativ lassen sich auch Teile eines Moduls mit dem Platzhalter <code>*</code> und dem Befehl <code>from</code> importieren. Alle Elemente werden mit dem Platzhalter <code>*</code> importiert. Spezifische Elemente wie einzelne Klassen können auch direkt angegeben werden, wie im folgenden Beispiel <code>Line</code>.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">geometry.points.ImmutablePoint</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">geometry.shapes.Line</span><span class="w"> </span><span class="kn">import</span> <span class="n">Line</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-	<span class="n">point_1</span> <span class="o">=</span> <span class="n">ImmutablePoint</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">54.083336</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">12.108811</span><span class="p">)</span>
-	<span class="n">point_2</span> <span class="o">=</span> <span class="n">ImmutablePoint</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">12.094167</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">54.075211</span><span class="p">)</span>
-	<span class="n">linie_1</span> <span class="o">=</span> <span class="n">Line</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">point_1</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">point_2</span><span class="p">)</span>
-	<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Die Länge der Linie zwischen Punkt 1 und 2 ist: </span><span class="si">{</span><span class="n">linie_1</span><span class="o">.</span><span class="n">length</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
-	<span class="n">main</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Standard-Paktete-aus-Python-importieren">Standard Paktete aus Python importieren<a class="anchor-link" href="#Standard-Paktete-aus-Python-importieren">¶</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Python beinhaltet viele <a href="https://python.readthedocs.io/en/latest/library/index.html">Standardpakete</a> für typische Aufgaben. Für die Bau- und Umweltinformatik sind die folgenden am sinnvollsten:</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<table>
-<thead>
-<tr>
-<th>packet</th>
-<th>description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>collections</td>
-<td>Mehr komplexe Datentypen zum zählen, sortieren</td>
-</tr>
-<tr>
-<td>http</td>
-<td>Funktionen des HTTP-Internetprotokolls wie Web-Server</td>
-</tr>
-<tr>
-<td>json</td>
-<td>Funktionen um Objekte als Text abzuspeichern</td>
-</tr>
-<tr>
-<td>logging</td>
-<td>Funktionen um Logs zu schreiben</td>
-</tr>
-<tr>
-<td>math</td>
-<td>Mathematische Funktionen</td>
-</tr>
-<tr>
-<td>os</td>
-<td>Funktionen um Dateien zu finden, laden und speichern</td>
-</tr>
-<tr>
-<td>pickle</td>
-<td>Funktionen um Objekte binär abzuspeichern</td>
-</tr>
-<tr>
-<td>pprint</td>
-<td>print-Funktionen um Objekte schöner (pretty) auszugeben</td>
-</tr>
-<tr>
-<td>random</td>
-<td>Funktionen zum Erzeugen von Zufallszahlen</td>
-</tr>
-<tr>
-<td>re</td>
-<td>Funktionen für Reguläre Ausdrücke um Text zu suchen</td>
-</tr>
-<tr>
-<td>sys</td>
-<td>Funktionen um Systeminformationen zu erhalten</td>
-</tr>
-<tr>
-<td>time</td>
-<td>Funktionen für Zeit und Datumsangaben</td>
-</tr>
-<tr>
-<td>timeit</td>
-<td>Funktionen um die Performance von Funktionen zu testen</td>
-</tr>
-<tr>
-<td>traceback</td>
-<td>Funktionen um den Stack aufzulisten</td>
-</tr>
-<tr>
-<td>urllib</td>
-<td>Funktionen um ULRs im Internet zu laden und verarbeiten</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Von der Liste haben wir die Bibliotheken <code>math</code>, <code>time</code>, <code>timeit</code>, <code>traceback</code> und <code>logging</code> schon kennen gelernt und benutzt. Die anderen Pakete bieten allerdings weitere sinnvolle Funktionen.</p>
-<p>Wollen wir zum Beispiel alle Dateien in einem Verzeichnis auflisten, so nutzen wir das Paket <code>os</code>.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-
-<span class="n">folder</span> <span class="o">=</span> <span class="s2">"geometry/shapes/"</span>
-<span class="k">for</span> <span class="n">count</span><span class="p">,</span> <span class="n">filename</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">folder</span><span class="p">)):</span>
-	<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">)):</span>
-		<span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
-		<span class="nb">print</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Viele Webseiten bieten Programmierschnittstellen an, so genannte APIs, da diese APIs auch von den eigenen Webseiten genutzt werden, um Daten nachzuladen, die auf der Webseite angezeigt werden. Die APIs nutzen meist das JSON-Format um Daten auszutauschen. Dies ist ein Text-basiertes Dateiformat, das in Python sehr stark dem <code>dict</code>-Datentyp ähnelt, aber auch alle anderen primitiven und zusammengesetzten Datentypen von Python unterstützt.</p>
-<p>Wir möchten zum Beispiel die Wetterdaten einer Wetterstation in Deutschland analysieren. Diese Daten bekommen wir beim <a href="https://www.dwd.de">Deutschen Wetterdiest</a>. Diese Daten kann man sich auch von der <a href="https://dwd.api.bund.dev/">API</a> herunterladen. Hierfür braucht man die ID (Identifikationsnummer) einer Wetterstation welche <a href="https://www.dwd.de/DE/leistungen/klimadatendeutschland/statliste/statlex_html.html?view=nasPublication&amp;nn=16102">hier</a> zu finden ist. Wir nehmen als Beispiel eine Station im Hansaviertel in Rostock mit der ID <code>12495</code>.</p>
-<p>Dann kann man die Wetterdaten mit Python mit Hilfe des Paketes <code>urllib</code> von der API laden. Das JSON-Format können wir mit dem <code>json</code> Paket verarbeiten. Wir laden dazu zuerst vom Deutschen Wetterdienst ein binäres Datenpaket vom Datentype <code>bytes</code>. Dieses konvertieren wir mit der Funktion <code>loads</code> aus dem <code>json</code> Paket in ein Python <code>dict</code>. Um das schöner lesbar auszugeben, nutzen wir die Funktion <code>pprint</code> aus dem Paket <code>pprint</code> (pretty-print).</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs celltag_output_scroll">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">pprint</span>
-
-<span class="n">stationID</span><span class="o">=</span><span class="s1">'12495'</span> <span class="c1"># Rostock-Hansaviertel</span>
-<span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="sa">f</span><span class="s1">'https://dwd.api.proxy.bund.dev/v30/stationOverviewExtended?stationIds=</span><span class="si">{</span><span class="n">stationID</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">data</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span> <span class="c1"># Dies gibt uns ein binären Datentyp zurück</span>
-    <span class="n">wetter</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="c1"># Wir konvertieren den binären Datentyp in ein dict</span>
-    <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">wetter</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">compact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<!-- Einen eigenen Webserver können wir mit dem Paket `http.server` starten.
-
-import http.server as server
-
-server_object = server.HTTPServer(server_address=('', 80), 	RequestHandlerClass=server.CGIHTTPRequestHandler)
-
-server_object.serve_forever()
-
--->
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Externe-Pakete-installieren-und-importieren">Externe Pakete installieren und importieren<a class="anchor-link" href="#Externe-Pakete-installieren-und-importieren">¶</a></h2>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Die Stärke von Python ist allerdings die riesige Auswahl an vorhandenen Paketen. Für die meisten Anwendungszwecke gibt es entsprechende Python Packages. Ein solches Verzeichnis is <a href="https://pypi.org/">PyPi</a> das über 400.000 Pakete listet.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Die Installation neuer Pakete für Python ist einfach. Hierfür öffnet man ein Terminal (Kommandozeile) und gibt den Befehl <code>pip install &lt;packetname&gt;</code> ein.</p>
-<p>Zum Beispiel wollen wir die eben geladenen Wetterdaten anzeigen. Hierfür nutzen wir:</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Best-Practice-f%C3%BCr-main()-Funktion">Best Practice für main()-Funktion<a class="anchor-link" href="#Best-Practice-f%C3%BCr-main()-Funktion">¶</a></h2><p>Was gehört VOR die main()-Definition:</p>
+<div class="flex-row">
+<div class="col1">
+<p>✅ Nur erlaubt:</p>
 <ul>
-<li>zuerst das Paket <code>pandas</code> zum Erzeugen einer Tabelle aus den Wetterdaten.</li>
-<li>dann nutzen wir das Paket <code>plotly</code> zum Zeichnen eines Diagramms.</li>
-<li>zuletzt erzeugen wir uns einen Webserver mit <code>dash</code> der uns das Diagramm immer anzeigt</li>
+<li><p>Funktionsdefinitionen</p>
+</li>
+<li><p>Klassendefinitionen</p>
+</li></ul></div>
+<div class="col1">
+
+
+<p>❌ Vermeiden:</p>
+<ul>
+<li><p>Variablenbelegungen (globale Variablen)</p>
+</li>
+<li><p>Funktionsaufrufe (Nebeneffekte)</p>
+</li></ul></div>
+</div>
+
+
+<p>Vorteile dieser Struktur:</p>
+<ul>
+<li>Programmfluss wird übersichtlicher</li>
+<li>Programm einfach modifizierbar</li>
+<li>Programm besser weiterverwendbar</li>
 </ul>
-<p>Alles drei installieren wir mit <code>pip</code>. Wir können das in einem Aufruf machen. Wir nutzen den <code>--quiet</code> Switch, um die Ausgabe zu reduzieren.</p>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pandas</span> <span class="n">plotly</span> <span class="n">dash</span>  <span class="o">--</span><span class="n">quiet</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
+</div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Jetzt laden wir beide Pakete, wobei man üblicher Weise <code>pandas</code> die Abkürzung <code>pd</code> zuweist und Plotly Express, welches einfach zu bedienen ist, die Abkürzung <code>px</code>.</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Programmfluss-%C3%BCber-mehrere-Dateien">Programmfluss über mehrere Dateien<a class="anchor-link" href="#Programmfluss-%C3%BCber-mehrere-Dateien">¶</a></h2><ul>
+<li><p>Jetzt haben wir einen zentralen Startpunkt.</p>
+</li>
+<li><p>Wie rufen wir Code aus anderen Dateien auf?</p>
+</li>
+<li><p>Jede Programmiersprache hat Befehle zum Laden externen Codes:</p>
+<ul>
+<li><code>import</code> und <code>include</code> (Python)</li>
+<li>Spezielle "Header-Dateien" die Zusammenhänge zwischen Dateien definieren</li>
+</ul>
+</li>
+</ul>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.express</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">px</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">dash</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Nun wandeln wir die tageweise Wettervorhersage <code>days</code> der Daten von der Wetterstation mit der <code>stationID</code> zuerst in eine Tabelle um, da diese von Plotly express verarbeitet werden kann. Tabellen heißen in Pandas DataFrames (allgemein werden so Tabellen in der Data Science genannt). Wir erzeugen also aus der Wettervorhersage ein neue Objektinstanz vom Typ <code>DataFrame</code> via</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs celltag_output_scroll">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">wetter</span><span class="p">[</span><span class="n">stationID</span><span class="p">][</span><span class="s1">'days'</span><span class="p">])</span>
-<span class="n">df</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Nun plotten wir die Daten <code>df</code> als LinienDiagramm mit Hilfe von Plotly wobei wir als <code>x</code>-Axe das Datum wählen (<code>dayDate</code>) und als <code>y</code>-Axe die minimale Temperatur <code>temperatureMin</code> und maximale Temperatur <code>temperatureMax</code>.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="o">=</span><span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"dayDate"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="s2">"temperatureMin"</span><span class="p">,</span> <span class="s2">"temperatureMax"</span><span class="p">])</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">renderer</span><span class="o">=</span><span class="s2">"svg"</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Zuletzt wollen wir dieses Diagramm in einer Webseite auf einem Webserver anzeigen. Hier nutzen wir das Paket <code>dash</code> welches erlaubt eine Webseite mit Python-Befehlen zu erzeugen und darin interaktive Diagramme von Plotly mit anzuzeigen.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">dash</span>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Programmfluss-in-Python---import-Statement">Programmfluss in Python - import Statement<a class="anchor-link" href="#Programmfluss-in-Python---import-Statement">¶</a></h2><div class="flex-row">
+<div class="col1">
+<p>Strategie:</p>
+<ul>
+<li><p>Eine .py-Datei enthält <code>main()</code> (Fall 1)</p>
+</li>
+<li><p>Alle anderen ohne <code>main()</code> oder mit <code>__name__</code> ignoriert (Fall 3)</p>
+</li>
+<li><p><code>import</code>-Statement lädt externe Dateien</p>
+</li>
+<li><p><em>Achtung:</em> Kompletter Code wird ausgeführt, auch Variablen und Funktionsaufrufe!</p>
+</li></ul></div>
+<div class="col1">
 
-<span class="n">app</span> <span class="o">=</span> <span class="n">dash</span><span class="o">.</span><span class="n">Dash</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs celltag_remove-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">jupyter_dash</span>  <span class="o">--</span><span class="n">quiet</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs celltag_remove-cell">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># und ersetzen das Dash objekt</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">jupyter_dash</span><span class="w"> </span><span class="kn">import</span> <span class="n">JupyterDash</span>
 
-<span class="n">app</span> <span class="o">=</span> <span class="n">JupyterDash</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">external_file</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"This is the main function"</span><span class="p">)</span>
+</pre></div>
+<p>Variablen/Funktionen/Klassen aus <code>external_file.py</code> werden in Objekt <code>external_file</code> abgelegt</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Import-externer-Bibliotheken-(Packages)">Import externer Bibliotheken (Packages)<a class="anchor-link" href="#Import-externer-Bibliotheken-(Packages)">¶</a></h2><p><em>Terminologie:</em></p>
+<ul>
+<li><em>Module:</em> Importierte Skripte</li>
+<li><em>Namespace:</em> Das entstehende Objekt (Typ: module)</li>
+<li><em>Package:</em> Modul mit weiteren Untermodulen</li>
+</ul>
+</div>
+</div>
+</div>
+</div></section><section>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Grundlagen-der-Projektstruktur">Grundlagen der Projektstruktur<a class="anchor-link" href="#Grundlagen-der-Projektstruktur">¶</a></h2><div class="flex-row">
+<div class="col1">
+<p><strong>Allgemeine Struktur</strong></p>
+<pre><code>main.py [enthält main()]
+├── module1.py
+├── module2.py  
+└── helpers.py
+</code></pre>
+<p>Code in <code>main.py</code></p>
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">module1</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">module2</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">helpers</span>
+</pre></div>
+</div>
+<div class="col1">
+<p><strong>Beispiel - Stadtprojekt</strong></p>
+<pre><code>city.py
+├── buildings.py
+├── streets.py
+└── geometry.py
+</code></pre>
+<p>Code in <code>main.py</code></p>
+<div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">buildings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">streets</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geometry</span>
 </pre></div>
 </div>
 </div>
 </div>
 </div>
 </div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Dann erzeugen wir eine Webseite mit einer Überschrift (<code>H1</code>), welche den Plot als <code>Graph</code> enthält.</p>
-</div>
-</div>
-</div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">app</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">dash</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">dash</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="s1">'Wetter in Rostock'</span><span class="p">),</span>
-    <span class="n">dash</span><span class="o">.</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">"fare_vs_age"</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
-<span class="p">])</span>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Das-import-Statement:-Erweiterte-Nutzungen">Das import-Statement: Erweiterte Nutzungen<a class="anchor-link" href="#Das-import-Statement:-Erweiterte-Nutzungen">¶</a></h2><ul>
+<li>Die Import-Funktionen von Python sind komplex und vielschichtig.</li>
+<li>Im Alltag trifft man aber meistens nur auf folgende zusätzliche Konstrukte:<ul>
+<li><code>from-import</code>-Statement: Importiert ein Submodul oder ein Teil eines Moduls direkt, ohne den übergeordneten Namespace</li>
+<li><code>from-import-as</code>-Statement: Arbeitet genauso, benennt aber das importierte Objekt um</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">external_file</span><span class="w"> </span><span class="kn">import</span> <span class="n">external_function</span> <span class="k">as</span> <span class="n">ext_func</span>
 </pre></div>
 </div>
 </div>
 </div>
-</div>
-</div>
+</div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Und starten den Webserver.</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Import-Statements-%E2%80%93-Das-Tor-zur-Welt">Import-Statements – Das Tor zur Welt<a class="anchor-link" href="#Import-Statements-%E2%80%93-Das-Tor-zur-Welt">¶</a></h2><ul>
+<li><p>Wir können nicht nur unsere eigenen Pakete importieren – sondern auch Pakete die von anderen Personen/Organisationen öffentlich gemacht wurden!</p>
+</li>
+<li><p>Es gibt mehrere Möglichkeiten auf Pakete zuzugreifen:</p>
+</li>
+<li><p>Paket ist in Python mitgeliefert</p>
+</li>
+<li><p>Direkt als .py-Dateien / Ordner mit .py Dateien herunterladen</p>
+</li>
+<li><p>Einen Package-Manager (pip, uv) benutzen (Besser!)</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
-<div class="jp-Cell-inputWrapper" tabindex="0">
-<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
-</div>
-<div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
-<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
-<div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-</div>
+</div></section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Dies startet einen Webserver auf den wir in einem Browser unter <code>http://127.0.0.1:8083/</code> zugreifen können. Er zeigt uns eine Webseite mit einem interaktiven Diagramm welches die Wetterdaten anzeigt.</p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<h2 id="Packages---Die-eigentliche-Macht-von-Python">Packages - Die eigentliche Macht von Python<a class="anchor-link" href="#Packages---Die-eigentliche-Macht-von-Python">¶</a></h2><ul>
+<li>Pythons Platzierung als populärste Programmiersprache der Welt basiert vor allem darauf, dass es sich zu einer Interface- und Pipeline-Sprache entwickelt hat.</li>
+<li>Fast jedes durch einen Computer lösbares Problem kann durch das geschickte Verschalten der richtigen Python-Packages gelöst werden.</li>
+<li>Die offizielle Anlaufstelle für Packages, der Python Package Index (PyPI), führt derzeit über 418.000 frei verfügbare Pakete.</li>
+<li>Diese können in den meisten Fällen mit einem einzigen Befehl/Klick installiert werden</li>
+</ul>
+<center><a href="https://pypi.org"><img alt="No description has been provided for this image" src="../_images/08b_Bibliotheken/pip.png" style="width:400px;"/></a></center>
 </div>
 </div>
 </div>
-</div>
+</div></section></section><section><section>
 <div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p><img alt="" src="../_images/wetter.png"/></p>
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput celltag_remove-cell" data-mime-type="text/markdown">
+<div class="vslide">
+<div class="vslide-title">
+<p style="font-family: Protomolecule; font-size: 2.3em; margin: 0px auto; text-align: center; width: 100%;">fragen?</p>
+</div>
+<script>setSectionBackground('#000000', '../_images/mj_questions.mp4');</script>
+</div>
 </div>
 </div>
 </div>
 </div></section></section>
-</div>
-</div>
+<img src="../_images/ai4sc_logo_v2.svg" class="slide-logo">
+<div class="footer footer-default" style="display: block;">
+<span style="letter-spacing: .04rem;">programmierung</span><br><span style="letter-spacing: .0rem;">und datenbanken</span>
+</div></div></div>
 </main>
 </body>
 <script>
@@ -8221,7 +7807,12 @@ require(
     },
     [
       "https://unpkg.com/reveal.js@4.0.2/dist/reveal.js",
-      "https://unpkg.com/reveal.js@4.0.2/plugin/notes/notes.js"
+       "https://unpkg.com/reveal.js@4.0.2/plugin/notes/notes.js",
+      "https://unpkg.com/reveal.js@4.0.2/plugin/markdown/markdown.js",
+      "https://unpkg.com/reveal.js@4.0.2/plugin/math/math.js",
+      "https://unpkg.com/reveal.js@4.0.2/plugin/search/search.js",
+      "https://unpkg.com/reveal.js@4.0.2/plugin/zoom/zoom.js",
+      "https://unpkg.com/reveal.js@4.0.2/plugin/highlight/highlight.js" 
     ],
 
     function(Reveal, RevealNotes){
@@ -8231,9 +7822,30 @@ require(
             progress: true,
             history: true,
             transition: "slide",
-            slideNumber: "",
+            slideNumber: "c/t",
+                        progress: true,
+            keyboard: true,
+            overview: true,
+            center: false,
+            disableLayout: false,
+            touch: true,
+            loop: false,
+            rtl: false,
+            navigationMode: 'default',
+            pause: true,
+            autoPlayMedia: true,
+            mouseWheel: true,
+            display: 'block',
+            pdfSeparateFragments: true,
+            previewLinks: false,
+            transition: 'convex',
+            transitionSpeed: 'fast',
+            backgroundTransition: 'none',
+            viewDistance: 3,
+            mobileViewDistance: 2,
+            margin: 0.01,
             plugins: [RevealNotes],
-            width: 960,
+            width: 1050,
 			      height: 700,
 
         });
