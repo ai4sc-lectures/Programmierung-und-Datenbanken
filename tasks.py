@@ -5,6 +5,7 @@ import shutil
 from itertools import chain
 from pathlib import Path
 import glob
+import re
 import os, sys
 import time
 from subprocess import PIPE, Popen
@@ -147,6 +148,7 @@ def build_book_slides(c):
     info("Build jupyter book html")
     os.makedirs("_build/html/lec_slides", exist_ok=True)
     shutil.copyfile("lectures/rise.css", "_build/html/lec_slides/rise.css")
+    shutil.copyfile("lectures/jp-notebook-style.css", "_build/html/lec_slides/jp-notebook-style.css")
     files = [fn for fn in os.listdir("lectures/") if fn.endswith(".ipynb")]
     for fn in files:
         fni = os.path.join('lectures', fn)
@@ -159,36 +161,37 @@ def build_book_slides(c):
         fni = os.path.join('_build/html/lec_slides/', fn)
         with open(fni, "r") as fi:
             htmltxt = fi.read()
+            htmltxt = re.sub(r'(<style type="text/css">\s*pre \{ line-height: 125%; \})(.*?)(</style>\s*<!-- Load mathjax -->)', '<link href="jp-notebook-style.css" rel="stylesheet"/>', htmltxt, flags=re.DOTALL)
             htmltxt = htmltxt.replace('src="images/', 'src="../_images/')
+            htmltxt = htmltxt.replace(", 'images/", ", '../_images/") 
             htmltxt = htmltxt.replace(", 'images/", ", '../_images/") 
             htmltxt = htmltxt.replace('id="theme" rel="stylesheet"/>', 'id="theme"  rel="stylesheet"/>\n<link href="rise.css" rel="stylesheet"/>')
             htmltxt = htmltxt.replace('slideNumber: "",', 'slideNumber: "c/t",')
-            htmltxt = htmltxt.replace('width: 960,', 'width: 1050,')
-            htmltxt = htmltxt.replace('height: 700,', 'height: 700,')
-            htmltxt = htmltxt.replace('plugins: [RevealNotes]', """
-        progress: true,
-        keyboard: true,
-        overview: true,
-        center: false,
-        disableLayout: false,
-        touch: true,
-        loop: false,
-        rtl: false,
-        navigationMode: 'default',
-        pause: true,
-        autoPlayMedia: true,
-        mouseWheel: true,
-        display: 'block',
-        pdfSeparateFragments: true,
-        previewLinks: false,
-        transition: 'convex',
-        transitionSpeed: 'fast',
-        backgroundTransition: 'none',
-        viewDistance: 3,
-        mobileViewDistance: 2,
-        margin: 0.1,
-        plugins: [RevealNotes]
-""") # plugins: [RevealNotes, PdfExport, Verticator, RevealMenu, RevealChalkboard, RevealMath, RevealSearch, RevealZoom]
+            htmltxt = htmltxt.replace('width: 960,', 'width: 1050,') # 1200
+            htmltxt = htmltxt.replace('height: 700,', 'height: 700,') # 800
+            if "mouseWheel: true" not in htmltxt:
+                htmltxt = htmltxt.replace('plugins: [RevealNotes]', """            progress: true,
+            keyboard: true,
+            overview: true,
+            center: false,
+            disableLayout: false,
+            touch: true,
+            loop: false,
+            rtl: false,
+            navigationMode: 'default',
+            pause: true,
+            autoPlayMedia: true,
+            mouseWheel: true,
+            display: 'block',
+            pdfSeparateFragments: true,
+            previewLinks: false,
+            transition: 'convex',
+            transitionSpeed: 'fast',
+            backgroundTransition: 'none',
+            viewDistance: 3,
+            mobileViewDistance: 2,
+            margin: 0.01,
+            plugins: [RevealNotes]""") # plugins: [RevealNotes, PdfExport, Verticator, RevealMenu, RevealChalkboard, RevealMath, RevealSearch, RevealZoom]
             htmltxt = htmltxt.replace("""
 </div>
 </div>
@@ -205,34 +208,14 @@ def build_book_slides(c):
 """, """
   --jp-content-font-family: "IBM Plex Sans", sans-serif;""")
             htmltxt = htmltxt.replace('/dist/theme/simple.css" id="theme"  rel="stylesheet"/>', """/dist/theme/simple.css" id="theme"  rel="stylesheet"/>""")
-            htmltxt = htmltxt.replace('"https://unpkg.com/reveal.js@4.0.2/plugin/notes/notes.js"', """
-      "https://unpkg.com/reveal.js@4.0.2/plugin/notes/notes.js",
+            if "https://unpkg.com/reveal.js@4.0.2/plugin/markdown/markdown.js" not in htmltxt:
+                htmltxt = htmltxt.replace('"https://unpkg.com/reveal.js@4.0.2/plugin/notes/notes.js"', """ "https://unpkg.com/reveal.js@4.0.2/plugin/notes/notes.js",
       "https://unpkg.com/reveal.js@4.0.2/plugin/markdown/markdown.js",
       "https://unpkg.com/reveal.js@4.0.2/plugin/math/math.js",
       "https://unpkg.com/reveal.js@4.0.2/plugin/search/search.js",
       "https://unpkg.com/reveal.js@4.0.2/plugin/zoom/zoom.js",
-      "https://unpkg.com/reveal.js@4.0.2/plugin/highlight/highlight.js"
-""")
-# 
-#<link href="../_static/styles/revealjs/dist/reset.css" rel="stylesheet">
-#<link href="../_static/styles/revealjs/dist/reveal.css" rel="stylesheet">
-#<link href="../_static/styles/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-#<link href="../_static/styles/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-#<link href="../_static/styles/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-#<link href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
-#<link href="../_static/styles/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
-#<link href="../_static/styles/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
-#                                    
-#<script src="../_static/styles/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-#<script src="../_static/styles/revealjs/plugin/pdf-export/pdfexport.js"></script>
-#<script src="../_static/styles/revealjs/plugin/reveal-menu/menu.js"></script>
-#<script src="../_static/styles/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-#<script src="../_static/styles/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
-#<script src="../_static/styles/revealjs/plugin/quarto-support/support.js"></script>
-#<script src="../_static/styles/revealjs/plugin/notes/notes.js"></script>
-#<script src="../_static/styles/revealjs/plugin/search/search.js"></script>
-#<script src="../_static/styles/revealjs/plugin/zoom/zoom.js"></script>
-#<script src="../_static/styles/revealjs/plugin/math/math.js"></script>
+      "https://unpkg.com/reveal.js@4.0.2/plugin/highlight/highlight.js" """)
+
         with open(fni, 'w') as fo:
             fo.write(htmltxt)
 
