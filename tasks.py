@@ -161,7 +161,7 @@ def build_book_slides(c):
         fni = os.path.join('_build/html/lec_slides/', fn)
         with open(fni, "r") as fi:
             htmltxt = fi.read()
-            htmltxt = re.sub(r'(<style type="text/css">\s*pre \{ line-height: 125%; \})(.*?)(</style>\s*<!-- Load mathjax -->)', '<link href="jp-notebook-style.css" rel="stylesheet"/>', htmltxt, flags=re.DOTALL)
+            #htmltxt = re.sub(r'(<style type="text/css">\s*pre \{ line-height: 125%; \})(.*?)(</style>\s*<!-- Load mathjax -->)', '<link href="jp-notebook-style.css" rel="stylesheet"/>', htmltxt, flags=re.DOTALL)
             htmltxt = htmltxt.replace('src="images/', 'src="../_images/')
             htmltxt = htmltxt.replace(", 'images/", ", '../_images/") 
             htmltxt = htmltxt.replace(", 'images/", ", '../_images/") 
