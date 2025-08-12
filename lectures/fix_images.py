@@ -7,6 +7,7 @@ from pathlib import Path
 
 IMG_RE = re.compile(r'(?P<path>images/[^\s\)\]\}\'"]+)', re.IGNORECASE)
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".gif", ".bmp", ".tiff", ".svg", ".webp"}
+DO_NOT_ARCHIVE = {"ai4sc_logo_v2.svg", "pd_logo.svg", "pd_logo2.svg"}
 
 def extract_image_paths_from_notebook(nb_path: Path):
     try:
@@ -56,6 +57,7 @@ def update_notebook_paths(nb_path: Path, old_rel: str, new_rel: str):
     return changed
 
 def check_and_offer_move(nb_path: Path, rel_img_path: str):
+    """Existenz prüfen und falls nicht unter images/<notebookname>/, anbieten zu verschieben + Pfad im Notebook anpassen."""
     nb_dir = nb_path.parent
     nb_stem = nb_path.stem
     src_path = (nb_dir / rel_img_path).resolve()
@@ -88,7 +90,7 @@ def check_and_offer_move(nb_path: Path, rel_img_path: str):
     if target_path.exists():
         print(f"[HINWEIS] Ziel existiert bereits: {target_path}")
         if target_path.stat().st_size == src_path.stat().st_size:
-            ans = input(f"Datei gleicher Größe existiert. Quelle entfernen? (y/N) ").strip().lower()
+            ans = input("Datei gleicher Größe existiert. Quelle entfernen? (y/N) ").strip().lower()
             if ans == "y":
                 src_path.unlink()
                 print(f"[GELÖSCHT] {src_path}")
@@ -106,7 +108,8 @@ def check_and_offer_move(nb_path: Path, rel_img_path: str):
     else:
         print("[ÜBERSPRUNGEN] Keine Aktion durchgeführt.")
 
-def collect_used_images(notebooks, images_root: Path):
+def collect_used_images(notebooks):
+    """Menge absoluter, existierender Bildpfade über alle Notebooks + Liste fehlender Referenzen."""
     used_absolute = set()
     missing_refs = []
     for nb in notebooks:
@@ -123,6 +126,7 @@ def collect_used_images(notebooks, images_root: Path):
     return used_absolute, missing_refs
 
 def scan_images_tree(images_root: Path):
+    """Alle Bilddateien unter images_root (rekursiv) als absolute Pfade."""
     files = set()
     if not images_root.exists():
         return files
@@ -131,15 +135,52 @@ def scan_images_tree(images_root: Path):
             files.add(p.resolve())
     return files
 
+def move_unused_to_old(images_root: Path, unused: list[Path]):
+    """Fragt nach und verschiebt unbenutzte Dateien nach <root>/old/images/ (Unterpfade erhalten)."""
+    if not unused:
+        return
+    # Ziel: <project_root>/old/images/<rel_to_images_root>
+    project_root = images_root.parent
+    old_images_root = project_root / "old" / "images"
+
+    # Auflistung (ohne verbotene Dateien)
+    movable = [p for p in unused if p.name not in DO_NOT_ARCHIVE]
+    if not movable:
+        return
+
+    print(f"\nEs gibt {len(unused)} unbenutzte Bild(er) unter {images_root}.")
+    print(f"Davon {len(movable)} potenziell verschiebbar (ausgenommen: {', '.join(sorted(DO_NOT_ARCHIVE))}).")
+    ans = input(f"Soll(en) diese {len(movable)} Datei(en) nach '{old_images_root}' verschoben werden? (y/N) ").strip().lower()
+    if ans != "y":
+        print("[ÜBERSPRUNGEN] Archiv-Verschiebung nicht bestätigt.")
+        return
+
+    for src in movable:
+        try:
+            rel = src.relative_to(images_root)  # ursprünglicher Unterpfad
+        except ValueError:
+            # Falls src nicht unter images_root liegt, überspringen (sollte nicht passieren)
+            print(f"[SKIP] Liegt nicht unter images root: {src}")
+            continue
+        dest = old_images_root / rel
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            shutil.move(str(src), str(dest))
+            print(f"[ARCHIVIERT] {src} -> {dest}")
+        except Exception as e:
+            print(f"[FEHLER] Konnte {src} nicht archivieren: {e}")
+
 def main():
     parser = argparse.ArgumentParser(
-        description="Scannt Jupyter-Notebooks (ohne .ipynb_checkpoints, old), verschiebt falsch platzierte Bilder und aktualisiert Pfade im Notebook."
+        description=("Scannt Jupyter-Notebooks (ohne .ipynb_checkpoints und Ordner 'old'), "
+                     "verschiebt falsch platzierte Bilder, aktualisiert Pfade im Notebook, "
+                     "und kann unbenutzte Bilder nach old/images/ verschieben.")
     )
     parser.add_argument("verzeichnis", type=Path, help="Startverzeichnis (wird rekursiv durchsucht)")
     parser.add_argument("--images-root", type=Path, default=None,
                         help="Pfad zum images-Stammordner (Standard: <verzeichnis>/images)")
     parser.add_argument("--no-move", action="store_true",
-                        help="Nur prüfen, kein Verschiebe-Dialog")
+                        help="Nur prüfen, kein Verschiebe-Dialog während Notebook-Prüfung")
     args = parser.parse_args()
 
     root = args.verzeichnis.resolve()
@@ -149,13 +190,14 @@ def main():
 
     images_root = (args.images_root.resolve() if args.images_root else (root / "images").resolve())
 
+    # Notebooks sammeln, .ipynb_checkpoints und Ordner 'old' ignorieren
     notebooks = sorted(
         nb for nb in root.rglob("*.ipynb")
         if ".ipynb_checkpoints" not in nb.parts and "old" not in nb.parts
     )
 
     if not notebooks:
-        print("[INFO] Keine .ipynb-Dateien gefunden.")
+        print("[INFO] Keine .ipynb-Dateien gefunden (außerhalb von 'old' und .ipynb_checkpoints).")
     else:
         for nb in notebooks:
             print(f"\n===== Notebook: {nb} =====")
@@ -170,8 +212,13 @@ def main():
                     if not abs_path.exists():
                         print(f"[WARNUNG] Bild nicht gefunden: {abs_path}")
 
-    used_absolute, missing_refs = collect_used_images(notebooks, images_root)
+    # Aggregation: verwendete Bilder & fehlende Referenzen
+    used_absolute, missing_refs = collect_used_images(notebooks)
+
+    # Images-Baum scannen (nur <root>/images, NICHT old/images)
     images_in_tree = scan_images_tree(images_root)
+
+    # Unbenutzte Bilder = alle im images/-Baum, die nicht in used_absolute vorkommen
     unused = sorted(p for p in images_in_tree if p not in used_absolute)
 
     print("\n===== Zusammenfassung =====")
@@ -187,13 +234,17 @@ def main():
             print(f"  - {nb}: {relp}")
 
     if unused:
-        print("\n[LISTE] Unbenutzte Bilder:")
+        print("\n[LISTE] Unbenutzte Bilder (Kandidaten für old/images/):")
         for p in unused:
             try:
                 rel = p.relative_to(images_root)
             except ValueError:
                 rel = p
-            print(f"  - {rel}")
+            tag = " (ausgenommen)" if p.name in DO_NOT_ARCHIVE else ""
+            print(f"  - {rel}{tag}")
+
+        # Am Ende fragen, ob archivieren
+        move_unused_to_old(images_root, unused)
 
 if __name__ == "__main__":
     main()

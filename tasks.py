@@ -269,7 +269,7 @@ def build_book_slides(c):
 def build_excercise_slides(c):
     info("Build excercise html")
     os.makedirs("_build/html/excercises", exist_ok=True)
-    for dirpath, dirnames, filenames in os.walk("excercises/source"):
+    for dirpath, _, filenames in os.walk("excercises/source"):
         for file in filenames:
             if file.endswith(".ipynb") and ".ipynb_checkpoints" not in dirpath:
                 fni = os.path.join(dirpath, file)
