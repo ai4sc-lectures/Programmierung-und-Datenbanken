@@ -7,7 +7,9 @@ from pathlib import Path
 
 IMG_RE = re.compile(r'(?P<path>images/[^\s\)\]\}\'"]+)', re.IGNORECASE)
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".gif", ".bmp", ".tiff", ".svg", ".webp"}
-DO_NOT_ARCHIVE = {"ai4sc_logo_v2.svg", "pd_logo.svg", "pd_logo2.svg"}
+DO_NOT_ARCHIVE = {"ai4sc_logo_v2.svg", "pd_logo.svg", "pd_logo2.svg", "mj_questions.mp4", "mj_questions2.mp4", "mj_questions3.mp4", "mj_questions4.mp4", 
+                  "partA_1.svg", "partA_2.svg", "partA_3.svg", "partA_4.svg", "partA_5.svg", "partA_6.svg", "partA_7.svg", 
+                  "partB_1.svg", "partB_2.svg", "partB_3.svg", "partB_4.svg"}
 
 def extract_image_paths_from_notebook(nb_path: Path):
     try:
