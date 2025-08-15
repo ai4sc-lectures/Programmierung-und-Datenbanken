@@ -66,14 +66,8 @@ async def html_to_pdf(url, output_file):
         )
         page = await browser.newPage()
         await page.setViewport(dict(width=1050, height=700))
-        await page.emulateMedia("screen")
-        await page.goto(url, {"waitUntil": ["networkidle2"]})  # 8910
-        page_margins = {
-            "left": "20px",
-            "right": "20px",
-            "top": "30px",
-            "bottom": "30px",
-        }
+        await page.emulateMedia("print") # "screen"
+        await page.goto(url, {"waitUntil": ["networkidle2","load"]})  # 8910
         await page.pdf(
             path=output_file, format="A4", printBackground=True, landscape=True
         )  # , margin= page_margins
@@ -120,7 +114,7 @@ def build_quarto_pdf(c):
         if not os.path.exists(fno) or os.path.getctime(fni) > os.path.getctime(fno):
             pool = concurrent.futures.ThreadPoolExecutor()
             pool.submit(
-                asyncio.run, html_to_pdf(f"file://{fni}?print-pdf", fno)
+                asyncio.run, html_to_pdf(f"file://{fni}?view=print-pdf", fno)
             ).result()
 
 
@@ -147,6 +141,24 @@ def build_book(c, all=False):
         info("Build jupyter book")
         os.environ["PYDEVD_DISABLE_FILE_VALIDATION"] = "1"
         c.run("jupyter-book build .")
+    
+    files = [
+        fn
+        for fn in os.listdir("_build/html/lectures/")
+        if fn.endswith(".html") or fn.endswith(".css")
+    ]
+    for fn in files:
+        fni = os.path.join("_build/html/lectures/", fn)
+        with open(fni, "r") as fi:
+            htmltxt = fi.read()
+            # htmltxt = re.sub(r'(<style type="text/css">\s*pre \{ line-height: 125%; \})(.*?)(</style>\s*<!-- Load mathjax -->)', '<link href="jp-notebook-style.css" rel="stylesheet"/>', htmltxt, flags=re.DOTALL)
+            htmltxt = htmltxt.replace('src="images/', 'src="../_images/')
+            htmltxt = htmltxt.replace("src='images/", "src='../_images/")
+            htmltxt = htmltxt.replace(", 'images/", ", '../_images/")
+            htmltxt = htmltxt.replace(", 'images/", ", '../_images/")
+
+        with open(fni, "w") as fo:
+            fo.write(htmltxt)
 
 
 @task
@@ -187,12 +199,14 @@ def build_book_slides(c):
             htmltxt = fi.read()
             # htmltxt = re.sub(r'(<style type="text/css">\s*pre \{ line-height: 125%; \})(.*?)(</style>\s*<!-- Load mathjax -->)', '<link href="jp-notebook-style.css" rel="stylesheet"/>', htmltxt, flags=re.DOTALL)
             htmltxt = htmltxt.replace('src="images/', 'src="../_images/')
+            htmltxt = htmltxt.replace("src='images/", "src='../_images/")
             htmltxt = htmltxt.replace(", 'images/", ", '../_images/")
             htmltxt = htmltxt.replace(", 'images/", ", '../_images/")
             htmltxt = htmltxt.replace(
                 'id="theme" rel="stylesheet"/>',
                 'id="theme"  rel="stylesheet"/>\n<link href="rise.css" rel="stylesheet"/>',
             )
+            #htmltxt = htmltxt.replace("document.getElementsByTagName( 'head' )[0].appendChild( link );", "document.getElementsByTagName( 'head' )[0].appendChild( link );window.addEventListener('load', () => {window.print();});")
             htmltxt = htmltxt.replace('slideNumber: "",', 'slideNumber: "c/t",')
             htmltxt = htmltxt.replace("width: 960,", "width: 1050,")  # 1200
             htmltxt = htmltxt.replace("height: 700,", "height: 700,")  # 800
@@ -297,7 +311,7 @@ def ipynb_slides_to_pdf_old(c, file, output):
     serve.runner.kill()
 
 
-def ipynb_slides_to_pdf(c, filename, input_file, output_file):
+def ipynb_slides_to_pdf2(c, filename, input_file, output_file):
     info(f"Convert slides {filename} to PDF {output_file}")
     serve = c.run(
         f"jupyter nbconvert --to slides {input_file} --post serve --ServePostProcessor.open_in_browser=False",
@@ -308,23 +322,52 @@ def ipynb_slides_to_pdf(c, filename, input_file, output_file):
     pool.submit(
         asyncio.run,
         html_to_pdf(
-            f"http://127.0.0.1:8000/{filename.replace('.ipynb', '.slides.html')}?print-pdf",
+            f"http://127.0.0.1:8000/{filename.replace('.ipynb', '.slides.html')}?view=print-pdf",
             output_file,
         ),
     ).result()
     serve.runner.kill()
 
 
+def ipynb_slides_to_pdf(c, filename, input_file, output_file):
+    info(f"Convert slides {filename} to PDF {output_file}")
+    pool = concurrent.futures.ThreadPoolExecutor()
+    pool.submit(
+        asyncio.run,
+        html_to_pdf(
+            f"http://127.0.0.1:8080/lec_slides/{filename.replace('.ipynb', '.slides.html')}?view=print-pdf",
+            output_file,
+        ),
+    ).result()
+
+
 @task(build_book_slides)
 def build_nbook_slides_pdf(c):
     info("Convert jupyter book slides to pdf")
+    if sys.platform == "win32":
+        serve = c.run("weave 8080 to ./_build/html", asynchronous=True)
+    elif sys.platform == "darwin":
+        serve = c.run("./weave_mac 8080 to ./_build/html", asynchronous=True)
+    time.sleep(3)  # ie do a bunch of work in the foreground
     files = [fn for fn in os.listdir("lectures/") if fn.endswith(".ipynb")]
-    os.makedirs("_build/pdf/slides", exist_ok=True)
+    #os.makedirs("_build/pdf/slides", exist_ok=True)
+    os.makedirs("_build/html/pdf/slides", exist_ok=True)
+    pool = concurrent.futures.ThreadPoolExecutor()
     for fn in files:
         fni = os.path.join("lectures", fn)
-        fno = os.path.join("_build", "pdf", "slides", fn.replace(".ipynb", ".pdf"))
+        fno = os.path.join("_build", "html", "pdf", "slides", fn.replace(".ipynb", ".pdf"))
         if not os.path.exists(fno) or os.path.getctime(fni) > os.path.getctime(fno):
-            ipynb_slides_to_pdf(c, fn, fni, fno)
+            ##ipynb_slides_to_pdf(c, fn, fni, fno)
+            info(f"Convert slides {fni} to PDF {fno}")
+            pool.submit(
+                asyncio.run,
+                html_to_pdf(
+                    f"http://127.0.0.1:8080/{fni.replace('lectures', 'lec_slides').replace('.ipynb', '.slides.html')}?view=print-pdf",
+                    fno,
+                ),
+            )
+    pool.shutdown()
+    serve.runner.kill()
 
 
 @task(build_book_slides, build_quarto)
@@ -376,6 +419,12 @@ def build(c, all=False):
     build_quarto(c)
     build_book_slides(c)
     build_excercise_slides(c)
+
+
+@task()
+def pdf(c, all=False):
+    info("Build PDF")
+    build_nbook_slides_pdf(c)
 
 
 @task(build)
