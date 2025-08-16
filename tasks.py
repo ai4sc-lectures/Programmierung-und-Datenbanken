@@ -6,6 +6,8 @@ import os, sys
 import time
 from pyppeteer import launch
 import asyncio
+import re
+import json
 
 import concurrent.futures
 
@@ -130,6 +132,13 @@ def build_quarto_book(c):
 def config_book(c):
     c.run("jupyter-book config sphinx .")
 
+# load dictionary from JSON
+with open("toc_translations.json", "r", encoding="utf-8") as f:
+    translations = json.load(f)
+
+def replace_anchor_text(m: re.Match) -> str:
+    s = m.group(1)
+    return ">" + translations.get(s,s) + m.group(2)
 
 @task
 def build_book(c, all=False):
@@ -156,6 +165,22 @@ def build_book(c, all=False):
             htmltxt = htmltxt.replace("src='images/", "src='../_images/")
             htmltxt = htmltxt.replace(", 'images/", ", '../_images/")
             htmltxt = htmltxt.replace(", 'images/", ", '../_images/")
+            if "_en." not in fn:
+                htmltxt = htmltxt.replace('<div class="dropdown dropdown-download-buttons">', f'<a href="{fn.replace('.html','_en.html')}" class="button btn btn-sm" title="en" data-bs-placement="bottom" data-bs-toggle="tooltip"><span class="btn__icon-container"><i class="fas fa-language "></i></span></a><div  class="dropdown dropdown-download-buttons">')
+            else:
+                htmltxt = htmltxt.replace('.html"', '_en.html"')
+                htmltxt = htmltxt.replace('_en_en.html"', '_en.html"')
+                htmltxt = htmltxt.replace('.slides.html"', '_en.slides.html"')
+                htmltxt = htmltxt.replace('.slides_en.html"', '_en.slides.html"')
+                htmltxt = htmltxt.replace('_en_en.slides.html"', '_en.slides.html"')
+                htmltxt = htmltxt.replace('_en_en.slides.html"', '_en.slides.html"')
+                htmltxt = htmltxt.replace('.pdf"', '_en.pdf"')
+                htmltxt = htmltxt.replace('_en_en.pdf"', '_en.pdf"')
+                htmltxt = htmltxt.replace('<div class="dropdown dropdown-download-buttons">', f'<a href="{fn.replace('_en.html','.html')}" class="button btn btn-sm" title="en" data-bs-placement="bottom" data-bs-toggle="tooltip"><span class="btn__icon-container"><i class="fas fa-language "></i></span></a><div  class="dropdown dropdown-download-buttons">')
+                apat1 = re.compile(r">(?!\s*<)([^<]*)(</a>)")
+                htmltxt = apat1.sub(replace_anchor_text, htmltxt)
+                apat2 = re.compile(r">(?!\s*<)([^<]*)(</span>)")
+                htmltxt = apat2.sub(replace_anchor_text, htmltxt)
 
         with open(fni, "w") as fo:
             fo.write(htmltxt)
