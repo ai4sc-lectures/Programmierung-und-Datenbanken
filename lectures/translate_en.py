@@ -166,7 +166,7 @@ def translate_untagged_or_changed_cells(
     translated = 0
     tgt_map = {c.get("id"): c for c in tgt_nb.cells if "id" in c}
 
-    for src_cell in src_nb.cells:
+    for src_cell in tqdm(src_nb.cells, desc="  Processing Cell"):
         cid = src_cell["id"]
         tgt_cell = tgt_map.get(cid)
         if not tgt_cell:
@@ -182,12 +182,14 @@ def translate_untagged_or_changed_cells(
 
         needs_translation = prev_hash != src_hash or tag_translated not in tags
         if not needs_translation:
+            tqdm.write(f"skip")
             continue
 
         if dry_run:
             translated += 1
             continue
 
+        tqdm.write(f"translate")
         if src_cell.cell_type == "markdown":
             en_text = translate_text(client, src_text, model, PROMPT_MD)
         elif src_cell.cell_type == "raw":
@@ -273,6 +275,7 @@ def main():
         return
 
     for src in tqdm(files, desc="Processing notebooks"):
+        print("Process ", src)
         try:
             process_notebook(client, src, args.model, args.tag, args.prune_deleted, args.dry_run)
         except Exception as e:
