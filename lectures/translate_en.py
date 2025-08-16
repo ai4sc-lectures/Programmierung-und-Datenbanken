@@ -50,12 +50,6 @@ PROMPT_CODE = (
     "Do not change the program logic. Do not explain. Output valid Python code."
 )
 
-def ensure_cell_ids(nb: NotebookNode) -> None:
-    """Ensure every cell has a unique 'id' field (nbformat v4.5+)."""
-    for cell in nb.cells:
-        if "id" not in cell:
-            cell["id"] = uuid.uuid4().hex
-
 def ensure_cell_ids(nb: NotebookNode) -> bool:
     """Ensure every cell has an 'id'. Returns True if any were added."""
     changed = False
@@ -106,37 +100,57 @@ def find_ipynb_files(root: Path) -> List[Path]:
 def sync_structure_by_ids(src_nb: NotebookNode, tgt_nb: NotebookNode, prune_deleted: bool) -> None:
     src_ids = [c["id"] for c in src_nb.cells]
     tgt_map = {c.get("id"): c for c in tgt_nb.cells if "id" in c}
+    matches = sum(1 for cid in src_ids if cid in tgt_map)
 
+    # If nothing matches, assume target was out of sync; replace with source structure
+    if matches == 0 and len(tgt_nb.cells) > 0:
+        new_cells: List[NotebookNode] = []
+        for sc in src_nb.cells:
+            if sc.cell_type == "markdown":
+                nc = nbformat.v4.new_markdown_cell(sc.source)
+            elif sc.cell_type == "raw":
+                nc = nbformat.v4.new_raw_cell(sc.source)
+            else:
+                nc = nbformat.v4.new_code_cell(
+                    source=sc.source,
+                    outputs=sc.get("outputs", []),
+                    execution_count=sc.get("execution_count"),
+                )
+            nc.metadata = sc.get("metadata", {})
+            nc["id"] = sc["id"]
+            new_cells.append(nc)
+        tgt_nb.cells = new_cells
+        return
+
+    # Normal incremental sync
     new_cells: List[NotebookNode] = []
     seen = set()
-
-    for src_cell in src_nb.cells:
-        cid = src_cell["id"]
+    for sc in src_nb.cells:
+        cid = sc["id"]
         if cid in tgt_map:
             new_cells.append(tgt_map[cid])
             seen.add(cid)
         else:
-            # Create fresh copy if missing
-            if src_cell.cell_type == "markdown":
-                new_cell = nbformat.v4.new_markdown_cell(src_cell.source)
-            elif src_cell.cell_type == "raw":
-                new_cell = nbformat.v4.new_raw_cell(src_cell.source)
+            if sc.cell_type == "markdown":
+                nc = nbformat.v4.new_markdown_cell(sc.source)
+            elif sc.cell_type == "raw":
+                nc = nbformat.v4.new_raw_cell(sc.source)
             else:
-                new_cell = nbformat.v4.new_code_cell(
-                    source=src_cell.source,
-                    outputs=src_cell.get("outputs", []),
-                    execution_count=src_cell.get("execution_count"),
+                nc = nbformat.v4.new_code_cell(
+                    source=sc.source,
+                    outputs=sc.get("outputs", []),
+                    execution_count=sc.get("execution_count"),
                 )
-            new_cell.metadata = src_cell.get("metadata", {})
-            new_cell["id"] = cid
-            new_cells.append(new_cell)
+            nc.metadata = sc.get("metadata", {})
+            nc["id"] = cid
+            new_cells.append(nc)
             seen.add(cid)
 
     if not prune_deleted:
-        for cell in tgt_nb.cells:
-            cid = cell.get("id")
+        for c in tgt_nb.cells:
+            cid = c.get("id")
             if cid and cid not in seen:
-                new_cells.append(cell)
+                new_cells.append(c)
 
     tgt_nb.cells = new_cells
 
@@ -193,7 +207,6 @@ def translate_untagged_or_changed_cells(
 
     return translated
 
-
 def process_notebook(
     client: Optional[OpenAI],
     src: Path,
@@ -203,25 +216,34 @@ def process_notebook(
     dry_run: bool,
 ) -> None:
     tgt = target_path_for(src)
-    src_nb = nbformat.read(src, as_version=4)
-    ensure_cell_ids(src_nb)
 
+    # Read source and ensure IDs
+    src_nb = nbformat.read(src, as_version=4)
+    added_ids = ensure_cell_ids(src_nb)
+
+    # If target missing: write target from the in-memory source (preserves the same IDs)
     if not tgt.exists():
         if dry_run:
-            print(f"[DRY-RUN] Would copy {src} -> {tgt}")
+            print(f"[DRY-RUN] Would create {tgt} from {src} (with cell IDs)")
         else:
             tgt.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(src, tgt)
-
+            nbformat.write(src_nb, tgt)
+    # Else target exists; read it
     tgt_nb = nbformat.read(tgt if tgt.exists() else src, as_version=4)
-    ensure_cell_ids(tgt_nb)
 
+    # Ensure IDs on target; if target lacks some, mirror from source by position
+    ensure_cell_ids(tgt_nb)  # adds IDs where completely missing
+    mirror_ids_if_missing(src_nb, tgt_nb)
+
+    # Align structure and translate incrementally
     sync_structure_by_ids(src_nb, tgt_nb, prune_deleted=prune_deleted)
-    changed = translate_untagged_or_changed_cells(client, src_nb, tgt_nb, model, tag_translated, dry_run)
+    changed = translate_untagged_or_changed_cells(
+        client, src_nb, tgt_nb, model, tag_translated, dry_run
+    )
 
     if dry_run:
         print(f"[DRY-RUN] {src.name} -> {tgt.name}: would translate {changed} cell(s)")
-    elif changed > 0 or not tgt.exists():
+    elif changed > 0:
         nbformat.write(tgt_nb, tgt)
 
 
