@@ -152,12 +152,12 @@ def build_book(c, all=False):
         c.run("jupyter-book build .")
     
     files = [
-        fn
+        os.path.join("_build/html/lectures/", fn)
         for fn in os.listdir("_build/html/lectures/")
         if fn.endswith(".html") or fn.endswith(".css")
-    ]
-    for fn in files:
-        fni = os.path.join("_build/html/lectures/", fn)
+    ]+["_build/html/intro.html","_build/html/intro_en.html"]
+    for fni in files:
+        fn = os.path.basename(fni)
         with open(fni, "r") as fi:
             htmltxt = fi.read()
             # htmltxt = re.sub(r'(<style type="text/css">\s*pre \{ line-height: 125%; \})(.*?)(</style>\s*<!-- Load mathjax -->)', '<link href="jp-notebook-style.css" rel="stylesheet"/>', htmltxt, flags=re.DOTALL)
