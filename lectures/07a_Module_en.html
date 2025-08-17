@@ -1,0 +1,1646 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Modularization &#8212; Programmierung und Datenbanken</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d8a2add5" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css?v=062df064" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-menu/quarto-menu.css?v=a9b70b88" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-menu/menu.css?v=b1df3480" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/highlight/monokai.css?v=075166d3" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/highlight/zenburn.css?v=83d5745d" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/style.css?v=6050ce3b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/quarto-line-highlight/line-highlight.css?v=52b149a6" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/quarto-support/footer.css?v=53995862" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css?v=124a15ac" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/v4-shims.css?v=1b0e564b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/solid.css?v=e0521a22" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/brands.css?v=7dcd769b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/regular.css?v=0b430bdf" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/v4-shims.min.css?v=898855d1" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/svg-with-js.css?v=aac53de5" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/fontawesome.css?v=d504f742" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script src="https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"></script>
+    <script>quizdown.init({"start_on_load": true, "shuffle_answers": true, "shuffle_questions": false, "primary_color": "#FF851B", "secondary_color": "#DDDDDD", "text_color": "black", "locale": "de", "quizdown_js": "https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"});</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/07a_Module_en';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-menu/quarto-menu.js?v=b4fc9030"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-menu/menu.js?v=27134a44"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/highlight.esm.js?v=1254c8f3"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/highlight.js?v=d8e1bd11"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/plugin.js?v=de14e947"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/markdown.esm.js?v=c1d1720c"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/plugin.js?v=b7c888a0"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/markdown.js?v=96b9265a"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-chalkboard/plugin.js?v=5c29cd4a"></script>
+    <script src="../_static/styles/revealjs/plugin/quarto-line-highlight/line-highlight.js?v=1b7b3781"></script>
+    <script src="../_static/styles/revealjs/plugin/math/katex.js?v=a56d0b0a"></script>
+    <script src="../_static/styles/revealjs/plugin/math/mathjax2.js?v=61c34cb4"></script>
+    <script src="../_static/styles/revealjs/plugin/math/mathjax3.js?v=aa10c317"></script>
+    <script src="../_static/styles/revealjs/plugin/math/math.esm.js?v=4432b676"></script>
+    <script src="../_static/styles/revealjs/plugin/math/math.js?v=fdaf90ea"></script>
+    <script src="../_static/styles/revealjs/plugin/math/plugin.js?v=62b4f3c3"></script>
+    <script src="../_static/styles/revealjs/plugin/search/search.esm.js?v=755e6b2e"></script>
+    <script src="../_static/styles/revealjs/plugin/search/search.js?v=fc149e99"></script>
+    <script src="../_static/styles/revealjs/plugin/search/plugin.js?v=99bfb13f"></script>
+    <script src="../_static/styles/revealjs/plugin/quarto-support/support.js?v=1448896a"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/notes.js?v=d900d418"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/notes.esm.js?v=e3d88def"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/plugin.js?v=c6bed375"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/zoom.js?v=2fef532c"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/zoom.esm.js?v=c566db7e"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/plugin.js?v=a47a6514"></script>
+    <script src="../_static/styles/revealjs/plugin/pdf-export/pdfexport.js?v=c7b6e01c"></script>
+    <link rel="canonical" href="https://code-book.ai4sc-lehre.auf.uni-rostock.de/lectures/07a_Module_en.html" />
+    <link rel="index" title="Index" href="../genindex_en.html" />
+    <link rel="search" title="Search" href="../search_en.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search_en.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro_en.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pd_logo2.svg" class="logo__image only-light" alt="Programmierung und Datenbanken - Home"/>
+    <script>document.write(`<img src="../_static/pd_logo2.svg" class="logo__image only-dark" alt="Programmierung und Datenbanken - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Fundamentals</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01c_Computerhardware_en.html">Computer Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01d_Programmiersprachen_en.html">Programming Languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02a_Softwarearchitektur_en.html">Software Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02b_Wissenspyramide_en.html">Knowledge Pyramid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02c_Datentypen_en.html">Data Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03a_Operatoren_en.html">Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03a_Verzweigung_en.html">Conditionals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03b_Schleifen_en.html">Loops</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modularization</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="04a_Funktionen_en.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_Rekursion_en.html">Recursive Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04c_Objects_en.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05a_Softwareentwurf_en.html">Software Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05b_Programmablauf_en.html">Program Flow</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="05c_Algorithmen_en.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06a_Exceptions_en.html">Exceptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06b_UnitTest_en.html">Unit Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07a_Module_en.html">Modularization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Databases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="09_Datenhaltung_en.html">Handling Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10a_Datenbanktypen_en.html">Database Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10b_RelationaleDatenbanken_en.html">Relational Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10c_Datenbanken_SQL_Select_en.html">Analyze Tables with SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11a_Datenbanken_Entwurf_en.html">Design of Relational Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11b_Datenbanken_SQL_Create_en.html">Create Tables with SQL</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<a href="07a_Module.html" class="button btn btn-sm" title="en" data-bs-placement="bottom" data-bs-toggle="tooltip"><span class="btn__icon-container"><i class="fas fa-language "></i></span></a><div  class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/lectures/07a_Module_en.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Modularization</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slides-pdf"><a href="/lec_slides/07a_Module_en.slides.html">Slides</a>/<a href="/pdf/slides/07a_Module_en.pdf">PDF</a></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#split-code-into-files-modules-and-packages">Split code into files, modules, and packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-the-entry-point-of-a-program"><code class="docutils literal notranslate"><span class="pre">main()</span></code> - The entry point of a program</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-modules">Importing Modules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-standard-packages-from-python">Import standard packages from Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-and-importing-external-packages">Installing and Importing External Packages</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="modularization">
+<h1>Modularization<a class="headerlink" href="#modularization" title="Link to this heading">#</a></h1>
+<figure class="mj-tile-band">
+    <img src='../_images/07a_Module/mj_title_band.jpg'>
+    <figcaption>Midjourney: Modular Blocks, ref. Piet Mondrian</figcaption>
+</figure>
+<blockquote>
+<div><p>Write programs that do one thing and do it well.</p>
+<p>— Doug McIlroy</p>
+</div></blockquote>
+<section id="slides-pdf">
+<h2><a href="/lec_slides/07a_Module_en.slides.html">Slides</a>/<a href="/pdf/slides/07a_Module_en.pdf">PDF</a><a class="headerlink" href="#slides-pdf" title="Link to this heading">#</a></h2>
+<iframe src="/lec_slides/07a_Module_en.slides.html" width="750" height="500"></iframe></section>
+<section id="split-code-into-files-modules-and-packages">
+<h2>Split code into files, modules, and packages<a class="headerlink" href="#split-code-into-files-modules-and-packages" title="Link to this heading">#</a></h2>
+<p>Large programs often contain dozens of classes with hundreds of functions and many thousands of lines of code. It quickly becomes difficult to keep an overview when all classes are defined in a single file. Especially when different programmers work at different places in the program, version conflicts can arise very quickly when people work on similar files.</p>
+<p>To keep this organized and easy to navigate, code is split into multiple files with the extension <code class="docutils literal notranslate"><span class="pre">.py</span></code>. It is common to have one file</p>
+<ul class="simple">
+<li><p>per class, when classes are defined</p></li>
+<li><p>per topic, when helper functions are defined (e.g., mathematical functions, …)</p></li>
+<li><p>per area of responsibility, when (for example) data loading is separated from its processing. This way you can later define other processing steps and reuse the loading.</p></li>
+</ul>
+<p>If we save each class of the geometry elements from the Class Definition section of the last lecture, we would then have, for example, a project structure corresponding to:</p>
+<ul class="simple">
+<li><p>📁 geometry</p>
+<ul>
+<li><p>📄 <a class="reference internal" href="#points/ImmutablePoint.py"><span class="xref myst">ImmutablePoint.py</span></a></p></li>
+<li><p>📄 <a class="reference internal" href="#points/Point.py"><span class="xref myst">Point.py</span></a></p></li>
+<li><p>📄 <a class="reference internal" href="#shapes/Line.py"><span class="xref myst">Line.py</span></a></p></li>
+<li><p>📄 <a class="reference internal" href="#shapes/Pentagon.py"><span class="xref myst">Pentagon.py</span></a></p></li>
+<li><p>📄 <a class="reference internal" href="#shapes/Polygon.py"><span class="xref myst">Polygon.py</span></a></p></li>
+<li><p>📄 <a class="reference internal" href="#shapes/Tetragon.py"><span class="xref myst">Tetragon.py</span></a></p></li>
+<li><p>📄 <a class="reference internal" href="#shapes/Triangle.py"><span class="xref myst">Triangle.py</span></a></p></li>
+</ul>
+</li>
+</ul>
+<!-- <center><img src="../_images/07a_Module/files.png" style="width: 40ex"></center> --><p>Each file contains only the code of the class with the same name, even if that is only a few lines, as in the case of the classes <code class="docutils literal notranslate"><span class="pre">Triangle</span></code>, <code class="docutils literal notranslate"><span class="pre">Tetragon</span></code>, and <code class="docutils literal notranslate"><span class="pre">Pentagon</span></code>. Crucially, when a programmer searches for the code of a class, they should be able to see exactly in which file it can be found and not have to search far.</p>
+<p>Larger projects are split into multiple <em>modules</em> by creating additional subdirectories. For example, we want to group all generic classes for points in the <code class="docutils literal notranslate"><span class="pre">points</span></code> directory and all geometric shapes in the <code class="docutils literal notranslate"><span class="pre">shapes</span></code> directory. This makes it easy to structure larger projects.</p>
+<p>The sum of all modules then forms a <em>package</em>. In this case the <code class="docutils literal notranslate"><span class="pre">geometry</span></code> package, which we can reuse in different implementations.</p>
+<ul class="simple">
+<li><p>📁 geometry</p>
+<ul>
+<li><p>📁 points</p>
+<ul>
+<li><p>📄 <a class="reference download internal" download="" href="../_downloads/36e8bebbd122389b1da75289a7e8b995/ImmutablePoint.py"><span class="xref download myst">ImmutablePoint.py</span></a></p></li>
+<li><p>📄 <a class="reference download internal" download="" href="../_downloads/643a79051a3e7833dfecdcd3e33faed8/Point.py"><span class="xref download myst">Point.py</span></a></p></li>
+</ul>
+</li>
+<li><p>📁 shapes</p>
+<ul>
+<li><p>📄 <a class="reference download internal" download="" href="../_downloads/d1b11662540af950ae75c99b6a138101/Line.py"><span class="xref download myst">Line.py</span></a></p></li>
+<li><p>📄 <a class="reference download internal" download="" href="../_downloads/5274f989e3c582066c307e27476ac0f1/Pentagon.py"><span class="xref download myst">Pentagon.py</span></a></p></li>
+<li><p>📄 <a class="reference download internal" download="" href="../_downloads/fe9a8fffa73aa5c80ca769bbda3c1c53/Polygon.py"><span class="xref download myst">Polygon.py</span></a></p></li>
+<li><p>📄 <a class="reference download internal" download="" href="../_downloads/cb9a1fc6a707dcb24185d6d9a4cae7c6/Tetragon.py"><span class="xref download myst">Tetragon.py</span></a></p></li>
+<li><p>📄 <a class="reference download internal" download="" href="../_downloads/91dbd469d33733bcf58de0d84ef2b826/Triangle.py"><span class="xref download myst">Triangle.py</span></a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<!-- <center><img src="../_images/07a_Module/shapes.png" style="width: 40ex"></center> --></section>
+<section id="main-the-entry-point-of-a-program">
+<h2><code class="docutils literal notranslate"><span class="pre">main()</span></code> - The entry point of a program<a class="headerlink" href="#main-the-entry-point-of-a-program" title="Link to this heading">#</a></h2>
+<p>When code is spread across multiple files, Python needs a hint about which code should be executed. For this, you define the special entry function <code class="docutils literal notranslate"><span class="pre">main()</span></code>.</p>
+<p>It exists in almost all programming languages and always designates the starting point of a program.</p>
+<p>In Python, it either takes no arguments or receives them dynamically when it is invoked by the user or by another program (a.k.a. command-line arguments).</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+	<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This is the main function&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>However, you want to avoid the function <code class="docutils literal notranslate"><span class="pre">main()</span></code> from being called when the Python file is, for example, imported as a library, where you’re only interested in the functions. Therefore, at the end of a file that defines a <code class="docutils literal notranslate"><span class="pre">main()</span></code> function you use the following conditional.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>This is the main function
+</pre></div>
+</div>
+</div>
+</div>
+<p>She takes advantage of the fact that the value of the special variable <code class="docutils literal notranslate"><span class="pre">__name__</span></code> in the main file is always <code class="docutils literal notranslate"><span class="pre">'__main__'</span></code>, whereas in an imported file it indicates the name of the main file.</p>
+</section>
+<section id="importing-modules">
+<h2>Importing Modules<a class="headerlink" href="#importing-modules" title="Link to this heading">#</a></h2>
+<p>To avoid constantly loading unnecessary code, Python does not load this code automatically.</p>
+<p>So, if we want to use the code in our files, modules, and packages, we must first tell Python to load it.</p>
+<p>This <em>importing</em> is done with the <code class="docutils literal notranslate"><span class="pre">import</span></code> command.</p>
+<p>A simple import is importing an entire package.</p>
+<p>This is done by writing <code class="docutils literal notranslate"><span class="pre">import</span></code> followed by the package name.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">geometry.points.ImmutablePoint</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geometry.shapes.Line</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+	<span class="n">point_1</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">ImmutablePoint</span><span class="o">.</span><span class="n">ImmutablePoint</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">54.083336</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">12.108811</span><span class="p">)</span>
+	<span class="n">point_2</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">points</span><span class="o">.</span><span class="n">ImmutablePoint</span><span class="o">.</span><span class="n">ImmutablePoint</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">12.094167</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">54.075211</span><span class="p">)</span>
+	<span class="n">line_1</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">shapes</span><span class="o">.</span><span class="n">Line</span><span class="o">.</span><span class="n">Line</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">point_1</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">point_2</span><span class="p">)</span>
+	<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Die Länge der Linie zwischen Punkt 1 und 2 ist: </span><span class="si">{</span><span class="n">line_1</span><span class="o">.</span><span class="n">length</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Die Länge der Linie zwischen Punkt 1 und 2 ist: 0.016747010509340444
+</pre></div>
+</div>
+</div>
+</div>
+<p>One drawback of importing entire packages is that if we want to reference individual classes that reside in submodules, we must specify the fully qualified class name. For example, in the example above: <code class="docutils literal notranslate"><span class="pre">geometry.points.ImmutablePoint.ImmutablePoint</span></code>.</p>
+<p>Therefore, one typically imports individual modules by specifying the path to a module, for example <code class="docutils literal notranslate"><span class="pre">geometry.points.ImmutablePoint.ImmutablePoint</span></code>. Here, you can also assign new names to the imported modules, such as <code class="docutils literal notranslate"><span class="pre">point</span></code> or <code class="docutils literal notranslate"><span class="pre">line</span></code>, in the example below.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">geometry.points.ImmutablePoint</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">point</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geometry.shapes.Line</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">line</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+	<span class="n">point_1</span> <span class="o">=</span> <span class="n">point</span><span class="o">.</span><span class="n">ImmutablePoint</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">54.083336</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">12.108811</span><span class="p">)</span>
+	<span class="n">point_2</span> <span class="o">=</span> <span class="n">point</span><span class="o">.</span><span class="n">ImmutablePoint</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">12.094167</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">54.075211</span><span class="p">)</span>
+	<span class="n">line_1</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">Line</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">point_1</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">point_2</span><span class="p">)</span>
+	<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Die Länge der Linie zwischen Punkt 1 und 2 ist: </span><span class="si">{</span><span class="n">line_1</span><span class="o">.</span><span class="n">length</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Die Länge der Linie zwischen Punkt 1 und 2 ist: 0.016747010509340444
+</pre></div>
+</div>
+</div>
+</div>
+<p>Alternatively, parts of a module can also be imported using the wildcard <code class="docutils literal notranslate"><span class="pre">*</span></code> and the <code class="docutils literal notranslate"><span class="pre">from</span></code> statement. All elements are imported with the wildcard <code class="docutils literal notranslate"><span class="pre">*</span></code>. Specific elements, such as individual classes, can also be specified directly, as in the following example <code class="docutils literal notranslate"><span class="pre">Line</span></code>.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">geometry.points.ImmutablePoint</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geometry.shapes.Line</span><span class="w"> </span><span class="kn">import</span> <span class="n">Line</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+	<span class="n">point_1</span> <span class="o">=</span> <span class="n">ImmutablePoint</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">54.083336</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">12.108811</span><span class="p">)</span>
+	<span class="n">point_2</span> <span class="o">=</span> <span class="n">ImmutablePoint</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">12.094167</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="mf">54.075211</span><span class="p">)</span>
+	<span class="n">line_1</span> <span class="o">=</span> <span class="n">Line</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">point_1</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">point_2</span><span class="p">)</span>
+	<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Die Länge der Linie zwischen Punkt 1 und 2 ist: </span><span class="si">{</span><span class="n">line_1</span><span class="o">.</span><span class="n">length</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+	<span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Die Länge der Linie zwischen Punkt 1 und 2 ist: 0.016747010509340444
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="import-standard-packages-from-python">
+<h2>Import standard packages from Python<a class="headerlink" href="#import-standard-packages-from-python" title="Link to this heading">#</a></h2>
+<p>Python includes many <a class="reference external" href="https://python.readthedocs.io/en/latest/library/index_en.html">standard libraries</a> for common tasks. For construction and environmental informatics, the following are the most useful:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>packet</p></th>
+<th class="head"><p>description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>collections</p></td>
+<td><p>More complex data types for counting, sorting</p></td>
+</tr>
+<tr class="row-odd"><td><p>http</p></td>
+<td><p>Functions of the HTTP protocol, such as web servers</p></td>
+</tr>
+<tr class="row-even"><td><p>json</p></td>
+<td><p>Functions to store objects as text</p></td>
+</tr>
+<tr class="row-odd"><td><p>logging</p></td>
+<td><p>Functions to write logs</p></td>
+</tr>
+<tr class="row-even"><td><p>math</p></td>
+<td><p>Mathematical functions</p></td>
+</tr>
+<tr class="row-odd"><td><p>os</p></td>
+<td><p>Functions to locate, load, and save files</p></td>
+</tr>
+<tr class="row-even"><td><p>pickle</p></td>
+<td><p>Functions to store objects in binary form</p></td>
+</tr>
+<tr class="row-odd"><td><p>pprint</p></td>
+<td><p>print functions for pretty-printing objects</p></td>
+</tr>
+<tr class="row-even"><td><p>random</p></td>
+<td><p>Functions for generating random numbers</p></td>
+</tr>
+<tr class="row-odd"><td><p>re</p></td>
+<td><p>Functions for regular expressions to search text</p></td>
+</tr>
+<tr class="row-even"><td><p>sys</p></td>
+<td><p>Functions to obtain system information</p></td>
+</tr>
+<tr class="row-odd"><td><p>time</p></td>
+<td><p>Functions for time and date information</p></td>
+</tr>
+<tr class="row-even"><td><p>timeit</p></td>
+<td><p>Functions to measure the performance of functions</p></td>
+</tr>
+<tr class="row-odd"><td><p>traceback</p></td>
+<td><p>Functions to display the stack trace</p></td>
+</tr>
+<tr class="row-even"><td><p>urllib</p></td>
+<td><p>Functions to load and process URLs on the Internet</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>From the list, we have already become familiar with and used the libraries <code class="docutils literal notranslate"><span class="pre">math</span></code>, <code class="docutils literal notranslate"><span class="pre">time</span></code>, <code class="docutils literal notranslate"><span class="pre">timeit</span></code>, <code class="docutils literal notranslate"><span class="pre">traceback</span></code>, and <code class="docutils literal notranslate"><span class="pre">logging</span></code>. The other packages, however, offer additional useful functions.</p>
+<p>For example, if we want to list all files in a directory, we use the <code class="docutils literal notranslate"><span class="pre">os</span></code> package.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="n">folder</span> <span class="o">=</span> <span class="s2">&quot;geometry/shapes/&quot;</span>
+<span class="k">for</span> <span class="n">count</span><span class="p">,</span> <span class="n">filename</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">folder</span><span class="p">)):</span>
+	<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">)):</span>
+		<span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+		<span class="nb">print</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>geometry/shapes/Tetragon.py
+geometry/shapes/Pentagon.py
+geometry/shapes/Line.py
+geometry/shapes/Polygon.py
+geometry/shapes/Triangle.py
+</pre></div>
+</div>
+</div>
+</div>
+<p>Many websites offer application programming interfaces, so-called APIs, because these APIs are also used by their own websites to load data that is displayed on the page. The APIs usually use the JSON format to exchange data. This is a text-based file format that in Python closely resembles the <code class="docutils literal notranslate"><span class="pre">dict</span></code> data type, but it also supports all other primitive and composite data types in Python.</p>
+<p>We would like, for example, to analyze the weather data of a weather station in Germany. We obtain these data from the <a class="reference external" href="https://www.dwd.de">German Weather Service</a>. These data can also be downloaded from the <a class="reference external" href="https://dwd.api.bund.dev/">API</a>. For this, you need the ID (identification number) of a weather station, which can be found <a class="reference external" href="https://www.dwd.de/DE/leistungen/klimadatendeutschland/statliste/statlex_html.html?view=nasPublication&amp;amp;nn=16102">here</a>. We take as an example a station in the Hansaviertel in Rostock with the ID <code class="docutils literal notranslate"><span class="pre">12495</span></code>.</p>
+<p>Then you can load the weather data with Python with the help of the <code class="docutils literal notranslate"><span class="pre">urllib</span></code> package from the API. The JSON format can be processed with the <code class="docutils literal notranslate"><span class="pre">json</span></code> package. To output this in a nicer way, we use the <code class="docutils literal notranslate"><span class="pre">pprint</span></code> function from the <code class="docutils literal notranslate"><span class="pre">pprint</span></code> package (pretty-print).</p>
+<div class="cell tag_output_scroll tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">urllib.request</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pprint</span>
+
+<span class="n">stationID</span><span class="o">=</span><span class="s1">&#39;12495&#39;</span> <span class="c1"># Rostock-Hansaviertel</span>
+<span class="k">with</span> <span class="n">urllib</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;https://dwd.api.proxy.bund.dev/v30/stationOverviewExtended?stationIds=</span><span class="si">{</span><span class="n">stationID</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span> <span class="c1"># This returns binary data</span>
+    <span class="n">weather</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="c1"># We convert the binary data into a dict</span>
+    <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">weather</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">compact</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{ &#39;12495&#39;: { &#39;days&#39;: [ { &#39;dayDate&#39;: &#39;2025-08-17&#39;,
+                         &#39;icon&#39;: 2,
+                         &#39;icon1&#39;: None,
+                         &#39;icon2&#39;: None,
+                         &#39;moonPhase&#39;: 6,
+                         &#39;moonrise&#39;: 1755464484000,
+                         &#39;moonriseOnThisDay&#39;: 1755464484000,
+                         &#39;moonset&#39;: 1755439776000,
+                         &#39;moonsetOnThisDay&#39;: 1755439776000,
+                         &#39;precipitation&#39;: 0,
+                         &#39;stationId&#39;: None,
+                         &#39;sunrise&#39;: 1755400811000,
+                         &#39;sunriseOnThisDay&#39;: 1755400811000,
+                         &#39;sunset&#39;: 1755452877000,
+                         &#39;sunsetOnThisDay&#39;: 1755452877000,
+                         &#39;sunshine&#39;: 32767,
+                         &#39;temperatureMax&#39;: 220,
+                         &#39;temperatureMin&#39;: 139,
+                         &#39;windDirection&#39;: 3230,
+                         &#39;windGust&#39;: 352,
+                         &#39;windSpeed&#39;: 167},
+                       { &#39;dayDate&#39;: &#39;2025-08-18&#39;,
+                         &#39;icon&#39;: 2,
+                         &#39;icon1&#39;: None,
+                         &#39;icon2&#39;: None,
+                         &#39;moonPhase&#39;: 6,
+                         &#39;moonrise&#39;: 1755554333000,
+                         &#39;moonriseOnThisDay&#39;: 1755554333000,
+                         &#39;moonset&#39;: 1755530459000,
+                         &#39;moonsetOnThisDay&#39;: 1755530459000,
+                         &#39;precipitation&#39;: 0,
+                         &#39;stationId&#39;: None,
+                         &#39;sunrise&#39;: 1755487306000,
+                         &#39;sunriseOnThisDay&#39;: 1755487306000,
+                         &#39;sunset&#39;: 1755539156000,
+                         &#39;sunsetOnThisDay&#39;: 1755539156000,
+                         &#39;sunshine&#39;: 32767,
+                         &#39;temperatureMax&#39;: 206,
+                         &#39;temperatureMin&#39;: 121,
+                         &#39;windDirection&#39;: 3380,
+                         &#39;windGust&#39;: 315,
+                         &#39;windSpeed&#39;: 148},
+                       { &#39;dayDate&#39;: &#39;2025-08-19&#39;,
+                         &#39;icon&#39;: 2,
+                         &#39;icon1&#39;: None,
+                         &#39;icon2&#39;: None,
+                         &#39;moonPhase&#39;: 6,
+                         &#39;moonrise&#39;: 1755645158000,
+                         &#39;moonriseOnThisDay&#39;: 1755645158000,
+                         &#39;moonset&#39;: 1755620045000,
+                         &#39;moonsetOnThisDay&#39;: 1755620045000,
+                         &#39;precipitation&#39;: 0,
+                         &#39;stationId&#39;: None,
+                         &#39;sunrise&#39;: 1755573801000,
+                         &#39;sunriseOnThisDay&#39;: 1755573801000,
+                         &#39;sunset&#39;: 1755625435000,
+                         &#39;sunsetOnThisDay&#39;: 1755625435000,
+                         &#39;sunshine&#39;: 32767,
+                         &#39;temperatureMax&#39;: 229,
+                         &#39;temperatureMin&#39;: 115,
+                         &#39;windDirection&#39;: 3070,
+                         &#39;windGust&#39;: 222,
+                         &#39;windSpeed&#39;: 93},
+                       { &#39;dayDate&#39;: &#39;2025-08-20&#39;,
+                         &#39;icon&#39;: 2,
+                         &#39;icon1&#39;: None,
+                         &#39;icon2&#39;: None,
+                         &#39;moonPhase&#39;: 7,
+                         &#39;moonrise&#39;: 1755736539000,
+                         &#39;moonriseOnThisDay&#39;: None,
+                         &#39;moonset&#39;: 1755708637000,
+                         &#39;moonsetOnThisDay&#39;: 1755708637000,
+                         &#39;precipitation&#39;: 0,
+                         &#39;stationId&#39;: None,
+                         &#39;sunrise&#39;: 1755660295000,
+                         &#39;sunriseOnThisDay&#39;: 1755660295000,
+                         &#39;sunset&#39;: 1755711712000,
+                         &#39;sunsetOnThisDay&#39;: 1755711712000,
+                         &#39;sunshine&#39;: 32767,
+                         &#39;temperatureMax&#39;: 245,
+                         &#39;temperatureMin&#39;: 130,
+                         &#39;windDirection&#39;: 2620,
+                         &#39;windGust&#39;: 296,
+                         &#39;windSpeed&#39;: 93},
+                       { &#39;dayDate&#39;: &#39;2025-08-21&#39;,
+                         &#39;icon&#39;: 2,
+                         &#39;icon1&#39;: None,
+                         &#39;icon2&#39;: None,
+                         &#39;moonPhase&#39;: 7,
+                         &#39;moonrise&#39;: 1755736539000,
+                         &#39;moonriseOnThisDay&#39;: 1755736539000,
+                         &#39;moonset&#39;: 1755796531000,
+                         &#39;moonsetOnThisDay&#39;: 1755796531000,
+                         &#39;precipitation&#39;: 0,
+                         &#39;stationId&#39;: None,
+                         &#39;sunrise&#39;: 1755746790000,
+                         &#39;sunriseOnThisDay&#39;: 1755746790000,
+                         &#39;sunset&#39;: 1755797989000,
+                         &#39;sunsetOnThisDay&#39;: 1755797989000,
+                         &#39;sunshine&#39;: 32767,
+                         &#39;temperatureMax&#39;: 225,
+                         &#39;temperatureMin&#39;: 141,
+                         &#39;windDirection&#39;: 2960,
+                         &#39;windGust&#39;: 315,
+                         &#39;windSpeed&#39;: 93},
+                       { &#39;dayDate&#39;: &#39;2025-08-22&#39;,
+                         &#39;icon&#39;: 19,
+                         &#39;icon1&#39;: None,
+                         &#39;icon2&#39;: None,
+                         &#39;moonPhase&#39;: 7,
+                         &#39;moonrise&#39;: 1755827997000,
+                         &#39;moonriseOnThisDay&#39;: 1755827997000,
+                         &#39;moonset&#39;: 1755884001000,
+                         &#39;moonsetOnThisDay&#39;: 1755884001000,
+                         &#39;precipitation&#39;: 35,
+                         &#39;stationId&#39;: None,
+                         &#39;sunrise&#39;: 1755833285000,
+                         &#39;sunriseOnThisDay&#39;: 1755833285000,
+                         &#39;sunset&#39;: 1755884264000,
+                         &#39;sunsetOnThisDay&#39;: 1755884264000,
+                         &#39;sunshine&#39;: 32767,
+                         &#39;temperatureMax&#39;: 210,
+                         &#39;temperatureMin&#39;: 133,
+                         &#39;windDirection&#39;: 3420,
+                         &#39;windGust&#39;: 278,
+                         &#39;windSpeed&#39;: 111},
+                       { &#39;dayDate&#39;: &#39;2025-08-23&#39;,
+                         &#39;icon&#39;: 3,
+                         &#39;icon1&#39;: None,
+                         &#39;icon2&#39;: None,
+                         &#39;moonPhase&#39;: 0,
+                         &#39;moonrise&#39;: 1755919307000,
+                         &#39;moonriseOnThisDay&#39;: 1755919307000,
+                         &#39;moonset&#39;: 1755971217000,
+                         &#39;moonsetOnThisDay&#39;: 1755971217000,
+                         &#39;precipitation&#39;: 0,
+                         &#39;stationId&#39;: None,
+                         &#39;sunrise&#39;: 1755919779000,
+                         &#39;sunriseOnThisDay&#39;: 1755919779000,
+                         &#39;sunset&#39;: 1755970539000,
+                         &#39;sunsetOnThisDay&#39;: 1755970539000,
+                         &#39;sunshine&#39;: 32767,
+                         &#39;temperatureMax&#39;: 196,
+                         &#39;temperatureMin&#39;: 117,
+                         &#39;windDirection&#39;: 3230,
+                         &#39;windGust&#39;: 296,
+                         &#39;windSpeed&#39;: 130},
+                       { &#39;dayDate&#39;: &#39;2025-08-24&#39;,
+                         &#39;icon&#39;: 2,
+                         &#39;icon1&#39;: None,
+                         &#39;icon2&#39;: None,
+                         &#39;moonPhase&#39;: 0,
+                         &#39;moonrise&#39;: 1756010376000,
+                         &#39;moonriseOnThisDay&#39;: 1756010376000,
+                         &#39;moonset&#39;: 1756058291000,
+                         &#39;moonsetOnThisDay&#39;: 1756058291000,
+                         &#39;precipitation&#39;: 0,
+                         &#39;stationId&#39;: None,
+                         &#39;sunrise&#39;: 1756006274000,
+                         &#39;sunriseOnThisDay&#39;: 1756006274000,
+                         &#39;sunset&#39;: 1756056812000,
+                         &#39;sunsetOnThisDay&#39;: 1756056812000,
+                         &#39;sunshine&#39;: 32767,
+                         &#39;temperatureMax&#39;: 195,
+                         &#39;temperatureMin&#39;: 112,
+                         &#39;windDirection&#39;: 3060,
+                         &#39;windGust&#39;: 315,
+                         &#39;windSpeed&#39;: 130},
+                       { &#39;dayDate&#39;: &#39;2025-08-25&#39;,
+                         &#39;icon&#39;: 2,
+                         &#39;icon1&#39;: None,
+                         &#39;icon2&#39;: None,
+                         &#39;moonPhase&#39;: 0,
+                         &#39;moonrise&#39;: 1756101241000,
+                         &#39;moonriseOnThisDay&#39;: 1756101241000,
+                         &#39;moonset&#39;: 1756145313000,
+                         &#39;moonsetOnThisDay&#39;: 1756145313000,
+                         &#39;precipitation&#39;: 0,
+                         &#39;stationId&#39;: None,
+                         &#39;sunrise&#39;: 1756092768000,
+                         &#39;sunriseOnThisDay&#39;: 1756092768000,
+                         &#39;sunset&#39;: 1756143084000,
+                         &#39;sunsetOnThisDay&#39;: 1756143084000,
+                         &#39;sunshine&#39;: 32767,
+                         &#39;temperatureMax&#39;: 189,
+                         &#39;temperatureMin&#39;: 114,
+                         &#39;windDirection&#39;: 2890,
+                         &#39;windGust&#39;: 315,
+                         &#39;windSpeed&#39;: 111},
+                       { &#39;dayDate&#39;: &#39;2025-08-26&#39;,
+                         &#39;icon&#39;: 2,
+                         &#39;icon1&#39;: None,
+                         &#39;icon2&#39;: None,
+                         &#39;moonPhase&#39;: 0,
+                         &#39;moonrise&#39;: 1756191992000,
+                         &#39;moonriseOnThisDay&#39;: 1756191992000,
+                         &#39;moonset&#39;: 1756232335000,
+                         &#39;moonsetOnThisDay&#39;: 1756232335000,
+                         &#39;precipitation&#39;: 0,
+                         &#39;stationId&#39;: None,
+                         &#39;sunrise&#39;: 1756179263000,
+                         &#39;sunriseOnThisDay&#39;: 1756179263000,
+                         &#39;sunset&#39;: 1756229356000,
+                         &#39;sunsetOnThisDay&#39;: 1756229356000,
+                         &#39;sunshine&#39;: 32767,
+                         &#39;temperatureMax&#39;: 207,
+                         &#39;temperatureMin&#39;: 119,
+                         &#39;windDirection&#39;: 2700,
+                         &#39;windGust&#39;: 315,
+                         &#39;windSpeed&#39;: 130}],
+             &#39;forecast1&#39;: { &#39;cloudCoverTotal&#39;: [],
+                            &#39;dewPoint2m&#39;: [ 114, 108, 102, 98, 94, 91, 89, 87,
+                                            90, 90, 90, 91, 92, 90, 89, 89, 89,
+                                            90, 88, 89, 95, 102, 107, 109, 108,
+                                            106, 103, 101, 97, 95, 93, 93, 96,
+                                            98, 99, 98, 99, 100, 99, 101, 102,
+                                            101, 102, 104, 108, 114, 120, 118,
+                                            114, 109, 105, 103, 102, 101, 100,
+                                            102, 105, 109, 111, 112, 112, 111,
+                                            111],
+                            &#39;humidity&#39;: [ 606, 554, 513, 479, 455, 437, 432,
+                                          431, 456, 491, 543, 604, 649, 678,
+                                          704, 732, 752, 787, 797, 808, 830,
+                                          826, 774, 736, 669, 623, 578, 546,
+                                          512, 502, 483, 483, 518, 559, 622,
+                                          684, 744, 799, 804, 847, 887, 893,
+                                          917, 923, 894, 843, 772, 684, 595,
+                                          541, 502, 480, 460, 448, 440, 454,
+                                          481, 531, 591, 678, 732, 760, 790],
+                            &#39;icon&#39;: [ 32767, 1, 32767, 32767, 32767, 32767,
+                                      32767, 2, 32767, 32767, 2, 2, 2, 2, 2, 2,
+                                      2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+                                      2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2,
+                                      2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2,
+                                      2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1,
+                                      1],
+                            &#39;icon1h&#39;: [ 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+                                        2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3,
+                                        3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 1, 1,
+                                        1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2,
+                                        2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1],
+                            &#39;isDay&#39;: [ False, False, False, False, False, False,
+                                       False, True, False, False, True, True,
+                                       True, True, True, True, True, True, True,
+                                       True, True, False, False, False, False,
+                                       False, False, False, False, False, True,
+                                       True, True, True, True, True, True, True,
+                                       True, True, True, True, True, True, True,
+                                       False, False, False, False, False, False,
+                                       False, False, False, True, True, True,
+                                       True, True, True, True, True, True, True,
+                                       True, True, True, True, True, False,
+                                       False, False, False],
+                            &#39;precipitationProbablity&#39;: None,
+                            &#39;precipitationProbablityIndex&#39;: None,
+                            &#39;precipitationTotal&#39;: [ 32767, 32767, 32767, 32767,
+                                                    32767, 32767, 32767, 32767,
+                                                    32767, 32767, 0, 0, 0, 0, 0,
+                                                    0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                    0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                    0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                    0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                    0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                    0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                    0, 0, 0, 0],
+                            &#39;start&#39;: 1755381600000,
+                            &#39;stationId&#39;: &#39;12495&#39;,
+                            &#39;sunshine&#39;: [ 32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767],
+                            &#39;surfacePressure&#39;: [ 10143, 10142, 10138, 10137,
+                                                 10134, 10132, 10131, 10131,
+                                                 10132, 10137, 10143, 10147,
+                                                 10151, 10155, 10159, 10160,
+                                                 10161, 10164, 10166, 10168,
+                                                 10171, 10174, 10177, 10178,
+                                                 10179, 10181, 10180, 10180,
+                                                 10181, 10179, 10177, 10177,
+                                                 10178, 10179, 10182, 10186,
+                                                 10188, 10191, 10191, 10192,
+                                                 10191, 10189, 10187, 10185,
+                                                 10185, 10184, 10184, 10183,
+                                                 10182, 10180, 10174, 10169,
+                                                 10163, 10158, 10151, 10149,
+                                                 10144, 10141, 10142, 10141,
+                                                 10141, 10138, 10136],
+                            &#39;temperature&#39;: [ 32767, 32767, 176, 32767, 32767,
+                                             32767, 32767, 32767, 170, 32767,
+                                             32767, 192, 200, 206, 213, 217,
+                                             220, 220, 218, 212, 200, 184, 168,
+                                             158, 149, 142, 136, 132, 126, 122,
+                                             121, 123, 131, 146, 156, 170, 179,
+                                             188, 195, 201, 202, 206, 206, 198,
+                                             188, 172, 156, 144, 134, 132, 126,
+                                             120, 118, 115, 116, 125, 140, 160,
+                                             177, 195, 205, 213, 218, 224, 227,
+                                             229, 226, 220, 208, 193, 172, 160,
+                                             153, 147, 143, 137, 133, 130, 131,
+                                             140, 154, 174, 194, 213, 226, 233,
+                                             237, 243, 245, 245, 241, 233, 219,
+                                             204, 188, 177, 169, 163, 157, 151,
+                                             145, 142, 141, 145, 153, 169, 184,
+                                             196, 209, 216, 222, 224, 225, 223,
+                                             217, 207, 199, 186, 176, 167, 159,
+                                             155, 150, 143, 139, 136, 135, 138,
+                                             148, 158, 169, 182, 193, 201, 205,
+                                             209, 210, 209, 203, 195, 183, 171,
+                                             158, 147, 138, 133, 128, 124, 120,
+                                             117, 118, 124, 130, 143, 158, 172,
+                                             179, 186, 189, 192, 196, 196, 193,
+                                             189, 177, 163, 149, 138, 131, 126,
+                                             124, 120, 116, 112, 112, 118, 128,
+                                             139, 155, 168, 179, 186, 189, 193,
+                                             195, 194, 191, 186, 176, 161, 152,
+                                             138, 130, 126, 122, 119, 115, 114,
+                                             115, 119, 124, 135, 148, 159, 168,
+                                             176, 182, 186, 189, 189, 187, 182,
+                                             174, 157, 151, 141, 136, 133, 128,
+                                             125, 121, 119, 119, 124, 134, 147,
+                                             163, 177, 186, 194, 201, 205, 207,
+                                             205, 202, 195, 188, 174, 164, 155,
+                                             149, 144],
+                            &#39;temperatureStd&#39;: [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                9, 9, 9, 9, 10, 11, 10, 12, 13,
+                                                12, 9, 12, 13, 13, 14, 12, 12,
+                                                12, 12, 14, 12, 10, 9, 9, 10,
+                                                11, 12, 12, 10, 10, 10, 10, 12,
+                                                12, 12, 12, 12, 12, 12, 12, 12,
+                                                12, 13, 14, 14, 12, 11, 12, 12,
+                                                11, 11, 10, 10, 10, 11, 12, 12,
+                                                13, 14, 12, 14, 14, 14, 13, 14,
+                                                14, 14, 14, 15, 13, 13, 13, 14,
+                                                14, 14, 15, 16, 15, 16, 18, 18,
+                                                17, 16, 15, 13, 15, 15, 15, 15,
+                                                15, 15, 16, 15, 15, 14, 15, 17,
+                                                17, 20, 20, 21, 21, 21, 22, 22,
+                                                21, 19, 19, 19, 19, 20, 20, 20,
+                                                20, 20, 20, 20, 18, 17, 19, 20,
+                                                21, 23, 23, 23, 23, 22, 22, 22,
+                                                21, 19, 19, 19, 19, 19, 18, 17,
+                                                17, 17, 19, 18, 17, 15, 16, 17,
+                                                14, 15, 15, 17, 17, 16, 17, 18,
+                                                18, 18, 19, 19, 18, 18, 18, 17,
+                                                17, 17, 18, 17, 15, 17, 17, 17,
+                                                18, 20, 20, 19, 19, 20, 20, 19,
+                                                19, 18, 19, 18, 18, 18, 19, 18,
+                                                18, 18, 18, 18, 18, 18, 18, 18,
+                                                20, 20, 21, 21, 22, 22, 22, 22,
+                                                22, 22, 21, 21, 20, 21, 22, 22,
+                                                22, 21, 21, 20, 20, 18, 19, 21,
+                                                22, 23, 23, 22, 22, 22, 23, 22,
+                                                21, 20, 21, 22, 22, 21],
+                            &#39;timeStep&#39;: 3600000,
+                            &#39;windDirection&#39;: None,
+                            &#39;windGust&#39;: None,
+                            &#39;windSpeed&#39;: None},
+             &#39;forecast2&#39;: { &#39;cloudCoverTotal&#39;: [],
+                            &#39;dewPoint2m&#39;: [ 114, 116, 126, 111, 108, 112, 116,
+                                            115, 112, 118, 125, 118, 116, 120,
+                                            122, 117, 112, 114, 121, 112, 108,
+                                            105, 102, 103, 99, 98, 102, 93, 91,
+                                            88, 88, 89, 88, 90, 101, 95, 84, 87,
+                                            91, 89, 89, 94, 97, 89, 84, 87, 95,
+                                            91, 90, 95, 108, 103, 102, 108, 124,
+                                            122],
+                            &#39;humidity&#39;: [ 883, 855, 648, 462, 422, 465, 630,
+                                          732, 806, 838, 685, 537, 501, 575,
+                                          706, 781, 838, 854, 733, 566, 521,
+                                          560, 694, 820, 870, 842, 694, 547,
+                                          507, 519, 669, 782, 829, 830, 702,
+                                          554, 487, 525, 669, 782, 841, 847,
+                                          715, 567, 505, 539, 692, 757, 813,
+                                          825, 699, 556, 510, 572, 772, 866],
+                            &#39;icon&#39;: [ 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3,
+                                      3, 3, 3, 3, 19, 19, 3, 3, 3, 2, 2, 3, 3,
+                                      2, 3, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2,
+                                      2, 2, 2, 3, 3, 2, 2, 2, 2, 3, 3, 3, 2, 2,
+                                      2],
+                            &#39;icon1h&#39;: [ 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3,
+                                        3, 3, 3, 3, 3, 19, 19, 3, 3, 3, 2, 2, 3,
+                                        3, 2, 3, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2,
+                                        2, 2, 2, 2, 2, 3, 3, 2, 2, 2, 2, 3, 3,
+                                        3, 2, 2, 2],
+                            &#39;isDay&#39;: [ False, False, True, True, True, True,
+                                       True, False, False, False, True, True,
+                                       True, True, True, False, False, False,
+                                       True, True, True, True, True, False,
+                                       False, False, True, True, True, True,
+                                       True, False, False, False, True, True,
+                                       True, True, True, False, False, False,
+                                       True, True, True, True, True, False,
+                                       False, False, True, True, True, True,
+                                       False, False],
+                            &#39;precipitationProbablity&#39;: None,
+                            &#39;precipitationProbablityIndex&#39;: None,
+                            &#39;precipitationTotal&#39;: [ 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                    0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                    12, 23, 0, 0, 0, 0, 0, 0, 0,
+                                                    0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                    0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                    0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                    0, 0],
+                            &#39;start&#39;: 1755640800000,
+                            &#39;stationId&#39;: &#39;12495&#39;,
+                            &#39;sunshine&#39;: [ 32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767, 32767, 32767,
+                                          32767, 32767, 32767, 32767, 32767,
+                                          32767],
+                            &#39;surfacePressure&#39;: [ 10127, 10118, 10106, 10093,
+                                                 10085, 10078, 10086, 10093,
+                                                 10088, 10084, 10081, 10080,
+                                                 10078, 10076, 10087, 10087,
+                                                 10087, 10081, 10087, 10093,
+                                                 10097, 10100, 10112, 10120,
+                                                 10122, 10118, 10118, 10117,
+                                                 10114, 10120, 10139, 10143,
+                                                 10143, 10146, 10146, 10145,
+                                                 10141, 10146, 10153, 10152,
+                                                 10147, 10149, 10146, 10138,
+                                                 10137, 10130, 10140, 10141,
+                                                 10137, 10138, 10140, 10136,
+                                                 10131, 10132, 10135, 10140],
+                            &#39;temperature&#39;: [],
+                            &#39;temperatureStd&#39;: [],
+                            &#39;timeStep&#39;: 10800000,
+                            &#39;windDirection&#39;: None,
+                            &#39;windGust&#39;: None,
+                            &#39;windSpeed&#39;: None},
+             &#39;forecastStart&#39;: None,
+             &#39;threeHourSummaries&#39;: None,
+             &#39;warnings&#39;: []}}
+</pre></div>
+</div>
+</div>
+</div>
+<!-- We can start our own web server with the `http.server` package.
+
+import http.server as server
+
+server_object = server.HTTPServer(server_address=('', 80), 	RequestHandlerClass=server.CGIHTTPRequestHandler)
+
+server_object.serve_forever()
+
+--></section>
+<section id="installing-and-importing-external-packages">
+<h2>Installing and Importing External Packages<a class="headerlink" href="#installing-and-importing-external-packages" title="Link to this heading">#</a></h2>
+<p>Python’s strength, however, lies in its enormous selection of available packages. For most purposes, there are Python packages available. One such directory is <a class="reference external" href="https://pypi.org/">PyPI</a>, which lists over 400,000 packages.</p>
+<p>The installation of new packages for Python is easy. For this, you open a terminal (command line) and enter the command <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&lt;packetname&gt;</span></code>.</p>
+<p>For example, we want to display the weather data we just loaded. To do this we use:</p>
+<ul class="simple">
+<li><p>first the <code class="docutils literal notranslate"><span class="pre">pandas</span></code> package for creating a table from the weather data.</p></li>
+<li><p>then we use the <code class="docutils literal notranslate"><span class="pre">plotly</span></code> package to draw a chart.</p></li>
+<li><p>finally we create a web server with <code class="docutils literal notranslate"><span class="pre">dash</span></code> that will display the chart to us</p></li>
+</ul>
+<p>We install all three with <code class="docutils literal notranslate"><span class="pre">pip</span></code>. We can do this in a single call. We use the <code class="docutils literal notranslate"><span class="pre">--quiet</span></code> switch to reduce the output.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pip install pandas plotly dash  --quiet</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we load both packages, with pandas typically assigned the alias <code class="docutils literal notranslate"><span class="pre">pd</span></code> and Plotly Express, which is easy to use, assigned the alias <code class="docutils literal notranslate"><span class="pre">px</span></code>.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.express</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">px</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">dash</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>First, we convert the daily weather forecast <code class="docutils literal notranslate"><span class="pre">days</span></code> data from the weather station with the <code class="docutils literal notranslate"><span class="pre">stationID</span></code> into a table, since this can be processed by Plotly Express. Tables are called DataFrames in Pandas (in general, that’s what such tables are called in data science). So we create from the weather forecast a new object instance of type <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> via</p>
+<div class="cell tag_output_scroll tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">weather</span><span class="p">[</span><span class="n">stationID</span><span class="p">][</span><span class="s1">&#39;days&#39;</span><span class="p">])</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>stationId</th>
+      <th>dayDate</th>
+      <th>temperatureMin</th>
+      <th>temperatureMax</th>
+      <th>precipitation</th>
+      <th>windSpeed</th>
+      <th>windGust</th>
+      <th>windDirection</th>
+      <th>sunshine</th>
+      <th>sunrise</th>
+      <th>...</th>
+      <th>moonrise</th>
+      <th>moonset</th>
+      <th>moonriseOnThisDay</th>
+      <th>moonsetOnThisDay</th>
+      <th>sunriseOnThisDay</th>
+      <th>sunsetOnThisDay</th>
+      <th>moonPhase</th>
+      <th>icon</th>
+      <th>icon1</th>
+      <th>icon2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>None</td>
+      <td>2025-08-17</td>
+      <td>139</td>
+      <td>220</td>
+      <td>0</td>
+      <td>167</td>
+      <td>352</td>
+      <td>3230</td>
+      <td>32767</td>
+      <td>1755400811000</td>
+      <td>...</td>
+      <td>1755464484000</td>
+      <td>1755439776000</td>
+      <td>1.755464e+12</td>
+      <td>1755439776000</td>
+      <td>1755400811000</td>
+      <td>1755452877000</td>
+      <td>6</td>
+      <td>2</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>None</td>
+      <td>2025-08-18</td>
+      <td>121</td>
+      <td>206</td>
+      <td>0</td>
+      <td>148</td>
+      <td>315</td>
+      <td>3380</td>
+      <td>32767</td>
+      <td>1755487306000</td>
+      <td>...</td>
+      <td>1755554333000</td>
+      <td>1755530459000</td>
+      <td>1.755554e+12</td>
+      <td>1755530459000</td>
+      <td>1755487306000</td>
+      <td>1755539156000</td>
+      <td>6</td>
+      <td>2</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>None</td>
+      <td>2025-08-19</td>
+      <td>115</td>
+      <td>229</td>
+      <td>0</td>
+      <td>93</td>
+      <td>222</td>
+      <td>3070</td>
+      <td>32767</td>
+      <td>1755573801000</td>
+      <td>...</td>
+      <td>1755645158000</td>
+      <td>1755620045000</td>
+      <td>1.755645e+12</td>
+      <td>1755620045000</td>
+      <td>1755573801000</td>
+      <td>1755625435000</td>
+      <td>6</td>
+      <td>2</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>None</td>
+      <td>2025-08-20</td>
+      <td>130</td>
+      <td>245</td>
+      <td>0</td>
+      <td>93</td>
+      <td>296</td>
+      <td>2620</td>
+      <td>32767</td>
+      <td>1755660295000</td>
+      <td>...</td>
+      <td>1755736539000</td>
+      <td>1755708637000</td>
+      <td>NaN</td>
+      <td>1755708637000</td>
+      <td>1755660295000</td>
+      <td>1755711712000</td>
+      <td>7</td>
+      <td>2</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>None</td>
+      <td>2025-08-21</td>
+      <td>141</td>
+      <td>225</td>
+      <td>0</td>
+      <td>93</td>
+      <td>315</td>
+      <td>2960</td>
+      <td>32767</td>
+      <td>1755746790000</td>
+      <td>...</td>
+      <td>1755736539000</td>
+      <td>1755796531000</td>
+      <td>1.755737e+12</td>
+      <td>1755796531000</td>
+      <td>1755746790000</td>
+      <td>1755797989000</td>
+      <td>7</td>
+      <td>2</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>None</td>
+      <td>2025-08-22</td>
+      <td>133</td>
+      <td>210</td>
+      <td>35</td>
+      <td>111</td>
+      <td>278</td>
+      <td>3420</td>
+      <td>32767</td>
+      <td>1755833285000</td>
+      <td>...</td>
+      <td>1755827997000</td>
+      <td>1755884001000</td>
+      <td>1.755828e+12</td>
+      <td>1755884001000</td>
+      <td>1755833285000</td>
+      <td>1755884264000</td>
+      <td>7</td>
+      <td>19</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>None</td>
+      <td>2025-08-23</td>
+      <td>117</td>
+      <td>196</td>
+      <td>0</td>
+      <td>130</td>
+      <td>296</td>
+      <td>3230</td>
+      <td>32767</td>
+      <td>1755919779000</td>
+      <td>...</td>
+      <td>1755919307000</td>
+      <td>1755971217000</td>
+      <td>1.755919e+12</td>
+      <td>1755971217000</td>
+      <td>1755919779000</td>
+      <td>1755970539000</td>
+      <td>0</td>
+      <td>3</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>None</td>
+      <td>2025-08-24</td>
+      <td>112</td>
+      <td>195</td>
+      <td>0</td>
+      <td>130</td>
+      <td>315</td>
+      <td>3060</td>
+      <td>32767</td>
+      <td>1756006274000</td>
+      <td>...</td>
+      <td>1756010376000</td>
+      <td>1756058291000</td>
+      <td>1.756010e+12</td>
+      <td>1756058291000</td>
+      <td>1756006274000</td>
+      <td>1756056812000</td>
+      <td>0</td>
+      <td>2</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>None</td>
+      <td>2025-08-25</td>
+      <td>114</td>
+      <td>189</td>
+      <td>0</td>
+      <td>111</td>
+      <td>315</td>
+      <td>2890</td>
+      <td>32767</td>
+      <td>1756092768000</td>
+      <td>...</td>
+      <td>1756101241000</td>
+      <td>1756145313000</td>
+      <td>1.756101e+12</td>
+      <td>1756145313000</td>
+      <td>1756092768000</td>
+      <td>1756143084000</td>
+      <td>0</td>
+      <td>2</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>None</td>
+      <td>2025-08-26</td>
+      <td>119</td>
+      <td>207</td>
+      <td>0</td>
+      <td>130</td>
+      <td>315</td>
+      <td>2700</td>
+      <td>32767</td>
+      <td>1756179263000</td>
+      <td>...</td>
+      <td>1756191992000</td>
+      <td>1756232335000</td>
+      <td>1.756192e+12</td>
+      <td>1756232335000</td>
+      <td>1756179263000</td>
+      <td>1756229356000</td>
+      <td>0</td>
+      <td>2</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+  </tbody>
+</table>
+<p>10 rows × 21 columns</p>
+</div></div></div>
+</div>
+<p>Now we plot the data <code class="docutils literal notranslate"><span class="pre">df</span></code> as a line chart using Plotly, with the date axis on the x-axis (<code class="docutils literal notranslate"><span class="pre">dayDate</span></code>) and the minimum temperature <code class="docutils literal notranslate"><span class="pre">temperatureMin</span></code> and the maximum temperature <code class="docutils literal notranslate"><span class="pre">temperatureMax</span></code> on the y-axis.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="o">=</span><span class="n">px</span><span class="o">.</span><span class="n">line</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">&quot;dayDate&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;temperatureMin&quot;</span><span class="p">,</span> <span class="s2">&quot;temperatureMax&quot;</span><span class="p">])</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">renderer</span><span class="o">=</span><span class="s2">&quot;svg&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/70c7c7f119972469152ed2b11481c05202cc2985c364549cca1d3c0130e458b0.svg" src="../_images/70c7c7f119972469152ed2b11481c05202cc2985c364549cca1d3c0130e458b0.svg" />
+</div>
+</div>
+<p>Finally, we want to display this diagram on a webpage on a web server. Here we use the package <code class="docutils literal notranslate"><span class="pre">dash</span></code>, which enables creating a webpage with Python commands and displaying interactive Plotly charts in it.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">dash</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">dash</span><span class="o">.</span><span class="n">Dash</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then we generate a webpage with a heading (<code class="docutils literal notranslate"><span class="pre">H1</span></code>) that contains the plot as a <code class="docutils literal notranslate"><span class="pre">Graph</span></code>.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">app</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">dash</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">Div</span><span class="p">(</span><span class="n">children</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">dash</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">H1</span><span class="p">(</span><span class="n">children</span><span class="o">=</span><span class="s1">&#39;Wetter in Rostock&#39;</span><span class="p">),</span>
+    <span class="n">dash</span><span class="o">.</span><span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;fare_vs_age&quot;</span><span class="p">,</span> <span class="n">figure</span><span class="o">=</span><span class="n">fig</span><span class="p">)</span>
+<span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And start the web server.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">16</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">app</span><span class="o">.</span><span class="n">run_server</span><span class="p">()</span>
+
+<span class="nn">File ~/Documents/code/Lehre/ProgrammierUebung/.venv/lib/python3.12/site-packages/jupyter_dash/jupyter_app.py:176,</span> in <span class="ni">JupyterDash.run_server</span><span class="nt">(self, mode, width, height, inline_exceptions, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">154</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">155</span><span class="sd"> Serve the app using flask in a background thread. You should not run this on a</span>
+<span class="g g-Whitespace">    </span><span class="mi">156</span><span class="sd"> production server, use gunicorn/waitress instead.</span>
+<span class="sd">   (...)    173     ``Dash.run_server`` method.</span>
+<span class="g g-Whitespace">    </span><span class="mi">174</span><span class="sd"> &quot;&quot;&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">175</span> <span class="c1"># Get superclass run_server method</span>
+<span class="ne">--&gt; </span><span class="mi">176</span> <span class="n">super_run_server</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">JupyterDash</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">run_server</span>
+<span class="g g-Whitespace">    </span><span class="mi">178</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">JupyterDash</span><span class="o">.</span><span class="n">_in_ipython</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">179</span>     <span class="c1"># If not in IPython context, call run run_server synchronously</span>
+<span class="g g-Whitespace">    </span><span class="mi">180</span>     <span class="n">super_run_server</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="ne">AttributeError</span>: &#39;super&#39; object has no attribute &#39;run_server&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>This starts a web server that we can access in a browser at <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:8083/</span></code>. It shows a webpage with an interactive chart that displays the weather data.</p>
+<p><img alt="" src="../_images/wetter.png" /></p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./lectures"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slides-pdf"><a href="/lec_slides/07a_Module_en.slides.html">Slides</a>/<a href="/pdf/slides/07a_Module_en.pdf">PDF</a></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#split-code-into-files-modules-and-packages">Split code into files, modules, and packages</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-the-entry-point-of-a-program"><code class="docutils literal notranslate"><span class="pre">main()</span></code> - The entry point of a program</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-modules">Importing Modules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-standard-packages-from-python">Import standard packages from Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-and-importing-external-packages">Installing and Importing External Packages</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Joern Ploennigs, AI 4 Sustainable Construction, University of Rostock
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright CC-BY-NC-SA 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

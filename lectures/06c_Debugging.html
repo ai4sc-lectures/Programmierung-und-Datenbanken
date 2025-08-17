@@ -1,0 +1,849 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Debugging &#8212; Programmierung und Datenbanken</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d8a2add5" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css?v=062df064" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-menu/quarto-menu.css?v=a9b70b88" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-menu/menu.css?v=b1df3480" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/highlight/monokai.css?v=075166d3" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/highlight/zenburn.css?v=83d5745d" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/style.css?v=6050ce3b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/quarto-line-highlight/line-highlight.css?v=52b149a6" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/quarto-support/footer.css?v=53995862" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css?v=124a15ac" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/v4-shims.css?v=1b0e564b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/solid.css?v=e0521a22" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/brands.css?v=7dcd769b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/regular.css?v=0b430bdf" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/v4-shims.min.css?v=898855d1" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/svg-with-js.css?v=aac53de5" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/fontawesome.css?v=d504f742" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script src="https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"></script>
+    <script>quizdown.init({"start_on_load": true, "shuffle_answers": true, "shuffle_questions": false, "primary_color": "#FF851B", "secondary_color": "#DDDDDD", "text_color": "black", "locale": "de", "quizdown_js": "https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"});</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/06c_Debugging';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-menu/quarto-menu.js?v=b4fc9030"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-menu/menu.js?v=27134a44"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/highlight.esm.js?v=1254c8f3"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/highlight.js?v=d8e1bd11"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/plugin.js?v=de14e947"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/markdown.esm.js?v=c1d1720c"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/plugin.js?v=b7c888a0"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/markdown.js?v=96b9265a"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-chalkboard/plugin.js?v=5c29cd4a"></script>
+    <script src="../_static/styles/revealjs/plugin/quarto-line-highlight/line-highlight.js?v=1b7b3781"></script>
+    <script src="../_static/styles/revealjs/plugin/math/katex.js?v=a56d0b0a"></script>
+    <script src="../_static/styles/revealjs/plugin/math/mathjax2.js?v=61c34cb4"></script>
+    <script src="../_static/styles/revealjs/plugin/math/mathjax3.js?v=aa10c317"></script>
+    <script src="../_static/styles/revealjs/plugin/math/math.esm.js?v=4432b676"></script>
+    <script src="../_static/styles/revealjs/plugin/math/math.js?v=fdaf90ea"></script>
+    <script src="../_static/styles/revealjs/plugin/math/plugin.js?v=62b4f3c3"></script>
+    <script src="../_static/styles/revealjs/plugin/search/search.esm.js?v=755e6b2e"></script>
+    <script src="../_static/styles/revealjs/plugin/search/search.js?v=fc149e99"></script>
+    <script src="../_static/styles/revealjs/plugin/search/plugin.js?v=99bfb13f"></script>
+    <script src="../_static/styles/revealjs/plugin/quarto-support/support.js?v=1448896a"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/notes.js?v=d900d418"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/notes.esm.js?v=e3d88def"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/plugin.js?v=c6bed375"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/zoom.js?v=2fef532c"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/zoom.esm.js?v=c566db7e"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/plugin.js?v=a47a6514"></script>
+    <script src="../_static/styles/revealjs/plugin/pdf-export/pdfexport.js?v=c7b6e01c"></script>
+    <link rel="canonical" href="https://code-book.ai4sc-lehre.auf.uni-rostock.de/lectures/06c_Debugging.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pd_logo2.svg" class="logo__image only-light" alt="Programmierung und Datenbanken - Home"/>
+    <script>document.write(`<img src="../_static/pd_logo2.svg" class="logo__image only-dark" alt="Programmierung und Datenbanken - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Grundlagen</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01c_Computerhardware.html">Computerhardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01d_Programmiersprachen.html">Programmiersprachen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02a_Softwarearchitektur.html">Softwarearchitektur</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02b_Wissenspyramide.html">Wissenspyramide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02c_Datentypen.html">Datentypen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03a_Operatoren.html">Operatoren</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03a_Verzweigung.html">Verzweigungen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03b_Schleifen.html">Schleifen</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modularisierung</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="04a_Funktionen.html">Funktionen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_Rekursion.html">Rekursive Funktionen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04c_Objects.html">Objekte</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05a_Softwareentwurf.html">Softwareentwurf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05b_Programmablauf.html">Programmablauf</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="05c_Algorithmen.html">Algorithmen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06a_Exceptions.html">Exceptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06b_UnitTest.html">Unit-Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07a_Module.html">Modularisierung</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Datenbanken</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="09_Datenhaltung.html">Umgang mit Dateien</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10a_Datenbanktypen.html">Datenbanktypen</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10b_RelationaleDatenbanken.html">Relationale Datenbanken</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10c_Datenbanken_SQL_Select.html">Tabellen mit SQL analysieren</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11a_Datenbanken_Entwurf.html">Entwurf relationaler Datenbanken</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11b_Datenbanken_SQL_Create.html">Tabellen mit SQL anlegen</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<a href="06c_Debugging_en.html" class="button btn btn-sm" title="en" data-bs-placement="bottom" data-bs-toggle="tooltip"><span class="btn__icon-container"><i class="fas fa-language "></i></span></a><div  class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/lectures/06c_Debugging.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Debugging</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#folien-pdf"><a href="/lec_slides/06c_Debugging.slides.html">Folien</a>/<a href="/pdf/slides/06c_Debugging.pdf">PDF</a></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-mit-print">Debugging mit <code class="docutils literal notranslate"><span class="pre">print()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-mit-logging">Debugging mit <code class="docutils literal notranslate"><span class="pre">logging</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-durch-debug-oberflachen">Debugging durch Debug-Oberflächen</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-in-jupyter-notebooks-in-vscode">Debugging in Jupyter-Notebooks in VSCode</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="debugging">
+<h1>Debugging<a class="headerlink" href="#debugging" title="Link to this heading">#</a></h1>
+<p><img alt="" src="lectures/images/06c_Debugging/mj_title_band.jpg" /></p>
+<blockquote>
+<div><p>Everyone knows that debugging is twice as hard as writing a program in the first place.</p>
+<p>— Brian Kernighan</p>
+</div></blockquote>
+<section id="folien-pdf">
+<h2><a href="/lec_slides/06c_Debugging.slides.html">Folien</a>/<a href="/pdf/slides/06c_Debugging.pdf">PDF</a><a class="headerlink" href="#folien-pdf" title="Link to this heading">#</a></h2>
+<iframe src="/lec_slides/06c_Debugging.slides.html" width="750" height="500"></iframe></section>
+<section id="debugging-mit-print">
+<h2>Debugging mit <code class="docutils literal notranslate"><span class="pre">print()</span></code><a class="headerlink" href="#debugging-mit-print" title="Link to this heading">#</a></h2>
+<p>Logische Fehler treten häufig erst dynamisch auf und lassen sich nicht durch statische Code-Analyse durch Lint-Tools finden. Hier muss man dann den aktuellen Programmfluss nachvollziehen. Dies nennt man Debugging. Die einfachste Form ist das <code class="docutils literal notranslate"><span class="pre">print</span></code>-Debugging bei der man den Code mit <code class="docutils literal notranslate"><span class="pre">print()</span></code>-Befehlen zuspammt.</p>
+<p>Wir erweitern mal unsere Divisionsfunktion mit schönen vielen <code class="docutils literal notranslate"><span class="pre">print()</span></code>-Statements. Üblich ist es zum Beispiel, die Eingangsparameter auszugeben, Fehler und Warnungen auszugeben, als auch dann Ergebnisse zu loggen.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Debug: Eingabe Zaehler: </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Debug: Eingabe Nenner: </span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nenner</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">nenner</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">nenner</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">zaehler</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">zaehler</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">nenner</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Division durch 0&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Info: Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ergebnis</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Jetzt können wir insbesondere im Fehlerfall sehr gut nachvollziehen was genau geschehen ist. Zum Beispiel bei der Division durch 0.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">division</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: 0
+Warning: Division durch 0
+</pre></div>
+</div>
+</div>
+</div>
+<p>Allerdings haben wir auch im korrekten Fall sehr viele Ausgaben. Das kann sehr störend sein, weil man dann richtige Fehler sehr schnell übersieht. Zum Beispiel erzeugen wir zehn Divisionen, von der eine eine Division durch 0 war.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">nenner</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
+    <span class="n">division</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">nenner</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: -2
+Info: Das Ergebnis von 10/-2 = -5.0
+Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: -1
+Info: Das Ergebnis von 10/-1 = -10.0
+Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: 0
+Warning: Division durch 0
+Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: 1
+Info: Das Ergebnis von 10/1 = 10.0
+Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: 2
+Info: Das Ergebnis von 10/2 = 5.0
+Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: 3
+Info: Das Ergebnis von 10/3 = 3.3333333333333335
+Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: 4
+Info: Das Ergebnis von 10/4 = 2.5
+Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: 5
+Info: Das Ergebnis von 10/5 = 2.0
+Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: 6
+Info: Das Ergebnis von 10/6 = 1.6666666666666667
+Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: 7
+Info: Das Ergebnis von 10/7 = 1.4285714285714286
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="debugging-mit-logging">
+<h2>Debugging mit <code class="docutils literal notranslate"><span class="pre">logging</span></code><a class="headerlink" href="#debugging-mit-logging" title="Link to this heading">#</a></h2>
+<p>Deshalb verwendet man bei komplexeren Programmen meist ein <code class="docutils literal notranslate"><span class="pre">logging</span></code>-Paket. Diese erlauben es <code class="docutils literal notranslate"><span class="pre">print</span></code>-Statements Kategorien zuzuordnen und anhand dieser zu filtern. In der Python-Bibliothek <code class="docutils literal notranslate"><span class="pre">logging</span></code> sind die Kategorien: <code class="docutils literal notranslate"><span class="pre">debug</span></code>, <code class="docutils literal notranslate"><span class="pre">info</span></code>, <code class="docutils literal notranslate"><span class="pre">warning</span></code>, <code class="docutils literal notranslate"><span class="pre">error</span></code> und <code class="docutils literal notranslate"><span class="pre">critical</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="n">log</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;meinlog&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">):</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Eingabe Zaehler: </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Eingabe Nenner: </span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nenner</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">nenner</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">nenner</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">zaehler</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">zaehler</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">nenner</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Division durch 0&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ergebnis</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Wenn wir jetzt die Funktion aufrufen, sehen wir nur noch die Division durch 0 Warnung.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">nenner</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
+    <span class="n">division</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">nenner</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Division durch 0
+</pre></div>
+</div>
+</div>
+</div>
+<p>Wir können allerdings bei Bedarf, wie bei der Fehlersuche den Loglevel auch erhöhen. Zum Beispiel wollen wir alle Debug-Nachrichten erhalten.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">nenner</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
+    <span class="n">division</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">nenner</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Division durch 0
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ferner erlaub das Logging auch automatisch weitere Informationen hinzuzufügen. Wir sehen im Log oben bereits, das nicht nur das Level (INFO, DEBUG, WARNING) sondern auch den Namen des Loggers (meinlog). Wir können dieses Format anpassen um z.B. auch die Zeit auszugeben, was insbesondere wichtig ist um zu verstehen wann etwas passiert ist.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sh</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+<span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1">  </span><span class="si">%(name)s</span><span class="s1">  </span><span class="si">%(levelname)s</span><span class="s1">: </span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">sh</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+<span class="n">log</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">sh</span><span class="p">)</span>
+<span class="n">log</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">nenner</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
+    <span class="n">division</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">nenner</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-08-17 11:24:57,680  meinlog  INFO: Das Ergebnis von 10/-2 = -5.0
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-08-17 11:24:57,681  meinlog  INFO: Das Ergebnis von 10/-1 = -10.0
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-08-17 11:24:57,681  meinlog  WARNING: Division durch 0
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-08-17 11:24:57,681  meinlog  INFO: Das Ergebnis von 10/1 = 10.0
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-08-17 11:24:57,681  meinlog  INFO: Das Ergebnis von 10/2 = 5.0
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-08-17 11:24:57,681  meinlog  INFO: Das Ergebnis von 10/3 = 3.3333333333333335
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-08-17 11:24:57,681  meinlog  INFO: Das Ergebnis von 10/4 = 2.5
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-08-17 11:24:57,682  meinlog  INFO: Das Ergebnis von 10/5 = 2.0
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-08-17 11:24:57,682  meinlog  INFO: Das Ergebnis von 10/6 = 1.6666666666666667
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-08-17 11:24:57,682  meinlog  INFO: Das Ergebnis von 10/7 = 1.4285714285714286
+</pre></div>
+</div>
+</div>
+</div>
+<p>In der Praxis wird das Logging sehr häufig insbesondere in Cloud-Anwendungen verwendet. Da diese ja keine Bildschirme haben, müssen Fehler in Logs gesucht werden. Solange alles ok ist, läuft so eine Anwendung dann z.B. im Log-Level <code class="docutils literal notranslate"><span class="pre">INFO</span></code>, mit nur wenig Ausgaben. Tritt ein Fehler auf, so wird der Server auf das Log-Level <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code> gesetzt und man sucht in den detaillierten Logs dann nach Informationen, um den Fehler einzugrenzen.</p>
+</section>
+<section id="debugging-durch-debug-oberflachen">
+<h2>Debugging durch Debug-Oberflächen<a class="headerlink" href="#debugging-durch-debug-oberflachen" title="Link to this heading">#</a></h2>
+<p>Viele integrierte Entwicklungsumgebungen (IDE) bieten an direkt Debugger auszuführen. Diese Debugger erlauben es die dynamische Ausführung des Codes zu unterbrechen. Ziel ist es kurz vor Auftreten des Fehlers die Ausführung anzuhalten, um dann das Fehlerverhalten genau beobachten zu können.</p>
+<p>Dabei werden meist zwei Formen der Unterbrechung unterstützt:</p>
+<ul class="simple">
+<li><p>Die Unterbrechung in bestimmten Code-Zeilen mit Hilfe von Breakpoints.</p></li>
+<li><p>Die Unterbrechung bei bestimmten Exceptions.</p></li>
+</ul>
+<section id="debugging-in-jupyter-notebooks-in-vscode">
+<h3>Debugging in Jupyter-Notebooks in VSCode<a class="headerlink" href="#debugging-in-jupyter-notebooks-in-vscode" title="Link to this heading">#</a></h3>
+<p>Die Debug-Oberflächen sehen je nach IDE etwas anders aus, verfügen aber über ähnliche Funktionen. Dieses Jupyter Notebook wurde in VSCode geschrieben, welches wir als erstes Beispiel betrachten.</p>
+<p>Dafür kann man meist in der IDE links neben eine Zeile klicken um einen Breakpoint <span style="color: red">⬤</span> zu setzen. Wir setzen dafür einen Breakpoint auf die Zeile 11 auf die Ausgabe der Warnung.</p>
+<p><img alt="" src="lectures/images/debug_vscode_1.png" /></p>
+<p>Dann wird der Code in einer speziellen Debugumgebung ausgeführt, die es erlaub die Ausführung zu unterbrechen. In unserm Notebook in VSCode starten wird diese durch das Symbol <img alt="lectures/images/debug_vscode_2.png" src="lectures/images/debug_vscode_2.png" />.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">division</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="n">nenner</span><span class="p">):</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Eingabe Zaehler: </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Eingabe Nenner: </span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nenner</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">nenner</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">nenner</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">zaehler</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">zaehler</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">zaehler</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">nenner</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Division durch 0&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ergebnis</span> <span class="o">=</span> <span class="n">zaehler</span> <span class="o">/</span> <span class="n">nenner</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">zaehler</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">nenner</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">ergebnis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ergebnis</span>
+
+<span class="n">division</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-08-17 11:24:57,686  meinlog  WARNING: Division durch 0
+</pre></div>
+</div>
+</div>
+</div>
+<p>Dies startet den Debug-Modus. In diesem wird die aktuelle Zeile vorgehoben als auch die aktuellen Variablen im Speicher angezeigt.</p>
+<p><img alt="Debuggin in VS Code" src="lectures/images/debug_vscode_3.png" /></p>
+<p>In der Debugumgebung kann man dann Zeile für Zeile vorgehen durch drücken von <img alt="lectures/images/debug_vscode_2.png" src="lectures/images/debug_vscode_2.png" /> und damit nachvollziehen wie das Programm bearbeitet wird und welche Variablen sich ändern.</p>
+</section>
+</section>
+<section id="quiz">
+<h2>Quiz<a class="headerlink" href="#quiz" title="Link to this heading">#</a></h2>
+<div class="quizdown">    ---
+    shuffleQuestions: true
+    shuffleAnswers: true
+    ---
+
+    ### Was versteht man unter Debugging?
+    - [x] Das Finden und Beheben von Fehlern im Programmcode
+    - [ ] Die Optimierung des Programmcodes
+    - [ ] Das Schreiben von Dokumentation
+    - [ ] Das Formatieren von Quellcode
+
+    ### Warum reicht statische Code-Analyse allein nicht aus?
+    - [x] Weil logische Fehler zur Laufzeit auftreten können
+    - [ ] Weil sie keine Sicherheitslücken erkennt
+    - [ ] Weil sie den Code langsamer macht
+    - [ ] Weil sie nicht mit Python funktioniert
+
+    ### Was ist `print`-Debugging?
+    - [x] Das Einfügen von `print()`-Befehlen zur Laufzeitanalyse
+    - [ ] Das Entfernen aller `print()`-Befehle
+    - [ ] Ein automatisiertes Debugging-Verfahren
+    - [ ] Ein grafischer Debugger
+
+    ### Was ist der Zweck von `logging` in Python?
+    - [x] Protokollierung von Ereignissen und Fehlern
+    - [ ] Optimierung der Programmausführung
+    - [ ] Erstellen von Benutzeroberflächen
+    - [ ] Automatisches Testen von Funktionen
+
+    ### Sortiere die folgenden Zeilen, um einen vollständigen `try-except`-Block korrekt aufzubauen
+
+    1. `def division(zaehler, nenner):`
+    2. `    print(f&quot;Debug: Eingabe Zaehler: {zaehler}&quot;)`
+    3. `    print(f&quot;Debug: Eingabe Nenner: {nenner}&quot;)`
+    4. `    if not isinstance(nenner, (int, float)):`
+    5. `        print(f&quot;Error: Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}&quot;)`
+    6. `        raise ValueError(f&quot;Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}&quot;)`
+    7. `    elif not isinstance(zaehler, (int, float)):`
+    8. `        print(f&quot;Error: Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}&quot;)`
+    9. `        raise ValueError(f&quot;Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}&quot;)`
+    10. `    elif not nenner:`
+    11. `        print(&quot;Warning: Division durch 0&quot;)`
+    12. `        return None`
+    13. `    else:`
+    14. `        ergebnis = zaehler / nenner`
+    15. `        print(f&quot;Info: Das Ergebnis von {zaehler}/{nenner} = {ergebnis}&quot;)`
+    16. `        return ergebnis`
+
+
+    ### Was passiert bei einer Division durch Null im folgenden Code?
+    ```python
+    def division(zaehler, nenner):
+        print(f&quot;Debug: Eingabe Zaehler: {zaehler}&quot;)
+        print(f&quot;Debug: Eingabe Nenner: {nenner}&quot;)
+        if not isinstance(nenner, (int, float)):
+            ...
+        elif not nenner:
+            print(&quot;Warning: Division durch 0&quot;)
+            return None
+    ```
+    - [x] Eine Warnung wird ausgegeben und `None` zurückgegeben.
+    - [ ] Es erfolgt ein Abbruch durch `ZeroDivisionError`.
+    - [ ] Es wird 0 zurückgegeben.
+    - [ ] Der Nenner wird automatisch auf 1 gesetzt.
+</div></section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./lectures"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#folien-pdf"><a href="/lec_slides/06c_Debugging.slides.html">Folien</a>/<a href="/pdf/slides/06c_Debugging.pdf">PDF</a></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-mit-print">Debugging mit <code class="docutils literal notranslate"><span class="pre">print()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-mit-logging">Debugging mit <code class="docutils literal notranslate"><span class="pre">logging</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-durch-debug-oberflachen">Debugging durch Debug-Oberflächen</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-in-jupyter-notebooks-in-vscode">Debugging in Jupyter-Notebooks in VSCode</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Joern Ploennigs, AI 4 Sustainable Construction, University of Rostock
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright CC-BY-NC-SA 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

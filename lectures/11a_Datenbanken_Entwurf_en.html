@@ -1,0 +1,967 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Relational Database Design &#8212; Programmierung und Datenbanken</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d8a2add5" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css?v=062df064" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-menu/quarto-menu.css?v=a9b70b88" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-menu/menu.css?v=b1df3480" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/highlight/monokai.css?v=075166d3" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/highlight/zenburn.css?v=83d5745d" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/style.css?v=6050ce3b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/quarto-line-highlight/line-highlight.css?v=52b149a6" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/quarto-support/footer.css?v=53995862" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css?v=124a15ac" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/v4-shims.css?v=1b0e564b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/solid.css?v=e0521a22" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/brands.css?v=7dcd769b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/regular.css?v=0b430bdf" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/v4-shims.min.css?v=898855d1" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/svg-with-js.css?v=aac53de5" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/fontawesome.css?v=d504f742" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script src="https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"></script>
+    <script>quizdown.init({"start_on_load": true, "shuffle_answers": true, "shuffle_questions": false, "primary_color": "#FF851B", "secondary_color": "#DDDDDD", "text_color": "black", "locale": "de", "quizdown_js": "https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"});</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/11a_Datenbanken_Entwurf_en';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-menu/quarto-menu.js?v=b4fc9030"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-menu/menu.js?v=27134a44"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/highlight.esm.js?v=1254c8f3"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/highlight.js?v=d8e1bd11"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/plugin.js?v=de14e947"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/markdown.esm.js?v=c1d1720c"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/plugin.js?v=b7c888a0"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/markdown.js?v=96b9265a"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-chalkboard/plugin.js?v=5c29cd4a"></script>
+    <script src="../_static/styles/revealjs/plugin/quarto-line-highlight/line-highlight.js?v=1b7b3781"></script>
+    <script src="../_static/styles/revealjs/plugin/math/katex.js?v=a56d0b0a"></script>
+    <script src="../_static/styles/revealjs/plugin/math/mathjax2.js?v=61c34cb4"></script>
+    <script src="../_static/styles/revealjs/plugin/math/mathjax3.js?v=aa10c317"></script>
+    <script src="../_static/styles/revealjs/plugin/math/math.esm.js?v=4432b676"></script>
+    <script src="../_static/styles/revealjs/plugin/math/math.js?v=fdaf90ea"></script>
+    <script src="../_static/styles/revealjs/plugin/math/plugin.js?v=62b4f3c3"></script>
+    <script src="../_static/styles/revealjs/plugin/search/search.esm.js?v=755e6b2e"></script>
+    <script src="../_static/styles/revealjs/plugin/search/search.js?v=fc149e99"></script>
+    <script src="../_static/styles/revealjs/plugin/search/plugin.js?v=99bfb13f"></script>
+    <script src="../_static/styles/revealjs/plugin/quarto-support/support.js?v=1448896a"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/notes.js?v=d900d418"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/notes.esm.js?v=e3d88def"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/plugin.js?v=c6bed375"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/zoom.js?v=2fef532c"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/zoom.esm.js?v=c566db7e"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/plugin.js?v=a47a6514"></script>
+    <script src="../_static/styles/revealjs/plugin/pdf-export/pdfexport.js?v=c7b6e01c"></script>
+    <link rel="canonical" href="https://code-book.ai4sc-lehre.auf.uni-rostock.de/lectures/11a_Datenbanken_Entwurf_en.html" />
+    <link rel="index" title="Index" href="../genindex_en.html" />
+    <link rel="search" title="Search" href="../search_en.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search_en.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro_en.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pd_logo2.svg" class="logo__image only-light" alt="Programmierung und Datenbanken - Home"/>
+    <script>document.write(`<img src="../_static/pd_logo2.svg" class="logo__image only-dark" alt="Programmierung und Datenbanken - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Fundamentals</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01c_Computerhardware_en.html">Computer Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01d_Programmiersprachen_en.html">Programming Languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02a_Softwarearchitektur_en.html">Software Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02b_Wissenspyramide_en.html">Knowledge Pyramid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02c_Datentypen_en.html">Data Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03a_Operatoren_en.html">Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03a_Verzweigung_en.html">Conditionals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03b_Schleifen_en.html">Loops</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modularization</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="04a_Funktionen_en.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_Rekursion_en.html">Recursive Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04c_Objects_en.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05a_Softwareentwurf_en.html">Software Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05b_Programmablauf_en.html">Program Flow</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="05c_Algorithmen_en.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06a_Exceptions_en.html">Exceptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06b_UnitTest_en.html">Unit Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07a_Module_en.html">Modularization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Databases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="09_Datenhaltung_en.html">Handling Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10a_Datenbanktypen_en.html">Database Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10b_RelationaleDatenbanken_en.html">Relational Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10c_Datenbanken_SQL_Select_en.html">Analyze Tables with SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11a_Datenbanken_Entwurf_en.html">Design of Relational Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11b_Datenbanken_SQL_Create_en.html">Create Tables with SQL</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<a href="11a_Datenbanken_Entwurf.html" class="button btn btn-sm" title="en" data-bs-placement="bottom" data-bs-toggle="tooltip"><span class="btn__icon-container"><i class="fas fa-language "></i></span></a><div  class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/lectures/11a_Datenbanken_Entwurf_en.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Relational Database Design</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slides-pdf"><a href="/lec_slides/11a_Datenbanken_Entwurf_en.slides.html">Slides</a>/<a href="/pdf/slides/11a_Datenbanken_Entwurf_en.pdf">PDF</a></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-approach">Design Approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#er-diagrams">ER Diagrams</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cardinalities">Cardinalities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-er-conceptual-design-for-geometric-objects">Example: ER Conceptual Design for Geometric Objects</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normalization-of-conceptual-designs-to-logical-designs">Normalization of Conceptual Designs to Logical Designs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normalization-of-cardinalities">Normalization of Cardinalities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-geometry">Example Geometry</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="relational-database-design">
+<h1>Relational Database Design<a class="headerlink" href="#relational-database-design" title="Link to this heading">#</a></h1>
+<figure class="mj-tile-band">
+    <img src='../_images/11a_Datenbanken_Entwurf/mj_title_band.jpg'>
+    <figcaption>Midjourney: A walk in the park, ref. Georges Seurat</figcaption>
+</figure>
+<blockquote>
+<div><p>Simple things should be simple. Complex things should be possible.</p>
+<ul class="simple">
+<li><p>Alan Kay</p></li>
+</ul>
+</div></blockquote>
+<section id="slides-pdf">
+<h2><a href="/lec_slides/11a_Datenbanken_Entwurf_en.slides.html">Slides</a>/<a href="/pdf/slides/11a_Datenbanken_Entwurf_en.pdf">PDF</a><a class="headerlink" href="#slides-pdf" title="Link to this heading">#</a></h2>
+<iframe src="/lec_slides/11a_Datenbanken_Entwurf_en.slides.html" width="750" height="500"></iframe></section>
+<section id="design-approach">
+<h2>Design Approach<a class="headerlink" href="#design-approach" title="Link to this heading">#</a></h2>
+<p>The classic design approach for databases is similar to the waterfall model in software design. In this approach, the requirements and use cases are defined first:</p>
+<ul class="simple">
+<li><p>Requirements analysis: What requirements and use cases does the database have?</p></li>
+<li><p>Conceptual design: High-level design in which the required entities, attributes, and relationships are mapped in the ER diagram</p></li>
+<li><p>Logical design: Detailed design of the concrete database schema for a specific DBMS that maps the actual tables in the database and is normalized</p></li>
+<li><p>Physical design: Final determinations of primary indexes and additional search indexes for access optimization</p></li>
+<li><p>Implementation and testing: Creating the database with SQL</p></li>
+<li><p>Deployment and maintenance: Use of the database</p></li>
+</ul>
+<p>What is decisive in the approach is that there is a high-level design at the conceptual stage, in which the functionally necessary entities are designed, and a subsequent detailed design with the logical and physical design, in which the actual tables in a DBMS are derived, which usually differ, as shown below.</p>
+<p><img alt="Steps in Database Design" src="../_images/dbentwurf.png" /></p>
+</section>
+<section id="er-diagrams">
+<h2>ER Diagrams<a class="headerlink" href="#er-diagrams" title="Link to this heading">#</a></h2>
+<p>To represent database designs, one uses Entity-Relationship diagrams. In them, one visualizes the entities with their attributes and the relationships between the entities. There are different variants of ER diagrams, as shown in the figure below. What is common to all of them is that they depict entities, attributes (not shown here) and relationships with cardinalities. They differ primarily in notation rather than in the use of symbols.</p>
+<p><img alt="ER diagrams in different notations (https://de.wikipedia.org/wiki/Datei:ERD_Darstellungen.png)" src="../_images/er-diagramme.png" /></p>
+<p>We will use the UML notation below, which is based on UML class diagrams.</p>
+<ul class="simple">
+<li><p>Classes receive the annotation <code class="docutils literal notranslate"><span class="pre">&lt;&lt;Entity&gt;&gt;</span></code> to distinguish them from normal classes</p></li>
+<li><p>Attributes (table columns) are represented as class attributes with their data type</p></li>
+<li><p>Primary keys are marked with PK</p></li>
+<li><p>Relationship attributes (foreign keys) are modeled with associations</p></li>
+<li><p>The reading direction of relationship types is indicated with <code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span></code> or <code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span></code></p></li>
+<li><p>Numbers on relationships indicate cardinality</p></li>
+</ul>
+<p>An important difference to UML diagrams is that in ER diagrams there are no methods, inheritance, polymorphism, encapsulation, or class hierarchies. Therefore we do not apply corresponding symbols.</p>
+<p>A simple example is shown in the following image. We have a person who lives in a place. The person has the attributes Ausweisnummer and a name. We use the Ausweisnummer as the primary key, since it is unique. The place has a postal code and a name. The postal code serves here as the primary key for simplicity (since a postal code can cover many municipalities or a place can have multiple postal codes, this is not ideal). As a relationship we denote here that a person lives in exactly one place. Note the reading direction <code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span></code> here and the cardinalities 1-to-1 that appear at the start and end of the relationship.</p>
+<center><img src="https://mermaid.ink/svg/pako:eNqNUEFqAzEM_IrROTn0akIg0FsLXZpb8UWslazBloMtE9Kwf8lb-rKKZk0p9BCYgzQeeYa5wpg9gYUxYq3PAY8Fk-Ovm1H4UGiUkNm8vnduoFKVcPDkwKzXy_BWxFhzzhOLCWy22y7_-XY5unbyjs2GWIJcfsV3VCmBj2bX6plC5ZYSFTO8_CtiTNQf5r-eGulBw6Chh1wlUpBPnOKDZrACTZYweK1PrYx2IROpBqyOng7YojhwPKsUm-T9hUewUhqtoJ08Ci2Fgz1grMqekD9y7vv8DX4bo1o" width="350"></center></section>
+<section id="cardinalities">
+<h2>Cardinalities<a class="headerlink" href="#cardinalities" title="Link to this heading">#</a></h2>
+<p>In ER diagrams, the cardinality of relationships plays a key role, since it leads to different table representations. Cardinalities describe the number of minimal and maximal possible relationships between entities for this relationship. In general, the following cardinalities are distinguished:</p>
+<table>
+    <tr>
+        <td style="width: 10%">Cardinality</td>
+        <td style="width: 40%">Example</td>
+        <td style="width: 50%">ER Diagram</td>
+    </tr>
+    <tr>
+        <td>1 to 1</td>
+        <td>A person is born in at least one, at most one place.</td>
+        <td><img src="https://mermaid.ink/svg/pako:eNqNjzEOwjAMRa8SeW4H1gh1YkQCwYaymMYtkdqkSpyhqnoXzsLJMNAKsSF7sL_--7InqIMl0FB3mNLOYRuxN_5xV9LWRarZBa_2p1U7UkwiGNgYUGW5DIfISquWriGSV86rqlqBd_CCTav46e2WPDsev-b5l5LYf5BXQQE9xR6dlWcEUnIZ36gnA1pGSw3mjg0YP4sVM4fz6GvQHDMVkAeLTMv7oBvskqgD-ksI6z4_AW2lcZg"></td>
+    </tr>
+    <tr>
+        <td>1 to 0..1</td>
+        <td>A person has died in zero or one place.</td>
+        <td><img src="https://mermaid.ink/svg/pako:eNqNkLEKwkAMhl_lyNyCrkfp5CgousktsZfWg_au3KVDKX0Xn8UnM2qLuEky_PnJF5JMUAVLoKFqMaWdwyZiZ_zjriSti1SxC17tT6t3pJjEMLA1oPJcxEbEIbLSqqHEIV7JK-dVWa7Ie_QCTqv5yaIgz47Hb_P8S8ngf5BXQAYdxQ6dlXMEUrIb36gjA1qkpRqHlg0YP0srDhzOo69Acxwog6G3yLQ8AHSNbRK3R38JYa3nJ20xcn4"></td>
+    </tr>
+    <tr>
+        <td>1 to 0..*</td>
+        <td>A person goes on vacation to zero or more places.</td>
+        <td><img src="https://mermaid.ink/svg/pako:eNqNkL0KQjEMhV8lZBQVXYs4OQqKbtIltlELt630poPIfRefxScz_lzETXqG00O-NOkVXfaMBl1DbbsIdCwUbbrfQOVDYSchJ1hu-mzNpdXA4tQijEZqJuPxQP2qCBiI5E4CtTRU9xASzOc9-Hrgg1_78K3ZjJMEuXyLu19Ke_-DPA8OMXKJFLwupRDohHLiyBaNWs8Hqo1YtKnTUqqSt5fk0EipPMR69iT8-QY0B2paTc-Udjn39-4BWmFz8w"></td>
+    </tr>
+    <tr>
+        <td>1 to 1..*</td>
+        <td>A person has previously been to at least one, at most many places.</td>
+        <td><img src="https://mermaid.ink/svg/pako:eNqNT0EKwkAM_MqSo7QFr0vpyaOg6E32ErqpLrS7ZZsipfQvvsWXmWqLeJPMYTLMDMkIZbAEGsoau27n8BqxMf75UALrIpXsglf706odKXYiGNgaUGk6kyzbCD9EVlrdMSrnVVGs_nfvkhpX8YM8J8-Oh695-k1J5T-ReSCBhmKDzsovElJyGN-oIQNaqKUK-5oNGD-JFXsO58GXoDn2lEDfWmRavgddYd2J2qK_hLDu0wtjFnCG"></td>
+    </tr>
+</table><p>It should be noted that the reading direction (<code class="docutils literal notranslate"><span class="pre">&lt;&lt;</span></code> or <code class="docutils literal notranslate"><span class="pre">&gt;&gt;</span></code>) is important, since no statement is made about the cardinality of the reverse direction! In the above example, only a statement is made about how many places <em>one</em> person was in, and not about how many people can be in places.</p>
+</section>
+<section id="example-er-conceptual-design-for-geometric-objects">
+<h2>Example: ER Conceptual Design for Geometric Objects<a class="headerlink" href="#example-er-conceptual-design-for-geometric-objects" title="Link to this heading">#</a></h2>
+<p>As a design example, we refer to the geometry objects example discussed in the chapter <a class="reference internal" href="#7a_Objects_en.html"><span class="xref myst">Objektorientierung</span></a>. We have the classes <code class="docutils literal notranslate"><span class="pre">Point</span></code>, <code class="docutils literal notranslate"><span class="pre">Line</span></code> and <code class="docutils literal notranslate"><span class="pre">Polygon</span></code> with the variants <code class="docutils literal notranslate"><span class="pre">Triangle</span></code>, <code class="docutils literal notranslate"><span class="pre">Tetragon</span></code> and <code class="docutils literal notranslate"><span class="pre">Pentagon</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">Point</span></code> has attributes the <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> coordinates of type <code class="docutils literal notranslate"><span class="pre">float</span></code>, both of which are <code class="docutils literal notranslate"><span class="pre">public</span></code> as annotated with <code class="docutils literal notranslate"><span class="pre">+</span></code>. Furthermore, there are different methods in <code class="docutils literal notranslate"><span class="pre">Point</span></code>, <code class="docutils literal notranslate"><span class="pre">Line</span></code>, and <code class="docutils literal notranslate"><span class="pre">Polygon</span></code> for calculating the distance, area, and length of the respective objects.</p>
+<p>In the UML diagram we have depicted that a <code class="docutils literal notranslate"><span class="pre">Polygon</span></code> has the aggregation association with multiplicity <code class="docutils literal notranslate"><span class="pre">1</span></code> to <code class="docutils literal notranslate"><span class="pre">3..*</span></code> to the class <code class="docutils literal notranslate"><span class="pre">Point</span></code>, i.e., a polygon is linked to at least three points. The <code class="docutils literal notranslate"><span class="pre">Line</span></code> is, in turn, associated with the <code class="docutils literal notranslate"><span class="pre">Point</span></code> class with the multiplicity <code class="docutils literal notranslate"><span class="pre">1</span></code> to <code class="docutils literal notranslate"><span class="pre">2</span></code>, i.e., a line is associated with exactly two points.</p>
+<p>The classes <code class="docutils literal notranslate"><span class="pre">Triangle</span></code>, <code class="docutils literal notranslate"><span class="pre">Tetragon</span></code> and <code class="docutils literal notranslate"><span class="pre">Pentagon</span></code> are subclasses of <code class="docutils literal notranslate"><span class="pre">Polygon</span></code>, which add no further functionality.</p>
+<center><img src="https://mermaid.ink/svg/pako:eNptUcFqwzAM_RWjU7o1hW03s-OOOxS20zAEEStpwJGDrcBCl3-fkyxlKfFJ7-m9JxldofSWQEPpMMa3BuuArWGV3syos29Yrguj1GPlPIr6vsPDDdsmCnJJ2ew7LPy4DXRD7VndMpMLA2F2-EcURZRQFNlewHvDtHE74loud9p5vjLwbEDluU_VU6pmr1ZpxyBHRWy34pfT6WGjX5fVqpskcZUv7OtPnqvP0CDXjvZaJAEntNM7E8vUgyO0FFpsbDrC_CsDcqGWDOhUWqqwd2LA8Jik2Iv_GLgELaGnI_SdRaG_s4Gu0MXEdshf3q94_AW6H5O5"  width="400"></center><p>To design a database schema for these objects, we map them into an ER diagram by applying the conversion rules shown above.</p>
+<ul class="simple">
+<li><p>We annotate the classes first with <code class="docutils literal notranslate"><span class="pre">&lt;&lt;Entity&gt;&gt;</span></code> to mark them as such.</p></li>
+<li><p>We remove all methods, since ER diagrams do not support them.</p></li>
+<li><p>We remove all encapsulation annotations <code class="docutils literal notranslate"><span class="pre">+</span></code>, <code class="docutils literal notranslate"><span class="pre">-</span></code>, or <code class="docutils literal notranslate"><span class="pre">#</span></code> before attributes</p></li>
+<li><p>We add primary keys to all entities</p></li>
+<li><p>We convert the special association types Aggregation and Composition into simple associations</p></li>
+</ul>
+<p>Since there is no inheritance in ER diagrams and DBMS, we need to decide how to handle the subclasses <code class="docutils literal notranslate"><span class="pre">Triangle</span></code>, <code class="docutils literal notranslate"><span class="pre">Tetragon</span></code>, and <code class="docutils literal notranslate"><span class="pre">Pentagon</span></code>. One possibility would be to introduce a new entity for each, built just like a Polygon. But this would lead to several redundant tables. This is necessary if the subclasses introduce their own attributes. Since they do not do this, we also do not need separate entities, but can incorporate them into the generic Polygon entity by introducing the attribute <code class="docutils literal notranslate"><span class="pre">PolygonType</span></code>, in which we can store whether it is a <code class="docutils literal notranslate"><span class="pre">Triangle</span></code>, <code class="docutils literal notranslate"><span class="pre">Tetragon</span></code>, <code class="docutils literal notranslate"><span class="pre">Pentagon</span></code>, or subtype.</p>
+<p>We obtain the following conceptual design:</p>
+<center><img src="https://mermaid.ink/svg/pako:eNqVUk1rwzAM_StCx9EWxm6m9NTLWA-h62n4osVKZ5bYwZGhofS_7Lfsl83Nx0ZIDysIIz-_Jz0ZnTH3hlFhXlLTbC0dA1XafX9BCmMD52K9g91-xHbWWQaNjxphuRySLLpPAQWNUBA28M4WNpt_SdiZmaDz0svOI9bHes1OrLR_3D6skyufn7eQvYxPl2m9ruMd9TKfzknBPorSk8DpFtjOWvdjanxarR4m4_uyPaaPVRCrIrmT2fgD4y7DneKG5UbC-Hpo61-TuMCKQ0XWpAVIjSCZkw-uWKNKqeGCYikatbtSKYp_bV2OSkLkBcbakPCwMqgKKpuE1uTevB_vlx87g-rt" width="500"></center>
+<p>In the conceptual design there are three entity types. The entity <code class="docutils literal notranslate"><span class="pre">Point</span></code> still has <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> coordinates as attributes of type <code class="docutils literal notranslate"><span class="pre">float</span></code>. The entity <code class="docutils literal notranslate"><span class="pre">Line</span></code> has two relations to <code class="docutils literal notranslate"><span class="pre">Point</span></code> for the start point and end point. The entity <code class="docutils literal notranslate"><span class="pre">Polygon</span></code> has the relation to <code class="docutils literal notranslate"><span class="pre">Point</span></code> with cardinality <code class="docutils literal notranslate"><span class="pre">1</span></code> to <code class="docutils literal notranslate"><span class="pre">3..*</span></code>, i.e., at least three points. It also has a new attribute <code class="docutils literal notranslate"><span class="pre">PolygonType</span></code> of type <code class="docutils literal notranslate"><span class="pre">str</span></code> to store the subtype. For all three entities we have defined a numeric primary key, since numeric indexes are the most efficient.</p>
+</section>
+<section id="normalization-of-conceptual-designs-to-logical-designs">
+<h2>Normalization of Conceptual Designs to Logical Designs<a class="headerlink" href="#normalization-of-conceptual-designs-to-logical-designs" title="Link to this heading">#</a></h2>
+<p>The normalization is an important step in the process of mapping a conceptual data model to a logical and physical data model. Its purpose is to minimize redundancies (storing the same fact multiple times) by creating new tables and linking them via new relations for</p>
+<ul class="simple">
+<li><p>complex attributes (lists, dictionaries)</p></li>
+<li><p>relations with high cardinality</p></li>
+<li><p>redundant data (e.g., polygon type)</p></li>
+</ul>
+<p>There are several normal forms, defined by progressively stricter conditions on the database schema:</p>
+<ul class="simple">
+<li><p>1NF - First Normal Form: All attribute values are atomic — that is, each piece of information within a table gets its own column, and related information, such as the postal code and the city, or complex attributes like lists or dictionaries, are not stored in a single column.</p></li>
+<li><p>2NF - Second Normal Form: Non-key attributes are fully functionally dependent on all primary keys — that is, only information that functionally depends on the key is stored in an entity. For example, for an invoice, the customer’s name is not stored directly, but belongs to a separate Customer entity, since a customer can have multiple invoices. When drawing an ER diagram and thinking about the entities, you usually automatically apply the Second Normal Form.</p></li>
+<li><p>3NF - Third Normal Form: Non-key attributes depend only on the primary key — that is, redundant attributes that belong together should be stored together. So ZIP codes and place names tend to occur in pairs and should form a separate entity.</p></li>
+<li><p>BCNF - Boyce-Codd Normal Form: All attributes on which other attributes depend are keys — that is, if several foreign keys occur in an entity and these depend on each other, this dependency is moved into its own entity. For example, if you store place names and ZIP codes in separate entities (because place names duplicate), you should not store the foreign keys ZIP and city name in the Customer entity, but still need the ZIP–City entity.</p></li>
+<li><p>4NF - Fourth Normal Form: There are only trivial multivalued dependencies remaining — that is, if multivalued attributes occur with foreign keys or other multivalued attributes that have no functional relation, they are moved out. For example, in 4NF it is incorrect to store in one table an order’s shipping address, customer number, and item numbers, since the shipping address depends on the customer number but not on the item numbers. The correct design is two tables with shipping address and customer number, and one with item number and customer number.</p></li>
+<li><p>5NF - Fifth Normal Form: There are no join dependencies remaining — that is, every join dependency between attributes and foreign keys is moved into its own table.</p></li>
+</ul>
+<p>Usually only the first three normal forms are relevant in database design. Higher normal forms result in a very large number of small tables, which even for simple queries must be joined together, drastically limiting usability.</p>
+<p>In our geometry example, we want to look at a few examples of violations of the first through third normal forms.</p>
+<p>In the following ER diagram, we violate the first normal form because we define a complex attribute <code class="docutils literal notranslate"><span class="pre">List&lt;Punkt&gt;</span></code> instead of decomposing it into a relation.</p>
+<center><img src="https://mermaid.ink/svg/pako:eNpVjzEOgzAMRa8See4JEGJiqcqA2q3KYiWGRgUHgTMgBGfpWXqyhpYMtb5k--l_yV7AeEuQgelwmkqH7Yi95vdLRVk3khHnWVXXxL4-Vftubj0vif6U58TiZC6Kf-5YUuJcqvqiWR1VuUm2OvBTNjXsjVJy1awZTtDT2KOz8cJlj2mQB_WkIYujpQZDJxo0r9GKQfxtZgOZjIFOEAaLQsdPkDXYTZEOyHfv075-AHfmYNg" width="200"></center><p>In the second ER diagram we violate the second normal form, because we store the coordinates of the start and end points directly in the line, even though these points are represented as points and thus have a functional dependency. Here is the solution: move them into the <code class="docutils literal notranslate"><span class="pre">Punkt</span></code> entity and create relationships.</p>
+<center><img src="https://mermaid.ink/svg/pako:eNp1kEEKg0AMRa8yZO0JRFy5KXVR2l0ZKMGJ7YBmZMxARbxLz9KTdWxrQbCQRfL-_5BkhMoZghSqBvu-sHj12Gp-PlQsYz1VYh2r8riwt0-Vli2NC_tUlhGLlSHP19yyzH7aFeqwX0t141BUL-jlcv8vDVsSsdnOzMIvMWmGBFryLVoTz4w7K6VBbtSShjS2hmoMjWjQPEUrBnGngStIxQdKIHQGhb6PgbTGpo-0Qz47t8zTCyn2gtQ" width="200"></center><p>In the last example, we erroneously store the PolygonTyp attribute in the Point entity, even though it belongs to the Polygon entity.</p>
+<center><img src="https://mermaid.ink/svg/pako:eNqVUctqwzAQ_JVljyUJLrmJkFMupT2Ypqeii2rJqageRl5BRfC_9Fv6ZV0ci2LopbCI0czuMiNdsYvaoMDOqXE8WXVJysvw_QVc2ibTkY0Bnp4rN_dBm8MHXSt3q8PBBLJUjsc1bwNBG_l8OEH7uNZ6FxXB519kWZMjJd7iyiWGlzJUbapgkUDivUTYbhnsd7s7xrNVEJB9z84Jfu0tUW6T_wozT6zisBGZm6Z5kwE36E3yymp-Vl4L7IXejTcSBUNtepUdSZRh4laVKZ5L6FBQymaDedCKzPIRKHrlRmYHFV5jrPfpB_QlrEw" width="400"></center></section>
+<section id="normalization-of-cardinalities">
+<h2>Normalization of Cardinalities<a class="headerlink" href="#normalization-of-cardinalities" title="Link to this heading">#</a></h2>
+<p>According to the first normal form, we must map cardinalities differently according to their degree. Simple cardinalities (0 or 1) can be stored as an attribute, while higher cardinalities <code class="docutils literal notranslate"><span class="pre">&gt;1</span></code> are mapped as a relation in a new entity. In both logical and physical design, it matters whether an attribute when storing a new entity in the database does not have to be specified (<code class="docutils literal notranslate"><span class="pre">Nullable</span></code>) or must be specified (<code class="docutils literal notranslate"><span class="pre">Not</span> <span class="pre">Null</span></code>).</p>
+<table>
+    <tr>
+        <td style="width: 10%">Cardinality</td>
+        <td style="width: 40%">Example</td>
+        <td style="width": 50%">ER Diagram</td>
+    </tr>
+    <tr>
+        <td>1 to 1</td>
+        <td>The relationships are represented by foreign keys in the entity from which the relationship starts, denoted by `>>`. The foreign key is `NOT NULL`, so an entry must ALWAYS be present.</td>
+        <td><img src="https://mermaid.ink/svg/pako:eNp1UMtqQjEQ_ZVh1rpwG8SVCGKx0u5KNtOb0QZyJ5I7WYjcf-m3-GWNmiAihbOYnJxHMmfsomM02AUahqWnQ6LeyuUXCpxP3KmPAm8fjdtxGgphcWYRptM6vCcFAwf-jokFvMBi0Qy34Go7N_KO-ZxFvZ4e4ju8aDWsl7DbvF7WorXAagPbqLDNITTZ-NxcnvZvLbxGF_lT6YgT7Dn15F3ZUkmC8mX94Z4tmjI63lMOatHKVUpZ4-dJOjSaMk8wHx0p172i2VMYCnsk-Yqxncc_DKqVow"></td>
+    </tr>
+    <tr>
+        <td>1 to 0..1</td>
+        <td>The relation is represented by a foreign key in the entity. The foreign key is `NULLABLE`, so an entry does not have to be present.</td>
+        <td><img src="https://mermaid.ink/svg/pako:eNp1UMFqQjEQ_JVlj0WFXoN4koJYWmlvkkt8WW0gbyPJ5iDy_sVv6Zd1W19aRApzmExmZ5I9Y5c8ocEuulKWwR2y6y1_XkDhQ6ZOQmJ4fmvahnJRweKjRZhOv8ls9qD8NQsYOFCRlHfEEBgWizb1kz7Onpt4xXxOLEFOf-YrAss4sFrCZn1_-Vu1Ynhaw0uN0e0iNeNw263P-7cY7sPVflOraTjBnnLvgtd1aRbo3-WDerJolHrauxrFouVBra5Kej9xh0ZypQnWo3dC44LR7F0sqh4db1Nq5-ELDQSZBA" ></td>
+    </tr>
+    <tr>
+        <td>1 to 0..*</td>
+        <td>The relation is represented as a new entity with a foreign key.</td>
+        <td><img src="https://mermaid.ink/svg/pako:eNqVUctKA0EQ_JWmz8nB6xICQhAkgkHxInNpd3rdgXmE2Z5DCPsvfotfZrsPkhg9CH2oqX5U9fQR62QZK6w9dd3G0XumYOLnB2hYl7kWlyI8PM3cUAc7zl2Kx5kcY7XiKE4O6_Ul76JMDfcb2G3nZD-DMQcGbwzCcjmB29LouJa8MFQ6GwLVrUDJnsrbpZvHLH9agWsvWv67kXPJH260R124CKflRu2znn98x7DLy7AK3G2v8yp0ontcYOAcyFk9lKqAmpKWAxusFFpuqHgxaOJ3KRVJz4dYYyW58ALL3pLwdFqsGvKdsnuKrynN7_4L_TzJhQ"></td>
+    </tr>
+    <tr>
+        <td>1 to 1..*</td>
+        <td>The relation is represented as a new entity with a foreign key. At least one entry should exist (this is a consistency rule that cannot be enforced by a DBMS alone (there is otherwise a chicken-and-egg problem)).</td>
+        <td><img src="https://mermaid.ink/svg/pako:eNqVkc1qwzAMx19F6NweejWlMCiF0cHKdhu-iFhZDYldHPlQSt5lz7Inq2jiNl23w8AH-a-vn6QTVtExGqwa6rq1p89ErQ3fX6DP-cSV-Bjg5a1olzjYcepiOBVxeMslB_FyXK3udR9kTHhew25bnH0xBh9YXFiE-Xw0nnKt5fbUCIPR2kBX4Z7lNcmfIPBIouG_Y0wb_mDRHGXwAW6jDb0nOf9Yxm0S2Gwf3dpnM8XDGbacWvJO76RtQKlkzy1bNGo6rinrUtCGXkMpS3w_hgqNpMwzzAdHwuNl0dTUdKoeKHzEWP79GZXPyXc"></td>
+    </tr>
+</table></section>
+<section id="example-geometry">
+<h2>Example Geometry<a class="headerlink" href="#example-geometry" title="Link to this heading">#</a></h2>
+<p>To convert the above-mentioned conceptual design for the geometry objects into a logical design, we must normalize the design. Let’s take another look at the design.</p>
+<center><img src="https://mermaid.ink/svg/pako:eNqVUk1rwzAM_StCx9EWxm6m9NTLWA-h62n4osVKZ5bYwZGhofS_7Lfsl83Nx0ZIDysIIz-_Jz0ZnTH3hlFhXlLTbC0dA1XafX9BCmMD52K9g91-xHbWWQaNjxphuRySLLpPAQWNUBA28M4WNpt_SdiZmaDz0svOI9bHes1OrLR_3D6skyufn7eQvYxPl2m9ruMd9TKfzknBPorSk8DpFtjOWvdjanxarR4m4_uyPaaPVRCrIrmT2fgD4y7DneKG5UbC-Hpo61-TuMCKQ0XWpAVIjSCZkw-uWKNKqeGCYikatbtSKYp_bV2OSkLkBcbakPCwMqgKKpuE1uTevB_vlx87g-rt" width="500"></center><p>We have the three entities <code class="docutils literal notranslate"><span class="pre">Linie</span></code>, <code class="docutils literal notranslate"><span class="pre">Punkt</span></code> and <code class="docutils literal notranslate"><span class="pre">Polygon</span></code> with two 1:1 relationships from <code class="docutils literal notranslate"><span class="pre">Linie</span></code> to <code class="docutils literal notranslate"><span class="pre">Punkt</span></code> and a 1:3..*-relationship from <code class="docutils literal notranslate"><span class="pre">Polygon</span></code> to <code class="docutils literal notranslate"><span class="pre">Punkt</span></code>.</p>
+<p>First, by applying the rules of 1NF and decomposing these relations according to the table mentioned above, we can represent the two 1:1 relationships from <code class="docutils literal notranslate"><span class="pre">Linie</span></code> to <code class="docutils literal notranslate"><span class="pre">Punkt</span></code> using foreign keys in the <code class="docutils literal notranslate"><span class="pre">Linie</span></code> entity.</p>
+<p>The 1:3..*-relationships from <code class="docutils literal notranslate"><span class="pre">Polygon</span></code> to <code class="docutils literal notranslate"><span class="pre">Punkt</span></code>, however, cannot be directly mapped according to 1NF, since the multiplicity is greater than 1 and we must introduce a new entity. This entity (table) lists which polygons use which points. The new entity thus contains the two foreign keys and a new primary key. In the logical design we also include the foreign keys as attributes to represent them unambiguously.</p>
+<center><img src="https://mermaid.ink/svg/pako:eNqVk0FqwzAQRa8yaJ0sujUmq7RQEoJJuireqNY4FZUlI49KTchdepaerLIVNzi22xoGIc38j56k0YllRiCLWKZ4Va0lP1pepPrrE3wIaTEjaTRs911uK7VESNldymC5vEwSp98IIqiIW0IBLyhhtfqXBbUYGFqWYDt1uRBxjJok1VdtCKmp0ePjGpLNsHRouMKODxvYGdo5pYayey2mROc-WyubwZYYP47A5cpwgo9xpFCs_0Ixqj4aPQumdYzgVGS76lNdTm4cLun2QYOvraF_2DgGV-SekH5sPcW43Rvf_XjbCz3rjKPuUfGmgSf64noTv7VF93gjXcEWrEBbcCn8F_Jc4E9Dr1hgyiI_FZhzpyhlqW6k3JE51DpjEVmHC-ZKwQkvn45FOVeVz5ZcPxvTrc_fQ2JraQ"></center><p>In this draft, 2NF and 3NF are already satisfied.</p>
+<p>However, we have many duplications (redundancies) with the attribute <code class="docutils literal notranslate"><span class="pre">PolygonTyp</span></code>, which can only take the values <code class="docutils literal notranslate"><span class="pre">Triangle</span></code>, <code class="docutils literal notranslate"><span class="pre">Tetragon</span></code>, and <code class="docutils literal notranslate"><span class="pre">Pentagon</span></code>, but must be stored as a new string each time. At the same time, we also want this attribute to only take these values and not be filled with gibberish.</p>
+<p>Therefore, it makes sense to constrain the values here and to avoid duplication of strings by introducing a new entity <code class="docutils literal notranslate"><span class="pre">PolygonType</span></code>. This defines the base types <code class="docutils literal notranslate"><span class="pre">Triangle</span></code>, <code class="docutils literal notranslate"><span class="pre">Tetragon</span></code>, and <code class="docutils literal notranslate"><span class="pre">Pentagon</span></code> and assigns them a numeric primary key, which we reference in the entity <code class="docutils literal notranslate"><span class="pre">Polygon</span></code> as a foreign key.</p>
+<p>Lastly, we also define for all attributes and foreign keys whether they are <code class="docutils literal notranslate"><span class="pre">Nullable</span></code> or <code class="docutils literal notranslate"><span class="pre">NotNull</span></code>.</p>
+<p>We obtain the final logical design:</p>
+<center><img src="https://mermaid.ink/svg/pako:eNqVVEFugzAQ_MrK5-TQK0I5pZWqRBFKeqp8cfGSWDV2BOuqKOIvfUtfVoMhVQKhDbIs450RM7M2J5ZaiSxiqRZluVRiX4icm-8v8EOqAlNS1sB62--tlVEInD1wBvN5t0iceSeIoCRREEp4QwWLxb8oaOSA0GoJtFO_F0YcoyFF1S82DGWowePzEpLVsLRrdIUvPq1gY2njtB7CHo28BaovtbWwO7Ql1s8j4jJtBcHnuKRQrP6SYnW1t-YuMS3jRlZd9aU6esBEECGp664GcltD3904BpdnXiadaReIcbonfvj5-kBcUCf8Qvc0braoRXOCp82OOh12byqNc2pobrvycRx8S0dttdT7uxj6dO2tpAI2IscRvWzGcixyoaS_9acmLc7ogDlyFvmlxEw4TZxxU3uocGR3lUlZRIXDGXNHKQi7_0S_eRTm1Vr_mgldYv0DvTmt6A"></center><p>Wichtig zu erkennen in dem logischen Entwurf ist, dass wir jetzt nur noch 1:1-Relationen haben, also alle höherwertigen Kardinalitäten aufgelöst haben. Zusätzlich haben wir Redundanzen aufgelöst und haben jetzt ein sehr effizienten Datenbankentwurf.</p>
+<p>Im Physikalischen Entwurf würde man diesem Entwurf jetzt noch weitere Informationen hinzufügen, wie zum Beispiel zusätzliche Zugangangsbeschränkungen oder Abfrageindizies. Zugangsbeschränkungen gibt es in den meisten DBMSs nur auf Entitätsebene und nicht auf Attributsebene (wie in UML), man kann also Beschränken welche Nutzer, welche Tabellen sehen, lesen, erzeugen, oder verändern können, aber nicht welche Spalten sie sehen.</p>
+<p>Beim Entwurf von Abfrageindizies ist die Regel, dass man versucht alle häufig genutzten <code class="docutils literal notranslate"><span class="pre">WHERE</span></code>-Bedingungen, die man in <code class="docutils literal notranslate"><span class="pre">SELECT</span></code>-Anfragen in SQL benutzt, durch entsprechende Indizies beschleunigt werden.</p>
+<p>Damit sind wir auch schon direkt im SQL Thema wo wir uns mit der Erzeugung von Tabellen beschäftigen wollen.</p>
+</section>
+<section id="quiz">
+<h2>Quiz<a class="headerlink" href="#quiz" title="Link to this heading">#</a></h2>
+<div class="quizdown">    ---
+    shuffleQuestions: true
+    shuffleAnswers: true
+    ---
+
+
+    ### Which steps belong to the classic database design?
+
+    - [x] Requirements analysis, conceptual design, logical design
+    - [ ] Only conceptual and physical design
+    - [x] Physical design, implementation and testing
+    - [ ] Only implementation and maintenance
+
+
+    ### What is the main difference between conceptual and logical design?
+
+    - [x] Conceptual design is a rough outline, logical is a detailed design
+    - [ ] Conceptual design uses SQL, logical does not
+    - [ ] There is no difference
+    - [ ] Logical design comes before the conceptual
+
+
+    ### Sort the steps of database design in the correct order:
+
+    1. Requirements analysis
+    2. Conceptual design
+    3. Logical design
+    4. Physical design
+    5. Implementation and testing
+
+
+    ### What characterizes an entity in the UML notation for ER diagrams?
+
+    - [x] The annotation `&lt;&lt;Entity&gt;&gt;`
+    - [ ] The name `Entity`
+    - [ ] The annotation `&lt;Table&gt;`
+    - [ ] The special symbol `ER`
+    - [ ] No special designation
+
+
+    ### Which UML elements are NOT used in ER diagrams?
+
+    - [x] Methods and inheritance
+    - [ ] Attributes and classes
+    - [x] Polymorphism and encapsulation
+    - [ ] Associations
+
+
+    ### What does the symbol `&gt;&gt;` mean in a relation?
+
+    - [x] The relation is read from left to right
+    - [ ] The relation is bidirectional
+    - [ ] It is a notation error
+    - [ ] The relation is read from right to left
+
+
+    ### What does the cardinality &quot;1 to 0..*&quot; mean?
+
+    - [x] An entity can be linked to zero to many others
+    - [ ] An entity must be linked to at least one other
+    - [ ] Exactly one link is allowed
+    - [ ] The cardinality is invalid
+
+
+    ### In which cardinality are new tables needed for relations?
+
+    - [ ] 1 to 1
+    - [ ] 1 to 0..1
+    - [x] 1 to 0..*
+    - [x] 1 to 1..*
+
+
+    ### Which error is present in this ER diagram fragment?
+    ```
+    Person &gt;&gt;lives in&gt;&gt; Location
+    1                    1..*
+    ```
+
+    - [x] The reading direction does not make sense for this cardinality
+    - [ ] People cannot live in locations
+    - [ ] The notation is completely wrong
+    - [ ] Attributes are missing
+
+
+    ### What is the goal of normalization?
+
+    - [x] Minimize redundancies
+    - [x] Ensure data integrity
+    - [ ] Slow down queries
+    - [ ] Create more tables
+
+
+    ### What does the 1st normal form (1NF) require?
+
+    - [x] All attribute values are atomic
+    - [ ] All attributes are primary keys
+    - [x] No complex attributes like lists
+    - [ ] At least three tables
+
+
+    ### Which normal form is violated if customer data is stored directly in the invoice table?
+
+    - [ ] 1NF
+    - [x] 2NF
+    - [ ] 3NF
+    - [ ] No violation
+
+
+    ### Sort the normal forms by their strictness (from less to more strict):
+
+    1. 1NF (First Normal Form)
+    2. 2NF (Second Normal Form) 
+    3. 3NF (Third Normal Form)
+    4. BCNF (Boyce-Codd Normal Form)
+
+
+    ### Which error is present in this table design?
+    ```sql
+    CREATE TABLE Customers (
+      id INTEGER,
+      name TEXT,
+      addresses LIST&lt;TEXT&gt;
+    )
+    ```
+
+    - [x] The attribute `addresses` violates 1NF (not atomic)
+    - [ ] The data type INTEGER is incorrect
+    - [ ] A primary key is missing
+    - [ ] The table name is invalid
+
+
+    ### How is a 1:1 relation mapped in tables?
+
+    - [x] By a foreign key in one of the tables
+    - [ ] By a separate relation table
+    - [ ] By duplicating all attributes
+    - [ ] Not at all, because it is invalid
+
+
+    ### When is a foreign key &quot;Nullable&quot;?
+
+    - [x] With cardinality 1 to 0..1
+    - [ ] With cardinality 1 to 1
+    - [x] When the relationship is optional
+    - [ ] Never
+
+
+    ### Sort these steps for normalizing a 1:n relation:
+
+    1. Create a new relation table
+    2. Add foreign keys to both original tables
+    3. Define the primary key for the relation table
+    4. Check cardinality
+
+
+    ### Which SQL command creates a new table?
+
+    - [x] CREATE TABLE
+    - [ ] INSERT TABLE
+    - [ ] NEW TABLE
+    - [ ] MAKE TABLE
+
+
+    ### What does AUTOINCREMENT do for a primary key?
+
+    - [x] Automatically assigns unique values
+    - [ ] Automatically deletes old entries
+    - [x] Facilitates inserting new records
+    - [ ] Prevents data changes
+
+
+    ### Which error is present in this SQL code?
+    ```sql
+    CREATE TABLE Points (
+      point_id INTEGER PRIMARY KEY,
+      x REAL NOT NULL,
+      y REAL NOT NULL,
+      FOREIGN KEY(x) REFERENCES Lines(line_id)
+    )
+    ```
+
+    - [x] An attribute (x) cannot be both a coordinate and a foreign key
+    - [ ] REAL is not a valid data type
+    - [ ] PRIMARY KEY is misspelled
+    - [ ] NOT NULL is redundant
+
+
+    ### Sort these SQL commands in the logical order for creating a database:
+
+    1. CREATE TABLE for main entities
+    2. CREATE TABLE for foreign-key dependent tables  
+    3. INSERT core data
+    4. INSERT linked data
+
+
+    ### With which SQL command do you insert data?
+
+    - [x] INSERT INTO
+    - [ ] ADD DATA
+    - [ ] CREATE DATA
+    - [ ] PUT INTO
+
+
+    ### What happens with this SQL command?
+    ```sql
+    DELETE FROM Points WHERE x &gt; 50;
+    ```
+
+    - [x] All points with x-coordinate &gt; 50 are deleted
+    - [ ] The Points table is deleted
+    - [ ] Only the first found point will be deleted
+    - [ ] It is a syntax error
+
+
+    ### Which error is present in this INSERT statement?
+    ```sql
+    INSERT INTO Lines VALUES(1, 99, 100);
+    ```
+    *Assume the points with IDs 99 and 100 do not exist*
+
+    - [x] Foreign key constraint will be violated
+    - [ ] Too many values provided
+    - [ ] INTEGER is not a valid data type
+    - [ ] INSERT is misspelled
+
+
+    ### Sort these steps for safe deletion of data:
+
+    1. Create a backup of the table
+    2. Test the DELETE statement with a WHERE condition
+    3. Perform the actual deletion
+    4. Verify the result
+
+
+    ### With which command do you rename a table?
+
+    - [x] ALTER TABLE ... RENAME TO
+    - [ ] CHANGE TABLE NAME
+    - [ ] RENAME TABLE
+    - [ ] UPDATE TABLE NAME
+
+
+    ### What is the difference between DELETE FROM table and DROP TABLE?
+
+    - [x] DELETE deletes only data, DROP deletes the entire table
+    - [ ] There is no difference
+    - [x] DROP also removes the table structure
+    - [ ] DELETE is faster
+
+
+    ### Which error is present in this ALTER statement?
+    ```sql
+    ALTER TABLE Points ADD COLUMN z REAL;
+    ```
+    *Assume there is already data in the table*
+
+    - [ ] ADD COLUMN is wrong
+    - [ ] REAL is not a valid data type  
+    - [x] A DEFAULT value is missing for existing rows
+    - [ ] The column name z is too short
+
+
+    ### Sort these steps for safe table modification:
+
+    1. Create a backup of the table
+    2. Plan the ALTER statement
+    3. Perform the change
+    4. Check data integrity</div></section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./lectures"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slides-pdf"><a href="/lec_slides/11a_Datenbanken_Entwurf_en.slides.html">Slides</a>/<a href="/pdf/slides/11a_Datenbanken_Entwurf_en.pdf">PDF</a></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-approach">Design Approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#er-diagrams">ER Diagrams</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cardinalities">Cardinalities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-er-conceptual-design-for-geometric-objects">Example: ER Conceptual Design for Geometric Objects</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normalization-of-conceptual-designs-to-logical-designs">Normalization of Conceptual Designs to Logical Designs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normalization-of-cardinalities">Normalization of Cardinalities</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-geometry">Example Geometry</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Joern Ploennigs, AI 4 Sustainable Construction, University of Rostock
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright CC-BY-NC-SA 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,750 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Software Design &#8212; Programmierung und Datenbanken</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d8a2add5" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css?v=062df064" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-menu/quarto-menu.css?v=a9b70b88" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-menu/menu.css?v=b1df3480" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/highlight/monokai.css?v=075166d3" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/highlight/zenburn.css?v=83d5745d" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/style.css?v=6050ce3b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/quarto-line-highlight/line-highlight.css?v=52b149a6" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/quarto-support/footer.css?v=53995862" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css?v=124a15ac" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/v4-shims.css?v=1b0e564b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/solid.css?v=e0521a22" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/brands.css?v=7dcd769b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/regular.css?v=0b430bdf" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/v4-shims.min.css?v=898855d1" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/svg-with-js.css?v=aac53de5" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/fontawesome.css?v=d504f742" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script src="https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"></script>
+    <script>quizdown.init({"start_on_load": true, "shuffle_answers": true, "shuffle_questions": false, "primary_color": "#FF851B", "secondary_color": "#DDDDDD", "text_color": "black", "locale": "de", "quizdown_js": "https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"});</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/05a_Softwareentwurf_en';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-menu/quarto-menu.js?v=b4fc9030"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-menu/menu.js?v=27134a44"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/highlight.esm.js?v=1254c8f3"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/highlight.js?v=d8e1bd11"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/plugin.js?v=de14e947"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/markdown.esm.js?v=c1d1720c"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/plugin.js?v=b7c888a0"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/markdown.js?v=96b9265a"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-chalkboard/plugin.js?v=5c29cd4a"></script>
+    <script src="../_static/styles/revealjs/plugin/quarto-line-highlight/line-highlight.js?v=1b7b3781"></script>
+    <script src="../_static/styles/revealjs/plugin/math/katex.js?v=a56d0b0a"></script>
+    <script src="../_static/styles/revealjs/plugin/math/mathjax2.js?v=61c34cb4"></script>
+    <script src="../_static/styles/revealjs/plugin/math/mathjax3.js?v=aa10c317"></script>
+    <script src="../_static/styles/revealjs/plugin/math/math.esm.js?v=4432b676"></script>
+    <script src="../_static/styles/revealjs/plugin/math/math.js?v=fdaf90ea"></script>
+    <script src="../_static/styles/revealjs/plugin/math/plugin.js?v=62b4f3c3"></script>
+    <script src="../_static/styles/revealjs/plugin/search/search.esm.js?v=755e6b2e"></script>
+    <script src="../_static/styles/revealjs/plugin/search/search.js?v=fc149e99"></script>
+    <script src="../_static/styles/revealjs/plugin/search/plugin.js?v=99bfb13f"></script>
+    <script src="../_static/styles/revealjs/plugin/quarto-support/support.js?v=1448896a"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/notes.js?v=d900d418"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/notes.esm.js?v=e3d88def"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/plugin.js?v=c6bed375"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/zoom.js?v=2fef532c"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/zoom.esm.js?v=c566db7e"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/plugin.js?v=a47a6514"></script>
+    <script src="../_static/styles/revealjs/plugin/pdf-export/pdfexport.js?v=c7b6e01c"></script>
+    <link rel="canonical" href="https://code-book.ai4sc-lehre.auf.uni-rostock.de/lectures/05a_Softwareentwurf_en.html" />
+    <link rel="index" title="Index" href="../genindex_en.html" />
+    <link rel="search" title="Search" href="../search_en.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search_en.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro_en.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pd_logo2.svg" class="logo__image only-light" alt="Programmierung und Datenbanken - Home"/>
+    <script>document.write(`<img src="../_static/pd_logo2.svg" class="logo__image only-dark" alt="Programmierung und Datenbanken - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Fundamentals</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01c_Computerhardware_en.html">Computer Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01d_Programmiersprachen_en.html">Programming Languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02a_Softwarearchitektur_en.html">Software Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02b_Wissenspyramide_en.html">Knowledge Pyramid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02c_Datentypen_en.html">Data Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03a_Operatoren_en.html">Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03a_Verzweigung_en.html">Conditionals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03b_Schleifen_en.html">Loops</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modularization</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="04a_Funktionen_en.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_Rekursion_en.html">Recursive Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04c_Objects_en.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05a_Softwareentwurf_en.html">Software Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05b_Programmablauf_en.html">Program Flow</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="05c_Algorithmen_en.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06a_Exceptions_en.html">Exceptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06b_UnitTest_en.html">Unit Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07a_Module_en.html">Modularization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Databases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="09_Datenhaltung_en.html">Handling Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10a_Datenbanktypen_en.html">Database Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10b_RelationaleDatenbanken_en.html">Relational Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10c_Datenbanken_SQL_Select_en.html">Analyze Tables with SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11a_Datenbanken_Entwurf_en.html">Design of Relational Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11b_Datenbanken_SQL_Create_en.html">Create Tables with SQL</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<a href="05a_Softwareentwurf.html" class="button btn btn-sm" title="en" data-bs-placement="bottom" data-bs-toggle="tooltip"><span class="btn__icon-container"><i class="fas fa-language "></i></span></a><div  class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/lectures/05a_Softwareentwurf_en.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Software Design</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slides-pdf"><a href="/lec_slides/05a_Softwareentwurf_en.slides.html">Slides</a>/<a href="/pdf/slides/05a_Softwareentwurf_en.pdf">PDF</a></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recap-in-class-question">Recap: In-Class Question</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recap-program-elements">Recap: Program Elements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#object-oriented-software-design-with-uml">Object-Oriented Software Design with UML</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes-attributes-and-methods">Classes, Attributes, and Methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inheritance">Inheritance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-approach-in-software-development">Design Approach in Software Development</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-phases-of-software-development">The Phases of Software Development</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements-definition">Requirements Definition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#design-phase">Design Phase</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-phase">Implementation Phase</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#acceptance-and-testing">Acceptance and Testing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#waterfall-method-the-traditional-development-model">Waterfall Method - The Traditional Development Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#v-model-development-with-systematic-test-planning">V-Model - Development with Systematic Test Planning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#agile-method-flexibility-through-iterative-development">Agile Method - Flexibility Through Iterative Development</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#approach-selection-in-practice">Approach Selection in Practice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="software-design">
+<h1>Software Design<a class="headerlink" href="#software-design" title="Link to this heading">#</a></h1>
+<figure class="mj-tile-band">
+    <img src='../_images/05a_Softwareentwurf/mj_title_band.jpg'>
+    <figcaption>Midjourney: Waterfall in chinese mountain range</figcaption>
+</figure>
+<blockquote>
+<div><p>Architecture is about the important stuff — whatever that is.</p>
+<p>— Ralph Johnson</p>
+</div></blockquote>
+<section id="slides-pdf">
+<h2><a href="/lec_slides/05a_Softwareentwurf_en.slides.html">Slides</a>/<a href="/pdf/slides/05a_Softwareentwurf_en.pdf">PDF</a><a class="headerlink" href="#slides-pdf" title="Link to this heading">#</a></h2>
+<iframe src="/lec_slides/05a_Softwareentwurf_en.slides.html" width="750" height="500"></iframe></section>
+<section id="recap-in-class-question">
+<h2>Recap: In-Class Question<a class="headerlink" href="#recap-in-class-question" title="Link to this heading">#</a></h2>
+<script>setSectionBackground('#FFD966');</script>
+<div class="flex-row">
+  <div class="col4 vcent">
+<p>What are the four fundamental elements of a program?</p>
+  </div>
+  <div class="col6"> 
+    <figure class="mj-fig">
+        <img src="../_images/05a_Softwareentwurf/mj_fundamentals.png" class="mj-fig-img">
+        <figcaption class="mj-fig-cap">
+            Midjourney: Fundamentals of a Programming Language
+        </figcaption>
+    </figure>
+  </div>
+</div></section>
+<section id="recap-program-elements">
+<h2>Recap: Program Elements<a class="headerlink" href="#recap-program-elements" title="Link to this heading">#</a></h2>
+<script>setSectionBackground('#FFD966');</script>
+<ul class="simple">
+<li><p>We all know the fundamental building blocks of a program:</p>
+<ul>
+<li><p>Statements</p></li>
+<li><p>Functions</p></li>
+<li><p>Branching</p></li>
+<li><p>Loops &amp; Recursion</p></li>
+</ul>
+</li>
+<li><p>We know how to design algorithms and combine these elements.</p></li>
+</ul>
+</section>
+<section id="object-oriented-software-design-with-uml">
+<h2>Object-Oriented Software Design with UML<a class="headerlink" href="#object-oriented-software-design-with-uml" title="Link to this heading">#</a></h2>
+<p>In object-oriented software design, a program is designed to consist solely of objects. In this context, one usually uses the modeling language <a class="reference external" href="https://de.wikipedia.org/wiki/Unified_Modeling_Language">UML</a>; classes can also be designed visually.</p>
+<p>In design, one models how:</p>
+<ul class="simple">
+<li><p>these objects are defined as classes,</p></li>
+<li><p>which attributes and methods they possess,</p></li>
+<li><p>how these classes build on one another (inheritance),</p></li>
+<li><p>as well as how they relate to each other in static relationships (references),</p></li>
+<li><p>and how they interact dynamically (behavior).</p></li>
+</ul>
+</section>
+<section id="classes-attributes-and-methods">
+<h2>Classes, Attributes, and Methods<a class="headerlink" href="#classes-attributes-and-methods" title="Link to this heading">#</a></h2>
+<p>A class here is only a rectangle with three compartments. In the first compartment you write the class name. In the second compartment you list all primitive attributes of a class (which do not represent references). The third compartment contains all the methods of the class. For the previously defined <code class="docutils literal notranslate"><span class="pre">Point</span></code> with the attributes <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> and the <code class="docutils literal notranslate"><span class="pre">distance()</span></code> method to another point, the class in UML looks like this:</p>
+<center><img src="https://mermaid.ink/svg/pako:eNpdjk0OAiEMRq9CutI4J2DtAUzcGTYNFCWBMoGSOJnM3UVGXdhV30t_vhVsdgQabMRazwHvBZNh1WsYdcmBZd2NUicfM4p6_vHyYxeqIFs6jL3j7jeYIFFJGFz_NI4ZkAclMqB768hji2LA8HsUm-Trwha0lEYTtNmh0CcbaI-xdjsj33L-8vYCAldBOA" width="150"></center></section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<p>A very important task in UML is visualizing dependencies between classes in the form of references. In UML, references are distinguished by the type of ownership, i.e., whether an object is part of another and can exist without it (Aggregation) or cannot exist without it (Composition), or is completely independent (Association). For this, UML defines different arrow types. Here, you can indicate the multiplicity (the number of instances) of the source and target classes on the lines.</p>
+<center><table><tr>
+<td style="border: none;"><img src="https://mermaid.ink/svg/pako:eNpljj0KwzAMha8iNJYk0NVb2t6gWxEEESuuwT_BsYcScvc6bTpVg3jv00PSimPUggpHx8tys2wSewpQ60Pguveh_0eXLzrmQHgmhNi2u-q6UzVHDhT0xiQxnG0MgA16SZ6trlfXfQlhfooXQlWllomLy4QUthrlkuP9FUZUORVpsMyasxx_oprYLZXOHB4x_vz2BiRzRRk" width="150"></td>
+<td style="border: none;"><img src="https://mermaid.ink/svg/pako:eNpljjEKwzAMRa9iNIYk0NVbm96gWxEEESutwbZMbA8l5O512nSqBvH_00fSCpMYBg2To5Sulh4LeQyq1oeoYe_j-R9dvuiYK4QTgmq6bld931Rz5JRWg_goyWYrAVrwvHiyph5d9x0I-cmeEXSVhmcqLiNg2GqUSpbbK0yg81K4hRINZT7eBD2TS5VGCneRn9_e4yBE4A" width="150"></td>
+<td style="border: none;"><img src="https://mermaid.ink/svg/pako:eNpljkELwjAMhf9KeUfZBl57EKb-A28SkNBmWlhbWduDjP13O50ncwjvfXkkmWGiFWiYkVM6O75P7CmoWh-iTmu_9f_o-EXbXBH2BNW2h1V13a6aLae06lOKxnF2MaCBl8mzs_XovO4g5Id4IegqrQxcxkygsNQolxwvr2Cg81SkQXlazrK9CT3wmCp9crjG-PPLG-QFRN0" width="150"></td>
+</tr>
+</table></center><p>The previously defined class <code class="docutils literal notranslate"><span class="pre">Line</span></code> includes the <code class="docutils literal notranslate"><span class="pre">start</span></code> and <code class="docutils literal notranslate"><span class="pre">end</span></code> points. This represents an <em>aggregation</em> in UML, because the points belong to the line, but can also exist independently (we don’t need a line to define a point). The multiplicity here is that for each instance of <code class="docutils literal notranslate"><span class="pre">Line</span></code> there are two instances of the <code class="docutils literal notranslate"><span class="pre">Point</span></code> class.</p>
+<center><img src="https://mermaid.ink/svg/pako:eNpdT0EKwkAM_ErISbEe9Lhnjx4Eb7KX0E3rwjYrbQoW6d8NqxY1p5lhZsI8sM6B0WGdaBgOkdqeOi9gVxQ45Sj6eCkAmyZlUrj_8WnhIQ5KUvOq5NYvff4uPEZhWAotklhava5-vcXlcecR8nZraG-odIIDe9FrBSwBK-y47ygGm1BKPeqVO_boDAZuaEzq0ctsVho1nyep0Wk_coXjLZDyezS6htJg6o3kkvOHz0_cjFoV" width="150"></center></section>
+<section id="inheritance">
+<h2>Inheritance<a class="headerlink" href="#inheritance" title="Link to this heading">#</a></h2>
+<p>An important aspect of working with UML is inheritance. In UML, inheritance is drawn with a filled triangle ‘▲’ at the superclass (it’s not an arrow). For example, to express that <code class="docutils literal notranslate"><span class="pre">Triangle</span></code>, <code class="docutils literal notranslate"><span class="pre">Tetragon</span></code>, and <code class="docutils literal notranslate"><span class="pre">Pentagon</span></code> are subclasses of the <code class="docutils literal notranslate"><span class="pre">Polygon</span></code>, we can draw.</p>
+<center><img src="https://mermaid.ink/svg/pako:eNptjz0KwzAMha9iNLU0vYDp2AME2qkYjIiVNOCfYMtDSHP3OkkDHaJFet-T4GmCJhgCCY3FlO49dhGd8qLUSkQd7NgFL6YNLnXBSHg6_wGtE0etdzZvbT-9fa5X8Yw9-s7SkUUccVEHXk2eFw8qcBQd9qZkXbMo4Dc5UiDLaKjFbFmB8nNZxczhMfoGJMdMFeTBINPvO5At2lTogP4Vwq7nLzIuVXA" width="300"></center><p>If we combine the individual elements, the UML diagram of our class model looks as follows:</p>
+<center><img src="https://mermaid.ink/svg/pako:eNptUcFqwzAM_RWjU7o1hW03s-OOOxS20zAEEStpwJGDrcBCl3-fkyxlKfFJ7-m9JxldofSWQEPpMMa3BuuArWGV3syos29Yrguj1GPlPIr6vsPDDdsmCnJJ2ew7LPy4DXRD7VndMpMLA2F2-EcURZRQFNlewHvDtHE74loud9p5vjLwbEDluU_VU6pmr1ZpxyBHRWy34pfT6WGjX5fVqpskcZUv7OtPnqvP0CDXjvZaJAEntNM7E8vUgyO0FFpsbDrC_CsDcqGWDOhUWqqwd2LA8Jik2Iv_GLgELaGnI_SdRaG_s4Gu0MXEdshf3q94_AW6H5O5"  width="300"></center><p>Based on this UML diagram, a programmer would understand the relationships between the classes and could implement them accordingly. They are particularly well suited for defining and communicating such data structures.</p>
+<p>We can now further refine this model and introduce additional, more specific classes for triangles, such as right-angled (Right), acute (Acute), and obtuse (Obtuse) triangles, which can be scalene, isosceles, or equilateral. Similarly, we can classify quadrilaterals into trapezoids, parallelograms, and kites, with the specialization rhombus, rectangle, and square.</p>
+<center><img src="https://mermaid.ink/svg/pako:eNp9k01PwzAMhv9KlNMG6yTgVnFBggMCiWnbCVWqTOt1kdJkSxyJMfbfyZp2NFW1nmK_j1-7-TjyQpfIU15IsPZZQGWgzhTzX5NhCy0UHUOGsduN1EDsexAfLnEpLIEqcNLUTUP-FBvKQ6UVu3j6KjAIk2kvkeeWTJ5PxgzehcKoWqKqaDtgm_4s4_cZZ0mi_erOr5ralPkZDc0YqjKGH-bzm4jvhk3Z7ozYDg_Zx98kYWsjQFUSg9RFQVsV4IfDfCmqLV0DPr7I2asWT4WjFohcA_VqtS1Qou23is2HYL9l1GQI9joPkiygL3snJBAakGP7g2TgHI1oC1R01tof78iggfeTKPX_jYyBtYEd_owpb6IbODIJ4nKr6y_XnuSZHEkH61bAgnoHPOYYE5ewPcC989e7lUKTvsBnvEZTgyj9I2xudcZpizVmPPXLEjfgJGU8UyePgiO9OqiCp2QczrjblX7j22fL0w1I67M7UJ9ad_HpD1l7PXc"></center><p>Each instance of these special classes inherits the functions <code class="docutils literal notranslate"><span class="pre">area()</span></code> and <code class="docutils literal notranslate"><span class="pre">__str__()</span></code>. So with a single generic implementation of <code class="docutils literal notranslate"><span class="pre">area()</span></code> for computing the area of a polygon, we only needed to implement one method that covers the area calculation for all geometric primitive elements, without having to write another line of code for this.</p>
+<p>Along the inheritance hierarchy, one could now define additional attributes and methods that can perform specific calculations or, for example, test whether the points, lines, and angles meet the corresponding conditions. However, this is outside the scope of this example.</p>
+</section>
+<section id="design-approach-in-software-development">
+<h2>Design Approach in Software Development<a class="headerlink" href="#design-approach-in-software-development" title="Link to this heading">#</a></h2>
+<p>Software is today developed almost exclusively in teams over extended periods. This teamwork requires a well-thought-out project plan that defines both the structural composition of the software and the timing of the development. Software design therefore comprises two essential components: the blueprint in the form of the class design and the development workflow planning as the programming approach.</p>
+<p>The approach to software design shows remarkable similarities to established practices in civil and environmental engineering. Just as in building a bridge or a wastewater treatment plant, in software development the requirements must be clearly defined, a structured design must be created, and the implementation must be systematically planned. These parallels help to better understand the principles of software design.</p>
+<p>A structured approach is essential because it enables teamwork, ensures quality, and keeps costs under control. Without systematic planning, development processes often become chaotic, leading to faulty software, missed deadlines, and budget problems.</p>
+</section>
+<section id="the-phases-of-software-development">
+<h2>The Phases of Software Development<a class="headerlink" href="#the-phases-of-software-development" title="Link to this heading">#</a></h2>
+<section id="requirements-definition">
+<h3>Requirements Definition<a class="headerlink" href="#requirements-definition" title="Link to this heading">#</a></h3>
+<p>The first phase focuses on precisely defining what the software is supposed to do. Here, both functional aspects and constraints are defined. In civil engineering, this corresponds to the project specification, which documents the functions and constraints the structure must satisfy.</p>
+<p>For a bridge, for example, the permissible traffic loads, the span to be crossed, and the required service life are defined. For a wastewater treatment plant, the number of residents to be connected, the required level of treatment, and the limits to be met are specified. Likewise, in software development all functional requirements, performance parameters, and technical constraints must be clearly articulated.</p>
+</section>
+<section id="design-phase">
+<h3>Design Phase<a class="headerlink" href="#design-phase" title="Link to this heading">#</a></h3>
+<p>The design defines how the software should be structurally built. This phase is divided into high-level design, where the software is divided into logical modules, and detailed design, which specifies when which components will be developed by whom.</p>
+<p>In civil engineering, this corresponds to architectural design and planning. In building construction, the basic structure with foundation, the shell, and the interior fit-out is planned first, before details such as reinforcement drawings and installations are prepared. Similarly, in software development the overall architecture is designed first, before the individual classes and their interfaces are defined.</p>
+</section>
+<section id="implementation-phase">
+<h3>Implementation Phase<a class="headerlink" href="#implementation-phase" title="Link to this heading">#</a></h3>
+<p>Implementation encompasses both the coding of the individual software components and their integration into a functioning overall system. During implementation, the individual classes and modules are programmed according to the design specifications. The subsequent integration brings these parts together into the finished solution.</p>
+<p>In construction, different trades work in parallel on their respective tasks before their work is coordinated and brought together. In a water infrastructure project, for example, pumping stations, pipelines, and control systems are initially built separately and then connected to form a functioning water supply system.</p>
+</section>
+<section id="acceptance-and-testing">
+<h3>Acceptance and Testing<a class="headerlink" href="#acceptance-and-testing" title="Link to this heading">#</a></h3>
+<p>The acceptance phase ensures that the finished software meets all requirements. This happens in several stages: first, individual modules are tested in isolation; then the interaction between modules is tested; and finally the entire system is tested under real-world conditions.</p>
+<p>This approach corresponds to commissioning of the building, where progress also proceeds in stages. In a wastewater treatment plant, for example, individual pumps are first tested for their function, then the interaction of control, pumps, and sensors is tested, and finally the entire plant is commissioned under real conditions.</p>
+</section>
+</section>
+<section id="waterfall-method-the-traditional-development-model">
+<h2>Waterfall Method - The Traditional Development Model<a class="headerlink" href="#waterfall-method-the-traditional-development-model" title="Link to this heading">#</a></h2>
+<p>The Waterfall Method represents the traditional approach to software development and is still frequently demanded in tenders for large systems. Its hallmark is the strictly sequential execution of the development phases, with each phase fully completed before the next begins.</p>
+<p>This method is characterized by limited user involvement, primarily confined to requirements definition. Each activity is thoroughly documented, which makes the method particularly suitable for tenders and ISO 9000-compliant developments.</p>
+<p><img alt="" src="../_images/waterflow.svg" /></p>
+<p>The major advantage of this method lies in its predictability and structured approach. Costs and schedules can be estimated precisely, and the comprehensive documentation meets all formal requirements. However, the sequential nature means that errors from early phases are only discovered very late, which can lead to expensive rework.</p>
+<p>The Waterfall Method corresponds to the traditional construction approach. For a highway bridge, all requirements are first defined in the tender, then the complete planning from structural analysis to execution planning is carried out before actual construction begins. Only after the completion of the entire structure are the load tests and acceptance performed.</p>
+</section>
+<section id="v-model-development-with-systematic-test-planning">
+<h2>V-Model - Development with Systematic Test Planning<a class="headerlink" href="#v-model-development-with-systematic-test-planning" title="Link to this heading">#</a></h2>
+<p>The V-Model was specifically designed for the development of safety-critical software and is primarily used in the automotive and aerospace industries. It extends the Waterfall model with a systematic test planning that begins during the development phase.</p>
+<p>The characteristic V-shaped model clearly separates development activities from testing activities. While the actual development takes place on the left side, the corresponding tests are defined and carried out on the right side. Each development phase has its corresponding testing phase, resulting in high test coverage.</p>
+<p><img alt="" src="../_images/vmodel.svg" /></p>
+<p>The V-Model offers the advantage of systematic quality assurance with high traceability. However, it is more resource-intensive than other methods and is therefore primarily suited for areas where safety and reliability are the highest priority.</p>
+<p>In tunnel construction, a safety-critical area of civil engineering, a similar approach is taken. Already during the planning of the safety systems, the corresponding test procedures are defined. For each fire detector, it is determined how it will be tested; for the interaction between fire detection and ventilation control, integration tests are planned; and for the overall system, a complete evacuation drill with the fire department is designed.</p>
+</section>
+<section id="agile-method-flexibility-through-iterative-development">
+<h2>Agile Method - Flexibility Through Iterative Development<a class="headerlink" href="#agile-method-flexibility-through-iterative-development" title="Link to this heading">#</a></h2>
+<p>The agile method represents a modern response to the challenges of rapidly changing requirements. Instead of planning a complete system from start to finish, it is developed incrementally and continuously improved.</p>
+<p>The agile approach begins with a Minimum Viable Product, the simplest working version of the software. This is then extended and improved in regular cycles, with each iteration adding new features or optimizing existing ones. Development cycles are typically short and usually last only a few months.</p>
+<p><img alt="" src="../_images/agile.svg" /></p>
+<p>The major advantage of the agile method lies in its flexibility and the possibility of receiving feedback early. Users can test already working versions and provide suggestions for improvements. This reduces the risk of developing away from actual needs.</p>
+<p>However, the agile method also carries risks. Design flaws in early iterations can lead to the need to overhaul the entire architecture. Additionally, cost and schedule planning is more difficult because the final product is not fully specified at the start of the project.</p>
+<p>An example from the construction industry is modular construction, which is becoming increasingly popular, especially in timber construction. Instead of planning and building a structure in its entirety, individual modules are planned first, which can be combined with each other repeatedly. The modules can be assembled and tested individually before they are put together in the final building.</p>
+</section>
+<section id="approach-selection-in-practice">
+<h2>Approach Selection in Practice<a class="headerlink" href="#approach-selection-in-practice" title="Link to this heading">#</a></h2>
+<p>The choice of the appropriate development methodology depends heavily on the project context. For standardized systems with clear requirements, the Waterfall method is suitable, while safety-critical applications require the V-Model’s systematic test planning. Agile methods are ideal for innovative projects with evolving requirements.</p>
+<p>In engineering practice, hybrid approaches are often sensible. A tunnel project could, for example, plan the basic construction according to the Waterfall model, develop the safety systems according to the V-Model, and implement the operations management software in an agile manner.</p>
+</section>
+<section id="quiz">
+<h2>Quiz<a class="headerlink" href="#quiz" title="Link to this heading">#</a></h2>
+<div class="quizdown">	---
+	shuffleQuestions: true
+	shuffleAnswers: true
+	---
+
+    ### What is the main purpose of flowcharts?
+    - [x] The translation of a real-world problem into individual program steps
+    - [ ] Writing efficient code
+    - [ ] Documentation of finished programs
+    - [ ] Visualization of data structures
+
+    ### What shape do start and end elements in flowcharts have?
+    - [x] Elements with rounded corners
+    - [ ] Rectangular elements
+    - [ ] Rhombuses
+    - [ ] Circles
+
+    ### What shape do statements in flowcharts have?
+    - [x] Rectangular elements
+    - [ ] Rhombuses
+    - [ ] Circles
+    - [ ] Elements with rounded corners
+
+    ### Sort the following flowchart elements by their typical order:
+    1. `Start (rounded rectangle)`
+    2. `Input (Rhombus)`
+    3. `Processing (Rectangle)`
+    4. `Decision (Diamond)`
+    5. `End (rounded rectangle)`
+
+    ### What mistake is present in this flowchart?
+    ```mermaid
+    graph TD
+        A[Start] --&gt; B{Eingabe}
+        B --&gt; C[Verarbeitung]
+        C --&gt; D{Entscheidung}
+        D --&gt; B
+    ```
+    - [x] Input is depicted with the wrong shape (Rhombus instead of parallelogram)
+    - [ ] The arrow direction is incorrect
+    - [ ] The start element is missing
+    - [ ] Decisions cannot lead back to inputs
+
+    ### What shape is used for if statements?
+    - [x] Diamond
+    - [ ] Rectangle
+    - [ ] Rhombus
+    - [ ] Circle
+
+    ### What characterizes subroutine elements in flowcharts?
+    - [x] Rectangular shape with a double line
+    - [ ] Circular shape
+    - [ ] Dashed lines
+    - [ ] Shaded rectangles
+</div></section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./lectures"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slides-pdf"><a href="/lec_slides/05a_Softwareentwurf_en.slides.html">Slides</a>/<a href="/pdf/slides/05a_Softwareentwurf_en.pdf">PDF</a></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recap-in-class-question">Recap: In-Class Question</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recap-program-elements">Recap: Program Elements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#object-oriented-software-design-with-uml">Object-Oriented Software Design with UML</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes-attributes-and-methods">Classes, Attributes, and Methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inheritance">Inheritance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#design-approach-in-software-development">Design Approach in Software Development</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-phases-of-software-development">The Phases of Software Development</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements-definition">Requirements Definition</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#design-phase">Design Phase</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation-phase">Implementation Phase</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#acceptance-and-testing">Acceptance and Testing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#waterfall-method-the-traditional-development-model">Waterfall Method - The Traditional Development Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#v-model-development-with-systematic-test-planning">V-Model - Development with Systematic Test Planning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#agile-method-flexibility-through-iterative-development">Agile Method - Flexibility Through Iterative Development</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#approach-selection-in-practice">Approach Selection in Practice</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Joern Ploennigs, AI 4 Sustainable Construction, University of Rostock
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright CC-BY-NC-SA 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1257 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Exceptions &#8212; Programmierung und Datenbanken</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d8a2add5" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css?v=062df064" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-menu/quarto-menu.css?v=a9b70b88" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-menu/menu.css?v=b1df3480" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/highlight/monokai.css?v=075166d3" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/highlight/zenburn.css?v=83d5745d" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/style.css?v=6050ce3b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/quarto-line-highlight/line-highlight.css?v=52b149a6" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/quarto-support/footer.css?v=53995862" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css?v=124a15ac" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/v4-shims.css?v=1b0e564b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/solid.css?v=e0521a22" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/brands.css?v=7dcd769b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/regular.css?v=0b430bdf" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/v4-shims.min.css?v=898855d1" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/svg-with-js.css?v=aac53de5" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/fontawesome.css?v=d504f742" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script src="https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"></script>
+    <script>quizdown.init({"start_on_load": true, "shuffle_answers": true, "shuffle_questions": false, "primary_color": "#FF851B", "secondary_color": "#DDDDDD", "text_color": "black", "locale": "de", "quizdown_js": "https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"});</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/06a_Exceptions_en';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-menu/quarto-menu.js?v=b4fc9030"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-menu/menu.js?v=27134a44"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/highlight.esm.js?v=1254c8f3"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/highlight.js?v=d8e1bd11"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/plugin.js?v=de14e947"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/markdown.esm.js?v=c1d1720c"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/plugin.js?v=b7c888a0"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/markdown.js?v=96b9265a"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-chalkboard/plugin.js?v=5c29cd4a"></script>
+    <script src="../_static/styles/revealjs/plugin/quarto-line-highlight/line-highlight.js?v=1b7b3781"></script>
+    <script src="../_static/styles/revealjs/plugin/math/katex.js?v=a56d0b0a"></script>
+    <script src="../_static/styles/revealjs/plugin/math/mathjax2.js?v=61c34cb4"></script>
+    <script src="../_static/styles/revealjs/plugin/math/mathjax3.js?v=aa10c317"></script>
+    <script src="../_static/styles/revealjs/plugin/math/math.esm.js?v=4432b676"></script>
+    <script src="../_static/styles/revealjs/plugin/math/math.js?v=fdaf90ea"></script>
+    <script src="../_static/styles/revealjs/plugin/math/plugin.js?v=62b4f3c3"></script>
+    <script src="../_static/styles/revealjs/plugin/search/search.esm.js?v=755e6b2e"></script>
+    <script src="../_static/styles/revealjs/plugin/search/search.js?v=fc149e99"></script>
+    <script src="../_static/styles/revealjs/plugin/search/plugin.js?v=99bfb13f"></script>
+    <script src="../_static/styles/revealjs/plugin/quarto-support/support.js?v=1448896a"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/notes.js?v=d900d418"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/notes.esm.js?v=e3d88def"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/plugin.js?v=c6bed375"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/zoom.js?v=2fef532c"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/zoom.esm.js?v=c566db7e"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/plugin.js?v=a47a6514"></script>
+    <script src="../_static/styles/revealjs/plugin/pdf-export/pdfexport.js?v=c7b6e01c"></script>
+    <link rel="canonical" href="https://code-book.ai4sc-lehre.auf.uni-rostock.de/lectures/06a_Exceptions_en.html" />
+    <link rel="index" title="Index" href="../genindex_en.html" />
+    <link rel="search" title="Search" href="../search_en.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search_en.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro_en.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pd_logo2.svg" class="logo__image only-light" alt="Programmierung und Datenbanken - Home"/>
+    <script>document.write(`<img src="../_static/pd_logo2.svg" class="logo__image only-dark" alt="Programmierung und Datenbanken - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Fundamentals</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01c_Computerhardware_en.html">Computer Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01d_Programmiersprachen_en.html">Programming Languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02a_Softwarearchitektur_en.html">Software Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02b_Wissenspyramide_en.html">Knowledge Pyramid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02c_Datentypen_en.html">Data Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03a_Operatoren_en.html">Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03a_Verzweigung_en.html">Conditionals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03b_Schleifen_en.html">Loops</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modularization</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="04a_Funktionen_en.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_Rekursion_en.html">Recursive Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04c_Objects_en.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05a_Softwareentwurf_en.html">Software Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05b_Programmablauf_en.html">Program Flow</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="05c_Algorithmen_en.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06a_Exceptions_en.html">Exceptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06b_UnitTest_en.html">Unit Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07a_Module_en.html">Modularization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Databases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="09_Datenhaltung_en.html">Handling Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10a_Datenbanktypen_en.html">Database Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10b_RelationaleDatenbanken_en.html">Relational Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10c_Datenbanken_SQL_Select_en.html">Analyze Tables with SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11a_Datenbanken_Entwurf_en.html">Design of Relational Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11b_Datenbanken_SQL_Create_en.html">Create Tables with SQL</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<a href="06a_Exceptions.html" class="button btn btn-sm" title="en" data-bs-placement="bottom" data-bs-toggle="tooltip"><span class="btn__icon-container"><i class="fas fa-language "></i></span></a><div  class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/lectures/06a_Exceptions_en.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Exceptions</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slides-pdf"><a href="/lec_slides/06a_Exceptions_en.slides.html">Slides</a>/<a href="/pdf/slides/06a_Exceptions_en.pdf">PDF</a></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#handling-errors-with-exceptions">Handling errors with exceptions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-your-own-exceptions">Creating your own exceptions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#error-handling-for-functions-on-the-stack">Error handling for functions on the stack</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-with-print">Debugging with <code class="docutils literal notranslate"><span class="pre">print()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-with-logging">Debugging with <code class="docutils literal notranslate"><span class="pre">logging</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-via-debug-interfaces">Debugging via Debug Interfaces</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-in-jupyter-notebooks-in-vscode">Debugging in Jupyter-Notebooks in VSCode</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="exceptions">
+<h1>Exceptions<a class="headerlink" href="#exceptions" title="Link to this heading">#</a></h1>
+<figure class="mj-tile-band">
+    <img src='../_images/06a_Exceptions/mj_title_band.jpg'>
+    <figcaption>Midjourney: Exception in Time, ref. Salvador Dalí</figcaption>
+</figure>
+<blockquote>
+<div><p>Anything that can go wrong, will go wrong.</p>
+<p>— Murphy’s Law #1</p>
+</div></blockquote>
+<section id="slides-pdf">
+<h2><a href="/lec_slides/06a_Exceptions_en.slides.html">Slides</a>/<a href="/pdf/slides/06a_Exceptions_en.pdf">PDF</a><a class="headerlink" href="#slides-pdf" title="Link to this heading">#</a></h2>
+<iframe src="/lec_slides/06a_Exceptions_en.slides.html" width="750" height="500"></iframe></section>
+<section id="handling-errors-with-exceptions">
+<h2>Handling errors with exceptions<a class="headerlink" href="#handling-errors-with-exceptions" title="Link to this heading">#</a></h2>
+<p>Exceptions interrupt the normal flow of a program in the event of an error. They are used to communicate the error in the program (they usually include an error message) and are used to prevent the program from crashing uncontrollably in the event of an error.</p>
+<p>Known exceptions should always be caught. In Python they are caught by the <code class="docutils literal notranslate"><span class="pre">try-except</span></code> block. This starts with a <code class="docutils literal notranslate"><span class="pre">try</span></code> and ends with an <code class="docutils literal notranslate"><span class="pre">except</span></code>. After the <code class="docutils literal notranslate"><span class="pre">try</span></code> follows the block with the known (or unknown) exception. After the <code class="docutils literal notranslate"><span class="pre">except</span></code> follows the block for error handling.</p>
+<p>It should be noted that with exceptions there is no value assignment (the value is not known). Let’s again consider the division by 0 known from branching <a class="reference internal" href="#4a_Verzweigung.html#elif_-_F%C3%BCr_noch_mehr_Alternativen"><span class="xref myst">Verzweigung bekannte Division durch 0</span></a> with its various error cases of zero division and incorrect input data types. Without precisely specifying these error cases we can write.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">numerator</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">denominator</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># Block with a known exception</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+    <span class="c1"># This part is executed only if no exception occurred</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Die Division war erfolgreich&quot;</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="c1"># Error handling</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Divisionsfehler&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">numerator</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">denominator</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Divisionsfehler
+Das Ergebnis von 10/0 = None
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">except</span></code> in the above case is untyped. This allows catching all errors that can occur (including unknown ones). Consequently, the <code class="docutils literal notranslate"><span class="pre">try-except</span></code> block also catches errors of the wrong data type.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">numerator</span> <span class="o">=</span> <span class="s1">&#39;keine_zahl&#39;</span>
+<span class="n">denominator</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Divisionsfehler&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">numerator</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">denominator</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Divisionsfehler
+Das Ergebnis von keine_zahl/2 = None
+</pre></div>
+</div>
+</div>
+</div>
+<p>The problem here is that we don’t get any information about the exception. Therefore it’s always sensible to catch the exact exception and display the error message. The most general type of error in Python is the <code class="docutils literal notranslate"><span class="pre">Exception</span></code>, which we catch as a variable named <code class="docutils literal notranslate"><span class="pre">e</span></code> as follows.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">numerator</span> <span class="o">=</span> <span class="s1">&#39;keine_zahl&#39;</span>
+<span class="n">denominator</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Divisionsfehler mit Fehler vom Typ `</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">` und Meldung `</span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">numerator</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">denominator</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Divisionsfehler mit Fehler vom Typ `&lt;class &#39;TypeError&#39;&gt;` und Meldung `unsupported operand type(s) for /: &#39;str&#39; and &#39;int&#39;`
+Das Ergebnis von keine_zahl/0 = None
+</pre></div>
+</div>
+</div>
+</div>
+<p>If the exceptions are known, they should also be handled by type in order to display specific messages.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">numerator</span> <span class="o">=</span> <span class="s1">&#39;keine_zahl&#39;</span>
+<span class="n">denominator</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+<span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler oder Nenner nicht vom Datentyp `int`&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ZeroDivisionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Teilung durch 0&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">numerator</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">denominator</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Zaehler oder Nenner nicht vom Datentyp `int`
+Das Ergebnis von keine_zahl/0 = None
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">try-except</span></code> block also supports the <code class="docutils literal notranslate"><span class="pre">else</span></code> clause, which is always executed when <em>no</em> exception occurs. In addition, there is the <code class="docutils literal notranslate"><span class="pre">finally</span></code> clause, which <em>always</em> executes, i.e., in both the error-free case and in the case of an error.</p>
+<p>For example, if you want to perform output only when the <code class="docutils literal notranslate"><span class="pre">try</span></code> block has succeeded, use <code class="docutils literal notranslate"><span class="pre">else</span></code>.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">numerator</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">denominator</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+<span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler oder Nenner nicht vom Datentyp `int`&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ZeroDivisionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Teilung durch 0&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Die Division war erfolgreich und resultiert in </span><span class="si">{</span><span class="n">numerator</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">denominator</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Die Division war erfolgreich und resultiert in 2/1 = 2.0
+</pre></div>
+</div>
+</div>
+</div>
+<p>If you want something to always be executed, you can use <code class="docutils literal notranslate"><span class="pre">finally</span></code>. This is commonly used to perform steps that should also be done in the event of an error, e.g., to close connections to files or to a database, so that they do not remain open indefinitely (and eventually cause errors).</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">numerator</span> <span class="o">=</span> <span class="s1">&#39;keine_zahl&#39;</span>
+<span class="n">denominator</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+<span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler oder Nenner nicht vom Datentyp `int`&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ZeroDivisionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Teilung durch 0&quot;</span><span class="p">)</span>
+<span class="k">finally</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">numerator</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">denominator</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Zaehler oder Nenner nicht vom Datentyp `int`
+Das Ergebnis von keine_zahl/0 = None
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="creating-your-own-exceptions">
+<h2>Creating your own exceptions<a class="headerlink" href="#creating-your-own-exceptions" title="Link to this heading">#</a></h2>
+<p>Exceptions can also be raised with <code class="docutils literal notranslate"><span class="pre">raise</span></code>. This is useful when in your own code errors may occur that need to be handled elsewhere. Here, an error type must be specified. Either you use the most general error type <code class="docutils literal notranslate"><span class="pre">Exception</span></code>, a suitable standard Python error, or a user-defined one. It is usually advisable to use more specific error types, since the type of the error helps a lot when handling and debugging.</p>
+<p>Let’s define, as an example, our own division function with clear error handling for whether the numerator or denominator is of the wrong type. Here we want to raise a <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> instead of a <code class="docutils literal notranslate"><span class="pre">TypeError</span></code>. For a division by zero, instead of raising an error, the value <code class="docutils literal notranslate"><span class="pre">None</span></code> should be returned.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">division</span><span class="p">(</span><span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">denominator</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Denominator not of type `int` or `float`&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">numerator</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Numerator not of type `int` or `float`&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">denominator</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning division by 0&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The result of </span><span class="si">{</span><span class="n">numerator</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">denominator</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_raises-exception tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">numerator</span> <span class="o">=</span> <span class="s1">&#39;keine_zahl&#39;</span>
+<span class="n">denominator</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">division</span><span class="p">(</span><span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">numerator</span> <span class="o">=</span> <span class="s1">&#39;keine_zahl&#39;</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">denominator</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="ne">----&gt; </span><span class="mi">4</span> <span class="n">result</span> <span class="o">=</span> <span class="n">division</span><span class="p">(</span><span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span><span class="p">)</span>
+
+<span class="nn">Cell In[7], line 5,</span> in <span class="ni">division</span><span class="nt">(numerator, denominator)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Denominator not of type `int` or `float`&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">numerator</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+<span class="ne">----&gt; </span><span class="mi">5</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Numerator not of type `int` or `float`&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="k">elif</span> <span class="n">denominator</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning division by 0&quot;</span><span class="p">)</span>
+
+<span class="ne">ValueError</span>: Numerator not of type `int` or `float`
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">numerator</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">denominator</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">numerator</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">denominator</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">division</span><span class="p">(</span><span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The result of 10/1 = 10.0
+</pre></div>
+</div>
+</div>
+</div>
+<section id="error-handling-for-functions-on-the-stack">
+<h3>Error handling for functions on the stack<a class="headerlink" href="#error-handling-for-functions-on-the-stack" title="Link to this heading">#</a></h3>
+<p>Exceptions are propagated up the call stack (the order of function calls) until they are either caught and handled or the program crashes when the end of the call stack is reached. The goal of catching and handling exceptions is to bring the program back to a state where it can continue running.</p>
+<p>As an example, we want to define a recursive function that prints an error when the recursion depth becomes too large in order to avoid a stack overflow error. We will use the factorial function from the <a class="reference internal" href="#5b_Rekursion_en.html"><span class="xref myst">Recursion example</span></a> to illustrate this.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">factorial_recursive</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">depth</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RecursionError</span><span class="p">(</span><span class="s2">&quot;Recursion zu tief&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">factorial_recursive</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">factorial_recursive</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2432902008176640000
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_raises-exception tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">factorial_recursive</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">RecursionError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">13</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">factorial_recursive</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span>
+
+<span class="nn">Cell In[11], line 5,</span> in <span class="ni">factorial_recursive</span><span class="nt">(x, depth)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="k">raise</span> <span class="ne">RecursionError</span><span class="p">(</span><span class="s2">&quot;Recursion zu tief&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+<span class="ne">----&gt; </span><span class="mi">5</span>     <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">factorial_recursive</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="k">return</span> <span class="mi">1</span>
+
+<span class="nn">Cell In[11], line 5,</span> in <span class="ni">factorial_recursive</span><span class="nt">(x, depth)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="k">raise</span> <span class="ne">RecursionError</span><span class="p">(</span><span class="s2">&quot;Recursion zu tief&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+<span class="ne">----&gt; </span><span class="mi">5</span>     <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">factorial_recursive</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="k">return</span> <span class="mi">1</span>
+
+    <span class="p">[</span><span class="o">...</span> <span class="n">skipping</span> <span class="n">similar</span> <span class="n">frames</span><span class="p">:</span> <span class="n">factorial_recursive</span> <span class="n">at</span> <span class="n">line</span> <span class="mi">5</span> <span class="p">(</span><span class="mi">17</span> <span class="n">times</span><span class="p">)]</span>
+
+<span class="nn">Cell In[11], line 5,</span> in <span class="ni">factorial_recursive</span><span class="nt">(x, depth)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="k">raise</span> <span class="ne">RecursionError</span><span class="p">(</span><span class="s2">&quot;Recursion zu tief&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+<span class="ne">----&gt; </span><span class="mi">5</span>     <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">factorial_recursive</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="k">return</span> <span class="mi">1</span>
+
+<span class="nn">Cell In[11], line 3,</span> in <span class="ni">factorial_recursive</span><span class="nt">(x, depth)</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="k">def</span><span class="w"> </span><span class="nf">factorial_recursive</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="k">if</span> <span class="n">depth</span> <span class="o">&gt;</span> <span class="mi">20</span><span class="p">:</span>
+<span class="ne">----&gt; </span><span class="mi">3</span>         <span class="k">raise</span> <span class="ne">RecursionError</span><span class="p">(</span><span class="s2">&quot;Recursion zu tief&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>         <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">factorial_recursive</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="ne">RecursionError</span>: Recursion zu tief
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the error message above, the program itself hangs (however, the entire kernel doesn’t crash, as with a stack overflow error). To avoid that, we need to catch the error with a <code class="docutils literal notranslate"><span class="pre">try-except</span></code>. In the error message above, the stack trace is already starting to appear, i.e., the list of function calls that has been collected on the stack.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">traceback</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">factorial_recursive</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">RecursionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Recursion zu tief
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Traceback (most recent call last):
+  File &quot;/var/folders/0c/805v004947lf04d_w7xm50rc0000gn/T/ipykernel_94981/458010054.py&quot;, line 3, in &lt;module&gt;
+    factorial_recursive(21)
+  File &quot;/var/folders/0c/805v004947lf04d_w7xm50rc0000gn/T/ipykernel_94981/3426368764.py&quot;, line 5, in factorial_recursive
+    return x * factorial_recursive(x-1, depth+1)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;/var/folders/0c/805v004947lf04d_w7xm50rc0000gn/T/ipykernel_94981/3426368764.py&quot;, line 5, in factorial_recursive
+    return x * factorial_recursive(x-1, depth+1)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;/var/folders/0c/805v004947lf04d_w7xm50rc0000gn/T/ipykernel_94981/3426368764.py&quot;, line 5, in factorial_recursive
+    return x * factorial_recursive(x-1, depth+1)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  [Previous line repeated 17 more times]
+  File &quot;/var/folders/0c/805v004947lf04d_w7xm50rc0000gn/T/ipykernel_94981/3426368764.py&quot;, line 3, in factorial_recursive
+    raise RecursionError(&quot;Recursion zu tief&quot;)
+RecursionError: Recursion zu tief
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="debugging-with-print">
+<h2>Debugging with <code class="docutils literal notranslate"><span class="pre">print()</span></code><a class="headerlink" href="#debugging-with-print" title="Link to this heading">#</a></h2>
+<p>Logical errors often only occur dynamically and cannot be found by static code analysis via lint tools. Here you have to trace the current program flow. This is called debugging. The simplest form is the <code class="docutils literal notranslate"><span class="pre">print</span></code> debugging, where you flood the code with <code class="docutils literal notranslate"><span class="pre">print()</span></code> statements.</p>
+<p>Let’s extend our division function with lots of <code class="docutils literal notranslate"><span class="pre">print()</span></code> statements. It’s common, for example, to print the input parameters, to print errors and warnings, and then to log the results.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">division</span><span class="p">(</span><span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Debug: Input Numerator: </span><span class="si">{</span><span class="n">numerator</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Debug: Input Denominator: </span><span class="si">{</span><span class="n">denominator</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">denominator</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: Denominator not of type `int` or `float`, but of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">denominator</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Denominator not of type `int` or `float`, but of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">denominator</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">numerator</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: Numerator not of type `int` or `float`, but of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">numerator</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Numerator not of type `int` or `float`, but of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">numerator</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">denominator</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: Division by 0&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Info: The result of </span><span class="si">{</span><span class="n">numerator</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">denominator</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we can, in particular, clearly trace exactly what happened in the event of an error. For example, in the case of division by zero.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">division</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Debug: Input Numerator: 10
+Debug: Input Denominator: 0
+Warning: Division by 0
+</pre></div>
+</div>
+</div>
+</div>
+<p>However, we also have a lot of output even in the correct case. That can be very distracting, because you can miss real errors very quickly. For example, we perform ten divisions, one of which was a division by zero.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">denominator</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
+    <span class="n">division</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">denominator</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Debug: Input Numerator: 10
+Debug: Input Denominator: -2
+Info: The result of 10/-2 = -5.0
+Debug: Input Numerator: 10
+Debug: Input Denominator: -1
+Info: The result of 10/-1 = -10.0
+Debug: Input Numerator: 10
+Debug: Input Denominator: 0
+Warning: Division by 0
+Debug: Input Numerator: 10
+Debug: Input Denominator: 1
+Info: The result of 10/1 = 10.0
+Debug: Input Numerator: 10
+Debug: Input Denominator: 2
+Info: The result of 10/2 = 5.0
+Debug: Input Numerator: 10
+Debug: Input Denominator: 3
+Info: The result of 10/3 = 3.3333333333333335
+Debug: Input Numerator: 10
+Debug: Input Denominator: 4
+Info: The result of 10/4 = 2.5
+Debug: Input Numerator: 10
+Debug: Input Denominator: 5
+Info: The result of 10/5 = 2.0
+Debug: Input Numerator: 10
+Debug: Input Denominator: 6
+Info: The result of 10/6 = 1.6666666666666667
+Debug: Input Numerator: 10
+Debug: Input Denominator: 7
+Info: The result of 10/7 = 1.4285714285714286
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="debugging-with-logging">
+<h2>Debugging with <code class="docutils literal notranslate"><span class="pre">logging</span></code><a class="headerlink" href="#debugging-with-logging" title="Link to this heading">#</a></h2>
+<p>Therefore, in more complex programs, one usually uses a <code class="docutils literal notranslate"><span class="pre">logging</span></code> package. They allow you to assign categories to <code class="docutils literal notranslate"><span class="pre">print</span></code> statements and filter by those categories. In the Python library <code class="docutils literal notranslate"><span class="pre">logging</span></code>, the categories are: <code class="docutils literal notranslate"><span class="pre">debug</span></code>, <code class="docutils literal notranslate"><span class="pre">info</span></code>, <code class="docutils literal notranslate"><span class="pre">warning</span></code>, <code class="docutils literal notranslate"><span class="pre">error</span></code>, and <code class="docutils literal notranslate"><span class="pre">critical</span></code>.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;meinlog&quot;</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">division</span><span class="p">(</span><span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span><span class="p">):</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Eingabe Zaehler: </span><span class="si">{</span><span class="n">numerator</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Eingabe Nenner: </span><span class="si">{</span><span class="n">denominator</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">denominator</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">denominator</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">denominator</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">numerator</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">numerator</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">numerator</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">denominator</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Division durch 0&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">numerator</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">denominator</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we call the function now, we only see the division-by-zero warning.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">denominator</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
+    <span class="n">division</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">denominator</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Division durch 0
+</pre></div>
+</div>
+</div>
+</div>
+<p>However, if needed, just like during debugging, we can also raise the log level. For example, we want to receive all debug messages.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">log</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">denominator</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
+    <span class="n">division</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">denominator</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Division durch 0
+</pre></div>
+</div>
+</div>
+</div>
+<p>Furthermore, logging can automatically include additional information as well. We can already see in the log above that not only the level (INFO, DEBUG, WARNING) but also the logger name (meinlog) are included. We can customize this format to, for example, also output the timestamp, which is especially important for understanding when something happened.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sh</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">()</span>
+<span class="n">formatter</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%(asctime)s</span><span class="s1">  </span><span class="si">%(name)s</span><span class="s1">  </span><span class="si">%(levelname)s</span><span class="s1">: </span><span class="si">%(message)s</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">sh</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">formatter</span><span class="p">)</span>
+<span class="n">log</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">sh</span><span class="p">)</span>
+<span class="n">log</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">denominator</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
+    <span class="n">divide</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">denominator</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">21</span><span class="p">],</span> <span class="n">line</span> <span class="mi">8</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">log</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="k">for</span> <span class="n">denominator</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
+<span class="ne">----&gt; </span><span class="mi">8</span>     <span class="n">divide</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">denominator</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;divide&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<p>In practice, logging is very commonly used, especially in cloud applications. Since they don’t have screens, errors have to be found in the logs. As long as everything is okay, the application runs at the log level <code class="docutils literal notranslate"><span class="pre">INFO</span></code>, with only a small amount of output. If an error occurs, the server is set to the log level <code class="docutils literal notranslate"><span class="pre">DEBUG</span></code>, and one then searches the detailed logs for information to narrow down the error.</p>
+</section>
+<section id="debugging-via-debug-interfaces">
+<h2>Debugging via Debug Interfaces<a class="headerlink" href="#debugging-via-debug-interfaces" title="Link to this heading">#</a></h2>
+<p>Many integrated development environments (IDEs) offer the ability to run the debugger directly. These debuggers allow you to interrupt the dynamic execution of the code. The goal is to pause execution just before the error occurs, so you can observe the error behavior in detail.</p>
+<p>There are usually two forms of interruption supported:</p>
+<ul class="simple">
+<li><p>Pausing at specific lines of code using breakpoints.</p></li>
+<li><p>Pausing on specific exceptions.</p></li>
+</ul>
+<section id="debugging-in-jupyter-notebooks-in-vscode">
+<h3>Debugging in Jupyter-Notebooks in VSCode<a class="headerlink" href="#debugging-in-jupyter-notebooks-in-vscode" title="Link to this heading">#</a></h3>
+<p>The debugging interfaces look somewhat different depending on the IDE, but they have similar features. This Jupyter Notebook was written in VS Code, which we will use as the first example.</p>
+<p>In most IDEs, you can usually click to the left of a line to set a breakpoint <span style="color: red">⬤</span>. We’ll set a breakpoint on line 11 at the point where the warning is emitted.</p>
+<p><img alt="" src="../_images/debug_vscode_1.png" /></p>
+<p>The code is then executed in a special debugging environment that allows the execution to be interrupted. In our notebook in VSCode, it is started by the symbol <img alt="../_images/debug_vscode_2.png" src="../_images/debug_vscode_2.png" />.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">divide</span><span class="p">(</span><span class="n">numerator</span><span class="p">,</span> <span class="n">denominator</span><span class="p">):</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Eingabe Zaehler: </span><span class="si">{</span><span class="n">numerator</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Eingabe Nenner: </span><span class="si">{</span><span class="n">denominator</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">denominator</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">denominator</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">denominator</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">numerator</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">numerator</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">numerator</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">denominator</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Division durch 0&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">numerator</span> <span class="o">/</span> <span class="n">denominator</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Das Ergebnis von </span><span class="si">{</span><span class="n">numerator</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">denominator</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+
+<span class="n">divide</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-08-17 11:24:55,134  meinlog  WARNING: Division durch 0
+</pre></div>
+</div>
+</div>
+</div>
+<p>This starts the debug mode. In this mode, the current line is highlighted, and the current variables in memory are displayed.</p>
+<p><img alt="Debugging in VS Code" src="../_images/debug_vscode_3.png" /></p>
+<p>In the debugging environment, you can then step through the code line by line by pressing <img alt="../_images/debug_vscode_2.png" src="../_images/debug_vscode_2.png" /> and thereby see how the program is executed and which variables change.</p>
+</section>
+</section>
+<section id="quiz">
+<h2>Quiz<a class="headerlink" href="#quiz" title="Link to this heading">#</a></h2>
+<div class="quizdown">    ---
+    shuffleQuestions: true
+    shuffleAnswers: true
+    ---
+
+    ### What is an exception in Python?
+    - [x] An exception that interrupts the normal flow of the program
+    - [ ] A special case in loops
+    - [ ] A warning that can be ignored
+    - [ ] A global variable
+
+    ### Why are `try-except` blocks used?
+    - [x] To respond to errors in a controlled manner
+    - [x] To prevent the program from crashing
+    - [ ] To initialize variables
+    - [ ] To automatically repeat functions
+
+    ### What happens when an exception occurs in the `try` block?
+    - [x] The code in the `except` block is executed
+    - [ ] The `try` block is ignored
+    - [ ] The program ends automatically
+    - [ ] The error is always ignored
+
+    ### Sort the following lines to form a complete `try-except` block correctly:
+    ```python
+    # Annahme: fehlerhafte Division
+    ```
+    1. `try:`
+    2. `  ergebnis = 10 / 0`
+    3. `  print(&quot;Ergebnis:&quot;, ergebnis)`
+    4. `except:`
+    5. `  print(&quot;Fehler bei der Division&quot;)`
+
+    ### Which error is demonstrated in this example?
+    ```python
+    x = 10
+    y = 0
+    z = x / y
+    print(&quot;Ergebnis:&quot;, z)
+    ```
+    - [x] Division by zero leads to a `ZeroDivisionError` exception
+    - [ ] `print` may not be used inside try blocks
+    - [ ] `x` must not be 10
+    - [ ] `y` must be declared as a string
+
+    ### What is the advantage of using `Exception as e`?
+    - [x] You can explicitly print the type and error message of the exception
+    - [ ] This automatically solves the exception
+    - [ ] The code becomes shorter
+    - [ ] `as` is mandatory in every error handling
+
+    ### Why should known exception types (like `TypeError`) be caught explicitly?
+    - [x] To handle different errors specifically
+    - [ ] Because Python wouldn&#x27;t work otherwise
+    - [ ] To make the output nicer
+    - [ ] This is only necessary for `int` values
+
+    ### Sort the following lines to correctly build a typed error handling for divisions:
+    ```python
+    # Example with division by 0 and wrong type
+    ```
+    1. `try:`
+    2. `  ergebnis = &quot;zehn&quot; / 0`
+    3. `except TypeError:`
+    4. `  print(&quot;Falscher Datentyp&quot;)`
+    5. `except ZeroDivisionError:`
+    6. `  print(&quot;Division durch 0&quot;)`
+
+    ### When is the `else` block executed in `try-except-else`?
+    - [x] Only when no exception occurs in the `try` block
+    - [ ] If any error occurs
+    - [ ] Always after the `except`
+    - [ ] If `print()` is used in the `try`
+
+    ### What does a `finally` block do in Python?
+    - [x] The code in the `finally` is executed **always** – regardless of error or not
+    - [ ] The code is skipped on errors
+    - [ ] Only used with networking
+    - [ ] Used to initialize variables
+
+    ### When should you raise your own exceptions with `raise`?
+    - [x] If you want to clearly mark errors and propagate them
+    - [ ] If you want to break out of a loop
+    - [ ] Only for syntax errors
+    - [ ] Only for debugging purposes
+
+    ### Why is it sensible to use specific error types like `ValueError`?
+    - [x] So errors can be handled and differentiated more precisely
+    - [ ] So `try` blocks become shorter
+    - [ ] So the program runs faster
+    - [ ] Because `Exception` is not allowed in Python
+
+    ### Which error is demonstrated in this example?
+    ```python
+    if not isinstance(x, int):
+        raise &quot;Fehler&quot;
+    ```
+    - [x] `raise` expects an exception object, not a string
+    - [ ] `raise` is not a valid Python keyword
+    - [ ] Strings may not be compared with `if`
+    - [ ] `int` is not a valid type
+
+    ### Sort the following lines to define a safe division function with error handling:
+    ```python
+    # Example with division by 0 and type checking
+    ```
+    1. `def division(zaehler, nenner):`
+    2. `  if not isinstance(zaehler, (int, float)):` 
+    3. `    raise ValueError(&quot;Zaehler ist ungültig&quot;)`
+    4. `  if nenner == 0:`
+    5. `    return None`
+    6. `  return zaehler / nenner`
+
+    ### How do exceptions behave in a function call stack?
+    - [x] They bubble up until they are handled or crash the program
+    - [ ] They disappear after the first function call
+    - [ ] They only cause an error in the current function
+    - [ ] They are automatically ignored
+
+    ### What does the following line do in a recursive function?
+    ```python
+    raise RecursionError(&quot;Recursion too deep&quot;)
+    ```
+    - [x] It deliberately raises an error when recursion depth is too deep
+    - [ ] It prevents an exception
+    - [ ] It ends the recursion successfully
+    - [ ] It converts the return value into an exception
+
+    ### What is the stack?
+    - [x] A data structure that stores function calls
+    - [ ] A list of all variables in the program
+    - [ ] A special data type for loops
+    - [ ] A type of exception
+
+    ### What is the heap?
+    - [x] A memory area for dynamically created objects
+    - [ ] A special kind of loop
+    - [ ] A data type for numbers
+    - [ ] A region for global variables
+
+    ### What is the difference between Stack and Heap?
+    - [x] Stack stores function calls, Heap stores dynamically created objects
+    - [ ] Stack is faster, Heap slower
+    - [ ] Stack is for loops, Heap for conditions
+    - [ ] Stack is for global variables, Heap for local</div></section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./lectures"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slides-pdf"><a href="/lec_slides/06a_Exceptions_en.slides.html">Slides</a>/<a href="/pdf/slides/06a_Exceptions_en.pdf">PDF</a></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#handling-errors-with-exceptions">Handling errors with exceptions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-your-own-exceptions">Creating your own exceptions</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#error-handling-for-functions-on-the-stack">Error handling for functions on the stack</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-with-print">Debugging with <code class="docutils literal notranslate"><span class="pre">print()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-with-logging">Debugging with <code class="docutils literal notranslate"><span class="pre">logging</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-via-debug-interfaces">Debugging via Debug Interfaces</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#debugging-in-jupyter-notebooks-in-vscode">Debugging in Jupyter-Notebooks in VSCode</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Joern Ploennigs, AI 4 Sustainable Construction, University of Rostock
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright CC-BY-NC-SA 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

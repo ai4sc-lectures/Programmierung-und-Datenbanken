@@ -1,0 +1,879 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Relational Databases &#8212; Programmierung und Datenbanken</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d8a2add5" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css?v=062df064" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-menu/quarto-menu.css?v=a9b70b88" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-menu/menu.css?v=b1df3480" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/highlight/monokai.css?v=075166d3" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/highlight/zenburn.css?v=83d5745d" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/style.css?v=6050ce3b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/quarto-line-highlight/line-highlight.css?v=52b149a6" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/quarto-support/footer.css?v=53995862" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css?v=124a15ac" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/v4-shims.css?v=1b0e564b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/solid.css?v=e0521a22" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/brands.css?v=7dcd769b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/regular.css?v=0b430bdf" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/v4-shims.min.css?v=898855d1" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/svg-with-js.css?v=aac53de5" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/fontawesome.css?v=d504f742" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script src="https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"></script>
+    <script>quizdown.init({"start_on_load": true, "shuffle_answers": true, "shuffle_questions": false, "primary_color": "#FF851B", "secondary_color": "#DDDDDD", "text_color": "black", "locale": "de", "quizdown_js": "https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"});</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/10b_RelationaleDatenbanken_en';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-menu/quarto-menu.js?v=b4fc9030"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-menu/menu.js?v=27134a44"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/highlight.esm.js?v=1254c8f3"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/highlight.js?v=d8e1bd11"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/plugin.js?v=de14e947"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/markdown.esm.js?v=c1d1720c"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/plugin.js?v=b7c888a0"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/markdown.js?v=96b9265a"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-chalkboard/plugin.js?v=5c29cd4a"></script>
+    <script src="../_static/styles/revealjs/plugin/quarto-line-highlight/line-highlight.js?v=1b7b3781"></script>
+    <script src="../_static/styles/revealjs/plugin/math/katex.js?v=a56d0b0a"></script>
+    <script src="../_static/styles/revealjs/plugin/math/mathjax2.js?v=61c34cb4"></script>
+    <script src="../_static/styles/revealjs/plugin/math/mathjax3.js?v=aa10c317"></script>
+    <script src="../_static/styles/revealjs/plugin/math/math.esm.js?v=4432b676"></script>
+    <script src="../_static/styles/revealjs/plugin/math/math.js?v=fdaf90ea"></script>
+    <script src="../_static/styles/revealjs/plugin/math/plugin.js?v=62b4f3c3"></script>
+    <script src="../_static/styles/revealjs/plugin/search/search.esm.js?v=755e6b2e"></script>
+    <script src="../_static/styles/revealjs/plugin/search/search.js?v=fc149e99"></script>
+    <script src="../_static/styles/revealjs/plugin/search/plugin.js?v=99bfb13f"></script>
+    <script src="../_static/styles/revealjs/plugin/quarto-support/support.js?v=1448896a"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/notes.js?v=d900d418"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/notes.esm.js?v=e3d88def"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/plugin.js?v=c6bed375"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/zoom.js?v=2fef532c"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/zoom.esm.js?v=c566db7e"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/plugin.js?v=a47a6514"></script>
+    <script src="../_static/styles/revealjs/plugin/pdf-export/pdfexport.js?v=c7b6e01c"></script>
+    <link rel="canonical" href="https://code-book.ai4sc-lehre.auf.uni-rostock.de/lectures/10b_RelationaleDatenbanken_en.html" />
+    <link rel="index" title="Index" href="../genindex_en.html" />
+    <link rel="search" title="Search" href="../search_en.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search_en.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro_en.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pd_logo2.svg" class="logo__image only-light" alt="Programmierung und Datenbanken - Home"/>
+    <script>document.write(`<img src="../_static/pd_logo2.svg" class="logo__image only-dark" alt="Programmierung und Datenbanken - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Fundamentals</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01c_Computerhardware_en.html">Computer Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01d_Programmiersprachen_en.html">Programming Languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02a_Softwarearchitektur_en.html">Software Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02b_Wissenspyramide_en.html">Knowledge Pyramid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02c_Datentypen_en.html">Data Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03a_Operatoren_en.html">Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03a_Verzweigung_en.html">Conditionals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03b_Schleifen_en.html">Loops</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modularization</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="04a_Funktionen_en.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_Rekursion_en.html">Recursive Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04c_Objects_en.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05a_Softwareentwurf_en.html">Software Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05b_Programmablauf_en.html">Program Flow</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="05c_Algorithmen_en.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06a_Exceptions_en.html">Exceptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06b_UnitTest_en.html">Unit Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07a_Module_en.html">Modularization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Databases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="09_Datenhaltung_en.html">Handling Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10a_Datenbanktypen_en.html">Database Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10b_RelationaleDatenbanken_en.html">Relational Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10c_Datenbanken_SQL_Select_en.html">Analyze Tables with SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11a_Datenbanken_Entwurf_en.html">Design of Relational Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11b_Datenbanken_SQL_Create_en.html">Create Tables with SQL</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<a href="10b_RelationaleDatenbanken.html" class="button btn btn-sm" title="en" data-bs-placement="bottom" data-bs-toggle="tooltip"><span class="btn__icon-container"><i class="fas fa-language "></i></span></a><div  class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/lectures/10b_RelationaleDatenbanken_en.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Relational Databases</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slides-pdf"><a href="/lec_slides/10b_RelationaleDatenbanken_en.slides.html">Slides</a>/<a href="/pdf/slides/10b_RelationaleDatenbanken_en.pdf">PDF</a></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-relational-databases">Introduction to Relational Databases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-structure-and-basic-concepts">Table structure and basic concepts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unique-keys">Unique Keys</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integrity-constraints-and-data-quality">Integrity constraints and data quality</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="relational-databases">
+<h1>Relational Databases<a class="headerlink" href="#relational-databases" title="Link to this heading">#</a></h1>
+<figure class="mj-tile-band">
+    <img src='../_images/10b_RelationaleDatenbanken/mj_title_band.jpg'>
+    <figcaption>Midjourney: Tabular Relief, ref. Ben Nicholson</figcaption>
+</figure>
+<blockquote>
+<div><p>If you think you understand SQL, you’re probably wrong.</p>
+<p>— C. J. Date</p>
+</div></blockquote>
+<section id="slides-pdf">
+<h2><a href="/lec_slides/10b_RelationaleDatenbanken_en.slides.html">Slides</a>/<a href="/pdf/slides/10b_RelationaleDatenbanken_en.pdf">PDF</a><a class="headerlink" href="#slides-pdf" title="Link to this heading">#</a></h2>
+<iframe src="/lec_slides/10b_RelationaleDatenbanken_en.slides.html" width="750" height="500"></iframe></section>
+<section id="introduction-to-relational-databases">
+<h2>Introduction to Relational Databases<a class="headerlink" href="#introduction-to-relational-databases" title="Link to this heading">#</a></h2>
+<p>Relational databases form the foundation of modern information systems and are indispensable in today’s engineering practice. A relational database is a database system that stores information in tables, where the data are organized as tuples and each column has a defined data type. This structured approach enables engineers to efficiently manage complex data sets and to relate them in a meaningful way.</p>
+<div class="alert alert-block alert-success">
+<b>📘 Definition: Relational Database</b>
+<p>A relational database is a <em>database system</em> that stores information in <em>tables</em> (relations), where the data are organized as <em>tuples</em> (rows) and each column (attribute) has a defined data type.</p>
+</div>
+<p>The term “relation” originates from mathematics and denotes a table with all its data rows. A relational database thus consists of a collection of tables that are logically connected. For engineers, this means, for example, that project data, bills of materials, and cost estimates can be stored in separate, but linked, tables.</p>
+</section>
+<section id="table-structure-and-basic-concepts">
+<h2>Table structure and basic concepts<a class="headerlink" href="#table-structure-and-basic-concepts" title="Link to this heading">#</a></h2>
+<p>Each table in a relational database has a unique name (<em>Relationennamen</em>), which describes its content. The <em>Relation</em> itself refers to the set of all data tuples in this table. A <em>Tupel</em> corresponds to a single row and consists of a sequence of attribute values. The meaning of these values is defined by the <em>Relationenschema</em>, which defines the column names and their order.</p>
+<div class="flex-row">
+  <div class="col1"></div>
+  <div class="col2"> 
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute 1</p></th>
+<th class="head"><p>Attribute 2</p></th>
+<th class="head"><p>Attribute 3</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Attribute value</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+</tr>
+<tr class="row-odd"><td><p>Attribute value</p></td>
+<td><p>…</p></td>
+<td><p>…</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+  </div>
+  <div class="col1"></div>
+</div>
+<p>In environmental engineering, a table ‘Measurement Stations’ could, for example, contain information about various monitoring locations. Each row would represent a specific measurement station, while the columns describe properties such as location, installation date, or sensor type.</p>
+</section>
+<section id="unique-keys">
+<h2>Unique Keys<a class="headerlink" href="#unique-keys" title="Link to this heading">#</a></h2>
+<p>Relational databases are built on fixed principles. Information is typically spread across different tables (construction sites, addresses, orders, etc.) and must be linked to derive actionable knowledge. This is done via <em>key attributes</em>. These are special columns that serve to uniquely identify records. These attributes are uniquely assignable and exist in the table <em>only once</em>, which enables reliable identification of each tuple. Row numbers are not suitable as keys, since they can be altered during delete operations and thus lose their uniqueness.</p>
+<p>Keys can be defined as a single attribute or consist of a set of attributes. The most common are:</p>
+<ul class="simple">
+<li><p><em>Single attribute</em> or <em>a set of attributes</em></p></li>
+<li><p><em>Unique ID (UID)</em> - single attribute</p></li>
+<li><p><em>Globally Unique Identifiers (GUID)</em> - globally unique</p></li>
+<li><p><em>UUID</em> (universally unique identifier) - ISO standard</p></li>
+</ul>
+<p>The strength of relational databases lies in the ability to connect tables via keys. The keys of a table are called the <em>Primary Key</em>, while keys from other tables act as <em>Foreign Keys</em>. The foreign key always references the primary key in the other table.</p>
+<p>This relationship can be illustrated with the example of municipalities and buildings. The Buildings table contains, in addition to its own BuildingID, the MunicipalityID as a Foreign Key. This creates a logical connection to the Municipalities table without repeating municipality information in the Buildings table. A civil engineer can, for example, find all hotels in Dummerstorf by querying buildings with the type “Hotel” and the corresponding MunicipalityID.</p>
+<div class="flex-row">
+  <div class="col1">
+<p><strong>Municipalities Table</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>MunicipalityID</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Population</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>Dummerstorf</p></td>
+<td><p>7,329</p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td><p>Graal-Müritz</p></td>
+<td><p>4,278</p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td><p>Sanitz</p></td>
+<td><p>5,831</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br/> Primary Key: MunicipalityID</p>
+  </div>
+  <div class="col1"> 
+<p><strong>Buildings Table</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>BuildingID</p></th>
+<th class="head"><p>BuildingType</p></th>
+<th class="head"><p>MunicipalityID</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>5000</p></td>
+<td><p>Gas Station</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="row-odd"><td><p>5001</p></td>
+<td><p>Hotel</p></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-even"><td><p>5002</p></td>
+<td><p>Church</p></td>
+<td><p>2</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br/> Foreign Key: MunicipalityID</p>
+  </div>
+</div></section>
+<section id="integrity-constraints-and-data-quality">
+<h2>Integrity constraints and data quality<a class="headerlink" href="#integrity-constraints-and-data-quality" title="Link to this heading">#</a></h2>
+<p>Keys define important integrity constraints that ensure data quality and consistency. Primary keys guarantee the <em>local integrity</em> of individual tables by preventing identical records from being stored more than once. Foreign keys, on the other hand, safeguard the <em>global integrity</em> of the entire database system by ensuring that all references between tables remain valid.</p>
+<p>For engineers, this integrity is crucial. In a construction database, for example, every reference to a building material must point to an existing material. An invalid reference could lead to errors in cost calculation or material procurement. Equally critical in environmental engineering is the correct mapping of measurement data to their source stations to avoid drawing incorrect conclusions about environmental conditions.</p>
+<p>Thus, the tables are related via keys, creating a cohesive and consistent data model that forms the foundation for reliable engineering decisions.</p>
+</section>
+<section id="quiz">
+<h2>Quiz<a class="headerlink" href="#quiz" title="Link to this heading">#</a></h2>
+<div class="quizdown">    ---
+    shuffleQuestions: true
+    shuffleAnswers: true
+    ---
+
+    ### Which Python packages are used to load CSV data from the Internet?
+
+    - [x] `urllib` and `pandas`
+    - [ ] `requests` and `numpy`
+    - [ ] `json` and `matplotlib`
+    - [ ] `sqlite3` and `os`
+
+    ### What is SQL?
+    - [x] A language for querying and manipulating databases
+    - [ ] A program for data visualization
+    - [ ] A programming language like Python
+    - [ ] A data format like JSON
+
+    ### What is SQLite?
+
+    - [x] A local relational database without a server
+    - [ ] A cloud database service
+    - [ ] A NoSQL database system
+    - [ ] A data visualization tool
+
+    ### Sort the following lines for saving a Pandas table to SQLite:
+
+    ```python
+    import sqlite3
+    import pandas as pd
+    ```
+    1. `df = pd.DataFrame({&#x27;col1&#x27;: [1, 2], &#x27;col2&#x27;: [3, 4]})`
+    2. `con = sqlite3.connect(&quot;test.sqlite&quot;)`
+    3. `df.to_sql(&quot;tabelle&quot;, con, if_exists=&quot;replace&quot;)`
+
+    ### Which error is in this example?
+
+    ```python
+    con = sqlite3.connect(&quot;test.sqlite&quot;)
+    df.to_sql(&quot;tabelle&quot;, con, if_exists=&quot;append&quot;)
+    ```
+
+    - [ ] `sqlite3` is not imported
+    - [ ] The database name is too short
+    - [x] No error - the code is correct
+    - [ ] `to_sql` does not exist
+
+    ### What does the SQL command `SELECT * FROM baustellen;` do?
+
+    - [ ] Deletes all data from the table
+    - [x] Returns all columns and rows of the table
+    - [ ] Creates a new table
+    - [ ] Counts the rows in the table
+
+
+    ### How do you execute an SQL command in Python?
+
+    - [x] With `cur.execute(sql)` after creating a cursor
+    - [ ] With `con.run(sql)`
+    - [ ] With `sqlite3.query(sql)`
+    - [ ] With `pd.sql(sql)`
+
+
+    ### Sort the following lines for an SQL query:
+
+    ```python
+    con = sqlite3.connect(&quot;test.sqlite&quot;)
+    ```
+
+    1. `cur = con.cursor()`
+    2. `sql = &#x27;SELECT * FROM tabelle;&#x27;`
+    3. `for row in cur.execute(sql):`
+    4. `    print(row)`
+
+    ### Which SQL command filters Baustellen with a construction start date from 2023?
+
+    - [ ] `FILTER baubeginn &gt;= &#x27;2023-01-01&#x27;`
+    - [x] `WHERE baubeginn &gt;= &#x27;2023-01-01 00:00:00+01&#x27;`
+    - [ ] `IF baubeginn &gt;= &#x27;2023-01-01&#x27;`
+    - [ ] `SELECT baubeginn &gt;= &#x27;2023-01-01&#x27;`
+
+    ### How do you combine multiple conditions in SQL?
+
+    - [x] With `AND`, `OR`, `NOT`
+    - [ ] With `&amp;&amp;`, `||`, `!`
+    - [ ] With `+`, `-`, `*`
+    - [ ] With `COMBINE`, `MERGE`, `JOIN`
+
+
+    ### Which error is in this SQL example?
+
+    ```sql
+    SELECT * FROM baustellen
+    WHERE baubeginn = &#x27;2023-01-01&#x27; AND bauende = &#x27;2024-01-01&#x27;
+    ```
+
+    - [ ] `AND` is not allowed
+    - [ ] Date format is wrong
+    - [x] No error - the code is correct
+    - [ ] `WHERE` must be at the end
+
+
+    ### What does the SQL function `count(*)` do?
+
+    - [ ] Sums all values
+    - [x] Counts the number of rows
+    - [ ] Finds the maximum value
+    - [ ] Calculates the average
+
+
+    ### Which aggregate functions are in SQL?
+
+    - [x] `min()`, `max()`, `avg()`, `sum()`, `count()`
+    - [ ] `first()`, `last()`, `middle()`
+    - [ ] `add()`, `subtract()`, `multiply()`
+    - [ ] `top()`, `bottom()`, `center()`
+
+
+    ### Sort the following parts of an SQL aggregate query:
+
+    1. `SELECT sparte, count(*), avg(baudauer)`
+    2. `FROM baustellen`
+    3. `GROUP BY sparte`
+
+
+    ### What does `GROUP BY sparte` do in an SQL query?
+
+    - [ ] Sorts by category
+    - [x] Groups rows with the same category
+    - [ ] Filters by category
+    - [ ] Deletes duplicate categories
+
+
+    ### How do you sort results in SQL in descending order?
+
+    - [ ] `SORT BY spalte DOWN`
+    - [x] `ORDER BY spalte DESC`
+    - [ ] `ARRANGE BY spalte REVERSE`
+    - [ ] `DESCEND BY spalte`
+
+
+    ### What does `LIMIT 3` do in an SQL query?
+
+    - [ ] Limits to 3 columns
+    - [x] Returns at most 3 result rows
+    - [ ] Sorts the first 3 entries
+    - [ ] Filters for values smaller than 3
+
+
+    ### Which error is in this SQL example?
+
+    ```sql
+    SELECT sparte, count(*)
+    FROM baustellen
+    ORDER BY count(*)
+    GROUP BY sparte
+    ```
+
+    - [x] `ORDER BY` must come after `GROUP BY`
+    - [ ] `count(*)` cannot be sorted
+    - [ ] `GROUP BY` is in the wrong position
+    - [ ] A `WHERE` is missing
+
+
+    ### What does a `JOIN` do in SQL?
+
+    - [ ] Combines columns of a table
+    - [x] Joins data from multiple tables
+    - [ ] Sorts table data
+    - [ ] Deletes duplicate entries
+
+
+    ### Why are table prefixes like `b.spalte` used in JOINs?
+
+    - [ ] To beautify the code
+    - [x] To uniquely identify columns with the same name
+    - [ ] To speed up the query
+    - [ ] For error handling
+
+
+    ### What does `DISTINCT` do in an SQL query?
+
+    - [ ] Sorts the results
+    - [ ] Limits the number of results
+    - [x] Removes duplicate rows from the results
+    - [ ] Joins multiple tables
+
+
+    ### What is the difference between INNER JOIN and LEFT JOIN?
+    - [x] INNER JOIN returns only matching rows, LEFT JOIN returns all rows from the left table
+    - [ ] LEFT JOIN returns only matching rows, INNER JOIN returns all rows from the left table
+    - [ ] There is no difference, both are the same
+    - [ ] INNER JOIN is faster than LEFT JOIN
+
+
+    ### Sort the following parts of a JOIN query:
+
+    1. `SELECT b.spalte1, a.spalte2`
+    2. `FROM baustellen AS b`
+    3. `JOIN adressenliste AS a`
+    4. `WHERE b.id = a.id`
+
+
+    ### What is the difference between different JOIN types?
+
+    - [x] They determine which rows are returned when there is no match
+    - [ ] They influence the speed of the query
+    - [ ] They change the sorting of the results
+    - [ ] They determine the number of joined tables
+
+
+    ### Which error is in this JOIN example?
+
+    ```sql
+    SELECT * FROM baustellen
+    NATURAL JOIN adressenliste, gemeinden
+    ```
+
+    - [ ] `NATURAL JOIN` does not exist
+    - [ ] Too many tables in the JOIN
+    - [x] Potential cross-join due to multiple tables without explicit conditions
+    - [ ] Falsche Syntax bei `NATURAL JOIN`
+
+</div></section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./lectures"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slides-pdf"><a href="/lec_slides/10b_RelationaleDatenbanken_en.slides.html">Slides</a>/<a href="/pdf/slides/10b_RelationaleDatenbanken_en.pdf">PDF</a></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#introduction-to-relational-databases">Introduction to Relational Databases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-structure-and-basic-concepts">Table structure and basic concepts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#unique-keys">Unique Keys</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integrity-constraints-and-data-quality">Integrity constraints and data quality</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Joern Ploennigs, AI 4 Sustainable Construction, University of Rostock
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright CC-BY-NC-SA 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

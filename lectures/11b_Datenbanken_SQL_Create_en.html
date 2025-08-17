@@ -1,0 +1,1225 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Create tables with SQL &#8212; Programmierung und Datenbanken</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d8a2add5" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css?v=062df064" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-menu/quarto-menu.css?v=a9b70b88" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-menu/menu.css?v=b1df3480" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/highlight/monokai.css?v=075166d3" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/highlight/zenburn.css?v=83d5745d" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/style.css?v=6050ce3b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/quarto-line-highlight/line-highlight.css?v=52b149a6" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/quarto-support/footer.css?v=53995862" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css?v=124a15ac" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/v4-shims.css?v=1b0e564b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/solid.css?v=e0521a22" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/brands.css?v=7dcd769b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/regular.css?v=0b430bdf" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/v4-shims.min.css?v=898855d1" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/svg-with-js.css?v=aac53de5" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/fontawesome.css?v=d504f742" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script src="https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"></script>
+    <script>quizdown.init({"start_on_load": true, "shuffle_answers": true, "shuffle_questions": false, "primary_color": "#FF851B", "secondary_color": "#DDDDDD", "text_color": "black", "locale": "de", "quizdown_js": "https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"});</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/11b_Datenbanken_SQL_Create_en';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-menu/quarto-menu.js?v=b4fc9030"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-menu/menu.js?v=27134a44"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/highlight.esm.js?v=1254c8f3"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/highlight.js?v=d8e1bd11"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/plugin.js?v=de14e947"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/markdown.esm.js?v=c1d1720c"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/plugin.js?v=b7c888a0"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/markdown.js?v=96b9265a"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-chalkboard/plugin.js?v=5c29cd4a"></script>
+    <script src="../_static/styles/revealjs/plugin/quarto-line-highlight/line-highlight.js?v=1b7b3781"></script>
+    <script src="../_static/styles/revealjs/plugin/math/katex.js?v=a56d0b0a"></script>
+    <script src="../_static/styles/revealjs/plugin/math/mathjax2.js?v=61c34cb4"></script>
+    <script src="../_static/styles/revealjs/plugin/math/mathjax3.js?v=aa10c317"></script>
+    <script src="../_static/styles/revealjs/plugin/math/math.esm.js?v=4432b676"></script>
+    <script src="../_static/styles/revealjs/plugin/math/math.js?v=fdaf90ea"></script>
+    <script src="../_static/styles/revealjs/plugin/math/plugin.js?v=62b4f3c3"></script>
+    <script src="../_static/styles/revealjs/plugin/search/search.esm.js?v=755e6b2e"></script>
+    <script src="../_static/styles/revealjs/plugin/search/search.js?v=fc149e99"></script>
+    <script src="../_static/styles/revealjs/plugin/search/plugin.js?v=99bfb13f"></script>
+    <script src="../_static/styles/revealjs/plugin/quarto-support/support.js?v=1448896a"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/notes.js?v=d900d418"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/notes.esm.js?v=e3d88def"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/plugin.js?v=c6bed375"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/zoom.js?v=2fef532c"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/zoom.esm.js?v=c566db7e"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/plugin.js?v=a47a6514"></script>
+    <script src="../_static/styles/revealjs/plugin/pdf-export/pdfexport.js?v=c7b6e01c"></script>
+    <link rel="canonical" href="https://code-book.ai4sc-lehre.auf.uni-rostock.de/lectures/11b_Datenbanken_SQL_Create_en.html" />
+    <link rel="index" title="Index" href="../genindex_en.html" />
+    <link rel="search" title="Search" href="../search_en.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search_en.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro_en.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pd_logo2.svg" class="logo__image only-light" alt="Programmierung und Datenbanken - Home"/>
+    <script>document.write(`<img src="../_static/pd_logo2.svg" class="logo__image only-dark" alt="Programmierung und Datenbanken - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Fundamentals</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01c_Computerhardware_en.html">Computer Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01d_Programmiersprachen_en.html">Programming Languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02a_Softwarearchitektur_en.html">Software Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02b_Wissenspyramide_en.html">Knowledge Pyramid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02c_Datentypen_en.html">Data Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03a_Operatoren_en.html">Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03a_Verzweigung_en.html">Conditionals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03b_Schleifen_en.html">Loops</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modularization</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="04a_Funktionen_en.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_Rekursion_en.html">Recursive Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04c_Objects_en.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05a_Softwareentwurf_en.html">Software Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05b_Programmablauf_en.html">Program Flow</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="05c_Algorithmen_en.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06a_Exceptions_en.html">Exceptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06b_UnitTest_en.html">Unit Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07a_Module_en.html">Modularization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Databases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="09_Datenhaltung_en.html">Handling Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10a_Datenbanktypen_en.html">Database Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10b_RelationaleDatenbanken_en.html">Relational Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10c_Datenbanken_SQL_Select_en.html">Analyze Tables with SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11a_Datenbanken_Entwurf_en.html">Design of Relational Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11b_Datenbanken_SQL_Create_en.html">Create Tables with SQL</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<a href="11b_Datenbanken_SQL_Create.html" class="button btn btn-sm" title="en" data-bs-placement="bottom" data-bs-toggle="tooltip"><span class="btn__icon-container"><i class="fas fa-language "></i></span></a><div  class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/lectures/11b_Datenbanken_SQL_Create_en.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Create tables with SQL</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slides-pdf"><a href="/lec_slides/11b_Datenbanken_SQL_Create_en.slides.html">Slides</a>/<a href="/pdf/slides/11b_Datenbanken_SQL_Create_en.pdf">PDF</a></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-tables-with-sql">Implement Tables with SQL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-data">Add data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#delete-data">Delete data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#renaming-and-modifying-tables">Renaming and Modifying Tables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#delete-tables">Delete tables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#note-on-storing-tables-in-sqlite-with-pandas">Note on storing tables in SQLite with Pandas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="create-tables-with-sql">
+<h1>Create tables with SQL<a class="headerlink" href="#create-tables-with-sql" title="Link to this heading">#</a></h1>
+<figure class="mj-tile-band">
+    <img src='../_images/11b_Datenbanken_SQL_Create/mj_title_band.jpg'>
+    <figcaption>Midjourney: The creation of SQL, ref. Michelangelo</figcaption>
+</figure>
+<blockquote>
+<div><p>The problem with SQL is that it pretends to implement the relational model, but doesn’t.</p>
+<p>— David McGoveran</p>
+</div></blockquote>
+<section id="slides-pdf">
+<h2><a href="/lec_slides/11b_Datenbanken_SQL_Create_en.slides.html">Slides</a>/<a href="/pdf/slides/11b_Datenbanken_SQL_Create_en.pdf">PDF</a><a class="headerlink" href="#slides-pdf" title="Link to this heading">#</a></h2>
+<iframe src="/lec_slides/11b_Datenbanken_SQL_Create_en.slides.html" width="750" height="500"></iframe></section>
+<section id="implement-tables-with-sql">
+<h2>Implement Tables with SQL<a class="headerlink" href="#implement-tables-with-sql" title="Link to this heading">#</a></h2>
+<p>SQL not only allows us to query data from existing tables, but also to create new tables and modify them. We want to use this functionality in the following to implement our logical design for the geometry objects.</p>
+<p>For this, we will use SQLite again and create a new database <code class="docutils literal notranslate"><span class="pre">geometry.sqlite</span></code>. We will also set up a cursor <code class="docutils literal notranslate"><span class="pre">cur</span></code> directly to execute SQL commands on the database.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
+
+<span class="c1"># Create a SQL connection to our SQLite database</span>
+<span class="n">con</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;geometry.sqlite&quot;</span><span class="p">)</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">con</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>First, we must map the generic data types of the logical design to the concrete data types of SQLite. In principle, data types differ somewhat between DBMSs, and one must always consider which data types are best suited. SQLite is limited to a relatively small set of data types that align well with Python’s primitive data types. The following table compares SQLite’s data types with Python.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p></p></th>
+<th class="head"><p>SQLite</p></th>
+<th class="head"><p>Python</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Boolean</p></td>
+<td><p>(INTEGER)</p></td>
+<td><p>bool</p></td>
+</tr>
+<tr class="row-odd"><td><p>Integer</p></td>
+<td><p>INTEGER</p></td>
+<td><p>int</p></td>
+</tr>
+<tr class="row-even"><td><p>Floating-Point Number</p></td>
+<td><p>REAL</p></td>
+<td><p>float</p></td>
+</tr>
+<tr class="row-odd"><td><p>Interprets arbitrary input data as a number</p></td>
+<td><p>NUMERIC</p></td>
+<td><p>-</p></td>
+</tr>
+<tr class="row-even"><td><p>Text string stored in UTF-8 or UTF-16</p></td>
+<td><p>TEXT</p></td>
+<td><p>str</p></td>
+</tr>
+<tr class="row-odd"><td><p>Arbitrary block of binary data</p></td>
+<td><p>BLOB</p></td>
+<td><p>bytes</p></td>
+</tr>
+<tr class="row-even"><td><p>No data</p></td>
+<td><p>NULL</p></td>
+<td><p>None</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>One feature here is the <code class="docutils literal notranslate"><span class="pre">NUMERIC</span></code> data type, which is intended to automatically convert numbers from text input into the appropriate numeric representation in the database. The <code class="docutils literal notranslate"><span class="pre">NULL</span></code> value is not a data type in the table itself; it is used when loading data into tables to convey missing values.</p>
+<p>With these data types and the ER diagram of the logical design model above, we can now create our tables. This is done in SQL with the <code class="docutils literal notranslate"><span class="pre">CREATE</span> <span class="pre">TABLE</span></code> command, to which the table name (entity name) follows, and then in parentheses the individual attributes. For the five entities, the following SQL commands result.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">CREATE TABLE Points (</span>
+<span class="s1">  point_id INTEGER,</span>
+<span class="s1">  x REAL,</span>
+<span class="s1">  y REAL</span>
+<span class="s1">);</span>
+
+<span class="s1">CREATE TABLE Lines (</span>
+<span class="s1">  lines_id INTEGER,</span>
+<span class="s1">  start INTEGER,</span>
+<span class="s1">  end INTEGER</span>
+<span class="s1">);</span>
+
+<span class="s1">CREATE TABLE PolygonTypes (</span>
+<span class="s1">  polygontype_id INTEGER,</span>
+<span class="s1">  name TEXT</span>
+<span class="s1">);</span>
+
+<span class="s1">CREATE TABLE Polygons (</span>
+<span class="s1">  polygon_id INTEGER,</span>
+<span class="s1">  polygontype INTEGER</span>
+<span class="s1">);</span>
+
+<span class="s1">CREATE TABLE PolygonPoints (</span>
+<span class="s1">  polypoint_id INTEGER,</span>
+<span class="s1">  polygon_id INTEGER,</span>
+<span class="s1">  point_id INTEGER</span>
+<span class="s1">);</span>
+<span class="s1">&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In principle, we could already send these commands to the SQLite database and create the tables. However, the declaration of the primary and foreign keys as well as the <code class="docutils literal notranslate"><span class="pre">NOT</span> <span class="pre">NULL</span></code> constraints is still missing here.</p>
+<p>To do this, we mark the lines of the attributes that serve as primary keys with the annotation <code class="docutils literal notranslate"><span class="pre">PRIMARY</span> <span class="pre">KEY</span></code>. In our example we define the key as <code class="docutils literal notranslate"><span class="pre">AUTOINCREMENT</span></code>, meaning that new rows added without a key are automatically assigned a key.</p>
+<p>We define the foreign keys as an additional constraint (condition) by specifying which attributes are foreign keys and on which table and key attributes they refer. The foreign key <code class="docutils literal notranslate"><span class="pre">polytype</span></code> in the table <code class="docutils literal notranslate"><span class="pre">Polygons</span></code> for instance references the primary key <code class="docutils literal notranslate"><span class="pre">polytype_id</span></code> in the table <code class="docutils literal notranslate"><span class="pre">PolygonTypes</span></code>. Multiple occurrences are possible here, as the example for the <code class="docutils literal notranslate"><span class="pre">start</span></code> and <code class="docutils literal notranslate"><span class="pre">end</span></code> Point in the table <code class="docutils literal notranslate"><span class="pre">Lines</span></code> shows.</p>
+<p>We continue to annotate all attributes and foreign keys that must not be null with <code class="docutils literal notranslate"><span class="pre">NOT</span> <span class="pre">NULL</span></code>. Primary keys must never be null, which is why we do not need this annotation.</p>
+<p>Thus, our completed SQL script for creating all tables is:</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">CREATE TABLE Points (</span>
+<span class="s1">  point_id INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="s1">  x REAL NOT NULL,</span>
+<span class="s1">  y REAL NOT NULL</span>
+<span class="s1">);</span>
+
+<span class="s1">CREATE TABLE Lines (</span>
+<span class="s1">  lines_id INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="s1">  start INTEGER NOT NULL,</span>
+<span class="s1">  end INTEGER NOT NULL,</span>
+<span class="s1">  FOREIGN KEY(start,end) REFERENCES Points(point_id,point_id)</span>
+<span class="s1">);</span>
+
+<span class="s1">CREATE TABLE PolygonTypes (</span>
+<span class="s1">  polytype_id INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="s1">  name TEXT</span>
+<span class="s1">);</span>
+
+<span class="s1">CREATE TABLE Polygons (</span>
+<span class="s1">  polygon_id INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="s1">  polytype INTEGER,</span>
+<span class="s1">  FOREIGN KEY(polytype) REFERENCES PolygonTypes(polytype_id)</span>
+<span class="s1">);</span>
+
+<span class="s1">CREATE TABLE PolygonPoints (</span>
+<span class="s1">  polypoint_id INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="s1">  polygon_id INTEGER,</span>
+<span class="s1">  point_id INTEGER,</span>
+<span class="s1">  FOREIGN KEY(polygon_id) REFERENCES Polygons(polygon_id),</span>
+<span class="s1">  FOREIGN KEY(point_id) REFERENCES Points(point_id)</span>
+<span class="s1">);</span>
+<span class="s1">&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Since this SQL script contains multiple commands, we can’t send it to the database with <code class="docutils literal notranslate"><span class="pre">cur.execute(sql)</span></code>, but we use</p>
+<div class="cell tag_remove-output tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cur</span><span class="o">.</span><span class="n">executescript</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To verify that our tables have been created, we can query all tables in the SQLite database with:</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s2">&quot;SELECT name FROM sqlite_schema WHERE type=&#39;table&#39; ORDER BY name;&quot;</span>
+
+<span class="n">rows</span><span class="o">=</span><span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(&#39;Lines&#39;,)
+(&#39;Points&#39;,)
+(&#39;PolygonPoints&#39;,)
+(&#39;PolygonTypes&#39;,)
+(&#39;Polygons&#39;,)
+(&#39;sqlite_sequence&#39;,)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="add-data">
+<h2>Add data<a class="headerlink" href="#add-data" title="Link to this heading">#</a></h2>
+<p>In the next step, we want to load some values into the database. This is done with the SQL command <code class="docutils literal notranslate"><span class="pre">INSERT</span> <span class="pre">INTO</span></code> with the table name and the values to be inserted, in exactly the order of the previously declared columns (that is, point_id, x, y).</p>
+<p>For example, we want two points with coordinates (54.083336, 12.108811) and (12.094167, 54.075211). We also specify the primary key values as 1 and 2:</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">INSERT INTO Points VALUES(1, 54.083336, 12.108811);</span>
+<span class="s2">INSERT INTO Points VALUES(2, 12.094167, 54.075211);</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-output tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cur</span><span class="o">.</span><span class="n">executescript</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This primary index must be unique. If we try to create the same points again, the database will return an error indicating that the points already exist.</p>
+<div class="cell tag_raises-exception tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cur</span><span class="o">.</span><span class="n">executescript</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">IntegrityError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">cur</span><span class="o">.</span><span class="n">executescript</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+
+<span class="ne">IntegrityError</span>: UNIQUE constraint failed: Points.point_id
+</pre></div>
+</div>
+</div>
+</div>
+<p>Should we deviate from the column order or omit values? This way we can also specify the column names to be written in the <code class="docutils literal notranslate"><span class="pre">INSERT</span></code> command. If we omit a column, it will be set to <code class="docutils literal notranslate"><span class="pre">NULL</span></code>, provided the column allows NULL values. Since we declared the primary key <code class="docutils literal notranslate"><span class="pre">point_id</span></code> as <code class="docutils literal notranslate"><span class="pre">AUTOINCREMENT</span></code> in the table declaration, we do not necessarily need to include it. A value will then be assigned to it automatically.</p>
+<div class="cell tag_remove-output tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s2">&quot;INSERT INTO Points(x, y) VALUES(54.083336, 12.108811);&quot;</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>However, we have a problem here: we don’t know the value, and thus can’t use it later as a foreign key. In Python, this is stored in the cursor under</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cur</span><span class="o">.</span><span class="n">lastrowid</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3
+</pre></div>
+</div>
+</div>
+</div>
+<p>Next, we want to create a line between the point (54.083336, 12.108811) and (12.094167, 54.075211). We can’t do this directly with the coordinates; instead we must use the foreign keys of the points that we assigned when creating them. So 1 and 2.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s2">&quot;INSERT INTO Lines(start, end) VALUES(1, 2);&quot;</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">lastrowid</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1
+</pre></div>
+</div>
+</div>
+</div>
+<p>Before we can create a polygon, we first need to declare the polygon type in the <code class="docutils literal notranslate"><span class="pre">PolygonTypes</span></code> table. For example, we say that the polygon type ‘Triangle’ exists with the primary key value 0.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;INSERT INTO PolygonTypes VALUES(0, &quot;Dreieck&quot;);&#39;</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">lastrowid</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0
+</pre></div>
+</div>
+</div>
+</div>
+<p>Now we create the entry for the polygon in the <code class="docutils literal notranslate"><span class="pre">Polygon</span></code> table. Here there is only the primary key, e.g., 33, and the foreign key 0 for the polygon type.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;INSERT INTO Polygons VALUES(33, 0);&#39;</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">lastrowid</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>33
+</pre></div>
+</div>
+</div>
+</div>
+<p>For example, if we try to create a polygon for a non-existent polygon type with the foreign key 6, the database will return an error message.</p>
+<div class="cell tag_raises-exception tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;INSERT INTO Polygons VALUES(66, 6);&#39;</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">lastrowid</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>66
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here you can see the database that safeguards data integrity and keeps us from entering incorrect data.</p>
+<p>However, our polygon is not yet fully defined, and we still need to link the points belonging to the polygon. We do this with three entries in the table <code class="docutils literal notranslate"><span class="pre">PolygonPoints</span></code>, specifying the new primary keys (331, 332, 333), the foreign key for the polygon 33, and the foreign keys for the three points (1, 2, 3).</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;INSERT INTO PolygonPoints VALUES(331, 33, 1);</span>
+<span class="s2">INSERT INTO PolygonPoints VALUES(332, 33, 2);</span>
+<span class="s2">INSERT INTO PolygonPoints VALUES(333, 33, 3);</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">executescript</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">lastrowid</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>66
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="delete-data">
+<h2>Delete data<a class="headerlink" href="#delete-data" title="Link to this heading">#</a></h2>
+<p>To delete entries from a table in SQL, you use the <code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">FROM</span></code> command with the table and a <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> clause that specifies which entries should be deleted. For example, if we want to delete the points that were just linked from the <code class="docutils literal notranslate"><span class="pre">PolygonPoints</span></code> table, we can write that we delete all rows where the referenced polygon has a <code class="docutils literal notranslate"><span class="pre">polygon_id</span></code> of 33.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s2">&quot;DELETE FROM PolygonPoints WHERE polygon_id=33;&quot;</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">lastrowid</span>  <span class="c1"># returns the most recently deleted row</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>333
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="renaming-and-modifying-tables">
+<h2>Renaming and Modifying Tables<a class="headerlink" href="#renaming-and-modifying-tables" title="Link to this heading">#</a></h2>
+<p>Sometimes it is necessary to back up tables or to ‘materialize’ SQL queries with a <code class="docutils literal notranslate"><span class="pre">SELECT</span></code>, i.e., to store them as a new table. For this we can use <code class="docutils literal notranslate"><span class="pre">CREATE</span> <span class="pre">TABLE</span> <span class="pre">...</span> <span class="pre">AS</span></code> with a <code class="docutils literal notranslate"><span class="pre">SELECT</span></code>. This is useful, for example, to create a copy of a table before making changes. Note</p>
+<div class="cell tag_remove-output tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s2">&quot;CREATE TABLE PointsCopy AS SELECT * FROM Points;&quot;</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>If you want to rename a table, you use the <code class="docutils literal notranslate"><span class="pre">ALTER</span> <span class="pre">TABLE</span> <span class="pre">...</span> <span class="pre">RENAME</span></code> command in SQL. To rename the table <code class="docutils literal notranslate"><span class="pre">Points</span></code> to <code class="docutils literal notranslate"><span class="pre">Punkte</span></code>, we write</p>
+<div class="cell tag_remove-output tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s2">&quot;ALTER TABLE Points RENAME TO Punkte;&quot;</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In a similar way, we can also rename columns in tables or add new columns. For example, if we want to add a new column to the polygon types that contains the maximum number of points, this is done as follows:</p>
+<div class="cell tag_remove-output tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s2">&quot;ALTER TABLE PolygonTypes ADD COLUMN maxPoints INTEGER DEFAULT 0;&quot;</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>It should be noted that this creates the column but doesn’t write any values. Therefore, we assign the default value of 0 to the column here using <code class="docutils literal notranslate"><span class="pre">DEFAULT</span> <span class="pre">0</span></code>.</p>
+</section>
+<section id="delete-tables">
+<h2>Delete tables<a class="headerlink" href="#delete-tables" title="Link to this heading">#</a></h2>
+<p>SQL also naturally provides a command to completely delete a table’s contents. If you want to delete only the data from a table while keeping the table’s definition (for example when you swap the data), you can use <code class="docutils literal notranslate"><span class="pre">DELETE</span> <span class="pre">FROM</span></code> without a <code class="docutils literal notranslate"><span class="pre">WHERE</span></code> clause. This is also called truncating a table.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s2">&quot;DELETE FROM PointsCopy;&quot;</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;sqlite3.Cursor at 0x108d5e0c0&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<p>If you want to drop a table entirely, you use the <code class="docutils literal notranslate"><span class="pre">DROP</span> <span class="pre">TABLE</span></code> statement. Here we use the optional <code class="docutils literal notranslate"><span class="pre">IF</span> <span class="pre">EXISTS</span></code> clause to ensure that the table is only dropped if it exists.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sql</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">DROP TABLE IF EXISTS PointsCopy;</span>
+<span class="s1">DROP TABLE IF EXISTS Punkte;</span>
+<span class="s1">DROP TABLE IF EXISTS Lines;</span>
+<span class="s1">DROP TABLE IF EXISTS PolygonTypes;</span>
+<span class="s1">DROP TABLE IF EXISTS Polygons;</span>
+<span class="s1">DROP TABLE IF EXISTS PolygonPoints;</span>
+<span class="s1">&#39;&#39;&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-output tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cur</span><span class="o">.</span><span class="n">executescript</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>That wraps up our foray into SQL for working with databases. Finally, we need to close the database connection with <code class="docutils literal notranslate"><span class="pre">close()</span></code>.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cur</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">con</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="note-on-storing-tables-in-sqlite-with-pandas">
+<h2>Note on storing tables in SQLite with Pandas<a class="headerlink" href="#note-on-storing-tables-in-sqlite-with-pandas" title="Link to this heading">#</a></h2>
+<div class="note docutils">
+<p>In the last exercise we created tables directly with Pandas in SQLite. This is certainly sensible when you want to quickly and securely store larger datasets in a database. However, it should be noted that the tables generated by Pandas do not define relationships with foreign keys, constraints (e.g., NOT NULL), or search indexes. The resulting tables are therefore by no means 3NF-compliant and not optimized for querying and storing large amounts of data in practical applications. It is always recommended to create a proper ER design. Create the tables with <code class="docutils literal notranslate"><span class="pre">CREATE</span></code> including all relations, constraints, and indexes, and only then load data into the existing tables with Pandas.</p>
+</div>
+</section>
+<section id="quiz">
+<h2>Quiz<a class="headerlink" href="#quiz" title="Link to this heading">#</a></h2>
+<div class="quizdown">    ---
+    shuffleQuestions: true
+    shuffleAnswers: true
+    ---
+
+
+    ### Which steps are part of the classic database design?
+
+    - [x] Requirements analysis, conceptual design, logical design
+    - [ ] Only conceptual and physical design
+    - [x] Physical design, implementation and testing
+    - [ ] Only implementation and maintenance
+
+
+    ### What is the main difference between conceptual and logical design?
+
+    - [x] Conceptual design is a rough design, logical is a detailed design
+    - [ ] Conceptual design uses SQL, logical does not
+    - [ ] There is no difference
+    - [ ] Logical design comes before conceptual
+
+
+    ### Sort the steps of database design in the correct order:
+
+    1. Requirements analysis
+    2. Conceptual design
+    3. Logical design
+    4. Physical design
+    5. Implementation and testing
+
+
+    ### What characterizes an entity in the UML notation for ER diagrams?
+
+    - [x] The annotation `&lt;&lt;Entity&gt;&gt;`
+    - [ ] The name `Entity`
+    - [ ] The annotation `&lt;Table&gt;`
+    - [ ] The special symbol `ER`
+    - [ ] No special designation
+
+
+    ### Which UML elements are NOT used in ER diagrams?
+
+    - [x] Methods and inheritance
+    - [ ] Attributes and classes
+    - [x] Polymorphism and encapsulation
+    - [ ] Associations
+
+
+    ### What does the symbol `&gt;&gt;` in a relation mean?
+
+    - [x] The relation is read from left to right
+    - [ ] The relation is bidirectional
+    - [ ] It is a notation error
+    - [ ] The relation is read from right to left
+
+
+    ### What does the cardinality &quot;1 to 0..*&quot; mean?
+
+    - [x] An entity can be linked to zero to many others
+    - [ ] An entity must be linked to at least one other
+    - [ ] Exactly one linkage is allowed
+    - [ ] The cardinality is invalid
+
+
+    ### In which cardinality are new tables for relations required?
+
+    - [ ] 1 to 1
+    - [ ] 1 to 0..1
+    - [x] 1 to 0..*
+    - [x] 1 to 1..*
+
+
+    ### What is the error in this ER diagram fragment?
+    ```
+    Person &gt;&gt;lives in&gt;&gt; Place
+    1                    1..*
+    ```
+
+    - [x] The reading direction doesn&#x27;t make sense for this cardinality
+    - [ ] People cannot live in places
+    - [ ] The notation is completely wrong
+    - [ ] Attributes are missing
+
+
+    ### What is the goal of normalization?
+
+    - [x] Minimize redundancies
+    - [x] Ensure data integrity
+    - [ ] Slow down queries
+    - [ ] Create more tables
+
+
+    ### What does the 1st Normal Form (1NF) require?
+
+    - [x] All attribute values are atomic
+    - [ ] All attributes are primary keys
+    - [x] No complex attributes like lists
+    - [ ] At least three tables
+
+
+    ### Which normal form is violated if customer data is stored directly in the invoice table?
+
+    - [ ] 1NF
+    - [x] 2NF
+    - [ ] 3NF
+    - [ ] No violation
+
+
+    ### Sort the normal forms by their strictness (from less to more strict):
+
+    1. 1NF (First Normal Form)
+    2. 2NF (Second Normal Form) 
+    3. 3NF (Third Normal Form)
+    4. BCNF (Boyce-Codd Normal Form)
+
+
+    ### What is the error in this table design?
+    ```sql
+    CREATE TABLE Customers (
+      id INTEGER,
+      name TEXT,
+      addresses LIST&lt;TEXT&gt;
+    )
+    ```
+
+    - [x] The attribute `addresses` violates 1NF (not atomic)
+    - [ ] The datatype INTEGER is incorrect
+    - [ ] A primary key is missing
+    - [ ] The table name is invalid
+
+
+    ### How is a 1:1 relation represented in tables?
+
+    - [x] By a foreign key in one of the tables
+    - [ ] By a separate relation table
+    - [ ] By duplicating all attributes
+    - [ ] Not at all, as it is invalid
+
+
+    ### When is a foreign key &quot;Nullable&quot;?
+
+    - [x] With cardinality 1 to 0..1
+    - [ ] With cardinality 1 to 1
+    - [x] If the relationship is optional
+    - [ ] Never
+
+
+    ### Sort these steps for normalizing a 1:n relation:
+
+    1. Create a new relation table
+    2. Add foreign keys to both original tables
+    3. Define the primary key for the relation table
+    4. Check cardinality
+
+
+    ### Which SQL command creates a new table?
+
+    - [x] CREATE TABLE
+    - [ ] INSERT TABLE
+    - [ ] NEW TABLE
+    - [ ] MAKE TABLE
+
+
+    ### What does AUTOINCREMENT do on a primary key?
+
+    - [x] Automatically assigns unique values
+    - [ ] Automatically deletes old entries
+    - [x] Facilitates inserting new records
+    - [ ] Prevents data changes
+
+
+    ### What is the error in this SQL code?
+    ```sql
+    CREATE TABLE Points (
+      point_id INTEGER PRIMARY KEY,
+      x REAL NOT NULL,
+      y REAL NOT NULL,
+      FOREIGN KEY(x) REFERENCES Lines(line_id)
+    )
+    ```
+
+    - [x] An attribute (x) cannot be both a coordinate and a foreign key
+    - [ ] REAL is not a valid data type
+    - [ ] PRIMARY KEY is misspelled
+    - [ ] NOT NULL is redundant
+
+
+    ### Sort these SQL commands in the logical order for creating a database:
+
+    1. CREATE TABLE for main entities
+    2. CREATE TABLE for foreign-key dependent tables  
+    3. INSERT seed data
+    4. INSERT linked data
+
+
+    ### With which SQL command do you add data?
+
+    - [x] INSERT INTO
+    - [ ] ADD DATA
+    - [ ] CREATE DATA
+    - [ ] PUT INTO
+
+
+    ### What happens with this SQL command?
+    ```sql
+    DELETE FROM Points WHERE x &gt; 50;
+    ```
+
+    - [x] All points with x-coordinate &gt; 50 are deleted
+    - [ ] The table Points is deleted
+    - [ ] Only the first found point is deleted
+    - [ ] There is a syntax error
+
+
+    ### Which error is in this INSERT statement?
+    ```sql
+    INSERT INTO Lines VALUES(1, 99, 100);
+    ```
+    *Assume the points with IDs 99 and 100 do not exist*
+
+    - [x] Foreign key constraint is violated
+    - [ ] Too many values provided
+    - [ ] INTEGER is not a valid data type
+    - [ ] INSERT is misspelled
+
+
+    ### Sort these steps for safe deletion of data:
+
+    1. Create a backup of the table
+    2. Test the DELETE statement with a WHERE condition
+    3. Perform the actual deletion
+    4. Verify the result
+
+
+    ### With which command do you rename a table?
+
+    - [x] ALTER TABLE ... RENAME TO
+    - [ ] CHANGE TABLE NAME
+    - [ ] RENAME TABLE
+    - [ ] UPDATE TABLE NAME
+
+
+    ### What is the difference between DELETE FROM table and DROP TABLE?
+
+    - [x] DELETE deletes only data, DROP deletes the entire table
+    - [ ] There is no difference
+    - [x] DROP also removes the table structure
+    - [ ] DELETE is faster
+
+
+    ### Which error is in this ALTER statement?
+    ```sql
+    ALTER TABLE Points ADD COLUMN z REAL;
+    ```
+    *Assume there is already data in the table*
+
+    - [ ] ADD COLUMN is wrong
+    - [ ] REAL is not a valid data type  
+    - [x] A DEFAULT value is missing for existing rows
+    - [ ] The column name z is too short
+
+
+    ### Sort these steps for safe table modification:
+
+    1. Create a backup of the table
+    2. Plan the ALTER statement
+    3. Apply the change
+    4. Check data integrity</div></section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./lectures"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slides-pdf"><a href="/lec_slides/11b_Datenbanken_SQL_Create_en.slides.html">Slides</a>/<a href="/pdf/slides/11b_Datenbanken_SQL_Create_en.pdf">PDF</a></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-tables-with-sql">Implement Tables with SQL</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#add-data">Add data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#delete-data">Delete data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#renaming-and-modifying-tables">Renaming and Modifying Tables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#delete-tables">Delete tables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#note-on-storing-tables-in-sqlite-with-pandas">Note on storing tables in SQLite with Pandas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Joern Ploennigs, AI 4 Sustainable Construction, University of Rostock
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright CC-BY-NC-SA 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1787 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Working with Files &#8212; Programmierung und Datenbanken</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d8a2add5" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/style.css?v=062df064" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-menu/quarto-menu.css?v=a9b70b88" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-menu/menu.css?v=b1df3480" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/highlight/monokai.css?v=075166d3" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/highlight/zenburn.css?v=83d5745d" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/style.css?v=6050ce3b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/quarto-line-highlight/line-highlight.css?v=52b149a6" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/quarto-support/footer.css?v=53995862" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css?v=124a15ac" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/v4-shims.css?v=1b0e564b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/solid.css?v=e0521a22" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/brands.css?v=7dcd769b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/regular.css?v=0b430bdf" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/v4-shims.min.css?v=898855d1" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/svg-with-js.css?v=aac53de5" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/revealjs/plugin/reveal-chalkboard/font-awesome/css/fontawesome.css?v=d504f742" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script async="async" kind="hypothesis" src="https://hypothes.is/embed.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script src="https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"></script>
+    <script>quizdown.init({"start_on_load": true, "shuffle_answers": true, "shuffle_questions": false, "primary_color": "#FF851B", "secondary_color": "#DDDDDD", "text_color": "black", "locale": "de", "quizdown_js": "https://cdn.jsdelivr.net/gh/bonartm/quizdown-js@latest/public/build/quizdown.js"});</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'lectures/09_Datenhaltung_en';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-menu/quarto-menu.js?v=b4fc9030"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-menu/menu.js?v=27134a44"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/highlight.esm.js?v=1254c8f3"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/highlight.js?v=d8e1bd11"></script>
+    <script src="../_static/styles/revealjs/plugin/highlight/plugin.js?v=de14e947"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/markdown.esm.js?v=c1d1720c"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/plugin.js?v=b7c888a0"></script>
+    <script src="../_static/styles/revealjs/plugin/markdown/markdown.js?v=96b9265a"></script>
+    <script src="../_static/styles/revealjs/plugin/reveal-chalkboard/plugin.js?v=5c29cd4a"></script>
+    <script src="../_static/styles/revealjs/plugin/quarto-line-highlight/line-highlight.js?v=1b7b3781"></script>
+    <script src="../_static/styles/revealjs/plugin/math/katex.js?v=a56d0b0a"></script>
+    <script src="../_static/styles/revealjs/plugin/math/mathjax2.js?v=61c34cb4"></script>
+    <script src="../_static/styles/revealjs/plugin/math/mathjax3.js?v=aa10c317"></script>
+    <script src="../_static/styles/revealjs/plugin/math/math.esm.js?v=4432b676"></script>
+    <script src="../_static/styles/revealjs/plugin/math/math.js?v=fdaf90ea"></script>
+    <script src="../_static/styles/revealjs/plugin/math/plugin.js?v=62b4f3c3"></script>
+    <script src="../_static/styles/revealjs/plugin/search/search.esm.js?v=755e6b2e"></script>
+    <script src="../_static/styles/revealjs/plugin/search/search.js?v=fc149e99"></script>
+    <script src="../_static/styles/revealjs/plugin/search/plugin.js?v=99bfb13f"></script>
+    <script src="../_static/styles/revealjs/plugin/quarto-support/support.js?v=1448896a"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/notes.js?v=d900d418"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/notes.esm.js?v=e3d88def"></script>
+    <script src="../_static/styles/revealjs/plugin/notes/plugin.js?v=c6bed375"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/zoom.js?v=2fef532c"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/zoom.esm.js?v=c566db7e"></script>
+    <script src="../_static/styles/revealjs/plugin/zoom/plugin.js?v=a47a6514"></script>
+    <script src="../_static/styles/revealjs/plugin/pdf-export/pdfexport.js?v=c7b6e01c"></script>
+    <link rel="canonical" href="https://code-book.ai4sc-lehre.auf.uni-rostock.de/lectures/09_Datenhaltung_en.html" />
+    <link rel="index" title="Index" href="../genindex_en.html" />
+    <link rel="search" title="Search" href="../search_en.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search_en.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro_en.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pd_logo2.svg" class="logo__image only-light" alt="Programmierung und Datenbanken - Home"/>
+    <script>document.write(`<img src="../_static/pd_logo2.svg" class="logo__image only-dark" alt="Programmierung und Datenbanken - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Fundamentals</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="01c_Computerhardware_en.html">Computer Hardware</a></li>
+<li class="toctree-l1"><a class="reference internal" href="01d_Programmiersprachen_en.html">Programming Languages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02a_Softwarearchitektur_en.html">Software Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02b_Wissenspyramide_en.html">Knowledge Pyramid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02c_Datentypen_en.html">Data Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03a_Operatoren_en.html">Operators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03a_Verzweigung_en.html">Conditionals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03b_Schleifen_en.html">Loops</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Modularization</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="04a_Funktionen_en.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04b_Rekursion_en.html">Recursive Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04c_Objects_en.html">Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05a_Softwareentwurf_en.html">Software Design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05b_Programmablauf_en.html">Program Flow</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="05c_Algorithmen_en.html">Algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06a_Exceptions_en.html">Exceptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06b_UnitTest_en.html">Unit Tests</a></li>
+<li class="toctree-l1"><a class="reference internal" href="07a_Module_en.html">Modularization</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Databases</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="09_Datenhaltung_en.html">Handling Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10a_Datenbanktypen_en.html">Database Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10b_RelationaleDatenbanken_en.html">Relational Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="10c_Datenbanken_SQL_Select_en.html">Analyze Tables with SQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11a_Datenbanken_Entwurf_en.html">Design of Relational Databases</a></li>
+<li class="toctree-l1"><a class="reference internal" href="11b_Datenbanken_SQL_Create_en.html">Create Tables with SQL</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<a href="09_Datenhaltung.html" class="button btn btn-sm" title="en" data-bs-placement="bottom" data-bs-toggle="tooltip"><span class="btn__icon-container"><i class="fas fa-language "></i></span></a><div  class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/lectures/09_Datenhaltung_en.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Working with Files</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slides-pdf"><a href="/lec_slides/09_Datenhaltung_en.slides.html">Slides</a>/<a href="/pdf/slides/09_Datenhaltung_en.pdf">PDF</a></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-files">Reading Files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-files">Writing files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#file-existence-test">File existence test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#list-files">List files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#delete-files">Delete files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-text-file-formats">Common text file formats</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#txt-files">TXT files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#json-files">JSON files</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geojson-files">GeoJSON files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#xml">XML</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#csv-files">CSV files</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-binary-file-formats">Typical binary file formats</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xls-files">XLS files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zip-files">ZIP files</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="working-with-files">
+<h1>Working with Files<a class="headerlink" href="#working-with-files" title="Link to this heading">#</a></h1>
+<figure class="mj-tile-band">
+    <img src='../_images/09_Datenhaltung/mj_title_band.jpg'>
+    <figcaption>Midjourney: Librarian, ref. Giuseppe Arcimboldo</figcaption>
+</figure>
+<blockquote>
+<div><p>We don’t have better algorithms. We just have more data.</p>
+<p>— Peter Norvig</p>
+</div></blockquote>
+<section id="slides-pdf">
+<h2><a href="/lec_slides/09_Datenhaltung_en.slides.html">Slides</a>/<a href="/pdf/slides/09_Datenhaltung_en.pdf">PDF</a><a class="headerlink" href="#slides-pdf" title="Link to this heading">#</a></h2>
+<iframe src="/lec_slides/09_Datenhaltung_en.slides.html" width="750" height="500"></iframe><p>In programs, data must be loaded and saved regularly. This is done on computers using files that are organized into directories. In the previous section on packages, we have already seen some examples that work with files. We now want to explore them in more detail.</p>
+</section>
+<section id="reading-files">
+<h2>Reading Files<a class="headerlink" href="#reading-files" title="Link to this heading">#</a></h2>
+<p>A typical task is loading files. For this, Python provides the <code class="docutils literal notranslate"><span class="pre">open()</span></code> function with the <code class="docutils literal notranslate"><span class="pre">r</span></code> (read) flag. For this, you pass to the <code class="docutils literal notranslate"><span class="pre">open()</span></code> function the path of the file to be loaded and also the mode of the file, i.e., whether the file is a text file <code class="docutils literal notranslate"><span class="pre">t</span></code> or a binary file <code class="docutils literal notranslate"><span class="pre">b</span></code>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">open()</span></code> function is usually used within the <code class="docutils literal notranslate"><span class="pre">with</span></code> construct, which assigns the file to a variable (<code class="docutils literal notranslate"><span class="pre">fi</span></code>) and automatically closes the file after the block ends. To read the contents of the file, we use the <code class="docutils literal notranslate"><span class="pre">read()</span></code> method of the file object.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;geometry/shapes/Line.py&quot;</span><span class="p">,</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
+    <span class="n">file_contents</span> <span class="o">=</span> <span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">fi</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Type of variable </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">file_contents</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">file_contents</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>File type &lt;class &#39;_io.TextIOWrapper&#39;&gt;
+Type of variable &lt;class &#39;str&#39;&gt;
+
+from geometry.points.ImmutablePoint import ImmutablePoint
+
+class Line:
+    def __init__(self, start: ImmutablePoint, end: ImmutablePoint):
+        if not isinstance(start, ImmutablePoint):
+            raise TypeError(&quot;start not of type ImmutablePoint&quot;)
+        if not isinstance(end, ImmutablePoint):
+            raise TypeError(&quot;end not of type ImmutablePoint&quot;)
+        self.start = start
+        self.end = end
+
+    def length(self):
+        return self.start.distance(self.end)
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the same way, binary files can also be read. For this, we replace the file type <code class="docutils literal notranslate"><span class="pre">t</span></code> with the binary <code class="docutils literal notranslate"><span class="pre">b</span></code> and load the file. We can see that the data type of the loaded file contents now changes to <code class="docutils literal notranslate"><span class="pre">byte</span></code>. If we print the file contents, we also immediately see the special characters in the file such as <code class="docutils literal notranslate"><span class="pre">\r</span></code> and <code class="docutils literal notranslate"><span class="pre">\n</span></code>, which denote line breaks.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;geometry/shapes/Line.py&quot;</span><span class="p">,</span> <span class="s2">&quot;br&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
+    <span class="n">file_content</span> <span class="o">=</span> <span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data type of file </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">fi</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data type of variable </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">file_content</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">file_content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Data type of file &lt;class &#39;_io.BufferedReader&#39;&gt;
+Data type of variable &lt;class &#39;bytes&#39;&gt;
+
+b&#39;from geometry.points.ImmutablePoint import ImmutablePoint\n\nclass Line:\n    def __init__(self, start: ImmutablePoint, end: ImmutablePoint):\n        if not isinstance(start, ImmutablePoint):\n            raise TypeError(&quot;start not of type ImmutablePoint&quot;)\n        if not isinstance(end, ImmutablePoint):\n            raise TypeError(&quot;end not of type ImmutablePoint&quot;)\n        self.start = start\n        self.end = end\n\n    def length(self):\n        return self.start.distance(self.end)&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="writing-files">
+<h2>Writing files<a class="headerlink" href="#writing-files" title="Link to this heading">#</a></h2>
+<p>In the same way, we can also create new files using the <code class="docutils literal notranslate"><span class="pre">open()</span></code> function. For this, we use the shorthand <code class="docutils literal notranslate"><span class="pre">w</span></code> (write). Here too, text files are distinguished with <code class="docutils literal notranslate"><span class="pre">t</span></code> and binary files with <code class="docutils literal notranslate"><span class="pre">b</span></code>. To write the file, we use the <code class="docutils literal notranslate"><span class="pre">write()</span></code> method of the file object <code class="docutils literal notranslate"><span class="pre">fo</span></code>.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;meineDatei.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;tw&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fo</span><span class="p">:</span>
+    <span class="n">fileContent</span> <span class="o">=</span> <span class="s2">&quot;Meine eigener Inhalt&quot;</span>
+    <span class="n">fo</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">fileContent</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>To verify, we read the file again.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;meineDatei.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Meine eigener Inhalt
+</pre></div>
+</div>
+</div>
+</div>
+<p>It’s important to note that the file will be overwritten completely.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;meineDatei.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;tw&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fo</span><span class="p">:</span>
+    <span class="n">date_content</span> <span class="o">=</span> <span class="s2">&quot;Neuer Inhalt&quot;</span>
+    <span class="n">fo</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">date_content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;meineDatei.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Neuer Inhalt
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="file-existence-test">
+<h2>File existence test<a class="headerlink" href="#file-existence-test" title="Link to this heading">#</a></h2>
+<p>Often you want to check whether a file already exists and load it accordingly or, for example, recreate it. The standard library <code class="docutils literal notranslate"><span class="pre">os</span></code>, which we have already learned about, offers such functions and more.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s2">&quot;meineDatei.txt&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Datei existiert&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Datei existiert noch nicht&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Datei existiert
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="list-files">
+<h2>List files<a class="headerlink" href="#list-files" title="Link to this heading">#</a></h2>
+<p>To list all files in a directory named <code class="docutils literal notranslate"><span class="pre">folder</span></code>, we can use the <code class="docutils literal notranslate"><span class="pre">os.listdir()</span></code> function. With the <code class="docutils literal notranslate"><span class="pre">os.path.isfile()</span></code> function, we can check whether the name refers to a file or a directory. If it is a file, we can open it with the <code class="docutils literal notranslate"><span class="pre">open</span></code> function to, for example, load its contents and compute the number of lines of code. For this, we use the <code class="docutils literal notranslate"><span class="pre">readlines</span></code> function instead of the <code class="docutils literal notranslate"><span class="pre">read</span></code> function to obtain all lines individually in a list.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="n">folder</span> <span class="o">=</span> <span class="s2">&quot;geometry/shapes/&quot;</span>
+<span class="n">files</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">codelines</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">count</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">folder</span><span class="p">)):</span>
+	<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">name</span><span class="p">)):</span>
+		<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">name</span><span class="p">),</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
+			<span class="n">codelines</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">fi</span><span class="o">.</span><span class="n">readlines</span><span class="p">())</span>
+			<span class="n">files</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">codelines</span><span class="si">}</span><span class="s2"> Codezeilen in </span><span class="si">{</span><span class="n">files</span><span class="si">}</span><span class="s2"> Dateien&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>64 Codezeilen in 5 Dateien
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="delete-files">
+<h2>Delete files<a class="headerlink" href="#delete-files" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">os</span></code> package also provides functions for deleting files. Of course, these should be used with caution.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;meineDatei.txt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="common-text-file-formats">
+<h2>Common text file formats<a class="headerlink" href="#common-text-file-formats" title="Link to this heading">#</a></h2>
+<section id="txt-files">
+<h3>TXT files<a class="headerlink" href="#txt-files" title="Link to this heading">#</a></h3>
+<p>One of the simplest formats for saving text on a computer is text files. They usually have the file extension <code class="docutils literal notranslate"><span class="pre">.txt</span></code>. We have already used this file extension change above.</p>
+</section>
+<section id="json-files">
+<h3>JSON files<a class="headerlink" href="#json-files" title="Link to this heading">#</a></h3>
+<p>Nowadays, structured information is often exchanged in the <code class="docutils literal notranslate"><span class="pre">JSON</span></code> format. In particular, many APIs of web servers on the Internet use this standard. It has the advantage that the data remains readable by humans and can thus be interpreted by web developers. At its core, the standard resembles the representation of a <code class="docutils literal notranslate"><span class="pre">dict</span></code> in Python.</p>
+<p>For example, we can store the data record for a person in the following <code class="docutils literal notranslate"><span class="pre">dict</span></code>.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">person</span><span class="o">=</span><span class="p">{</span>
+	<span class="s2">&quot;firstName&quot;</span><span class="p">:</span> <span class="s2">&quot;John&quot;</span><span class="p">,</span>
+	<span class="s2">&quot;lastName&quot;</span><span class="p">:</span> <span class="s2">&quot;Smith&quot;</span><span class="p">,</span>
+	<span class="s2">&quot;isAlive&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+	<span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span>
+	<span class="s2">&quot;address&quot;</span><span class="p">:</span> <span class="p">{</span>
+		<span class="s2">&quot;streetAddress&quot;</span><span class="p">:</span> <span class="s2">&quot;21 2nd Street&quot;</span><span class="p">,</span>
+		<span class="s2">&quot;city&quot;</span><span class="p">:</span> <span class="s2">&quot;New York&quot;</span><span class="p">,</span>
+		<span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="s2">&quot;NY&quot;</span><span class="p">,</span>
+		<span class="s2">&quot;postalCode&quot;</span><span class="p">:</span> <span class="s2">&quot;10021-3100&quot;</span> 
+	<span class="p">},</span>
+ 	<span class="s2">&quot;children&quot;</span><span class="p">:</span> <span class="p">[],</span>
+	<span class="s2">&quot;spouse&quot;</span><span class="p">:</span> <span class="kc">None</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">json</span></code> package, this dataset can now be easily converted into a <code class="docutils literal notranslate"><span class="pre">JSON</span></code> string and written to a file.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;person.json&quot;</span><span class="p">,</span> <span class="s2">&quot;tw&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fo</span><span class="p">:</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">person</span><span class="p">,</span> <span class="n">fo</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s take a look at the file. Since it’s a text file, we can load it with <code class="docutils literal notranslate"><span class="pre">open(name,</span> <span class="pre">&quot;tr&quot;)</span></code>.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;person.json&quot;</span><span class="p">,</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">date_content</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">date_content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>{
+  &quot;firstName&quot;: &quot;John&quot;,
+  &quot;lastName&quot;: &quot;Smith&quot;,
+  &quot;isAlive&quot;: true,
+  &quot;age&quot;: 25,
+  &quot;address&quot;: {
+    &quot;streetAddress&quot;: &quot;21 2nd Street&quot;,
+    &quot;city&quot;: &quot;New York&quot;,
+    &quot;state&quot;: &quot;NY&quot;,
+    &quot;postalCode&quot;: &quot;10021-3100&quot;
+  },
+  &quot;children&quot;: [],
+  &quot;spouse&quot;: null
+}
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can see that the JSON representation is very similar to the dictionary <code class="docutils literal notranslate"><span class="pre">person</span></code> defined above. The only differences are that the capitalized <code class="docutils literal notranslate"><span class="pre">True</span></code> in Python is written in lowercase here, and the <code class="docutils literal notranslate"><span class="pre">None</span></code> from Python has been replaced with <code class="docutils literal notranslate"><span class="pre">null</span></code>. The structure of both representations is, however, identical.</p>
+<p>From this text file we can now load our dataset directly back as a <code class="docutils literal notranslate"><span class="pre">dict</span></code>. For display we will use pretty print this time, because it is easier to read.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pprint</span><span class="w"> </span><span class="kn">import</span> <span class="n">pprint</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;person.json&quot;</span><span class="p">,</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
+    <span class="n">person_loaded</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fi</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Datentyp </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">person_loaded</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">pprint</span><span class="p">(</span><span class="n">person_loaded</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Datentyp &lt;class &#39;dict&#39;&gt;
+{&#39;address&#39;: {&#39;city&#39;: &#39;New York&#39;,
+             &#39;postalCode&#39;: &#39;10021-3100&#39;,
+             &#39;state&#39;: &#39;NY&#39;,
+             &#39;streetAddress&#39;: &#39;21 2nd Street&#39;},
+ &#39;age&#39;: 25,
+ &#39;children&#39;: [],
+ &#39;firstName&#39;: &#39;John&#39;,
+ &#39;isAlive&#39;: True,
+ &#39;lastName&#39;: &#39;Smith&#39;,
+ &#39;spouse&#39;: None}
+</pre></div>
+</div>
+</div>
+</div>
+<p>The loaded <code class="docutils literal notranslate"><span class="pre">dict</span></code> corresponds to our original dictionary <code class="docutils literal notranslate"><span class="pre">person</span></code>. Although the order of the entries has changed, this is not guaranteed in J.</p>
+</section>
+</section>
+<section id="geojson-files">
+<h2>GeoJSON files<a class="headerlink" href="#geojson-files" title="Link to this heading">#</a></h2>
+<p>A special variant of the JSON format that is especially relevant for environmental informatics is the standardized <a class="reference external" href="https://geojson.org/">GeoJSON format</a>. This JSON-based format defines how certain geometric objects such as points, lines, and polygons should be represented in JSON. Each element is described as a JSON object (<code class="docutils literal notranslate"><span class="pre">dict</span></code> in Python) and defines the attributes <code class="docutils literal notranslate"><span class="pre">type</span></code> and <code class="docutils literal notranslate"><span class="pre">coordinates</span></code>.</p>
+<p>A point is defined here as an element of type <code class="docutils literal notranslate"><span class="pre">Point</span></code> with two coordinates.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">point</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Point&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">12.095843457646907</span><span class="p">,</span> <span class="mf">54.075229197333016</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>A line is given as a <code class="docutils literal notranslate"><span class="pre">LineString</span></code> with a list of point coordinates, which are usually the start and end coordinates. If the <code class="docutils literal notranslate"><span class="pre">LineString</span></code> contains more than two coordinates, we have a polyline.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">line_oki_on</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;LineString&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">[</span> <span class="mf">12.095844241344963</span><span class="p">,</span> <span class="mf">54.075206445655795</span> <span class="p">],</span>
+        <span class="p">[</span> <span class="mf">12.09606074723871</span><span class="p">,</span> <span class="mf">54.075028604743636</span> <span class="p">],</span>
+        <span class="p">[</span> <span class="mf">12.09593084370266</span><span class="p">,</span> <span class="mf">54.074930156768204</span> <span class="p">],</span>
+        <span class="p">[</span> <span class="mf">12.096282665780166</span><span class="p">,</span> <span class="mf">54.07495873846247</span> <span class="p">],</span>
+        <span class="p">[</span> <span class="mf">12.096558710795335</span><span class="p">,</span> <span class="mf">54.07507941651065</span> <span class="p">],</span>
+        <span class="p">[</span> <span class="mf">12.096840168457192</span><span class="p">,</span> <span class="mf">54.074863466071434</span> <span class="p">],</span>
+        <span class="p">[</span> <span class="mf">12.098052601464076</span><span class="p">,</span> <span class="mf">54.07534617726671</span> <span class="p">],</span>
+        <span class="p">[</span> <span class="mf">12.098187917647891</span><span class="p">,</span> <span class="mf">54.07534617726671</span> <span class="p">],</span>
+        <span class="p">[</span> <span class="mf">12.098317821183883</span><span class="p">,</span> <span class="mf">54.07541286718799</span> <span class="p">],</span>
+        <span class="p">[</span> <span class="mf">12.098377360305278</span><span class="p">,</span> <span class="mf">54.075339825840246</span> <span class="p">],</span>
+        <span class="p">[</span> <span class="mf">12.098501851194726</span><span class="p">,</span> <span class="mf">54.0753779343855</span> <span class="p">]</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>A polygon is defined with the type <code class="docutils literal notranslate"><span class="pre">Polygon</span></code>, whose coordinates are given as a list of one or more closed line strings, such that the end point coincides with the start point.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">campus</span> <span class="o">=</span> <span class="p">{</span> 
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Polygon&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">[</span>
+            <span class="p">[</span> <span class="mf">12.093402064538196</span><span class="p">,</span> <span class="mf">54.07479416035679</span> <span class="p">],</span>
+            <span class="p">[</span> <span class="mf">12.094194380118807</span><span class="p">,</span> <span class="mf">54.074246433609375</span> <span class="p">],</span>
+            <span class="p">[</span> <span class="mf">12.094578770845374</span><span class="p">,</span> <span class="mf">54.074103747303894</span> <span class="p">]</span> <span class="p">,</span>
+            <span class="p">[</span> <span class="mf">12.095018074534778</span><span class="p">,</span> <span class="mf">54.074191200259065</span> <span class="p">],</span>
+            <span class="p">[</span> <span class="mf">12.095661340649713</span><span class="p">,</span> <span class="mf">54.074435147002276</span> <span class="p">],</span>
+            <span class="p">[</span> <span class="mf">12.096328140890677</span><span class="p">,</span> <span class="mf">54.073947252082434</span> <span class="p">],</span>
+            <span class="p">[</span> <span class="mf">12.098359920447564</span><span class="p">,</span> <span class="mf">54.075010487417984</span> <span class="p">],</span>
+            <span class="p">[</span> <span class="mf">12.098822758261605</span><span class="p">,</span> <span class="mf">54.07471591412107</span> <span class="p">],</span>
+            <span class="p">[</span> <span class="mf">12.099866104521425</span><span class="p">,</span> <span class="mf">54.07523141601854</span> <span class="p">],</span>
+            <span class="p">[</span> <span class="mf">12.09959938442529</span><span class="p">,</span> <span class="mf">54.075383303749476</span> <span class="p">],</span>
+            <span class="p">[</span> <span class="mf">12.100462302384159</span><span class="p">,</span> <span class="mf">54.075700885391115</span> <span class="p">],</span>
+            <span class="p">[</span> <span class="mf">12.098869826513692</span><span class="p">,</span> <span class="mf">54.0770356222489</span> <span class="p">],</span>
+            <span class="p">[</span> <span class="mf">12.09752838132394</span><span class="p">,</span> <span class="mf">54.076602988106</span> <span class="p">],</span>
+            <span class="p">[</span> <span class="mf">12.095394620552042</span><span class="p">,</span> <span class="mf">54.076082900668524</span> <span class="p">],</span>
+            <span class="p">[</span> <span class="mf">12.09422575895411</span><span class="p">,</span> <span class="mf">54.07581595060367</span> <span class="p">],</span>
+            <span class="p">[</span> <span class="mf">12.094743509729398</span><span class="p">,</span> <span class="mf">54.07538790639916</span> <span class="p">],</span>
+            <span class="p">[</span> <span class="mf">12.093402064538196</span><span class="p">,</span> <span class="mf">54.07479416035679</span> <span class="p">]</span>
+        <span class="p">]</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Since many objects not only have geometry but also additional attributes, there is the helper object <code class="docutils literal notranslate"><span class="pre">Feature</span></code>, which provides the <code class="docutils literal notranslate"><span class="pre">properties</span></code> attribute where you can define your own metadata. This way we can define a GeoJSON object to store the position of the OKI.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">oki_feature</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Point&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">12.095843457646907</span><span class="p">,</span> <span class="mf">54.075229197333016</span><span class="p">]</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;OKI&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;addresse&quot;</span><span class="p">:</span> <span class="s2">&quot;Justus-von-Liebig-Weg 2&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;stadt&quot;</span><span class="p">:</span> <span class="s2">&quot;Rostock&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;postleitzahl&quot;</span><span class="p">:</span> <span class="s2">&quot;18059&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;land&quot;</span><span class="p">:</span> <span class="s2">&quot;Deutschland&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">auf_feature</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Point&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">12.098494794410726</span><span class="p">,</span> <span class="mf">54.075390284810425</span><span class="p">]</span>
+  <span class="p">},</span>
+  <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;AUF&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;addresse&quot;</span><span class="p">:</span> <span class="s2">&quot;Justus-von-Liebig-Weg 6&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;stadt&quot;</span><span class="p">:</span> <span class="s2">&quot;Rostock&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;postleitzahl&quot;</span><span class="p">:</span><span class="s2">&quot;18059&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;land&quot;</span><span class="p">:</span> <span class="s2">&quot;Deutschland&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">oki_to_auf_route</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="n">line_oki_to_auf</span><span class="p">,</span>
+  <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Weg OKI zu AUF&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;stadt&quot;</span><span class="p">:</span> <span class="s2">&quot;Rostock&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;postleitzahl&quot;</span><span class="p">:</span><span class="s2">&quot;18059&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;land&quot;</span><span class="p">:</span> <span class="s2">&quot;Deutschland&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+    
+<span class="n">campus_to_auf</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="n">campus</span><span class="p">,</span>
+  <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Campus&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;stadt&quot;</span><span class="p">:</span> <span class="s2">&quot;Rostock&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;postleitzahl&quot;</span><span class="p">:</span><span class="s2">&quot;18059&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;land&quot;</span><span class="p">:</span> <span class="s2">&quot;Deutschland&quot;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">17</span><span class="p">],</span> <span class="n">line</span> <span class="mi">33</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">oki_feature</span> <span class="o">=</span> <span class="p">{</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>   <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>   <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="p">{</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>     <span class="mi">13</span>   <span class="p">}</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="p">}</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="n">auf_feature</span> <span class="o">=</span> <span class="p">{</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span>   <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">18</span>   <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="p">{</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>     <span class="mi">28</span>   <span class="p">}</span>
+<span class="g g-Whitespace">     </span><span class="mi">29</span> <span class="p">}</span>
+<span class="g g-Whitespace">     </span><span class="mi">31</span> <span class="n">oki_to_auf_route</span> <span class="o">=</span> <span class="p">{</span>
+<span class="g g-Whitespace">     </span><span class="mi">32</span>   <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
+<span class="ne">---&gt; </span><span class="mi">33</span>   <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="n">line_oki_to_auf</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">34</span>   <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+<span class="g g-Whitespace">     </span><span class="mi">35</span>     <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Weg OKI zu AUF&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">36</span>     <span class="s2">&quot;stadt&quot;</span><span class="p">:</span> <span class="s2">&quot;Rostock&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">37</span>     <span class="s2">&quot;postleitzahl&quot;</span><span class="p">:</span><span class="s2">&quot;18059&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">38</span>     <span class="s2">&quot;land&quot;</span><span class="p">:</span> <span class="s2">&quot;Deutschland&quot;</span>
+<span class="g g-Whitespace">     </span><span class="mi">39</span>   <span class="p">}</span>
+<span class="g g-Whitespace">     </span><span class="mi">40</span> <span class="p">}</span>
+<span class="g g-Whitespace">     </span><span class="mi">42</span> <span class="n">campus_to_auf</span> <span class="o">=</span> <span class="p">{</span>
+<span class="g g-Whitespace">     </span><span class="mi">43</span>   <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">44</span>   <span class="s2">&quot;geometry&quot;</span><span class="p">:</span> <span class="n">campus</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>     <span class="mi">50</span>   <span class="p">}</span>
+<span class="g g-Whitespace">     </span><span class="mi">51</span> <span class="p">}</span>
+
+<span class="ne">NameError</span>: name &#39;line_oki_to_auf&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<p>A collection of <code class="docutils literal notranslate"><span class="pre">Features</span></code> is stored in a <code class="docutils literal notranslate"><span class="pre">FeatureCollection</span></code>. It includes, besides the <code class="docutils literal notranslate"><span class="pre">type</span></code>, the <code class="docutils literal notranslate"><span class="pre">features</span></code> list.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">features</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;FeatureCollection&quot;</span><span class="p">,</span>
+  <span class="s2">&quot;features&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="n">oki</span><span class="p">,</span>
+    <span class="n">on</span><span class="p">,</span>
+    <span class="n">path_oki_on</span><span class="p">,</span>
+    <span class="n">campus_on</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">18</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">features</span> <span class="o">=</span> <span class="p">{</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>   <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;FeatureCollection&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>   <span class="s2">&quot;features&quot;</span><span class="p">:</span> <span class="p">[</span>
+<span class="ne">----&gt; </span><span class="mi">4</span>     <span class="n">oki</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">on</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="n">path_oki_on</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="n">campus_on</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>   <span class="p">]</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="p">}</span>
+
+<span class="ne">NameError</span>: name &#39;oki&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<p>To process these GeoJSON objects in Python, we can use the <code class="docutils literal notranslate"><span class="pre">geojson</span></code> package. We’ll install it again with <code class="docutils literal notranslate"><span class="pre">pip</span></code>.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">The</span> <span class="nb">input</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">shell</span> <span class="n">command</span><span class="p">,</span> <span class="ow">not</span> <span class="n">Python</span> <span class="n">code</span><span class="o">.</span> <span class="n">Please</span> <span class="n">provide</span> <span class="n">the</span> <span class="n">Python</span> <span class="n">source</span> <span class="n">you</span><span class="err">’</span><span class="n">d</span> <span class="n">like</span> <span class="n">translated</span> <span class="p">(</span><span class="n">German</span> <span class="n">to</span> <span class="n">English</span> <span class="k">for</span> <span class="n">variable</span> <span class="n">names</span><span class="p">,</span> <span class="n">function</span><span class="o">/</span><span class="k">class</span><span class="w"> </span><span class="nc">names</span><span class="p">,</span> <span class="n">docstrings</span><span class="p">,</span> <span class="ow">and</span> <span class="n">inline</span> <span class="n">comments</span><span class="p">)</span><span class="o">.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">19</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+    <span class="n">The</span> <span class="nb">input</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">shell</span> <span class="n">command</span><span class="p">,</span> <span class="ow">not</span> <span class="n">Python</span> <span class="n">code</span><span class="o">.</span> <span class="n">Please</span> <span class="n">provide</span> <span class="n">the</span> <span class="n">Python</span> <span class="n">source</span> <span class="n">you</span><span class="err">’</span><span class="n">d</span> <span class="n">like</span> <span class="n">translated</span> <span class="p">(</span><span class="n">German</span> <span class="n">to</span> <span class="n">English</span> <span class="k">for</span> <span class="n">variable</span> <span class="n">names</span><span class="p">,</span> <span class="n">function</span><span class="o">/</span><span class="k">class</span><span class="w"> </span><span class="nc">names</span><span class="p">,</span> <span class="n">docstrings</span><span class="p">,</span> <span class="ow">and</span> <span class="n">inline</span> <span class="n">comments</span><span class="p">)</span><span class="o">.</span>
+                                                                                       <span class="o">^</span>
+<span class="ne">SyntaxError</span>: invalid character &#39;’&#39; (U+2019)
+</pre></div>
+</div>
+</div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">geojson</span></code> package also provides standard classes for points, lines, and polygons, which we had previously defined ourselves as <a class="reference internal" href="#7a_Object_en.html"><span class="xref myst">classes</span></a>. Due to the broad range of Python packages, you can often find packages that provide corresponding classes for your own problems, so a search is always worthwhile. A point in GeoJSON is created using the package.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">geojson</span><span class="w"> </span><span class="kn">import</span> <span class="n">Point</span>
+
+<span class="n">geojson_point</span> <span class="o">=</span> <span class="n">Point</span><span class="p">((</span><span class="mf">12.095843457646907</span><span class="p">,</span> <span class="mf">54.075229197333016</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">geojson_point</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">geojson_point</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">20</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">from</span><span class="w"> </span><span class="nn">geojson</span><span class="w"> </span><span class="kn">import</span> <span class="n">Point</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">geojson_point</span> <span class="o">=</span> <span class="n">Point</span><span class="p">((</span><span class="mf">12.095843457646907</span><span class="p">,</span> <span class="mf">54.075229197333016</span><span class="p">))</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">geojson_point</span><span class="p">))</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;geojson&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>New instances can also be created directly from JSON. For this, we use the package’s <code class="docutils literal notranslate"><span class="pre">loads</span></code> function. It converts a JSON string into an object. To create the JSON string, we convert the dictionary <code class="docutils literal notranslate"><span class="pre">punkt</span></code> into a string using the <code class="docutils literal notranslate"><span class="pre">json.dumps()</span></code> function.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">geojson</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="n">json_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+<span class="n">geojson_point</span> <span class="o">=</span> <span class="n">geojson</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json_str</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">geojson_point</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">geojson_point</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">21</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">geojson</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">json_str</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">point</span><span class="p">)</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;geojson&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>This is how our entire Feature Collection can be loaded as well.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">geojson</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+
+<span class="n">json_str</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+<span class="n">gson_features</span><span class="o">=</span><span class="n">geojson</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json_str</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">gson_features</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">gson_features</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">22</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">geojson</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">json_str</span><span class="o">=</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;geojson&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>The advantage of GeoJSON objects is that there are many other packages available to analyze this format. If we want to visualize our feature collection on a map, we can use the <code class="docutils literal notranslate"><span class="pre">geojsonio</span></code> package.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pip install geojsonio  --quiet</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_hide-output tag_translated_en docutils container">
+<div class="cell_input above-output-prompt docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">geojsonio</span>
+
+<span class="n">geojsonio</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">json_str</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<details class="admonition hide below-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell output</p>
+<p class="expanded admonition-title">Hide code cell output</p>
+</summary>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">24</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">geojsonio</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="n">geojsonio</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">json_str</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;json_str&#39; is not defined
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<p>If we follow the link, we reach a webpage that displays the polygons, the line, and the points.</p>
+<p><img alt="Campus" src="../_images/campus.png" /></p>
+<p>We will learn about additional applications of GeoJSON during the exercise.</p>
+</section>
+<section id="xml">
+<h2>XML<a class="headerlink" href="#xml" title="Link to this heading">#</a></h2>
+<p>XML is another very widespread file format. All websites on the Internet use, for example, this format. It is older than JSON and still very popular because it allows schemas (XLS) to be defined, against which the file can be validated. This ensures, for example, that HTML files are valid.</p>
+<p>With the help of the external packages <code class="docutils literal notranslate"><span class="pre">dicttoxml</span></code> and <code class="docutils literal notranslate"><span class="pre">xmltodict</span></code>, XML files can also be written and read easily. We install them with <code class="docutils literal notranslate"><span class="pre">pip</span></code>.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
+<span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s2">&quot;pip&quot;</span><span class="p">,</span> <span class="s2">&quot;install&quot;</span><span class="p">,</span> <span class="s2">&quot;dicttoxml&quot;</span><span class="p">,</span> <span class="s2">&quot;xmltodict&quot;</span><span class="p">,</span> <span class="s2">&quot;--quiet&quot;</span><span class="p">],</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Yellow">DEPRECATION: Loading egg at /opt/miniconda3/lib/python3.12/site-packages/mdurl-0.1.2-py3.12.egg is deprecated. pip 24.3 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330</span>
+<span class=" -Color -Color-Yellow">DEPRECATION: Loading egg at /opt/miniconda3/lib/python3.12/site-packages/typing_inspection-0.4.1-py3.12.egg is deprecated. pip 24.3 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330</span>
+<span class=" -Color -Color-Yellow">DEPRECATION: Loading egg at /opt/miniconda3/lib/python3.12/site-packages/httpx_sse-0.4.1-py3.12.egg is deprecated. pip 24.3 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330</span>
+<span class=" -Color -Color-Yellow">DEPRECATION: Loading egg at /opt/miniconda3/lib/python3.12/site-packages/uvicorn-0.34.3-py3.12.egg is deprecated. pip 24.3 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330</span>
+<span class=" -Color -Color-Yellow">DEPRECATION: Loading egg at /opt/miniconda3/lib/python3.12/site-packages/annotated_types-0.7.0-py3.12.egg is deprecated. pip 24.3 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330</span>
+<span class=" -Color -Color-Yellow">DEPRECATION: Loading egg at /opt/miniconda3/lib/python3.12/site-packages/python_multipart-0.0.20-py3.12.egg is deprecated. pip 24.3 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330</span>
+<span class=" -Color -Color-Yellow">DEPRECATION: Loading egg at /opt/miniconda3/lib/python3.12/site-packages/pydantic_core-2.33.2-py3.12-macosx-11.0-arm64.egg is deprecated. pip 24.3 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330</span>
+<span class=" -Color -Color-Yellow">DEPRECATION: Loading egg at /opt/miniconda3/lib/python3.12/site-packages/the_wall-0.1.0-py3.12.egg is deprecated. pip 24.3 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330</span>
+<span class=" -Color -Color-Yellow">DEPRECATION: Loading egg at /opt/miniconda3/lib/python3.12/site-packages/markdown_it_py-3.0.0-py3.12.egg is deprecated. pip 24.3 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330</span>
+<span class=" -Color -Color-Yellow">DEPRECATION: Loading egg at /opt/miniconda3/lib/python3.12/site-packages/typer-0.16.0-py3.12.egg is deprecated. pip 24.3 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330</span>
+<span class=" -Color -Color-Yellow">DEPRECATION: Loading egg at /opt/miniconda3/lib/python3.12/site-packages/rich-14.0.0-py3.12.egg is deprecated. pip 24.3 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330</span>
+<span class=" -Color -Color-Yellow">DEPRECATION: Loading egg at /opt/miniconda3/lib/python3.12/site-packages/shellingham-1.5.4-py3.12.egg is deprecated. pip 24.3 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330</span>
+<span class=" -Color -Color-Yellow">DEPRECATION: Loading egg at /opt/miniconda3/lib/python3.12/site-packages/mcp-1.10.1-py3.12.egg is deprecated. pip 24.3 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330</span>
+<span class=" -Color -Color-Yellow">DEPRECATION: Loading egg at /opt/miniconda3/lib/python3.12/site-packages/starlette-0.47.1-py3.12.egg is deprecated. pip 24.3 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330</span>
+<span class=" -Color -Color-Yellow">DEPRECATION: Loading egg at /opt/miniconda3/lib/python3.12/site-packages/pydantic_settings-2.10.1-py3.12.egg is deprecated. pip 24.3 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330</span>
+<span class=" -Color -Color-Yellow">DEPRECATION: Loading egg at /opt/miniconda3/lib/python3.12/site-packages/sse_starlette-2.3.6-py3.12.egg is deprecated. pip 24.3 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330</span>
+<span class=" -Color -Color-Yellow">DEPRECATION: Loading egg at /opt/miniconda3/lib/python3.12/site-packages/pydantic-2.11.7-py3.12.egg is deprecated. pip 24.3 will enforce this behaviour change. A possible replacement is to use pip for package installation. Discussion can be found at https://github.com/pypa/pip/issues/12330</span>
+
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CompletedProcess(args=[&#39;pip&#39;, &#39;install&#39;, &#39;dicttoxml&#39;, &#39;xmltodict&#39;, &#39;--quiet&#39;], returncode=0)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;person.xml&quot;</span><span class="p">,</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
+    <span class="n">date_content</span> <span class="o">=</span> <span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">date_content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">27</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;person.xml&quot;</span><span class="p">,</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="n">date_content</span> <span class="o">=</span> <span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="nb">print</span><span class="p">(</span><span class="n">date_content</span><span class="p">)</span>
+
+<span class="nn">File ~/Documents/code/Lehre/ProgrammierUebung/.venv/lib/python3.12/site-packages/IPython/core/interactiveshell.py:343,</span> in <span class="ni">_modified_open</span><span class="nt">(file, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">336</span> <span class="k">if</span> <span class="n">file</span> <span class="ow">in</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">}:</span>
+<span class="g g-Whitespace">    </span><span class="mi">337</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">338</span>         <span class="sa">f</span><span class="s2">&quot;IPython won&#39;t let you open fd=</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2"> by default &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">339</span>         <span class="s2">&quot;as it is likely to crash IPython. If you know what you are doing, &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">340</span>         <span class="s2">&quot;you can use builtins&#39; open.&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">341</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">343</span> <span class="k">return</span> <span class="n">io_open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;person.xml&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">xmltodict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pprint</span><span class="w"> </span><span class="kn">import</span> <span class="n">pprint</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;person.xml&quot;</span><span class="p">,</span> <span class="s2">&quot;rt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
+    <span class="n">person_loaded</span> <span class="o">=</span> <span class="n">xmltodict</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">(),</span> <span class="n">xml_attribs</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Datentyp </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">person_loaded</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">pprint</span><span class="p">(</span><span class="n">person_loaded</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">28</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">xmltodict</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">from</span><span class="w"> </span><span class="nn">pprint</span><span class="w"> </span><span class="kn">import</span> <span class="n">pprint</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;person.xml&quot;</span><span class="p">,</span> <span class="s2">&quot;rt&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;xmltodict&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here too, the loaded <code class="docutils literal notranslate"><span class="pre">dict</span></code> matches our original.</p>
+<section id="csv-files">
+<h3>CSV files<a class="headerlink" href="#csv-files" title="Link to this heading">#</a></h3>
+<p>Tables and measurements are frequently exchanged as CSV files. This is a very simple format in which the first line of the text file contains the column names, and then each line represents a row of the table. All values are separated by commas <code class="docutils literal notranslate"><span class="pre">,</span></code>. Since the comma is used as the decimal separator in German, a <code class="docutils literal notranslate"><span class="pre">;</span></code> or a tab character <code class="docutils literal notranslate"><span class="pre">\t</span></code> is often used here.</p>
+<p>For processing tables, Python typically uses the <code class="docutils literal notranslate"><span class="pre">pandas</span></code> library. For example, if we want to store the data set of two people, we first convert it into a <code class="docutils literal notranslate"><span class="pre">pandas</span></code> DataFrame.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">people</span><span class="o">=</span><span class="p">[</span>
+    <span class="p">{</span><span class="s2">&quot;FirstName&quot;</span><span class="p">:</span><span class="s2">&quot;John&quot;</span><span class="p">,</span> <span class="s2">&quot;LastName&quot;</span><span class="p">:</span><span class="s2">&quot;Smith&quot;</span><span class="p">,</span> <span class="s2">&quot;IsAlive&quot;</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Age&quot;</span><span class="p">:</span><span class="mi">25</span><span class="p">},</span>
+    <span class="p">{</span><span class="s2">&quot;FirstName&quot;</span><span class="p">:</span><span class="s2">&quot;Mary&quot;</span><span class="p">,</span> <span class="s2">&quot;LastName&quot;</span><span class="p">:</span><span class="s2">&quot;Sue&quot;</span><span class="p">,</span> <span class="s2">&quot;IsAlive&quot;</span><span class="p">:</span><span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;Age&quot;</span><span class="p">:</span><span class="mi">30</span><span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">people</span><span class="p">)</span>
+<span class="n">table</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>FirstName</th>
+      <th>LastName</th>
+      <th>IsAlive</th>
+      <th>Age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>John</td>
+      <td>Smith</td>
+      <td>True</td>
+      <td>25</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Mary</td>
+      <td>Sue</td>
+      <td>True</td>
+      <td>30</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>We can now save these as a CSV file.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;leute.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="c1"># index=False ensures that the row indices 0 and 1 are omitted</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We’ll read the file back in as a test. Since it’s text-based, we can use <code class="docutils literal notranslate"><span class="pre">open()</span></code> with <code class="docutils literal notranslate"><span class="pre">tr</span></code>.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;leute.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
+    <span class="n">date_content</span> <span class="o">=</span> <span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">date_content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>FirstName,LastName,IsAlive,Age
+John,Smith,True,25
+Mary,Sue,True,30
+</pre></div>
+</div>
+</div>
+</div>
+<p>We can now load the CSV file back into a table.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table_read</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;leute.csv&quot;</span><span class="p">)</span>
+<span class="n">table_read</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>FirstName</th>
+      <th>LastName</th>
+      <th>IsAlive</th>
+      <th>Age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>John</td>
+      <td>Smith</td>
+      <td>True</td>
+      <td>25</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Mary</td>
+      <td>Sue</td>
+      <td>True</td>
+      <td>30</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>And convert it back into the Dictionary.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table_read</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s2">&quot;records&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[{&#39;FirstName&#39;: &#39;John&#39;, &#39;LastName&#39;: &#39;Smith&#39;, &#39;IsAlive&#39;: True, &#39;Age&#39;: 25},
+ {&#39;FirstName&#39;: &#39;Mary&#39;, &#39;LastName&#39;: &#39;Sue&#39;, &#39;IsAlive&#39;: True, &#39;Age&#39;: 30}]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="typical-binary-file-formats">
+<h2>Typical binary file formats<a class="headerlink" href="#typical-binary-file-formats" title="Link to this heading">#</a></h2>
+<section id="xls-files">
+<h3>XLS files<a class="headerlink" href="#xls-files" title="Link to this heading">#</a></h3>
+<p>These CSV files can also be easily opened in other programs such as Microsoft Excel, or saved from there. Excel’s native format is <code class="docutils literal notranslate"><span class="pre">.xlsx</span></code> files. We can also write these directly from pandas using the <code class="docutils literal notranslate"><span class="pre">openpyxl</span></code> package. We install <code class="docutils literal notranslate"><span class="pre">openpyxl</span></code> using <code class="docutils literal notranslate"><span class="pre">pip</span></code>.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Please</span> <span class="n">provide</span> <span class="n">the</span> <span class="n">Python</span> <span class="n">code</span> <span class="n">containing</span> <span class="n">German</span> <span class="n">variable</span> <span class="n">names</span><span class="p">,</span> <span class="n">function</span><span class="o">/</span><span class="k">class</span><span class="w"> </span><span class="nc">names</span><span class="p">,</span> <span class="n">docstrings</span><span class="p">,</span> <span class="ow">or</span> <span class="n">inline</span> <span class="n">comments</span> <span class="n">that</span> <span class="n">you</span> <span class="n">would</span> <span class="n">like</span> <span class="n">translated</span><span class="o">.</span> <span class="n">I</span> <span class="n">will</span> <span class="n">translate</span> <span class="n">only</span> <span class="n">those</span> <span class="n">elements</span> <span class="n">to</span> <span class="n">natural</span> <span class="n">English</span> <span class="n">without</span> <span class="n">altering</span> <span class="n">the</span> <span class="n">program</span> <span class="n">logic</span><span class="o">.</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">36</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+    <span class="n">Please</span> <span class="n">provide</span> <span class="n">the</span> <span class="n">Python</span> <span class="n">code</span> <span class="n">containing</span> <span class="n">German</span> <span class="n">variable</span> <span class="n">names</span><span class="p">,</span> <span class="n">function</span><span class="o">/</span><span class="k">class</span><span class="w"> </span><span class="nc">names</span><span class="p">,</span> <span class="n">docstrings</span><span class="p">,</span> <span class="ow">or</span> <span class="n">inline</span> <span class="n">comments</span> <span class="n">that</span> <span class="n">you</span> <span class="n">would</span> <span class="n">like</span> <span class="n">translated</span><span class="o">.</span> <span class="n">I</span> <span class="n">will</span> <span class="n">translate</span> <span class="n">only</span> <span class="n">those</span> <span class="n">elements</span> <span class="n">to</span> <span class="n">natural</span> <span class="n">English</span> <span class="n">without</span> <span class="n">altering</span> <span class="n">the</span> <span class="n">program</span> <span class="n">logic</span><span class="o">.</span>
+           <span class="o">^</span>
+<span class="ne">SyntaxError</span>: invalid syntax
+</pre></div>
+</div>
+</div>
+</div>
+<p>After the installation, we can simply export the table as an Excel file.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">table</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="s2">&quot;leute.xlsx&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># index=False ensures that the row index is omitted</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">37</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">table</span><span class="o">.</span><span class="n">to_excel</span><span class="p">(</span><span class="s2">&quot;leute.xlsx&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># index=False ensures that the row index is omitted</span>
+
+<span class="nn">File ~/Documents/code/Lehre/ProgrammierUebung/.venv/lib/python3.12/site-packages/pandas/util/_decorators.py:333,</span> in <span class="ni">deprecate_nonkeyword_arguments.&lt;locals&gt;.decorate.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">327</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">num_allow_args</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">328</span>     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">329</span>         <span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">arguments</span><span class="o">=</span><span class="n">_format_argument_list</span><span class="p">(</span><span class="n">allow_args</span><span class="p">)),</span>
+<span class="g g-Whitespace">    </span><span class="mi">330</span>         <span class="ne">FutureWarning</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">331</span>         <span class="n">stacklevel</span><span class="o">=</span><span class="n">find_stack_level</span><span class="p">(),</span>
+<span class="g g-Whitespace">    </span><span class="mi">332</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">333</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~/Documents/code/Lehre/ProgrammierUebung/.venv/lib/python3.12/site-packages/pandas/core/generic.py:2436,</span> in <span class="ni">NDFrame.to_excel</span><span class="nt">(self, excel_writer, sheet_name, na_rep, float_format, columns, header, index, index_label, startrow, startcol, engine, merge_cells, inf_rep, freeze_panes, storage_options, engine_kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2423</span> <span class="kn">from</span><span class="w"> </span><span class="nn">pandas.io.formats.excel</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExcelFormatter</span>
+<span class="g g-Whitespace">   </span><span class="mi">2425</span> <span class="n">formatter</span> <span class="o">=</span> <span class="n">ExcelFormatter</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">2426</span>     <span class="n">df</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2427</span>     <span class="n">na_rep</span><span class="o">=</span><span class="n">na_rep</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>   <span class="mi">2434</span>     <span class="n">inf_rep</span><span class="o">=</span><span class="n">inf_rep</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2435</span> <span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">2436</span> <span class="n">formatter</span><span class="o">.</span><span class="n">write</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">2437</span>     <span class="n">excel_writer</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2438</span>     <span class="n">sheet_name</span><span class="o">=</span><span class="n">sheet_name</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2439</span>     <span class="n">startrow</span><span class="o">=</span><span class="n">startrow</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2440</span>     <span class="n">startcol</span><span class="o">=</span><span class="n">startcol</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2441</span>     <span class="n">freeze_panes</span><span class="o">=</span><span class="n">freeze_panes</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2442</span>     <span class="n">engine</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2443</span>     <span class="n">storage_options</span><span class="o">=</span><span class="n">storage_options</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2444</span>     <span class="n">engine_kwargs</span><span class="o">=</span><span class="n">engine_kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">2445</span> <span class="p">)</span>
+
+<span class="nn">File ~/Documents/code/Lehre/ProgrammierUebung/.venv/lib/python3.12/site-packages/pandas/io/formats/excel.py:943,</span> in <span class="ni">ExcelFormatter.write</span><span class="nt">(self, writer, sheet_name, startrow, startcol, freeze_panes, engine, storage_options, engine_kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">941</span>     <span class="n">need_save</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="g g-Whitespace">    </span><span class="mi">942</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">943</span>     <span class="n">writer</span> <span class="o">=</span> <span class="n">ExcelWriter</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">944</span>         <span class="n">writer</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">945</span>         <span class="n">engine</span><span class="o">=</span><span class="n">engine</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">946</span>         <span class="n">storage_options</span><span class="o">=</span><span class="n">storage_options</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">947</span>         <span class="n">engine_kwargs</span><span class="o">=</span><span class="n">engine_kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">948</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">949</span>     <span class="n">need_save</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="g g-Whitespace">    </span><span class="mi">951</span> <span class="k">try</span><span class="p">:</span>
+
+<span class="nn">File ~/Documents/code/Lehre/ProgrammierUebung/.venv/lib/python3.12/site-packages/pandas/io/excel/_openpyxl.py:57,</span> in <span class="ni">OpenpyxlWriter.__init__</span><span class="nt">(self, path, engine, date_format, datetime_format, mode, storage_options, if_sheet_exists, engine_kwargs, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">44</span> <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">45</span>     <span class="bp">self</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">46</span>     <span class="n">path</span><span class="p">:</span> <span class="n">FilePath</span> <span class="o">|</span> <span class="n">WriteExcelBuffer</span> <span class="o">|</span> <span class="n">ExcelWriter</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>     <span class="mi">55</span> <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">     </span><span class="mi">56</span>     <span class="c1"># Use the openpyxl module as the Excel writer.</span>
+<span class="ne">---&gt; </span><span class="mi">57</span>     <span class="kn">from</span><span class="w"> </span><span class="nn">openpyxl.workbook</span><span class="w"> </span><span class="kn">import</span> <span class="n">Workbook</span>
+<span class="g g-Whitespace">     </span><span class="mi">59</span>     <span class="n">engine_kwargs</span> <span class="o">=</span> <span class="n">combine_kwargs</span><span class="p">(</span><span class="n">engine_kwargs</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">61</span>     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">62</span>         <span class="n">path</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">63</span>         <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>     <span class="mi">66</span>         <span class="n">engine_kwargs</span><span class="o">=</span><span class="n">engine_kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">67</span>     <span class="p">)</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;openpyxl&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>This file is currently a binary file. We can’t read it with <code class="docutils literal notranslate"><span class="pre">open()</span></code> and <code class="docutils literal notranslate"><span class="pre">tr</span></code>, so we have to use the binary variant with <code class="docutils literal notranslate"><span class="pre">br</span></code>.</p>
+<div class="cell tag_output_scroll tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;leute.xlsx&quot;</span><span class="p">,</span> <span class="s2">&quot;br&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
+    <span class="n">file_content</span> <span class="o">=</span> <span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">file_content</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">38</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;leute.xlsx&quot;</span><span class="p">,</span> <span class="s2">&quot;br&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fi</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="n">file_content</span> <span class="o">=</span> <span class="n">fi</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="nb">print</span><span class="p">(</span><span class="n">file_content</span><span class="p">)</span>
+
+<span class="nn">File ~/Documents/code/Lehre/ProgrammierUebung/.venv/lib/python3.12/site-packages/IPython/core/interactiveshell.py:343,</span> in <span class="ni">_modified_open</span><span class="nt">(file, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">336</span> <span class="k">if</span> <span class="n">file</span> <span class="ow">in</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">}:</span>
+<span class="g g-Whitespace">    </span><span class="mi">337</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">338</span>         <span class="sa">f</span><span class="s2">&quot;IPython won&#39;t let you open fd=</span><span class="si">{</span><span class="n">file</span><span class="si">}</span><span class="s2"> by default &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">339</span>         <span class="s2">&quot;as it is likely to crash IPython. If you know what you are doing, &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">340</span>         <span class="s2">&quot;you can use builtins&#39; open.&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">341</span>     <span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">343</span> <span class="k">return</span> <span class="n">io_open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;leute.xlsx&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>What we’re seeing is a lot of unreadable binary data. Behind it, in this case, lies a compressed ZIP file, since the <code class="docutils literal notranslate"><span class="pre">.xlsx</span></code> file format is actually just a ZIP file that contains several XML files.</p>
+</section>
+<section id="zip-files">
+<h3>ZIP files<a class="headerlink" href="#zip-files" title="Link to this heading">#</a></h3>
+<p>ZIP files are files that contain other files and directories and compress them. This allows multiple files to be consolidated into a single file and to take up less space. Therefore ZIP files are commonly used when sending multiple files.</p>
+<p>Also, the <code class="docutils literal notranslate"><span class="pre">.xlsx</span></code> file from Excel is a disguised ZIP file that contains several XML files in the Open XML format.</p>
+<p>This can be shown by renaming the file to a .zip file with <code class="docutils literal notranslate"><span class="pre">os.rename()</span></code>.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;leute.xlsx&quot;</span><span class="p">,</span> <span class="s2">&quot;leute.zip&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">39</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;leute.xlsx&quot;</span><span class="p">,</span> <span class="s2">&quot;leute.zip&quot;</span><span class="p">)</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;leute.xlsx&#39; -&gt; &#39;leute.zip&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>If we want to view the files in the ZIP file, we can open them with the <code class="docutils literal notranslate"><span class="pre">ZipFile</span></code> object from the standard library’s <code class="docutils literal notranslate"><span class="pre">zipfile</span></code> module. It works just like <code class="docutils literal notranslate"><span class="pre">open()</span></code>, but for ZIP files. With the <code class="docutils literal notranslate"><span class="pre">namelist</span></code> method, we can list all the files in the ZIP file.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">zipfile</span>
+
+<span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="s2">&quot;leute.zip&quot;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_file</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">zip_file</span><span class="o">.</span><span class="n">namelist</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">40</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">zipfile</span>
+<span class="ne">----&gt; </span><span class="mi">3</span> <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="s2">&quot;leute.zip&quot;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_file</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">zip_file</span><span class="o">.</span><span class="n">namelist</span><span class="p">():</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>         <span class="nb">print</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+
+<span class="nn">File ~/.local/share/uv/python/cpython-3.12.10-macos-aarch64-none/lib/python3.12/zipfile/__init__.py:1336,</span> in <span class="ni">ZipFile.__init__</span><span class="nt">(self, file, mode, compression, allowZip64, compresslevel, strict_timestamps, metadata_encoding)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1334</span> <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1335</span>     <span class="k">try</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1336</span>         <span class="bp">self</span><span class="o">.</span><span class="n">fp</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">filemode</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1337</span>     <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1338</span>         <span class="k">if</span> <span class="n">filemode</span> <span class="ow">in</span> <span class="n">modeDict</span><span class="p">:</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;leute.zip&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>To read a single file from the ZIP file, we can use the <code class="docutils literal notranslate"><span class="pre">read()</span></code> method. For example, loading <code class="docutils literal notranslate"><span class="pre">xl/worksheets/sheet1.xml</span></code>, which contains our data, will show our data in the typical XML structure.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">zipfile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pprint</span><span class="w"> </span><span class="kn">import</span> <span class="n">pprint</span>
+
+<span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="s2">&quot;leute.zip&quot;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_file</span><span class="p">:</span>
+    <span class="n">xml_file</span> <span class="o">=</span> <span class="n">zip_file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;xl/worksheets/sheet1.xml&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">xml_file</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">41</span><span class="p">],</span> <span class="n">line</span> <span class="mi">4</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">zipfile</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">from</span><span class="w"> </span><span class="nn">pprint</span><span class="w"> </span><span class="kn">import</span> <span class="n">pprint</span>
+<span class="ne">----&gt; </span><span class="mi">4</span> <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="s2">&quot;leute.zip&quot;</span><span class="p">,</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">zip_file</span><span class="p">:</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">xml_file</span> <span class="o">=</span> <span class="n">zip_file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;xl/worksheets/sheet1.xml&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="nb">print</span><span class="p">(</span><span class="n">xml_file</span><span class="p">)</span>
+
+<span class="nn">File ~/.local/share/uv/python/cpython-3.12.10-macos-aarch64-none/lib/python3.12/zipfile/__init__.py:1336,</span> in <span class="ni">ZipFile.__init__</span><span class="nt">(self, file, mode, compression, allowZip64, compresslevel, strict_timestamps, metadata_encoding)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1334</span> <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1335</span>     <span class="k">try</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">1336</span>         <span class="bp">self</span><span class="o">.</span><span class="n">fp</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">filemode</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1337</span>     <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1338</span>         <span class="k">if</span> <span class="n">filemode</span> <span class="ow">in</span> <span class="n">modeDict</span><span class="p">:</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;leute.zip&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>Using the <code class="docutils literal notranslate"><span class="pre">parse</span></code> function of the <code class="docutils literal notranslate"><span class="pre">xmltodict</span></code> package, for example, we can convert this XML file into a <code class="docutils literal notranslate"><span class="pre">dict</span></code> in Python.</p>
+<div class="cell tag_translated_en docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xml_dict</span> <span class="o">=</span> <span class="n">xmltodict</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_file</span><span class="p">,</span> <span class="n">xml_attribs</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">xml_dict</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">42</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">xml_dict</span> <span class="o">=</span> <span class="n">xmltodict</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">xml_file</span><span class="p">,</span> <span class="n">xml_attribs</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">pprint</span><span class="p">(</span><span class="n">xml_dict</span><span class="p">)</span>
+
+<span class="ne">NameError</span>: name &#39;xmltodict&#39; is not defined
+</pre></div>
+</div>
+</div>
+</div>
+<p>Our original dictionary <code class="docutils literal notranslate"><span class="pre">leute</span></code>, which we defined above, is no longer evident in this dictionary. That’s because this format was defined by Microsoft Excel and not specifically designed for our purposes. However, it’s important to note that the format is indeed human-readable, so today many other tools, such as LibreOffice, Google Docs, etc., can read and write this format. This is an important reason for using open XML formats.</p>
+</section>
+</section>
+<section id="quiz">
+<h2>Quiz<a class="headerlink" href="#quiz" title="Link to this heading">#</a></h2>
+<div class="quizdown">    ---
+    shuffleQuestions: true
+    shuffleAnswers: true
+    ---
+
+    ### Why are files commonly used in programs?
+    - [x] To store data permanently
+    - [ ] To execute the code faster
+    - [ ] To automatically initialize variables
+    - [ ] To create graphical user interfaces
+
+    ### Where are files located on a computer?
+    - [x] In directories (folders)
+    - [ ] In RAM
+    - [ ] In the CPU
+    - [ ] Only in the cloud
+
+    ### Which of the following statements about handling files in Python is correct?
+    - [x] You should always close files after opening or use `with`.
+    - [ ] Files can only be loaded from the Internet without specifying a path.
+    - [ ] There is no way to read files line by line.
+    - [ ] Python does not support a write mode.
+
+    ### What does the following code do?
+    ```python
+    with open(&quot;notizen.txt&quot;, &quot;r&quot;) as f:
+        zeilen = f.readlines()
+    ```
+    - [x] It reads all lines of the file `notizen.txt` into a list.
+    - [ ] It writes all lines to the file.
+    - [ ] It deletes the file.
+    - [ ] It prints each line to the screen immediately.
+
+    ### What does the function `open(&quot;datei.txt&quot;, &quot;r&quot;)` do in Python?
+    - [x] It opens the file `datei.txt` for reading.
+    - [ ] It creates a new file named `datei.txt`.
+    - [ ] It opens the file `datei.txt` for writing.
+    - [ ] It deletes the contents of `datei.txt`.
+
+    ### What happens if the file does not exist and `open(&quot;nichtda.txt&quot;, &quot;r&quot;)` is executed?
+    - [x] A `FileNotFoundError` is raised.
+    - [ ] An empty file is created.
+    - [ ] The program continues normally.
+    - [ ] The file is automatically opened in write mode.
+
+    ### What error is in this example?
+    ```python
+    file = open(&quot;daten.txt&quot;, &quot;r&quot;
+    data = file.read()
+    ```
+    - [x] A closing parenthesis is missing in the `open` function.
+    - [ ] The filename is invalid.
+    - [ ] `read()` can only be applied to binary files.
+    - [ ] `open` is not a valid command.
+
+
+    ### Which mode opens a file for writing and overwrites its contents?
+    - [x] &quot;w&quot;
+    - [ ] &quot;r&quot;
+    - [ ] &quot;a&quot;
+    - [ ] &quot;x&quot;
+
+    ### What happens in the following code if the file already exists?
+    ```python
+    with open(&quot;ausgabe.txt&quot;, &quot;w&quot;) as f:
+        f.write(&quot;Hallo Welt&quot;)
+    ```
+    - [x] The old contents of the file are deleted and overwritten.
+    - [ ] An error is raised.
+    - [ ] The new text is appended to the end of the file.
+    - [ ] The file is not changed.
+
+    ### How do you check in Python whether a file exists?
+    - [x] With `os.path.exists(&quot;datei.txt&quot;)`
+    - [ ] With `open(&quot;datei.txt&quot;)`
+    - [ ] With `exists(&quot;datei.txt&quot;)`
+    - [ ] With `os.exist(&quot;datei.txt&quot;)`
+
+    ### What is necessary to be able to use `os.path.exists`?
+    - [x] The `os` module must be imported.
+    - [ ] The `datetime` module must be imported.
+    - [ ] No imports are required.
+    - [ ] `os.path.exists` is a built-in function.
+
+    ### Which function lists all files in a directory?
+    - [x] `os.listdir()`
+    - [ ] `os.showfiles()`
+    - [ ] `os.files()`
+    - [ ] `list.files()`
+
+    ### How can you list only `.txt` files from a folder with Python?
+    - [x] By combining `os.listdir()` with filtering in a loop
+    - [ ] Only with `os.gettxtfiles()`
+    - [ ] Automatically with `open(&quot;*.txt&quot;)`
+    - [ ] With `file.list(&quot;*.txt&quot;)`
+
+    ### How do you delete a file in Python?
+    - [x] With `os.remove(&quot;datei.txt&quot;)`
+    - [ ] With `os.delete(&quot;datei.txt&quot;)`
+    - [ ] With `os.clear(&quot;datei.txt&quot;)`
+    - [ ] With `os.erase(&quot;datei.txt&quot;)`
+
+    ### How do you load a JSON file in Python?
+    - [x] With `json.load(open(&quot;datei.json&quot;))`
+    - [ ] With `json.read(&quot;datei.json&quot;)`
+    - [ ] With `json.load(&quot;datei.json&quot;)`
+    - [ ] With `json.open(&quot;datei.json&quot;)`
+
+    ### What is the purpose of `json.dump()`?
+    - [x] To write Python objects to a JSON file.
+    - [ ] To read JSON data.
+    - [ ] To delete JSON data.
+    - [ ] To format JSON data.
+
+    ### What is JSON?
+    - [x] A text-based format for exchanging data.
+    - [ ] A binary file format.
+    - [ ] An image format
+
+    ### What are text-based files?
+    - [ ] *.png
+    - [x] *.csv
+    - [x] *.xml
+    - [x] *.json
+    - [ ] *.jpg
+
+    ### What is the difference between JSON and XML?
+    - [x] JSON is simpler and more compact, XML is more extensive and flexible.
+    - [ ] JSON is older than XML.
+    - [ ] XML is easier to read than JSON.
+    - [ ] JSON cannot represent nested structures.
+</div></section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./lectures"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#slides-pdf"><a href="/lec_slides/09_Datenhaltung_en.slides.html">Slides</a>/<a href="/pdf/slides/09_Datenhaltung_en.pdf">PDF</a></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reading-files">Reading Files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-files">Writing files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#file-existence-test">File existence test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#list-files">List files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#delete-files">Delete files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-text-file-formats">Common text file formats</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#txt-files">TXT files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#json-files">JSON files</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geojson-files">GeoJSON files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#xml">XML</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#csv-files">CSV files</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#typical-binary-file-formats">Typical binary file formats</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xls-files">XLS files</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#zip-files">ZIP files</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quiz">Quiz</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Joern Ploennigs, AI 4 Sustainable Construction, University of Rostock
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright CC-BY-NC-SA 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
