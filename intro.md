@@ -9,6 +9,5 @@ Der Kurs gliedert sich in drei Teile:
 2. **Modellierung**: Thematisiert die Modellierung von Problemen mit Funktionen und Objekten und die Lösung von Problemen durch Debugging
 3. **Datenbanken**: Gibt einen Überblick in das Management kleiner und größerer Daten durch Dateien und Datenbanken.
 
-## <a href="/lec_slides/01a_Ueberblick.slides.html">Folien</a>
-<iframe src="/lec_slides/01a_Ueberblick.slides.html" width="750" height="500"></iframe>
-
+## <a href="../lec_slides/01a_Ueberblick.slides.html">Folien</a>
+<iframe src="../lec_slides/01a_Ueberblick.slides.html" width="750" height="500"></iframe>
