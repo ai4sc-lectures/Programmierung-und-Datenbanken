@@ -5,6 +5,7 @@
 ###############################################################################
 author = 'Joern Ploennigs, AI 4 Sustainable Construction, University of Rostock'
 bibtex_bibfiles = ['references.bib']
+bibtex_reference_style = 'author_year'
 comments_config = {'hypothesis': True, 'utterances': False}
 copyright = 'CC-BY-NC-SA 2025'
 exclude_patterns = ['**.ipynb_checkpoints', '**/old/**', '.DS_Store', '.quarto', '.venv', 'Thumbs.db', '_build', 'slides/**']
