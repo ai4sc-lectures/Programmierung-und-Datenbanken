@@ -65,11 +65,15 @@ async def html_to_pdf(url, output_file):
             handleSIGTERM=False,
             handleSIGHUP=False,
             autoClose=False,
+            defaultViewport=dict(
+                width=1050, height=700,
+                isLandscape=True,
+            )
         )
         page = await browser.newPage()
-        await page.setViewport(dict(width=1050, height=700))
+        #await page.setViewport(dict(width=1050, height=700))
         await page.emulateMedia("print") # "screen"
-        await page.goto(url, {"waitUntil": ["networkidle2","load"]})  # 8910
+        await page.goto(url, {"waitUntil": ["load","domcontentloaded","networkidle2","networkidle0"]})  # 8910
         await page.pdf(
             path=output_file, format="A4", printBackground=True, landscape=True
         )  # , margin= page_margins
@@ -109,10 +113,10 @@ def build_quarto(c):
 @task(build_quarto)
 def build_quarto_pdf(c):
     files = [fn for fn in os.listdir("_build/html/slides") if fn.endswith(".html")]
-    os.makedirs("_build/pdf/slides", exist_ok=True)
+    os.makedirs("_build/html/pdf/slides", exist_ok=True)
     for fn in files:
         fni = os.path.abspath(os.path.join("_build", "html", "slides", fn))
-        fno = os.path.join("_build", "pdf", "slides", fn.replace(".html", ".pdf"))
+        fno = os.path.join("_build", "html", "pdf", "slides", fn.replace(".html", ".pdf"))
         if not os.path.exists(fno) or os.path.getctime(fni) > os.path.getctime(fno):
             pool = concurrent.futures.ThreadPoolExecutor()
             pool.submit(
@@ -166,7 +170,8 @@ def build_book(c, all=False):
             htmltxt = htmltxt.replace(", 'images/", ", '../_images/")
             htmltxt = htmltxt.replace(", 'images/", ", '../_images/")
             if "_en." not in fn:
-                htmltxt = htmltxt.replace('<div class="dropdown dropdown-download-buttons">', f'<a href="{fn.replace('.html','_en.html')}" class="button btn btn-sm" title="en" data-bs-placement="bottom" data-bs-toggle="tooltip"><span class="btn__icon-container"><i class="fas fa-language "></i></span></a><div  class="dropdown dropdown-download-buttons">')
+                fnn = fn.replace('.html', '_en.html')
+                htmltxt = htmltxt.replace('<div class="dropdown dropdown-download-buttons">', f'<a href="{fnn}" class="button btn btn-sm" title="en" data-bs-placement="bottom" data-bs-toggle="tooltip"><span class="btn__icon-container"><i class="fas fa-language "></i></span></a><div  class="dropdown dropdown-download-buttons">')
             else:
                 htmltxt = htmltxt.replace('.html"', '_en.html"')
                 htmltxt = htmltxt.replace('_en_en.html"', '_en.html"')
@@ -176,7 +181,8 @@ def build_book(c, all=False):
                 htmltxt = htmltxt.replace('_en_en.slides.html"', '_en.slides.html"')
                 htmltxt = htmltxt.replace('.pdf"', '_en.pdf"')
                 htmltxt = htmltxt.replace('_en_en.pdf"', '_en.pdf"')
-                htmltxt = htmltxt.replace('<div class="dropdown dropdown-download-buttons">', f'<a href="{fn.replace('_en.html','.html')}" class="button btn btn-sm" title="en" data-bs-placement="bottom" data-bs-toggle="tooltip"><span class="btn__icon-container"><i class="fas fa-language "></i></span></a><div  class="dropdown dropdown-download-buttons">')
+                fnn = fn.replace('_en.html', '.html')
+                htmltxt = htmltxt.replace('<div class="dropdown dropdown-download-buttons">', f'<a href="{fnn}" class="button btn btn-sm" title="en" data-bs-placement="bottom" data-bs-toggle="tooltip"><span class="btn__icon-container"><i class="fas fa-language "></i></span></a><div  class="dropdown dropdown-download-buttons">')
                 apat1 = re.compile(r">(?!\s*<)([^<]*)(</a>)")
                 htmltxt = apat1.sub(replace_anchor_text, htmltxt)
                 apat2 = re.compile(r">(?!\s*<)([^<]*)(</span>)")
@@ -205,9 +211,7 @@ def build_book_slides(c):
     files = [fn for fn in os.listdir("lectures/") if fn.endswith(".ipynb")]
     for fn in files:
         fni = os.path.join("lectures", fn)
-        fno = os.path.join(
-            "_build", "html", "lec_slides", fn.replace(".ipynb", ".slides.html")
-        )
+        fno = os.path.join("_build", "html", "lec_slides", fn.replace(".ipynb", ".slides.html"))
         if not os.path.exists(fno) or os.path.getctime(fni) > os.path.getctime(fno):
             info(f"Convert slides {fn}")
             c.run(
@@ -375,7 +379,7 @@ def build_nbook_slides_pdf(c):
         serve = c.run("./weave_mac 8080 to ./_build/html", asynchronous=True)
     time.sleep(3)  # ie do a bunch of work in the foreground
     files = [fn for fn in os.listdir("lectures/") if fn.endswith(".ipynb")]
-    #os.makedirs("_build/pdf/slides", exist_ok=True)
+    #os.makedirs("_build/html/pdf/slides", exist_ok=True)
     os.makedirs("_build/html/pdf/slides", exist_ok=True)
     pool = concurrent.futures.ThreadPoolExecutor()
     for fn in files:
@@ -388,8 +392,7 @@ def build_nbook_slides_pdf(c):
                 asyncio.run,
                 html_to_pdf(
                     f"http://127.0.0.1:8080/{fni.replace('lectures', 'lec_slides').replace('.ipynb', '.slides.html')}?view=print-pdf",
-                    fno,
-                ),
+                    fno,),
             )
     pool.shutdown()
     serve.runner.kill()
@@ -398,23 +401,19 @@ def build_nbook_slides_pdf(c):
 @task(build_book_slides, build_quarto)
 def build_pdf(c):
     info("Convert jupyter book slides to pdf")
-    os.makedirs("_build/pdf/slides", exist_ok=True)
+    os.makedirs("_build/html/pdf/slides", exist_ok=True)
     jobs = []
     slides = [fn for fn in os.listdir("slides") if fn.endswith(".qmd")]
     for fn in slides:
         fni = os.path.join("slides", fn)
-        fno = os.path.join(
-            "_build", "pdf", "slides", "qmd_" + fn.replace(".qmd", ".pdf")
-        )
+        fno = os.path.join("_build", "html", "pdf", "slides", "qmd_" + fn.replace(".qmd", ".pdf"))
         if not os.path.exists(fno) or os.path.getctime(fni) > os.path.getctime(fno):
             fno2 = fn.replace(".qmd", ".html")
             jobs.append((f"http://localhost:8080/slides/{fno2}?print-pdf", fno))
     notebooks = [fn for fn in os.listdir("lectures/") if fn.endswith(".ipynb")]
     for fn in notebooks:
         fni = os.path.join("lectures", fn)
-        fno = os.path.join(
-            "_build", "pdf", "slides", "nb_" + fn.replace(".ipynb", ".pdf")
-        )
+        fno = os.path.join("_build", "html", "pdf", "slides", "nb_" + fn.replace(".ipynb", ".pdf"))
         if not os.path.exists(fno) or os.path.getctime(fni) > os.path.getctime(fno):
             fno2 = fn.replace(".ipynb", ".slides.html")
             jobs.append((f"http://localhost:8080/lec_slides/{fno2}?print-pdf", fno))
@@ -433,6 +432,34 @@ def build_pdf(c):
         time.sleep(5)
         info(f"Stop server")
         serve.runner.kill()
+
+@task(build_book_slides, build_quarto)
+def build_pdf(c):
+    info("Convert jupyter book slides to pdf")
+    os.makedirs("_build/html/pdf/slides", exist_ok=True)
+    jobs = []
+    slides = [fn for fn in os.listdir("_build/html/slides") if fn.endswith(".html")]
+    for fn in slides:
+        fni = os.path.abspath(os.path.join("_build", "html", "slides", fn))
+        fno = os.path.abspath(os.path.join("_build", "html", "pdf", "slides", fn.replace(".html", ".pdf")))
+        if not os.path.exists(fno) or os.path.getctime(fni) > os.path.getctime(fno):
+            jobs.append((f"file://{fni}?print-pdf", fno))
+    os.makedirs("_build/html/pdf/lectures", exist_ok=True)
+    notebooks = [fn for fn in os.listdir("_build/html/lec_slides") if fn.endswith(".html")]
+    for fn in notebooks:
+        fni = os.path.abspath(os.path.join("_build", "html", "lec_slides", fn))
+        fno = os.path.abspath(os.path.join("_build", "html", "pdf", "lectures", fn.replace(".html", ".pdf")))
+        if not os.path.exists(fno) or os.path.getctime(fni) > os.path.getctime(fno):
+            jobs.append((f"file://{fni}?print-pdf", fno))
+    if jobs:
+        pool = concurrent.futures.ThreadPoolExecutor()
+        futures = [
+            pool.submit(asyncio.run, html_to_pdf(job[0], job[1])) for job in jobs
+        ]
+        for future in futures:
+            future.result()
+        time.sleep(5)
+
 
 
 @task()
