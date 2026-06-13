@@ -16,13 +16,6 @@ resources:
 
 %%book
 
-
-# Entwurf relationaler Datenbanken
-
-%%/book
-
-%%book
-
 ![](images/11a_Datenbanken_Entwurf/mj_title_band.jpg)
 
 > Simple things should be simple. Complex things should be possible.
@@ -49,6 +42,22 @@ resources:
 %%slides
 
 
+## Ablauf
+
+![](images/partB_3.svg)
+
+%%/slides
+
+%%book
+
+
+# Entwurf relationaler Datenbanken
+
+%%/book
+
+%%slides
+
+
 ## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Was sind Relationalen Datenbanken?" capR="Midjourney: Relational Database" imgR="images/11a_Datenbanken_Entwurf/mj_datenbank1.png"}
 
 %%/slides
@@ -64,58 +73,6 @@ resources:
 - Die Standardsprache zum Aufbau/Änderung/Löschen ist *SQL*
 
 - Populäre Systeme: Oracle, MySQL, Microsoft SQL Server, PostgreSQL, IBM Db2
-
-%%/slides
-
-%%slides
-
-
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Was für Schlüsseltypen gibt es in Relationalen Datenbanken?" capR="Midjourney: Key on a Keyring" imgR="images/11a_Datenbanken_Entwurf/mj_schluessel.png"}
-
-%%/slides
-
-%%slides
-
-
-## Wiederholung: Verweise über Schlüssel
-
-%%col 50 50
-
-**Gemeinden Tabelle**
-
-| GemeindeID | Name | Einwohner |
-|---|--------------|-------|
-| 1 | Dummerstorf  | 7.329 |
-| 2 | Graal-Müritz | 4.278 |
-| 3 | Sanitz       | 5.831 |
-
-
- Primärschlüssel: GemeindeID
-
-%%sep
-
-**Bauwerke Tabelle**
-
-| BauwerksID | Bauwerkstyp | GemeindeID |
-|------------|-------------|------------|
-| 5000       | Tankstelle  | 2 |
-| 5001       | Hotel       | 1 |
-| 5002       | Kirche      | 2 |
-
-
-
- Fremdschlüssel: GemeindeID
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Ablauf
-
-![](images/partB_3.svg)
 
 %%/slides
 
@@ -146,6 +103,22 @@ Entscheidend in dem Vorgehen ist, dass es mit dem Konzeptioneller Entwurf einen 
 ![Schritte im Datenbankentwurf](images/11a_Datenbanken_Entwurf/dbentwurf.png)
 
 %%/book
+
+%%slides
+
+
+## Entwurfsvorgehen bei Datenbanken
+
+Das klassische Entwurfsvorgehen ähnelt dem Wasserfallmodell beim Softwareentwurf
+
+1. *Anforderungsanalyse*: Welche Anforderungen und Anwendungsfälle stellen sich an die DB?
+2. *Konzeptioneller Entwurf*: Grobentwurf im ER-Diagramm mit Entitäten, Attributen und Relationen
+3. *Logischer Entwurf*: Detailentwurf des konkreten Datenbankschemas für spezielle DBMS
+4. *Physikalischer Entwurf*: Primärindexe und Suchindexe zur Zugriffsoptimierung
+5. *Implementation*: Erstellung der Datenbank mit SQL
+6. *Wartung*: Verwendung der Datenbank
+
+%%/slides
 
 %%book
 
@@ -190,292 +163,6 @@ Ein einfaches Beispiel stellt das folgende Bild dar. Wir haben eine Person, die 
 
 %%/book
 
-%%book
-
-
-## Kardinalitäten
-
-%%/book
-
-%%book
-
-In ER-Diagrammen spielt dabei insbesondere die Kardinalität von Relationen eine wichtige Rolle, da sich daraus unterschiedliche Tabellendarstellungen ableiten. Die Kardinalitäten beschreiben die Anzahl an minimalen und maximalen möglichen Beziehungen zwischen Entitäten für diese Beziehung. Grundsätzlich unterscheidet man die folgenden Kardinalitäten:
-
-%%/book
-
-%%book
-
-<table>
-    <tr>
-        <td style="width: 10%">Kardinalität</td>
-        <td style="width: 40%">Beispiel</td>
-        <td style="width: 50%">ER-Diagramm</td>
-    </tr>
-    <tr>
-        <td>1 zu 1</td>
-        <td>Eine Person ist geboren in minimal einem, maximal einem Ort.</td>
-        <td>![](https://mermaid.ink/svg/pako:eNqNjzEOwjAMRa8SeW4H1gh1YkQCwYaymMYtkdqkSpyhqnoXzsLJMNAKsSF7sL_--7InqIMl0FB3mNLOYRuxN_5xV9LWRarZBa_2p1U7UkwiGNgYUGW5DIfISquWriGSV86rqlqBd_CCTav46e2WPDsev-b5l5LYf5BXQQE9xR6dlWcEUnIZ36gnA1pGSw3mjg0YP4sVM4fz6GvQHDMVkAeLTMv7oBvskqgD-ksI6z4_AW2lcZg)</td>
-    </tr>
-    <tr>
-        <td>1 zu 0..1</td>
-        <td>Eine Person ist gestorben in minimal Null, maximal einem Ort.</td>
-        <td>![](https://mermaid.ink/svg/pako:eNqNkLEKwkAMhl_lyNyCrkfp5CgousktsZfWg_au3KVDKX0Xn8UnM2qLuEky_PnJF5JMUAVLoKFqMaWdwyZiZ_zjriSti1SxC17tT6t3pJjEMLA1oPJcxEbEIbLSqqHEIV7JK-dVWa7Ie_QCTqv5yaIgz47Hb_P8S8ngf5BXQAYdxQ6dlXMEUrIb36gjA1qkpRqHlg0YP0srDhzOo69Acxwog6G3yLQ8AHSNbRK3R38JYa3nJ20xcn4)</td>
-    </tr>
-    <tr>
-        <td>1 zu 0..*</td>
-        <td>Eine Person macht Ferien in minimal Null, maximal vielen Orten.</td>
-        <td>![](https://mermaid.ink/svg/pako:eNqNkL0KQjEMhV8lZBQVXYs4OQqKbtIltlELt630poPIfRefxScz_lzETXqG00O-NOkVXfaMBl1DbbsIdCwUbbrfQOVDYSchJ1hu-mzNpdXA4tQijEZqJuPxQP2qCBiI5E4CtTRU9xASzOc9-Hrgg1_78K3ZjJMEuXyLu19Ke_-DPA8OMXKJFLwupRDohHLiyBaNWs8Hqo1YtKnTUqqSt5fk0EipPMR69iT8-QY0B2paTc-Udjn39-4BWmFz8w)</td>
-    </tr>
-    <tr>
-        <td>1 zu 1..*</td>
-        <td>Eine Person war bereits in minimal einem, maximal vielen Orten.</td>
-        <td>![](https://mermaid.ink/svg/pako:eNqNT0EKwkAM_MqSo7QFr0vpyaOg6E32ErqpLrS7ZZsipfQvvsWXmWqLeJPMYTLMDMkIZbAEGsoau27n8BqxMf75UALrIpXsglf706odKXYiGNgaUGk6kyzbCD9EVlrdMSrnVVGs_nfvkhpX8YM8J8-Oh695-k1J5T-ReSCBhmKDzsovElJyGN-oIQNaqKUK-5oNGD-JFXsO58GXoDn2lEDfWmRavgddYd2J2qK_hLDu0wtjFnCG)</td>
-    </tr>
-</table>
-
-%%/book
-
-%%book
-
-Es ist dabei zu beachten, dass die Leserichtung (`<<` oder `>>`) wichtig ist, da keine Aussage über die Kardinalität der Gegenrichtung gemacht wird! Es wird in dem obigen Beispiel also nur eine Aussage gemacht, in wie vielen Orten *eine* Person war und nicht darüber wie *viele* Personen in Orten sein können.
-
-%%/book
-
-%%book
-
-
-## Beispiel: ER Konzeptentwurf für Geometrieobjekte
-
-%%/book
-
-%%book
-
-Als Entwurfsbeispiel greifen wir auf die im Kapitel [Objektorientierung](7a_Objects.html) behandelten Beispiel der Geometrieobjekte. Wir haben die Klassen `Point`, `Line` und `Polygon` mit den Varianten `Triangle`, `Tetragon` und `Pentagon`.
-
-Der `Point` hat als Attribute die `x` und `y` Koordinaten vom Datentyp `float`, welche beide als `public` gekapselt sind, da mit `+` annotiert. Ferner gibt es unterschiedliche Methoden in `Point`, `Line` und `Polygon` zur Berechnung der Distanz, Fläche und Länge der jeweiligen Objekte.
-
-Im UML Diagramm haben wir dargestellt, dass ein `Polygon` die Aggregations-Assoziation mit der Multiplizität `1` zu `3..*` zur Klasse `Point` hat, also ein Polygon mit mindestens drei Punkten verknüpft ist. Die `Line` ist wiederum assoziiert mit dem Punkt `Point` mit der Multiplizität `1` zu `2`, also sind einer Linie genau zwei Punkte zugeordnet. 
-
-Die Klassen `Triangle`, `Tetragon` und `Pentagon` sind Unterklassen von `Polygon`, welche keine weitere Funktionalität hinzufügen.
-
-%%/book
-
-%%book
-
-![](https://mermaid.ink/svg/pako:eNptUcFqwzAM_RWjU7o1hW03s-OOOxS20zAEEStpwJGDrcBCl3-fkyxlKfFJ7-m9JxldofSWQEPpMMa3BuuArWGV3syos29Yrguj1GPlPIr6vsPDDdsmCnJJ2ew7LPy4DXRD7VndMpMLA2F2-EcURZRQFNlewHvDtHE74loud9p5vjLwbEDluU_VU6pmr1ZpxyBHRWy34pfT6WGjX5fVqpskcZUv7OtPnqvP0CDXjvZaJAEntNM7E8vUgyO0FFpsbDrC_CsDcqGWDOhUWqqwd2LA8Jik2Iv_GLgELaGnI_SdRaG_s4Gu0MXEdshf3q94_AW6H5O5)
-
-%%/book
-
-%%book
-
-Um für diese Objekte ein Datenbankschema zu entwerfen, führen wir sie in ein ER-Diagram über, indem wir die oben dargestellten Konvertierungsregeln anwenden. 
-
-- Wir annotieren die Klassen als erstes mit `<<Entity>>`, um sie als solches zu kennzeichnen. 
-- Wir entfernen alle Methoden, da ER-Diagramme sie nicht unterstützen.
-- Wir entfernen alle Kapselungsannotationen `+`, `-` oder `#` vor Attributen
-- Wir fügen Primärschlüssel zu allen Entitäten hinzu
-- Wir wandeln die Speziellen Assoziationstypen Aggregation und Composition in einfache Assoziationen um
-
-Da es in ER-Diagrammen und DBMS keine Vererbung gibt, müssen wir uns überlegen wie wir mit den Unterklassen `Triangle`, `Tetragon` und `Pentagon` verfahren. Eine Möglichkeit wäre es für jede eine neue Entität einzuführen, die genauso wie ein Polygon aufgebaut ist. Das führt aber zu mehreren redundant aufgebauten Tabellen. Dies ist notwendig wenn die Unterklassen eigene Attribute einführen würden. Da sie das allerdings nicht tun, brauchen wir auch auch keine separaten Entitäten, sondern können Sie in der generischen Entität Polygon mit aufnehmen, indem wir das Attribut `PolygonType` einführen, in dem wir speichern können, ob es sich um ein `Triangle`, `Tetragon`, `Pentagon` oder Untertyp handelt.
-
-Wir erhalten den folgenden Konzeptentwurf:
-
-![](https://mermaid.ink/svg/pako:eNqVUk1rwzAM_StCx9EWxm6m9NTLWA-h62n4osVKZ5bYwZGhofS_7Lfsl83Nx0ZIDysIIz-_Jz0ZnTH3hlFhXlLTbC0dA1XafX9BCmMD52K9g91-xHbWWQaNjxphuRySLLpPAQWNUBA28M4WNpt_SdiZmaDz0svOI9bHes1OrLR_3D6skyufn7eQvYxPl2m9ruMd9TKfzknBPorSk8DpFtjOWvdjanxarR4m4_uyPaaPVRCrIrmT2fgD4y7DneKG5UbC-Hpo61-TuMCKQ0XWpAVIjSCZkw-uWKNKqeGCYikatbtSKYp_bV2OSkLkBcbakPCwMqgKKpuE1uTevB_vlx87g-rt)
-
-In dem Konzeptentwurf gibt es drei Entitätstypen. Die Entität `Point` besitzt weiterhin `x` und `y`-Koordinate als die Attribute vom Datentyp `float`. Die Entität `Line` besitzt zwei Relationen zu `Point` für den Start-Punkt und End-Punkt. Die Entität `Polygon` hat die Relation mit der Kardinalität `1` zu `3..*` zu Punkt, umfasst also mindestens drei Punkte. Sie hat auch ein neues Attribut `PolygonType` vom Datentyp `str` um den Untertyp zu speichern. Für alle drei Entitäten haben wir einen numerischen Primärschlüssel definiert, da numerische Indexe sind mit am effizientesten sind.
-
-%%/book
-
-%%book
-
-
-## Normalisierung von Konzeptentwürfen zu Logischen Entwürfen
-
-%%/book
-
-%%book
-
-Die Normalisierung ist ein wichtiger Schritt im Prozess der Abbildung eines Konzeptionellen Datenmodells auf ein Logisches und Physikalisches Datenmodell. Sie hat den Zweck, Redundanzen (mehrfaches Festhalten des gleichen Sachverhalts) zu minimieren, indem neue Tabellen erzeugt und durch neue Relationen verknüpft werden für
-
-- komplexe Attribute (Listen, Dictionaries)
-- Relationen mit hoher Kardinalität
-- Redundante Daten (z.B. Polygontyp)
-
-%%/book
-
-%%book
-
-Man unterscheidet dabei verschiedene Normalformen mit fortschreitend strengeren Bedingungen an das Datenbankschema:
-
-- 1NF - 1. Normalform: Alle Attributwerte sind atomar - das heißt, dass jede Information innerhalb einer Tabelle eine eigene Tabellenspalte bekommt und zusammenhängende Informationen, wie zum Beispiel die Postleitzahl und der Ort, oder komplexe Attribute wie Listen oder Diktionaries nicht in einer Tabellenspalte gespeichert werden.
-- 2NF - 2. Normalform: Nicht-Schlüssel Attribute sind von allen Primärschlüsseln voll funktional abhängig - das heißt, dass nur Informationen die funktional zusammen hängen in einer Entität gespeichert werden. Zum Beispiel wird zu einer Rechnung nicht direkt der Name des Kunden gespeichert, sondern diese gehören zu einer separaten Entität Kunde, da ein Kunde ja mehrere Rechnungen haben kann. Wenn man ein ER-Diagramms erstellt und über die Entitäten nachdenkt, so wendet man meist automatisch die 2. Normalform an.
-- 3NF - 3. Normalform: Nicht-Schlüssel Attribute sind nur von Primärschlüssel abhängig - das heißt, dass redundante Attribute die zusammengehören zusammen abgespeichert werden. So treten Postleitszahlen und Ortsnahmen paarweise auf und sollten eine separate Entität bilden. 
-- BCNF - Boyce-Codd-Normalform: Alle Attribute von denen Attribute abhängen sind Schlüssel - das heißt, dass wenn mehre Fremdschlüssel in einer Entität auftreten und diese voneinander abhängen, so wird diese Abhängigkeit auch wieder in eine Entität ausgelagert. Speichert man zum Beispiel Ortsnahmen und Postleitzahlen in separaten Entitäten (Weil sich ja Ortsnamen doppeln), so darf man nicht die Fremdschlüssel PLZ und Ortsname in der Kundenentität speichern, sondern braucht immer noch die Entität PLZ-Ortsname.
-- 4NF - 4. Normalform: Es gibt nur noch triviale mehrwertige Abhängigkeiten - das heißt, dass wenn mehrwertig Attribute mit Fremdschlüssel oder anderen mehrwertigen Attributen auftreten, mit denen sie funktional nichts zu tun haben, so werden diese ausgelagert. Zum Beispiel ist es in der 4NF falsch bei einer Bestellung die Lieferanschrift, Kundennummer und die Artikelnummern in einer Tabelle zu speichern, da die Lieferanschrift mit der Kundennummer zusammenhängt, aber nicht mit den Artikelnummern. Korrekt sind zwei Tabellen mit Lieferanschrift und Kundennummer und eine mit Artikelnummer und Kundennummer.
-- 5NF - 5. Normalform: Es gibt keine mehrwertigen Abhängigkeiten, die voneinander abhängig sind  - das heißt das jeder Zusammenhang zwischen einem Attributen und Fremdschlüssel in eine eigene Tabelle ausgelagert wird.
-
-Meistens sind nur die ersten drei Normalformen im Datenbankentwurf relevant. Höhere Normalformen resultieren in sehr vielen kleinteiligen Tabellen, die auch für einfache Anfragen immer durch Joints zusammengesetzt werden müssen, was die Benutzbarkeit drastisch einschränkt.
-
-%%/book
-
-%%book
-
-An unserem Geometrie-Beispiel wollen wir uns einige Beispiele anschauen, für eine Verletzung der 1. bis 3. Normalform.
-
-Im dem folgenden ER-Diagramm verletzen wir die 1. Normalform, da wir ein komplexes Attribut `List<Punkt>` definieren, statt dieses als Relation aufzulösen.
-
-%%/book
-
-%%book
-
-![](https://mermaid.ink/svg/pako:eNpVjzEOgzAMRa8See4JEGJiqcqA2q3KYiWGRgUHgTMgBGfpWXqyhpYMtb5k--l_yV7AeEuQgelwmkqH7Yi95vdLRVk3khHnWVXXxL4-Vftubj0vif6U58TiZC6Kf-5YUuJcqvqiWR1VuUm2OvBTNjXsjVJy1awZTtDT2KOz8cJlj2mQB_WkIYujpQZDJxo0r9GKQfxtZgOZjIFOEAaLQsdPkDXYTZEOyHfv075-AHfmYNg)
-
-%%/book
-
-%%book
-
-Im zweiten ER-Diagramm verletzen wir die 2. Normalform verletzt, da wir die Koordinaten des Start- und End-Punktes direkt in der Linie speichern, obwohl diese Punkte darstellen und somit einen funktionalen Zusammenhang haben. Hier ist die Lösung diese in die Entität `Punkt` auszulagern und Relationen zu erzeugen.
-
-%%/book
-
-%%book
-
-![](https://mermaid.ink/svg/pako:eNp1kEEKg0AMRa8yZO0JRFy5KXVR2l0ZKMGJ7YBmZMxARbxLz9KTdWxrQbCQRfL-_5BkhMoZghSqBvu-sHj12Gp-PlQsYz1VYh2r8riwt0-Vli2NC_tUlhGLlSHP19yyzH7aFeqwX0t141BUL-jlcv8vDVsSsdnOzMIvMWmGBFryLVoTz4w7K6VBbtSShjS2hmoMjWjQPEUrBnGngStIxQdKIHQGhb6PgbTGpo-0Qz47t8zTCyn2gtQ)
-
-%%/book
-
-%%book
-
-Im letzten Beispiel speichern wir fehlerhaft das Attribut PolygonTyp in der Entität Punkt, obwohl sie zu der Entität Polygon gehört.
-
-<!--![](https://mermaid.ink/svg/pako:eNqVUctqwzAQ_JVljyUJLrmJkFMupT2Ypqeii2rJqageRl5BRfC_9Fv6ZV0ci2LopbCI0czuMiNdsYvaoMDOqXE8WXVJysvw_QVc2ibTkY0Bnp4rN_dBm8MHXSt3q8PBBLJUjsc1bwNBG_l8OEH7uNZ6FxXB519kWZMjJd7iyiWGlzJUbapgkUDivUTYbhnsd7s7xrNVEJB9z84Jfu0tUW6T_wozT6zisBGZm6Z5kwE36E3yymp-Vl4L7IXejTcSBUNtepUdSZRh4laVKZ5L6FBQymaDedCKzPIRKHrlRmYHFV5jrPfpB_QlrEw)-->
-
-![](images/11a_Datenbanken_Entwurf/pako_eNqVUctqwzAQ_JVljyUJLrmJkFMupT2Ypqeii2rJqageRl5BRfC_9Fv6ZV0ci2LopbCI0czuMiNdsYvaoMDOqXE8WXVJysvw_QVc2ibTkY0Bnp4rN_dBm8MHXSt3q8PBBLJUjsc1bwNBG_l8OEH7uNZ6FxXB519kWZMjJd7iyiWGlzJUbapgkUDivUTYbhnsd7s7xrNVEJB9z84Jfu0tUW6T_wozT6zisBGZm6Z5kwE36E3yymp-V.svg)
-
-%%/book
-
-%%book
-
-
-## Normalisierung von Kardinalitäten
-
-%%/book
-
-%%book
-
-Entsprechend der 1. Normalform müssen wir Kardinalitäten entsprechend ihrer Ordnung unterschiedlich abbilden. Dabei können einfache Kardinalitäten (0 oder 1) als Attribut gespeichert werden, wärend höhere Kardinalitäten `>1` als Relation in einer neuen Entität abgebildet werden. Hierbei spielt es im Logischen und Physikalischen Entwurf eine Rolle ob ein Attribut beim speichern einer neuen Entität in der Datenbank nicht angegeben werden muss (`Nullable`) oder zwingend angeben werden muss (`Not Null`).
-
-%%/book
-
-%%book
-
-<table>
-    <tr>
-        <td style="width: 10%">Kardinalität</td>
-        <td style="width: 40%">Beispiel</td>
-        <td style="width: 50%">ER-Diagramm</td>
-    </tr>
-    <tr>
-        <td>1 zu 1</td>
-        <td>Die Relationen werden durch Fremdschlüssel in der Entität von der die Relation startet `>>` abgebildet. Der Fremdschlüssel ist `Not Null`, also ein Eintrag muss IMMER vorhanden sein.</td>
-        <td>![](https://mermaid.ink/svg/pako:eNp1UMtqQjEQ_ZVh1rpwG8SVCGKx0u5KNtOb0QZyJ5I7WYjcf-m3-GWNmiAihbOYnJxHMmfsomM02AUahqWnQ6LeyuUXCpxP3KmPAm8fjdtxGgphcWYRptM6vCcFAwf-jokFvMBi0Qy34Go7N_KO-ZxFvZ4e4ju8aDWsl7DbvF7WorXAagPbqLDNITTZ-NxcnvZvLbxGF_lT6YgT7Dn15F3ZUkmC8mX94Z4tmjI63lMOatHKVUpZ4-dJOjSaMk8wHx0p172i2VMYCnsk-Yqxncc_DKqVow)</td>
-    </tr>
-    <tr>
-        <td>1 zu 0..1</td>
-        <td>Die Relation wird mit Fremdschlüssel in der Entität abgebildet. Der Fremdschlüssel ist `Nullable`, also ein Eintrag muss NICHT vorhanden sein.</td>
-        <td>![](https://mermaid.ink/svg/pako:eNp1UMFqQjEQ_JVlj0WFXoN4koJYWmlvkkt8WW0gbyPJ5iDy_sVv6Zd1W19aRApzmExmZ5I9Y5c8ocEuulKWwR2y6y1_XkDhQ6ZOQmJ4fmvahnJRweKjRZhOv8ls9qD8NQsYOFCRlHfEEBgWizb1kz7Onpt4xXxOLEFOf-YrAss4sFrCZn1_-Vu1Ynhaw0uN0e0iNeNw263P-7cY7sPVflOraTjBnnLvgtd1aRbo3-WDerJolHrauxrFouVBra5Kej9xh0ZypQnWo3dC44LR7F0sqh4db1Nq5-ELDQSZBA)</td>
-    </tr>
-    <tr>
-        <td>1 zu 0..*</td>
-        <td>Die Relation wird als neue Entität mit Fremdschlüssels abgebildet.</td>
-        <td>![](https://mermaid.ink/svg/pako:eNqVUctKA0EQ_JWmz8nB6xICQhAkgkHxInNpd3rdgXmE2Z5DCPsvfotfZrsPkhg9CH2oqX5U9fQR62QZK6w9dd3G0XumYOLnB2hYl7kWlyI8PM3cUAc7zl2Kx5kcY7XiKE4O6_Ul76JMDfcb2G3nZD-DMQcGbwzCcjmB29LouJa8MFQ6GwLVrUDJnsrbpZvHLH9agWsvWv67kXPJH260R124CKflRu2znn98x7DLy7AK3G2v8yp0ontcYOAcyFk9lKqAmpKWAxusFFpuqHgxaOJ3KRVJz4dYYyW58ALL3pLwdFqsGvKdsnuKrynN7_4L_TzJhQ)</td>
-    </tr>
-    <tr>
-        <td>1 zu 1..*</td>
-        <td>Die Relation wird als neue Entität mit Fremdschlüssels abgebildet. Mindestens ein Eintrag sollte vorhanden sein (Das ist eine Konsistenzregel, die sich in einer DBMS nicht erzwingen lässt (es gibt sonst ein Henne-Ei-Problem).).</td>
-        <td>![](https://mermaid.ink/svg/pako:eNqVkc1qwzAMx19F6NweejWlMCiF0cHKdhu-iFhZDYldHPlQSt5lz7Inq2jiNl23w8AH-a-vn6QTVtExGqwa6rq1p89ErQ3fX6DP-cSV-Bjg5a1olzjYcepiOBVxeMslB_FyXK3udR9kTHhew25bnH0xBh9YXFiE-Xw0nnKt5fbUCIPR2kBX4Z7lNcmfIPBIouG_Y0wb_mDRHGXwAW6jDb0nOf9Yxm0S2Gwf3dpnM8XDGbacWvJO76RtQKlkzy1bNGo6rinrUtCGXkMpS3w_hgqNpMwzzAdHwuNl0dTUdKoeKHzEWP79GZXPyXc)</td>
-    </tr>
-</table>
-
-%%/book
-
-%%book
-
-
-## Beispiel Geometrie
-
-%%/book
-
-%%book
-
-Um den oben erstellten Konzeptentwurf für die Geometrieobjekte in ein Logischen Entwurf zu überführen, müssen wir den Entwurf normalisieren. Schauen wir uns den Entwurf noch einmal an.
-
-![](https://mermaid.ink/svg/pako:eNqVUk1rwzAM_StCx9EWxm6m9NTLWA-h62n4osVKZ5bYwZGhofS_7Lfsl83Nx0ZIDysIIz-_Jz0ZnTH3hlFhXlLTbC0dA1XafX9BCmMD52K9g91-xHbWWQaNjxphuRySLLpPAQWNUBA28M4WNpt_SdiZmaDz0svOI9bHes1OrLR_3D6skyufn7eQvYxPl2m9ruMd9TKfzknBPorSk8DpFtjOWvdjanxarR4m4_uyPaaPVRCrIrmT2fgD4y7DneKG5UbC-Hpo61-TuMCKQ0XWpAVIjSCZkw-uWKNKqeGCYikatbtSKYp_bV2OSkLkBcbakPCwMqgKKpuE1uTevB_vlx87g-rt)
-
-%%/book
-
-%%book
-
-Wir haben die drei Entitäten `Linie`, `Punkt` und `Polygon` mit zwei 1:1-Relationen von `Linie` zu `Punkt` und einer 1:3..*-Relationen von `Polygon` zu `Punkt`.
-
-Wenden wir zuerst die Regeln der 1NF an und lösen diese Relationen auf entsprechend der oben gennanten Tabelle, so können wir die zwei 1:1-Relationen von `Linie` zu `Punkt` durch Fremdschlüssel in der Entität `Linie` darstellen.
-
-Die 1:3..*-Relationen von `Polygon` zu `Punkt` hingegen ist entsprechend der 1NF nicht direkt abbildbar, da wir eine Multiplizität größer 1 haben und wir müssen eine neue Entität einführen. Diese Entität (Tabelle) listet welche Polygone, welche Punkte benutzen. Die neue Entität enthät also die zwei Fremdschlüssel und einen neuen Primärschlüssel. Im Logischen Entwurf führen wir auch die Fremdschlüssel als Attribut mit auf, um diese Eindeutig mit darzustellen.
-
-%%/book
-
-%%book
-
-![](https://mermaid.ink/svg/pako:eNqVk0FqwzAQRa8yaJ0sujUmq7RQEoJJuireqNY4FZUlI49KTchdepaerLIVNzi22xoGIc38j56k0YllRiCLWKZ4Va0lP1pepPrrE3wIaTEjaTRs911uK7VESNldymC5vEwSp98IIqiIW0IBLyhhtfqXBbUYGFqWYDt1uRBxjJok1VdtCKmp0ePjGpLNsHRouMKODxvYGdo5pYayey2mROc-WyubwZYYP47A5cpwgo9xpFCs_0Ixqj4aPQumdYzgVGS76lNdTm4cLun2QYOvraF_2DgGV-SekH5sPcW43Rvf_XjbCz3rjKPuUfGmgSf64noTv7VF93gjXcEWrEBbcCn8F_Jc4E9Dr1hgyiI_FZhzpyhlqW6k3JE51DpjEVmHC-ZKwQkvn45FOVeVz5ZcPxvTrc_fQ2JraQ)
-
-%%/book
-
-%%book
-
-In diesem Entwurf ist die 2NF und 3NF ist breits erfüllt.
-
-Allerdings haben wir viele Dopplungen (Redundanzen) bei dem Attribut `PolygonTyp`, welche ja nur die Werte `Triangle`, `Tetragon` und `Pentagon` annehmen kann, aber jedes mal als neuer String gespeichert werden muss. Gleichzeitig wollen wir ja auch, dass dieses Attribut nur diese Werte annimmt und nicht mit Kauderwelsch gefüllt wird. Deshalb ist es sinnvoll hier die Werte zu begrenzen und die Dopplung von Strings zu vermeiden indem wir eine neue Entität `PolygonType` einführen. Diese definiert die Grundtypen `Triangle`, `Tetragon` und `Pentagon` und weißt ihnen einen numerischen Primärschlüssel zu, den wir in der Entität `Polygon` als Fremdschlüssel referenzieren.
-
-Zu guter letzt definieren wir noch für alle Attribute und Fremdschlüssel ob sie `Nullable` oder `NotNull` sind.
-
-Wir erhalten den finalen Logischen Entwurf:
-
-%%/book
-
-%%book
-
-![](https://mermaid.ink/svg/pako:eNqVVEFugzAQ_MrK5-TQK0I5pZWqRBFKeqp8cfGSWDV2BOuqKOIvfUtfVoMhVQKhDbIs450RM7M2J5ZaiSxiqRZluVRiX4icm-8v8EOqAlNS1sB62--tlVEInD1wBvN5t0iceSeIoCRREEp4QwWLxb8oaOSA0GoJtFO_F0YcoyFF1S82DGWowePzEpLVsLRrdIUvPq1gY2njtB7CHo28BaovtbWwO7Ql1s8j4jJtBcHnuKRQrP6SYnW1t-YuMS3jRlZd9aU6esBEECGp664GcltD3904BpdnXiadaReIcbonfvj5-kBcUCf8Qvc0braoRXOCp82OOh12byqNc2pobrvycRx8S0dttdT7uxj6dO2tpAI2IscRvWzGcixyoaS_9acmLc7ogDlyFvmlxEw4TZxxU3uocGR3lUlZRIXDGXNHKQi7_0S_eRTm1Vr_mgldYv0DvTmt6A)
-
-%%/book
-
-%%book
-
-Wichtig zu erkennen in dem logischen Entwurf ist, dass wir jetzt nur noch 1:1-Relationen haben, also alle höherwertigen Kardinalitäten aufgelößt haben. Zusätzlich haben wir Redundanzen aufgelößt und haben jetzt ein sehr effizienten Datenbankentwurf.
-
-Im Physikalischen Entwurf würde man diesem Entwurf jetzt noch weitere Informationen hinzufügen, wie zum Beispiel zusätzliche Zugangangsbeschränkungen oder Abfrageindizies. Zugangsbeschränkungen gibt es in den meisten DBMS nur auf Entitätsebene und nicht auf Attributsebene (wie in UML), man kann also Beschränken welche Nutzer, welche Tabellen sehen, lesen, erzeugen, oder verändern können, aber nicht welche Spalten sie sehen. 
-
-Beim Entwurf von Abfrageindizies ist die Regel, dass man versucht alle häufig genutzten `WHERE`-Bedingungen, die man in `SELECT`-Anfragen in SQL benutzt, durch entsprechende Indizies beschleunigt werden.
-
-Damit sind wir auch schon direkt im SQL Thema wo wir uns mit der Erzeugung von Tabellen beschäftigen wollen.
-
-%%/book
-
-%%slides
-
-
-## Entwurfsvorgehen bei Datenbanken
-
-Das klassische Entwurfsvorgehen ähnelt dem Wasserfallmodell beim Softwareentwurf
-
-1. *Anforderungsanalyse*: Welche Anforderungen und Anwendungsfälle stellen sich an die DB?
-2. *Konzeptioneller Entwurf*: Grobentwurf im ER-Diagramm mit Entitäten, Attributen und Relationen
-3. *Logischer Entwurf*: Detailentwurf des konkreten Datenbankschemas für spezielle DBMS
-4. *Physikalischer Entwurf*: Primärindexe und Suchindexe zur Zugriffsoptimierung
-5. *Implementation*: Erstellung der Datenbank mit SQL
-6. *Wartung*: Verwendung der Datenbank
-
-%%/slides
-
 %%slides
 
 
@@ -517,14 +204,14 @@ Das klassische Entwurfsvorgehen ähnelt dem Wasserfallmodell beim Softwareentwur
 %%slides
 
 
-## Diagrammarten - Verschiedene Notationen 
+## Diagrammarten - Verschiedene Notationen
 
 %%col 50 50
 
 *Historische Entwicklung:*
 
 - *Chen-Notation* (Peter Chen, 1976)
-- *IDEF1X* (USA Behörden Standard, 1985)  
+- *IDEF1X* (USA Behörden Standard, 1985)
 - *Bachman-Notation* (Charles Bachman, 1969)
 - *Krähenfuß-Notation* (Gordon Everest, 1976)
 - *(min, max)-Notation* (Jean-Raymond Abrial, 1974)
@@ -600,7 +287,7 @@ Im objektorientierten Softwareentwurf wird ein *Programm aus Objekten* modellier
 %%slides
 
 
-## Datenbankentwurf 
+## Datenbankentwurf
 
 Im Datenbankentwurf wird eine *Datenbank aus Entitäten* modelliert:
 
@@ -638,6 +325,100 @@ Im Datenbankentwurf wird eine *Datenbank aus Entitäten* modelliert:
 %%slides
 
 
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Was für Schlüsseltypen gibt es in Relationalen Datenbanken?" capR="Midjourney: Key on a Keyring" imgR="images/11a_Datenbanken_Entwurf/mj_schluessel.png"}
+
+%%/slides
+
+%%slides
+
+
+## Wiederholung: Verweise über Schlüssel
+
+%%col 50 50
+
+**Gemeinden Tabelle**
+
+| GemeindeID | Name | Einwohner |
+|---|--------------|-------|
+| 1 | Dummerstorf  | 7.329 |
+| 2 | Graal-Müritz | 4.278 |
+| 3 | Sanitz       | 5.831 |
+
+
+ Primärschlüssel: GemeindeID
+
+%%sep
+
+**Bauwerke Tabelle**
+
+| BauwerksID | Bauwerkstyp | GemeindeID |
+|------------|-------------|------------|
+| 5000       | Tankstelle  | 2 |
+| 5001       | Hotel       | 1 |
+| 5002       | Kirche      | 2 |
+
+
+
+ Fremdschlüssel: GemeindeID
+
+%%/col
+
+%%/slides
+
+%%book
+
+
+## Kardinalitäten
+
+%%/book
+
+%%book
+
+In ER-Diagrammen spielt dabei insbesondere die Kardinalität von Relationen eine wichtige Rolle, da sich daraus unterschiedliche Tabellendarstellungen ableiten. Die Kardinalitäten beschreiben die Anzahl an minimalen und maximalen möglichen Beziehungen zwischen Entitäten für diese Beziehung. Grundsätzlich unterscheidet man die folgenden Kardinalitäten:
+
+%%/book
+
+%%book
+
+<table>
+    <tr>
+        <td style="width: 10%">Kardinalität</td>
+        <td style="width: 40%">Beispiel</td>
+        <td style="width: 50%">ER-Diagramm</td>
+    </tr>
+    <tr>
+        <td>1 zu 1</td>
+        <td>Eine Person ist geboren in minimal einem, maximal einem Ort.</td>
+        <td>![](https://mermaid.ink/svg/pako:eNqNjzEOwjAMRa8SeW4H1gh1YkQCwYaymMYtkdqkSpyhqnoXzsLJMNAKsSF7sL_--7InqIMl0FB3mNLOYRuxN_5xV9LWRarZBa_2p1U7UkwiGNgYUGW5DIfISquWriGSV86rqlqBd_CCTav46e2WPDsev-b5l5LYf5BXQQE9xR6dlWcEUnIZ36gnA1pGSw3mjg0YP4sVM4fz6GvQHDMVkAeLTMv7oBvskqgD-ksI6z4_AW2lcZg)</td>
+    </tr>
+    <tr>
+        <td>1 zu 0..1</td>
+        <td>Eine Person ist gestorben in minimal Null, maximal einem Ort.</td>
+        <td>![](https://mermaid.ink/svg/pako:eNqNkLEKwkAMhl_lyNyCrkfp5CgousktsZfWg_au3KVDKX0Xn8UnM2qLuEky_PnJF5JMUAVLoKFqMaWdwyZiZ_zjriSti1SxC17tT6t3pJjEMLA1oPJcxEbEIbLSqqHEIV7JK-dVWa7Ie_QCTqv5yaIgz47Hb_P8S8ngf5BXQAYdxQ6dlXMEUrIb36gjA1qkpRqHlg0YP0srDhzOo69Acxwog6G3yLQ8AHSNbRK3R38JYa3nJ20xcn4)</td>
+    </tr>
+    <tr>
+        <td>1 zu 0..*</td>
+        <td>Eine Person macht Ferien in minimal Null, maximal vielen Orten.</td>
+        <td>![](https://mermaid.ink/svg/pako:eNqNkL0KQjEMhV8lZBQVXYs4OQqKbtIltlELt630poPIfRefxScz_lzETXqG00O-NOkVXfaMBl1DbbsIdCwUbbrfQOVDYSchJ1hu-mzNpdXA4tQijEZqJuPxQP2qCBiI5E4CtTRU9xASzOc9-Hrgg1_78K3ZjJMEuXyLu19Ke_-DPA8OMXKJFLwupRDohHLiyBaNWs8Hqo1YtKnTUqqSt5fk0EipPMR69iT8-QY0B2paTc-Udjn39-4BWmFz8w)</td>
+    </tr>
+    <tr>
+        <td>1 zu 1..*</td>
+        <td>Eine Person war bereits in minimal einem, maximal vielen Orten.</td>
+        <td>![](https://mermaid.ink/svg/pako:eNqNT0EKwkAM_MqSo7QFr0vpyaOg6E32ErqpLrS7ZZsipfQvvsWXmWqLeJPMYTLMDMkIZbAEGsoau27n8BqxMf75UALrIpXsglf706odKXYiGNgaUGk6kyzbCD9EVlrdMSrnVVGs_nfvkhpX8YM8J8-Oh695-k1J5T-ReSCBhmKDzsovElJyGN-oIQNaqKUK-5oNGD-JFXsO58GXoDn2lEDfWmRavgddYd2J2qK_hLDu0wtjFnCG)</td>
+    </tr>
+</table>
+
+%%/book
+
+%%book
+
+Es ist dabei zu beachten, dass die Leserichtung (`<<` oder `>>`) wichtig ist, da keine Aussage über die Kardinalität der Gegenrichtung gemacht wird! Es wird in dem obigen Beispiel also nur eine Aussage gemacht, in wie vielen Orten *eine* Person war und nicht darüber wie *viele* Personen in Orten sein können.
+
+%%/book
+
+%%slides
+
+
 ## Kardinalitäten (Multiplizitäten)
 
 <table>
@@ -669,6 +450,119 @@ Im Datenbankentwurf wird eine *Datenbank aus Entitäten* modelliert:
 </table>
 
 %%/slides
+
+%%book
+
+
+## Beispiel: ER Konzeptentwurf für Geometrieobjekte
+
+%%/book
+
+%%book
+
+Als Entwurfsbeispiel greifen wir auf die im Kapitel [Objektorientierung](7a_Objects.html) behandelten Beispiel der Geometrieobjekte. Wir haben die Klassen `Point`, `Line` und `Polygon` mit den Varianten `Triangle`, `Tetragon` und `Pentagon`.
+
+Der `Point` hat als Attribute die `x` und `y` Koordinaten vom Datentyp `float`, welche beide als `public` gekapselt sind, da mit `+` annotiert. Ferner gibt es unterschiedliche Methoden in `Point`, `Line` und `Polygon` zur Berechnung der Distanz, Fläche und Länge der jeweiligen Objekte.
+
+Im UML Diagramm haben wir dargestellt, dass ein `Polygon` die Aggregations-Assoziation mit der Multiplizität `1` zu `3..*` zur Klasse `Point` hat, also ein Polygon mit mindestens drei Punkten verknüpft ist. Die `Line` ist wiederum assoziiert mit dem Punkt `Point` mit der Multiplizität `1` zu `2`, also sind einer Linie genau zwei Punkte zugeordnet.
+
+Die Klassen `Triangle`, `Tetragon` und `Pentagon` sind Unterklassen von `Polygon`, welche keine weitere Funktionalität hinzufügen.
+
+%%/book
+
+%%book
+
+![](https://mermaid.ink/svg/pako:eNptUcFqwzAM_RWjU7o1hW03s-OOOxS20zAEEStpwJGDrcBCl3-fkyxlKfFJ7-m9JxldofSWQEPpMMa3BuuArWGV3syos29Yrguj1GPlPIr6vsPDDdsmCnJJ2ew7LPy4DXRD7VndMpMLA2F2-EcURZRQFNlewHvDtHE74loud9p5vjLwbEDluU_VU6pmr1ZpxyBHRWy34pfT6WGjX5fVqpskcZUv7OtPnqvP0CDXjvZaJAEntNM7E8vUgyO0FFpsbDrC_CsDcqGWDOhUWqqwd2LA8Jik2Iv_GLgELaGnI_SdRaG_s4Gu0MXEdshf3q94_AW6H5O5)
+
+%%/book
+
+%%book
+
+Um für diese Objekte ein Datenbankschema zu entwerfen, führen wir sie in ein ER-Diagram über, indem wir die oben dargestellten Konvertierungsregeln anwenden.
+
+- Wir annotieren die Klassen als erstes mit `<<Entity>>`, um sie als solches zu kennzeichnen.
+- Wir entfernen alle Methoden, da ER-Diagramme sie nicht unterstützen.
+- Wir entfernen alle Kapselungsannotationen `+`, `-` oder `#` vor Attributen
+- Wir fügen Primärschlüssel zu allen Entitäten hinzu
+- Wir wandeln die Speziellen Assoziationstypen Aggregation und Composition in einfache Assoziationen um
+
+Da es in ER-Diagrammen und DBMS keine Vererbung gibt, müssen wir uns überlegen wie wir mit den Unterklassen `Triangle`, `Tetragon` und `Pentagon` verfahren. Eine Möglichkeit wäre es für jede eine neue Entität einzuführen, die genauso wie ein Polygon aufgebaut ist. Das führt aber zu mehreren redundant aufgebauten Tabellen. Dies ist notwendig wenn die Unterklassen eigene Attribute einführen würden. Da sie das allerdings nicht tun, brauchen wir auch auch keine separaten Entitäten, sondern können Sie in der generischen Entität Polygon mit aufnehmen, indem wir das Attribut `PolygonType` einführen, in dem wir speichern können, ob es sich um ein `Triangle`, `Tetragon`, `Pentagon` oder Untertyp handelt.
+
+Wir erhalten den folgenden Konzeptentwurf:
+
+![](https://mermaid.ink/svg/pako:eNqVUk1rwzAM_StCx9EWxm6m9NTLWA-h62n4osVKZ5bYwZGhofS_7Lfsl83Nx0ZIDysIIz-_Jz0ZnTH3hlFhXlLTbC0dA1XafX9BCmMD52K9g91-xHbWWQaNjxphuRySLLpPAQWNUBA28M4WNpt_SdiZmaDz0svOI9bHes1OrLR_3D6skyufn7eQvYxPl2m9ruMd9TKfzknBPorSk8DpFtjOWvdjanxarR4m4_uyPaaPVRCrIrmT2fgD4y7DneKG5UbC-Hpo61-TuMCKQ0XWpAVIjSCZkw-uWKNKqeGCYikatbtSKYp_bV2OSkLkBcbakPCwMqgKKpuE1uTevB_vlx87g-rt)
+
+In dem Konzeptentwurf gibt es drei Entitätstypen. Die Entität `Point` besitzt weiterhin `x` und `y`-Koordinate als die Attribute vom Datentyp `float`. Die Entität `Line` besitzt zwei Relationen zu `Point` für den Start-Punkt und End-Punkt. Die Entität `Polygon` hat die Relation mit der Kardinalität `1` zu `3..*` zu Punkt, umfasst also mindestens drei Punkte. Sie hat auch ein neues Attribut `PolygonType` vom Datentyp `str` um den Untertyp zu speichern. Für alle drei Entitäten haben wir einen numerischen Primärschlüssel definiert, da numerische Indexe sind mit am effizientesten sind.
+
+%%/book
+
+%%book
+
+
+## Normalisierung von Konzeptentwürfen zu Logischen Entwürfen
+
+%%/book
+
+%%book
+
+Die Normalisierung ist ein wichtiger Schritt im Prozess der Abbildung eines Konzeptionellen Datenmodells auf ein Logisches und Physikalisches Datenmodell. Sie hat den Zweck, Redundanzen (mehrfaches Festhalten des gleichen Sachverhalts) zu minimieren, indem neue Tabellen erzeugt und durch neue Relationen verknüpft werden für
+
+- komplexe Attribute (Listen, Dictionaries)
+- Relationen mit hoher Kardinalität
+- Redundante Daten (z.B. Polygontyp)
+
+%%/book
+
+%%book
+
+Man unterscheidet dabei verschiedene Normalformen mit fortschreitend strengeren Bedingungen an das Datenbankschema:
+
+- 1NF - 1. Normalform: Alle Attributwerte sind atomar - das heißt, dass jede Information innerhalb einer Tabelle eine eigene Tabellenspalte bekommt und zusammenhängende Informationen, wie zum Beispiel die Postleitzahl und der Ort, oder komplexe Attribute wie Listen oder Diktionaries nicht in einer Tabellenspalte gespeichert werden.
+- 2NF - 2. Normalform: Nicht-Schlüssel Attribute sind von allen Primärschlüsseln voll funktional abhängig - das heißt, dass nur Informationen die funktional zusammen hängen in einer Entität gespeichert werden. Zum Beispiel wird zu einer Rechnung nicht direkt der Name des Kunden gespeichert, sondern diese gehören zu einer separaten Entität Kunde, da ein Kunde ja mehrere Rechnungen haben kann. Wenn man ein ER-Diagramms erstellt und über die Entitäten nachdenkt, so wendet man meist automatisch die 2. Normalform an.
+- 3NF - 3. Normalform: Nicht-Schlüssel Attribute sind nur von Primärschlüssel abhängig - das heißt, dass redundante Attribute die zusammengehören zusammen abgespeichert werden. So treten Postleitszahlen und Ortsnahmen paarweise auf und sollten eine separate Entität bilden.
+- BCNF - Boyce-Codd-Normalform: Alle Attribute von denen Attribute abhängen sind Schlüssel - das heißt, dass wenn mehre Fremdschlüssel in einer Entität auftreten und diese voneinander abhängen, so wird diese Abhängigkeit auch wieder in eine Entität ausgelagert. Speichert man zum Beispiel Ortsnahmen und Postleitzahlen in separaten Entitäten (Weil sich ja Ortsnamen doppeln), so darf man nicht die Fremdschlüssel PLZ und Ortsname in der Kundenentität speichern, sondern braucht immer noch die Entität PLZ-Ortsname.
+- 4NF - 4. Normalform: Es gibt nur noch triviale mehrwertige Abhängigkeiten - das heißt, dass wenn mehrwertig Attribute mit Fremdschlüssel oder anderen mehrwertigen Attributen auftreten, mit denen sie funktional nichts zu tun haben, so werden diese ausgelagert. Zum Beispiel ist es in der 4NF falsch bei einer Bestellung die Lieferanschrift, Kundennummer und die Artikelnummern in einer Tabelle zu speichern, da die Lieferanschrift mit der Kundennummer zusammenhängt, aber nicht mit den Artikelnummern. Korrekt sind zwei Tabellen mit Lieferanschrift und Kundennummer und eine mit Artikelnummer und Kundennummer.
+- 5NF - 5. Normalform: Es gibt keine mehrwertigen Abhängigkeiten, die voneinander abhängig sind  - das heißt das jeder Zusammenhang zwischen einem Attributen und Fremdschlüssel in eine eigene Tabelle ausgelagert wird.
+
+Meistens sind nur die ersten drei Normalformen im Datenbankentwurf relevant. Höhere Normalformen resultieren in sehr vielen kleinteiligen Tabellen, die auch für einfache Anfragen immer durch Joints zusammengesetzt werden müssen, was die Benutzbarkeit drastisch einschränkt.
+
+%%/book
+
+%%book
+
+An unserem Geometrie-Beispiel wollen wir uns einige Beispiele anschauen, für eine Verletzung der 1. bis 3. Normalform.
+
+Im dem folgenden ER-Diagramm verletzen wir die 1. Normalform, da wir ein komplexes Attribut `List<Punkt>` definieren, statt dieses als Relation aufzulösen.
+
+%%/book
+
+%%book
+
+![](https://mermaid.ink/svg/pako:eNpVjzEOgzAMRa8See4JEGJiqcqA2q3KYiWGRgUHgTMgBGfpWXqyhpYMtb5k--l_yV7AeEuQgelwmkqH7Yi95vdLRVk3khHnWVXXxL4-Vftubj0vif6U58TiZC6Kf-5YUuJcqvqiWR1VuUm2OvBTNjXsjVJy1awZTtDT2KOz8cJlj2mQB_WkIYujpQZDJxo0r9GKQfxtZgOZjIFOEAaLQsdPkDXYTZEOyHfv075-AHfmYNg)
+
+%%/book
+
+%%book
+
+Im zweiten ER-Diagramm verletzen wir die 2. Normalform verletzt, da wir die Koordinaten des Start- und End-Punktes direkt in der Linie speichern, obwohl diese Punkte darstellen und somit einen funktionalen Zusammenhang haben. Hier ist die Lösung diese in die Entität `Punkt` auszulagern und Relationen zu erzeugen.
+
+%%/book
+
+%%book
+
+![](https://mermaid.ink/svg/pako:eNp1kEEKg0AMRa8yZO0JRFy5KXVR2l0ZKMGJ7YBmZMxARbxLz9KTdWxrQbCQRfL-_5BkhMoZghSqBvu-sHj12Gp-PlQsYz1VYh2r8riwt0-Vli2NC_tUlhGLlSHP19yyzH7aFeqwX0t141BUL-jlcv8vDVsSsdnOzMIvMWmGBFryLVoTz4w7K6VBbtSShjS2hmoMjWjQPEUrBnGngStIxQdKIHQGhb6PgbTGpo-0Qz47t8zTCyn2gtQ)
+
+%%/book
+
+%%book
+
+Im letzten Beispiel speichern wir fehlerhaft das Attribut PolygonTyp in der Entität Punkt, obwohl sie zu der Entität Polygon gehört.
+
+<!--![](https://mermaid.ink/svg/pako:eNqVUctqwzAQ_JVljyUJLrmJkFMupT2Ypqeii2rJqageRl5BRfC_9Fv6ZV0ci2LopbCI0czuMiNdsYvaoMDOqXE8WXVJysvw_QVc2ibTkY0Bnp4rN_dBm8MHXSt3q8PBBLJUjsc1bwNBG_l8OEH7uNZ6FxXB519kWZMjJd7iyiWGlzJUbapgkUDivUTYbhnsd7s7xrNVEJB9z84Jfu0tUW6T_wozT6zisBGZm6Z5kwE36E3yymp-Vl4L7IXejTcSBUNtepUdSZRh4laVKZ5L6FBQymaDedCKzPIRKHrlRmYHFV5jrPfpB_QlrEw)-->
+
+![](images/11a_Datenbanken_Entwurf/pako_eNqVUctqwzAQ_JVljyUJLrmJkFMupT2Ypqeii2rJqageRl5BRfC_9Fv6ZV0ci2LopbCI0czuMiNdsYvaoMDOqXE8WXVJysvw_QVc2ibTkY0Bnp4rN_dBm8MHXSt3q8PBBLJUjsc1bwNBG_l8OEH7uNZ6FxXB519kWZMjJd7iyiWGlzJUbapgkUDivUTYbhnsd7s7xrNVEJB9z84Jfu0tUW6T_wozT6zisBGZm6Z5kwE36E3yymp-V.svg)
+
+%%/book
 
 %%slides
 
@@ -840,6 +734,51 @@ CREATE TABLE Polygon (
 
 %%/slides
 
+%%book
+
+
+## Normalisierung von Kardinalitäten
+
+%%/book
+
+%%book
+
+Entsprechend der 1. Normalform müssen wir Kardinalitäten entsprechend ihrer Ordnung unterschiedlich abbilden. Dabei können einfache Kardinalitäten (0 oder 1) als Attribut gespeichert werden, wärend höhere Kardinalitäten `>1` als Relation in einer neuen Entität abgebildet werden. Hierbei spielt es im Logischen und Physikalischen Entwurf eine Rolle ob ein Attribut beim speichern einer neuen Entität in der Datenbank nicht angegeben werden muss (`Nullable`) oder zwingend angeben werden muss (`Not Null`).
+
+%%/book
+
+%%book
+
+<table>
+    <tr>
+        <td style="width: 10%">Kardinalität</td>
+        <td style="width: 40%">Beispiel</td>
+        <td style="width: 50%">ER-Diagramm</td>
+    </tr>
+    <tr>
+        <td>1 zu 1</td>
+        <td>Die Relationen werden durch Fremdschlüssel in der Entität von der die Relation startet `>>` abgebildet. Der Fremdschlüssel ist `Not Null`, also ein Eintrag muss IMMER vorhanden sein.</td>
+        <td>![](https://mermaid.ink/svg/pako:eNp1UMtqQjEQ_ZVh1rpwG8SVCGKx0u5KNtOb0QZyJ5I7WYjcf-m3-GWNmiAihbOYnJxHMmfsomM02AUahqWnQ6LeyuUXCpxP3KmPAm8fjdtxGgphcWYRptM6vCcFAwf-jokFvMBi0Qy34Go7N_KO-ZxFvZ4e4ju8aDWsl7DbvF7WorXAagPbqLDNITTZ-NxcnvZvLbxGF_lT6YgT7Dn15F3ZUkmC8mX94Z4tmjI63lMOatHKVUpZ4-dJOjSaMk8wHx0p172i2VMYCnsk-Yqxncc_DKqVow)</td>
+    </tr>
+    <tr>
+        <td>1 zu 0..1</td>
+        <td>Die Relation wird mit Fremdschlüssel in der Entität abgebildet. Der Fremdschlüssel ist `Nullable`, also ein Eintrag muss NICHT vorhanden sein.</td>
+        <td>![](https://mermaid.ink/svg/pako:eNp1UMFqQjEQ_JVlj0WFXoN4koJYWmlvkkt8WW0gbyPJ5iDy_sVv6Zd1W19aRApzmExmZ5I9Y5c8ocEuulKWwR2y6y1_XkDhQ6ZOQmJ4fmvahnJRweKjRZhOv8ls9qD8NQsYOFCRlHfEEBgWizb1kz7Onpt4xXxOLEFOf-YrAss4sFrCZn1_-Vu1Ynhaw0uN0e0iNeNw263P-7cY7sPVflOraTjBnnLvgtd1aRbo3-WDerJolHrauxrFouVBra5Kej9xh0ZypQnWo3dC44LR7F0sqh4db1Nq5-ELDQSZBA)</td>
+    </tr>
+    <tr>
+        <td>1 zu 0..*</td>
+        <td>Die Relation wird als neue Entität mit Fremdschlüssels abgebildet.</td>
+        <td>![](https://mermaid.ink/svg/pako:eNqVUctKA0EQ_JWmz8nB6xICQhAkgkHxInNpd3rdgXmE2Z5DCPsvfotfZrsPkhg9CH2oqX5U9fQR62QZK6w9dd3G0XumYOLnB2hYl7kWlyI8PM3cUAc7zl2Kx5kcY7XiKE4O6_Ul76JMDfcb2G3nZD-DMQcGbwzCcjmB29LouJa8MFQ6GwLVrUDJnsrbpZvHLH9agWsvWv67kXPJH260R124CKflRu2znn98x7DLy7AK3G2v8yp0ontcYOAcyFk9lKqAmpKWAxusFFpuqHgxaOJ3KRVJz4dYYyW58ALL3pLwdFqsGvKdsnuKrynN7_4L_TzJhQ)</td>
+    </tr>
+    <tr>
+        <td>1 zu 1..*</td>
+        <td>Die Relation wird als neue Entität mit Fremdschlüssels abgebildet. Mindestens ein Eintrag sollte vorhanden sein (Das ist eine Konsistenzregel, die sich in einer DBMS nicht erzwingen lässt (es gibt sonst ein Henne-Ei-Problem).).</td>
+        <td>![](https://mermaid.ink/svg/pako:eNqVkc1qwzAMx19F6NweejWlMCiF0cHKdhu-iFhZDYldHPlQSt5lz7Inq2jiNl23w8AH-a-vn6QTVtExGqwa6rq1p89ErQ3fX6DP-cSV-Bjg5a1olzjYcepiOBVxeMslB_FyXK3udR9kTHhew25bnH0xBh9YXFiE-Xw0nnKt5fbUCIPR2kBX4Z7lNcmfIPBIouG_Y0wb_mDRHGXwAW6jDb0nOf9Yxm0S2Gwf3dpnM8XDGbacWvJO76RtQKlkzy1bNGo6rinrUtCGXkMpS3w_hgqNpMwzzAdHwuNl0dTUdKoeKHzEWP79GZXPyXc)</td>
+    </tr>
+</table>
+
+%%/book
+
 %%slides
 
 
@@ -876,6 +815,67 @@ Kardinalitäten werden unterschiedlich abgebildet:
 </table>
 
 %%/slides
+
+%%book
+
+
+## Beispiel Geometrie
+
+%%/book
+
+%%book
+
+Um den oben erstellten Konzeptentwurf für die Geometrieobjekte in ein Logischen Entwurf zu überführen, müssen wir den Entwurf normalisieren. Schauen wir uns den Entwurf noch einmal an.
+
+![](https://mermaid.ink/svg/pako:eNqVUk1rwzAM_StCx9EWxm6m9NTLWA-h62n4osVKZ5bYwZGhofS_7Lfsl83Nx0ZIDysIIz-_Jz0ZnTH3hlFhXlLTbC0dA1XafX9BCmMD52K9g91-xHbWWQaNjxphuRySLLpPAQWNUBA28M4WNpt_SdiZmaDz0svOI9bHes1OrLR_3D6skyufn7eQvYxPl2m9ruMd9TKfzknBPorSk8DpFtjOWvdjanxarR4m4_uyPaaPVRCrIrmT2fgD4y7DneKG5UbC-Hpo61-TuMCKQ0XWpAVIjSCZkw-uWKNKqeGCYikatbtSKYp_bV2OSkLkBcbakPCwMqgKKpuE1uTevB_vlx87g-rt)
+
+%%/book
+
+%%book
+
+Wir haben die drei Entitäten `Linie`, `Punkt` und `Polygon` mit zwei 1:1-Relationen von `Linie` zu `Punkt` und einer 1:3..*-Relationen von `Polygon` zu `Punkt`.
+
+Wenden wir zuerst die Regeln der 1NF an und lösen diese Relationen auf entsprechend der oben gennanten Tabelle, so können wir die zwei 1:1-Relationen von `Linie` zu `Punkt` durch Fremdschlüssel in der Entität `Linie` darstellen.
+
+Die 1:3..*-Relationen von `Polygon` zu `Punkt` hingegen ist entsprechend der 1NF nicht direkt abbildbar, da wir eine Multiplizität größer 1 haben und wir müssen eine neue Entität einführen. Diese Entität (Tabelle) listet welche Polygone, welche Punkte benutzen. Die neue Entität enthät also die zwei Fremdschlüssel und einen neuen Primärschlüssel. Im Logischen Entwurf führen wir auch die Fremdschlüssel als Attribut mit auf, um diese Eindeutig mit darzustellen.
+
+%%/book
+
+%%book
+
+![](https://mermaid.ink/svg/pako:eNqVk0FqwzAQRa8yaJ0sujUmq7RQEoJJuireqNY4FZUlI49KTchdepaerLIVNzi22xoGIc38j56k0YllRiCLWKZ4Va0lP1pepPrrE3wIaTEjaTRs911uK7VESNldymC5vEwSp98IIqiIW0IBLyhhtfqXBbUYGFqWYDt1uRBxjJok1VdtCKmp0ePjGpLNsHRouMKODxvYGdo5pYayey2mROc-WyubwZYYP47A5cpwgo9xpFCs_0Ixqj4aPQumdYzgVGS76lNdTm4cLun2QYOvraF_2DgGV-SekH5sPcW43Rvf_XjbCz3rjKPuUfGmgSf64noTv7VF93gjXcEWrEBbcCn8F_Jc4E9Dr1hgyiI_FZhzpyhlqW6k3JE51DpjEVmHC-ZKwQkvn45FOVeVz5ZcPxvTrc_fQ2JraQ)
+
+%%/book
+
+%%book
+
+In diesem Entwurf ist die 2NF und 3NF ist breits erfüllt.
+
+Allerdings haben wir viele Dopplungen (Redundanzen) bei dem Attribut `PolygonTyp`, welche ja nur die Werte `Triangle`, `Tetragon` und `Pentagon` annehmen kann, aber jedes mal als neuer String gespeichert werden muss. Gleichzeitig wollen wir ja auch, dass dieses Attribut nur diese Werte annimmt und nicht mit Kauderwelsch gefüllt wird. Deshalb ist es sinnvoll hier die Werte zu begrenzen und die Dopplung von Strings zu vermeiden indem wir eine neue Entität `PolygonType` einführen. Diese definiert die Grundtypen `Triangle`, `Tetragon` und `Pentagon` und weißt ihnen einen numerischen Primärschlüssel zu, den wir in der Entität `Polygon` als Fremdschlüssel referenzieren.
+
+Zu guter letzt definieren wir noch für alle Attribute und Fremdschlüssel ob sie `Nullable` oder `NotNull` sind.
+
+Wir erhalten den finalen Logischen Entwurf:
+
+%%/book
+
+%%book
+
+![](https://mermaid.ink/svg/pako:eNqVVEFugzAQ_MrK5-TQK0I5pZWqRBFKeqp8cfGSWDV2BOuqKOIvfUtfVoMhVQKhDbIs450RM7M2J5ZaiSxiqRZluVRiX4icm-8v8EOqAlNS1sB62--tlVEInD1wBvN5t0iceSeIoCRREEp4QwWLxb8oaOSA0GoJtFO_F0YcoyFF1S82DGWowePzEpLVsLRrdIUvPq1gY2njtB7CHo28BaovtbWwO7Ql1s8j4jJtBcHnuKRQrP6SYnW1t-YuMS3jRlZd9aU6esBEECGp664GcltD3904BpdnXiadaReIcbonfvj5-kBcUCf8Qvc0braoRXOCp82OOh12byqNc2pobrvycRx8S0dttdT7uxj6dO2tpAI2IscRvWzGcixyoaS_9acmLc7ogDlyFvmlxEw4TZxxU3uocGR3lUlZRIXDGXNHKQi7_0S_eRTm1Vr_mgldYv0DvTmt6A)
+
+%%/book
+
+%%book
+
+Wichtig zu erkennen in dem logischen Entwurf ist, dass wir jetzt nur noch 1:1-Relationen haben, also alle höherwertigen Kardinalitäten aufgelößt haben. Zusätzlich haben wir Redundanzen aufgelößt und haben jetzt ein sehr effizienten Datenbankentwurf.
+
+Im Physikalischen Entwurf würde man diesem Entwurf jetzt noch weitere Informationen hinzufügen, wie zum Beispiel zusätzliche Zugangangsbeschränkungen oder Abfrageindizies. Zugangsbeschränkungen gibt es in den meisten DBMS nur auf Entitätsebene und nicht auf Attributsebene (wie in UML), man kann also Beschränken welche Nutzer, welche Tabellen sehen, lesen, erzeugen, oder verändern können, aber nicht welche Spalten sie sehen.
+
+Beim Entwurf von Abfrageindizies ist die Regel, dass man versucht alle häufig genutzten `WHERE`-Bedingungen, die man in `SELECT`-Anfragen in SQL benutzt, durch entsprechende Indizies beschleunigt werden.
+
+Damit sind wir auch schon direkt im SQL Thema wo wir uns mit der Erzeugung von Tabellen beschäftigen wollen.
+
+%%/book
 
 %%slides
 
@@ -1081,7 +1081,7 @@ Schätzt erst den Aufwand und schaut erst dann auf das Datum (plant nicht danach
     ### Sortiere die Normalformen nach ihrer Strenge (von weniger zu mehr streng):
 
     1. 1NF (Erste Normalform)
-    2. 2NF (Zweite Normalform) 
+    2. 2NF (Zweite Normalform)
     3. 3NF (Dritte Normalform)
     4. BCNF (Boyce-Codd-Normalform)
 
@@ -1160,7 +1160,7 @@ Schätzt erst den Aufwand und schaut erst dann auf das Datum (plant nicht danach
     ### Sortiere diese SQL-Befehle in der logischen Reihenfolge für das Erstellen einer Datenbank:
 
     1. CREATE TABLE für Hauptentitäten
-    2. CREATE TABLE für Fremdschlüssel-abhängige Tabellen  
+    2. CREATE TABLE für Fremdschlüssel-abhängige Tabellen
     3. INSERT Grunddaten
     4. INSERT verknüpfte Daten
 
@@ -1199,7 +1199,7 @@ Schätzt erst den Aufwand und schaut erst dann auf das Datum (plant nicht danach
 
     1. Backup der Tabelle erstellen
     2. DELETE-Statement mit WHERE-Bedingung testen
-    3. Tatsächliches Löschen durchführen  
+    3. Tatsächliches Löschen durchführen
     4. Ergebnis überprüfen
 
     ### Mit welchem Befehl benennt man eine Tabelle um?
@@ -1223,7 +1223,7 @@ Schätzt erst den Aufwand und schaut erst dann auf das Datum (plant nicht danach
     *Angenommen, es gibt bereits Daten in der Tabelle*
 
     - [ ] ADD COLUMN ist falsch
-    - [ ] REAL ist kein gültiger Datentyp  
+    - [ ] REAL ist kein gültiger Datentyp
     - [x] Es fehlt ein DEFAULT-Wert für bestehende Zeilen
     - [ ] Der Spaltenname z ist zu kurz
 
