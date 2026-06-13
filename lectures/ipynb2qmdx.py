@@ -449,7 +449,7 @@ _VIDEO_RE = re.compile(
 
 
 _HTML_LIST_RE = re.compile(
-    r'<ul>\s*(.*?)\s*(?:</ul>|<ul>\s*(?=</div>|$)|$)',
+    r'<ul>\s*(.*?)\s*(?:</ul>|<ul>(?=\s*</div>|\s*$)|$)',
     re.DOTALL | re.IGNORECASE,
 )
 
