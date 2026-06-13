@@ -31,6 +31,15 @@ resources:
 
 %%/book
 
+%%slides
+
+
+## Ablauf
+
+![](images/partA_4.svg)
+
+%%/slides
+
 %%book
 
 
@@ -186,6 +195,77 @@ if bedingung is not None:
 
 %%/book
 
+%%slides
+
+
+## Bedingtes Verzweigen
+
+- Wir können Steueranweisungen benutzen, die basierend auf einer Bedingung ein bestimmtes Statement „ansteuern".
+
+- Diese Bedingungen sind Statements deren Ausgabe ein Boolean-Wert (True oder False) ist:
+    - `True` - Logische Werte
+    - `a` - Variablen Werte, wenn a mit einem Bool belegt wurde, bzw. das Bool-Äquivalent von a
+    - `2 < 5` - Alle Vergleichsoperatoren
+
+%%/slides
+
+%%slides
+
+
+## Wenn … Dann …
+
+- Die Grundform solcher Verzweigungen ist:
+  > „Wenn die Bedingung zutrifft, dann führe folgende Statements aus"
+
+- Oft folgt außerdem ein „sonst führe stattdessen folgendes Statement aus"
+
+- Python kennt drei Anweisungen zur Verzweigung:
+    - `if` - wenn
+    - `else` - sonst  
+    - `elif` - kurz für else-if
+
+%%/slides
+
+%%slides
+
+
+## IF-Statement
+
+- Die If-Anweisung ist nötig, um eine Verzweigung zu beginnen.
+
+- Wichtig: Der bedingte Code-Block muss eingerückt werden
+
+```python
+if Bedingung:
+    # dann führe den folgenden Block nur aus wenn die Bedingung wahr ist
+    Statement1
+    Statement2
+    # ...
+```
+
+Ist die Bedingung `True`, werden die eingerückten Statements ausgeführt.
+
+%%/slides
+
+%%slides
+
+
+## Beispiel: IF-Statement zum Überspringen von Code
+
+```python
+activateOutput = True
+a = 10
+b = 13
+c = math.sqrt(a**2 + b**2) # Pythagoras
+
+if activateOutput:
+    print("Seitenlänge:" + str(c))
+    umfang = a + b + c
+    # ...
+```
+
+%%/slides
+
 %%book
 
 
@@ -268,6 +348,62 @@ print(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
 
 %%/book
 
+%%slides
+
+
+## Alternativen
+
+- `else` folgt nur auf ein `if`
+- Wird ausgeführt wenn die im `if` angegebene Bedingung `false` zurückgibt
+- Benötigt ebenso Einrückung des bedingten Code-Blocks
+
+```python
+if Bedingung:
+    # dann führe den folgenden Block nur aus wenn Bedingung wahr ist
+    Statement1
+    Statement2
+    # ...
+else:
+    Statement1b
+    # ...
+```
+
+%%/slides
+
+%%slides
+
+### Beispiel: Division durch 0 abfangen (Einfache Verzweigung)
+
+Implizite Version
+```python
+a = 5
+b = 0
+if b:  # der Wahrheitswert eines int-Wertes ist false bei 0 und Wahr für != 0
+    c = a / b
+else:
+    print("Division by Zero")
+    c = None
+```
+
+%%/slides
+
+%%slides
+
+### Beispiel: Division durch 0 abfangen (Einfache Verzweigung)
+
+Explizite Version
+```python
+a = 5
+b = 0
+if b != 0: # Expliziter Wahrheitswert
+    c = a / b
+else:
+    print("Division by Zero")
+    c = None
+```
+
+%%/slides
+
 %%book
 
 Da man ferner bei Python durch die dynamische Typisierung gar nicht garantieren kann, dass `zaehler` und `nenner` vom richtigen Datentyp `int` sind, ist es sinnvoll eine Typprüfung hinzuzufügen. Hierfür prüfen wir zuerst den Datentyp mit der bekannten Funktion `type()` bevor wir die Prüfung auf 0-Teilung machen. Dafür verschachteln wir die `if-else` Bedingungen.
@@ -298,6 +434,41 @@ print(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
 ```
 
 %%/book
+
+%%slides
+
+
+## Verschachtelte Verzweigungen
+
+Durch mehrfaches Einrücken können wir Verzweigungen in Verzweigungen definieren:
+
+```python
+if Condition1:
+    StatementA
+else:
+    if Condition2:
+        StatementB
+    else:
+        StatementC
+```
+
+%%/slides
+
+%%slides
+
+### Beispiel: Vorzeichen testen (Verschachtelte Verzweigung)
+
+```python
+if a < 0:
+    print("Number is negative")
+else:
+    if a > 0:
+        print("Number is positive")
+    else:
+        print("Number is zero")
+```
+
+%%/slides
 
 %%book
 
@@ -375,177 +546,6 @@ print(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
 ```
 
 %%/book
-
-%%slides
-
-
-## Ablauf
-
-![](images/partA_4.svg)
-
-%%/slides
-
-%%slides
-
-
-## Bedingtes Verzweigen
-
-- Wir können Steueranweisungen benutzen, die basierend auf einer Bedingung ein bestimmtes Statement „ansteuern".
-
-- Diese Bedingungen sind Statements deren Ausgabe ein Boolean-Wert (True oder False) ist:
-    - `True` - Logische Werte
-    - `a` - Variablen Werte, wenn a mit einem Bool belegt wurde, bzw. das Bool-Äquivalent von a
-    - `2 < 5` - Alle Vergleichsoperatoren
-
-%%/slides
-
-%%slides
-
-
-## Wenn … Dann …
-
-- Die Grundform solcher Verzweigungen ist:
-  > „Wenn die Bedingung zutrifft, dann führe folgende Statements aus"
-
-- Oft folgt außerdem ein „sonst führe stattdessen folgendes Statement aus"
-
-- Python kennt drei Anweisungen zur Verzweigung:
-    - `if` - wenn
-    - `else` - sonst  
-    - `elif` - kurz für else-if
-
-%%/slides
-
-%%slides
-
-
-## IF-Statement
-
-- Die If-Anweisung ist nötig, um eine Verzweigung zu beginnen.
-
-- Wichtig: Der bedingte Code-Block muss eingerückt werden
-
-```python
-if Bedingung:
-    # dann führe den folgenden Block nur aus wenn die Bedingung wahr ist
-    Statement1
-    Statement2
-    # ...
-```
-
-Ist die Bedingung `True`, werden die eingerückten Statements ausgeführt.
-
-%%/slides
-
-%%slides
-
-
-## Beispiel: IF-Statement zum Überspringen von Code
-
-```python
-activateOutput = True
-a = 10
-b = 13
-c = math.sqrt(a**2 + b**2) # Pythagoras
-
-if activateOutput:
-    print("Seitenlänge:" + str(c))
-    umfang = a + b + c
-    # ...
-```
-
-%%/slides
-
-%%slides
-
-
-## Alternativen
-
-- `else` folgt nur auf ein `if`
-- Wird ausgeführt wenn die im `if` angegebene Bedingung `false` zurückgibt
-- Benötigt ebenso Einrückung des bedingten Code-Blocks
-
-```python
-if Bedingung:
-    # dann führe den folgenden Block nur aus wenn Bedingung wahr ist
-    Statement1
-    Statement2
-    # ...
-else:
-    Statement1b
-    # ...
-```
-
-%%/slides
-
-%%slides
-
-### Beispiel: Division durch 0 abfangen (Einfache Verzweigung)
-
-Implizite Version
-```python
-a = 5
-b = 0
-if b:  # der Wahrheitswert eines int-Wertes ist false bei 0 und Wahr für != 0
-    c = a / b
-else:
-    print("Division by Zero")
-    c = None
-```
-
-%%/slides
-
-%%slides
-
-### Beispiel: Division durch 0 abfangen (Einfache Verzweigung)
-
-Explizite Version
-```python
-a = 5
-b = 0
-if b != 0: # Expliziter Wahrheitswert
-    c = a / b
-else:
-    print("Division by Zero")
-    c = None
-```
-
-%%/slides
-
-%%slides
-
-
-## Verschachtelte Verzweigungen
-
-Durch mehrfaches Einrücken können wir Verzweigungen in Verzweigungen definieren:
-
-```python
-if Condition1:
-    StatementA
-else:
-    if Condition2:
-        StatementB
-    else:
-        StatementC
-```
-
-%%/slides
-
-%%slides
-
-### Beispiel: Vorzeichen testen (Verschachtelte Verzweigung)
-
-```python
-if a < 0:
-    print("Number is negative")
-else:
-    if a > 0:
-        print("Number is positive")
-    else:
-        print("Number is zero")
-```
-
-%%/slides
 
 %%slides
 
@@ -733,7 +733,7 @@ Welche Lerntypen gibt es?
     - [ ] Erzeugt eine neue Instanz
 
     ### Warum ist Typprüfung in Python nützlich?
-    - [x] Um Fehler zu vermeiden, z. B. bei Division durch 0  
+    - [x] Um Fehler zu vermeiden, z.B. bei Division durch 0
     - [ ] Weil Python stark typisiert ist  
     - [ ] Um Variablen in Funktionen zu kopieren  
     - [ ] Um Schleifen zu beenden
