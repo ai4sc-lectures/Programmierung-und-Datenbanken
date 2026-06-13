@@ -1,0 +1,790 @@
+---
+title: "Modularisierung"
+image-credit: "Midjourney: Modular Blocks, ref. Piet Mondrian"
+format:
+  revealjs:
+    title-slide-attributes:
+      data-background-video: images/07a_Module/mj_title.mp4
+    output-file: 07a_Module.slide.html
+  html:
+    output-file: 07a_Module.page.html
+  typst:
+    output-file: 07a_Module.page.pdf
+resources:
+  - data/07a_Module
+---
+
+%%book
+
+
+# Modularisierung
+
+%%/book
+
+%%book
+
+![](images/07a_Module/mj_title_band.jpg)
+
+> Write programs that do one thing and do it well.
+>
+> — Doug McIlroy
+
+%%/book
+
+%%slides
+
+
+## Ablauf
+
+![](images/partB_1.svg)
+
+%%/slides
+
+%%book
+
+
+## Code in Dateien, Module und Pakete aufteilen
+
+%%/book
+
+%%book
+
+Größere Programme enthalten oft dutzende Klassen mit hunderten Funktionen und vielen tausend Zeilen Code. Hier wird es sehr schnell schwer einen Überblick zu behalten, wenn alle Klassen in einer Datei definiert sind. Insbesondere wenn verschiedene Programmierer an verschiedenen Stellen im Programm arbeiten, kommt es dann sehr schnell zu Versionskonflikten, wenn Leute an ähnlichen Dateien arbeiten.
+
+Um dies organisiert und übersichtlich zu halten, wird Code in mehrere Dateien mit der Erweiterung `.py` aufgespalten. Dabei ist es üblich jeweils eine Datei
+
+-  pro Klasse, wenn Klassen definiert werden
+-  pro Thema, wenn Hilfsfunktionen definiert werden (z.B. Mathematik-Funktionen, …)
+-  pro Aufgabenbereich, wenn (z.B. Laden von Daten getrennt von deren Verarbeitung. So kann man z.B. später andere Verarbeitungsschritte definieren und das Laden wiederverwenden)
+
+%%/book
+
+%%book
+
+Speichern wir jede Klasse der Geometrieelemente aus dem Teil der [Klassendefinition](7a_Objects.ipynb) aus der letzten Vorlesung so hätten wir dann z.B. eine Projektstruktur entsprechend:
+
+%%/book
+
+%%book
+
+- 📁 geometry
+    - 📄 [ImmutablePoint.py](points/ImmutablePoint.py)
+    - 📄 [Point.py](points/Point.py)
+    - 📄 [Line.py](shapes/Line.py)
+    - 📄 [Pentagon.py](shapes/Pentagon.py)
+    - 📄 [Polygon.py](shapes/Polygon.py)
+    - 📄 [Tetragon.py](shapes/Tetragon.py)
+    - 📄 [Triangle.py](shapes/Triangle.py)
+
+<!-- <center><img src="images/07a_Module/files.png" style="width: 40ex"></center> -->
+
+%%/book
+
+%%book
+
+Dabei enthält jede Datei nur den Code der gleichnamigen Klasse, auch wenn dies nur wenige Zeilen sind, wie im Fall der Klassen `Triangle`, `Tetragon` und `Pentagon`. Entscheidend ist, dass wenn ein Programmierer nach dem Code für eine Klasse sucht, er genau sieht in welcher Datei dieser zu finden ist und nicht groß suchen muss.
+
+Noch größere Projekte spalten man in mehrere *Module* indem man weitere Unterverzeichnisse anlegt. So wollen wir z.B. alle generischen Klassen für Punkte in das Verzeichnis `points` gruppieren und alle geometrischen Formen in das Verzeichnis `shapes`. So lassen sich größere Projekte gut strukturieren.
+
+Die Summe aller Module formt dann ein *Package*. In diesem Fall das Package `geometry`, welches wir in verschiedenen Implementierungen wieder verwenden können.
+
+%%/book
+
+%%book
+
+- 📁 geometry
+    - 📁 points
+        - 📄 [ImmutablePoint.py](geometry/points/ImmutablePoint.py)
+        - 📄 [Point.py](geometry/points/Point.py)
+    - 📁 shapes
+        - 📄 [Line.py](geometry/shapes/Line.py)
+        - 📄 [Pentagon.py](geometry/shapes/Pentagon.py)
+        - 📄 [Polygon.py](geometry/shapes/Polygon.py)
+        - 📄 [Tetragon.py](geometry/shapes/Tetragon.py)
+        - 📄 [Triangle.py](geometry/shapes/Triangle.py)
+
+<!-- <center><img src="images/07a_Module/shapes.png" style="width: 40ex"></center> -->
+
+%%/book
+
+%%book
+
+
+## `main()` - Der Startpunkt eines Programmes
+
+%%/book
+
+%%book
+
+Wenn Code über mehrere Dateien verteilt ist, braucht Python einen Hinweis welcher Code ausgeführt werden soll. Hierfür definiert man die spezielle Einstiegsfunktion `main()`. Sie gibt es in fast allen Programmiersprachen und gibt immer den Startpunkt eines Programms an.
+
+In Python hat sie entweder keine Argumente oder sie erhält diese dynamisch, wenn sie vom Nutzer / von einem anderen Programm aufgerufen wird (a.k.a. Kommandozeilenargumente).
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def main():
+	print("This is the main function")
+```
+
+%%/book
+
+%%book
+
+Allerdings möchte man vermeiden, dass die Funktion `main()` auch aufgerufen wird, wenn die Python-Datei zum Beispiel als Bibliothek eingebunden wird, wo man nur an den Funktionen interessiert ist. Deshalb nutzt man am Ende einer Datei mit einer `main()`-Funktion die folgende Verzweigung.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+if __name__ == "__main__":
+	main()
+```
+
+%%/book
+
+%%book
+
+Sie nutzt aus, dass der Wert der Standardvariable `__name__` in der Hauptdatei immer `'__main__'` lautet. Während sie in einer importierten Datei den Namen der Hauptdatei angibt.
+
+%%/book
+
+%%book
+
+
+## Importieren von Modulen
+
+%%/book
+
+%%book
+
+Um zu vermeiden, dass ständig unnötiger Code geladen wird lädt Python diesen Code nicht automatisch. Wollen wir also den Code in unseren Dateien, Modulen und Packages nutzen so müssen wir vorher Python anweisen diesen zu laden. Dieses *Importieren* weist man mit dem Befehl `import` an.
+
+Ein einfacher Import ist der import ganzer Pakete. Dies geschieht, indem wir `import` und dem Paketnamen schreiben.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import geometry.points.ImmutablePoint
+import geometry.shapes.Line
+
+def main():
+	point_1 = geometry.points.ImmutablePoint.ImmutablePoint(x=54.083336, y=12.108811)
+	point_2 = geometry.points.ImmutablePoint.ImmutablePoint(y=12.094167, x=54.075211)
+	linie_1 = geometry.shapes.Line.Line(start=point_1, end=point_2)
+	print(f"Die Länge der Linie zwischen Punkt 1 und 2 ist: {linie_1.length()}")
+
+if __name__ == "__main__":
+	main()
+```
+
+%%/book
+
+%%book
+
+Der Nachteil des Imports ganzer Pakete ist, dass wenn wir hieraus einzelne Klassen referenzieren wollen, die sich in Untermodulen befinden, so müssen wir den kompletten Pfad der Klasse angeben. In dem Beispiel oben zum Beispiel `geometry.points.ImmutablePoint.ImmutablePoint`.
+
+%%/book
+
+%%book
+
+Deshalb importiert man meist einzelne Module indem man den Pfad eines Moduls angibt, wie zum Beispiel `geometry.points.ImmutablePoint.ImmutablePoint`. Hierbei kann man den importierten Modulen auch neue Namen geben wie `point` oder `line` in dem Beispiel unten.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import geometry.points.ImmutablePoint as point
+import geometry.shapes.Line as line
+
+def main():
+	point_1 = point.ImmutablePoint(x=54.083336, y=12.108811)
+	point_2 = point.ImmutablePoint(y=12.094167, x=54.075211)
+	linie_1 = line.Line(start=point_1, end=point_2)
+	print(f"Die Länge der Linie zwischen Punkt 1 und 2 ist: {linie_1.length()}")
+
+if __name__ == "__main__":
+	main()
+```
+
+%%/book
+
+%%book
+
+Alternativ lassen sich auch Teile eines Moduls mit dem Platzhalter `*` und dem Befehl `from` importieren. Alle Elemente werden mit dem Platzhalter `*` importiert. Spezifische Elemente wie einzelne Klassen können auch direkt angegeben werden, wie im folgenden Beispiel `Line`.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+from geometry.points.ImmutablePoint import *
+from geometry.shapes.Line import Line
+
+def main():
+	point_1 = ImmutablePoint(x=54.083336, y=12.108811)
+	point_2 = ImmutablePoint(y=12.094167, x=54.075211)
+	linie_1 = Line(start=point_1, end=point_2)
+	print(f"Die Länge der Linie zwischen Punkt 1 und 2 ist: {linie_1.length()}")
+
+if __name__ == "__main__":
+	main()
+```
+
+%%/book
+
+%%book
+
+
+## Standard Paktete aus Python importieren
+
+%%/book
+
+%%book
+
+Python beinhaltet viele [Standardpakete](https://python.readthedocs.io/en/latest/library/index.html) für typische Aufgaben. Für die Bau- und Umweltinformatik sind die folgenden am sinnvollsten:
+
+%%/book
+
+%%book
+
+| packet |   description |
+| ------ | ------------- |
+| collections | Mehr komplexe Datentypen zum zählen, sortieren     |
+| http   | Funktionen des HTTP-Internetprotokolls wie Web-Server   |
+| json   | Funktionen um Objekte als Text abzuspeichern            |
+| logging| Funktionen um Logs zu schreiben                         |
+| math   | Mathematische Funktionen                                |
+| os     | Funktionen um Dateien zu finden, laden und speichern     |
+| pickle | Funktionen um Objekte binär abzuspeichern               |
+| pprint | print-Funktionen um Objekte schöner (pretty) auszugeben |
+| random | Funktionen zum Erzeugen von Zufallszahlen               |
+| re     | Funktionen für Reguläre Ausdrücke um Text zu suchen     |
+| sys    | Funktionen um Systeminformationen zu erhalten           |
+| time   | Funktionen für Zeit und Datumsangaben                   |
+| timeit | Funktionen um die Performance von Funktionen zu testen  |
+|traceback| Funktionen um den Stack aufzulisten                    |
+| urllib | Funktionen um ULRs im Internet zu laden und verarbeiten |
+
+%%/book
+
+%%book
+
+Von der Liste haben wir die Bibliotheken `math`, `time`, `timeit`, `traceback` und `logging` schon kennen gelernt und benutzt. Die anderen Pakete bieten allerdings weitere sinnvolle Funktionen.
+
+ Wollen wir zum Beispiel alle Dateien in einem Verzeichnis auflisten, so nutzen wir das Paket `os`.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import os
+
+folder = "geometry/shapes/"
+for count, filename in enumerate(os.listdir(folder)):
+	if os.path.isfile(os.path.join(folder, filename)):
+		path = os.path.join(folder, filename)
+		print(path)
+```
+
+%%/book
+
+%%book
+
+Viele Webseiten bieten Programmierschnittstellen an, so genannte APIs, da diese APIs auch von den eigenen Webseiten genutzt werden, um Daten nachzuladen, die auf der Webseite angezeigt werden. Die APIs nutzen meist das JSON-Format um Daten auszutauschen. Dies ist ein Text-basiertes Dateiformat, das in Python sehr stark dem `dict`-Datentyp ähnelt, aber auch alle anderen primitiven und zusammengesetzten Datentypen von Python unterstützt. 
+
+Wir möchten zum Beispiel die Wetterdaten einer Wetterstation in Deutschland analysieren. Diese Daten bekommen wir beim [Deutschen Wetterdiest](https://www.dwd.de). Diese Daten kann man sich auch von der [API](https://dwd.api.bund.dev/) herunterladen. Hierfür braucht man die ID (Identifikationsnummer) einer Wetterstation welche [hier](https://www.dwd.de/DE/leistungen/klimadatendeutschland/statliste/statlex_html.html?view=nasPublication&nn=16102) zu finden ist. Wir nehmen als Beispiel eine Station im Hansaviertel in Rostock mit der ID `12495`.
+
+Dann kann man die Wetterdaten mit Python mit Hilfe des Paketes `urllib` von der API laden. Das JSON-Format können wir mit dem `json` Paket verarbeiten. Wir laden dazu zuerst vom Deutschen Wetterdienst ein binäres Datenpaket vom Datentype `bytes`. Dieses konvertieren wir mit der Funktion `loads` aus dem `json` Paket in ein Python `dict`. Um das schöner lesbar auszugeben, nutzen wir die Funktion `pprint` aus dem Paket `pprint` (pretty-print).
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import urllib.request
+import json
+import pprint
+
+stationID='12495' # Rostock-Hansaviertel
+with urllib.request.urlopen(f'https://dwd.api.proxy.bund.dev/v30/stationOverviewExtended?stationIds={stationID}') as f:
+    data=f.read() # Dies gibt uns ein binären Datentyp zurück
+    wetter=json.loads(data) # Wir konvertieren den binären Datentyp in ein dict
+    pprint.pprint(wetter, indent=2, compact=True)
+```
+
+%%/book
+
+%%book
+
+<!-- Einen eigenen Webserver können wir mit dem Paket `http.server` starten.
+
+import http.server as server
+
+server_object = server.HTTPServer(server_address=('', 80), 	RequestHandlerClass=server.CGIHTTPRequestHandler)
+
+server_object.serve_forever()
+
+-->
+
+%%/book
+
+%%book
+
+
+## Externe Pakete installieren und importieren
+
+%%/book
+
+%%book
+
+Die Stärke von Python ist allerdings die riesige Auswahl an vorhandenen Paketen. Für die meisten Anwendungszwecke gibt es entsprechende Python Packages. Ein solches Verzeichnis is [PyPi](https://pypi.org/) das über 400.000 Pakete listet.
+
+%%/book
+
+%%book
+
+Die Installation neuer Pakete für Python ist einfach. Hierfür öffnet man ein Terminal (Kommandozeile) und gibt den Befehl `pip install <packetname>` ein. 
+
+Zum Beispiel wollen wir die eben geladenen Wetterdaten anzeigen. Hierfür nutzen wir:
+
+- zuerst das Paket `pandas` zum Erzeugen einer Tabelle aus den Wetterdaten. 
+- dann nutzen wir das Paket `plotly` zum Zeichnen eines Diagramms. 
+- zuletzt erzeugen wir uns einen Webserver mit `dash` der uns das Diagramm immer anzeigt
+
+Alles drei installieren wir mit `pip`. Wir können das in einem Aufruf machen. Wir nutzen den `--quiet` Switch, um die Ausgabe zu reduzieren.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+pip install pandas plotly dash  --quiet
+```
+
+%%/book
+
+%%book
+
+Jetzt laden wir beide Pakete, wobei man üblicher Weise `pandas` die Abkürzung `pd` zuweist und Plotly Express, welches einfach zu bedienen ist, die Abkürzung `px`.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import pandas as pd
+import plotly.express as px
+import dash
+```
+
+%%/book
+
+%%book
+
+Nun wandeln wir die tageweise Wettervorhersage `days` der Daten von der Wetterstation mit der `stationID` zuerst in eine Tabelle um, da diese von Plotly express verarbeitet werden kann. Tabellen heißen in Pandas DataFrames (allgemein werden so Tabellen in der Data Science genannt). Wir erzeugen also aus der Wettervorhersage ein neue Objektinstanz vom Typ `DataFrame` via
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+df = pd.DataFrame(wetter[stationID]['days'])
+df
+```
+
+%%/book
+
+%%book
+
+Nun plotten wir die Daten `df` als LinienDiagramm mit Hilfe von Plotly wobei wir als `x`-Axe das Datum wählen (`dayDate`) und als `y`-Axe die minimale Temperatur `temperatureMin` und maximale Temperatur `temperatureMax`.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+fig=px.line(df, x="dayDate", y=["temperatureMin", "temperatureMax"])
+fig.show(renderer="svg")
+```
+
+%%/book
+
+%%book
+
+Zuletzt wollen wir dieses Diagramm in einer Webseite auf einem Webserver anzeigen. Hier nutzen wir das Paket `dash` welches erlaubt eine Webseite mit Python-Befehlen zu erzeugen und darin interaktive Diagramme von Plotly mit anzuzeigen.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import dash
+
+app = dash.Dash()
+```
+
+%%/book
+
+%%slides
+
+```{python}
+#| echo: true
+pip install jupyter_dash  --quiet
+```
+
+%%/slides
+
+%%slides
+
+```{python}
+#| echo: true
+
+
+# und ersetzen das Dash objekt
+from jupyter_dash import JupyterDash
+
+app = JupyterDash()
+```
+
+%%/slides
+
+%%book
+
+Dann erzeugen wir eine Webseite mit einer Überschrift (`H1`), welche den Plot als `Graph` enthält.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+app.layout = dash.html.Div(children = [
+    dash.html.H1(children='Wetter in Rostock'),
+    dash.dcc.Graph(id="fare_vs_age", figure=fig)
+])
+```
+
+%%/book
+
+%%book
+
+Und starten den Webserver.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+app.run_server()
+```
+
+%%/book
+
+%%book
+
+Dies startet einen Webserver auf den wir in einem Browser unter `http://127.0.0.1:8083/` zugreifen können. Er zeigt uns eine Webseite mit einem interaktiven Diagramm welches die Wetterdaten anzeigt.
+
+%%/book
+
+%%book
+
+![](images/07a_Module/wetter.png)
+
+%%/book
+
+%%slides
+
+
+## Organisieren von Projekten über mehrere Dateien
+
+%%col 50 50
+
+Herausforderungen großer Programme:
+
+- Dutzende Klassen mit hunderten Funktionen
+- Viele tausende Zeilen Code
+- Schwer Überblick zu behalten
+- Versionskonflikte bei mehreren Programmierern
+
+%%sep
+
+Lösung - Code aufteilen in .py Dateien:
+
+- *Pro Klasse* eine Datei (bei Klassendefinitionen)
+- *Pro Thema* eine Datei (z.B. Mathematik-Funktionen)
+- *Pro Aufgabenbereich* eine Datei (z.B. Laden vs. Verarbeitung)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Die main()-Funktion als Standardfunktion
+
+Woher weiß Python was ausgeführt werden soll?
+
+- Eine bestimmte Datei als *Zentrum des Projektes* deklarieren
+- Diese enthält eine spezielle Funktion namens `main()`
+- Existiert in fast jeder Programmiersprache
+- Gibt den *Startpunkt des Programms* an
+- Kann keine oder dynamische Argumente erhalten (Kommandozeilenargumente)
+
+%%/slides
+
+%%slides
+
+
+## Die main()-Funktion in Python
+
+%%col 50 50
+
+Verschiedene Ausführungsmöglichkeiten:
+
+1. Als Skript in Kommandozeile/Gesamtprogramm
+2. Importiert in interaktive Python-Konsole  
+3. Importiert in andere Python-Datei
+
+Problem: In Fall 1 wollen wir das gesamte Skript, in Fall 2+3 nur Teile nutzen
+
+Die Lösung - Variable `__name__`:
+
+%%sep
+
+```python
+def main():
+    print("This is the main function")
+
+if __name__ == "__main__":
+    main()  # nur bei direktem Aufruf
+```
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Best Practice für main()-Funktion
+
+Was gehört VOR die main()-Definition:
+
+%%col 50 50
+
+✅ Nur erlaubt:
+
+- Funktionsdefinitionen
+- Klassendefinitionen
+
+%%sep
+
+❌ Vermeiden:
+
+- Variablenbelegungen (globale Variablen)
+- Funktionsaufrufe (Nebeneffekte)
+
+%%/col
+
+Vorteile dieser Struktur:
+
+- Programmfluss wird übersichtlicher
+- Programm einfach modifizierbar
+- Programm besser weiterverwendbar
+
+%%/slides
+
+%%slides
+
+
+## Programmfluss über mehrere Dateien
+
+- Jetzt haben wir einen zentralen Startpunkt.
+
+- Wie rufen wir Code aus anderen Dateien auf?
+
+- Jede Programmiersprache hat Befehle zum Laden externen Codes:
+    - `import` und `include` (Python)
+    - Spezielle "Header-Dateien" die Zusammenhänge zwischen Dateien definieren
+
+%%/slides
+
+%%slides
+
+
+## Programmfluss in Python - import Statement
+
+%%col 50 50
+
+Strategie:
+
+- Eine .py-Datei enthält `main()` (Fall 1)
+- Alle anderen ohne `main()` oder mit `__name__` ignoriert (Fall 3)
+- `import`-Statement lädt externe Dateien
+
+- *Achtung:* Kompletter Code wird ausgeführt, auch Variablen und Funktionsaufrufe!
+
+%%sep
+
+```python
+import external_file
+
+def main():
+    print("This is the main function")
+```
+Variablen/Funktionen/Klassen aus `external_file.py` werden in Objekt `external_file` abgelegt
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Import externer Bibliotheken (Packages)
+
+*Terminologie:*
+
+- *Module:* Importierte Skripte
+- *Namespace:* Das entstehende Objekt (Typ: module)
+- *Package:* Modul mit weiteren Untermodulen
+
+%%/slides
+
+%%slides
+
+
+## Grundlagen der Projektstruktur
+
+%%col 50 50
+
+**Allgemeine Struktur**
+
+```
+main.py [enthält main()]
+├── module1.py
+├── module2.py  
+└── helpers.py
+```
+
+Code in `main.py`
+```python
+import module1
+import module2
+import helpers
+```
+
+%%sep
+
+**Beispiel - Stadtprojekt**
+
+```
+city.py
+├── buildings.py
+├── streets.py
+└── geometry.py
+```
+
+Code in `main.py`
+```python
+import buildings
+import streets
+import geometry
+```
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Das import-Statement: Erweiterte Nutzungen
+
+- Die Import-Funktionen von Python sind komplex und vielschichtig.
+- Im Alltag trifft man aber meistens nur auf folgende zusätzliche Konstrukte:
+    - `from-import`-Statement: Importiert ein Submodul oder ein Teil eines Moduls direkt, ohne den übergeordneten Namespace
+    - `from-import-as`-Statement: Arbeitet genauso, benennt aber das importierte Objekt um
+
+```python
+from external_file import external_function as ext_func
+```
+
+%%/slides
+
+%%slides
+
+
+## Import-Statements – Das Tor zur Welt
+
+- Wir können nicht nur unsere eigenen Pakete importieren – sondern auch Pakete die von anderen Personen/Organisationen öffentlich gemacht wurden!
+
+- Es gibt mehrere Möglichkeiten auf Pakete zuzugreifen:
+- Paket ist in Python mitgeliefert
+- Direkt als .py-Dateien / Ordner mit .py Dateien herunterladen 
+- Einen Package-Manager (pip, uv) benutzen (Besser!)
+
+%%/slides
+
+%%slides
+
+
+## Packages - Die eigentliche Macht von Python
+
+- Pythons Platzierung als populärste Programmiersprache der Welt basiert vor allem darauf, dass es sich zu einer Interface- und Pipeline-Sprache entwickelt hat.
+- Fast jedes durch einen Computer lösbares Problem kann durch das geschickte Verschalten der richtigen Python-Packages gelöst werden.
+- Die offizielle Anlaufstelle für Packages, der Python Package Index (PyPI), führt derzeit über 418.000 frei verfügbare Pakete.
+- Diese können in den meisten Fällen mit einem einzigen Befehl/Klick installiert werden
+
+<center><a href="https://pypi.org"><img src="images/07a_Module/pip.png" style="width:400px;"></a></center>
+
+%%/slides
+
+%%slides
+
+
+## Lesson Learned {background="#66ccffff" cols40x60 txtL="Wie priotisiert man richtig?" capR="“I have two kinds of problems, the urgent and the important. The urgent are not important, and the important are never urgent.”, Eisenhower" imgR="images/07a_Module/eisenhower.jpg"}
+
+%%/slides
+
+%%slides
+
+
+## Lesson Learned - Priorisierung
+%%col 50 50
+
+- Beim Eisenhauer-Schreibtisch unterteilt man in dringend und wichtig
+- Man bearbeitet zuerst die dringenden, wichtigen
+
+%%sep
+
+![](images/07a_Module/priotisierung.svg){class="midjourney"}
+
+%%/col
+
+%%/slides
+
+
+%%final

@@ -1,0 +1,1209 @@
+---
+title: "Exceptions"
+image-credit: "Midjourney: Exception in Time, ref. Salvador Dalí"
+format:
+  revealjs:
+    title-slide-attributes:
+      data-background-video: images/06a_Exceptions/mj_title.mp4
+    output-file: 06a_Exceptions_en.slide.html
+  html:
+    output-file: 06a_Exceptions_en.page.html
+  typst:
+    output-file: 06a_Exceptions_en.page.pdf
+resources:
+  - data/06a_Exceptions_en
+---
+
+%%book
+
+
+# Exceptions
+
+%%/book
+
+%%book
+
+![](images/06a_Exceptions/mj_title_band.jpg)
+
+> Anything that can go wrong, will go wrong.
+>
+> — Murphy’s Law #1
+
+%%/book
+
+%%slides
+
+
+## Lecture Hall Question {background="#FFD966" cols40x60 txtL="What levels does the knowledge pyramid have?" capR="Midjourney: Tower of Babel" imgR="images/03a_Operatoren/mj_tower.png"}
+
+%%/slides
+
+%%slides
+
+
+## Review: Knowledge Pyramid
+%%col 50 50
+
+The Wissenspyradmide is a model for representing the emergence of knowledge. 
+
+The four element types: *Signs, Data, Information* and *Knowledge* are shown pyramid-shaped as four levels.
+
+Signs form the base and *Knowledge* the tip of the pyramid.
+
+%%sep
+
+![](images/02b_Wissenspyramide/pyramide1.svg)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Lecture Hall Question {background="#FFD966" cols40x60 txtL="What are the four fundamental elements of a program?" capR="Midjourney: Fundamentals of a Programming Language" imgR="images/05a_Softwareentwurf/mj_fundamentals.png"}
+
+%%/slides
+
+%%slides
+
+
+## Recap: Program Elements
+
+- We all know the basic building blocks of a program:
+  - Statements
+  - Functions
+  - Branching
+  - Loops & Recursion
+
+- We know how to plan algorithms and combine these elements.
+
+%%/slides
+
+%%slides
+
+
+## Process
+
+![](images/partA_7.svg)
+
+%%/slides
+
+%%book
+
+
+## Handling errors with exceptions
+
+%%/book
+
+%%book
+
+Exceptions interrupt the normal flow of a program in the event of an error. They are used to communicate the error in the program (they usually include an error message) and are used to prevent the program from crashing uncontrollably in the event of an error.
+
+Known exceptions should always be caught. In Python they are caught by the `try-except` block. This starts with a `try` and ends with an `except`. After the `try` follows the block with the known (or unknown) exception. After the `except` follows the block for error handling.
+
+It should be noted that with exceptions there is no value assignment (the value is not known). Let's again consider the division by 0 known from branching [Verzweigung bekannte Division durch 0](4a_Verzweigung.html#elif_-_Für_noch_mehr_Alternativen) with its various error cases of zero division and incorrect input data types. Without precisely specifying these error cases we can write.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+numerator = 10
+denominator = 0
+result = None
+try:
+    # Block with a known exception
+    result = numerator / denominator
+    # This part is executed only if no exception occurred
+    print("Die Division war erfolgreich")
+except:
+    # Error handling
+    print("Divisionsfehler")
+
+print(f"Das Ergebnis von {numerator}/{denominator} = {result}")
+```
+
+%%/book
+
+%%book
+
+The `except` in the above case is untyped. This allows catching all errors that can occur (including unknown ones). Consequently, the `try-except` block also catches errors of the wrong data type.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+numerator = 'keine_zahl'
+denominator = 2
+result = None
+try:
+    result = numerator / denominator
+except:
+    print("Divisionsfehler")
+
+print(f"Das Ergebnis von {numerator}/{denominator} = {result}")
+```
+
+%%/book
+
+%%book
+
+The problem here is that we don’t get any information about the exception. Therefore it’s always sensible to catch the exact exception and display the error message. The most general type of error in Python is the `Exception`, which we catch as a variable named `e` as follows.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+numerator = 'keine_zahl'
+denominator = 0
+result = None
+try:
+    result = numerator / denominator
+except Exception as e:
+    print(f"Divisionsfehler mit Fehler vom Typ `{type(e)}` und Meldung `{e}`")
+
+print(f"Das Ergebnis von {numerator}/{denominator} = {result}")
+```
+
+%%/book
+
+%%book
+
+If the exceptions are known, they should also be handled by type in order to display specific messages.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+numerator = 'keine_zahl'
+denominator = 0
+result = None
+try:
+    result = numerator / denominator
+except TypeError as e:
+    print(f"Zaehler oder Nenner nicht vom Datentyp `int`")
+except ZeroDivisionError as e:
+    print("Teilung durch 0")
+
+print(f"Das Ergebnis von {numerator}/{denominator} = {result}")
+```
+
+%%/book
+
+%%book
+
+The `try-except` block also supports the `else` clause, which is always executed when *no* exception occurs. In addition, there is the `finally` clause, which *always* executes, i.e., in both the error-free case and in the case of an error.
+
+For example, if you want to perform output only when the `try` block has succeeded, use `else`.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+numerator = 2
+denominator = 1
+result = None
+try:
+    result = numerator / denominator
+except TypeError as e:
+    print(f"Zaehler oder Nenner nicht vom Datentyp `int`")
+except ZeroDivisionError as e:
+    print("Teilung durch 0")
+else:
+    print(f"Die Division war erfolgreich und resultiert in {numerator}/{denominator} = {result}")
+```
+
+%%/book
+
+%%book
+
+If you want something to always be executed, you can use `finally`. This is commonly used to perform steps that should also be done in the event of an error, e.g., to close connections to files or to a database, so that they do not remain open indefinitely (and eventually cause errors).
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+numerator = 'keine_zahl'
+denominator = 0
+result = None
+try:
+    result = numerator / denominator
+except TypeError as e:
+    print(f"Zaehler oder Nenner nicht vom Datentyp `int`")
+except ZeroDivisionError as e:
+    print("Teilung durch 0")
+finally:
+    print(f"Das Ergebnis von {numerator}/{denominator} = {result}")
+```
+
+%%/book
+
+%%book
+
+
+## Creating your own exceptions
+
+%%/book
+
+%%book
+
+Exceptions can also be raised with `raise`. This is useful when in your own code errors may occur that need to be handled elsewhere. Here, an error type must be specified. Either you use the most general error type `Exception`, a suitable standard Python error, or a user-defined one. It is usually advisable to use more specific error types, since the type of the error helps a lot when handling and debugging.
+
+Let's define, as an example, our own division function with clear error handling for whether the numerator or denominator is of the wrong type. Here we want to raise a `ValueError` instead of a `TypeError`. For a division by zero, instead of raising an error, the value `None` should be returned.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def division(numerator, denominator):
+    if not isinstance(denominator, (int, float)):
+        raise ValueError("Denominator not of type `int` or `float`")
+    elif not isinstance(numerator, (int, float)):
+        raise ValueError("Numerator not of type `int` or `float`")
+    elif denominator == 0:
+        print("Warning division by 0")
+        return None
+    else:
+        result = numerator / denominator
+        print(f"The result of {numerator}/{denominator} = {result}")
+        return result
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+#| error: true
+numerator = 'keine_zahl'
+denominator = 0
+
+result = division(numerator, denominator)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+numerator = 10
+denominator = 2
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+numerator = 10
+denominator = 1
+
+result = division(numerator, denominator)
+```
+
+%%/book
+
+%%book
+
+### Error handling for functions on the stack
+
+%%/book
+
+%%book
+
+Exceptions are propagated up the call stack (the order of function calls) until they are either caught and handled or the program crashes when the end of the call stack is reached. The goal of catching and handling exceptions is to bring the program back to a state where it can continue running.
+
+As an example, we want to define a recursive function that prints an error when the recursion depth becomes too large in order to avoid a stack overflow error. We will use the factorial function from the [Recursion example](5b_Rekursion.html) to illustrate this.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def factorial_recursive(x, depth=1):
+    if depth > 20:
+        raise RecursionError("Recursion zu tief")
+    if x > 1:
+        return x * factorial_recursive(x-1, depth+1)
+    else:
+        return 1
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+factorial_recursive(20)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+#| error: true
+factorial_recursive(21)
+```
+
+%%/book
+
+%%book
+
+In the error message above, the program itself hangs (however, the entire kernel doesn't crash, as with a stack overflow error). To avoid that, we need to catch the error with a `try-except`. In the error message above, the stack trace is already starting to appear, i.e., the list of function calls that has been collected on the stack.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import traceback
+try:
+    factorial_recursive(21)
+except RecursionError as e:
+    print(e)
+    traceback.print_exc()
+```
+
+%%/book
+
+%%book
+
+
+## Debugging with `print()`
+
+%%/book
+
+%%book
+
+Logical errors often only occur dynamically and cannot be found by static code analysis via lint tools. Here you have to trace the current program flow. This is called debugging. The simplest form is the `print` debugging, where you flood the code with `print()` statements.
+
+Let's extend our division function with lots of `print()` statements. It's common, for example, to print the input parameters, to print errors and warnings, and then to log the results.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def division(numerator, denominator):
+    print(f"Debug: Input Numerator: {numerator}")
+    print(f"Debug: Input Denominator: {denominator}")
+    if not isinstance(denominator, (int, float)):
+        print(f"Error: Denominator not of type `int` or `float`, but of type {type(denominator)}")
+        raise ValueError(f"Denominator not of type `int` or `float`, but of type {type(denominator)}")
+    elif not isinstance(numerator, (int, float)):
+        print(f"Error: Numerator not of type `int` or `float`, but of type {type(numerator)}")
+        raise ValueError(f"Numerator not of type `int` or `float`, but of type {type(numerator)}")
+    elif not denominator:
+        print("Warning: Division by 0")
+        return None
+    else:
+        result = numerator / denominator
+        print(f"Info: The result of {numerator}/{denominator} = {result}")
+        return result
+```
+
+%%/book
+
+%%book
+
+Now we can, in particular, clearly trace exactly what happened in the event of an error. For example, in the case of division by zero.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+division(10, 0)
+```
+
+%%/book
+
+%%book
+
+However, we also have a lot of output even in the correct case. That can be very distracting, because you can miss real errors very quickly. For example, we perform ten divisions, one of which was a division by zero.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+for denominator in range(-2, 8):
+    division(10, denominator)
+```
+
+%%/book
+
+%%book
+
+
+## Debugging with `logging`
+
+%%/book
+
+%%book
+
+Therefore, in more complex programs, one usually uses a `logging` package. They allow you to assign categories to `print` statements and filter by those categories. In the Python library `logging`, the categories are: `debug`, `info`, `warning`, `error`, and `critical`.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import logging
+
+log = logging.getLogger("meinlog")
+
+def division(numerator, denominator):
+    log.debug(f"Eingabe Zaehler: {numerator}")
+    log.debug(f"Eingabe Nenner: {denominator}")
+    if not isinstance(denominator, (int, float)):
+        log.error(f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(denominator)}")
+        raise ValueError(f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(denominator)}")
+    elif not isinstance(numerator, (int, float)):
+        log.error(f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(numerator)}")
+        raise ValueError(f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(numerator)}")
+    elif not denominator:
+        log.warning("Division durch 0")
+        return None
+    else:
+        result = numerator / denominator
+        log.info(f"Das Ergebnis von {numerator}/{denominator} = {result}")
+        return result
+```
+
+%%/book
+
+%%book
+
+If we call the function now, we only see the division-by-zero warning.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+log.setLevel(logging.WARNING)
+for denominator in range(-2, 8):
+    division(10, denominator)
+```
+
+%%/book
+
+%%book
+
+However, if needed, just like during debugging, we can also raise the log level. For example, we want to receive all debug messages.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+log.setLevel(logging.DEBUG)
+for denominator in range(-2, 8):
+    division(10, denominator)
+```
+
+%%/book
+
+%%book
+
+Furthermore, logging can automatically include additional information as well. We can already see in the log above that not only the level (INFO, DEBUG, WARNING) but also the logger name (meinlog) are included. We can customize this format to, for example, also output the timestamp, which is especially important for understanding when something happened.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+sh = logging.StreamHandler()
+formatter = logging.Formatter('%(asctime)s  %(name)s  %(levelname)s: %(message)s')
+sh.setFormatter(formatter)
+log.addHandler(sh)
+log.setLevel(logging.INFO)
+
+for denominator in range(-2, 8):
+    divide(10, denominator)
+```
+
+%%/book
+
+%%book
+
+In practice, logging is very commonly used, especially in cloud applications. Since they don’t have screens, errors have to be found in the logs. As long as everything is okay, the application runs at the log level `INFO`, with only a small amount of output. If an error occurs, the server is set to the log level `DEBUG`, and one then searches the detailed logs for information to narrow down the error.
+
+%%/book
+
+%%book
+
+
+## Debugging via Debug Interfaces
+
+%%/book
+
+%%book
+
+Many integrated development environments (IDEs) offer the ability to run the debugger directly. These debuggers allow you to interrupt the dynamic execution of the code. The goal is to pause execution just before the error occurs, so you can observe the error behavior in detail.
+
+There are usually two forms of interruption supported:
+
+- Pausing at specific lines of code using breakpoints.
+- Pausing on specific exceptions.
+
+%%/book
+
+%%book
+
+### Debugging in Jupyter-Notebooks in VSCode
+
+%%/book
+
+%%book
+
+The debugging interfaces look somewhat different depending on the IDE, but they have similar features. This Jupyter Notebook was written in VS Code, which we will use as the first example.
+
+%%/book
+
+%%book
+
+In most IDEs, you can usually click to the left of a line to set a breakpoint <span style="color: red">⬤</span>. We'll set a breakpoint on line 11 at the point where the warning is emitted.
+
+%%/book
+
+%%book
+
+![](images/06a_Exceptions/debug_vscode_1.png)
+
+%%/book
+
+%%book
+
+The code is then executed in a special debugging environment that allows the execution to be interrupted. In our notebook in VSCode, it is started by the symbol <img src="images/06a_Exceptions/debug_vscode_2.png" style="height: 2ex">.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def divide(numerator, denominator):
+    log.debug(f"Eingabe Zaehler: {numerator}")
+    log.debug(f"Eingabe Nenner: {denominator}")
+    if not isinstance(denominator, (int, float)):
+        log.error(f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(denominator)}")
+        raise ValueError(f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(denominator)}")
+    elif not isinstance(numerator, (int, float)):
+        log.error(f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(numerator)}")
+        raise ValueError(f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(numerator)}")
+    elif not denominator:
+        log.warning("Division durch 0")
+        return None
+    else:
+        result = numerator / denominator
+        log.info(f"Das Ergebnis von {numerator}/{denominator} = {result}")
+        return result
+
+divide(10, 0)
+```
+
+%%/book
+
+%%book
+
+This starts the debug mode. In this mode, the current line is highlighted, and the current variables in memory are displayed.
+
+%%/book
+
+%%book
+
+![Debugging in VS Code](images/06a_Exceptions/debug_vscode_3.png)
+
+%%/book
+
+%%book
+
+In the debugging environment, you can then step through the code line by line by pressing <img src="images/06a_Exceptions/debug_vscode_2.png" style="height: 2ex"> and thereby see how the program is executed and which variables change.
+
+%%/book
+
+%%slides
+
+### Debugging in repl.it
+
+%%/slides
+
+%%slides
+
+In Repl.it, the debugging interface looks similar. We set a breakpoint <span style="color: red">⬤</span> by clicking on line 11 in the warning output.
+
+%%/slides
+
+%%slides
+
+![](images/06a_Exceptions/debug_replit_1.png)
+
+%%/slides
+
+%%slides
+
+The debugging environment is started by <img src="images/06a_Exceptions/debug_replit_2.png" height="2ex">. It allows you to start execution, run individual lines, skip the step, or run up to the breakpoint (left to right).
+
+%%/slides
+
+%%slides
+
+![](images/06a_Exceptions/debug_replit_3.png)
+
+%%/slides
+
+%%slides
+
+Here too, both the current variables and the stack are displayed.
+
+%%/slides
+
+%%slides
+
+![](images/06a_Exceptions/debug_replit_4.png)
+
+%%/slides
+
+%%slides
+
+
+## Why do we make mistakes?
+
+%%col 50 50
+
+*Deliberate mistakes occur when:*
+
+- we consciously ignore facts and trust our gut instincts
+- when we run tests to test whether a program handles these errors
+- through targeted sabotage (insider threat in information security)
+
+%%sep
+
+*Unintentional mistakes occur, among other things, due to:*
+
+- false assumptions, for example, because the requirements were not analyzed sufficiently or because not all error cases were considered
+- inattention (careless mistakes) due to fatigue, time pressure, or lack of interest
+- because we reach cognitive/physical limits (e.g., optical illusions)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Mistakes Are Human
+
+- *Computers are human-made*
+- The mental models of others have (often subtle) differences from our own, e.g. due to:
+  - Age
+  - Background
+  - Education
+  - Experience
+  - Culture
+
+- Most everyday mistakes happen at the *interface between us and the internal processes*: user interfaces, hardware, etc.
+
+%%/slides
+
+%%slides
+
+
+## Lecture Hall Question {background="#FFD966" cols40x60 txtL="**What does this symbol mean?**" capR="icon-icons.com" imgR="images/06a_Exceptions/diskette.png"}
+
+%%/slides
+
+%%slides
+
+
+## What does this symbol mean?
+
+- The floppy disk icon is commonly used to save.
+- It originally comes from the 1990s when data was still stored on floppy disks.
+- Nowadays many people don't have this context and can't intuitively interpret the symbol.
+- An example of different mental models across generations
+
+%%col 50 50
+
+![icon-icons.com](images/06a_Exceptions/diskette.png){class="midjourneyXX"}
+
+%%sep
+
+![www.pxfuel.com](images/06a_Exceptions/diskette2.jpg){class="midjourneyXX"}
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## When do computers make mistakes?
+
+- Computers very rarely make errors (e.g., bit flips due to cosmic rays, errors in floating-point calculations, integer overflows, errors in data transmission or storage)
+- Most of the time, however, it is the user or programmer who made the errors possible (wrong data types, poor exception or error handling)
+- The real question is: Are there errors in the system beyond our own program code?
+
+%%/slides
+
+%%slides
+
+
+## How to prevent errors?
+
+- *Using an Integrated Development Environment (IDE)*
+  - Automatic detection of syntax errors
+  - Code completion
+  - Code generation (e.g., from diagrams)
+
+- *Comprehensive planning of the software, including requirements analysis, software design, test design, etc.*
+- *TESTING, TESTING, TESTING* using specific test cases (unit tests)!
+  - Not just pure functional testing (does it do what it’s supposed to?)
+
+%%/slides
+
+%%slides
+
+
+## Types of Errors
+
+%%col 60 40
+
+*Along the Knowledge Pyramid:*
+
+- *Lexical* – Code contains invalid characters or strings
+- *Syntactic* – Code combines lexically valid tokens in an invalid way
+- *Semantic* – Code is semantically valid, but does not produce any results/crashes
+- *Logical* – Code is semantically valid, but does not solve the given problem
+
+%%sep
+
+![Knowledge Pyramid](images/wissenspyramide.svg)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Other classifications of errors
+
+%%col 50 50
+
+*By frequency and reproducibility:*
+
+- *Deterministic errors* - occur every time and can be reproduced
+- *Sporadic errors* - occur only rarely and under special conditions. They are difficult to reproduce
+
+%%sep
+
+*By occurrence:*
+
+- *Static errors* - Directly observable in the code as written
+- *Dynamic errors* - Only occur during program execution
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Lexical & Syntactic Errors
+
+- Are in most cases *static* and *deterministic*
+- Produce an error message *every time*
+  - Even in the IDE, during compilation or after execution
+
+- *These error messages can, however, be misleading!*
+
+%%/slides
+
+%%slides
+
+
+## Lexical & Syntactic Errors - Examples
+
+- A *keyword* is misspelled
+- *Unclosed* quotation marks or parentheses
+- Forgetting a *colon* after a condition or function
+- *Incorrect indentation* after a condition, loop, or function
+- If applicable, also incorrect indentation due to *tabs vs. spaces*
+
+%%/slides
+
+%%slides
+
+
+## Lexical & Syntactic Errors - Handling
+
+- *First look:* In which line did the error occur?
+- Does the *text of the error message* give a hint?
+- Is the error in the line, or is the error only a *symptom* and the real error lies in the previous line?
+- Normally *easy to fix* and go through the code line by line backwards from the error line
+- If not: *Refactoring* - restructure the code for better readability without changing its behavior
+
+%%/slides
+
+%%slides
+
+
+## Semantic Errors - Fundamentals
+
+- Arise from the *faulty application* of syntactically correct program structures to a specific problem
+- Semantic errors can be *recognizable* or *unrecognizable*. They are always deterministic, but can occur statically or dynamically
+- *Recognizable errors* are errors of which one knows that they can occur (e.g., division by zero, no Internet connection, etc.)
+  - They should *always* be caught and handled
+
+- *Unrecognized errors* are unknown during the creation of the program. Significantly harder to catch
+
+%%/slides
+
+%%slides
+
+
+## Semantic Errors - Examples
+
+- An *variable is invoked as a function*  
+  *(static, deterministic)*
+
+- An *operator is used with a value of the wrong type*  
+  *(static or dynamic, deterministic)*
+
+- An *value of the wrong type* is passed to a function  
+  *(static or dynamic, deterministic)*
+
+- A *division by zero* occurs  
+  *(dynamic, deterministic)*
+
+%%/slides
+
+%%slides
+
+
+## Semantic Errors - Handling
+
+*First step: Understanding the error message*
+
+- *Ideal case:* Indicates the exact problem
+- *Usually:* Provides clues about a problem
+  - Location
+  - Type of problem
+  - The affected variable/operation
+
+- *Often:* The error message is only a symptom of the underlying problem
+
+%%/slides
+
+%%slides
+
+
+## Semantic Errors - Handling (2)
+
+*If the error message does not provide enough information:*
+
+- *Log the program flow* to understand it better:
+  - Add more output (e.g., via the `print()` function)
+  - Check variable states or verify whether certain lines are reached
+
+- *Use debugging tools*:
+  - Pause the program flow at certain points (*Breakpoints*)
+  - Step through the program flow
+  - *Watch variables* at that moment
+
+%%/slides
+
+%%slides
+
+
+## Logical Errors – Fundamentals
+
+*Arise from:*
+
+- Errors in the *program logic*
+- A *faulty mental model*
+- A fundamental *design flaw*
+- *Careless mistakes* in translating from design to implementation
+
+*Characteristics:*
+
+- They *rarely produce exceptions* but rather incorrect behavior/results
+- They often go *undetected* and only manifest dynamically at runtime
+- They can be *deterministic* or *sporadic*
+
+%%/slides
+
+%%slides
+
+
+## Logical Errors - Examples
+
+%%col 50 50
+
+*Deterministische Fehler:*
+
+- Using the *wrong factor* in a unit conversion
+- Using the *wrong type of loop* or incorrect nesting
+- Using the *wrong time zone* when writing sensor data
+
+%%sep
+
+*Sporadische Fehler:*
+
+- Issues with *Daylight Saving Time conversions* for sensor data
+- The condition in a loop has cases in which it is *always true* and thus becomes endless
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Handling of Logical Errors
+
+%%col 50 50
+
+*Deterministische Fehler:*
+
+- *Create test cases* to reproduce when and how unexpected behavior occurs
+- *Use the debugger* to trace the execution and isolate the root cause of the error
+- Track values *systematically* and verify correctness step by step
+
+%%sep
+
+*Sporadische Fehler:*
+
+- Identify the error state via *Logging* (`print()`) so that it becomes reproducible
+- *Conditional breakpoints* in debugging (the program only stops when an error condition is present)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Note: Warnings in the IDE or from the compiler
+
+- Warnings point to code that *appears syntactically and semantically correct*, but will probably not fulfill its purpose
+- They are based, for example, on *empirical evidence*
+- They can help *detect semantic and logical errors early*
+
+%%/slides
+
+%%slides
+
+
+## Lesson Learned {background="#66ccffff" cols40x60 txtL="What is feedback good for?" capR="Midjourney: Dorian Gray looking at his picture seeing an old monster" imgR="images/06a_Exceptions/dorian.jpg"}
+
+%%/slides
+
+%%slides
+
+
+## Lesson Learned - Self and Others' Perception
+%%col 50 50
+
+- Our self-image never quite matches the image others have of us, because we bring our experiences and thoughts into it
+- The image others have of us is formed solely through observation and descriptions of us
+- Feedback is crucial for aligning self-image and the image others have of us
+
+%%sep
+
+![](images/06a_Exceptions/feedback.png){class="midjourney"}
+
+%%/col
+
+%%/slides
+
+%%book
+
+
+## Quiz
+
+
+```{quizdown}
+    ---
+    shuffleQuestions: true
+    shuffleAnswers: true
+    ---
+
+    ### What is an exception in Python?
+    - [x] An exception that interrupts the normal flow of the program
+    - [ ] A special case in loops
+    - [ ] A warning that can be ignored
+    - [ ] A global variable
+
+    ### Why are `try-except` blocks used?
+    - [x] To respond to errors in a controlled manner
+    - [x] To prevent the program from crashing
+    - [ ] To initialize variables
+    - [ ] To automatically repeat functions
+
+    ### What happens when an exception occurs in the `try` block?
+    - [x] The code in the `except` block is executed
+    - [ ] The `try` block is ignored
+    - [ ] The program ends automatically
+    - [ ] The error is always ignored
+
+    ### Sort the following lines to form a complete `try-except` block correctly:
+    ```python
+    # Annahme: fehlerhafte Division
+    ```
+    1. `try:`
+    2. `  ergebnis = 10 / 0`
+    3. `  print("Ergebnis:", ergebnis)`
+    4. `except:`
+    5. `  print("Fehler bei der Division")`
+
+    ### Which error is demonstrated in this example?
+    ```python
+    x = 10
+    y = 0
+    z = x / y
+    print("Ergebnis:", z)
+    ```
+    - [x] Division by zero leads to a `ZeroDivisionError` exception
+    - [ ] `print` may not be used inside try blocks
+    - [ ] `x` must not be 10
+    - [ ] `y` must be declared as a string
+
+    ### What is the advantage of using `Exception as e`?
+    - [x] You can explicitly print the type and error message of the exception
+    - [ ] This automatically solves the exception
+    - [ ] The code becomes shorter
+    - [ ] `as` is mandatory in every error handling
+
+    ### Why should known exception types (like `TypeError`) be caught explicitly?
+    - [x] To handle different errors specifically
+    - [ ] Because Python wouldn't work otherwise
+    - [ ] To make the output nicer
+    - [ ] This is only necessary for `int` values
+
+    ### Sort the following lines to correctly build a typed error handling for divisions:
+    ```python
+    # Example with division by 0 and wrong type
+    ```
+    1. `try:`
+    2. `  ergebnis = "zehn" / 0`
+    3. `except TypeError:`
+    4. `  print("Falscher Datentyp")`
+    5. `except ZeroDivisionError:`
+    6. `  print("Division durch 0")`
+
+    ### When is the `else` block executed in `try-except-else`?
+    - [x] Only when no exception occurs in the `try` block
+    - [ ] If any error occurs
+    - [ ] Always after the `except`
+    - [ ] If `print()` is used in the `try`
+
+    ### What does a `finally` block do in Python?
+    - [x] The code in the `finally` is executed **always** – regardless of error or not
+    - [ ] The code is skipped on errors
+    - [ ] Only used with networking
+    - [ ] Used to initialize variables
+
+    ### When should you raise your own exceptions with `raise`?
+    - [x] If you want to clearly mark errors and propagate them
+    - [ ] If you want to break out of a loop
+    - [ ] Only for syntax errors
+    - [ ] Only for debugging purposes
+
+    ### Why is it sensible to use specific error types like `ValueError`?
+    - [x] So errors can be handled and differentiated more precisely
+    - [ ] So `try` blocks become shorter
+    - [ ] So the program runs faster
+    - [ ] Because `Exception` is not allowed in Python
+
+    ### Which error is demonstrated in this example?
+    ```python
+    if not isinstance(x, int):
+        raise "Fehler"
+    ```
+    - [x] `raise` expects an exception object, not a string
+    - [ ] `raise` is not a valid Python keyword
+    - [ ] Strings may not be compared with `if`
+    - [ ] `int` is not a valid type
+
+    ### Sort the following lines to define a safe division function with error handling:
+    ```python
+    # Example with division by 0 and type checking
+    ```
+    1. `def division(zaehler, nenner):`
+    2. `  if not isinstance(zaehler, (int, float)):` 
+    3. `    raise ValueError("Zaehler ist ungültig")`
+    4. `  if nenner == 0:`
+    5. `    return None`
+    6. `  return zaehler / nenner`
+
+    ### How do exceptions behave in a function call stack?
+    - [x] They bubble up until they are handled or crash the program
+    - [ ] They disappear after the first function call
+    - [ ] They only cause an error in the current function
+    - [ ] They are automatically ignored
+
+    ### What does the following line do in a recursive function?
+    ```python
+    raise RecursionError("Recursion too deep")
+    ```
+    - [x] It deliberately raises an error when recursion depth is too deep
+    - [ ] It prevents an exception
+    - [ ] It ends the recursion successfully
+    - [ ] It converts the return value into an exception
+
+    ### What is the stack?
+    - [x] A data structure that stores function calls
+    - [ ] A list of all variables in the program
+    - [ ] A special data type for loops
+    - [ ] A type of exception
+
+    ### What is the heap?
+    - [x] A memory area for dynamically created objects
+    - [ ] A special kind of loop
+    - [ ] A data type for numbers
+    - [ ] A region for global variables
+
+    ### What is the difference between Stack and Heap?
+    - [x] Stack stores function calls, Heap stores dynamically created objects
+    - [ ] Stack is faster, Heap slower
+    - [ ] Stack is for loops, Heap for conditions
+    - [ ] Stack is for global variables, Heap for local
+```
+
+%%/book
+
+
+%%final

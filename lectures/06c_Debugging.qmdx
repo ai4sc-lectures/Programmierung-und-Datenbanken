@@ -1,0 +1,427 @@
+---
+title: "Debugging"
+image-credit: "Midjourney: Waves testing a boat, ref. Hokusai"
+format:
+  revealjs:
+    title-slide-attributes:
+      data-background-video: images/06c_Debugging/mj_title.mp4
+    output-file: 06c_Debugging.slide.html
+  html:
+    output-file: 06c_Debugging.page.html
+  typst:
+    output-file: 06c_Debugging.page.pdf
+resources:
+  - data/06c_Debugging
+---
+
+%%book
+
+
+# Debugging
+
+%%/book
+
+%%book
+
+![](images/06c_Debugging/mj_title_band.jpg)
+
+> Everyone knows that debugging is twice as hard as writing a program in the first place.
+>
+> — Brian Kernighan
+
+%%/book
+
+%%slides
+
+
+## Ablauf
+
+![](images/partA_7.svg)
+
+%%/slides
+
+%%book
+
+
+## Debugging mit `print()`
+
+%%/book
+
+%%book
+
+Logische Fehler treten häufig erst dynamisch auf und lassen sich nicht durch statische Code-Analyse durch Lint-Tools finden. Hier muss man dann den aktuellen Programmfluss nachvollziehen. Dies nennt man Debugging. Die einfachste Form ist das `print`-Debugging bei der man den Code mit `print()`-Befehlen zuspammt.
+
+Wir erweitern mal unsere Divisionsfunktion mit schönen vielen `print()`-Statements. Üblich ist es zum Beispiel, die Eingangsparameter auszugeben, Fehler und Warnungen auszugeben, als auch dann Ergebnisse zu loggen.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def division(zaehler, nenner):
+    print(f"Debug: Eingabe Zaehler: {zaehler}")
+    print(f"Debug: Eingabe Nenner: {nenner}")
+    if not isinstance(nenner, (int, float)):
+        print(f"Error: Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")
+        raise ValueError(f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")
+    elif not isinstance(zaehler, (int, float)):
+        print(f"Error: Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")
+        raise ValueError(f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")
+    elif not nenner:
+        print("Warning: Division durch 0")
+        return None
+    else:
+        ergebnis = zaehler / nenner
+        print(f"Info: Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
+        return ergebnis
+```
+
+%%/book
+
+%%book
+
+Jetzt können wir insbesondere im Fehlerfall sehr gut nachvollziehen was genau geschehen ist. Zum Beispiel bei der Division durch 0.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+division(10, 0)
+```
+
+%%/book
+
+%%book
+
+Allerdings haben wir auch im korrekten Fall sehr viele Ausgaben. Das kann sehr störend sein, weil man dann richtige Fehler sehr schnell übersieht. Zum Beispiel erzeugen wir zehn Divisionen, von der eine eine Division durch 0 war.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+for nenner in range(-2, 8):
+    division(10, nenner)
+```
+
+%%/book
+
+%%book
+
+
+## Debugging mit `logging`
+
+%%/book
+
+%%book
+
+Deshalb verwendet man bei komplexeren Programmen meist ein `logging`-Paket. Diese erlauben es `print`-Statements Kategorien zuzuordnen und anhand dieser zu filtern. In der Python-Bibliothek `logging` sind die Kategorien: `debug`, `info`, `warning`, `error` und `critical`.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import logging
+
+log=logging.getLogger("meinlog")
+
+def division(zaehler, nenner):
+    log.debug(f"Eingabe Zaehler: {zaehler}")
+    log.debug(f"Eingabe Nenner: {nenner}")
+    if not isinstance(nenner, (int, float)):
+        log.error(f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")
+        raise ValueError(f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")
+    elif not isinstance(zaehler, (int, float)):
+        log.error(f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")
+        raise ValueError(f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")
+    elif not nenner:
+        log.warning("Division durch 0")
+        return None
+    else:
+        ergebnis = zaehler / nenner
+        log.info(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
+        return ergebnis
+```
+
+%%/book
+
+%%book
+
+Wenn wir jetzt die Funktion aufrufen, sehen wir nur noch die Division durch 0 Warnung.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+log.setLevel(logging.WARNING)
+for nenner in range(-2, 8):
+    division(10, nenner)
+```
+
+%%/book
+
+%%book
+
+Wir können allerdings bei Bedarf, wie bei der Fehlersuche den Loglevel auch erhöhen. Zum Beispiel wollen wir alle Debug-Nachrichten erhalten.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+log.setLevel(logging.DEBUG)
+for nenner in range(-2, 8):
+    division(10, nenner)
+```
+
+%%/book
+
+%%book
+
+Ferner erlaub das Logging auch automatisch weitere Informationen hinzuzufügen. Wir sehen im Log oben bereits, das nicht nur das Level (INFO, DEBUG, WARNING) sondern auch den Namen des Loggers (meinlog). Wir können dieses Format anpassen um z.B. auch die Zeit auszugeben, was insbesondere wichtig ist um zu verstehen wann etwas passiert ist.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+sh=logging.StreamHandler()
+formatter = logging.Formatter('%(asctime)s  %(name)s  %(levelname)s: %(message)s')
+sh.setFormatter(formatter)
+log.addHandler(sh)
+log.setLevel(logging.INFO)
+
+for nenner in range(-2, 8):
+    division(10, nenner)
+```
+
+%%/book
+
+%%book
+
+In der Praxis wird das Logging sehr häufig insbesondere in Cloud-Anwendungen verwendet. Da diese ja keine Bildschirme haben, müssen Fehler in Logs gesucht werden. Solange alles ok ist, läuft so eine Anwendung dann z.B. im Log-Level `INFO`, mit nur wenig Ausgaben. Tritt ein Fehler auf, so wird der Server auf das Log-Level `DEBUG` gesetzt und man sucht in den detaillierten Logs dann nach Informationen, um den Fehler einzugrenzen.
+
+%%/book
+
+%%book
+
+
+## Debugging durch Debug-Oberflächen
+
+%%/book
+
+%%book
+
+Viele integrierte Entwicklungsumgebungen (IDE) bieten an direkt Debugger auszuführen. Diese Debugger erlauben es die dynamische Ausführung des Codes zu unterbrechen. Ziel ist es kurz vor Auftreten des Fehlers die Ausführung anzuhalten, um dann das Fehlerverhalten genau beobachten zu können.
+
+Dabei werden meist zwei Formen der Unterbrechung unterstützt:
+
+-  Die Unterbrechung in bestimmten Code-Zeilen mit Hilfe von Breakpoints.
+-  Die Unterbrechung bei bestimmten Exceptions.
+
+%%/book
+
+%%book
+
+### Debugging in Jupyter-Notebooks in VSCode
+
+%%/book
+
+%%book
+
+Die Debug-Oberflächen sehen je nach IDE etwas anders aus, verfügen aber über ähnliche Funktionen. Dieses Jupyter Notebook wurde in VSCode geschrieben, welches wir als erstes Beispiel betrachten.
+
+%%/book
+
+%%book
+
+Dafür kann man meist in der IDE links neben eine Zeile klicken um einen Breakpoint <span style="color: red">⬤</span> zu setzen. Wir setzen dafür einen Breakpoint auf die Zeile 11 auf die Ausgabe der Warnung.
+
+%%/book
+
+%%book
+
+![](images/debug_vscode_1.png)
+
+%%/book
+
+%%book
+
+Dann wird der Code in einer speziellen Debugumgebung ausgeführt, die es erlaub die Ausführung zu unterbrechen. In unserm Notebook in VSCode starten wird diese durch das Symbol <img src="images/debug_vscode_2.png" style="height: 2ex">.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def division(zaehler, nenner):
+    log.debug(f"Eingabe Zaehler: {zaehler}")
+    log.debug(f"Eingabe Nenner: {nenner}")
+    if not isinstance(nenner, (int, float)):
+        log.error(f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")
+        raise ValueError(f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")
+    elif not isinstance(zaehler, (int, float)):
+        log.error(f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")
+        raise ValueError(f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")
+    elif not nenner:
+        log.warning("Division durch 0")
+        return None
+    else:
+        ergebnis = zaehler / nenner
+        log.info(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
+        return ergebnis
+
+division(10, 0)
+```
+
+%%/book
+
+%%book
+
+Dies startet den Debug-Modus. In diesem wird die aktuelle Zeile vorgehoben als auch die aktuellen Variablen im Speicher angezeigt.
+
+%%/book
+
+%%book
+
+![Debuggin in VS Code](images/debug_vscode_3.png)
+
+%%/book
+
+%%book
+
+In der Debugumgebung kann man dann Zeile für Zeile vorgehen durch drücken von <img src="images/debug_vscode_2.png" style="height: 2ex"> und damit nachvollziehen wie das Programm bearbeitet wird und welche Variablen sich ändern.
+
+%%/book
+
+%%slides
+
+### Debugging in repl.it
+
+%%/slides
+
+%%slides
+
+In repl.it sieht die Debugging-Oberfläche ähnlich aus. Wir setzen einen Breakpoint <span style="color: red">⬤</span> durch klicken auf die Zeile 11 auf die Ausgabe der Warnung.
+
+%%/slides
+
+%%slides
+
+![](images/debug_replit_1.png)
+
+%%/slides
+
+%%slides
+
+Die Debugumgebung wird durch <img src="images/debug_replit_2.png" height="2ex"> gestartet. Sie erlaub die Ausführung zu starten, einzelne Zeilen auszuführen, den Schritt zu überspringen oder bis zum Breakpoint auszuführen (links nach rechts).
+
+%%/slides
+
+%%slides
+
+![](images/debug_replit_3.png)
+
+%%/slides
+
+%%slides
+
+Auch hier werden die aktuellen Variablen angezeigt als auch der Stack.
+
+%%/slides
+
+%%slides
+
+![](images/debug_replit_4.png)
+
+%%/slides
+
+%%book
+
+
+## Quiz
+
+
+```{quizdown}
+    ---
+    shuffleQuestions: true
+    shuffleAnswers: true
+    ---
+
+    ### Was versteht man unter Debugging?
+    - [x] Das Finden und Beheben von Fehlern im Programmcode
+    - [ ] Die Optimierung des Programmcodes
+    - [ ] Das Schreiben von Dokumentation
+    - [ ] Das Formatieren von Quellcode
+
+    ### Warum reicht statische Code-Analyse allein nicht aus?
+    - [x] Weil logische Fehler zur Laufzeit auftreten können
+    - [ ] Weil sie keine Sicherheitslücken erkennt
+    - [ ] Weil sie den Code langsamer macht
+    - [ ] Weil sie nicht mit Python funktioniert
+
+    ### Was ist `print`-Debugging?
+    - [x] Das Einfügen von `print()`-Befehlen zur Laufzeitanalyse
+    - [ ] Das Entfernen aller `print()`-Befehle
+    - [ ] Ein automatisiertes Debugging-Verfahren
+    - [ ] Ein grafischer Debugger
+
+    ### Was ist der Zweck von `logging` in Python?
+    - [x] Protokollierung von Ereignissen und Fehlern
+    - [ ] Optimierung der Programmausführung
+    - [ ] Erstellen von Benutzeroberflächen
+    - [ ] Automatisches Testen von Funktionen
+
+    ### Sortiere die folgenden Zeilen, um einen vollständigen `try-except`-Block korrekt aufzubauen
+
+    1. `def division(zaehler, nenner):`
+    2. `    print(f"Debug: Eingabe Zaehler: {zaehler}")`
+    3. `    print(f"Debug: Eingabe Nenner: {nenner}")`
+    4. `    if not isinstance(nenner, (int, float)):`
+    5. `        print(f"Error: Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")`
+    6. `        raise ValueError(f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")`
+    7. `    elif not isinstance(zaehler, (int, float)):`
+    8. `        print(f"Error: Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")`
+    9. `        raise ValueError(f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")`
+    10. `    elif not nenner:`
+    11. `        print("Warning: Division durch 0")`
+    12. `        return None`
+    13. `    else:`
+    14. `        ergebnis = zaehler / nenner`
+    15. `        print(f"Info: Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")`
+    16. `        return ergebnis`
+
+
+    ### Was passiert bei einer Division durch Null im folgenden Code?
+    ```python
+    def division(zaehler, nenner):
+        print(f"Debug: Eingabe Zaehler: {zaehler}")
+        print(f"Debug: Eingabe Nenner: {nenner}")
+        if not isinstance(nenner, (int, float)):
+            ...
+        elif not nenner:
+            print("Warning: Division durch 0")
+            return None
+    ```
+    - [x] Eine Warnung wird ausgegeben und `None` zurückgegeben.
+    - [ ] Es erfolgt ein Abbruch durch `ZeroDivisionError`.
+    - [ ] Es wird 0 zurückgegeben.
+    - [ ] Der Nenner wird automatisch auf 1 gesetzt.
+
+```
+
+%%/book
+
+
+%%final

@@ -1,0 +1,561 @@
+---
+title: "Relationale Datenbanken"
+image-credit: "Midjourney: Tabular Relief, ref. Ben Nicholson"
+format:
+  revealjs:
+    title-slide-attributes:
+      data-background-video: images/10b_RelationaleDatenbanken/mj_title.mp4
+    output-file: 10b_RelationaleDatenbanken.slide.html
+  html:
+    output-file: 10b_RelationaleDatenbanken.page.html
+  typst:
+    output-file: 10b_RelationaleDatenbanken.page.pdf
+resources:
+  - data/10b_RelationaleDatenbanken
+---
+
+%%book
+
+
+# Relationale Datenbanken
+
+%%/book
+
+%%book
+
+![](images/10b_RelationaleDatenbanken/mj_title_band.jpg)
+
+> If you think you understand SQL, you’re probably wrong.
+>
+> — C. J. Date
+
+%%/book
+
+%%slides
+
+
+## Ablauf
+
+![](images/partB_2.svg)
+
+%%/slides
+
+%%book
+
+
+## Einführung in relationale Datenbanken
+
+Relationale Datenbanken bilden das Fundament moderner Informationssysteme und sind aus der heutigen Ingenieurspraxis nicht mehr wegzudenken. Eine relationale Datenbank ist ein Datenbanksystem, das Informationen in Tabellen speichert, wobei die Daten als Tupel organisiert sind und jede Spalte einen definierten Datentyp besitzt. Diese strukturierte Herangehensweise ermöglicht es Ingenieuren, komplexe Datenbestände effizient zu verwalten und sinnvoll miteinander zu verknüpfen.
+%%def Relationale Datenbank
+Eine relationale Datenbank ist ein *Datenbanksystem*, das Informationen in *Tabellen* (Relationen) speichert, wobei die Daten als *Tupel* (Zeilen) organisiert sind und jede Spalte (Attribut) einen definierten Datentyp besitzt.
+%%/def
+Der Begriff "Relation" stammt aus der Mathematik und bezeichnet eine Tabelle mit all ihren Datenzeilen. Eine relationale Datenbank besteht somit aus einer Sammlung von Tabellen, die logisch miteinander verbunden sind. Für Ingenieure bedeutet dies beispielsweise, dass Projektdaten, Materiallisten und Kostenkalkulationen in separaten, aber verknüpften Tabellen gespeichert werden können.
+
+%%/book
+
+%%book
+
+
+## Tabellenstruktur und Grundbegriffe
+
+Jede Tabelle in einer relationalen Datenbank besitzt einen eindeutigen Namen (*Relationennamen*), der ihren Inhalt beschreibt. Die *Relation* selbst steht für die Gesamtheit aller Datentupel in dieser Tabelle. Ein *Tupel* entspricht einer einzelnen Zeile und besteht aus einer Abfolge von Attributwerten. Die Bedeutung dieser Werte wird durch das *Relationenschema* festgelegt, welches die Spaltennamen und deren Anordnung definiert.
+
+%%col 25 25 50 50
+
+:::
+
+%%sep
+
+:::
+
+%%sep
+
+**Gemeinden Tabelle**
+
+| GemeindeID | Name | Einwohner |
+|---|--------------|-------|
+| 1 | Dummerstorf  | 7.329 |
+| 2 | Graal-Müritz | 4.278 |
+| 3 | Sanitz       | 5.831 |
+
+<br/> Primärschlüssel: GemeindeID
+
+%%sep
+
+**Bauwerke Tabelle**
+
+| BauwerksID | Bauwerkstyp | GemeindeID |
+|------------|-------------|------------|
+| 5000       | Tankstelle  | 2 |
+| 5001       | Hotel       | 1 |
+| 5002       | Kirche      | 2 |
+
+<br/> Fremdschlüssel: GemeindeID
+
+%%/col
+
+%%/book
+
+%%book
+
+
+## Integritätsbedingungen und Datenqualität
+
+Schlüssel definieren wichtige Integritätsbedingungen, die die Qualität und Konsistenz der Daten sicherstellen. Primärschlüssel gewährleisten die *lokale Integrität* der einzelnen Tabelle, indem sie verhindern, dass identische Datensätze mehrfach gespeichert werden. Fremdschlüssel hingegen sichern die *globale Integrität* des gesamten Datenbanksystems, indem sie gewährleisten, dass alle Verweise zwischen Tabellen gültig bleiben.
+
+Für Ingenieure ist diese Integrität von entscheidender Bedeutung. In einer Baudatenbank muss beispielsweise sichergestellt sein, dass jeder Verweis auf ein Baumaterial tatsächlich zu einem existierenden Material führt. Ein ungültiger Verweis könnte zu Fehlern in der Kostenberechnung oder Materialbeschaffung führen. Ebenso kritisch ist in der Umwelttechnik die korrekte Zuordnung von Messdaten zu ihren Herkunftsstationen, um falsche Schlüsse über Umweltbedingungen zu vermeiden.
+
+Die Tabellen werden somit über Schlüssel in Beziehung gesetzt, wodurch ein zusammenhängendes und konsistentes Datenmodell entsteht, das die Grundlage für zuverlässige ingenieurtechnische Entscheidungen bildet.
+
+%%/book
+
+%%slides
+
+
+## Relationale Datenbanken {background="#E2F0D9" cols40x60 txtL="" capR="Midjourney: Relational Database" imgR="images/10b_RelationaleDatenbanken/mj_databank2.png"}
+
+%%/slides
+
+%%slides
+
+
+## Relationale Datenbanken - Grundkonzepte
+%%def Relationale Datenbank
+Eine relationale Datenbank ist ein *Datenbanksystem*, das Informationen in *Tabellen* (Relationen) speichert, wobei die Daten als *Tupel* (Zeilen) organisiert sind und jede Spalte (Attribut) einen definierten Datentyp besitzt.
+%%/def
+%%col 50 50
+
+- Daten sind in Tabellenstrukturen (Schemata) organisiert
+- *Relation* ist hierbei der Begriff für eine Tabelle
+- Eine *relationale Datenbank* ist eine Menge von Tabellen
+
+%%sep
+
+| Spalte 1 | Spalte 2 | Spalte 3 |
+|----------|----------|----------|
+| Zeile 1  | ...      | ...      |
+| Zeile 2  | ...      | ...      |
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Relationale Datenbanken - Grundbegriffe
+
+%%col 50 50
+
+- Jede Tabelle hat einen *Relationennamen* (Tabellennamen)
+- *Relation* steht für die Gesamtheit der Datentupel (Alle Zeilen)
+- Jedes *Tupel* an Daten besteht aus einer Abfolge von Attributwerten (Einzelne Zeile)
+- Reihenfolge festgelegt durch *Relationenschema* (Spaltennamen)
+
+%%sep
+
+| Attribut 1   | Attribut 2 | Attribut 3 |
+|--------------|------------|------------|
+| Attributwert |     ...    |     ...    |
+| Attributwert |     ...    |     ...    |
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Beispiel: OpenData Hanse-Stadt Rostock
+
+Informationen sind meist über verschiedene Tabellen verteilt und müssen oft zusammengeführt verarbeitet werden, um daraus anwendbares Wissen abzuleiten.
+
+- Beispiel: https://www.opendata-hro.de
+    - Bebauungspläne
+    - Gemeinden  
+    - Baustellen
+    - Bodenrichtwerte
+    - Adressenliste
+
+%%/slides
+
+%%slides
+
+
+## Schlüsselattribute
+
+%%col 50 50
+
+- Gewisse *Attribute (Spalten)* können als *Schlüssel* markiert werden
+- Schlüssel sind meist *eindeutig (unique)* zuordenbar
+- Sie existieren in der Tabelle nur *einmal*
+- Man kann damit die *Zeile (Tupel) identifizieren*
+- Zeilennummern eignen sich nicht (können gelöscht werden)
+
+%%sep
+
+Schlüsseltypen:
+
+- *Einzelnes Attribut* oder *Menge von Attributen*
+- *Unique ID (UID)* - einzelnes Attribut
+- *Globally Unique IDs (GUID)* - global eindeutig
+- *UUID* (universally unique identifier) - ISO Standard
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Schlüsselattribute - Beispiel
+
+**Gemeinden Tabelle**
+
+| GemeindeID | Name | Einwohner |
+|------------|------|-----------|
+| 1 | Dummerstorf | 7.329 |
+| 2 | Graal-Müritz | 4.278 |
+| 3 | Sanitz | 5.831 |
+
+<br/> Schlüssel: GemeindeID
+
+%%/slides
+
+%%slides
+
+
+## Verweise über Schlüssel
+
+%%col 50 50
+
+**Gemeinden Tabelle**
+
+| GemeindeID | Name | Einwohner |
+|---|--------------|-------|
+| 1 | Dummerstorf  | 7.329 |
+| 2 | Graal-Müritz | 4.278 |
+| 3 | Sanitz       | 5.831 |
+
+<br/> Primärschlüssel: GemeindeID
+
+%%sep
+
+**Bauwerke Tabelle**
+
+| BauwerksID | Bauwerkstyp | GemeindeID |
+|------------|-------------|------------|
+| 5000       | Tankstelle  | 2 |
+| 5001       | Hotel       | 1 |
+| 5002       | Kirche      | 2 |
+
+
+<br/> Fremdschlüssel: GemeindeID
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Schlüsselkonzepte
+
+- Die *Schlüssel anderer Tabellen* kann man nutzen um auf Tupel in diesen zu verweisen
+- Die *eigenen Schlüssel* einer Tabelle heißen *Primärschlüssel* (Primary Key)
+- Die *Schlüssel anderer Tabellen* heißen *Fremdschlüssel* (Foreign Key)
+- Die *Tabellen werden über Schlüssel in Beziehung gesetzt*
+
+> Der Fremdschlüssel verweist auf den Primärschlüssel in der anderen Tabelle
+
+%%/slides
+
+%%slides
+
+
+## Die Rolle von Schlüsseln
+
+Schlüssel definieren sogenannte Integritätsbedingungen:
+
+%%col 50 50
+
+**Primärschlüssel**
+
+- Stehen für die *Integrität der einzelnen Tabelle*
+- *Lokale Integrität*
+
+%%sep
+
+**Fremdschlüssel**
+
+- Stehen für die *Integrität des gesamten Datenbanksystems*
+- *Globale Integrität*
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Lesson Learned {background="#66ccffff" cols40x60 txtL="" capR="https://youtu.be/arj7oStGLkU" imgR="images/10b_RelationaleDatenbanken/procrastbrain.png"}
+
+%%/slides
+
+%%slides
+
+
+## Lessons Learned - Prokrastination
+![](images/10b_RelationaleDatenbanken/timing0.svg)
+</center>
+
+- Etwas Prokrastination ist normal und oft Teil des Arbeitslebens (folgt aus Priotisierung)
+- Prokrastination ist sehr gefährlich, wenn wir den Aufwand falsch einschätzen und sich als grösser herausstellt als die verfügbare Zeit ist
+
+%%/slides
+
+%%slides
+
+
+## Lessons Learned - Zeitmanagement
+![](images/10b_RelationaleDatenbanken/timing1.svg)
+</center>
+
+%%/slides
+
+%%book
+
+
+## Quiz
+
+
+```{quizdown}
+    ---
+    shuffleQuestions: true
+    shuffleAnswers: true
+    ---
+
+    ### Welche Python-Pakete werden zum Laden von CSV-Daten aus dem Internet verwendet?
+
+    - [x] `urllib` und `pandas`
+    - [ ] `requests` und `numpy`
+    - [ ] `json` und `matplotlib`
+    - [ ] `sqlite3` und `os`
+
+    ### Was ist SQL?
+    - [x] Eine Sprache zur Abfrage und Manipulation von Datenbanken
+    - [ ] Ein Programm zur Datenvisualisierung
+    - [ ] Eine Programmiersprache wie Python
+    - [ ] Ein Datenformat wie JSON
+
+    ### Was ist SQLite?
+
+    - [x] Eine lokale relationale Datenbank ohne Server
+    - [ ] Ein Cloud-Datenbank-Service
+    - [ ] Ein NoSQL-Datenbanksystem
+    - [ ] Ein Datenvisualisierungstool
+
+    ### Sortiere die folgenden Zeilen für das Speichern einer Pandas-Tabelle in SQLite:
+
+    ```python
+    import sqlite3
+    import pandas as pd
+    ```
+    1. `df = pd.DataFrame({'col1': [1, 2], 'col2': [3, 4]})`
+    2. `con = sqlite3.connect("test.sqlite")`
+    3. `df.to_sql("tabelle", con, if_exists="replace")`
+
+    ### Welcher Fehler steckt in diesem Beispiel?
+
+    ```python
+    con = sqlite3.connect("test.sqlite")
+    df.to_sql("tabelle", con, if_exists="append")
+    ```
+
+    - [ ] `sqlite3` ist nicht importiert
+    - [ ] Der Datenbankname ist zu kurz
+    - [x] Kein Fehler - der Code ist korrekt
+    - [ ] `to_sql` existiert nicht
+
+    ### Was macht der SQL-Befehl `SELECT * FROM baustellen;`?
+
+    - [ ] Löscht alle Daten aus der Tabelle
+    - [x] Gibt alle Spalten und Zeilen der Tabelle zurück
+    - [ ] Erstellt eine neue Tabelle
+    - [ ] Zählt die Zeilen in der Tabelle
+
+
+    ### Wie führt man einen SQL-Befehl in Python aus?
+
+    - [x] Mit `cur.execute(sql)` nach Erstellung eines Cursors
+    - [ ] Mit `con.run(sql)`
+    - [ ] Mit `sqlite3.query(sql)`
+    - [ ] Mit `pd.sql(sql)`
+
+
+    ### Sortiere die folgenden Zeilen für eine SQL-Abfrage:
+
+    ```python
+    con = sqlite3.connect("test.sqlite")
+    ```
+
+    1. `cur = con.cursor()`
+    2. `sql = 'SELECT * FROM tabelle;'`
+    3. `for row in cur.execute(sql):`
+    4. `    print(row)`
+
+    ### Welcher SQL-Befehl filtert Baustellen mit Baubeginn ab 2023?
+
+    - [ ] `FILTER baubeginn >= '2023-01-01'`
+    - [x] `WHERE baubeginn >= '2023-01-01 00:00:00+01'`
+    - [ ] `IF baubeginn >= '2023-01-01'`
+    - [ ] `SELECT baubeginn >= '2023-01-01'`
+
+    ### Wie verknüpft man mehrere Bedingungen in SQL?
+
+    - [x] Mit `AND`, `OR`, `NOT`
+    - [ ] Mit `&&`, `||`, `!`
+    - [ ] Mit `+`, `-`, `*`
+    - [ ] Mit `COMBINE`, `MERGE`, `JOIN`
+
+
+    ### Welcher Fehler steckt in diesem SQL-Beispiel?
+
+    ```sql
+    SELECT * FROM baustellen
+    WHERE baubeginn = '2023-01-01' AND bauende = '2024-01-01'
+    ```
+
+    - [ ] `AND` ist nicht erlaubt
+    - [ ] Datumsformat ist falsch
+    - [x] Kein Fehler - der Code ist korrekt
+    - [ ] `WHERE` muss am Ende stehen
+
+
+    ### Was macht die SQL-Funktion `count(*)`?
+
+    - [ ] Summiert alle Werte
+    - [x] Zählt die Anzahl der Zeilen
+    - [ ] Findet den Maximalwert
+    - [ ] Berechnet den Durchschnitt
+
+
+    ### Welche Aggregatfunktionen gibt es in SQL?
+
+    - [x] `min()`, `max()`, `avg()`, `sum()`, `count()`
+    - [ ] `first()`, `last()`, `middle()`
+    - [ ] `add()`, `subtract()`, `multiply()`
+    - [ ] `top()`, `bottom()`, `center()`
+
+
+    ### Sortiere die folgenden Teile einer SQL-Aggregationsabfrage:
+
+    1. `SELECT sparte, count(*), avg(baudauer)`
+    2. `FROM baustellen`
+    3. `GROUP BY sparte`
+
+
+    ### Was macht `GROUP BY sparte` in einer SQL-Abfrage?
+
+    - [ ] Sortiert nach Sparte
+    - [x] Fasst Zeilen mit gleicher Sparte zusammen
+    - [ ] Filtert nach Sparte
+    - [ ] Löscht doppelte Sparten
+
+
+    ### Wie sortiert man Ergebnisse in SQL absteigend?
+
+    - [ ] `SORT BY spalte DOWN`
+    - [x] `ORDER BY spalte DESC`
+    - [ ] `ARRANGE BY spalte REVERSE`
+    - [ ] `DESCEND BY spalte`
+
+
+    ### Was bewirkt `LIMIT 3` in einer SQL-Abfrage?
+
+    - [ ] Begrenzt auf 3 Spalten
+    - [x] Gibt maximal 3 Ergebniszeilen zurück
+    - [ ] Sortiert die ersten 3 Einträge
+    - [ ] Filtert nach Werten kleiner 3
+
+
+    ### Welcher Fehler steckt in diesem SQL-Beispiel?
+
+    ```sql
+    SELECT sparte, count(*)
+    FROM baustellen
+    ORDER BY count(*)
+    GROUP BY sparte
+    ```
+
+    - [x] `ORDER BY` muss nach `GROUP BY` stehen
+    - [ ] `count(*)` kann nicht sortiert werden
+    - [ ] `GROUP BY` ist falsch positioniert
+    - [ ] Es fehlt ein `WHERE`
+
+
+    ### Was macht ein `JOIN` in SQL?
+
+    - [ ] Kombiniert Spalten einer Tabelle
+    - [x] Verknüpft Daten aus mehreren Tabellen
+    - [ ] Sortiert Tabellendaten
+    - [ ] Löscht doppelte Einträge
+
+
+    ### Warum verwendet man Tabellenpräfixe wie `b.spalte` bei JOINs?
+
+    - [ ] Zur Verschönerung des Codes
+    - [x] Zur eindeutigen Identifikation bei gleichnamigen Spalten
+    - [ ] Zur Beschleunigung der Abfrage
+    - [ ] Zur Fehlerbehandlung
+
+
+    ### Was macht `DISTINCT` in einer SQL-Abfrage?
+
+    - [ ] Sortiert die Ergebnisse
+    - [ ] Begrenzt die Anzahl der Ergebnisse
+    - [x] Entfernt doppelte Zeilen aus den Ergebnissen
+    - [ ] Verbindet mehrere Tabellen
+
+    ### Was ist der Unterschied zwischen INNER JOIN und LEFT JOIN?
+    - [x] INNER JOIN gibt nur übereinstimmende Zeilen zurück, LEFT JOIN alle Zeilen der linken Tabelle
+    - [ ] LEFT JOIN gibt nur übereinstimmende Zeilen zurück, INNER JOIN alle Zeilen der linken Tabelle
+    - [ ] Es gibt keinen Unterschied, beide sind gleich
+    - [ ] INNER JOIN ist schneller als LEFT JOIN
+
+
+    ### Sortiere die folgenden Teile einer JOIN-Abfrage:
+
+    1. `SELECT b.spalte1, a.spalte2`
+    2. `FROM baustellen AS b`
+    3. `JOIN adressenliste AS a`
+    4. `WHERE b.id = a.id`
+
+
+    ### Was ist der Unterschied zwischen verschiedenen JOIN-Typen?
+
+    - [x] Sie bestimmen, welche Zeilen bei fehlenden Übereinstimmungen zurückgegeben werden
+    - [ ] Sie beeinflussen die Geschwindigkeit der Abfrage
+    - [ ] Sie ändern die Sortierung der Ergebnisse
+    - [ ] Sie bestimmen die Anzahl der verknüpften Tabellen
+
+
+    ### Welcher Fehler steckt in diesem JOIN-Beispiel?
+
+    ```sql
+    SELECT * FROM baustellen
+    NATURAL JOIN adressenliste, gemeinden
+    ```
+
+    - [ ] `NATURAL JOIN` existiert nicht
+    - [ ] Zu viele Tabellen im JOIN
+    - [x] Potentielle Kreuzverknüpfung durch mehrere Tabellen ohne explizite Bedingungen
+    - [ ] Falsche Syntax bei `NATURAL JOIN`
+
+
+```
+
+%%/book
+
+
+%%final

@@ -1,0 +1,129 @@
+---
+title: "Lecture Title"
+format:
+  revealjs:
+    title-slide-attributes:
+      data-background-video: images/01d_Programmiersprachen_ani/mj_title.mp4
+    output-file: 01d_Programmiersprachen_ani.slide.html
+  html:
+    output-file: 01d_Programmiersprachen_ani.page.html
+  typst:
+    output-file: 01d_Programmiersprachen_ani.page.pdf
+resources:
+  - data/01d_Programmiersprachen_ani
+---
+
+```{python}
+#| echo: true
+import os
+import re
+import random
+from copy import copy
+
+import requests
+from bs4 import BeautifulSoup
+
+from IPython.display import HTML
+from PIL import Image
+
+import numpy as np
+import pandas as pd
+
+import matplotlib.pyplot as plt
+from matplotlib import animation
+from matplotlib.pyplot import figure
+import matplotlib.image as image
+from matplotlib.cbook import get_sample_data
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+import bar_chart_race as bcr
+```
+
+```{python}
+#| echo: true
+base_url = "https://www.tiobe.com/tiobe-index/"
+
+r = requests.get(url=base_url)
+soup = BeautifulSoup(r.text, "lxml")
+
+src_icons = [img.get("src") for img in soup.find("tbody").find_all("img") if 'tiobe-index' in img.get("src")]
+src_icons
+```
+
+```{python}
+#| echo: true
+def download_icon(file_name, url):
+    if not os.path.exists(file_name):
+        print(f"[INFO] starting work with url {url}")
+        r = requests.get(url)
+        print(f"[INFO] request status: {r.status_code}")
+        with open(file_name, "wb") as f:
+            print(f"[INFO] saving file: {file_name}")
+            f.write(r.content)
+        print("--------------------- Saved! --------------------")
+
+for icon in src_icons:
+    file_name = "picons/"+icon.split("/")[-1]
+    url = "https://www.tiobe.com/" + icon
+    if not os.path.exists(file_name):
+        download_icon(file_name, url)
+```
+
+```{python}
+#| echo: true
+icon_list_names = os.listdir('picons')
+```
+
+```{python}
+#| echo: true
+df = pd.read_csv("picons/MostPopularProgrammingLanguages2000to2021.csv")
+df.head()
+```
+
+```{python}
+#| echo: true
+data = df.drop(["Date"], axis=1)
+```
+
+```{python}
+#| echo: true
+tmp_names = {"C/C++": "picons/C.png", "C#": "picons/C_.png", "Delphi/Pascal": "picons/Delphi_Object_Pascal.png", "Visual Basic": "picons/Visual_Basic.png", "Matlab": 'picons/MATLAB.png'}
+```
+
+```{python}
+#| echo: true
+names = {k: f"picons/{k}.png" for k in data.columns if f"{k}.png" in icon_list_names}
+names.update(tmp_names)
+names
+```
+
+```{python}
+#| echo: true
+image_data = {k: OffsetImage(Image.open(name)) for k, name in names.items()}
+image_data
+```
+
+```{python}
+#| echo: true
+test = df.set_index(df.Date)
+test = test.iloc[:, 1:]
+new_table = test.astype(float)
+
+top_6 = set()
+for index, row in new_table.iterrows():
+    top_6 |= set(row[row > 0].sort_values(ascending=False).head(6).index)
+
+new_table = new_table[top_6]
+new_table.head()
+```
+
+```{python}
+#| echo: true
+bcr.bar_chart_race(df = new_table, 
+                   sort='desc',
+                   title='Top 10 Programming Languages from 2004 - 2022 (in percent)',
+                   fixed_max = False,
+                   steps_per_period = 6,
+                   dpi = 180,
+                   period_length = 100,
+                   filename = 'images/01d_Programmiersprachen_ani/top_prog_languages.mp4')
+```

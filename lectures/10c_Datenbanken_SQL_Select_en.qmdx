@@ -1,0 +1,1442 @@
+---
+title: "SQL Select"
+image-credit: "Midjourney: Deep Dive into a Busy Scene"
+format:
+  revealjs:
+    title-slide-attributes:
+      data-background-video: images/10c_Datenbanken_SQL_Select/mj_title.mp4
+    output-file: 10c_Datenbanken_SQL_Select_en.slide.html
+  html:
+    output-file: 10c_Datenbanken_SQL_Select_en.page.html
+  typst:
+    output-file: 10c_Datenbanken_SQL_Select_en.page.pdf
+resources:
+  - data/10c_Datenbanken_SQL_Select_en
+---
+
+%%book
+
+
+# Analyzing Tables with SQL
+
+%%/book
+
+%%book
+
+![](images/10c_Datenbanken_SQL_Select/mj_title_band.jpg)
+
+> If you think you understand SQL, you’re probably wrong.
+>
+> — C. J. Date
+
+%%/book
+
+%%slides
+
+
+## Procedure
+
+![](images/partB_2.svg)
+
+%%/slides
+
+%%book
+
+
+## Practical example
+
+%%/book
+
+%%book
+
+Information is, in practice, usually distributed across different systems and tables and must often be merged and processed to derive actionable knowledge.
+
+The Hanseatic City of Rostock offers, for example, many relevant data for civil and environmental engineers on the [OpenData Portal Rostock](https://www.opendata-hro.de).
+
+There we get, for example:
+
+- the [list of all construction sites](https://www.opendata-hro.de/dataset/baustellen)
+- the [list of all streets and addresses](https://www.opendata-hro.de/dataset/adressenliste)
+- the [list of all municipalities](https://www.opendata-hro.de/dataset/gemeinden_mecklenburg-vorpommern) 
+<!-- - the [list of all Bodenrichtwerte](https://www.opendata-hro.de/dataset/bodenrichtwerte_2022)
+
+The population density of the districts, in turn, we obtain on the state site (https://www.laiv-mv.de/Statistik/Zahlen-und-Fakten/Gesellschaft-&-Staat/Bevoelkerung/). 
+
+
+# See https://www.opendata-hro.de/dataset/bodenrichtwerte_2022
+with urllib.request.urlopen(f'https://geo.sv.rostock.de/download/opendata/bodenrichtwerte_2022/bodenrichtwerte_2022.csv') as f:
+    bodenrichtwerte=pd.read_csv(f, usecols=["gesl", "genu", "ortst", "wnum", "gema", "flae", "typ", "brw", "nuta", "entw", "geometrie_wkt"])
+bodenrichtwerte.head()
+
+
+# See https://www.laiv-mv.de/Statistik/Zahlen-und-Fakten/Gesellschaft-&-Staat/Bevoelkerung/
+with urllib.request.urlopen(f'https://www.laiv-mv.de/static/LAIV/Statistik/Dateien/Publikationen/A%20I%20Bev%C3%B6lkerungsstand/A123/2022/A123%202022%2021.xlsx') as f:
+    bevoelkerung=pd.read_excel(f.read(), sheet_name="2", header=1, usecols=range(7), skiprows=range(2,9)) # choose sheet 2, the first 7 columns, and skip rows 2-9
+bevoelkerung.columns=[c.replace("-\n", "").replace("\n", "") for c in bevoelkerung.columns] # remove line breaks in the column names
+bevoelkerung.head()
+
+-->
+
+%%/book
+
+%%book
+
+As shown in the previous examples, we can also download and display the data quite simply in Python. For this, we use the CSV format offered on the websites and the Python packages `urllib` and `pandas`. We first open the file from the Internet with `urllib.request.urlopen` and then load it into Pandas as a table with `pd.read_csv(f)`. Finally, we display the first 5 rows of the table with `.head()`.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import urllib.request
+import pandas as pd
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+
+
+# Siehe https://www.opendata-hro.de/dataset/baustellen
+with urllib.request.urlopen(f'https://geo.sv.rostock.de/download/opendata/baustellen/baustellen.csv') as f:
+    construction_sites = pd.read_csv(f, usecols=["latitude", "longitude", "strasse_schluessel", "sparte", "von", "nach", "baubeginn", "bauende", "verkehrsbeeintraechtigungen", "baumassnahme"] )#, parse_dates=["baubeginn", "bauende"]
+    construction_sites["baubeginn"] = pd.to_datetime(construction_sites["baubeginn"], format="%Y/%m/%d %H:%M:%S%z", errors="coerce", utc=True).dt.strftime("%Y-%m-%d %H:%M:%S")
+    construction_sites["bauende"] = pd.to_datetime(construction_sites["bauende"], format="%Y/%m/%d %H:%M:%S%z", errors="coerce", utc=True).dt.strftime("%Y-%m-%d %H:%M:%S")
+construction_sites.head()
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+
+
+# See https://geo.sv.rostock.de/download/opendata/adressenliste
+with urllib.request.urlopen(f'https://geo.sv.rostock.de/download/opendata/adressenliste/adressenliste.csv') as f:
+    address_list = pd.read_csv(f, usecols=["gemeinde_schluessel", "gemeindeteil_name", "strasse_name", "strasse_schluessel", "hausnummer", "hausnummer_zusatz", "postleitzahl"])
+address_list.head()
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+
+
+# See https://www.opendata-hro.de/dataset/gemeinden_mecklenburg-vorpommern
+with urllib.request.urlopen(f'https://geo.sv.rostock.de/download/opendata/gemeinden_mecklenburg-vorpommern/gemeinden_mecklenburg-vorpommern.csv') as f:
+    municipalities = pd.read_csv(f, usecols=["kreis_name", "kreis_schluessel", "gemeindeverband_name", "gemeindeverband_schluessel", "gemeinde_name", "gemeinde_schluessel"])
+municipalities.head()
+```
+
+%%/book
+
+%%book
+
+When we compare the tables, we find that each has a somewhat different structure and usually provides only part of the information. For example, if we want to know the population density in the city districts with construction sites, that information cannot be derived immediately.
+
+%%/book
+
+%%book
+
+
+## Saving Tables to SQLite with Pandas
+
+%%/book
+
+%%book
+
+To store this data long-term, we want to set up a database. Since the data already exist as tables, we’ll use a relational database. A very simple, local relational database that runs without a server is SQLite. It is already included in Python. We create a new database by opening a connection to a new database file.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import sqlite3
+
+
+# Create a SQL connection to our SQLite database
+con = sqlite3.connect("opendatahro.sqlite")
+```
+
+%%/book
+
+%%book
+
+We'll explore later how to create tables directly with SQL. Pandas already has this function built in, so we can store our table directly in the SQLite database.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+construction_sites.to_sql("baustellen", con, if_exists="replace")
+address_list.to_sql("adressenliste", con, if_exists="replace")
+municipalities.to_sql("gemeinden", con, if_exists="replace")
+```
+
+%%/book
+
+%%book
+
+
+## Querying data from tables using `SELECT`
+
+%%/book
+
+%%book
+
+SQL is the standard language for working with relational databases. It offers various commands to define tables, store data in them, and query the data. The latter is done with the `SELECT` command. SQL is somewhat oriented toward natural language. In SQL, you basically query data from a specific table (`FROM`). For example, to query all columns from a table, we use the command with the wildcard `*` (i.e., all columns).
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+sql='SELECT * FROM baustellen;'
+```
+
+%%/book
+
+%%book
+
+To send the SQL command to the database, we create a new cursor `cur` from our database connection `con`. With `cur.execute(sql)` we execute the SQL command, and the database starts sending back all the results of the query to us, row by row. The cursor always points to the current row. This is meant to avoid sending all data—which can be a very large number of rows—at once and thereby potentially overloading the network or the program.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+cur = con.cursor()
+
+rows = cur.execute(sql)
+for i,row in enumerate(rows):
+    if i<20:
+      print(row)
+print(f"Rows {i}")
+print(f"Type {type(row)}")
+```
+
+%%/book
+
+%%book
+
+As we can see, we get each row back as a tuple. In this case, we do not know the column names of the values. We can query them from the cursor with
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+cur.description
+```
+
+%%/book
+
+%%book
+
+Typically, you don't fetch all columns of a table using the wildcard `*`, but instead specify the columns you want to receive. This way you can avoid unnecessary data transfer.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+sql='SELECT sparte, latitude, longitude, baumassnahme FROM baustellen;'
+rows = cur.execute(sql)
+for i,row in enumerate(rows):
+    if i<20:
+      print(row)
+print(f"Rows {i}")
+```
+
+%%/book
+
+%%book
+
+
+## Filtering results with `WHERE`
+
+%%/book
+
+%%book
+
+Often you want to retrieve only certain rows from a table in a database. This selection is defined using the SQL command `WHERE` and additional logical comparison operators.
+
+For example, if we want only the construction sites that have a construction start date in 2023, we can define
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+sql='''SELECT strasse_schluessel, sparte, latitude, longitude, baumassnahme, baubeginn, bauende
+       FROM baustellen
+       WHERE baubeginn >= '2023-01-01 00:00:00+01';'''
+rows = cur.execute(sql)
+for i,row in enumerate(rows):
+    if i<20:
+      print(row)
+print(f"Rows {i}")
+```
+
+%%/book
+
+%%book
+
+Multiple conditions can be combined using logical operators such as 'AND', 'OR' or 'NOT'. If we want all construction sites that started and were completed in the first quarter of 2023, we write it like this
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+sql='''SELECT strasse_schluessel, sparte, latitude, longitude, baumassnahme, baubeginn, bauende
+       FROM baustellen
+       WHERE baubeginn >= '2025-01-01 00:00:00+01' AND bauende < '2027-01-01 00:00:00+01';'''
+rows = cur.execute(sql)
+for i,row in enumerate(rows):
+    if i<20:
+      print(row)
+print(f"Rows {i}")
+```
+
+%%/book
+
+%%book
+
+
+## Data Aggregation
+
+%%/book
+
+%%book
+
+Since the results are delivered row by row, the total number of results isn't necessarily known in advance. Therefore, all relational databases support the aggregate function `count(*)` to return the number of rows in the result set.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+sql='SELECT count(*) FROM baustellen;'
+
+for row in cur.execute(sql):
+    print(row)
+```
+
+%%/book
+
+%%book
+
+Here we only get back a single result line with the number of rows in the table.
+
+%%/book
+
+%%book
+
+In addition, SQL supports many aggregate functions. For example, if we want to identify the earliest construction start date for all sites in our sample dataset, we use the `min()` function with the corresponding column name.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+sql='SELECT min(baubeginn) FROM baustellen;'
+
+for row in cur.execute(sql):
+    print(row)
+```
+
+%%/book
+
+%%book
+
+We again obtain a result that includes the date. The key is that these aggregate functions are executed directly in the database. So we do not have to download all the data to obtain simple metrics such as the count, the minimum, or the maximum of columns. In doing so, we can also perform multiple aggregations in a single query and perform mathematical calculations. The following example gives us the number of construction sites as well as the earliest start date and the latest end date, along with the construction duration. We calculate the construction duration directly in the database as the arithmetic average `avg` of the difference between end date and start date in days in the Julian calendar.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+sql='''SELECT sparte, count(*), min(baubeginn), max(bauende), avg(JulianDay(bauende)-JulianDay(baubeginn))
+       FROM baustellen;'''
+
+for row in cur.execute(sql):
+    print(row)
+```
+
+%%/book
+
+%%book
+
+
+## Extracting Statistics with Group Aggregation, Sorting, and Limiting
+
+%%/book
+
+%%book
+
+The last example already shows how we can use SQL to calculate statistics of data in a database. This becomes especially interesting when we combine it with grouping. Groupings aggregate the queried rows in the table along the specified column names into groups. If, for example, we want to know the average construction duration per `sparte`, we can group by this column and determine the average duration for each group. For this, SQL provides the `GROUP BY` clause, with which we specify the column by which to group.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+sql='''SELECT sparte, count(*), min(baubeginn), max(bauende), avg(JulianDay(bauende)-JulianDay(baubeginn))
+       FROM baustellen 
+       GROUP BY sparte;'''
+
+for row in cur.execute(sql):
+    print(row)
+```
+
+%%/book
+
+%%book
+
+We now see that 'Hochbau' forms the largest group with 29 lines (construction sites), followed by Straßenbau with 14 lines. Hochbau requires Hochbau with 507 days, almost twice as long as Straßenbau with 274 days.
+
+(As we pull the data daily from Opendata-HRO, these sample numbers may indeed change over time.)
+
+%%/book
+
+%%book
+
+To sort the results, SQL provides the `ORDER BY` clause. If we want to sort the results by duration in descending order (`DESC`), we write:
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+sql='''SELECT sparte, count(*), min(baubeginn), max(bauende), avg(JulianDay(bauende)-JulianDay(baubeginn)) as Baudauer 
+       FROM baustellen 
+       GROUP BY sparte
+       ORDER BY Baudauer DESC;'''  # ASC - Ascending, DESC - Descending
+
+for row in cur.execute(sql):
+    print(row)
+```
+
+%%/book
+
+%%book
+
+If we're only interested in the top 3, we can use `LIMIT` to cap the number of results returned.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+sql='''SELECT sparte, count(*), min(baubeginn), max(bauende), avg(JulianDay(bauende)-JulianDay(baubeginn)) as Baudauer 
+       FROM baustellen 
+       GROUP BY sparte
+       ORDER BY Baudauer DESC
+       LIMIT 3;'''
+
+for row in cur.execute(sql):
+    print(row)
+```
+
+%%/book
+
+%%book
+
+
+## Joining data from multiple tables and querying at the same time with `JOIN`
+
+%%/book
+
+%%book
+
+In our example we don’t know the street names of the construction site, only an obscure ID called `strasse_schluessel`. We also find this in the `adressenliste` table together with the desired street name. So we must now perform a query across both tables jointly in order to also learn the street for the construction sites. To do this one uses the SQL command `JOIN` and specifies where (`WHERE`) the results should be joined by providing an equality condition. Since the column `strasse_schluessel` appears in both tables and it isn’t entirely clear which one it refers to, you now also qualify the column names with the table using dot notation, i.e.:
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+sql='''SELECT baustellen.strasse_schluessel, baustellen.sparte, baustellen.latitude, baustellen.longitude, baustellen.baumassnahme, baustellen.baubeginn, baustellen.bauende, 
+              adressenliste.gemeindeteil_name, adressenliste.strasse_name 
+       FROM baustellen 
+       JOIN adressenliste 
+       WHERE baustellen.strasse_schluessel=adressenliste.strasse_schluessel;'''
+for row in cur.execute(sql):
+    print(row)
+```
+
+%%/book
+
+%%book
+
+Since constantly repeating table names is very tedious to type, SQL also lets you use shorter names for columns and tables with the `AS` keyword.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+sql='''SELECT b.strasse_schluessel, b.sparte, b.latitude, b.longitude, b.baumassnahme, b.baubeginn, b.bauende, 
+              a.gemeindeteil_name, a.strasse_name 
+       FROM baustellen AS b 
+       JOIN adressenliste AS a
+       WHERE b.strasse_schluessel=a.strasse_schluessel;'''
+for row in cur.execute(sql):
+    print(row)
+```
+
+%%/book
+
+%%book
+
+However, there are now too many duplicates in our results, because each result row from the table `baustellen` is joined with every row from the table `adressenliste`, since in the latter a street with the same `strasse_schluessel` occurs multiple times. We want to filter out these duplicates using the SQL command `DISTINCT`.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+sql='''SELECT DISTINCT b.strasse_schluessel, b.sparte, b.latitude, b.longitude, b.baumassnahme, a.gemeindeteil_name, a.strasse_name 
+       FROM baustellen AS b
+       JOIN adressenliste AS a
+       WHERE b.strasse_schluessel=a.strasse_schluessel;'''
+for row in cur.execute(sql):
+    print(row)
+```
+
+%%/book
+
+%%book
+
+Now we already know the correct street name for every construction site, but we are missing the municipality. To address this, we link the data to the table `gemeinden`. For this, we include the additional table in the `JOIN` and define the further join condition on the column `gemeinde_schluessel`.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+sql='''SELECT DISTINCT b.strasse_schluessel, b.sparte, b.latitude, b.longitude, b.baumassnahme, a.gemeindeteil_name, a.strasse_name, g.gemeinde_name
+       FROM baustellen AS b
+       JOIN adressenliste AS a, gemeinden AS g
+       WHERE b.strasse_schluessel=a.strasse_schluessel AND a.gemeinde_schluessel=g.gemeinde_schluessel;'''
+for row in cur.execute(sql):
+    print(row)
+```
+
+%%/book
+
+%%book
+
+There are [different types of joins](https://www.w3schools.com/sql/sql_join.asp) depending on whether you want only the results for which there are:
+
+- Entries exist in both tables (INNER, Default)
+- Entries exist in at least the first table (RIGHT)
+- Entries exist in at least the second table (LEFT)
+- Entries exist in at least the second table (OUTER)
+
+The `NATURAL JOIN` types simplify the writing. In a `NATURAL JOIN`, the columns are matched that have identical names. It thus only works if the columns in the tables being joined have identical names and all other columns have different names, which is somewhat less common.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+sqlNJ='''SELECT DISTINCT strasse_schluessel, sparte, latitude, longitude, baumassnahme, gemeindeteil_name, strasse_name, gemeinde_name
+       FROM baustellen
+       NATURAL JOIN adressenliste, gemeinden;'''
+for row in cur.execute(sqlNJ):
+    print(row)
+```
+
+%%/book
+
+%%book
+
+:::{warning}
+It doesn't work in this example either. Some results are indeed returned, but noticeably more than in the last join. The municipalities are cross-joined here. Thus, the `NATURAL JOIN` should be used with caution.
+:::
+
+%%/book
+
+%%book
+
+
+## Query data with SQL and Pandas and visualize with GeoJSON
+
+%%/book
+
+%%book
+
+We already created the tables in the SQLite database at the start using Pandas. We can also use Pandas to load data from a SQL query directly into a DataFrame (Pandas table).
+
+Let's combine the examples and display all construction sites with street and municipality in the first quarter of 2023 on a map. The SQL query for this looks as follows:
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+sql='''SELECT DISTINCT b.strasse_schluessel, b.sparte, b.latitude, b.longitude, b.baumassnahme, b.baubeginn, b.bauende, a.gemeindeteil_name, a.strasse_name, g.gemeinde_name
+       FROM baustellen AS b
+       JOIN adressenliste AS a, gemeinden AS g
+       WHERE b.strasse_schluessel=a.strasse_schluessel AND a.gemeinde_schluessel=g.gemeinde_schluessel
+         AND b.baubeginn >= '2023-01-01 00:00:00+01' AND b.bauende < '2024-04-01 00:00:00+01';'''
+```
+
+%%/book
+
+%%book
+
+We execute the SQL query directly using the Pandas function `pd.read_sql(sql, con)` and generate a DataFrame containing the data we want.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+construction_sites_with_street = pd.read_sql(sql, con)
+construction_sites_with_street
+```
+
+%%/book
+
+%%book
+
+The table already contains the latitude and longitude. With the `pandas_geojson` package, we can convert the DataFrame into a GeoJSON FeatureCollection. We first install the package with pip.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+Please provide the Python code snippet that contains German variable names, function/class names, docstrings, and inline comments for translation. The command you posted ('pip install pandas_geojson --quiet') is not Python code to translate.
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import json
+
+def to_geojson(df, lat, lon, properties=None):
+    features = []
+    for _, row in df.iterrows():
+        features.append({
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [row[lon], row[lat]]
+            },
+            "properties": {k: row[k] for k in properties or []}
+        })
+    return json.dumps({
+        "type": "FeatureCollection",
+        "features": features
+    })
+
+geo_json = to_geojson(df=construction_sites_with_street, lat='latitude', lon='longitude',
+                 properties=['strasse_name','sparte','baumassnahme', 'baubeginn', 'bauende'])
+```
+
+%%/book
+
+%%book
+
+Now we can visualize the construction sites on a map using the well-known package `geojsonio`.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import json
+import geojsonio
+
+geojsonio.display(json.dumps(geo_json))
+```
+
+%%/book
+
+%%book
+
+![Construction sites](images/10c_Datenbanken_SQL_Select/baustellen.png)
+
+%%/book
+
+%%slides
+
+
+## SQL - Structured Query Language {background="#E2F0D9" cols40x60 txtL="" capR="Midjourney: Structured Query Language" imgR="images/10c_Datenbanken_SQL_Select/mj_sql.png"}
+
+%%/slides
+
+%%slides
+
+
+## How do you obtain data from the tables?
+
+- The tables are not read sequentially like files, but we perform *query operations*.
+- These compute a new *result table* from a set of tables.
+- These operations can be combined in a way similar to familiar arithmetic operations.
+- So we use a system of computations over tables: a *relational algebra*
+
+%%/slides
+
+%%slides
+
+
+## How do we put these into practice?
+
+- Historically, dedicated *query languages* have developed here, rather than just add-on functions and libraries in other programming languages
+- The most popular of these languages is the *Structured Query Language (SQL)*
+- It has a syntax specifically designed for the operations allowed here
+- In practice, it is considerably more focused than Python
+
+%%/slides
+
+%%slides
+
+
+## SQL (Structured Query Language)
+
+- *1975* SEQUEL = Structured English Query Language
+- *since 1986* SQL ANSI standard, since 1987 ISO standard
+- *1992* SQL 2 (SQL-92) new ISO standard
+- *1999* SQL 3 (SQL:1999) new ISO standard
+- *2016* SQL 7 (SQL:2011) new ISO standard
+- *2019* SQL 9 (SQL:2019) stable release
+- *SQL:2016* ISO/IEC 9075-1:2016 is the current ISO standard
+
+%%/slides
+
+%%slides
+
+
+## Projection
+
+%%col 50 50
+
+- Given the relation Municipalities {MunicipalityID, Name, Population}
+- Projection means selecting certain columns by explicit listing
+- Example: MunicipalityID, Name
+
+%%sep
+
+| MunicipalityID | Name | Population |
+|---|--------------|-------|
+| 1 | Dummerstorf  | 7,329 |
+| 2 | Graal-Müritz | 4,278 |
+| 3 | Sanitz       | 5,831 |
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Projection in SQL
+
+%%col 50 50
+
+*Syntax:*
+```sql
+SELECT … FROM …
+```
+
+<br/>
+
+- *SELECT* – Selects the required columns (using * selects all columns)
+- *FROM* – Specifies the relations from which to select
+
+<br/>
+```sql
+SELECT GemeindeID, Name 
+FROM Gemeinden
+```
+
+%%sep
+
+*Result:*
+<br/>
+
+| MunicipalityID | Name |
+|---|--------------|
+| 1 | Dummerstorf |
+| 2 | Graal-Müritz |
+| 3 | Sanitz |
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Selection
+
+%%col 50 50
+
+- *Selection* means selecting specific rows based on a condition
+- For the conditions, as usual, comparison operators are used
+- Condition: Population > 5000
+
+%%sep
+
+| Municipality ID | Name | Population |
+|---|--------------|--------|
+| 1 | Dummerstorf | 7,329 |
+| ~~2~~ | ~~Graal-Müritz~~ | ~~4,278~~ |
+| 3 | Sanitz | 5,831 |
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Selection in SQL
+
+%%col 50 50
+
+*Syntax:*
+```sql
+SELECT … FROM … WHERE …
+```
+
+<br/>
+
+- *WHERE* – filters the rows in the selected tables according to specified conditions
+
+<br/>
+*Example:*
+```sql
+SELECT * FROM Gemeinden 
+WHERE Einwohner > 5000
+```
+
+%%sep
+
+| Municipality ID | Name | Population |
+|---|--------------|-------|
+| 1 | Dummerstorf | 7.329 |
+| 3 | Sanitz | 5.831 |
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Natural Join
+
+With a *JOIN*, we combine rows from both tables wherever foreign keys and primary keys match.
+
+%%col 50 50
+
+**Municipalities Table**
+
+| MunicipalityID | Name | Population |
+|---|--------------|----------|
+| 1 | Dummerstorf  | 7,329 |
+| 2 | Graal-Müritz | 4,278 |
+| 3 | Sanitz       | 5,831 |
+
+<br/> Primary key: MunicipalityID
+
+%%sep
+
+**Buildings Table**
+
+| BuildingID | Building Type | MunicipalityID |
+|------------|-------------|------------|
+| 5000       | Gas Station  | 2 |
+| 5001       | Hotel        | 1 |
+| 5002       | Church       | 2 |
+
+
+<br/> Foreign Key: MunicipalityID
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Natural Join - Result
+
+Joining tables by matching columns:
+
+%%col 50 50
+
+**Municipalities table**
+
+| MunicipalityID | Name | Population |
+|---|--------------|-------|
+| 1 | Dummerstorf  | 7.329 |
+| 2 | Graal-Müritz | 4.278 |
+| 3 | Sanitz       | 5.831 |
+
+<br/> Primary key: MunicipalityID
+
+%%sep
+
+**Buildings table**
+
+| BuildingID | Building Type | MunicipalityID |
+|------------|-------------|------------|
+| 5000       | Gas Station  | 2 |
+| 5001       | Hotel       | 1 |
+| 5002       | Church      | 2 |
+
+
+<br/> Foreign key: MunicipalityID
+
+%%/col
+
+Result
+
+| BuildingID | Building Type | MunicipalityID | Name | Population |
+|--|--|--|--|--|
+| 5000 | Gas Station | 2 | Graal-Müritz | 4.278 |
+| 5001 | Hotel | 1 | Dummerstorf | 7.329 |
+| 5002 | Church | 2 | Graal-Müritz | 4.278 |
+
+*Important:* Tuples whose attribute value in the respective column of the other relation does not appear will also not appear in the result table.
+
+In the example: Sanitz does not appear in the result because none of the existing buildings are built here.
+
+%%/slides
+
+%%slides
+
+
+## Natural Join - in SQL
+
+*Syntax:*
+```sql
+SELECT … FROM … NATURAL JOIN
+```
+
+<br/>
+
+- *NATURAL JOIN* – Connects two tables via the natural join
+
+<br/>
+*Example:*
+```sql
+SELECT * FROM Bauwerke 
+NATURAL JOIN Gemeinden
+```
+
+%%/slides
+
+%%slides
+
+
+## Other join forms in SQL
+
+*Kreuzprodukt:*
+```sql
+SELECT … FROM Table1, Table2
+```
+
+<br/>
+
+- If you separate with a comma instead of NATURAL JOIN, a *Cross product* is formed – all rows are joined with all rows!
+
+<br/>
+*Sinnvoll um mehrere Tabellen nach bestimmten Bedingungen zu kombinieren:*
+```sql
+SELECT … FROM Table1, Table2 
+WHERE Table1.Foreign = Table2.Primary
+```
+
+Can this also produce the NATURAL JOIN?
+
+%%/slides
+
+%%slides
+
+
+## Renaming
+
+%%col 50 50
+
+- Sometimes the same attribute values in different tables have different meanings, especially when forming joins.
+- Given the relation Buildings {BuildingID, BuildingType, Name}
+- Join: Buildings × Municipalities
+- Columns: BuildingID, BuildingType, Name
+- *Renaming:* Name → MunicipalityName
+
+%%sep
+
+| BuildingID | BuildingType | MunicipalityName |
+|------|------------|--------------|
+| 5000 | Gas Station | Graal-Müritz |
+| 5001 | Hotel      | Dummerstorf |
+| 5002 | Church     | Graal-Müritz |
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Aliasing in SQL
+
+*With the `AS` keyword:*
+```sql
+SELECT tbl1.attr1 AS IdentificationNumber 
+FROM Table1 AS tbl1
+```
+
+<br/>
+*The example from earlier:*
+```sql
+SELECT StructureID, StructureType, Name AS MunicipalityName
+FROM Structures
+NATURAL JOIN Municipalities
+```
+
+<br/>
+This is possible in both the `SELECT` and the `FROM` clauses by using the `AS` keyword.
+
+%%/slides
+
+%%slides
+
+
+## Aggregate Functions
+
+%%col 50 50
+
+- Aggregate column values according to a defined procedure
+- They typically form a 1×1 table as the result
+- If more than one value should appear, it must be aggregated according to a defined condition
+- If there is a condition, the rows represent different cases
+- *Common aggregate functions:* sums or counts
+
+%%sep
+
+| MunicipalityID | Name | Population |
+|--|--|--|
+| 1 | Dummerstorf | 7,329 |
+| 2 | Graal-Müritz | 4,278 |
+| 3 | Sanitz | 5,831 |
+
+<br/>
+*Sum: 17,438*
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Aggregate Functions in SQL
+
+%%col 50 50
+
+*COUNT function* counts the number of rows:
+```sql
+SELECT COUNT(GemeindeID) FROM Gemeinden
+```
+
+%%sep
+
+*COUNT: 3*
+
+%%/col
+
+%%col 50 50
+
+*SUM function* sums a column numerically:
+```sql
+SELECT SUM(Einwohner) FROM Gemeinden
+```
+
+%%sep
+
+*SUM: 17,438*
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Conditional Aggregation - in SQL
+
+- When you aggregate by a particular attribute, only those rows that share the same attribute value are aggregated (summed, counted, averaged, etc.).
+- For this, the GROUP BY clause in SQL is used.
+
+*Example:* A table named Mitarbeiter contains honorarium payments to employees; for each payment there is a row. One now wants to output the average honorarium for each employee.
+
+Gegeben die Relation Mitarbeiter{MitarbeiterID, Name, Honorar}
+
+```sql
+SELECT MitarbeiterID, Name, AVG(Honorar) 
+FROM Mitarbeiter
+GROUP BY MitarbeiterID
+```
+
+%%/slides
+
+%%slides
+
+
+## Further operations: Sorting & Count
+
+*Sorting:*
+```sql
+SELECT * FROM Gemeinden 
+ORDER BY Einwohner DESC
+```
+
+<br/>
+
+- `ORDER BY` with `ASC` (ascending) or `DESC` (descending)
+
+<br/>
+*Limiting the result set:*
+```sql
+SELECT * FROM Gemeinden 
+ORDER BY Einwohner DESC 
+LIMIT 2
+```
+
+<br/>
+
+- `LIMIT` truncates the result set to a certain number of elements
+- Here: The two municipalities with the highest population
+
+%%/slides
+
+%%slides
+
+
+## Combining Conditions
+
+Conditions can be combined, just like in Python, with `AND` and `OR`:
+
+%%col 50 50
+
+```sql
+SELECT * FROM Bauwerke 
+NATURAL JOIN Gemeinden
+WHERE Einwohner > 5000 AND Bauwerkstyp = "Hotel"
+```
+
+%%sep
+
+*Result:*
+| BuildingID | BuildingType | MunicipalityID | Name | Population |
+|--|--|--|--|--|
+| 5001 | Hotel | 1 | Dummerstorf | 7,329 |
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Outlook: SQL - More than a Query Language
+
+*So far:* Only a single aspect of SQL (`SELECT` …)
+
+SQL offers far more functionalities:
+
+- *DML (Data Manipulation Language):*
+  - Querying and modifying data in tables (`SELECT, UPDATE, DELETE` ...)
+
+- *DDL (Data Definition Language):*
+  - Defining and managing schemas and tables (`CREATE, ALTER, DROP` …)
+
+- *DCL (Data Control Language):*
+  - User privileges (`GRANT, REVOKE` …)
+  - Transaction control (`COMMIT, ROLLBACK` …)
+
+%%/slides
+
+%%book
+
+
+## Quiz
+
+
+```{quizdown}
+    ---
+    shuffleQuestions: true
+    shuffleAnswers: true
+    ---
+
+    ### Which Python packages are used to load CSV data from the Internet?
+
+    - [x] `urllib` and `pandas`
+    - [ ] `requests` and `numpy`
+    - [ ] `json` and `matplotlib`
+    - [ ] `sqlite3` and `os`
+
+    ### What is SQL?
+    - [x] A language for querying and manipulating databases
+    - [ ] A program for data visualization
+    - [ ] A programming language like Python
+    - [ ] A data format like JSON
+
+    ### What is SQLite?
+
+    - [x] A local relational database without a server
+    - [ ] A cloud database service
+    - [ ] A NoSQL database system
+    - [ ] A data visualization tool
+
+    ### Sort the following lines for storing a Pandas table in SQLite:
+
+    ```python
+    import sqlite3
+    import pandas as pd
+    ```
+    1. `df = pd.DataFrame({'col1': [1, 2], 'col2': [3, 4]})`
+    2. `con = sqlite3.connect("test.sqlite")`
+    3. `df.to_sql("tabelle", con, if_exists="replace")`
+
+    ### Which error is in this example?
+
+    ```python
+    con = sqlite3.connect("test.sqlite")
+    df.to_sql("tabelle", con, if_exists="append")
+    ```
+
+    - [ ] `sqlite3` is not imported
+    - [ ] The database name is too short
+    - [x] No error - the code is correct
+    - [ ] `to_sql` does not exist
+
+    ### What does the SQL command `SELECT * FROM baustellen;` do?
+
+    - [ ] Deletes all data from the table
+    - [x] Returns all columns and rows of the table
+    - [ ] Creates a new table
+    - [ ] Counts the rows in the table
+
+
+    ### How do you execute an SQL command in Python?
+
+    - [x] With `cur.execute(sql)` after creating a cursor
+    - [ ] With `con.run(sql)`
+    - [ ] With `sqlite3.query(sql)`
+    - [ ] With `pd.sql(sql)`
+
+
+    ### Sort the following lines for an SQL query:
+
+    ```python
+    con = sqlite3.connect("test.sqlite")
+    ```
+
+    1. `cur = con.cursor()`
+    2. `sql = 'SELECT * FROM tabelle;'`
+    3. `for row in cur.execute(sql):`
+    4. `    print(row)`
+
+    ### Which SQL command filters construction sites with a construction start from 2023?
+
+    - [ ] `FILTER baubeginn >= '2023-01-01'`
+    - [x] `WHERE baubeginn >= '2023-01-01 00:00:00+01'`
+    - [ ] `IF baubeginn >= '2023-01-01'`
+    - [ ] `SELECT baubeginn >= '2023-01-01'`
+
+    ### How do you combine multiple conditions in SQL?
+
+    - [x] With `AND`, `OR`, `NOT`
+    - [ ] With `&&`, `||`, `!`
+    - [ ] With `+`, `-`, `*`
+    - [ ] With `COMBINE`, `MERGE`, `JOIN`
+
+
+    ### Which error is in this SQL example?
+
+    ```sql
+    SELECT * FROM baustellen
+    WHERE baubeginn = '2023-01-01' AND bauende = '2024-01-01'
+    ```
+
+    - [ ] `AND` is not allowed
+    - [ ] Date format is incorrect
+    - [x] No error - the code is correct
+    - [ ] `WHERE` must come at the end
+
+
+    ### What does the SQL function `count(*)` do?
+
+    - [ ] Sums all values
+    - [x] Counts the number of rows
+    - [ ] Finds the maximum value
+    - [ ] Calculates the average
+
+
+    ### Which aggregate functions exist in SQL?
+
+    - [x] `min()`, `max()`, `avg()`, `sum()`, `count()`
+    - [ ] `first()`, `last()`, `middle()`
+    - [ ] `add()`, `subtract()`, `multiply()`
+    - [ ] `top()`, `bottom()`, `center()`
+
+
+    ### Sort the following parts of an SQL aggregation query:
+
+    1. `SELECT sparte, count(*), avg(baudauer)`
+    2. `FROM baustellen`
+    3. `GROUP BY sparte`
+
+
+    ### What does `GROUP BY sparte` do in an SQL query?
+
+    - [ ] Sorts by category
+    - [x] Groups rows with the same category
+    - [ ] Filters by category
+    - [ ] Deletes duplicate categories
+
+
+    ### How do you sort results in SQL in descending order?
+
+    - [ ] `SORT BY spalte DOWN`
+    - [x] `ORDER BY spalte DESC`
+    - [ ] `ARRANGE BY spalte REVERSE`
+    - [ ] `DESCEND BY spalte`
+
+
+    ### What does `LIMIT 3` do in an SQL query?
+
+    - [ ] Limits to 3 columns
+    - [x] Returns at most 3 result rows
+    - [ ] Sorts the first 3 entries
+    - [ ] Filters by values less than 3
+
+
+    ### Which error is in this SQL example?
+
+    ```sql
+    SELECT sparte, count(*)
+    FROM baustellen
+    ORDER BY count(*)
+    GROUP BY sparte
+    ```
+
+    - [x] `ORDER BY` must come after `GROUP BY`
+    - [ ] `count(*)` cannot be sorted
+    - [ ] `GROUP BY` is positioned incorrectly
+    - [ ] A `WHERE` is missing
+
+
+    ### What does a `JOIN` do in SQL?
+
+    - [ ] Combines columns of a table
+    - [x] Joins data from multiple tables
+    - [ ] Sorts table data
+    - [ ] Deletes duplicate entries
+
+
+    ### Why do you use table prefixes like `b.spalte` in JOINs?
+
+    - [ ] To beautify the code
+    - [x] To uniquely identify columns with the same name
+    - [ ] To speed up the query
+    - [ ] For error handling
+
+
+    ### What does `DISTINCT` do in a SQL query?
+
+    - [ ] Sorts the results
+    - [ ] Limits the number of results
+    - [x] Removes duplicate rows from the results
+    - [ ] Joins multiple tables
+
+
+    ### What is the difference between INNER JOIN and LEFT JOIN?
+    - [x] INNER JOIN returns only matching rows, LEFT JOIN returns all rows from the left table
+    - [ ] LEFT JOIN returns only matching rows, INNER JOIN returns all rows from the left table
+    - [ ] There is no difference, both are the same
+    - [ ] INNER JOIN is faster than LEFT JOIN
+
+
+    ### Sort the following parts of a JOIN query:
+
+    1. `SELECT b.spalte1, a.spalte2`
+    2. `FROM baustellen AS b`
+    3. `JOIN adressenliste AS a`
+    4. `WHERE b.id = a.id`
+
+
+    ### What is the difference between different JOIN types?
+
+    - [x] They determine which rows are returned when there are no matches
+    - [ ] They affect the speed of the query
+    - [ ] They change the ordering of the results
+    - [ ] They determine the number of joined tables
+
+
+    ### Which error is in this JOIN example?
+
+    ```sql
+    SELECT * FROM baustellen
+    NATURAL JOIN adressenliste, gemeinden
+    ```
+
+    - [ ] `NATURAL JOIN` does not exist
+    - [ ] Too many tables in the JOIN
+    - [x] Potential cross join with multiple tables without explicit conditions
+    - [ ] Incorrect syntax with `NATURAL JOIN`
+
+
+```
+
+%%/book
+
+
+%%final

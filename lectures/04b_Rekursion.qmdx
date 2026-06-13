@@ -1,0 +1,483 @@
+---
+title: "Rekursion"
+image-credit: "Midjourney: Fractal"
+format:
+  revealjs:
+    title-slide-attributes:
+      data-background-video: images/04b_Rekursion/mj_title.mp4
+    output-file: 04b_Rekursion.slide.html
+  html:
+    output-file: 04b_Rekursion.page.html
+  typst:
+    output-file: 04b_Rekursion.page.pdf
+resources:
+  - data/04b_Rekursion
+---
+
+%%book
+
+
+# Rekursive Funktionen
+
+%%/book
+
+%%book
+
+![](images/04b_Rekursion/mj_title_band.jpg)
+
+> History repeats itself, first as tragedy, second as farce.
+>
+> — Karl Marx
+
+%%/book
+
+%%book
+
+Rekursive Funktionen sind Funktionen, die sich selbst aufrufen. Als Rekursion (lateinisch recurrere 'zurücklaufen') wird ein unendlicher Vorgang, der sich selbst als Teil enthält oder mithilfe von sich selbst definierbar ist, bezeichnet. 
+
+Rekursionen werden insbesondere bei Divide-and-Conquer-Algorithmen oder bei kombinatorischen Problemen verwendet.
+
+%%/book
+
+%%book
+
+Um in Python eine rekursive Funktion zu definieren, brauchen wir nur eine Funktion, die sich selbst aufruft.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def rekursive_funktion():
+	# Statement
+	rekursive_funktion() # Wir rufen uns selbst (als funktion) nocheinmal auf
+```
+
+%%/book
+
+%%book
+
+Mit rekursiven Funktionen lassen sich zum Beispiel Schleifen implementieren.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def while_loop(n): # n als die maximale tiefe der rekursion
+	if n > 0:
+		print(f"Die Funktion wird rekursiv ausgeführt bis die Bedingung am Anfang der Schleife {n} > 0 wahr ist")
+		while_loop(n - 1) # wir zählen die variable n runter
+```
+
+%%/book
+
+%%book
+
+Die rekursive Funktion wird 3-mal ausgeführt da die Bedingung wahr ist und wir bis 0 runter zählen. Genauso wie bei der While-Schleife.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+while_loop(3)
+```
+
+%%/book
+
+%%book
+
+Damit zeigt sich, dass sich Schleifen sich immer als Rekursion implementieren lassen. Etwas was funktionsorientierte Programmiersprachen nutzen, die nur Funktionen kennen.
+
+%%/book
+
+%%book
+
+
+## Beispiel Rekursiver Funktion - Fakultät
+
+%%/book
+
+%%book
+
+Das Standardbeispiel einer rekursiven Funktion ist die Berechnung der Fakultät einer Zahl. Sie ist definiert als Produkt der natürlichen Zahlen von 1 bis $n$.
+
+$n! = 1 \cdot 2 \cdot 3 \cdots n = \prod_{k=1}^n k$
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def factorial_recursiv(x):
+    if x > 1:
+        return x * factorial_recursiv(x-1)
+    else:
+        return 1
+```
+
+%%/book
+
+%%book
+
+Die Fakultät der Zahl 10 ist definiert als:
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1
+```
+
+%%/book
+
+%%book
+
+was identisch ist mit dem Ergebnis unserer Funktion
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+factorial_recursiv(10)
+```
+
+%%/book
+
+%%book
+
+Wenn wir die Funktion aufrufen, so ruft diese sich wiederholt selbst auf und zählt dabei von `x=10` runter bis zu 1. Jeder Funktionsaufruf kann dabei als Klammer gesehen werden, so dass am Ende die folgende Berechnung durchgeführt ist, die mit der obigen Berechnung übereinstimmt.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+10 * (9 * (8 * (7 * (6 * (5 * (4 * (3 * (2 * (1)))))))))
+```
+
+%%/book
+
+%%book
+
+Dieses einfache Beispiel kann auch durch eine Schleife implementiert werden.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def factorial_schleife(x):
+    res = x
+    i = x - 1
+    while i > 1:
+        res *= i
+        i -= 1
+    return res
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+factorial_schleife(10)
+```
+
+%%/book
+
+%%book
+
+Dies ist meist performanter, da Funktionen grundsätzlich etwas länger zum Ausführen brauchen, da sie ja z.B. ihr eigenen Variablenbereich haben und auf dem Stack laufen (siehe nächsten Abschnitt).
+
+Wir machen einmal einen Laufzeitvergleich mit der `timeit` Funktion des Jupyter Notebooks. Dies ruft die Funktion mehrmals auf und berechnet die durchschnittliche Ausführzeit.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+%timeit factorial_recursiv(1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+%timeit factorial_schleife(1000)
+```
+
+%%/book
+
+%%book
+
+Wir sehen, dass die Schleifenvariante etwas schneller ist als die rekursive Variante.
+
+Allerdings sind rekursive Funktionen meist lesbarer und können nicht immer in Schleifen aufgelöst werden, wenn z.B. mehrere Variablen manipuliert werden.
+
+%%/book
+
+%%book
+
+
+## Endlosrekursion, Stack und Heap
+
+%%/book
+
+%%book
+
+:::{warning} Da rekursive Funktionen den Schleifen konzeptionell ähneln, gibt es hier auch dasselbe Problem von Endlosrekursionen. Wie bei while-Schleifen können rekursive Funktionen sich *theoretisch* endlos verzweigen!
+
+Deshalb **muss mindestens ein** Pfad in der Funktion nicht rekursiv sein.
+:::
+
+%%/book
+
+%%book
+
+*Praktisch* kommt es allerdings bei endloser Rekursion zu Stack-Overflow-Fehlern. Das liegt daran, dass Python nachvollziehen muss, welche Funktion welche andere aufgerufen hat, um beim Beenden in die richtige Funktion und Position zurückzukehren. Das geschieht über eine Liste, die sich *Stack* nennt. 
+
+Der *Stack* ist eine LIFO-Liste (Last In First Out) bei der das letzte Element das hinzugefügt wird (die neu aufgerufene Funktion) auch das erste sein muss, was entfernt wird (wenn die neu aufgerufene Funktion wird beendet). Quasi wie ein Bücherstapel. Der Stack wird bei endloser Rekursion so groß, dass er nicht mehr in den vorgesehenen Speicher passt, was der Stack-Overflow-Fehler ist.
+
+Nebenbei, die Variablen werden nicht im Stack abgespeichert, sondern liegen im *Heap*. Dieser kann im Vergleich zum Stack so groß werden wie der Arbeitsspeicher und gleicht mehr einer FIFO-Liste (First In First Out), da Speicher von alten Variablen, die nicht mehr Gültigkeit haben frei gegeben werden.
+
+%%/book
+
+%%book
+
+Ein Stack-Overflow-Fehler ist ein **kritischer Programmfehler**, der nicht abgefangen werden kann, sondern immer zum Beenden des Programmes führt. Als Beispiel rufen wir unser als erste definierte rekursive Funktion auf und sehen die Fehlermeldung vom Absturz des Python-Kernels.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+
+
+# Wenn wir die folgende Funktion ausführen erhalten wir die darunter stehende Fehlermeldung
+
+#rekursive_funktion()
+```
+
+%%/book
+
+%%book
+
+<span style='color: red'>Canceled future for execute_request message before replies were done</span>
+
+<span style='color: red'>Der Kernel ist beim Ausführen von Code in der aktuellen Zelle oder einer vorherigen Zelle abgestürzt. Bitte überprüfen Sie den Code in der/den Zelle(n), um eine mögliche Fehlerursache zu identifizieren. Klicken Sie hier, um weitere Informationen zu erhalten. Weitere Details finden Sie in Jupyter log.</span>
+
+%%/book
+
+%%slides
+
+
+## Ablauf
+
+![](images/partA_5.svg)
+
+%%/slides
+
+%%slides
+
+
+## Rekursion - Allgemein
+%%def Rekursion
+Rekursion (lateinisch *recurrere* – ‚zurücklaufen‘) ist ein prinzipiell unendlicher Vorgang, der sich selbst als Teil enthält oder mithilfe von sich selbst definierbar ist. In der Informatik geschieht Rekursion immer dann, wenn eine Funktion *sich selbst aufruft*.
+%%/def
+
+- Typische Anwendungen sind Divide-and-Conquer-Algorithmen und Kombinatorische Probleme
+
+%%/slides
+
+%%slides
+
+
+## Rekursion in Python
+
+Rekursion in Python erreicht man indem eine Funktion sich selbst wieder aufruft.
+
+```python
+def rekursive_funktion():
+    Statement1
+    rekursive_funktion()
+```
+
+%%/slides
+
+%%slides
+
+### Beispiel: Fakultät
+
+Die Fakultät einer Zahl ist definiert als Produkt der natürlichen Zahlen von $1$ bis $n$
+
+```python
+def factorial_recursiv(x):
+    if x > 1:
+        return x * factorial_recursiv(x - 1)
+    else:
+        return 1
+```
+
+%%/slides
+
+%%slides
+
+
+## Achtung: Endlosrekursion
+
+- Bei rekursiven Funktionen gibt es das selbe Problem, wie bei while-Schleifen: Sie können sich (theoretisch) endlos verzweigen!
+
+- Deshalb sollte mindestens ein Pfad in der Funktion nicht rekursiv sein.
+
+%%/slides
+
+%%slides
+
+
+## Hintergrund: Stack Overflow Fehler
+
+%%col 50 50
+
+- Der Stack ist eine Liste in der nachvollzogen wird welche Funktionen gerade aufgerufen wurden
+- Damit ist bekannt, wohin man zurückkehrt, wenn eine Funktion beendet wird
+- Bei endloser Rekursion, wird die Liste unendlich groß
+
+%%sep
+
+![](images/04b_Rekursion/stack_1.svg){class="midjourney"}
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Hintergrund: Stack Overflow Fehler
+
+%%col 50 50
+
+- Der Stack ist eine Liste in der nachvollzogen wird welche Funktionen gerade aufgerufen wurden
+- Damit ist bekannt, wohin man zurückkehrt, wenn eine Funktion beendet wird
+- Bei endloser Rekursion, wird die Liste unendlich groß
+
+- Es kommt bei endloser Rekursion zu Stack-Overflow-Fehlern
+- Es kommt zum harten Absturz des Programmes
+
+%%sep
+
+![](images/04b_Rekursion/stack_2.svg){class="midjourney"}
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Heap vs Stack
+
+%%col 50 50
+
+%%def Stack
+Der Stack ist ein Speicherbereich, in dem Funktionsaufrufe und deren lokale Variablen nach dem LIFO-Prinzip (Last In First Out) verwaltet werden. Jeder neue Funktionsaufruf wird oben auf den Stack gelegt und beim Beenden wieder entfernt. Ist der Stack voll, kommt es zum StackOverflow-Fehler.
+%%/def
+
+- Für Funktionsaufrufe
+- LIFO-Prinzip
+- Begrenzter Speicher
+
+%%sep
+
+%%def Heap
+Als Heap bezeichnet man einen Speicherbereich, in dem Variablen verwaltet werden. Der Heap ist im Gegensatz zum Stack nicht begrenzt sondern wächst dynamisch mit dem Bedarf. Speicher im Heap wird nach dem FIFO-Prinzip (First In First Out) verwaltet und muss explizit freigegeben werden.
+%%/def
+
+- Für Variablen
+- FIFO-ähnlich
+- Dynamisch groß (RAM)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Lesson Learned {colR capR="Midjourney: Six Sense" imgR="images/02b_Wissenspyramide/mj_senses.mp4" background="#66ccffff"}
+
+%%col 40 60
+
+Welche Lerntypen gibt es?
+
+%%sep
+
+<!--<figure class="mj-fig">
+    ![](images/02b_Wissenspyramide/mj_senses.mp4)
+        <figcaption class="mj-fig-cap">
+            Midjourney: Six Sense
+        </figcaption>
+    </figure>-->
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Lesson Learned - Nacharbeit
+
+- **S**urvey (Überblick gewinnen): Blättert durch ein Thema und gewinnt einen Überblick
+- **Q**uestion (Fragen): Notiert euch Fragen zu Punkten die ihr nicht versteht.
+- **R**ead (Lesen): Lest eure Notizen durch; Hebt Schlüsselwörter hervor; Recherchiert zu den Fragen.
+- **R**ecite (Wiedergeben): Rekapituliert jeden Abschnitt (Inhalt, Schlüsselwörter, Zusammenhänge). Strukturiert euch die Inhalte, z.B. mit Mindmaps. Wiederholt Gelerntes mehrmals (Karteikarten).
+- **R**eview (Rückblick): Wiederholt gedanklich die wichtigsten Punkte und beantwortet eure Fragen.
+
+%%col 50 50
+
+[![https://youtu.be/n0ql-yeY9u0](https://img.youtube.com/vi/n0ql-yeY9u0/0.jpg)](https://www.youtube.com/watch?v=n0ql-yeY9u0)
+
+%%sep
+
+[![https://youtu.be/NONST7mwhX8](https://img.youtube.com/vi/NONST7mwhX8/0.jpg)](https://www.youtube.com/watch?v=NONST7mwhX8)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Mindmap
+
+- Man arbeitet von innen nach außen
+- Reduziert Themen auf einzelne Begriffe
+- Man entwickelt automatisch eine Struktur
+- Nutzt Farben und Symbole
+- Verweise zwischen Begriffen erschaffen
+
+![](images/04b_Rekursion/image_1.jpg)
+</center>
+
+%%/slides
+
+
+%%final

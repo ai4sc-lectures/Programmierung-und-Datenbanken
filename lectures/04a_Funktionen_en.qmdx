@@ -1,0 +1,843 @@
+---
+title: "Functions"
+image-credit: "Midjourney: Functional Lines, ref. C.E.B. Reas"
+format:
+  revealjs:
+    title-slide-attributes:
+      data-background-video: images/04a_Funktionen/mj_title.mp4
+    output-file: 04a_Funktionen_en.slide.html
+  html:
+    output-file: 04a_Funktionen_en.page.html
+  typst:
+    output-file: 04a_Funktionen_en.page.pdf
+resources:
+  - data/04a_Funktionen_en
+---
+
+%%book
+
+
+# Functions
+
+%%/book
+
+%%book
+
+![](images/04a_Funktionen/mj_title_band.jpg)
+
+> A function of good software is to make the complex appear simple.
+>
+> — Grady Booch
+
+%%/book
+
+%%book
+
+
+## Function Definition and Function Call
+
+%%/book
+
+%%book
+
+All higher-level programming languages allow the definition of functions (or procedures) to avoid having to write repetitive code and to structure complex programs.
+
+%%/book
+
+%%book
+
+Functions in Python are defined with the keyword `def`. They have a `function name` and can take multiple arguments as input in parentheses. The function declaration is terminated with `:`. The body of the function, i.e., the part that should be executed when the function is called, must always be indented.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def function_name(argument1, argument2):
+    # Function body
+    print("Der Datentyp von Argument 1 ist "+str(type(argument1)))
+    print("Der Datentyp von Argument 2 ist "+str(type(argument2)))
+```
+
+%%/book
+
+%%book
+
+All parts of the function must be indented to the same level. The following code is, for instance, syntactically incorrect.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+#| error: true
+def function_name(argument1, argument2):
+    # Function body
+    print("Der Datentyp von Argument 1 ist "+str(type(argument1)))
+    print("Der Datentyp von Argument 2 ist "+str(type(argument2)))
+```
+
+%%/book
+
+%%book
+
+When calling the function with `funktionsname(wert1, wert2)`, the arguments must be provided with input values. The arguments in Python are dynamically typed, like other variables (So we don't necessarily know which data type they will have later. This is a common source of errors).
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+function_name("wert1", 2)
+```
+
+%%/book
+
+%%book
+
+The crucial thing is that the arguments can change their values.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+function_name("anderer wert ", "noch ein anderer")
+```
+
+%%/book
+
+%%book
+
+
+## Return of Results
+
+%%/book
+
+%%book
+
+The return statement is used in functions to terminate the execution of a function and return the assigned value(s) as the function's result.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def function_with_one_output():
+    return "Ausgabewert"
+    print("Dieser Teil wird nicht ausgeführt")
+    return "Anderer Ausgabewert"
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+result = function_with_one_output()
+result
+```
+
+%%/book
+
+%%book
+
+We can see that the result is `Ausgabewert` and the `print()` function has not been called.
+
+%%/book
+
+%%book
+
+Multiple return values can be returned using `return`.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def function_with_two_outputs():
+    return "Ausgabewert1", "Ausgabewert2"
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+result = function_with_two_outputs()
+result
+```
+
+%%/book
+
+%%book
+
+The result of functions that return multiple values is a tuple.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+type(result)
+```
+
+%%/book
+
+%%book
+
+You can access the individual values in a tuple by their index. For reference, the index of a list or tuple starts at 0.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+result[0]
+```
+
+%%/book
+
+%%book
+
+The tuple can, however, also be prevented by multiple assignment. In a multiple assignment, you list several variables separated by commas on the left-hand side of the assignment.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+result1, result2 = function_with_two_outputs()
+print(result1)
+print(result2)
+print(type(result1))
+print(type(result2))
+```
+
+%%/book
+
+%%book
+
+
+## Variable Validity
+
+%%/book
+
+%%book
+
+Variables inside functions are not globally valid. The variables for the arguments are valid only within the function. New variables defined inside the function are also not valid outside the function. This is how it works in the following function:
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def my_function(argument):
+    internal_variable = "geheim"
+    print("Der Wert von argument innerhalb der Funktion ist "+str(argument))
+    print("Der Wert von internal_variable innerhalb der Funktion ist "+str(internal_variable))
+```
+
+%%/book
+
+%%book
+
+The values of `argument` and `intern` are defined inside the function and are printed by the `print()` statement.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+my_function("argument_wert")
+```
+
+%%/book
+
+%%book
+
+However, the variables `argument` and `interne_variable` are not globally available after the function has been executed.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+#| error: true
+print(argument)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+#| error: true
+print(internal_variable)
+```
+
+%%/book
+
+%%book
+
+It also allows defining variable names outside the function that can have a different value inside the function. This keeps the value of `argument` unchanged.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+argument = 6  # original value
+print("Der Wert von argument vor der Funktion ist "+str(argument))
+my_function(4)
+print("Der Wert von argument nach der Funktion ist immer noch "+str(argument))
+```
+
+%%/book
+
+%%book
+
+
+## Modified and Unmodified Arguments
+
+%%/book
+
+%%book
+
+As a rule, modifications to primitive-type arguments inside a function are not carried over (pass-by-value). Thus, inside the function you can also assign new values to the arguments.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def my_function(argument):
+    print("Der Wert von argument am Anfang der Funktion ist "+str(argument))
+    argument = 3
+    print("Der Wert von argument am Ende der Funktion ist "+str(argument))
+
+argument = 6  # original value
+print("Der Wert von argument vor der Funktion ist "+str(argument))
+my_function(argument)
+print("Der Wert von argument nach der Funktion ist immer noch "+str(argument))
+```
+
+%%/book
+
+%%book
+
+This also works with complex data types, such as `list`, `set`, and `dict`, as long as they are completely reassigned.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def my_function(argument):
+    print("Der Wert von argument am Anfang der Funktion ist "+str(argument))
+    argument = [3]
+    print("Der Wert von argument am Ende der Funktion ist "+str(argument))
+
+argument = [6] # original value
+print("Der Wert von argument vor der Funktion ist "+str(argument))
+my_function(argument)
+print("Der Wert von argument nach der Funktion ist immer noch "+str(argument))
+```
+
+%%/book
+
+%%book
+
+However, if they are modified only by pass-by-reference, these changes are global as well.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def my_function(argument):
+    print("Der Wert von argument am Anfang der Funktion ist "+str(argument))
+    argument.append(3)  # We append 3 to the list
+    print("Der Wert von argument am Ende der Funktion ist "+str(argument))
+
+argument = [6]  # original value
+print("Der Wert von argument vor der Funktion ist "+str(argument))
+my_function(argument)
+print("Der Wert von argument nach der Funktion ist auf einmal "+str(argument))
+```
+
+%%/book
+
+%%book
+
+%%warning Warning
+This can quickly lead to errors if you unintentionally modify global data structures.
+%%/warning
+
+%%/book
+
+%%slides
+
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="What are if, elif, and else used for?" capR="DALL·E 2: Yin and Yang in a ceramic dish" imgR="images/04a_Funktionen/mj_yinyang.jpg"}
+
+%%/slides
+
+%%slides
+
+
+## Recap: IF, ELIF, ELSE
+```python
+if, elif, else are commands for branching programs in Python
+
+if Condition1:
+    print("Will run when Condition1 is true")
+elif Condition2:
+    print("Will run when Condition1 is false and Condition2 is true")
+else:
+    print("Will run when Condition1 is false and Condition2 is false")
+```
+
+%%/slides
+
+%%slides
+
+
+## In-Class Question {background="#FFD966" cols40x60 txtL="What loop types exist?" capR="Midjourney: Loop" imgR="images/04a_Funktionen/mj_loop.png"}
+
+%%/slides
+
+%%slides
+
+
+## Recap: Loops
+Loops are an important concept in programming for implementing repetitive or incremental solutions.
+
+In Python, the following are available:
+
+- `for` (equivalent to a for-each loop)
+- `while` (equivalent to a while loop)
+
+Key properties:
+
+- They work exactly like all other control statements—by indentation after a header line
+- Unlike in functions, variables from loops are also available outside the loop!
+- The other loop variants aren’t explicitly present either, but can be emulated functionally
+
+%%/slides
+
+%%slides
+
+
+## Recap: While loops
+%%col 33 33 33
+
+**While loop**
+
+In a While loop, the condition can be false right at the start. So the loop does not have to be executed.
+
+```python
+Condition = True/False
+while Condition:
+    # Statement
+    Condition = False
+```
+
+%%sep
+
+**Do-While loop**
+
+In a Do-While loop, the condition is checked only at the end. The loop is therefore always executed at least once.
+
+```python
+Condition = True
+while Condition:
+    # Statement
+    Condition = False
+```
+
+%%sep
+
+**Repeat-Until loop**
+
+In a Repeat-Until loop, the condition is also checked only at the end. The loop repeats until the condition becomes true.
+
+```python
+Condition = False
+while not Condition:
+    # Statement
+    Condition = True
+```
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Process
+
+![](images/partA_5.svg)
+
+%%/slides
+
+%%slides
+
+
+## Functions – Mathematical
+
+Functions in programming languages implement the mathematical concept of a function.  
+They represent a mapping from an input set to an output set.
+
+Mapping: A function $f$ assigns to every element $x$ of a domain $D$ an element $y$ of a codomain $Z$.  
+
+$$ f : D \to Z, \quad x \mapsto y $$
+
+%%/slides
+
+%%slides
+
+
+## Functions – Programming
+%%def Function
+Reusable code that performs a specific task.
+%%/def
+
+- Take a tuple of input values (*arguments*)
+- Execute a fixed sequence of expressions and assignments
+- Return a tuple of output values (*return values*)
+- Are only executed when they are **called** in an expression
+
+%%/slides
+
+%%slides
+
+
+## Functions in Python
+
+```python
+
+
+# Code block of the function definition
+def functionname(arg1, arg2): # <- the function name is selectable, arg1 and arg2 are arguments (parameters)
+    statement1 # <- The code block starts here and is indented
+    statement2 # <- Still part of the indented code block
+```
+
+- Function definitions begin with `def`
+- It is followed by a name, arguments and a `:`
+- Arguments are in scope for the entire function body
+- When called, the arguments are bound to input data
+
+%%/slides
+
+%%slides
+
+
+## Functions with a Return Value
+
+```python
+def functionName(arg1):
+    statement1
+    return outputValue
+```
+
+- `return` ends execution and returns the output value(s)
+- `Returning` means: The return value replaces the function call in the original expression
+- If no `return` is specified, the function returns `None`
+
+%%/slides
+
+%%slides
+
+
+## Example – Doubling a Value
+
+%%col 50 50
+
+Multiplication
+
+```python
+x = arg1 * 2   # 4
+x = arg1 * 4   # 16
+x = arg1 * 8   # 128
+```
+
+%%sep
+
+Bit shifting (faster)
+
+```python
+def times2(arg1):
+    return arg1 << 1
+
+x = arg1 << 1   # $2^1$
+x = arg1 << 2   # $2^2$
+x = arg1 << 3   # $2^3$
+```
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Example – Euclidean distance
+
+```python
+from math import sqrt
+
+def distance(a1, a2, b1, b2):
+    return sqrt((a1 - b1)**2 + (a2 - b2)**2)
+
+a1, a2 = 2, 3
+b1, b2 = 6, 6
+x = distance(a1, a2, b1, b2)  # 5.0
+```
+
+%%/slides
+
+%%slides
+
+
+## Default values for parameters
+
+```python
+def funktionsname(arg1, arg2="default"):
+    return statement1
+```
+
+- Arguments can have default values
+- They are optional when calling; provided values override the default
+
+%%/slides
+
+%%slides
+
+
+## Example – Appending a unit to a number
+
+```python
+def measurement(number, unit="meters"):
+    return str(number) + " " + unit
+
+x = measurement(12)        # "12 meters"
+x = measurement(5.5, "kg") # "5.5 kg"
+```
+
+%%/slides
+
+%%slides
+
+
+## Passing Argument Values (Concepts)
+
+%%col 50 50
+
+**Pass-by-value**
+
+- Only **values** are copied
+- The passed-in variables are not accessible inside the function
+- Safer, since there is no unexpected rebinding
+
+%%sep
+
+**Pass-by-reference**
+
+- Reference to the **same data**
+- Values inside the function can be modified
+- Saves time and memory
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Passing Argument Values in Python
+
+- Hybrid variant, often called "**pass-by-assignment**"
+- **Mutable** data types: behave like *pass-by-reference*
+- **Immutable** data types: behave like *pass-by-value*
+- If a *mutable* variable is rebound, it has no effect outside its scope
+
+%%/slides
+
+%%slides
+
+
+## Built-in Functions
+
+Python has an extensive list of built-in functions.
+
+| Function                               | Purpose                          |
+|:---------------------------------------|:-------------------------------|
+| `print()`, `input()`                   | Output, input                    |
+| `id()`, `type()`                       | Variable IDs, data types         |
+| `int()`, `str()`, `float()`            | Data type conversion             |
+| `list()`, `tuple()`, `set()`, `dict()` | Complex data types               |
+| `len()`                                | Length of a complex data type    |
+| `abs()`, `max()`, `min()`              | Mathematical basic functions      |
+| `exit()`                               | Exit the program                 |
+| `sorted()`                             | Sorting                           |
+| …                                      |                                   |
+
+%%/slides
+
+%%slides
+
+
+## What are functions used for?
+
+- Readability, modularity, and reusability  
+  *"Write once, run anywhere"*
+
+- Modern style: break programs down into as many **core functions** as possible
+
+%%/slides
+
+%%book
+
+
+## Quiz
+
+
+```{quizdown}
+	
+	shuffleQuestions: true
+	shuffleAnswers: true
+	
+
+    ### What are functions used for in Python?
+    - [x] To structure reusable code  
+    - [x] To make programs clearer  
+    - [ ] To make the code faster  
+    - [ ] To create databases
+
+    ### How does a function definition begin in Python?
+    - [x] With the keyword `def`  
+    - [ ] With `function`  
+    - [ ] With `define()`  
+    - [ ] With `func`
+
+    ### What happens if the function body is not properly indented?
+    - [x] There is a syntax error  
+    - [ ] The function is ignored  
+    - [ ] The function is stored as a global function  
+    - [ ] Python automatically indents the code
+
+    ### What does `return` do in a function?
+    - [x] Ends the function and returns a value  
+    - [ ] Automatically prints all arguments  
+    - [ ] Repeats the function  
+    - [ ] Skips the rest of the code
+
+    ### What happens when multiple values are returned with `return`?
+    - [x] A tuple is returned  
+    - [ ] Only the first value is returned  
+    - [ ] An error occurs  
+    - [ ] All values are automatically printed
+
+    ### Where are variables valid that were defined inside a function?
+    - [x] Only inside the function  
+    - [ ] In the entire program  
+    - [ ] Inside loops  
+    - [ ] In the entire module
+
+    ### What happens to a variable `x` that is defined inside a function?
+    - [x] It exists only during the function execution  
+    - [ ] It automatically overwrites global variables  
+    - [ ] It becomes a global constant  
+    - [ ] It stays in memory until the program ends
+
+    ### What happens to primitive data types when they are passed to a function and modified there?
+    - [x] The change remains local to the function  
+    - [ ] The original variable is always overwritten  
+    - [ ] Python stores the change automatically globally  
+    - [ ] The function automatically returns a copy
+
+    ### What happens if you modify a list in a function **modified**, but do not reassign it?
+    - [x] The change also affects outside the function  
+    - [ ] The list is automatically copied  
+    - [ ] The function creates a new list  
+    - [ ] An error occurs
+
+    ### How does a list behave if it is **reassigned** in a function?
+    - [x] The global list remains unchanged
+    - [ ] The global list is overwritten
+    - [ ] It cannot be used inside a function  
+    - [ ] Python blocks this assignment
+
+    ### How does a Python program generally execute?
+    - [x] Line by line, from top to bottom  
+    - [ ] Randomly, depending on the interpreter  
+    - [ ] Only at the end, then backwards  
+    - [ ] From functions to the main program
+
+    ### What happens if a function is defined but not called?
+    - [x] The code in the function is skipped  
+    - [ ] The function is executed automatically anyway  
+    - [ ] The code is only run on the next restart  
+    - [ ] Python shows a warning
+
+    ### What happens on function call?
+    - [x] The function code is executed at this point  
+    - [ ] Only the return value is computed  
+    - [ ] Only the last line of the function is executed  
+    - [ ] Python pauses the main program
+
+    ### What is a recursive function?
+    - [x] A function that calls itself
+    - [ ] A function that may be called only once
+    - [ ] A function without parameters
+    - [ ] A special looping function in Python
+
+    ### What error is in this example?
+    ```python
+    def rekursive_funktion():
+        rekursive_funktion()
+    ```
+    - [x] It lacks a termination condition, causing an infinite loop
+    - [ ] The function name is invalid
+    - [ ] Python does not allow self-calls
+    - [ ] The function must have a parameter
+
+    ### Sort the following lines to correctly implement a simple recursive function:
+    ```python
+    n = 3
+    ```
+    1. `def count_down(n):`
+    2. `  if n <= 0:`
+    3. `    print("Fertig!")`
+    4. `  else:`
+    5. `    print(n)`
+    6. `    count_down(n - 1)`
+
+```
+
+%%/book
+
+
+%%final
