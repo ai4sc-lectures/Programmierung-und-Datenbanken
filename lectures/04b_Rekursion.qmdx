@@ -14,6 +14,15 @@ resources:
   - data/04b_Rekursion
 ---
 
+%%slides
+
+
+## Ablauf
+
+![](images/partA_5.svg)
+
+%%/slides
+
 %%book
 
 
@@ -33,11 +42,23 @@ resources:
 
 %%book
 
-Rekursive Funktionen sind Funktionen, die sich selbst aufrufen. Als Rekursion (lateinisch recurrere 'zurücklaufen') wird ein unendlicher Vorgang, der sich selbst als Teil enthält oder mithilfe von sich selbst definierbar ist, bezeichnet. 
+Rekursive Funktionen sind Funktionen, die sich selbst aufrufen. Als Rekursion (lateinisch recurrere 'zurücklaufen') wird ein unendlicher Vorgang, der sich selbst als Teil enthält oder mithilfe von sich selbst definierbar ist, bezeichnet.
 
 Rekursionen werden insbesondere bei Divide-and-Conquer-Algorithmen oder bei kombinatorischen Problemen verwendet.
 
 %%/book
+
+%%slides
+
+
+## Rekursion - Allgemein
+%%def Rekursion
+Rekursion (lateinisch *recurrere* – ‚zurücklaufen') ist ein prinzipiell unendlicher Vorgang, der sich selbst als Teil enthält oder mithilfe von sich selbst definierbar ist. In der Informatik geschieht Rekursion immer dann, wenn eine Funktion *sich selbst aufruft*.
+%%/def
+
+- Typische Anwendungen sind Divide-and-Conquer-Algorithmen und Kombinatorische Probleme
+
+%%/slides
 
 %%book
 
@@ -94,6 +115,21 @@ while_loop(3)
 Damit zeigt sich, dass sich Schleifen sich immer als Rekursion implementieren lassen. Etwas was funktionsorientierte Programmiersprachen nutzen, die nur Funktionen kennen.
 
 %%/book
+
+%%slides
+
+
+## Rekursion in Python
+
+Rekursion in Python erreicht man indem eine Funktion sich selbst wieder aufruft.
+
+```python
+def rekursive_funktion():
+    Statement1
+    rekursive_funktion()
+```
+
+%%/slides
 
 %%book
 
@@ -210,7 +246,8 @@ Wir machen einmal einen Laufzeitvergleich mit der `timeit` Funktion des Jupyter 
 
 ```{python}
 #| echo: true
-%timeit factorial_recursiv(1000)
+import timeit
+timeit.timeit(lambda: factorial_recursiv(1000), number=1000)
 ```
 
 %%/book
@@ -219,7 +256,7 @@ Wir machen einmal einen Laufzeitvergleich mit der `timeit` Funktion des Jupyter 
 
 ```{python}
 #| echo: true
-%timeit factorial_schleife(1000)
+timeit.timeit(lambda: factorial_schleife(1000), number=1000)
 ```
 
 %%/book
@@ -231,6 +268,22 @@ Wir sehen, dass die Schleifenvariante etwas schneller ist als die rekursive Vari
 Allerdings sind rekursive Funktionen meist lesbarer und können nicht immer in Schleifen aufgelöst werden, wenn z.B. mehrere Variablen manipuliert werden.
 
 %%/book
+
+%%slides
+
+### Beispiel: Fakultät
+
+Die Fakultät einer Zahl ist definiert als Produkt der natürlichen Zahlen von $1$ bis $n$
+
+```python
+def factorial_recursiv(x):
+    if x > 1:
+        return x * factorial_recursiv(x - 1)
+    else:
+        return 1
+```
+
+%%/slides
 
 %%book
 
@@ -250,7 +303,7 @@ Deshalb **muss mindestens ein** Pfad in der Funktion nicht rekursiv sein.
 
 %%book
 
-*Praktisch* kommt es allerdings bei endloser Rekursion zu Stack-Overflow-Fehlern. Das liegt daran, dass Python nachvollziehen muss, welche Funktion welche andere aufgerufen hat, um beim Beenden in die richtige Funktion und Position zurückzukehren. Das geschieht über eine Liste, die sich *Stack* nennt. 
+*Praktisch* kommt es allerdings bei endloser Rekursion zu Stack-Overflow-Fehlern. Das liegt daran, dass Python nachvollziehen muss, welche Funktion welche andere aufgerufen hat, um beim Beenden in die richtige Funktion und Position zurückzukehren. Das geschieht über eine Liste, die sich *Stack* nennt.
 
 Der *Stack* ist eine LIFO-Liste (Last In First Out) bei der das letzte Element das hinzugefügt wird (die neu aufgerufene Funktion) auch das erste sein muss, was entfernt wird (wenn die neu aufgerufene Funktion wird beendet). Quasi wie ein Bücherstapel. Der Stack wird bei endloser Rekursion so groß, dass er nicht mehr in den vorgesehenen Speicher passt, was der Stack-Overflow-Fehler ist.
 
@@ -284,58 +337,6 @@ Ein Stack-Overflow-Fehler ist ein **kritischer Programmfehler**, der nicht abgef
 <span style='color: red'>Der Kernel ist beim Ausführen von Code in der aktuellen Zelle oder einer vorherigen Zelle abgestürzt. Bitte überprüfen Sie den Code in der/den Zelle(n), um eine mögliche Fehlerursache zu identifizieren. Klicken Sie hier, um weitere Informationen zu erhalten. Weitere Details finden Sie in Jupyter log.</span>
 
 %%/book
-
-%%slides
-
-
-## Ablauf
-
-![](images/partA_5.svg)
-
-%%/slides
-
-%%slides
-
-
-## Rekursion - Allgemein
-%%def Rekursion
-Rekursion (lateinisch *recurrere* – ‚zurücklaufen‘) ist ein prinzipiell unendlicher Vorgang, der sich selbst als Teil enthält oder mithilfe von sich selbst definierbar ist. In der Informatik geschieht Rekursion immer dann, wenn eine Funktion *sich selbst aufruft*.
-%%/def
-
-- Typische Anwendungen sind Divide-and-Conquer-Algorithmen und Kombinatorische Probleme
-
-%%/slides
-
-%%slides
-
-
-## Rekursion in Python
-
-Rekursion in Python erreicht man indem eine Funktion sich selbst wieder aufruft.
-
-```python
-def rekursive_funktion():
-    Statement1
-    rekursive_funktion()
-```
-
-%%/slides
-
-%%slides
-
-### Beispiel: Fakultät
-
-Die Fakultät einer Zahl ist definiert als Produkt der natürlichen Zahlen von $1$ bis $n$
-
-```python
-def factorial_recursiv(x):
-    if x > 1:
-        return x * factorial_recursiv(x - 1)
-    else:
-        return 1
-```
-
-%%/slides
 
 %%slides
 

@@ -14,6 +14,29 @@ resources:
   - data/04c_Objects
 ---
 
+%%slides
+
+
+## Ablauf
+
+![](images/partA_6.svg)
+
+%%/slides
+
+%%slides
+
+
+## Zielsetzung
+
+- Lernen der Grundidee der Objektorientierung
+- Ein grundsätzliches Verständnis der Programmierung mit Objekten
+- Datentypen vs. Klassen
+- Funktionen vs. Methoden
+
+- Einführung in erweiterte Konzepte wie z.B. Vererbung
+
+%%/slides
+
 %%book
 
 
@@ -38,6 +61,20 @@ Objektorientierte Programmierung (OOP) ist ein Programmierparadigma das annimmt,
 Die Objektorientierung löst dabei einige Problem im Umgang mit sich oft wiederholenden Datenstrukturen in großen Programmen.
 
 %%/book
+
+%%slides
+
+
+## Objektorientierte Programmierung
+%%def Objektorientierte Programmierung
+Objektorientierte Programmierung (OOP) ist ein Programmierparadigma das annimmt, dass ein Programm ausschließlich aus Objekten besteht, die miteinander kooperativ interagieren.
+%%/def
+Jedes Objekt verfügt über:
+
+- *Attribute* (Eigenschaften): Definiert den Wert  über den Zustand eines Objektes.
+- *Methoden* definieren die möglichen Zustandsänderungen (Handlungen) eines Objektes.
+
+%%/slides
 
 %%book
 
@@ -83,6 +120,29 @@ Will man diese Punkte verarbeiten so ergeben sich ggf. Probleme da beide untersc
 
 %%/book
 
+%%slides
+
+
+## Warum Objekte – Das syntaktische Problem wiederholter Datenstrukturen
+
+- Objekte werden verwendet, um festzulegen wie sich wiederholen Datenstrukturen gespeichert werden.
+
+- Wächst das Programm an, so wächst auch die Menge der Variablen und Datenstrukturen
+    - zur Speicherung von Daten
+    - zur Kontrolle des Programmflusses
+    - zum Abspeichern von Zuständen
+    - zum Verarbeiten von Ein- und Ausgaben
+
+- Die zugrundeliegenden Elemente basieren meist auf sich wiederholenden Datenstrukturen.
+- Z.B. Punkt-Koordinaten in Baupläne oder Karten könnte man als Tupel oder Liste ausdrücken.
+
+```python
+punkt_1 = (54.083336, 12.108811) # Was ist der richtige Syntax?
+punkt_2 = [12.108811, 54.083336]
+```
+
+%%/slides
+
 %%book
 
 ### Das semantische Problem
@@ -112,6 +172,22 @@ point_2 = (12.094167, 54.075211)
 Ein anderer Programmierer wird hier aber ggf. nicht die semantische Bedeutung verstehen. In diesem Beispiel kann man vermuten, dass der erste Wert die `x`-Koordinate ist und der zweite die `y`-Koordinate. Vieleicht ist es aber auch andersherum. Ggf. handelt es sich aber nicht um ein kartesisches Koordinatensystem, sondern um ein radiales. Um solche Unklarheiten zu beseitigen, will man der Datenstruktur eine klare semantische Definition geben, wo eindeutig ist, was die Werte bedeuten.
 
 %%/book
+
+%%slides
+
+
+## Warum Objekte – Das semantische Problem wiederholter Datenstrukturen
+
+- Objekte werden auch verwendet, um die Semantik von Werten einer Datenstruktur eindeutig zu definieren.
+
+- Haben wir uns z.B. darauf geeinigt, dass wir ein Punkt syntaktisch durch ein Tupel repräsentieren, so ist die Bedeutung der Werte dennoch nicht bekannt
+
+```python
+punkt_1 = (54.083336, 12.108811) # Was ist die Semantik dieser Werte?
+punkt_2 = (12.108811, 54.083336) # Also was ist Latitude, was Longitude?
+```
+
+%%/slides
 
 %%book
 
@@ -160,12 +236,65 @@ distance((point_1,point_2),(point_2,point_1))
 "HALLO".lower()
 ```
 
+%%slides
+
+
+## Warum Objekte – Das Verhaltensproblem wiederholter Datenstrukturen
+
+- Objekte bündeln Funktionen und Datenstrukturen.
+
+- Eine Distanzfunktion kann auf falsche Datenstrukturen angewendet werden, z.B. auf Linien statt Punkte.
+
+```python
+def distanz(a, b):
+    return math.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
+
+punkt_1 = (54.083336, 12.108811)
+punkt_2 = (12.108811, 54.083336)
+
+distanz(punkt_1, punkt_2)
+
+linie_1 = [(54.08, 12.11), (54.10, 12.11)]
+linie_2 = [(12.11, 54.08), (12.20, 54.10)]
+
+distanz(linie_1, linie_2)
+```
+
+%%/slides
+
 %%book
 
 
 ## Objektorientierung
 
 %%/book
+
+%%slides
+
+
+## Objektorientierung in Python
+
+- Python ist von Grund auf objektorientiert – ein Fakt den wir bisher ignoriert haben
+
+- Alle Datentypen in Python sind Objekte (deshalb haben sie ja auch eigene Methoden)
+- Selbst definierte Klassen sind immer ein zusammengesetzter (komplexer) Datentyp
+    - Jeder Datentyp hat: Wert, Typ, Identität
+    - Variablen sind Referenzen
+
+%%/slides
+
+%%slides
+
+
+## Grundlagen der Objektorientierung
+
+- Anstatt unübersichtlich viele verstreute Datenstrukturen und Funktionen zu benutzen, gruppieren wir diese in Objekte.
+
+- Die Struktur dieser Objekte wird in Form von *Klassen* definiert, welche eine Art Bauplan darstellt. Eine Klasse definiert:
+    - welche *Attribute* (Variablen / Eigenschaften) ein Objekt dieser Klasse besitzt.
+    - welche *Methoden* (Funktionen) ein Objekt der Klasse bereit stellt
+
+%%/slides
 
 %%book
 
@@ -176,7 +305,7 @@ distance((point_1,point_2),(point_2,point_1))
 
 %%book
 
-Anstatt unübersichtlich viele verstreute Datenstrukturen und Funktionen zu benutzen, gruppieren wir diese in Objekte. 
+Anstatt unübersichtlich viele verstreute Datenstrukturen und Funktionen zu benutzen, gruppieren wir diese in Objekte.
 Da wir die Datenstrukturen normieren wollen, muss wir die Struktur dieser Objekte vor Verwendung definiert werden. Dies geschieht über *Klassen*, welche eine Art Bauplan für die damit normierten Objekte darstellt. Eine Klasse definiert:
 
 -   welche Attribute (Eigenschaften) ein Objekt dieser Klasse besitzt
@@ -200,6 +329,20 @@ class Klassenname:
 ```
 
 %%/book
+
+%%slides
+
+
+## Klassen definieren
+
+Der erste Schritt zu einem Objekt ist das Definieren einer neuen Klasse für den Typ des Objektes. Dies geschieht über das `class`-Kennwort:
+
+```python
+class Klassenname:
+    # Klassendefinition
+```
+
+%%/slides
 
 %%book
 
@@ -226,6 +369,29 @@ class Klassenname:
 ```
 
 %%/book
+
+%%slides
+
+
+## Konstruktoren mit der init-Methode
+
+Der Konstruktor `__init__()` ist eine spezielle Methode, die festlegt wie eine neue Instanz der Klasse erzeugt wird.
+
+```python
+class Punkt:
+    # Konstruktor
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+```
+
+- `self` beschreibt eine Selbst-Referenz auf die neue Instanz der Klasse
+- Auf die Attribute einer Instanz kann durch den Punkt-Syntax zugegriffen werden
+- `self.x` ist somit eine Referenz auf das Attribut x der Instanz
+- `self.x = x` bedeutet dass wir den Wert der Variablen x dem neuen Instanzattribut x zuweisen
+- Da `__init__` eine Funktion ist, kann man auch Defaults definieren
+
+%%/slides
 
 %%book
 
@@ -293,6 +459,25 @@ class Point:
 #| echo: true
 p00 = Point()
 ```
+
+%%slides
+
+
+## Attribute auf Instanzebene
+
+- Instanzattribute können in jeder Instanz unterschiedlich sein
+- Ändert eine Instanz das Attribut, so wirkt sich die Änderung nicht auf andere Instanzen aus (Isolierung)
+- Sie werden in dem Konstruktor `__init__` definiert
+
+```python
+class Punkt:
+    # Konstruktor
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+```
+
+%%/slides
 
 %%book
 
@@ -369,6 +554,23 @@ p00b.distance(p00m)
 
 %%/book
 
+%%slides
+
+
+## Attribute auf Klassenebene
+
+- Klassenattribute sind Attribute welche für alle Instanzen einer Klasse den gleichen Wert haben
+- Sie werden unter dem `class`-Kennwort wie eine Variable definiert
+- *Wichtig!* Sie gelten für alle Instanzen, wenn also eine Instanz den Wert ändert, so ändert er sich in allen anderen Instanzen
+
+```python
+class Punkt:
+    # Attribut aller Instanzen
+    einheit = "m"
+```
+
+%%/slides
+
 %%book
 
 ### Methoden
@@ -392,7 +594,7 @@ So können wir zum Beispiel die am Anfang definierte `distance`-Funktion als Met
 class Point:
     # Attribut aller Instanzen
     unit = "m"
-    
+
     # Konstruktor
     def __init__(self, x, y):
         self.x = x
@@ -404,6 +606,26 @@ class Point:
 ```
 
 %%/book
+
+%%slides
+
+
+## Methoden
+
+- Methoden werden wie Funktionen mit dem Schlüsselwort `def` definiert, auf der gleichen Ebene eingerückt wie die Klasse
+- Diese Methoden sind dann in allen Instanzen verfügbar
+- Methoden besitzen immer `self` als ersten Parameter (Referenz auf aktuelle Instanz)
+- Dadurch kann man dann auf die Attribute oder andere Methoden zugreifen
+- Man kann Parametern der Methoden auch Defaults zuweisen
+
+```python
+class Punkt:
+    # Methode
+    def distanz(self, punkt_2):
+        return math.sqrt((self.x - punkt_2.x)**2 + (self.y - punkt_2.y)**2)
+```
+
+%%/slides
 
 %%book
 
@@ -502,6 +724,69 @@ point_1.distance(point_2)
 
 %%/book
 
+%%slides
+
+
+## Klassen und Instanzen
+
+- Objekte sind *Instanzen* einer Klasse (die Klasse ist ja nur ein Bauplan).
+- Eine Klasse kann beliebig viele Instanzen haben.
+- Alle Instanzen sind gleich aufgebaut
+- Instanzen besitzen aber nicht unbedingt die gleichen Werte in den Attributen.
+
+%%col 50 50
+
+![](https://mermaid.ink/svg/pako:eNp9kT1vgzAQhv-KdTNBODh8eOjQdkFtl6pT4wwWNmAJ7MiYfoTw32sgZKyX8z3vvXfS3QilERIoVK35LhtuHXr8YBr599LyvpfHNZyYXqlQVpZOGY1e31dS4GOhe8f1BeHTDek70ndngdFu93BVvUOb-GX09TZnM_5XAwHUVgmgzg4ygE7ajs8pjLObgWtkJxlQ_xWy4kPrGDA9eduZ609jus1pzVA3QCve9j4bzoI7-ax4bXl3p1ZqIe2TGbQDSiKyNAE6wg9QHCchjj3MSIJzTKIkgN-5KtyTPM8TnB3iaJ_GZArgssyNwiydJS_gPI3IwfeTQjlj39b9L2eY_gD5vnxs)
+
+%%sep
+
+![](https://mermaid.ink/svg/pako:eNp9kTtvgzAQgP8KupkgG8zDHjq0XaK2UlV1aslgYQNWwY6M6SOE_15eyRhPvu_uu5PuBiiMkMCgbMxPUXPrvPv3XHvTe2p418nP115_uUOuVyiUlYVTRnvPbyvZ47XEw4cN6A3oq7XH3m53d1adm7Kd4_rkfRt93kZctFs14ENllQDmbC99aKVt-RzCMNs5uFq2Mgc2fYUsed-4HHI9TtqR6w9j2otpTV_VwEredFPUHwV38lHxyvL2Sq3UQtoH02sHLEZoaQJsgF9gOEoCHBFEMpJgiglKfPgDRlAQEkppgrM4QmEakdGH0zIXBVk6p2iYJDSNaIx9kEI5Y1_W1S8XGP8BBLJ6eQ)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Instanzen erzeugen
+
+Instanzen der Klasse werden erzeugt indem der Klassenname wie ein Funktionsname benutzt wird.
+
+Um Instanzen zu erstellen wird der Klassenname wie ein Funktionsname benutzt (dies ruft den Konstruktor impliziert auf). Hierbei wird der `self`-Parameter nicht mit angegeben.
+
+```python
+punkt_1 = Punkt(54.083336, 12.108811)
+punkt_2 = Punkt(12.108811, 54.083336)
+```
+
+%%/slides
+
+%%slides
+
+
+## Methoden aufrufen
+
+Klassenmethoden sind in allen Instanzen verfügbar. Sie werden durch den Punkt-Syntax aufgerufen:
+
+```python
+punkt_1.distanz()
+```
+
+Auf gleiche Weise kann auch auf Attribute zugegriffen werden:
+
+```python
+print(punkt_1.x, punkt_1.y)
+```
+
+und diese verändert werden:
+
+```python
+punkt_1.x = 20
+```
+
+%%/slides
+
 %%book
 
 
@@ -579,7 +864,7 @@ Um sicher zu stellen, dass niemand mehr die Koordinaten ändern kann, müssen wi
 #| echo: true
 class ImmutablePoint:
     unit = "m"
-    
+
     def __init__(self, x, y):
         self.__x = x
         self.__y = y
@@ -682,7 +967,7 @@ print(f"Der Punkt liegt bei x: {point_1.get_x()} {point_1.unit}; y: {point_1.get
 
 %%book
 
-Vererbung ist eine der wichtigsten Eigenschaften von Objektorientierung. Ziel der Vererbung ist es Attribute und Methoden, die in vielen ähnlichen Klassen vorkommen nur einmal definieren zu müssen. 
+Vererbung ist eine der wichtigsten Eigenschaften von Objektorientierung. Ziel der Vererbung ist es Attribute und Methoden, die in vielen ähnlichen Klassen vorkommen nur einmal definieren zu müssen.
 
 Hierfür unterteilt man die Klassen in *Oberklassen* (Eltern) welche Attribute und Methoden an *Unterklassen* (Kinder) vererben. Das heißt jede Unterklasse (Kind) besitzt alle Attribute und Methoden der Oberklasse (Eltern), wir müssen sie also nicht noch einmal definieren. Neue Attribute und Methoden, die für eine Unterklasse definiert werden, werden jedoch nicht an die Eltern oder Geschwister übertragen. Deshalb spricht man bei den Unterklassen von einer *Spezialisierung* und den Oberklassen von einer *Generalisierung*, da sie für mehrere Klassen gelten.
 
@@ -825,291 +1110,6 @@ fuenfeck_1.area()
 
 %%/book
 
-%%slides
-
-
-## Ablauf
-
-![](images/partA_6.svg)
-
-%%/slides
-
-%%slides
-
-
-## Zielsetzung
-
-- Lernen der Grundidee der Objektorientierung  
-- Ein grundsätzliches Verständnis der Programmierung mit Objekten  
-- Datentypen vs. Klassen  
-- Funktionen vs. Methoden
-
-- Einführung in erweiterte Konzepte wie z.B. Vererbung
-
-%%/slides
-
-%%slides
-
-
-## Objektorientierte Programmierung
-%%def Objektorientierte Programmierung
-Objektorientierte Programmierung (OOP) ist ein Programmierparadigma das annimmt, dass ein Programm ausschließlich aus Objekten besteht, die miteinander kooperativ interagieren.
-%%/def
-Jedes Objekt verfügt über:
-
-- *Attribute* (Eigenschaften): Definiert den Wert  über den Zustand eines Objektes.
-- *Methoden* definieren die möglichen Zustandsänderungen (Handlungen) eines Objektes.
-
-%%/slides
-
-%%slides
-
-
-## Warum Objekte – Das syntaktische Problem wiederholter Datenstrukturen
-
-- Objekte werden verwendet, um festzulegen wie sich wiederholen Datenstrukturen gespeichert werden.
-
-- Wächst das Programm an, so wächst auch die Menge der Variablen und Datenstrukturen
-    - zur Speicherung von Daten
-    - zur Kontrolle des Programmflusses
-    - zum Abspeichern von Zuständen
-    - zum Verarbeiten von Ein- und Ausgaben
-
-- Die zugrundeliegenden Elemente basieren meist auf sich wiederholenden Datenstrukturen. 
-- Z.B. Punkt-Koordinaten in Baupläne oder Karten könnte man als Tupel oder Liste ausdrücken.
-
-```python
-punkt_1 = (54.083336, 12.108811) # Was ist der richtige Syntax?
-punkt_2 = [12.108811, 54.083336]
-```
-
-%%/slides
-
-%%slides
-
-
-## Warum Objekte – Das semantische Problem wiederholter Datenstrukturen
-
-- Objekte werden auch verwendet, um die Semantik von Werten einer Datenstruktur eindeutig zu definieren.
-
-- Haben wir uns z.B. darauf geeinigt, dass wir ein Punkt syntaktisch durch ein Tupel repräsentieren, so ist die Bedeutung der Werte dennoch nicht bekannt
-
-```python
-punkt_1 = (54.083336, 12.108811) # Was ist die Semantik dieser Werte?
-punkt_2 = (12.108811, 54.083336) # Also was ist Latitude, was Longitude?
-```
-
-%%/slides
-
-%%slides
-
-
-## Warum Objekte – Das Verhaltensproblem wiederholter Datenstrukturen
-
-- Objekte bündeln Funktionen und Datenstrukturen.
-
-- Eine Distanzfunktion kann auf falsche Datenstrukturen angewendet werden, z.B. auf Linien statt Punkte.
-
-```python
-def distanz(a, b):
-    return math.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
-
-punkt_1 = (54.083336, 12.108811)
-punkt_2 = (12.108811, 54.083336)
-
-distanz(punkt_1, punkt_2)
-
-linie_1 = [(54.08, 12.11), (54.10, 12.11)]
-linie_2 = [(12.11, 54.08), (12.20, 54.10)]
-
-distanz(linie_1, linie_2)
-```
-
-%%/slides
-
-%%slides
-
-
-## Grundlagen der Objektorientierung
-
-- Anstatt unübersichtlich viele verstreute Datenstrukturen und Funktionen zu benutzen, gruppieren wir diese in Objekte.
-
-- Die Struktur dieser Objekte wird in Form von *Klassen* definiert, welche eine Art Bauplan darstellt. Eine Klasse definiert:
-    - welche *Attribute* (Variablen / Eigenschaften) ein Objekt dieser Klasse besitzt.
-    - welche *Methoden* (Funktionen) ein Objekt der Klasse bereit stellt
-
-%%/slides
-
-%%slides
-
-
-## Klassen und Instanzen
-
-- Objekte sind *Instanzen* einer Klasse (die Klasse ist ja nur ein Bauplan). 
-- Eine Klasse kann beliebig viele Instanzen haben. 
-- Alle Instanzen sind gleich aufgebaut
-- Instanzen besitzen aber nicht unbedingt die gleichen Werte in den Attributen.
-
-%%col 50 50
-
-![](https://mermaid.ink/svg/pako:eNp9kT1vgzAQhv-KdTNBODh8eOjQdkFtl6pT4wwWNmAJ7MiYfoTw32sgZKyX8z3vvXfS3QilERIoVK35LhtuHXr8YBr599LyvpfHNZyYXqlQVpZOGY1e31dS4GOhe8f1BeHTDek70ndngdFu93BVvUOb-GX09TZnM_5XAwHUVgmgzg4ygE7ajs8pjLObgWtkJxlQ_xWy4kPrGDA9eduZ609jus1pzVA3QCve9j4bzoI7-ax4bXl3p1ZqIe2TGbQDSiKyNAE6wg9QHCchjj3MSIJzTKIkgN-5KtyTPM8TnB3iaJ_GZArgssyNwiydJS_gPI3IwfeTQjlj39b9L2eY_gD5vnxs)
-
-%%sep
-
-![](https://mermaid.ink/svg/pako:eNp9kTtvgzAQgP8KupkgG8zDHjq0XaK2UlV1aslgYQNWwY6M6SOE_15eyRhPvu_uu5PuBiiMkMCgbMxPUXPrvPv3XHvTe2p418nP115_uUOuVyiUlYVTRnvPbyvZ47XEw4cN6A3oq7XH3m53d1adm7Kd4_rkfRt93kZctFs14ENllQDmbC99aKVt-RzCMNs5uFq2Mgc2fYUsed-4HHI9TtqR6w9j2otpTV_VwEredFPUHwV38lHxyvL2Sq3UQtoH02sHLEZoaQJsgF9gOEoCHBFEMpJgiglKfPgDRlAQEkppgrM4QmEakdGH0zIXBVk6p2iYJDSNaIx9kEI5Y1_W1S8XGP8BBLJ6eQ)
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Objektorientierung in Python
-
-- Python ist von Grund auf objektorientiert – ein Fakt den wir bisher ignoriert haben
-
-- Alle Datentypen in Python sind Objekte (deshalb haben sie ja auch eigene Methoden)
-- Selbst definierte Klassen sind immer ein zusammengesetzter (komplexer) Datentyp
-    - Jeder Datentyp hat: Wert, Typ, Identität
-    - Variablen sind Referenzen
-
-%%/slides
-
-%%slides
-
-
-## Klassen definieren
-
-Der erste Schritt zu einem Objekt ist das Definieren einer neuen Klasse für den Typ des Objektes. Dies geschieht über das `class`-Kennwort:
-
-```python
-class Klassenname:
-    # Klassendefinition
-```
-
-%%/slides
-
-%%slides
-
-
-## Konstruktoren mit der init-Methode
-
-Der Konstruktor `__init__()` ist eine spezielle Methode, die festlegt wie eine neue Instanz der Klasse erzeugt wird.
-
-```python
-class Punkt:
-    # Konstruktor
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-```
-
-- `self` beschreibt eine Selbst-Referenz auf die neue Instanz der Klasse
-- Auf die Attribute einer Instanz kann durch den Punkt-Syntax zugegriffen werden
-- `self.x` ist somit eine Referenz auf das Attribut x der Instanz
-- `self.x = x` bedeutet dass wir den Wert der Variablen x dem neuen Instanzattribut x zuweisen
-- Da `__init__` eine Funktion ist, kann man auch Defaults definieren
-
-%%/slides
-
-%%slides
-
-
-## Instanzen erzeugen
-
-Instanzen der Klasse werden erzeugt indem der Klassenname wie ein Funktionsname benutzt wird.
-
-Um Instanzen zu erstellen wird der Klassenname wie ein Funktionsname benutzt (dies ruft den Konstruktor impliziert auf). Hierbei wird der `self`-Parameter nicht mit angegeben.
-
-```python
-punkt_1 = Punkt(54.083336, 12.108811)
-punkt_2 = Punkt(12.108811, 54.083336)
-```
-
-%%/slides
-
-%%slides
-
-
-## Attribute auf Instanzebene
-
-- Instanzattribute können in jeder Instanz unterschiedlich sein
-- Ändert eine Instanz das Attribut, so wirkt sich die Änderung nicht auf andere Instanzen aus (Isolierung)
-- Sie werden in dem Konstruktor `__init__` definiert
-
-```python
-class Punkt:
-    # Konstruktor
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-```
-
-%%/slides
-
-%%slides
-
-
-## Attribute auf Klassenebene
-
-- Klassenattribute sind Attribute welche für alle Instanzen einer Klasse den gleichen Wert haben
-- Sie werden unter dem `class`-Kennwort wie eine Variable definiert
-- *Wichtig!* Sie gelten für alle Instanzen, wenn also eine Instanz den Wert ändert, so ändert er sich in allen anderen Instanzen
-
-```python
-class Punkt:
-    # Attribut aller Instanzen
-    einheit = "m"
-```
-
-%%/slides
-
-%%slides
-
-
-## Methoden
-
-- Methoden werden wie Funktionen mit dem Schlüsselwort `def` definiert, auf der gleichen Ebene eingerückt wie die Klasse
-- Diese Methoden sind dann in allen Instanzen verfügbar
-- Methoden besitzen immer `self` als ersten Parameter (Referenz auf aktuelle Instanz)
-- Dadurch kann man dann auf die Attribute oder andere Methoden zugreifen
-- Man kann Parametern der Methoden auch Defaults zuweisen
-
-```python
-class Punkt:
-    # Methode
-    def distanz(self, punkt_2):
-        return math.sqrt((self.x - punkt_2.x)**2 + (self.y - punkt_2.y)**2)
-```
-
-%%/slides
-
-%%slides
-
-
-## Methoden aufrufen
-
-Klassenmethoden sind in allen Instanzen verfügbar. Sie werden durch den Punkt-Syntax aufgerufen:
-
-```python
-punkt_1.distanz()
-```
-
-Auf gleiche Weise kann auch auf Attribute zugegriffen werden:
-
-```python
-print(punkt_1.x, punkt_1.y)
-```
-
-und diese verändert werden:
-
-```python
-punkt_1.x = 20
-```
-
-%%/slides
-
 %%book
 
 
@@ -1117,10 +1117,10 @@ punkt_1.x = 20
 
 
 ```{quizdown}
-	
+
 	shuffleQuestions: true
 	shuffleAnswers: true
-	
+
 
     ### Was beschreibt ein Objekt in der objektorientierten Programmierung?
     - [x] Eine Einheit mit Zustand (Attribute) und Verhalten (Methoden)
@@ -1359,7 +1359,7 @@ punkt_1.x = 20
     - [x] Eine grafische Notation für Software-Design
     - [ ] Die Programmiersprache
     - [ ] Die Datenbank-Sprache
-    - [ ] Eine Art von Algorithmus 
+    - [ ] Eine Art von Algorithmus
 ```
 
 %%/book

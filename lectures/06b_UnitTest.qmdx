@@ -14,6 +14,15 @@ resources:
   - data/06b_UnitTest
 ---
 
+%%slides
+
+
+## Ablauf
+
+![](images/partA_7.svg)
+
+%%/slides
+
 %%book
 
 
@@ -31,25 +40,9 @@ resources:
 
 %%/book
 
-%%slides
-
-
-## Ablauf
-
-![](images/partA_7.svg)
-
-%%/slides
-
 %%book
 
-
-## Funktionstest
-
-%%/book
-
-%%book
-
-Unit-Tests sind zum Vermeiden und Diagnostizieren von Fehlern sehr wichtig. Ein Unit-Test testet ein einzelnes Code-Modul, wie z.B. eine Funktion oder eine Klasse. 
+Unit-Tests sind zum Vermeiden und Diagnostizieren von Fehlern sehr wichtig. Ein Unit-Test testet ein einzelnes Code-Modul, wie z.B. eine Funktion oder eine Klasse.
 
 Zum Testen verwendet man in Python meist spezielle Pakete wie `unittest` oder `nosetest`, welche dann automatisch bei Code-Änderungen ausgeführt werden. Einfache Tests können direkt in den Code geschrieben werden. Hierfür ist der `assert` Befehl da. Er prüft, ob eine Testbedingung erfüllt ist (assert) und löst eine `AssertionError` Exception aus, wenn dies nicht der Fall ist.
 
@@ -73,229 +66,6 @@ def division(zaehler, nenner):
         ergebnis = zaehler / nenner
         print(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
         return ergebnis
-```
-
-%%/book
-
-%%book
-
-Hierfür schreiben wir als erstes einen *Funktionstest*. Diese überprüfen die korrekte Funktion eines Moduls mit mehreren Eingaben, für die wir das korrekte Ergebnis kennen. Hier macht man meist mehrere Tests, um sicherzustellen, dass man nicht `zufällig` das richtige Ergebnis bekommt, sondern für verschiedene Kombinationen.
-
-%%/book
-
-%%book
-
-![](https://mermaid.ink/svg/pako:eNptj0trAjEUhf9KuCuFEargJrSCokihuKh0NZlFas44wcyN5FGx4n9vrC100bs65_Kd-7jQzhuQpH3Qx068vCoWpeKgXj1v1vPF6vE9zD41OofwNH64OQZzMZNmKEajmRCn2tgPG63n5h4-3fsY1PO37e-MgJQDi2kz_NmQzg4iitY6J9kzqpiCP-Bb_0XwP0IV9Qi9tqYcf7kFFKUOPRTJIg1anV1SpPhaUJ2T3555RzKFjIry0eiEpdXl7Z5kq13E9QvkMFg7)
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-def test_funktion(): # Die übliche Notation für Tests in Python ist die Funktionsnamen mit `test_` zu beginnen
-    assert division(10, 2) == 5
-    assert division(10, 5) == 2
-    assert division(50, 1) == 50
-    assert division(50, 5) == 10
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-test_funktion()
-```
-
-%%/book
-
-%%book
-
-
-## Grenzwerttest
-
-%%/book
-
-%%book
-
-Ein weiterer wichtiger Test ist der *Grenzwerttest*. Hier prüft man ob Eingaben im Grenzwertbereich korrekt behandelt werden. Zum Beispiel ob positiv oder negativ Unendlich behandelt werden oder ob die Division durch 0 behandelt wird. Wir haben oben beim Erstellen der Funktion definiert, dass bei einer Division durch 0 die Funktion den Wert `None` ausgeben soll.
-
-%%/book
-
-%%book
-
-![](https://mermaid.ink/svg/pako:eNptT8uKAjEQ_JXQJ4UR9Bp2BUURQTwoe3Eyh17T4wQznSGPFRX_feO6ggf7VFVd1Y8r7J0mkHDw2DVitVEscoVeOV-uF5Pp_OPbjy9IjSX_ORreGRNzJsOqLwaDsRCnUpsfE4zj6hE-PXTqlZOv7XOGp5g8i7Vjqvr_S-LZkgiiNtZKzo0iRO-O9IdfLfTeAgW05Fs0Ot9_vQcUxIZaUiAz1FRjslGB4lu2Yopue-Y9yOgTFZA6jZFmBvPnLcgabchqh7xz7slvv-QCXy0)
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-import math # die Zahl unendlich ist in der math bibliothek definiert
-
-def test_grenzwert():
-    assert division(math.inf, 1) == math.inf
-    assert division(math.inf, 100) == math.inf
-    assert math.isnan(division(math.inf, math.inf)) # Das prüfen auf nan (not a number) ist nur durch die funktion `isnan` moeglich
-    assert division(1, math.inf) == 0
-    assert division(100, 0) is None
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-test_grenzwert()
-```
-
-%%/book
-
-%%book
-
-
-## Datentyptest
-
-%%/book
-
-%%book
-
-Da Python dynamische Datentypen unterstützt ist es sehr wichtig *Datentyptest*. Hierbei wird getetstet ob die Funktion falsche Datentypen als Eingabe richtig behandelt.
-
-%%/book
-
-%%book
-
-![](https://mermaid.ink/svg/pako:eNptT8tqAkEQ_JWhLyqskPOQCIpLCIQcIvGQHQ_tTm92yGzPMo-oEf89s1HBg32qKqq6qCPUThNI-PLYt-L1XbHIF8ZV-fL2PF-Uj1s_-0VqLfmnUYh-NAhMzJk_bCZiOp0Jsau0-THBON6c87uzTuNq_rG6vlmjTVTua-rj4JxcquLBkgiiMdZKdkxFbnHf9I9vLXTfAgV05Ds0Oq84DgEFsaWOFMgMNTWYbFSg-JStmKJbHbgGGX2iAlKvMdLSYN7fgWzQhqz2yJ_OXfnpD57_Yc8)
-
-%%/book
-
-%%book
-
-Hierbei können wir nicht direkt `assert` nutzen da es ja unseren Code zum Absturz bringt.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-#| error: true
-assert division("falscher typ", 1) is ValueError
-```
-
-%%/book
-
-%%book
-
-Stattdessen nutzen wir im Test einen `try-except`-Block und die `else`-Anweisung. Sie wird nur dann ausgeführt, wenn im `try`-Block *keine* Exception auftritt, was im Testfall ja unerwünscht ist, also `raise` wir in diesem Fall ein AssertionError, da der Testfall scheitert. Ferner prüfen wir, ob die geworfene Exception der Funktion auch den richtigen Typen `TypeError` hat.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-def test_datentyp():
-    # wir testen den Zähler
-    try:  
-        division("falscher typ", 1)
-    except Exception as e:
-        assert isinstance(e, ValueError)
-    else:
-        raise AssertionError("Datatype")
-    # den zweiten Fall des Nenners
-    try:
-        division(10, "falscher typ")
-    except Exception as e:
-        assert isinstance(e, ValueError)
-    else:
-        raise AssertionError("Datatype")
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-test_datentyp()
-```
-
-%%/book
-
-%%book
-
-
-## Mit Tests bei Code-Änderungen Fehler erkennen
-
-%%/book
-
-%%book
-
-Diese Unit-Tests haben wir absichtlich als Funktion definiert, so dass wir sie nun bei Code-Änderungen immer wieder durchführen können. So kann man dann testen, ob die Implementation die gestellten Erwartungen überhaupt oder immer noch erfüllt.
-
-Wird zum Beispiel die Divisionsfunktion durch eine triviale Implementation überschrieben.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-def division(zaehler, nenner):
-    return zaehler / nenner
-```
-
-%%/book
-
-%%book
-
-So funktioniert immer noch unser Funktionstest. Weshalb es meistens nicht hinreichend ist, nur diesen zu implementieren oder bei der Entwicklung nur die Funktion zu prüfen.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-test_funktion()
-```
-
-%%/book
-
-%%book
-
-Der Grenzwerttest wird allerdings jetzt eine Ausnahme werfen.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-#| error: true
-test_grenzwert()
-```
-
-%%/book
-
-%%book
-
-Auch der Datentyptest ist nicht erfolgreich, weil wir ja definiert haben, dass bei falschen Eingabedatentypen ein `ValueError` erzeugt werden soll, wir aber einen `TypeError` erhalten.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-#| error: true
-test_datentyp()
 ```
 
 %%/book
@@ -427,7 +197,7 @@ zaehler = 'keine_zahl'
 nenner = 0
 try:
     ergebnis = division(zaehler, nenner)
-    assert False # We let the test fail 
+    assert False # We let the test fail
 except TypeError as e:
     # Erwartet: TypeError
 ```
@@ -435,6 +205,236 @@ except TypeError as e:
 %%/col
 
 %%/slides
+
+%%book
+
+
+## Funktionstest
+
+%%/book
+
+%%book
+
+Hierfür schreiben wir als erstes einen *Funktionstest*. Diese überprüfen die korrekte Funktion eines Moduls mit mehreren Eingaben, für die wir das korrekte Ergebnis kennen. Hier macht man meist mehrere Tests, um sicherzustellen, dass man nicht `zufällig` das richtige Ergebnis bekommt, sondern für verschiedene Kombinationen.
+
+%%/book
+
+%%book
+
+![](https://mermaid.ink/svg/pako:eNptj0trAjEUhf9KuCuFEargJrSCokihuKh0NZlFas44wcyN5FGx4n9vrC100bs65_Kd-7jQzhuQpH3Qx068vCoWpeKgXj1v1vPF6vE9zD41OofwNH64OQZzMZNmKEajmRCn2tgPG63n5h4-3fsY1PO37e-MgJQDi2kz_NmQzg4iitY6J9kzqpiCP-Bb_0XwP0IV9Qi9tqYcf7kFFKUOPRTJIg1anV1SpPhaUJ2T3555RzKFjIry0eiEpdXl7Z5kq13E9QvkMFg7)
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def test_funktion(): # Die übliche Notation für Tests in Python ist die Funktionsnamen mit `test_` zu beginnen
+    assert division(10, 2) == 5
+    assert division(10, 5) == 2
+    assert division(50, 1) == 50
+    assert division(50, 5) == 10
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+test_funktion()
+```
+
+%%/book
+
+%%book
+
+
+## Grenzwerttest
+
+%%/book
+
+%%book
+
+Ein weiterer wichtiger Test ist der *Grenzwerttest*. Hier prüft man ob Eingaben im Grenzwertbereich korrekt behandelt werden. Zum Beispiel ob positiv oder negativ Unendlich behandelt werden oder ob die Division durch 0 behandelt wird. Wir haben oben beim Erstellen der Funktion definiert, dass bei einer Division durch 0 die Funktion den Wert `None` ausgeben soll.
+
+%%/book
+
+%%book
+
+![](https://mermaid.ink/svg/pako:eNptT8uKAjEQ_JWhLyqskPOQCIpLCIQcIvGQHQ_tTm92yGzPMo-oEf89s1HBg32qKqq6qCPUThNI-PLYt-L1XbHIF8ZV-fL2PF-Uj1s_-0VqLfmnUYh-NAhMzJk_bCZiOp0Jsau0-THBON6c87uzTuNq_rG6vlmjTVTua-rj4JxcquLBkgiiMdZKdkxFbnHf9I9vLXTfAgV05Ds0Oq84DgEFsaWOFMgMNTWYbFSg-JStmKJbHbgGGX2iAlKvMdLSYN7fgWzQhqz2yJ_OXfnpD57_Yc8)
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import math # die Zahl unendlich ist in der math bibliothek definiert
+
+def test_grenzwert():
+    assert division(math.inf, 1) == math.inf
+    assert division(math.inf, 100) == math.inf
+    assert math.isnan(division(math.inf, math.inf)) # Das prüfen auf nan (not a number) ist nur durch die funktion `isnan` moeglich
+    assert division(1, math.inf) == 0
+    assert division(100, 0) is None
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+test_grenzwert()
+```
+
+%%/book
+
+%%book
+
+
+## Datentyptest
+
+%%/book
+
+%%book
+
+Da Python dynamische Datentypen unterstützt ist es sehr wichtig *Datentyptest*. Hierbei wird getetstet ob die Funktion falsche Datentypen als Eingabe richtig behandelt.
+
+%%/book
+
+%%book
+
+![](https://mermaid.ink/svg/pako:eNptT8tqAkEQ_JWhLyqskPOQCIpLCIQcIvGQHQ_tTm92yGzPMo-oEf89s1HBg32qKqq6qCPUThNI-PLYt-L1XbHIF8ZV-fL2PF-Uj1s_-0VqLfmnUYh-NAhMzJk_bCZiOp0Jsau0-THBON6c87uzTuNq_rG6vlmjTVTua-rj4JxcquLBkgiiMdZKdkxFbnHf9I9vLXTfAgV05Ds0Oq84DgEFsaWOFMgMNTWYbFSg-JStmKJbHbgGGX2iAlKvMdLSYN7fgWzQhqz2yJ_OXfnpD57_Yc8)
+
+%%/book
+
+%%book
+
+Hierbei können wir nicht direkt `assert` nutzen da es ja unseren Code zum Absturz bringt.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+#| error: true
+assert division("falscher typ", 1) is ValueError
+```
+
+%%/book
+
+%%book
+
+Stattdessen nutzen wir im Test einen `try-except`-Block und die `else`-Anweisung. Sie wird nur dann ausgeführt, wenn im `try`-Block *keine* Exception auftritt, was im Testfall ja unerwünscht ist, also `raise` wir in diesem Fall ein AssertionError, da der Testfall scheitert. Ferner prüfen wir, ob die geworfene Exception der Funktion auch den richtigen Typen `TypeError` hat.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def test_datentyp():
+    # wir testen den Zähler
+    try:
+        division("falscher typ", 1)
+    except Exception as e:
+        assert isinstance(e, ValueError)
+    else:
+        raise AssertionError("Datatype")
+    # den zweiten Fall des Nenners
+    try:
+        division(10, "falscher typ")
+    except Exception as e:
+        assert isinstance(e, ValueError)
+    else:
+        raise AssertionError("Datatype")
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+test_datentyp()
+```
+
+%%/book
+
+%%book
+
+
+## Mit Tests bei Code-Änderungen Fehler erkennen
+
+%%/book
+
+%%book
+
+Diese Unit-Tests haben wir absichtlich als Funktion definiert, so dass wir sie nun bei Code-Änderungen immer wieder durchführen können. So kann man dann testen, ob die Implementation die gestellten Erwartungen überhaupt oder immer noch erfüllt.
+
+Wird zum Beispiel die Divisionsfunktion durch eine triviale Implementation überschrieben.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def division(zaehler, nenner):
+    return zaehler / nenner
+```
+
+%%/book
+
+%%book
+
+So funktioniert immer noch unser Funktionstest. Weshalb es meistens nicht hinreichend ist, nur diesen zu implementieren oder bei der Entwicklung nur die Funktion zu prüfen.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+test_funktion()
+```
+
+%%/book
+
+%%book
+
+Der Grenzwerttest wird allerdings jetzt eine Ausnahme werfen.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+#| error: true
+test_grenzwert()
+```
+
+%%/book
+
+%%book
+
+Auch der Datentyptest ist nicht erfolgreich, weil wir ja definiert haben, dass bei falschen Eingabedatentypen ein `ValueError` erzeugt werden soll, wir aber einen `TypeError` erhalten.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+#| error: true
+test_datentyp()
+```
+
+%%/book
 
 %%slides
 
@@ -567,7 +567,7 @@ except:
 Exceptions werden auf mehreren Ebenen genutzt:
 
 - Betriebssystem - Vordefinierte System-Exceptions
-- Programmiersprache - Eingebaute Language-Exceptions  
+- Programmiersprache - Eingebaute Language-Exceptions
 - Eigener Code - Selbst definierte Exceptions
 
 %%sep
@@ -658,7 +658,7 @@ Mögliche Exceptions:
 def count_up_and_down(x):
     if x <= 0:
         raise ValueError("No negative values allowed")
-    
+
     # Verknüpft vorwärts- und rückwärts-Liste
     return list(range(x)) + list(reversed(list(range(x-1))))
 
@@ -692,10 +692,10 @@ except ValueError:
 
 
 ```{quizdown}
-    
+
     shuffleQuestions: true
     shuffleAnswers: true
-    
+
 
     ### Was ist ein Bug?
     - [x] Ein unbeabsichtigter Fehler im Programm.

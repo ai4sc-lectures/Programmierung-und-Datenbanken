@@ -107,6 +107,77 @@ Die Summe aller Module formt dann ein *Package*. In diesem Fall das Package `geo
 
 %%/book
 
+%%slides
+
+
+## Organisieren von Projekten über mehrere Dateien
+
+%%col 50 50
+
+Herausforderungen großer Programme:
+
+- Dutzende Klassen mit hunderten Funktionen
+- Viele tausende Zeilen Code
+- Schwer Überblick zu behalten
+- Versionskonflikte bei mehreren Programmierern
+
+%%sep
+
+Lösung - Code aufteilen in .py Dateien:
+
+- *Pro Klasse* eine Datei (bei Klassendefinitionen)
+- *Pro Thema* eine Datei (z.B. Mathematik-Funktionen)
+- *Pro Aufgabenbereich* eine Datei (z.B. Laden vs. Verarbeitung)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Grundlagen der Projektstruktur
+
+%%col 50 50
+
+**Allgemeine Struktur**
+
+```
+main.py [enthält main()]
+├── module1.py
+├── module2.py
+└── helpers.py
+```
+
+Code in `main.py`
+```python
+import module1
+import module2
+import helpers
+```
+
+%%sep
+
+**Beispiel - Stadtprojekt**
+
+```
+city.py
+├── buildings.py
+├── streets.py
+└── geometry.py
+```
+
+Code in `main.py`
+```python
+import buildings
+import streets
+import geometry
+```
+
+%%/col
+
+%%/slides
+
 %%book
 
 
@@ -153,6 +224,83 @@ if __name__ == "__main__":
 Sie nutzt aus, dass der Wert der Standardvariable `__name__` in der Hauptdatei immer `'__main__'` lautet. Während sie in einer importierten Datei den Namen der Hauptdatei angibt.
 
 %%/book
+
+%%slides
+
+
+## Die main()-Funktion als Standardfunktion
+
+Woher weiß Python was ausgeführt werden soll?
+
+- Eine bestimmte Datei als *Zentrum des Projektes* deklarieren
+- Diese enthält eine spezielle Funktion namens `main()`
+- Existiert in fast jeder Programmiersprache
+- Gibt den *Startpunkt des Programms* an
+- Kann keine oder dynamische Argumente erhalten (Kommandozeilenargumente)
+
+%%/slides
+
+%%slides
+
+
+## Die main()-Funktion in Python
+
+%%col 50 50
+
+Verschiedene Ausführungsmöglichkeiten:
+
+1. Als Skript in Kommandozeile/Gesamtprogramm
+2. Importiert in interaktive Python-Konsole
+3. Importiert in andere Python-Datei
+
+Problem: In Fall 1 wollen wir das gesamte Skript, in Fall 2+3 nur Teile nutzen
+
+Die Lösung - Variable `__name__`:
+
+%%sep
+
+```python
+def main():
+    print("This is the main function")
+
+if __name__ == "__main__":
+    main()  # nur bei direktem Aufruf
+```
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Best Practice für main()-Funktion
+
+Was gehört VOR die main()-Definition:
+
+%%col 50 50
+
+✅ Nur erlaubt:
+
+- Funktionsdefinitionen
+- Klassendefinitionen
+
+%%sep
+
+❌ Vermeiden:
+
+- Variablenbelegungen (globale Variablen)
+- Funktionsaufrufe (Nebeneffekte)
+
+%%/col
+
+Vorteile dieser Struktur:
+
+- Programmfluss wird übersichtlicher
+- Programm einfach modifizierbar
+- Programm besser weiterverwendbar
+
+%%/slides
 
 %%book
 
@@ -244,6 +392,79 @@ if __name__ == "__main__":
 
 %%/book
 
+%%slides
+
+
+## Programmfluss über mehrere Dateien
+
+- Jetzt haben wir einen zentralen Startpunkt.
+
+- Wie rufen wir Code aus anderen Dateien auf?
+
+- Jede Programmiersprache hat Befehle zum Laden externen Codes:
+    - `import` und `include` (Python)
+    - Spezielle "Header-Dateien" die Zusammenhänge zwischen Dateien definieren
+
+%%/slides
+
+%%slides
+
+
+## Programmfluss in Python - import Statement
+
+%%col 50 50
+
+Strategie:
+
+- Eine .py-Datei enthält `main()` (Fall 1)
+- Alle anderen ohne `main()` oder mit `__name__` ignoriert (Fall 3)
+- `import`-Statement lädt externe Dateien
+
+- *Achtung:* Kompletter Code wird ausgeführt, auch Variablen und Funktionsaufrufe!
+
+%%sep
+
+```python
+import external_file
+
+def main():
+    print("This is the main function")
+```
+Variablen/Funktionen/Klassen aus `external_file.py` werden in Objekt `external_file` abgelegt
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Import externer Bibliotheken (Packages)
+
+*Terminologie:*
+
+- *Module:* Importierte Skripte
+- *Namespace:* Das entstehende Objekt (Typ: module)
+- *Package:* Modul mit weiteren Untermodulen
+
+%%/slides
+
+%%slides
+
+
+## Das import-Statement: Erweiterte Nutzungen
+
+- Die Import-Funktionen von Python sind komplex und vielschichtig.
+- Im Alltag trifft man aber meistens nur auf folgende zusätzliche Konstrukte:
+    - `from-import`-Statement: Importiert ein Submodul oder ein Teil eines Moduls direkt, ohne den übergeordneten Namespace
+    - `from-import-as`-Statement: Arbeitet genauso, benennt aber das importierte Objekt um
+
+```python
+from external_file import external_function as ext_func
+```
+
+%%/slides
+
 %%book
 
 
@@ -304,7 +525,7 @@ for count, filename in enumerate(os.listdir(folder)):
 
 %%book
 
-Viele Webseiten bieten Programmierschnittstellen an, so genannte APIs, da diese APIs auch von den eigenen Webseiten genutzt werden, um Daten nachzuladen, die auf der Webseite angezeigt werden. Die APIs nutzen meist das JSON-Format um Daten auszutauschen. Dies ist ein Text-basiertes Dateiformat, das in Python sehr stark dem `dict`-Datentyp ähnelt, aber auch alle anderen primitiven und zusammengesetzten Datentypen von Python unterstützt. 
+Viele Webseiten bieten Programmierschnittstellen an, so genannte APIs, da diese APIs auch von den eigenen Webseiten genutzt werden, um Daten nachzuladen, die auf der Webseite angezeigt werden. Die APIs nutzen meist das JSON-Format um Daten auszutauschen. Dies ist ein Text-basiertes Dateiformat, das in Python sehr stark dem `dict`-Datentyp ähnelt, aber auch alle anderen primitiven und zusammengesetzten Datentypen von Python unterstützt.
 
 Wir möchten zum Beispiel die Wetterdaten einer Wetterstation in Deutschland analysieren. Diese Daten bekommen wir beim [Deutschen Wetterdiest](https://www.dwd.de). Diese Daten kann man sich auch von der [API](https://dwd.api.bund.dev/) herunterladen. Hierfür braucht man die ID (Identifikationsnummer) einer Wetterstation welche [hier](https://www.dwd.de/DE/leistungen/klimadatendeutschland/statliste/statlex_html.html?view=nasPublication&nn=16102) zu finden ist. Wir nehmen als Beispiel eine Station im Hansaviertel in Rostock mit der ID `12495`.
 
@@ -343,6 +564,20 @@ server_object.serve_forever()
 
 %%/book
 
+%%slides
+
+
+## Import-Statements – Das Tor zur Welt
+
+- Wir können nicht nur unsere eigenen Pakete importieren – sondern auch Pakete die von anderen Personen/Organisationen öffentlich gemacht wurden!
+
+- Es gibt mehrere Möglichkeiten auf Pakete zuzugreifen:
+- Paket ist in Python mitgeliefert
+- Direkt als .py-Dateien / Ordner mit .py Dateien herunterladen
+- Einen Package-Manager (pip, uv) benutzen (Besser!)
+
+%%/slides
+
 %%book
 
 
@@ -358,12 +593,12 @@ Die Stärke von Python ist allerdings die riesige Auswahl an vorhandenen Paketen
 
 %%book
 
-Die Installation neuer Pakete für Python ist einfach. Hierfür öffnet man ein Terminal (Kommandozeile) und gibt den Befehl `pip install <packetname>` ein. 
+Die Installation neuer Pakete für Python ist einfach. Hierfür öffnet man ein Terminal (Kommandozeile) und gibt den Befehl `pip install <packetname>` ein.
 
 Zum Beispiel wollen wir die eben geladenen Wetterdaten anzeigen. Hierfür nutzen wir:
 
-- zuerst das Paket `pandas` zum Erzeugen einer Tabelle aus den Wetterdaten. 
-- dann nutzen wir das Paket `plotly` zum Zeichnen eines Diagramms. 
+- zuerst das Paket `pandas` zum Erzeugen einer Tabelle aus den Wetterdaten.
+- dann nutzen wir das Paket `plotly` zum Zeichnen eines Diagramms.
 - zuletzt erzeugen wir uns einen Webserver mit `dash` der uns das Diagramm immer anzeigt
 
 Alles drei installieren wir mit `pip`. Wir können das in einem Aufruf machen. Wir nutzen den `--quiet` Switch, um die Ausgabe zu reduzieren.
@@ -374,7 +609,8 @@ Alles drei installieren wir mit `pip`. Wir können das in einem Aufruf machen. W
 
 ```{python}
 #| echo: true
-pip install pandas plotly dash  --quiet
+import subprocess
+subprocess.run(["pip", "install", "pandas", "plotly", "dash", "--quiet"])
 ```
 
 %%/book
@@ -445,29 +681,6 @@ app = dash.Dash()
 
 %%/book
 
-%%slides
-
-```{python}
-#| echo: true
-pip install jupyter_dash  --quiet
-```
-
-%%/slides
-
-%%slides
-
-```{python}
-#| echo: true
-
-
-# und ersetzen das Dash objekt
-from jupyter_dash import JupyterDash
-
-app = JupyterDash()
-```
-
-%%/slides
-
 %%book
 
 Dann erzeugen wir eine Webseite mit einer Überschrift (`H1`), welche den Plot als `Graph` enthält.
@@ -515,236 +728,24 @@ Dies startet einen Webserver auf den wir in einem Browser unter `http://127.0.0.
 
 %%slides
 
-
-## Organisieren von Projekten über mehrere Dateien
-
-%%col 50 50
-
-Herausforderungen großer Programme:
-
-- Dutzende Klassen mit hunderten Funktionen
-- Viele tausende Zeilen Code
-- Schwer Überblick zu behalten
-- Versionskonflikte bei mehreren Programmierern
-
-%%sep
-
-Lösung - Code aufteilen in .py Dateien:
-
-- *Pro Klasse* eine Datei (bei Klassendefinitionen)
-- *Pro Thema* eine Datei (z.B. Mathematik-Funktionen)
-- *Pro Aufgabenbereich* eine Datei (z.B. Laden vs. Verarbeitung)
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Die main()-Funktion als Standardfunktion
-
-Woher weiß Python was ausgeführt werden soll?
-
-- Eine bestimmte Datei als *Zentrum des Projektes* deklarieren
-- Diese enthält eine spezielle Funktion namens `main()`
-- Existiert in fast jeder Programmiersprache
-- Gibt den *Startpunkt des Programms* an
-- Kann keine oder dynamische Argumente erhalten (Kommandozeilenargumente)
-
-%%/slides
-
-%%slides
-
-
-## Die main()-Funktion in Python
-
-%%col 50 50
-
-Verschiedene Ausführungsmöglichkeiten:
-
-1. Als Skript in Kommandozeile/Gesamtprogramm
-2. Importiert in interaktive Python-Konsole  
-3. Importiert in andere Python-Datei
-
-Problem: In Fall 1 wollen wir das gesamte Skript, in Fall 2+3 nur Teile nutzen
-
-Die Lösung - Variable `__name__`:
-
-%%sep
-
-```python
-def main():
-    print("This is the main function")
-
-if __name__ == "__main__":
-    main()  # nur bei direktem Aufruf
-```
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Best Practice für main()-Funktion
-
-Was gehört VOR die main()-Definition:
-
-%%col 50 50
-
-✅ Nur erlaubt:
-
-- Funktionsdefinitionen
-- Klassendefinitionen
-
-%%sep
-
-❌ Vermeiden:
-
-- Variablenbelegungen (globale Variablen)
-- Funktionsaufrufe (Nebeneffekte)
-
-%%/col
-
-Vorteile dieser Struktur:
-
-- Programmfluss wird übersichtlicher
-- Programm einfach modifizierbar
-- Programm besser weiterverwendbar
-
-%%/slides
-
-%%slides
-
-
-## Programmfluss über mehrere Dateien
-
-- Jetzt haben wir einen zentralen Startpunkt.
-
-- Wie rufen wir Code aus anderen Dateien auf?
-
-- Jede Programmiersprache hat Befehle zum Laden externen Codes:
-    - `import` und `include` (Python)
-    - Spezielle "Header-Dateien" die Zusammenhänge zwischen Dateien definieren
-
-%%/slides
-
-%%slides
-
-
-## Programmfluss in Python - import Statement
-
-%%col 50 50
-
-Strategie:
-
-- Eine .py-Datei enthält `main()` (Fall 1)
-- Alle anderen ohne `main()` oder mit `__name__` ignoriert (Fall 3)
-- `import`-Statement lädt externe Dateien
-
-- *Achtung:* Kompletter Code wird ausgeführt, auch Variablen und Funktionsaufrufe!
-
-%%sep
-
-```python
-import external_file
-
-def main():
-    print("This is the main function")
-```
-Variablen/Funktionen/Klassen aus `external_file.py` werden in Objekt `external_file` abgelegt
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Import externer Bibliotheken (Packages)
-
-*Terminologie:*
-
-- *Module:* Importierte Skripte
-- *Namespace:* Das entstehende Objekt (Typ: module)
-- *Package:* Modul mit weiteren Untermodulen
-
-%%/slides
-
-%%slides
-
-
-## Grundlagen der Projektstruktur
-
-%%col 50 50
-
-**Allgemeine Struktur**
-
-```
-main.py [enthält main()]
-├── module1.py
-├── module2.py  
-└── helpers.py
-```
-
-Code in `main.py`
-```python
-import module1
-import module2
-import helpers
-```
-
-%%sep
-
-**Beispiel - Stadtprojekt**
-
-```
-city.py
-├── buildings.py
-├── streets.py
-└── geometry.py
-```
-
-Code in `main.py`
-```python
-import buildings
-import streets
-import geometry
-```
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Das import-Statement: Erweiterte Nutzungen
-
-- Die Import-Funktionen von Python sind komplex und vielschichtig.
-- Im Alltag trifft man aber meistens nur auf folgende zusätzliche Konstrukte:
-    - `from-import`-Statement: Importiert ein Submodul oder ein Teil eines Moduls direkt, ohne den übergeordneten Namespace
-    - `from-import-as`-Statement: Arbeitet genauso, benennt aber das importierte Objekt um
-
-```python
-from external_file import external_function as ext_func
+```{python}
+#| echo: true
+subprocess.run(["pip", "install", "jupyter_dash", "--quiet"])
 ```
 
 %%/slides
 
 %%slides
 
+```{python}
+#| echo: true
 
-## Import-Statements – Das Tor zur Welt
 
-- Wir können nicht nur unsere eigenen Pakete importieren – sondern auch Pakete die von anderen Personen/Organisationen öffentlich gemacht wurden!
+# und ersetzen das Dash objekt
+from jupyter_dash import JupyterDash
 
-- Es gibt mehrere Möglichkeiten auf Pakete zuzugreifen:
-- Paket ist in Python mitgeliefert
-- Direkt als .py-Dateien / Ordner mit .py Dateien herunterladen 
-- Einen Package-Manager (pip, uv) benutzen (Besser!)
+app = JupyterDash()
+```
 
 %%/slides
 
@@ -765,7 +766,7 @@ from external_file import external_function as ext_func
 %%slides
 
 
-## Lesson Learned {background="#66ccffff" cols40x60 txtL="Wie priotisiert man richtig?" capR="“I have two kinds of problems, the urgent and the important. The urgent are not important, and the important are never urgent.”, Eisenhower" imgR="images/07a_Module/eisenhower.jpg"}
+## Lesson Learned {background="#66ccffff" cols40x60 txtL="Wie priotisiert man richtig?" capR=""I have two kinds of problems, the urgent and the important. The urgent are not important, and the important are never urgent.", Eisenhower" imgR="images/07a_Module/eisenhower.jpg"}
 
 %%/slides
 

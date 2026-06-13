@@ -34,873 +34,6 @@ resources:
 %%slides
 
 
-## Ablauf
-
-![](images/partA_6.svg)
-
-%%/slides
-
-%%book
-
-
-## Komplexe Datenstruktur - Bäume
-
-%%/book
-
-%%book
-
-Eine weitere wichtige Komplexe (zusammengesetzte) Datenstruktur sind Bäume. Sie werden insbesondere für effizientes Suchen benutzt.
-
-%%/book
-
-%%book
-
-Wir definieren den folgenden Baum
-
-%%/book
-
-%%book
-
-![](https://mermaid.ink/svg/pako:eNptj8EKgzAQRH8l7GkDekhE0Rx68g_aYy7BrFUwKjY5FPHfm2pbKLinmXnDsrtCM1kCBffFzB271XpkcYREFJJzlqYXxgrEgvODHHrPM8TsJK4Qq2_8v0eU0ZU_9nE7E3k0-SmSAlEKziEBR4szvY3nru-iBt-RIw0qSkutCYPXoMctVk3w0_U5NqD8EiiBMFvjqe5NfNSBas3woO0FhYI-BA)
-
-%%/book
-
-%%book
-
-Wir stellen den Baum hier als Dictionaries dar, bei denen wir den Wert semantisch als `wert` und die Unterbäume mit `links` und `rechts` bezeichnen. Durch Einrücken wird die Struktur sichtbarer. Weggelassene Felder sind automatisch `None`.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-baum = {
-        "wert": 12,
-        "links":{
-                "wert": 6,
-                "links": {"wert":  3},
-                "rechts":{"wert":  9}
-        },
-        "rechts":{
-                "wert": 18,
-                "links": {"wert": 15},
-                "rechts":{"wert": 21}
-        }
-}
-```
-
-%%/book
-
-%%book
-
-Wenn wir den Baum durchlaufen (traversen) wollen, brauchen wir eine rekursive Funktion. Sie lassen sich nicht in Loops umwandeln. Die rekursiven Funktionen arbeiten dabei auf dem angegebenen Knoten und rufen sich dann selbst mit dem entsprechenden Teilbaum der Kinder auf.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-def traverse(tree):
-	wert=tree["wert"]                 # der aktuelle Wert
-	print(wert)                       # gebe den aktuellen Wert aus
-	if "links" in tree:               # wenn der unterbaum links definiert ist
-		traverse(tree["links"])       # rufe die Funktion rekursiv auf
-	if "rechts" in tree:              # wenn der unterbaum rechts definiert ist
-		traverse(tree["rechts"])      # rufe die Funktion rekursiv auf
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-traverse(baum)
-```
-
-%%/book
-
-%%book
-
-Wenn wir den Baum rekursiv durchlaufen (traversen), dann sehen wir, dass wir den Baum von oben nach unten, links vor rechts durchlaufen. Wir fangen also beim Wurzelknoten 12 an, und gehen dann links tiefer zur 6 von dort links tiefer zur 3, dann rechts zur l, weil kein tieferes Element existiert, u.s.w.
-
-%%/book
-
-%%book
-
-
-## Sortier-Algorithmen
-
-%%/book
-
-%%book
-
-### Bubble Sort
-
-%%/book
-
-%%book
-
-Das Sortieren von Elementen in einer Liste ist eine übliche Aufgabe beim Programmieren. Hierfür gibt es einige Standard-Algorithmen, die man kennen sollte.
-
-Bubble Sort ist einer der einfachsten Sortieralgorithmen. Hierbei wird jedes Element der Liste durchlaufen und mit dem nächsten Element verglichen. Ist das zweite Element kleiner als das erste wird die Position getauscht. Die Liste wird so lange wieder und wieder durchlaufen bis dieser Fall nicht mehr auftritt.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-def bubbleSort(numbers):
-    for i in range(len(numbers)-1):
-        for j in range(0, len(numbers)-i-1):
-            if numbers[j] > numbers[j + 1] :
-                numbers[j], numbers[j + 1] = numbers[j + 1], numbers[j]
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
-
-bubbleSort(zahlenfolge)
-
-zahlenfolge
-```
-
-%%/book
-
-%%book
-
-Es ist zu beachten, das Bubble Sort die Liste direkt modifiziert, also die vorherige Reihenfolge geändert wird.
-
-%%/book
-
-%%book
-
-### QuickSort
-
-%%/book
-
-%%book
-
-QuickSort ist ein Divide-and-Conquer-Algorithmus. Er wählt ein Element aus der Liste als zentrales Element und erzeugt dann jeweils eine Liste der Elemente die Kleiner sind als das zentrale Element und eine die Größer sind. Diese zwei Teillisten werden dann wieder mit QuickSort sortiert, bis die Teillisten die Größe 1 erreichen. So wird das Sortierproblem sukzessive immer kleiner.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-def quickSort(elements):
-    less = []
-    equal = []
-    greater = []
-
-    if len(elements) > 1:
-        pivot = elements[len(elements) % 2]
-        for x in elements:
-            if x < pivot:
-                less.append(x)
-            elif x == pivot:
-                equal.append(x)
-            elif x > pivot:
-                greater.append(x)
-        return quickSort(less) + equal + quickSort(greater)
-    else:  # Falls nur ein oder kein Element in der list ist
-        return elements
-```
-
-%%/book
-
-%%book
-
-Das Ergebnis ist eine sortierte Liste welche neu ist und zugewiesen werden muss.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
-
-zahlenfolge=quickSort(zahlenfolge)
-
-zahlenfolge
-```
-
-%%/book
-
-%%book
-
-### Insertion Sort
-
-%%/book
-
-%%book
-
-Ein weiterer Algorithmus zum Sortieren ist Insertion-Sort. Er basiert auf der menschlichen Strategie Karten zu sortieren, indem wir die Werte dort einfügen, wo sie am besten passen.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-def insertion_sort(arr):
-    for i in range(1, len(arr)): # Iteriere durch alle elemente
-        key = arr[i]
-        # Bewege alle elemente von arr[0..i-1], die größer als
-        # das aktuelle element key eine position vor die aktuelle
-        j = i-1
-        while j >= 0 and key < arr[j] :
-            arr[j+1] = arr[j]
-            j -= 1
-        arr[j+1] = key
-```
-
-%%/book
-
-%%book
-
-Das Ergebnis ist die korrekt sortierte Liste. Auch wieder direkt modifiziert.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
-
-insertion_sort(zahlenfolge)
-
-zahlenfolge
-```
-
-%%/book
-
-%%book
-
-### Python Standardfunktion `sorted`
-
-%%/book
-
-%%book
-
-Die Lösung im Programmieralltag ist die in Python eingebaute Funktion `sorted()`. Hier wird die Liste nicht modifiziert und muss neu zugewiesen werden.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
-
-zahlenfolge=sorted(zahlenfolge)
-
-zahlenfolge
-```
-
-%%/book
-
-%%book
-
-### Performancevergleich der Sortierfunktionen
-
-%%/book
-
-%%book
-
-Im Performancevergleich der Funktionen schneidet Bubble-Sort schlechter ab als Insertion-Sort. Die eingebaute Funktion `sorted()` ist deutlich schneller als beide. Sie nutzt den Timsort-Algorithmus (eine Variante von insertion_sort) und ist in C implementiert.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-%timeit bubbleSort([12, 6, 3, 9, 18, 15, 21])
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-%timeit quickSort([12, 6, 3, 9, 18, 15, 21])
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-%timeit insertion_sort([12, 6, 3, 9, 18, 15, 21])
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-%timeit sorted([12, 6, 3, 9, 18, 15, 21])
-```
-
-%%/book
-
-%%book
-
-Dieses Ergebnis bestätigt sich, wenn wir ein deutlich größere Sequenz sortieren. Wir erzeugen eine große Zahlenfolge mit 2.500 Elementen mit `range()` und kehren diese mit `reverse()` in der Reihenfolge um.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-zahlenfolge_gross = list(range(100000))
-zahlenfolge_gross.reverse()
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-%timeit bubbleSort(zahlenfolge_gross)
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-%timeit quickSort(zahlenfolge_gross)
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-%timeit insertion_sort(zahlenfolge_gross)
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-%timeit sorted(zahlenfolge_gross)
-```
-
-%%/book
-
-%%book
-
-Hier zeigt sich erneut, dass BubbleSort am schlechtesten abscheidet aufgrund der vielen Vergleiche. Quick Sort schneidet besser ab, weil es das Problem in kleinere Probleme unterteilt. Insertion Sort ist allerdings immer noch performanter. Am schnellsten löst das Problem die eingebaute `sorted()` Funktion, welche auch auf dem Insertion Sort Algorithmus basiert.
-
-%%/book
-
-%%book
-
-
-## Suchen von Elementen in Listen
-
-%%/book
-
-%%book
-
-### Vollständige Suche
-
-%%/book
-
-%%book
-
-Auch das Suchen und Finden von Elementen in Listen ist ein tägliche Aufgabe. Auch hier gibt es typische Algorithmen.
-
-Der naive Ansatz ist die vollständige Suche, indem wir in einer For-Each-Schleife durch alle Elemente in einer Liste iterieren, um zu sehen ob das Element irgendwo zu finden ist.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-def contains(list, x):
-	for l in list:	
-		if(l == x):
-			return True
-	return False
-```
-
-%%/book
-
-%%book
-
-Suchen wir als Beispiel ob 15 in unserer unsortierten Zahlenfolge `[12, 6, 3, 9, 18, 15, 21]`. Es ist das vorletzte Element in der Liste, also müssen wir durch alle vorherigen Elemente iterieren.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
-
-contains(zahlenfolge, 15)
-```
-
-%%/book
-
-%%book
-
-Wenn wir nach 1 suchen, wird korrekt zurückgegeben, dass die Zahl nicht in der Liste ist. Hierfür haben wir aber alle Elemente aus der Liste mit 1 vergleichen müssen.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-contains(zahlenfolge, 1)
-```
-
-%%/book
-
-%%book
-
-### Suchen mit Binary-Search
-
-%%/book
-
-%%book
-
-Binary-Search ist ein Divide-and-Conquer-Algorithmus zum Suchen in einer *sortierten* Liste. Er greift aus der Liste immer das mittlere Element heraus und entscheidet, ob das gesuchte Element kleiner oder größer ist und fäht dann mit der Teilliste rechts oder links fort. Dadurch kann es weite Teile der Liste ignorieren und die Anzahl der Vergleiche minimieren.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-def binarySearch_sub(arr, suchwert, low, high):
-    while low <= high: # Wiederhole bis low und high sich treffen
-        mid = low + (high - low)//2  # ganzzahlige division durch zwei
-        # Wenn gefunden, so gebe den index aus
-        if arr[mid] == suchwert:
-            return mid
-        # Wenn das element kleiner als der suchwert ist, 
-        # dann kann es nur im linken teilarray sein
-        elif arr[mid] > suchwert:
-            return binarySearch_sub(arr, suchwert, low, mid - 1)
-        # Sonst ist das element größer als der suchwert und 
-        # dieser muss im rechten teilarray sein
-        else:
-            return binarySearch_sub(arr,  suchwert, mid + 1, high)
-    # Wenn gar nichts gefunden wurde gebe die Position -1 aus
-    return -1
-
-def binarySearch(arr, suchwert):
-    # Da Binary-Search eine sortierte Zahlenfolge braucht. Sortiert man die Zahlen vorher.
-    arr_sorted = sorted(arr)
-    return binarySearch_sub(arr_sorted, suchwert, 0, len(arr_sorted))
-```
-
-%%/book
-
-%%book
-
-Die Rückgabewert einer Binary-Search ist üblicherweise der Index der gefundenen Zahl
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-binarySearch(zahlenfolge, 15)
-```
-
-%%/book
-
-%%book
-
-Wenn gar nichts gefunden wurde, wird die Position -1 ausgegeben
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-binarySearch(zahlenfolge, 1)
-```
-
-%%/book
-
-%%book
-
-### Suchen mit binären Suchbäumen
-
-%%/book
-
-%%book
-
-Der am Anfang aufgestellte Datenstruktur Baum stellt einen binären Suchbaum dar und kann zur Suche verwendet werden. Wir nutzen hierbei aus, dass dieser *bereits sortiert* ist. Dann können wir eine neue Suchfunktion definieren, welche konzeptionell dem Binary Search entspricht.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-def suchBaum(tree, suchwert):
-	wert=tree["wert"]       # der aktuelle Wert
-	if wert == suchwert: 
-		return True
-	if suchwert < wert and "links" in tree:
-		return suchBaum(tree["links"], suchwert)
-	elif suchwert > wert and "rechts" in tree:
-		return suchBaum(tree["rechts"], suchwert)
-	else:
-		return False
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-suchBaum(baum, 15)
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-suchBaum(baum, 1)
-```
-
-%%/book
-
-%%book
-
-### Binäre Suchbäume erstellen
-
-%%/book
-
-%%book
-
-Die Suche in einem binären Suchbaum ist an sich nicht schneller als beim Binary-Search in einer sortierten Liste. Allerdings ist das Sortieren der Liste sehr aufwendig. Auch das Einfügen neuer Elemente ist sehr langsam da hierfür erst ein Binary-Search durchgeführt werden muss, um die Einfügeposition zu finden und dann muss die komplette Liste (sofern als Array implementiert) kopiert werden, weil sie ja ein Element größer wird. Das kostet insbesondere bei sehr großen Listen mit über 10.000 Elementen sehr viel Performance.
-
-Bei der Nutzung eines binären Suchbaums kann man hingegen auch beim Einfügen ausnutzen, dass er immer sortiert ist. Dadurch nutzen wir auch beim Einfügen den Binary-Search Algorithmus. Insbesondere bei wachsenden Datenstrukturen die sortiert vorliegen müssen, macht das Suchbäume äußerst effektiv. Zum Einfügen können wir die Funktion `suchBaum()` so umschreiben, dass sie den Wert immer als neuen Blattknoten einfügt.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-def erweitereBaum(tree, neuer_wert):	
-    wert=tree["wert"]       # der aktuelle Wert
-    if wert == neuer_wert: 
-        return #  wir brechen ab da der Wert schon enthalten ist und nicht hinzugefügt werden muss
-    elif neuer_wert < wert:
-        if "links" not in tree: # wenn es noch kein linken unterbaum gibt
-            tree["links"]={"wert":neuer_wert} # füge einen neuen Knoten links unter dem aktuellen hinzu
-        else:
-            return erweitereBaum(tree["links"], neuer_wert)
-    else: # sonst suche weiter nach Einfügeposition
-        if "rechts" not in tree: # wenn es noch kein rechten unterbaum gibt
-            tree["rechts"]={"wert":neuer_wert} # füge einen neuen Knoten rechts unter dem aktuellen hinzu
-        else:
-            return erweitereBaum(tree["rechts"], neuer_wert)
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-baum2 = {"wert": 12} # Wir initialisieren den Baum mit 12
-for wert in [12, 6, 3, 9, 18, 15, 21]: # wir fügen die Werte des Suchbaums am Anfang hinzu
-    erweitereBaum(baum2, wert)
-```
-
-%%/book
-
-%%book
-
-Es gilt zu beachten, dass der Baum direkt modifiziert wird.
-
-Um zu prüfen ob der neue Baum genauso aussieht wie der am Anfang dargestellte Baum `baum` geben wir beide mit `print()` aus.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-print(baum)
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-print(baum2)
-```
-
-%%/book
-
-%%book
-
-### Suchen mit Python in Listen
-
-%%/book
-
-%%book
-
-Im Alltag kann die in Python eingebaute Suche mit `15 in zahlenfolge` genutzt werden.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-15 in zahlenfolge
-```
-
-%%/book
-
-%%book
-
-### Suchen in Python mit Sets
-
-%%/book
-
-%%book
-
-Insbesondere bei großen Listen (>> 100) lohnt sich die Umwandlung in ein Set. Diese sind optimiert für die Abfrage, ob ein Element bereits enthalten ist. Hierfür werden Hashing-Algorithmen  und meist Sortierbäume verwendet, welche erlauben nur einen Teil der Elemente zu durchsuchen.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-zahlenset = set(zahlenfolge)
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-15 in zahlenset
-```
-
-%%/book
-
-%%book
-
-### Performancevergleich der Suchfunktionen
-
-%%/book
-
-%%book
-
-Im Performancevergleich siegt wieder die eingebaute Suche mit `15 in zahlenfolge`. Die Performance der vollständigen Suche mit `contains` ist besser als die Suche mit Binary-Search oder die im Suchbaum. Wenn auch geschlagen von der internen Suche in Listen und in Sets.
-
-Das ist dem kleinen Beispiel gescholten und liegt an dem zusätzlichen Overhead durch die Datenstruktur und den rekursiven Funktionsaufruf. Insbesondere bei sehr großen Listen sind Suchbäume und Binary-Search deutlich effektiver als die vollständige Suche.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-%timeit contains(zahlenfolge, 15)
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-%timeit binarySearch(zahlenfolge, 15)
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-%timeit suchBaum(baum, 15)
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-%timeit 15 in zahlenfolge
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-%timeit 15 in zahlenset
-```
-
-%%/book
-
-%%book
-
-Vergleichen wir noch einmal ein sehr großes Beispiel mit 100.000 Elementen. Wir erzeugen eine sehr große Zahlenfolge mit `range()` und kehren diese mit `reverse()` in der Reihenfolge um.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-zahlenfolge_gross = list(range(100000))
-zahlenfolge_gross.reverse()
-```
-
-%%/book
-
-%%book
-
-Wir erstellen das set der Zahlenfolge.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-zahlenset_gross = set(zahlenfolge_gross)
-```
-
-%%/book
-
-%%book
-
-Um den Suchbaum zu erstellen ist es nicht sehr effizient die Elemente in sortierter Ordnung hinzuzufügen oder in umgekehrter Reihenfolge wie in diesem Fall. Das würde dazu führen, dass der Baum unbalanciert  ist und einfach nur eine verkettete Liste darstellt. Um sicher zu stellen, dass der Baum gut balanziert ist, fügen wir die Elemente in optimaler Ordnung hinzu, welches die gleiche Ordnung ist die ein Binary-Search Algorithmus durchläuft. Es gibt zusätzliche Suchbäume, die sich automatisch ausbalanzieren, das sind sogenannte [balanzierte Suchbäume](https://de.wikipedia.org/wiki/Balancierter_Baum). Sie führen aber für die hier behandelten Beispiel zu weit.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-
-
-# Um sicher zu stellen, dass der Baum gut balanziert ist 
-
-
-# initialisieren den Baum in der Hälfte
-
-
-# und fügen dann die Teilbäume in der Reihenfolge der binären suche hinzu
-baum_gross = {"wert": zahlenfolge_gross[len(zahlenfolge_gross)//2]}
-step = len(zahlenfolge_gross)//4
-while step>0:
-    idx=step
-    while idx < len(zahlenfolge_gross):
-        erweitereBaum(baum_gross, zahlenfolge_gross[idx])
-        idx=idx+step
-    step = step // 2
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-%timeit contains(zahlenfolge_gross, 15)
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-%timeit binarySearch(zahlenfolge_gross, 15)
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-%timeit suchBaum(baum_gross, 15)
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-%timeit 15 in zahlenfolge_gross
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-%timeit 15 in zahlenset_gross
-```
-
-%%/book
-
-%%book
-
-Das Ergebnis sieht hier ganz anders aus. Jetzt scheidet `contains()` deutlich schlechter ab und Binay-Search ist jetzt um Größenordnungen besser. Sogar in einigen Durchläufen besser als die interne Suchfunktion von Python in Listen, weil dies auch eine vollständige Suche in C ist. Am Besten schneidet allerdings der Suchbaum ab, da er ja immer sortiert ist und somit den Binary-Search-Algorithmus ohne Sortieren ausführen kann. Nur die Suche im Set ist noch einmal um eine Größenordnung besser.
-
-%%/book
-
-%%slides
-
-
 ## Algorithmen
 %%def Algorithmen
 Algorithmen sind wohldefinierte, eindeutige Handlungsanweisungen.
@@ -918,21 +51,9 @@ Algorithmen sind wohldefinierte, eindeutige Handlungsanweisungen.
 %%slides
 
 
-## Beispiel für Teile und Herrsche – Binäre Suche
+## Ablauf
 
-%%col 50 50
-
-- Finde den Index einer Zahl in einer Liste (z. B. um zu prüfen ob die Zahl in einer Menge (set) vorkommt)
-
-- Anstatt die ganze Liste zu durchsuchen, teil man die Liste rekursiv in zwei Teile und schaut ob die gesuchte Zahl gleich (gefunden), größer (rechts) oder kleiner (links) in der Liste ist
-
-    ![](images/05c_Algorithmen/bin_suche.svg){class="midjourney"}
-
-%%sep
-
-![](images/05c_Algorithmen/bin_suche.png){class="midjourney"}
-
-%%/col
+![](images/partA_6.svg)
 
 %%/slides
 
@@ -1084,6 +205,94 @@ baum = (12, [
 
 %%/slides
 
+%%book
+
+
+## Komplexe Datenstruktur - Bäume
+
+%%/book
+
+%%book
+
+Eine weitere wichtige Komplexe (zusammengesetzte) Datenstruktur sind Bäume. Sie werden insbesondere für effizientes Suchen benutzt.
+
+%%/book
+
+%%book
+
+Wir definieren den folgenden Baum
+
+%%/book
+
+%%book
+
+![](https://mermaid.ink/svg/pako:eNptj8EKgzAQRH8l7GkDekhE0Rx68g_aYy7BrFUwKjY5FPHfm2pbKLinmXnDsrtCM1kCBffFzB271XpkcYREFJJzlqYXxgrEgvODHHrPM8TsJK4Qq2_8v0eU0ZU_9nE7E3k0-SmSAlEKziEBR4szvY3nru-iBt-RIw0qSkutCYPXoMctVk3w0_U5NqD8EiiBMFvjqe5NfNSBas3woO0FhYI-BA)
+
+%%/book
+
+%%book
+
+Wir stellen den Baum hier als Dictionaries dar, bei denen wir den Wert semantisch als `wert` und die Unterbäume mit `links` und `rechts` bezeichnen. Durch Einrücken wird die Struktur sichtbarer. Weggelassene Felder sind automatisch `None`.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+baum = {
+        "wert": 12,
+        "links":{
+                "wert": 6,
+                "links": {"wert":  3},
+                "rechts":{"wert":  9}
+        },
+        "rechts":{
+                "wert": 18,
+                "links": {"wert": 15},
+                "rechts":{"wert": 21}
+        }
+}
+```
+
+%%/book
+
+%%book
+
+Wenn wir den Baum durchlaufen (traversen) wollen, brauchen wir eine rekursive Funktion. Sie lassen sich nicht in Loops umwandeln. Die rekursiven Funktionen arbeiten dabei auf dem angegebenen Knoten und rufen sich dann selbst mit dem entsprechenden Teilbaum der Kinder auf.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def traverse(tree):
+	wert=tree["wert"]                 # der aktuelle Wert
+	print(wert)                       # gebe den aktuellen Wert aus
+	if "links" in tree:               # wenn der unterbaum links definiert ist
+		traverse(tree["links"])       # rufe die Funktion rekursiv auf
+	if "rechts" in tree:              # wenn der unterbaum rechts definiert ist
+		traverse(tree["rechts"])      # rufe die Funktion rekursiv auf
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+traverse(baum)
+```
+
+%%/book
+
+%%book
+
+Wenn wir den Baum rekursiv durchlaufen (traversen), dann sehen wir, dass wir den Baum von oben nach unten, links vor rechts durchlaufen. Wir fangen also beim Wurzelknoten 12 an, und gehen dann links tiefer zur 6 von dort links tiefer zur 3, dann rechts zur l, weil kein tieferes Element existiert, u.s.w.
+
+%%/book
+
 %%slides
 
 
@@ -1109,6 +318,13 @@ traverse(baum)
 
 %%/slides
 
+%%book
+
+
+## Sortier-Algorithmen
+
+%%/book
+
 %%slides
 
 
@@ -1120,6 +336,52 @@ traverse(baum)
 - Aber: Gutes Beispiel für strukturiertes Informatik-Problem
 
 %%/slides
+
+%%book
+
+### Bubble Sort
+
+%%/book
+
+%%book
+
+Das Sortieren von Elementen in einer Liste ist eine übliche Aufgabe beim Programmieren. Hierfür gibt es einige Standard-Algorithmen, die man kennen sollte.
+
+Bubble Sort ist einer der einfachsten Sortieralgorithmen. Hierbei wird jedes Element der Liste durchlaufen und mit dem nächsten Element verglichen. Ist das zweite Element kleiner als das erste wird die Position getauscht. Die Liste wird so lange wieder und wieder durchlaufen bis dieser Fall nicht mehr auftritt.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def bubbleSort(numbers):
+    for i in range(len(numbers)-1):
+        for j in range(0, len(numbers)-i-1):
+            if numbers[j] > numbers[j + 1] :
+                numbers[j], numbers[j + 1] = numbers[j + 1], numbers[j]
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
+
+bubbleSort(zahlenfolge)
+
+zahlenfolge
+```
+
+%%/book
+
+%%book
+
+Es ist zu beachten, das Bubble Sort die Liste direkt modifiziert, also die vorherige Reihenfolge geändert wird.
+
+%%/book
 
 %%slides
 
@@ -1140,6 +402,62 @@ def bubbleSort(numbers):
 
 %%/slides
 
+%%book
+
+### QuickSort
+
+%%/book
+
+%%book
+
+QuickSort ist ein Divide-and-Conquer-Algorithmus. Er wählt ein Element aus der Liste als zentrales Element und erzeugt dann jeweils eine Liste der Elemente die Kleiner sind als das zentrale Element und eine die Größer sind. Diese zwei Teillisten werden dann wieder mit QuickSort sortiert, bis die Teillisten die Größe 1 erreichen. So wird das Sortierproblem sukzessive immer kleiner.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def quickSort(elements):
+    less = []
+    equal = []
+    greater = []
+
+    if len(elements) > 1:
+        pivot = elements[len(elements) % 2]
+        for x in elements:
+            if x < pivot:
+                less.append(x)
+            elif x == pivot:
+                equal.append(x)
+            elif x > pivot:
+                greater.append(x)
+        return quickSort(less) + equal + quickSort(greater)
+    else:  # Falls nur ein oder kein Element in der list ist
+        return elements
+```
+
+%%/book
+
+%%book
+
+Das Ergebnis ist eine sortierte Liste welche neu ist und zugewiesen werden muss.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
+
+zahlenfolge=quickSort(zahlenfolge)
+
+zahlenfolge
+```
+
+%%/book
+
 %%slides
 
 
@@ -1155,6 +473,194 @@ Das Grundprinzip ist das Aufteilen der Liste:
 
 %%/slides
 
+%%book
+
+### Insertion Sort
+
+%%/book
+
+%%book
+
+Ein weiterer Algorithmus zum Sortieren ist Insertion-Sort. Er basiert auf der menschlichen Strategie Karten zu sortieren, indem wir die Werte dort einfügen, wo sie am besten passen.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def insertion_sort(arr):
+    for i in range(1, len(arr)): # Iteriere durch alle elemente
+        key = arr[i]
+        # Bewege alle elemente von arr[0..i-1], die größer als
+        # das aktuelle element key eine position vor die aktuelle
+        j = i-1
+        while j >= 0 and key < arr[j] :
+            arr[j+1] = arr[j]
+            j -= 1
+        arr[j+1] = key
+```
+
+%%/book
+
+%%book
+
+Das Ergebnis ist die korrekt sortierte Liste. Auch wieder direkt modifiziert.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
+
+insertion_sort(zahlenfolge)
+
+zahlenfolge
+```
+
+%%/book
+
+%%book
+
+### Python Standardfunktion `sorted`
+
+%%/book
+
+%%book
+
+Die Lösung im Programmieralltag ist die in Python eingebaute Funktion `sorted()`. Hier wird die Liste nicht modifiziert und muss neu zugewiesen werden.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
+
+zahlenfolge=sorted(zahlenfolge)
+
+zahlenfolge
+```
+
+%%/book
+
+%%book
+
+### Performancevergleich der Sortierfunktionen
+
+%%/book
+
+%%book
+
+Im Performancevergleich der Funktionen schneidet Bubble-Sort schlechter ab als Insertion-Sort. Die eingebaute Funktion `sorted()` ist deutlich schneller als beide. Sie nutzt den Timsort-Algorithmus (eine Variante von insertion_sort) und ist in C implementiert.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import timeit
+timeit.timeit(lambda: bubbleSort([12, 6, 3, 9, 18, 15, 21]), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: quickSort([12, 6, 3, 9, 18, 15, 21]), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: insertion_sort([12, 6, 3, 9, 18, 15, 21]), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: sorted([12, 6, 3, 9, 18, 15, 21]), number=1000)
+```
+
+%%/book
+
+%%book
+
+Dieses Ergebnis bestätigt sich, wenn wir ein deutlich größere Sequenz sortieren. Wir erzeugen eine große Zahlenfolge mit 2.500 Elementen mit `range()` und kehren diese mit `reverse()` in der Reihenfolge um.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zahlenfolge_gross = list(range(100000))
+zahlenfolge_gross.reverse()
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: bubbleSort(zahlenfolge_gross), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: quickSort(zahlenfolge_gross), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: insertion_sort(zahlenfolge_gross), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: sorted(zahlenfolge_gross), number=1000)
+```
+
+%%/book
+
+%%book
+
+Hier zeigt sich erneut, dass BubbleSort am schlechtesten abscheidet aufgrund der vielen Vergleiche. Quick Sort schneidet besser ab, weil es das Problem in kleinere Probleme unterteilt. Insertion Sort ist allerdings immer noch performanter. Am schnellsten löst das Problem die eingebaute `sorted()` Funktion, welche auch auf dem Insertion Sort Algorithmus basiert.
+
+%%/book
+
+%%book
+
+
+## Suchen von Elementen in Listen
+
+%%/book
+
 %%slides
 
 
@@ -1165,6 +671,65 @@ Das Grundprinzip ist das Aufteilen der Liste:
 - Spätere Vorlesungen: In echten Anwendungen haben Datensätze oft mehr als nur einen Wert (Tabellen anstatt Listen), hier arbeitet man meist mit Indexierung.
 
 %%/slides
+
+%%book
+
+### Vollständige Suche
+
+%%/book
+
+%%book
+
+Auch das Suchen und Finden von Elementen in Listen ist ein tägliche Aufgabe. Auch hier gibt es typische Algorithmen.
+
+Der naive Ansatz ist die vollständige Suche, indem wir in einer For-Each-Schleife durch alle Elemente in einer Liste iterieren, um zu sehen ob das Element irgendwo zu finden ist.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def contains(list, x):
+	for l in list:
+		if(l == x):
+			return True
+	return False
+```
+
+%%/book
+
+%%book
+
+Suchen wir als Beispiel ob 15 in unserer unsortierten Zahlenfolge `[12, 6, 3, 9, 18, 15, 21]`. Es ist das vorletzte Element in der Liste, also müssen wir durch alle vorherigen Elemente iterieren.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
+
+contains(zahlenfolge, 15)
+```
+
+%%/book
+
+%%book
+
+Wenn wir nach 1 suchen, wird korrekt zurückgegeben, dass die Zahl nicht in der Liste ist. Hierfür haben wir aber alle Elemente aus der Liste mit 1 vergleichen müssen.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+contains(zahlenfolge, 1)
+```
+
+%%/book
 
 %%slides
 
@@ -1183,6 +748,98 @@ def contains(list, x):
 
 %%/slides
 
+%%book
+
+### Suchen mit Binary-Search
+
+%%/book
+
+%%book
+
+Binary-Search ist ein Divide-and-Conquer-Algorithmus zum Suchen in einer *sortierten* Liste. Er greift aus der Liste immer das mittlere Element heraus und entscheidet, ob das gesuchte Element kleiner oder größer ist und fäht dann mit der Teilliste rechts oder links fort. Dadurch kann es weite Teile der Liste ignorieren und die Anzahl der Vergleiche minimieren.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def binarySearch_sub(arr, suchwert, low, high):
+    while low <= high: # Wiederhole bis low und high sich treffen
+        mid = low + (high - low)//2  # ganzzahlige division durch zwei
+        # Wenn gefunden, so gebe den index aus
+        if arr[mid] == suchwert:
+            return mid
+        # Wenn das element kleiner als der suchwert ist,
+        # dann kann es nur im linken teilarray sein
+        elif arr[mid] > suchwert:
+            return binarySearch_sub(arr, suchwert, low, mid - 1)
+        # Sonst ist das element größer als der suchwert und
+        # dieser muss im rechten teilarray sein
+        else:
+            return binarySearch_sub(arr,  suchwert, mid + 1, high)
+    # Wenn gar nichts gefunden wurde gebe die Position -1 aus
+    return -1
+
+def binarySearch(arr, suchwert):
+    # Da Binary-Search eine sortierte Zahlenfolge braucht. Sortiert man die Zahlen vorher.
+    arr_sorted = sorted(arr)
+    return binarySearch_sub(arr_sorted, suchwert, 0, len(arr_sorted))
+```
+
+%%/book
+
+%%book
+
+Die Rückgabewert einer Binary-Search ist üblicherweise der Index der gefundenen Zahl
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+binarySearch(zahlenfolge, 15)
+```
+
+%%/book
+
+%%book
+
+Wenn gar nichts gefunden wurde, wird die Position -1 ausgegeben
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+binarySearch(zahlenfolge, 1)
+```
+
+%%/book
+
+%%slides
+
+
+## Beispiel für Teile und Herrsche – Binäre Suche
+
+%%col 50 50
+
+- Finde den Index einer Zahl in einer Liste (z. B. um zu prüfen ob die Zahl in einer Menge (set) vorkommt)
+
+- Anstatt die ganze Liste zu durchsuchen, teil man die Liste rekursiv in zwei Teile und schaut ob die gesuchte Zahl gleich (gefunden), größer (rechts) oder kleiner (links) in der Liste ist
+
+    ![](images/05c_Algorithmen/bin_suche.svg){class="midjourney"}
+
+%%sep
+
+![](images/05c_Algorithmen/bin_suche.png){class="midjourney"}
+
+%%/col
+
+%%/slides
+
 %%slides
 
 
@@ -1197,6 +854,54 @@ Das optimale Verfahren: *Binäre Suche*
 - Implementation meistens über Rekursion
 
 %%/slides
+
+%%book
+
+### Suchen mit binären Suchbäumen
+
+%%/book
+
+%%book
+
+Der am Anfang aufgestellte Datenstruktur Baum stellt einen binären Suchbaum dar und kann zur Suche verwendet werden. Wir nutzen hierbei aus, dass dieser *bereits sortiert* ist. Dann können wir eine neue Suchfunktion definieren, welche konzeptionell dem Binary Search entspricht.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def suchBaum(tree, suchwert):
+	wert=tree["wert"]       # der aktuelle Wert
+	if wert == suchwert:
+		return True
+	if suchwert < wert and "links" in tree:
+		return suchBaum(tree["links"], suchwert)
+	elif suchwert > wert and "rechts" in tree:
+		return suchBaum(tree["rechts"], suchwert)
+	else:
+		return False
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+suchBaum(baum, 15)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+suchBaum(baum, 1)
+```
+
+%%/book
 
 %%slides
 
@@ -1220,6 +925,79 @@ Strategien um einen unsortierten Baum zu durchsuchen:
 - *Wie sortiert man einen Baum?*
 
 %%/slides
+
+%%book
+
+### Binäre Suchbäume erstellen
+
+%%/book
+
+%%book
+
+Die Suche in einem binären Suchbaum ist an sich nicht schneller als beim Binary-Search in einer sortierten Liste. Allerdings ist das Sortieren der Liste sehr aufwendig. Auch das Einfügen neuer Elemente ist sehr langsam da hierfür erst ein Binary-Search durchgeführt werden muss, um die Einfügeposition zu finden und dann muss die komplette Liste (sofern als Array implementiert) kopiert werden, weil sie ja ein Element größer wird. Das kostet insbesondere bei sehr großen Listen mit über 10.000 Elementen sehr viel Performance.
+
+Bei der Nutzung eines binären Suchbaums kann man hingegen auch beim Einfügen ausnutzen, dass er immer sortiert ist. Dadurch nutzen wir auch beim Einfügen den Binary-Search Algorithmus. Insbesondere bei wachsenden Datenstrukturen die sortiert vorliegen müssen, macht das Suchbäume äußerst effektiv. Zum Einfügen können wir die Funktion `suchBaum()` so umschreiben, dass sie den Wert immer als neuen Blattknoten einfügt.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def erweitereBaum(tree, neuer_wert):
+    wert=tree["wert"]       # der aktuelle Wert
+    if wert == neuer_wert:
+        return #  wir brechen ab da der Wert schon enthalten ist und nicht hinzugefügt werden muss
+    elif neuer_wert < wert:
+        if "links" not in tree: # wenn es noch kein linken unterbaum gibt
+            tree["links"]={"wert":neuer_wert} # füge einen neuen Knoten links unter dem aktuellen hinzu
+        else:
+            return erweitereBaum(tree["links"], neuer_wert)
+    else: # sonst suche weiter nach Einfügeposition
+        if "rechts" not in tree: # wenn es noch kein rechten unterbaum gibt
+            tree["rechts"]={"wert":neuer_wert} # füge einen neuen Knoten rechts unter dem aktuellen hinzu
+        else:
+            return erweitereBaum(tree["rechts"], neuer_wert)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+baum2 = {"wert": 12} # Wir initialisieren den Baum mit 12
+for wert in [12, 6, 3, 9, 18, 15, 21]: # wir fügen die Werte des Suchbaums am Anfang hinzu
+    erweitereBaum(baum2, wert)
+```
+
+%%/book
+
+%%book
+
+Es gilt zu beachten, dass der Baum direkt modifiziert wird.
+
+Um zu prüfen ob der neue Baum genauso aussieht wie der am Anfang dargestellte Baum `baum` geben wir beide mit `print()` aus.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+print(baum)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+print(baum2)
+```
+
+%%/book
 
 %%slides
 
@@ -1318,6 +1096,229 @@ Strategien um einen unsortierten Baum zu durchsuchen:
 %%/col
 
 %%/slides
+
+%%book
+
+### Suchen mit Python in Listen
+
+%%/book
+
+%%book
+
+Im Alltag kann die in Python eingebaute Suche mit `15 in zahlenfolge` genutzt werden.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+15 in zahlenfolge
+```
+
+%%/book
+
+%%book
+
+### Suchen in Python mit Sets
+
+%%/book
+
+%%book
+
+Insbesondere bei großen Listen (>> 100) lohnt sich die Umwandlung in ein Set. Diese sind optimiert für die Abfrage, ob ein Element bereits enthalten ist. Hierfür werden Hashing-Algorithmen  und meist Sortierbäume verwendet, welche erlauben nur einen Teil der Elemente zu durchsuchen.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zahlenset = set(zahlenfolge)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+15 in zahlenset
+```
+
+%%/book
+
+%%book
+
+### Performancevergleich der Suchfunktionen
+
+%%/book
+
+%%book
+
+Im Performancevergleich siegt wieder die eingebaute Suche mit `15 in zahlenfolge`. Die Performance der vollständigen Suche mit `contains` ist besser als die Suche mit Binary-Search oder die im Suchbaum. Wenn auch geschlagen von der internen Suche in Listen und in Sets.
+
+Das ist dem kleinen Beispiel gescholten und liegt an dem zusätzlichen Overhead durch die Datenstruktur und den rekursiven Funktionsaufruf. Insbesondere bei sehr großen Listen sind Suchbäume und Binary-Search deutlich effektiver als die vollständige Suche.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: contains(zahlenfolge, 15), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: binarySearch(zahlenfolge, 15), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: suchBaum(baum, 15), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: 15 in zahlenfolge, number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: 15 in zahlenset, number=1000)
+```
+
+%%/book
+
+%%book
+
+Vergleichen wir noch einmal ein sehr großes Beispiel mit 100.000 Elementen. Wir erzeugen eine sehr große Zahlenfolge mit `range()` und kehren diese mit `reverse()` in der Reihenfolge um.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zahlenfolge_gross = list(range(100000))
+zahlenfolge_gross.reverse()
+```
+
+%%/book
+
+%%book
+
+Wir erstellen das set der Zahlenfolge.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zahlenset_gross = set(zahlenfolge_gross)
+```
+
+%%/book
+
+%%book
+
+Um den Suchbaum zu erstellen ist es nicht sehr effizient die Elemente in sortierter Ordnung hinzuzufügen oder in umgekehrter Reihenfolge wie in diesem Fall. Das würde dazu führen, dass der Baum unbalanciert  ist und einfach nur eine verkettete Liste darstellt. Um sicher zu stellen, dass der Baum gut balanziert ist, fügen wir die Elemente in optimaler Ordnung hinzu, welches die gleiche Ordnung ist die ein Binary-Search Algorithmus durchläuft. Es gibt zusätzliche Suchbäume, die sich automatisch ausbalanzieren, das sind sogenannte [balanzierte Suchbäume](https://de.wikipedia.org/wiki/Balancierter_Baum). Sie führen aber für die hier behandelten Beispiel zu weit.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+
+
+# Um sicher zu stellen, dass der Baum gut balanziert ist
+
+
+# initialisieren den Baum in der Hälfte
+
+
+# und fügen dann die Teilbäume in der Reihenfolge der binären suche hinzu
+baum_gross = {"wert": zahlenfolge_gross[len(zahlenfolge_gross)//2]}
+step = len(zahlenfolge_gross)//4
+while step>0:
+    idx=step
+    while idx < len(zahlenfolge_gross):
+        erweitereBaum(baum_gross, zahlenfolge_gross[idx])
+        idx=idx+step
+    step = step // 2
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: contains(zahlenfolge_gross, 15), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: binarySearch(zahlenfolge_gross, 15), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: suchBaum(baum_gross, 15), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: 15 in zahlenfolge_gross, number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: 15 in zahlenset_gross, number=1000)
+```
+
+%%/book
+
+%%book
+
+Das Ergebnis sieht hier ganz anders aus. Jetzt scheidet `contains()` deutlich schlechter ab und Binay-Search ist jetzt um Größenordnungen besser. Sogar in einigen Durchläufen besser als die interne Suchfunktion von Python in Listen, weil dies auch eine vollständige Suche in C ist. Am Besten schneidet allerdings der Suchbaum ab, da er ja immer sortiert ist und somit den Binary-Search-Algorithmus ohne Sortieren ausführen kann. Nur die Suche im Set ist noch einmal um eine Größenordnung besser.
+
+%%/book
 
 %%slides
 
