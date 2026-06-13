@@ -16,13 +16,6 @@ resources:
 
 %%book
 
-
-# Software Design
-
-%%/book
-
-%%book
-
 ![](images/05a_Softwareentwurf/mj_title_band.jpg)
 
 > Architecture is about the important stuff — whatever that is.
@@ -101,6 +94,13 @@ Each object has:
 %%book
 
 
+# Software Design
+
+%%/book
+
+%%book
+
+
 ## Object-Oriented Software Design with UML
 
 %%/book
@@ -118,6 +118,74 @@ In design, one models how:
 - and how they interact dynamically (behavior).
 
 %%/book
+
+%%slides
+
+
+## Modeling with Objects
+
+- Our perception and our thinking rely on recognizing objects. This requires that we can separate an object from other objects (e.g., a chair and a table).
+- Replicating this perception and this understanding of the world in a computer is called *Modeling*.
+- Since our perception is based on objects, it is natural to use objects for modeling as well.
+- The objects in the world interact; we must also model this behavior.
+%%def Model
+A model is an abstract, simplified representation of a system (usually from reality).
+%%/def
+
+%%/slides
+
+%%slides
+
+
+## Lecture Hall Question
+%%col 40 60
+
+*What do these elements have in common?*
+
+%%sep
+
+![](images/05a_Softwareentwurf/elemente.svg){class="midjourney"}
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Lecture Hall Question
+%%col 40 60
+
+- These are all *geometric objects*
+- They all consist of *points* that are connected by *lines*
+- We can leverage this in modeling and define classes so that they exploit the *commonality*
+
+%%sep
+
+![](images/05a_Softwareentwurf/elemente.svg){class="midjourney"}
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Object-Oriented Software Design
+%%def Object-Oriented Software Design
+In object-oriented software design, a program is designed to consist solely of *objects*.
+%%/def
+
+- The software design is closely mirrored by the approach engineers use when designing plans.
+- The usual modeling language is *UML diagrams*.
+- One models in the design how:
+    - objects in the form of *classes* are defined,
+    - which *attributes and methods* they possess,
+    - how these classes build upon one another (*inheritance*),
+    - as well as how they stand in static relationships with each other (*references*)
+    - and how they interact dynamically (*behavior*)
+
+%%/slides
 
 %%book
 
@@ -137,6 +205,20 @@ A class here is only a rectangle with three compartments. In the first compartme
 ![](https://mermaid.ink/svg/pako:eNpdjk0OAiEMRq9CutI4J2DtAUzcGTYNFCWBMoGSOJnM3UVGXdhV30t_vhVsdgQabMRazwHvBZNh1WsYdcmBZd2NUicfM4p6_vHyYxeqIFs6jL3j7jeYIFFJGFz_NI4ZkAclMqB768hji2LA8HsUm-Trwha0lEYTtNmh0CcbaI-xdjsj33L-8vYCAldBOA)
 
 %%/book
+
+%%slides
+
+
+## UML Class Diagram
+
+- The *most commonly used diagram* in object-oriented modeling
+
+- In a class diagram, the following are modeled:
+  - Classes with: attributes, methods
+  - Relationships
+  - Hierarchies and inheritances
+
+%%/slides
 
 %%book
 
@@ -164,7 +246,7 @@ A very important task in UML is visualizing dependencies between classes in the 
 
 %%book
 
-The previously defined class `Line` includes the `start` and `end` points. This represents an *aggregation* in UML, because the points belong to the line, but can also exist independently (we don’t need a line to define a point). The multiplicity here is that for each instance of `Line` there are two instances of the `Point` class.
+The previously defined class `Line` includes the `start` and `end` points. This represents an *aggregation* in UML, because the points belong to the line, but can also exist independently (we don't need a line to define a point). The multiplicity here is that for each instance of `Line` there are two instances of the `Point` class.
 
 %%/book
 
@@ -173,6 +255,57 @@ The previously defined class `Line` includes the `start` and `end` points. This 
 ![](https://mermaid.ink/svg/pako:eNpdT0EKwkAM_ErISbEe9Lhnjx4Eb7KX0E3rwjYrbQoW6d8NqxY1p5lhZsI8sM6B0WGdaBgOkdqeOi9gVxQ45Sj6eCkAmyZlUrj_8WnhIQ5KUvOq5NYvff4uPEZhWAotklhava5-vcXlcecR8nZraG-odIIDe9FrBSwBK-y47ygGm1BKPeqVO_boDAZuaEzq0ctsVho1nyep0Wk_coXjLZDyezS6htJg6o3kkvOHz0_cjFoV)
 
 %%/book
+
+%%slides
+
+
+## Referenzen
+
+%%col 50 50
+
+- In programs, objects are usually related to one another. For example, a line consists of two points.
+- This relationship between two object classes is called a *reference*.
+- References in Python are created as attributes whose type is that of the other object.
+
+%%sep
+
+```python
+class Line:
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+
+    def length(self):
+        return self.start.distance(self.end)
+```
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Class Diagram - References
+
+%%col 50 50
+
+- *References* are indicated in UML with lines between objects. The type of line and the arrow indicate the type of reference.
+
+- In UML, references are distinguished by the type of *ownership*:
+  - *Aggregated* - an object is part of another and can exist without it
+  - *Composition* - cannot exist without this
+  - *Association* - completely independent
+
+- *Numbers* on the references indicate the *multiplicity*, i.e., how many objects are involved in this relation.
+
+%%sep
+
+![](https://mermaid.ink/svg/pako:eNplUctugzAQ_BVrT2lLkAFjwNf22Eo9V75YeHlIYEfGSEkR_14H0ipt5-LZ0c7Oar1AbTWCgHpQ0_TSq9apURoSsCnktTdIll254mlA0_ru8LBLqzT33e-2N_5XezNY5cn5n3K5U3Q_eWVqPGz2v5O3DSQkEsjj8RhYGtgeJEgwOh8RNBoiaF2vQXg3YwQjulFdS9i2keA7HFGCCFRjo-bBS5BmDbaTMh_Wjt9OZ-e2A9GoYQrVfNLK4-0wP6oLgeie7Ww8iIzSbQiIBc4gkozHScYoKxlPqoRRHsEFBKNxyqqq4kmZZzQtMrZG8Lnl0rgschqQcp7nrEqLCFD33rq32-dcn_ULxVV9zA)
+
+%%/col
+
+%%/slides
 
 %%book
 
@@ -226,6 +359,111 @@ Each instance of these special classes inherits the functions `area()` and `__st
 Along the inheritance hierarchy, one could now define additional attributes and methods that can perform specific calculations or, for example, test whether the points, lines, and angles meet the corresponding conditions. However, this is outside the scope of this example.
 
 %%/book
+
+%%slides
+
+
+## Inheritance
+
+- Similar objects often share similar properties and methods. For example, all geometric elements consist of points that are connected by lines.
+- To avoid having to redefine these attributes and methods each time, and potentially make mistakes in the process, there is *inheritance* in OOP.
+- OOP allows defining specialized *subclasses*, or generalized *superclasses*.
+- The subclass (specialized class) possesses the methods and attributes of the generalized superclass (base class).
+- Also called *inheritance*, inspired by genetics.
+
+%%/slides
+
+%%slides
+
+
+## Example Inheritance
+
+%%col 17 17 50 50
+
+:::
+
+%%sep
+
+:::
+
+%%sep
+
+- *UML (Unified Modeling Language)* is an ISO standard for describing software designs
+- It is used for the design, procurement, implementation, and documentation of:
+    - functionalities
+    - structures
+    - business processes
+    - user interactions
+
+%%sep
+
+The standard comprises 13 diagram types, the most common:
+
+- *Class diagrams* (For class and data structures)
+- *Activity diagrams* (For general processes and algorithms)
+- *Sequence diagrams* (For interactions)
+- *Use-case diagrams* (For users and use cases)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Class Diagram – Inheritance
+
+%%col 50 50
+
+- *Inheritance* is drawn in UML by a reference with a *filled triangle "▲"* at the superclass.
+
+- To illustrate, for example, that `Triangle`, `Tetragon`, and `Pentagon` are subclasses of the Polygon, we can draw:
+
+%%sep
+
+![](https://mermaid.ink/svg/pako:eNptkcFqwzAMhl8l6LSxNNiJmzo-7LDtOtihp2EYplbTQGIXxYF1Xd99SZOUZUwILH3SLxn7DDtvERTsatO2L5UpyTTaRb3ZinAXKu-ip-1Irj3Rm69PpXcjmhIVPRhCc3f_l2r90XsbaAyGht-ztlQZV9a4YBjI3BZMO9GFkY101kWr1ffj8kaz_J_SPGVRghhKqiyoQB3G0CA1ZkjhPIg0hAM2qEH1ocW96eqgQbtLLzsa9-59MyvJd-UB1N7UbZ91R2sCTg96o4TOIj37zgVQacGvQ0Cd4RMUz_KEZ4IJKXJecMHyGE6gBEtSURRFzuU6Y-kmE5cYvq57WSI3a9Ybz6TMWC5lDGir4Ol1-tThuPwAlpuYcw)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Class Diagram - Complete Example
+
+%%col 17 83
+
+- *Klassendiagramme* can get quite large fairly quickly
+
+- They are very well suited to represent the *(data) model*
+
+%%sep
+
+![](https://mermaid.ink/svg/pako:eNp9VF1vmzAU_SvWlSp1G40guPlAe9m6PVTbtKjb04QUuXADloxNbSM1zfLfazBEkEb1C9f3nnuOfWxzgEzlCAlkghnzjbNCsyqVxI2rK_KVGSQFqgqt3pMOgsZXuwnZKC4tOfhUOz7thGKWPL_J7EeZnBvLZIbXXfsHXzmmcsz8k0ucEAuUhS2vL6M3SuwLJScNTCMb4F1iuzVWb7dvKNxG71RVK8MtdxwaBWsDU_K63-xAn0KUAlE3Ny6KXeS3n5C6_fbYbuEe-LEDzkdAt29tA4IyH4nfyxI17xwhJUfNdFbuyU6rahCeruLzf8f7V3MmC4GXSu602OWuDUrrS744sPjqn4w5l3H7wIvSvgf4_Wgbg-8hvmSNxUFlwutx90aZDAWasdiU_hw4Fp3InAN77RZ3lvTI708Nd0fsjBYnH3rLBm9ZjS-XKhvmmgQK5Z9J7_A46XEPmNnR8ZymvUlPjbucl7V_8GHtbdSzlap6bAwEUGieQ2J1gwFUqCvWTqG79SnYEitMIXFhjjvWCJtCKo-urWbyn1LV0KlVU5SQ7JgwbtbUuTOjf_qnrHZ3FPWdaqSFJA5pRwLJAZ4hieLFLIppSFd0Ea0jGi4C2ENCw9mcrtfrRbS6jcP5MqbHAF463XC2Wt6GbkSrJZ1HlMYBYM6t0r_630_7Ob4C5I5vIg)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Application Example – BIM (Building Information Models)
+
+%%col 60 40
+
+- Construction drawings are nowadays stored as *IFC (Industry Foundation Classes)*
+- *IFC* is an object-oriented model, with inheritance, specialization, generalization, and polymorphism
+- It is, among other things, documented in *UML*
+
+%%sep
+
+![Polygon Classes](images/05a_Softwareentwurf/ifc_classes.jpg)
+
+%%/col
+
+%%/slides
 
 %%book
 
@@ -338,244 +576,6 @@ In engineering practice, hybrid approaches are often sensible. A tunnel project 
 %%slides
 
 
-## Modeling with Objects
-
-- Our perception and our thinking rely on recognizing objects. This requires that we can separate an object from other objects (e.g., a chair and a table).
-- Replicating this perception and this understanding of the world in a computer is called *Modeling*.
-- Since our perception is based on objects, it is natural to use objects for modeling as well.
-- The objects in the world interact; we must also model this behavior.
-%%def Model
-A model is an abstract, simplified representation of a system (usually from reality).
-%%/def
-
-%%/slides
-
-%%slides
-
-
-## Lecture Hall Question
-%%col 40 60
-
-*What do these elements have in common?*
-
-%%sep
-
-![](images/05a_Softwareentwurf/elemente.svg){class="midjourney"}
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Lecture Hall Question
-%%col 40 60
-
-- These are all *geometric objects*
-- They all consist of *points* that are connected by *lines*
-- We can leverage this in modeling and define classes so that they exploit the *commonality*
-
-%%sep
-
-![](images/05a_Softwareentwurf/elemente.svg){class="midjourney"}
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Object-Oriented Software Design
-%%def Object-Oriented Software Design
-In object-oriented software design, a program is designed to consist solely of *objects*.
-%%/def
-
-- The software design is closely mirrored by the approach engineers use when designing plans.
-- The usual modeling language is *UML diagrams*.
-- One models in the design how:
-    - objects in the form of *classes* are defined,
-    - which *attributes and methods* they possess,
-    - how these classes build upon one another (*inheritance*),
-    - as well as how they stand in static relationships with each other (*references*)
-    - and how they interact dynamically (*behavior*)
-
-%%/slides
-
-%%slides
-
-
-## Referenzen
-
-%%col 50 50
-
-- In programs, objects are usually related to one another. For example, a line consists of two points.
-- This relationship between two object classes is called a *reference*.
-- References in Python are created as attributes whose type is that of the other object.
-
-%%sep
-
-```python
-class Line:
-    def __init__(self, start, end):
-        self.start = start
-        self.end = end
-
-    def length(self):
-        return self.start.distance(self.end)
-```
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Inheritance
-
-- Similar objects often share similar properties and methods. For example, all geometric elements consist of points that are connected by lines.
-- To avoid having to redefine these attributes and methods each time, and potentially make mistakes in the process, there is *inheritance* in OOP.
-- OOP allows defining specialized *subclasses*, or generalized *superclasses*.
-- The subclass (specialized class) possesses the methods and attributes of the generalized superclass (base class).
-- Also called *inheritance*, inspired by genetics.
-
-%%/slides
-
-%%slides
-
-
-## Example Inheritance
-
-%%col 17 17 50 50
-
-:::
-
-%%sep
-
-:::
-
-%%sep
-
-- *UML (Unified Modeling Language)* is an ISO standard for describing software designs
-- It is used for the design, procurement, implementation, and documentation of:
-    - functionalities
-    - structures
-    - business processes
-    - user interactions
-
-%%sep
-
-The standard comprises 13 diagram types, the most common:
-
-- *Class diagrams* (For class and data structures)
-- *Activity diagrams* (For general processes and algorithms)
-- *Sequence diagrams* (For interactions)
-- *Use-case diagrams* (For users and use cases)
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## UML Class Diagram
-
-- The *most commonly used diagram* in object-oriented modeling
-
-- In a class diagram, the following are modeled:
-  - Classes with: attributes, methods
-  - Relationships
-  - Hierarchies and inheritances
-
-%%/slides
-
-%%slides
-
-
-## Class Diagram – Inheritance
-
-%%col 50 50
-
-- *Inheritance* is drawn in UML by a reference with a *filled triangle "▲"* at the superclass.
-
-- To illustrate, for example, that `Triangle`, `Tetragon`, and `Pentagon` are subclasses of the Polygon, we can draw:
-
-%%sep
-
-![](https://mermaid.ink/svg/pako:eNptkcFqwzAMhl8l6LSxNNiJmzo-7LDtOtihp2EYplbTQGIXxYF1Xd99SZOUZUwILH3SLxn7DDtvERTsatO2L5UpyTTaRb3ZinAXKu-ip-1Irj3Rm69PpXcjmhIVPRhCc3f_l2r90XsbaAyGht-ztlQZV9a4YBjI3BZMO9GFkY101kWr1ffj8kaz_J_SPGVRghhKqiyoQB3G0CA1ZkjhPIg0hAM2qEH1ocW96eqgQbtLLzsa9-59MyvJd-UB1N7UbZ91R2sCTg96o4TOIj37zgVQacGvQ0Cd4RMUz_KEZ4IJKXJecMHyGE6gBEtSURRFzuU6Y-kmE5cYvq57WSI3a9Ybz6TMWC5lDGir4Ol1-tThuPwAlpuYcw)
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Class Diagram - References
-
-%%col 50 50
-
-- *References* are indicated in UML with lines between objects. The type of line and the arrow indicate the type of reference.
-
-- In UML, references are distinguished by the type of *ownership*:
-  - *Aggregated* - an object is part of another and can exist without it
-  - *Composition* - cannot exist without this
-  - *Association* - completely independent
-
-- *Numbers* on the references indicate the *multiplicity*, i.e., how many objects are involved in this relation.
-
-%%sep
-
-![](https://mermaid.ink/svg/pako:eNplUctugzAQ_BVrT2lLkAFjwNf22Eo9V75YeHlIYEfGSEkR_14H0ipt5-LZ0c7Oar1AbTWCgHpQ0_TSq9apURoSsCnktTdIll254mlA0_ru8LBLqzT33e-2N_5XezNY5cn5n3K5U3Q_eWVqPGz2v5O3DSQkEsjj8RhYGtgeJEgwOh8RNBoiaF2vQXg3YwQjulFdS9i2keA7HFGCCFRjo-bBS5BmDbaTMh_Wjt9OZ-e2A9GoYQrVfNLK4-0wP6oLgeie7Ww8iIzSbQiIBc4gkozHScYoKxlPqoRRHsEFBKNxyqqq4kmZZzQtMrZG8Lnl0rgschqQcp7nrEqLCFD33rq32-dcn_ULxVV9zA)
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Class Diagram - Complete Example
-
-%%col 17 83
-
-- *Klassendiagramme* can get quite large fairly quickly
-
-- They are very well suited to represent the *(data) model*
-
-%%sep
-
-![](https://mermaid.ink/svg/pako:eNp9VF1vmzAU_SvWlSp1G40guPlAe9m6PVTbtKjb04QUuXADloxNbSM1zfLfazBEkEb1C9f3nnuOfWxzgEzlCAlkghnzjbNCsyqVxI2rK_KVGSQFqgqt3pMOgsZXuwnZKC4tOfhUOz7thGKWPL_J7EeZnBvLZIbXXfsHXzmmcsz8k0ucEAuUhS2vL6M3SuwLJScNTCMb4F1iuzVWb7dvKNxG71RVK8MtdxwaBWsDU_K63-xAn0KUAlE3Ny6KXeS3n5C6_fbYbuEe-LEDzkdAt29tA4IyH4nfyxI17xwhJUfNdFbuyU6rahCeruLzf8f7V3MmC4GXSu602OWuDUrrS744sPjqn4w5l3H7wIvSvgf4_Wgbg-8hvmSNxUFlwutx90aZDAWasdiU_hw4Fp3InAN77RZ3lvTI708Nd0fsjBYnH3rLBm9ZjS-XKhvmmgQK5Z9J7_A46XEPmNnR8ZymvUlPjbucl7V_8GHtbdSzlap6bAwEUGieQ2J1gwFUqCvWTqG79SnYEitMIXFhjjvWCJtCKo-urWbyn1LV0KlVU5SQ7JgwbtbUuTOjf_qnrHZ3FPWdaqSFJA5pRwLJAZ4hieLFLIppSFd0Ea0jGi4C2ENCw9mcrtfrRbS6jcP5MqbHAF463XC2Wt6GbkSrJZ1HlMYBYM6t0r_630_7Ob4C5I5vIg)
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Application Example – BIM (Building Information Models)
-
-%%col 60 40
-
-- Construction drawings are nowadays stored as *IFC (Industry Foundation Classes)*
-- *IFC* is an object-oriented model, with inheritance, specialization, generalization, and polymorphism
-- It is, among other things, documented in *UML*
-
-%%sep
-
-![Polygon Classes](images/05a_Softwareentwurf/ifc_classes.jpg)
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
 ## Design Approach {background="#FFD966" cols40x60 txtL="" capR="Midjourney: Software Waterfall" imgR="images/05a_Softwareentwurf/waterfall.png"}
 
 %%/slides
@@ -585,12 +585,12 @@ The standard comprises 13 diagram types, the most common:
 
 ## Software Design
 
-- Software is rarely developed alone, but often in a team over a longer period.  
-- For this, a project plan is needed that describes how the software should be developed in a division-of-labor fashion.  
-- Creating this project plan is called *Software Design*.  
-- The process closely resembles the *design methodology in environmental and civil engineering*.  
-- The project plan comprises:  
-  - the *class design* (blueprint)  
+- Software is rarely developed alone, but often in a team over a longer period.
+- For this, a project plan is needed that describes how the software should be developed in a division-of-labor fashion.
+- Creating this project plan is called *Software Design*.
+- The process closely resembles the *design methodology in environmental and civil engineering*.
+- The project plan comprises:
+  - the *class design* (blueprint)
   - the *programming approach* (construction scheduling)
 
 %%/slides
@@ -602,7 +602,7 @@ The standard comprises 13 diagram types, the most common:
 
 %%col 50 50
 
-- *Requirements definition* 
+- *Requirements definition*
   – Definition of which functions and constraints are to be implemented
 
 - *Design*

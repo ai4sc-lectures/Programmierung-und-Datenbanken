@@ -107,6 +107,77 @@ The sum of all modules then forms a *package*. In this case the `geometry` packa
 
 %%/book
 
+%%slides
+
+
+## Organizing projects across multiple files
+
+%%col 50 50
+
+Challenges of large programs:
+
+- Dozens of classes with hundreds of functions
+- Thousands of lines of code
+- Difficult to keep an overview
+- Version conflicts when multiple programmers work on it
+
+%%sep
+
+Solution - Split code into .py files:
+
+- *Per class* one file (for class definitions)
+- *Per topic* one file (e.g., math functions)
+- *Per domain* one file (e.g., loading vs. processing)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Fundamentals of Project Structure
+
+%%col 50 50
+
+**General Structure**
+
+```
+main.py [contains main()]
+├── module1.py
+├── module2.py
+└── helpers.py
+```
+
+Code in `main.py`
+```python
+import module1
+import module2
+import helpers
+```
+
+%%sep
+
+**Example - City Project**
+
+```
+city.py
+├── buildings.py
+├── streets.py
+└── geometry.py
+```
+
+Code in `main.py`
+```python
+import buildings
+import streets
+import geometry
+```
+
+%%/col
+
+%%/slides
+
 %%book
 
 
@@ -136,7 +207,7 @@ def main():
 
 %%book
 
-However, you want to avoid the function `main()` from being called when the Python file is, for example, imported as a library, where you’re only interested in the functions. Therefore, at the end of a file that defines a `main()` function you use the following conditional.
+However, you want to avoid the function `main()` from being called when the Python file is, for example, imported as a library, where you're only interested in the functions. Therefore, at the end of a file that defines a `main()` function you use the following conditional.
 
 %%/book
 
@@ -155,6 +226,83 @@ if __name__ == "__main__":
 She takes advantage of the fact that the value of the special variable `__name__` in the main file is always `'__main__'`, whereas in an imported file it indicates the name of the main file.
 
 %%/book
+
+%%slides
+
+
+## The main() function as the standard entry point
+
+Where does Python know what to run?
+
+- Declare a specific file as the project's *center*
+- This contains a special function named `main()`
+- Exists in almost every programming language
+- Specifies the *start point of the program*
+- Can receive no arguments or dynamic arguments (command-line arguments)
+
+%%/slides
+
+%%slides
+
+
+## The main() function in Python
+
+%%col 50 50
+
+Different ways to run:
+
+1. As a script on the command line / standalone program
+2. Imported into an interactive Python console
+3. Imported into another Python file
+
+Problem: In case 1 we want to use the entire script, in case 2+3 only parts
+
+The solution: the __name__ variable:
+
+%%sep
+
+```python
+def main():
+    print("This is the main function")
+
+if __name__ == "__main__":
+    main()  # nur bei direktem Aufruf
+```
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Best Practice for the main() function
+
+What belongs BEFORE the main() definition:
+
+%%col 50 50
+
+✅ Only allowed:
+
+- Function definitions
+- Class definitions
+
+%%sep
+
+❌ Avoid:
+
+- Variable assignments (global variables)
+- Function calls (side effects)
+
+%%/col
+
+Advantages of this structure:
+
+- The program flow becomes clearer
+- The program is easy to modify
+- The program is more reusable
+
+%%/slides
 
 %%book
 
@@ -252,6 +400,79 @@ if __name__ == "__main__":
 
 %%/book
 
+%%slides
+
+
+## Program Flow Across Multiple Files
+
+- We now have a central starting point.
+
+- How do we call code from other files?
+
+- Every programming language has commands to load external code:
+    - `import` and `include` (Python)
+    - Special 'header files' that define the relationships between files
+
+%%/slides
+
+%%slides
+
+
+## Program flow in Python - import Statement
+
+%%col 50 50
+
+Strategy:
+
+- A .py file contains `main()` (Case 1)
+- All others without `main()` or with `__name__` are ignored (Case 3)
+- The `import` statement loads external files
+
+- *Warning:* The entire code is executed, including variables and function calls!
+
+%%sep
+
+```python
+import external_file
+
+def main():
+    print("This is the main function")
+```
+Variables/functions/classes from `external_file.py` are stored in the object `external_file`
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Importing External Libraries (Packages)
+
+*Terminology:*
+
+- *Module:* Imported scripts
+- *Namespace:* The resulting object (type: module)
+- *Package:* A module with additional submodules
+
+%%/slides
+
+%%slides
+
+
+## The Import Statement: Advanced Use Cases
+
+- Python's import system is complex and multifaceted.
+- In day-to-day use, however, you typically encounter only the following additional constructs:
+    - `from-import` statement: Imports a submodule or a portion of a module directly, without the parent namespace
+    - `from-import-as` statement: Works the same, but renames the imported object
+
+```python
+from external_file import external_function as ext_func
+```
+
+%%/slides
+
 %%book
 
 
@@ -312,7 +533,7 @@ for count, filename in enumerate(os.listdir(folder)):
 
 %%book
 
-Many websites offer application programming interfaces, so-called APIs, because these APIs are also used by their own websites to load data that is displayed on the page. The APIs usually use the JSON format to exchange data. This is a text-based file format that in Python closely resembles the `dict` data type, but it also supports all other primitive and composite data types in Python. 
+Many websites offer application programming interfaces, so-called APIs, because these APIs are also used by their own websites to load data that is displayed on the page. The APIs usually use the JSON format to exchange data. This is a text-based file format that in Python closely resembles the `dict` data type, but it also supports all other primitive and composite data types in Python.
 
 We would like, for example, to analyze the weather data of a weather station in Germany. We obtain these data from the [German Weather Service](https://www.dwd.de). These data can also be downloaded from the [API](https://dwd.api.bund.dev/). For this, you need the ID (identification number) of a weather station, which can be found [here](https://www.dwd.de/DE/leistungen/klimadatendeutschland/statliste/statlex_html.html?view=nasPublication&nn=16102). We take as an example a station in the Hansaviertel in Rostock with the ID `12495`.
 
@@ -350,6 +571,19 @@ server_object.serve_forever()
 -->
 
 %%/book
+
+%%slides
+
+
+## Import Statements – The Gateway to the World
+
+- We can import not only our own packages, but also packages published by other people/organizations!
+- There are several ways to access packages:
+- The package is included with Python
+- Download directly as .py files / folders containing .py files
+- Use a package manager (pip, uv) (Better!)
+
+%%/slides
 
 %%book
 
@@ -455,29 +689,6 @@ app = dash.Dash()
 
 %%/book
 
-%%slides
-
-```{python}
-#| echo: true
-Please provide the Python code to translate (German names, docstrings, and comments) so I can perform the translation.
-```
-
-%%/slides
-
-%%slides
-
-```{python}
-#| echo: true
-
-
-# and replace the Dash object
-from jupyter_dash import JupyterDash
-
-app = JupyterDash()
-```
-
-%%/slides
-
 %%book
 
 Then we generate a webpage with a heading (`H1`) that contains the plot as a `Graph`.
@@ -525,235 +736,25 @@ This starts a web server that we can access in a browser at `http://127.0.0.1:80
 
 %%slides
 
-
-## Organizing projects across multiple files
-
-%%col 50 50
-
-Challenges of large programs:
-
-- Dozens of classes with hundreds of functions
-- Thousands of lines of code
-- Difficult to keep an overview
-- Version conflicts when multiple programmers work on it
-
-%%sep
-
-Solution - Split code into .py files:
-
-- *Per class* one file (for class definitions)
-- *Per topic* one file (e.g., math functions)
-- *Per domain* one file (e.g., loading vs. processing)
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## The main() function as the standard entry point
-
-Where does Python know what to run?
-
-- Declare a specific file as the project’s *center*
-- This contains a special function named `main()`
-- Exists in almost every programming language
-- Specifies the *start point of the program*
-- Can receive no arguments or dynamic arguments (command-line arguments)
-
-%%/slides
-
-%%slides
-
-
-## The main() function in Python
-
-%%col 50 50
-
-Different ways to run:
-
-1. As a script on the command line / standalone program
-2. Imported into an interactive Python console  
-3. Imported into another Python file
-
-Problem: In case 1 we want to use the entire script, in case 2+3 only parts
-
-The solution: the __name__ variable:
-
-%%sep
-
-```python
-def main():
-    print("This is the main function")
-
-if __name__ == "__main__":
-    main()  # nur bei direktem Aufruf
-```
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Best Practice for the main() function
-
-What belongs BEFORE the main() definition:
-
-%%col 50 50
-
-✅ Only allowed:
-
-- Function definitions
-- Class definitions
-
-%%sep
-
-❌ Avoid:
-
-- Variable assignments (global variables)
-- Function calls (side effects)
-
-%%/col
-
-Advantages of this structure:
-
-- The program flow becomes clearer
-- The program is easy to modify
-- The program is more reusable
-
-%%/slides
-
-%%slides
-
-
-## Program Flow Across Multiple Files
-
-- We now have a central starting point.
-
-- How do we call code from other files?
-
-- Every programming language has commands to load external code:
-    - `import` and `include` (Python)
-    - Special 'header files' that define the relationships between files
-
-%%/slides
-
-%%slides
-
-
-## Program flow in Python - import Statement
-
-%%col 50 50
-
-Strategy:
-
-- A .py file contains `main()` (Case 1)
-- All others without `main()` or with `__name__` are ignored (Case 3)
-- The `import` statement loads external files
-
-- *Warning:* The entire code is executed, including variables and function calls!
-
-%%sep
-
-```python
-import external_file
-
-def main():
-    print("This is the main function")
-```
-Variables/functions/classes from `external_file.py` are stored in the object `external_file`
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Importing External Libraries (Packages)
-
-*Terminology:*
-
-- *Module:* Imported scripts
-- *Namespace:* The resulting object (type: module)
-- *Package:* A module with additional submodules
-
-%%/slides
-
-%%slides
-
-
-## Fundamentals of Project Structure
-
-%%col 50 50
-
-**General Structure**
-
-```
-main.py [contains main()]
-├── module1.py
-├── module2.py  
-└── helpers.py
-```
-
-Code in `main.py`
-```python
-import module1
-import module2
-import helpers
-```
-
-%%sep
-
-**Example - City Project**
-
-```
-city.py
-├── buildings.py
-├── streets.py
-└── geometry.py
-```
-
-Code in `main.py`
-```python
-import buildings
-import streets
-import geometry
-```
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## The Import Statement: Advanced Use Cases
-
-- Python's import system is complex and multifaceted.
-- In day-to-day use, however, you typically encounter only the following additional constructs:
-    - `from-import` statement: Imports a submodule or a portion of a module directly, without the parent namespace
-    - `from-import-as` statement: Works the same, but renames the imported object
-
-```python
-from external_file import external_function as ext_func
+```{python}
+#| echo: true
+import subprocess
+subprocess.run(["pip", "install", "jupyter_dash", "--quiet"])
 ```
 
 %%/slides
 
 %%slides
 
+```{python}
+#| echo: true
 
-## Import Statements – The Gateway to the World
 
-- We can import not only our own packages, but also packages published by other people/organizations!
-- There are several ways to access packages:
-- The package is included with Python
-- Download directly as .py files / folders containing .py files
-- Use a package manager (pip, uv) (Better!)
+# and replace the Dash object
+from jupyter_dash import JupyterDash
+
+app = JupyterDash()
+```
 
 %%/slides
 
@@ -774,7 +775,7 @@ from external_file import external_function as ext_func
 %%slides
 
 
-## Lesson Learned {background="#66ccffff" cols40x60 txtL="How do you prioritize correctly?" capR="“I have two kinds of problems, the urgent and the important. The urgent are not important, and the important are never urgent.”, Eisenhower" imgR="images/07a_Module/eisenhower.jpg"}
+## Lesson Learned {background="#66ccffff" cols40x60 txtL="How do you prioritize correctly?" capR=""I have two kinds of problems, the urgent and the important. The urgent are not important, and the important are never urgent.", Eisenhower" imgR="images/07a_Module/eisenhower.jpg"}
 
 %%/slides
 

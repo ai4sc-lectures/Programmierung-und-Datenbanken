@@ -31,6 +31,15 @@ resources:
 
 %%/book
 
+%%slides
+
+
+## Process
+
+![](images/partA_5.svg)
+
+%%/slides
+
 %%book
 
 Recursive functions are functions that call themselves. Recursion (from Latin recurrere 'to run back') refers to an infinite process that contains itself as part or that can be defined using itself.
@@ -38,6 +47,18 @@ Recursive functions are functions that call themselves. Recursion (from Latin re
 Recursion is used particularly in divide-and-conquer algorithms or in combinatorial problems.
 
 %%/book
+
+%%slides
+
+
+## Recursion - General
+%%def Recursion
+Recursion (Latin *recurrere* – 'to run back') is an essentially endless process that contains itself as part or can be defined using itself. In computer science, recursion occurs whenever a function *calls itself*.
+%%/def
+
+- Typical applications are divide-and-conquer algorithms and combinatorial problems
+
+%%/slides
 
 %%book
 
@@ -94,6 +115,21 @@ while_loop(3)
 Thus it becomes evident that loops can always be implemented by recursion—something used by functional programming languages, which only know functions.
 
 %%/book
+
+%%slides
+
+
+## Recursion in Python
+
+In Python, recursion is achieved by a function calling itself.
+
+```python
+def recursive_function():
+    Statement1
+    recursive_function()
+```
+
+%%/slides
 
 %%book
 
@@ -210,7 +246,8 @@ We'll perform a runtime comparison once using the `timeit` function in the Jupyt
 
 ```{python}
 #| echo: true
-%timeit factorial_recursive(1000)
+import timeit
+timeit.timeit(lambda: factorial_recursive(1000), number=1000)
 ```
 
 %%/book
@@ -219,7 +256,7 @@ We'll perform a runtime comparison once using the `timeit` function in the Jupyt
 
 ```{python}
 #| echo: true
-%timeit factorial_loop(1000)
+timeit.timeit(lambda: factorial_loop(1000), number=1000)
 ```
 
 %%/book
@@ -231,6 +268,22 @@ We see that the loop-based variant is somewhat faster than the recursive variant
 However, recursive functions are usually more readable and cannot always be expressed with loops, for example when several variables are manipulated.
 
 %%/book
+
+%%slides
+
+### Example: Factorial
+
+The factorial of a number is defined as the product of the natural numbers from 1 to n
+
+```python
+def factorial_recursiv(x):
+    if x > 1:
+        return x * factorial_recursiv(x - 1)
+    else:
+        return 1
+```
+
+%%/slides
 
 %%book
 
@@ -252,7 +305,7 @@ Therefore **at least one** path in the function must not be recursive.
 
 *Practically*, however, endless recursion leads to stack overflow errors. This happens because Python has to keep track of which function called which other function in order to return to the correct function and position when it finishes. This is done via a list called the *Stack*.
 
-The *Stack* is a LIFO list (Last In First Out) where the last element added (the newly called function) must also be the first one removed (when the newly called function ends). It’s basically like a stack of books. The *Stack* grows so large with endless recursion that it no longer fits in the allocated memory, which is the stack overflow error.
+The *Stack* is a LIFO list (Last In First Out) where the last element added (the newly called function) must also be the first one removed (when the newly called function ends). It's basically like a stack of books. The *Stack* grows so large with endless recursion that it no longer fits in the allocated memory, which is the stack overflow error.
 
 By the way, the variables are not stored on the *Stack*, but reside in the *Heap*. The *Heap*, in comparison to the *Stack*, can grow as large as the available memory and more closely resembles a FIFO list (First In, First Out), since memory from old variables that are no longer valid is freed.
 
@@ -284,58 +337,6 @@ A stack overflow error is a **critical programming error** that cannot be caught
 <span style='color: red'>The kernel has crashed while executing code in the current cell or a previous cell. Please check the code in the cell(s) to identify a possible cause of the error. Click here to obtain more information. For more details, see the Jupyter log.</span>
 
 %%/book
-
-%%slides
-
-
-## Process
-
-![](images/partA_5.svg)
-
-%%/slides
-
-%%slides
-
-
-## Recursion - General
-%%def Recursion
-Recursion (Latin *recurrere* – 'to run back') is an essentially endless process that contains itself as part or can be defined using itself. In computer science, recursion occurs whenever a function *calls itself*.
-%%/def
-
-- Typical applications are divide-and-conquer algorithms and combinatorial problems
-
-%%/slides
-
-%%slides
-
-
-## Recursion in Python
-
-In Python, recursion is achieved by a function calling itself.
-
-```python
-def recursive_function():
-    Statement1
-    recursive_function()
-```
-
-%%/slides
-
-%%slides
-
-### Example: Factorial
-
-The factorial of a number is defined as the product of the natural numbers from 1 to n
-
-```python
-def factorial_recursiv(x):
-    if x > 1:
-        return x * factorial_recursiv(x - 1)
-    else:
-        return 1
-```
-
-%%/slides
 
 %%slides
 
@@ -446,9 +447,9 @@ What learning styles are there?
 ## Lesson Learned - Follow-Up
 
 - **S**urvey (Gain an overview): Skim through a topic to gain an overview
-- **Q**uestion (Questions): Note down questions about points you don’t understand.
+- **Q**uestion (Questions): Note down questions about points you don't understand.
 - **R**ead (Read): Read through your notes; highlight keywords; research the questions.
-- **R**ecite (Recite): Recapitulate each section (content, keywords, connections). Organize the material, e.g., with mind maps. Repeat what you’ve learned several times (flashcards).
+- **R**ecite (Recite): Recapitulate each section (content, keywords, connections). Organize the material, e.g., with mind maps. Repeat what you've learned several times (flashcards).
 - **R**eview (Reflect): Mentally review the key points and answer your questions.
 
 %%col 50 50

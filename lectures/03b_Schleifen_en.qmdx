@@ -40,6 +40,35 @@ Often, blocks of code need to be executed multiple times. If the number or amoun
 
 %%/book
 
+%%slides
+
+
+## Process
+
+![](images/partA_4.svg)
+
+%%/slides
+
+%%slides
+
+
+## Loops
+
+Loops are an important approach in programming to implement repetitive or incremental solutions.
+
+In Python, the following are available:
+
+- `for` (equivalent to a for-each loop)
+- `while` (equivalent to a while loop)
+
+Important properties:
+
+- They work exactly like all other control statements, using indentation for the block that follows the header line
+- Unlike in functions, loop variables are also accessible outside the loop!
+- The other loop variants are not explicitly present, but can be functionally emulated
+
+%%/slides
+
 %%book
 
 
@@ -86,6 +115,48 @@ for e in seq:
 ```
 
 %%/book
+
+%%slides
+
+
+## For Loops - FOR Loop
+
+The for loop repeats a block of statements for all elements in a sequence. Element is a variable that is always bound to the current element from the sequence.
+
+```python
+for Element in Sequenz:
+    # Statement
+```
+
+%%/slides
+
+%%slides
+
+
+## Loops - For-each Loop Example
+
+The for loop in Python is a for-each loop. It always iterates through a sequence of values, such as a list. The iterator variable `e` contains the current value from the list `seq`.
+
+%%col 50 50
+
+```python
+seq = ['a','b','c']
+for e in seq:
+    print(e)
+```
+
+%%sep
+
+Output:
+```
+a
+b
+c
+```
+
+%%/col
+
+%%/slides
 
 %%book
 
@@ -145,6 +216,35 @@ for i, value in enumerate(sequence):
 ```
 
 %%/book
+
+%%slides
+
+
+## Loops - FOR-Loop Example
+
+The for loop in Python can also be used as a traditional for loop, in which you repeat something n times. To do this, you generate a sequence of numbers with the `range(n)` function, through which the for-each loop then iterates.
+
+%%col 50 50
+
+```python
+n = 3
+seq = range(n)
+for e in seq:
+    print(e)
+```
+
+%%sep
+
+Output:
+```
+0
+1
+2
+```
+
+%%/col
+
+%%/slides
 
 %%book
 
@@ -229,6 +329,30 @@ print(measurements_meter)
 
 %%/book
 
+%%slides
+
+
+## Loops - FOR Loop Example
+
+This can be used, for example, to convert a list of measurements from feet in the imperial system to metres.
+
+```python
+measurements_feet = [4.2, 2.3, 6.2, 10.5]  # Input
+measurements_meter = []  # Results
+
+for feets in measurements_feet:
+    measurements_meter.append(0.3048 * feets)
+
+print(measurements_meter)
+```
+
+Output:
+```
+[1.2801600000000002, 0.70104, 1.88976, 3.2004]
+```
+
+%%/slides
+
 %%book
 
 
@@ -245,6 +369,73 @@ While loops are primarily used when the length of the loop is not known at the o
 - Repeat-Until loop: Repeat until a condition becomes true (i.e., at least once)
 
 %%/book
+
+%%slides
+
+
+## Loops - WHILE Loop
+
+The while loop runs as long as a condition is true. Since this is evaluated at the start and can be false from the outset, the body may not be executed.
+
+```python
+while condition:
+    # statement
+```
+
+As with an if statement, the condition is evaluated for its truth value:
+
+- If this is `True`, the loop runs once, after which it is checked again
+- If this is `False`, the loop ends and the code is not (re)executed
+
+%%/slides
+
+%%slides
+
+
+## Loops - While Loop vs. Do-While Loop vs. Repeat-Until
+
+%%col 33 33 33
+
+**While loop**
+
+In a while loop, the condition can be false right from the start. So the loop does not have to be executed.
+
+```python
+Bedingung = True/False
+while Bedingung:
+    # Statement
+    Bedingung = False
+```
+
+%%sep
+
+**Do-While loop**
+
+In a do-while loop, the condition is checked only at the end. The loop is therefore always executed at least once.
+
+```python
+Bedingung = True
+while Bedingung:
+    # Statement
+    Bedingung = False
+```
+
+%%sep
+
+**Repeat-Until loop**
+
+In a Repeat-Until loop, the condition is also checked only at the end. The loop is repeated until the condition becomes true.
+
+```python
+Bedingung = False
+while not Bedingung:
+    # Statement
+    Bedingung = True
+```
+
+%%/col
+
+%%/slides
 
 %%book
 
@@ -431,7 +622,7 @@ while n > 0:
 
 %%book
 
-It looks like this isn’t possible at first glance. Nevertheless, as a precaution, we will define a second variant with an additional termination condition.
+It looks like this isn't possible at first glance. Nevertheless, as a precaution, we will define a second variant with an additional termination condition.
 
 %%/book
 
@@ -478,6 +669,24 @@ But what happens if we initialize the function with infinity (Infinity)? Subtrac
 import math  # the number infinity is defined in the math library
 
 while_loop_with_break(math.inf)
+```
+
+%%/book
+
+%%book
+
+
+## Loops - Infinite Loops!
+
+While loops have no maximum number of iterations. They can potentially run forever if the condition never changes.
+%%warning Warning
+It is therefore always important to consider whether there is a case where the condition cannot change and then add a second exit condition.
+%%/warning
+```python
+Condition = True
+while Condition:  # THIS IS AN INFINITE LOOP
+    # Statement
+    Condition = True  # Condition never changes!
 ```
 
 %%/book
@@ -532,6 +741,33 @@ Both are common commands to improve the performance of loops.
 
 %%book
 
+
+## Loops - Breaking out of a loop early
+
+`break`-Befehl: Aborts the loop at its current position
+
+`continue`-Befehl: Does not abort the loop, but immediately starts the next iteration
+
+```python
+things_in_my_backpack = ["Paper", "Pen", "Apple", "Bread", "Knife"]
+edibles = {"Apple", "Bread"}
+edible = None
+
+for item in things_in_my_backpack:  # Find the first edible item
+    if item not in edibles:
+        print(f"Skipping {item}")
+        continue
+    print(f"Edible found: {item}")
+    edible = item
+    break
+
+print(edible)
+```
+
+%%/book
+
+%%book
+
 ### Infinite loops with a timeout
 
 %%/book
@@ -579,242 +815,6 @@ print(f"Sleeped for {time.time() - start}s")  # we print the time difference
 
 %%/book
 
-%%slides
-
-
-## Process
-
-![](images/partA_4.svg)
-
-%%/slides
-
-%%slides
-
-
-## Loops
-
-Loops are an important approach in programming to implement repetitive or incremental solutions.
-
-In Python, the following are available:
-
-- `for` (equivalent to a for-each loop)
-- `while` (equivalent to a while loop)
-
-Important properties:
-
-- They work exactly like all other control statements, using indentation for the block that follows the header line
-- Unlike in functions, loop variables are also accessible outside the loop!
-- The other loop variants are not explicitly present, but can be functionally emulated
-
-%%/slides
-
-%%slides
-
-
-## For Loops - FOR Loop
-
-The for loop repeats a block of statements for all elements in a sequence. Element is a variable that is always bound to the current element from the sequence.
-
-```python
-for Element in Sequenz:
-    # Statement
-```
-
-%%/slides
-
-%%slides
-
-
-## Loops - For-each Loop Example
-
-The for loop in Python is a for-each loop. It always iterates through a sequence of values, such as a list. The iterator variable `e` contains the current value from the list `seq`.
-
-%%col 50 50
-
-```python
-seq = ['a','b','c']
-for e in seq:
-    print(e)
-```
-
-%%sep
-
-Output:
-```
-a
-b
-c
-```
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Loops - FOR-Loop Example
-
-The for loop in Python can also be used as a traditional for loop, in which you repeat something n times. To do this, you generate a sequence of numbers with the `range(n)` function, through which the for-each loop then iterates.
-
-%%col 50 50
-
-```python
-n = 3
-seq = range(n)
-for e in seq:
-    print(e)
-```
-
-%%sep
-
-Output:
-```
-0
-1
-2
-```
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Loops - FOR Loop Example
-
-This can be used, for example, to convert a list of measurements from feet in the imperial system to metres.
-
-```python
-measurements_feet = [4.2, 2.3, 6.2, 10.5]  # Input
-measurements_meter = []  # Results
-
-for feets in measurements_feet:
-    measurements_meter.append(0.3048 * feets)
-
-print(measurements_meter)
-```
-
-Output:
-```
-[1.2801600000000002, 0.70104, 1.88976, 3.2004]
-```
-
-%%/slides
-
-%%slides
-
-
-## Loops - WHILE Loop
-
-The while loop runs as long as a condition is true. Since this is evaluated at the start and can be false from the outset, the body may not be executed.
-
-```python
-while condition:
-    # statement
-```
-
-As with an if statement, the condition is evaluated for its truth value:
-
-- If this is `True`, the loop runs once, after which it is checked again
-- If this is `False`, the loop ends and the code is not (re)executed
-
-%%/slides
-
-%%slides
-
-
-## Loops - While Loop vs. Do-While Loop vs. Repeat-Until
-
-%%col 33 33 33
-
-**While loop**
-
-In a while loop, the condition can be false right from the start. So the loop does not have to be executed.
-
-```python
-Bedingung = True/False
-while Bedingung:
-    # Statement
-    Bedingung = False
-```
-
-%%sep
-
-**Do-While loop**
-
-In a do-while loop, the condition is checked only at the end. The loop is therefore always executed at least once.
-
-```python
-Bedingung = True
-while Bedingung:
-    # Statement
-    Bedingung = False
-```
-
-%%sep
-
-**Repeat-Until loop**
-
-In a Repeat-Until loop, the condition is also checked only at the end. The loop is repeated until the condition becomes true.
-
-```python
-Bedingung = False
-while not Bedingung:
-    # Statement
-    Bedingung = True
-```
-
-%%/col
-
-%%/slides
-
-%%book
-
-
-## Loops - Infinite Loops!
-
-While loops have no maximum number of iterations. They can potentially run forever if the condition never changes.
-%%warning Warning
-It is therefore always important to consider whether there is a case where the condition cannot change and then add a second exit condition.
-%%/warning
-```python
-Condition = True
-while Condition:  # THIS IS AN INFINITE LOOP
-    # Statement
-    Condition = True  # Condition never changes!
-```
-
-%%/book
-
-%%book
-
-
-## Loops - Breaking out of a loop early
-
-`break`-Befehl: Aborts the loop at its current position
-
-`continue`-Befehl: Does not abort the loop, but immediately starts the next iteration
-
-```python
-things_in_my_backpack = ["Paper", "Pen", "Apple", "Bread", "Knife"]
-edibles = {"Apple", "Bread"}
-edible = None
-
-for item in things_in_my_backpack:  # Find the first edible item
-    if item not in edibles:
-        print(f"Skipping {item}")
-        continue
-    print(f"Edible found: {item}")
-    edible = item
-    break
-
-print(edible)
-```
-
-%%/book
-
 %%book
 
 
@@ -831,7 +831,7 @@ start = time.time()
 while True:  # THIS IS AN INFINITE LOOP
     iterations += 1
     elapsed = time.time() - start
-    
+
     if elapsed > 3:
         print(f"Timeout after {iterations} iterations")
         break

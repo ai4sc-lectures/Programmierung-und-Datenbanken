@@ -14,23 +14,6 @@ resources:
   - data/06a_Exceptions_en
 ---
 
-%%book
-
-
-# Exceptions
-
-%%/book
-
-%%book
-
-![](images/06a_Exceptions/mj_title_band.jpg)
-
-> Anything that can go wrong, will go wrong.
->
-> — Murphy’s Law #1
-
-%%/book
-
 %%slides
 
 
@@ -44,7 +27,7 @@ resources:
 ## Review: Knowledge Pyramid
 %%col 50 50
 
-The Wissenspyradmide is a model for representing the emergence of knowledge. 
+The Wissenspyradmide is a model for representing the emergence of knowledge.
 
 The four element types: *Signs, Data, Information* and *Knowledge* are shown pyramid-shaped as four levels.
 
@@ -86,6 +69,205 @@ Signs form the base and *Knowledge* the tip of the pyramid.
 ## Process
 
 ![](images/partA_7.svg)
+
+%%/slides
+
+%%book
+
+
+# Exceptions
+
+%%/book
+
+%%book
+
+![](images/06a_Exceptions/mj_title_band.jpg)
+
+> Anything that can go wrong, will go wrong.
+>
+> — Murphy's Law #1
+
+%%/book
+
+%%slides
+
+
+## Why do we make mistakes?
+
+%%col 50 50
+
+*Deliberate mistakes occur when:*
+
+- we consciously ignore facts and trust our gut instincts
+- when we run tests to test whether a program handles these errors
+- through targeted sabotage (insider threat in information security)
+
+%%sep
+
+*Unintentional mistakes occur, among other things, due to:*
+
+- false assumptions, for example, because the requirements were not analyzed sufficiently or because not all error cases were considered
+- inattention (careless mistakes) due to fatigue, time pressure, or lack of interest
+- because we reach cognitive/physical limits (e.g., optical illusions)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Mistakes Are Human
+
+- *Computers are human-made*
+- The mental models of others have (often subtle) differences from our own, e.g. due to:
+  - Age
+  - Background
+  - Education
+  - Experience
+  - Culture
+
+- Most everyday mistakes happen at the *interface between us and the internal processes*: user interfaces, hardware, etc.
+
+%%/slides
+
+%%slides
+
+
+## Lecture Hall Question {background="#FFD966" cols40x60 txtL="**What does this symbol mean?**" capR="icon-icons.com" imgR="images/06a_Exceptions/diskette.png"}
+
+%%/slides
+
+%%slides
+
+
+## What does this symbol mean?
+
+- The floppy disk icon is commonly used to save.
+- It originally comes from the 1990s when data was still stored on floppy disks.
+- Nowadays many people don't have this context and can't intuitively interpret the symbol.
+- An example of different mental models across generations
+
+%%col 50 50
+
+![icon-icons.com](images/06a_Exceptions/diskette.png){class="midjourneyXX"}
+
+%%sep
+
+![www.pxfuel.com](images/06a_Exceptions/diskette2.jpg){class="midjourneyXX"}
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## When do computers make mistakes?
+
+- Computers very rarely make errors (e.g., bit flips due to cosmic rays, errors in floating-point calculations, integer overflows, errors in data transmission or storage)
+- Most of the time, however, it is the user or programmer who made the errors possible (wrong data types, poor exception or error handling)
+- The real question is: Are there errors in the system beyond our own program code?
+
+%%/slides
+
+%%slides
+
+
+## How to prevent errors?
+
+- *Using an Integrated Development Environment (IDE)*
+  - Automatic detection of syntax errors
+  - Code completion
+  - Code generation (e.g., from diagrams)
+
+- *Comprehensive planning of the software, including requirements analysis, software design, test design, etc.*
+- *TESTING, TESTING, TESTING* using specific test cases (unit tests)!
+  - Not just pure functional testing (does it do what it's supposed to?)
+
+%%/slides
+
+%%slides
+
+
+## Types of Errors
+
+%%col 60 40
+
+*Along the Knowledge Pyramid:*
+
+- *Lexical* – Code contains invalid characters or strings
+- *Syntactic* – Code combines lexically valid tokens in an invalid way
+- *Semantic* – Code is semantically valid, but does not produce any results/crashes
+- *Logical* – Code is semantically valid, but does not solve the given problem
+
+%%sep
+
+![Knowledge Pyramid](images/wissenspyramide.svg)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Other classifications of errors
+
+%%col 50 50
+
+*By frequency and reproducibility:*
+
+- *Deterministic errors* - occur every time and can be reproduced
+- *Sporadic errors* - occur only rarely and under special conditions. They are difficult to reproduce
+
+%%sep
+
+*By occurrence:*
+
+- *Static errors* - Directly observable in the code as written
+- *Dynamic errors* - Only occur during program execution
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Lexical & Syntactic Errors
+
+- Are in most cases *static* and *deterministic*
+- Produce an error message *every time*
+  - Even in the IDE, during compilation or after execution
+
+- *These error messages can, however, be misleading!*
+
+%%/slides
+
+%%slides
+
+
+## Lexical & Syntactic Errors - Examples
+
+- A *keyword* is misspelled
+- *Unclosed* quotation marks or parentheses
+- Forgetting a *colon* after a condition or function
+- *Incorrect indentation* after a condition, loop, or function
+- If applicable, also incorrect indentation due to *tabs vs. spaces*
+
+%%/slides
+
+%%slides
+
+
+## Lexical & Syntactic Errors - Handling
+
+- *First look:* In which line did the error occur?
+- Does the *text of the error message* give a hint?
+- Is the error in the line, or is the error only a *symptom* and the real error lies in the previous line?
+- Normally *easy to fix* and go through the code line by line backwards from the error line
+- If not: *Refactoring* - restructure the code for better readability without changing its behavior
 
 %%/slides
 
@@ -152,7 +334,7 @@ print(f"Das Ergebnis von {numerator}/{denominator} = {result}")
 
 %%book
 
-The problem here is that we don’t get any information about the exception. Therefore it’s always sensible to catch the exact exception and display the error message. The most general type of error in Python is the `Exception`, which we catch as a variable named `e` as follows.
+The problem here is that we don't get any information about the exception. Therefore it's always sensible to catch the exact exception and display the error message. The most general type of error in Python is the `Exception`, which we catch as a variable named `e` as follows.
 
 %%/book
 
@@ -249,6 +431,56 @@ finally:
 ```
 
 %%/book
+
+%%slides
+
+
+## Semantic Errors - Fundamentals
+
+- Arise from the *faulty application* of syntactically correct program structures to a specific problem
+- Semantic errors can be *recognizable* or *unrecognizable*. They are always deterministic, but can occur statically or dynamically
+- *Recognizable errors* are errors of which one knows that they can occur (e.g., division by zero, no Internet connection, etc.)
+  - They should *always* be caught and handled
+
+- *Unrecognized errors* are unknown during the creation of the program. Significantly harder to catch
+
+%%/slides
+
+%%slides
+
+
+## Semantic Errors - Examples
+
+- An *variable is invoked as a function*
+  *(static, deterministic)*
+
+- An *operator is used with a value of the wrong type*
+  *(static or dynamic, deterministic)*
+
+- An *value of the wrong type* is passed to a function
+  *(static or dynamic, deterministic)*
+
+- A *division by zero* occurs
+  *(dynamic, deterministic)*
+
+%%/slides
+
+%%slides
+
+
+## Semantic Errors - Handling
+
+*First step: Understanding the error message*
+
+- *Ideal case:* Indicates the exact problem
+- *Usually:* Provides clues about a problem
+  - Location
+  - Type of problem
+  - The affected variable/operation
+
+- *Often:* The error message is only a symptom of the underlying problem
+
+%%/slides
 
 %%book
 
@@ -458,6 +690,24 @@ for denominator in range(-2, 8):
 
 %%/book
 
+%%slides
+
+
+## Semantic Errors - Handling (2)
+
+*If the error message does not provide enough information:*
+
+- *Log the program flow* to understand it better:
+  - Add more output (e.g., via the `print()` function)
+  - Check variable states or verify whether certain lines are reached
+
+- *Use debugging tools*:
+  - Pause the program flow at certain points (*Breakpoints*)
+  - Step through the program flow
+  - *Watch variables* at that moment
+
+%%/slides
+
 %%book
 
 
@@ -557,9 +807,88 @@ for denominator in range(-2, 8):
 
 %%book
 
-In practice, logging is very commonly used, especially in cloud applications. Since they don’t have screens, errors have to be found in the logs. As long as everything is okay, the application runs at the log level `INFO`, with only a small amount of output. If an error occurs, the server is set to the log level `DEBUG`, and one then searches the detailed logs for information to narrow down the error.
+In practice, logging is very commonly used, especially in cloud applications. Since they don't have screens, errors have to be found in the logs. As long as everything is okay, the application runs at the log level `INFO`, with only a small amount of output. If an error occurs, the server is set to the log level `DEBUG`, and one then searches the detailed logs for information to narrow down the error.
 
 %%/book
+
+%%slides
+
+
+## Logical Errors – Fundamentals
+
+*Arise from:*
+
+- Errors in the *program logic*
+- A *faulty mental model*
+- A fundamental *design flaw*
+- *Careless mistakes* in translating from design to implementation
+
+*Characteristics:*
+
+- They *rarely produce exceptions* but rather incorrect behavior/results
+- They often go *undetected* and only manifest dynamically at runtime
+- They can be *deterministic* or *sporadic*
+
+%%/slides
+
+%%slides
+
+
+## Logical Errors - Examples
+
+%%col 50 50
+
+*Deterministische Fehler:*
+
+- Using the *wrong factor* in a unit conversion
+- Using the *wrong type of loop* or incorrect nesting
+- Using the *wrong time zone* when writing sensor data
+
+%%sep
+
+*Sporadische Fehler:*
+
+- Issues with *Daylight Saving Time conversions* for sensor data
+- The condition in a loop has cases in which it is *always true* and thus becomes endless
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Handling of Logical Errors
+
+%%col 50 50
+
+*Deterministische Fehler:*
+
+- *Create test cases* to reproduce when and how unexpected behavior occurs
+- *Use the debugger* to trace the execution and isolate the root cause of the error
+- Track values *systematically* and verify correctness step by step
+
+%%sep
+
+*Sporadische Fehler:*
+
+- Identify the error state via *Logging* (`print()`) so that it becomes reproducible
+- *Conditional breakpoints* in debugging (the program only stops when an error condition is present)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Note: Warnings in the IDE or from the compiler
+
+- Warnings point to code that *appears syntactically and semantically correct*, but will probably not fulfill its purpose
+- They are based, for example, on *empirical evidence*
+- They can help *detect semantic and logical errors early*
+
+%%/slides
 
 %%book
 
@@ -692,335 +1021,6 @@ Here too, both the current variables and the stack are displayed.
 %%slides
 
 ![](images/06a_Exceptions/debug_replit_4.png)
-
-%%/slides
-
-%%slides
-
-
-## Why do we make mistakes?
-
-%%col 50 50
-
-*Deliberate mistakes occur when:*
-
-- we consciously ignore facts and trust our gut instincts
-- when we run tests to test whether a program handles these errors
-- through targeted sabotage (insider threat in information security)
-
-%%sep
-
-*Unintentional mistakes occur, among other things, due to:*
-
-- false assumptions, for example, because the requirements were not analyzed sufficiently or because not all error cases were considered
-- inattention (careless mistakes) due to fatigue, time pressure, or lack of interest
-- because we reach cognitive/physical limits (e.g., optical illusions)
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Mistakes Are Human
-
-- *Computers are human-made*
-- The mental models of others have (often subtle) differences from our own, e.g. due to:
-  - Age
-  - Background
-  - Education
-  - Experience
-  - Culture
-
-- Most everyday mistakes happen at the *interface between us and the internal processes*: user interfaces, hardware, etc.
-
-%%/slides
-
-%%slides
-
-
-## Lecture Hall Question {background="#FFD966" cols40x60 txtL="**What does this symbol mean?**" capR="icon-icons.com" imgR="images/06a_Exceptions/diskette.png"}
-
-%%/slides
-
-%%slides
-
-
-## What does this symbol mean?
-
-- The floppy disk icon is commonly used to save.
-- It originally comes from the 1990s when data was still stored on floppy disks.
-- Nowadays many people don't have this context and can't intuitively interpret the symbol.
-- An example of different mental models across generations
-
-%%col 50 50
-
-![icon-icons.com](images/06a_Exceptions/diskette.png){class="midjourneyXX"}
-
-%%sep
-
-![www.pxfuel.com](images/06a_Exceptions/diskette2.jpg){class="midjourneyXX"}
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## When do computers make mistakes?
-
-- Computers very rarely make errors (e.g., bit flips due to cosmic rays, errors in floating-point calculations, integer overflows, errors in data transmission or storage)
-- Most of the time, however, it is the user or programmer who made the errors possible (wrong data types, poor exception or error handling)
-- The real question is: Are there errors in the system beyond our own program code?
-
-%%/slides
-
-%%slides
-
-
-## How to prevent errors?
-
-- *Using an Integrated Development Environment (IDE)*
-  - Automatic detection of syntax errors
-  - Code completion
-  - Code generation (e.g., from diagrams)
-
-- *Comprehensive planning of the software, including requirements analysis, software design, test design, etc.*
-- *TESTING, TESTING, TESTING* using specific test cases (unit tests)!
-  - Not just pure functional testing (does it do what it’s supposed to?)
-
-%%/slides
-
-%%slides
-
-
-## Types of Errors
-
-%%col 60 40
-
-*Along the Knowledge Pyramid:*
-
-- *Lexical* – Code contains invalid characters or strings
-- *Syntactic* – Code combines lexically valid tokens in an invalid way
-- *Semantic* – Code is semantically valid, but does not produce any results/crashes
-- *Logical* – Code is semantically valid, but does not solve the given problem
-
-%%sep
-
-![Knowledge Pyramid](images/wissenspyramide.svg)
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Other classifications of errors
-
-%%col 50 50
-
-*By frequency and reproducibility:*
-
-- *Deterministic errors* - occur every time and can be reproduced
-- *Sporadic errors* - occur only rarely and under special conditions. They are difficult to reproduce
-
-%%sep
-
-*By occurrence:*
-
-- *Static errors* - Directly observable in the code as written
-- *Dynamic errors* - Only occur during program execution
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Lexical & Syntactic Errors
-
-- Are in most cases *static* and *deterministic*
-- Produce an error message *every time*
-  - Even in the IDE, during compilation or after execution
-
-- *These error messages can, however, be misleading!*
-
-%%/slides
-
-%%slides
-
-
-## Lexical & Syntactic Errors - Examples
-
-- A *keyword* is misspelled
-- *Unclosed* quotation marks or parentheses
-- Forgetting a *colon* after a condition or function
-- *Incorrect indentation* after a condition, loop, or function
-- If applicable, also incorrect indentation due to *tabs vs. spaces*
-
-%%/slides
-
-%%slides
-
-
-## Lexical & Syntactic Errors - Handling
-
-- *First look:* In which line did the error occur?
-- Does the *text of the error message* give a hint?
-- Is the error in the line, or is the error only a *symptom* and the real error lies in the previous line?
-- Normally *easy to fix* and go through the code line by line backwards from the error line
-- If not: *Refactoring* - restructure the code for better readability without changing its behavior
-
-%%/slides
-
-%%slides
-
-
-## Semantic Errors - Fundamentals
-
-- Arise from the *faulty application* of syntactically correct program structures to a specific problem
-- Semantic errors can be *recognizable* or *unrecognizable*. They are always deterministic, but can occur statically or dynamically
-- *Recognizable errors* are errors of which one knows that they can occur (e.g., division by zero, no Internet connection, etc.)
-  - They should *always* be caught and handled
-
-- *Unrecognized errors* are unknown during the creation of the program. Significantly harder to catch
-
-%%/slides
-
-%%slides
-
-
-## Semantic Errors - Examples
-
-- An *variable is invoked as a function*  
-  *(static, deterministic)*
-
-- An *operator is used with a value of the wrong type*  
-  *(static or dynamic, deterministic)*
-
-- An *value of the wrong type* is passed to a function  
-  *(static or dynamic, deterministic)*
-
-- A *division by zero* occurs  
-  *(dynamic, deterministic)*
-
-%%/slides
-
-%%slides
-
-
-## Semantic Errors - Handling
-
-*First step: Understanding the error message*
-
-- *Ideal case:* Indicates the exact problem
-- *Usually:* Provides clues about a problem
-  - Location
-  - Type of problem
-  - The affected variable/operation
-
-- *Often:* The error message is only a symptom of the underlying problem
-
-%%/slides
-
-%%slides
-
-
-## Semantic Errors - Handling (2)
-
-*If the error message does not provide enough information:*
-
-- *Log the program flow* to understand it better:
-  - Add more output (e.g., via the `print()` function)
-  - Check variable states or verify whether certain lines are reached
-
-- *Use debugging tools*:
-  - Pause the program flow at certain points (*Breakpoints*)
-  - Step through the program flow
-  - *Watch variables* at that moment
-
-%%/slides
-
-%%slides
-
-
-## Logical Errors – Fundamentals
-
-*Arise from:*
-
-- Errors in the *program logic*
-- A *faulty mental model*
-- A fundamental *design flaw*
-- *Careless mistakes* in translating from design to implementation
-
-*Characteristics:*
-
-- They *rarely produce exceptions* but rather incorrect behavior/results
-- They often go *undetected* and only manifest dynamically at runtime
-- They can be *deterministic* or *sporadic*
-
-%%/slides
-
-%%slides
-
-
-## Logical Errors - Examples
-
-%%col 50 50
-
-*Deterministische Fehler:*
-
-- Using the *wrong factor* in a unit conversion
-- Using the *wrong type of loop* or incorrect nesting
-- Using the *wrong time zone* when writing sensor data
-
-%%sep
-
-*Sporadische Fehler:*
-
-- Issues with *Daylight Saving Time conversions* for sensor data
-- The condition in a loop has cases in which it is *always true* and thus becomes endless
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Handling of Logical Errors
-
-%%col 50 50
-
-*Deterministische Fehler:*
-
-- *Create test cases* to reproduce when and how unexpected behavior occurs
-- *Use the debugger* to trace the execution and isolate the root cause of the error
-- Track values *systematically* and verify correctness step by step
-
-%%sep
-
-*Sporadische Fehler:*
-
-- Identify the error state via *Logging* (`print()`) so that it becomes reproducible
-- *Conditional breakpoints* in debugging (the program only stops when an error condition is present)
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Note: Warnings in the IDE or from the compiler
-
-- Warnings point to code that *appears syntactically and semantically correct*, but will probably not fulfill its purpose
-- They are based, for example, on *empirical evidence*
-- They can help *detect semantic and logical errors early*
 
 %%/slides
 
@@ -1163,7 +1163,7 @@ Here too, both the current variables and the stack are displayed.
     # Example with division by 0 and type checking
     ```
     1. `def division(zaehler, nenner):`
-    2. `  if not isinstance(zaehler, (int, float)):` 
+    2. `  if not isinstance(zaehler, (int, float)):`
     3. `    raise ValueError("Zaehler ist ungültig")`
     4. `  if nenner == 0:`
     5. `    return None`

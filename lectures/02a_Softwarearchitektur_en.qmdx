@@ -16,17 +16,10 @@ resources:
 
 %%book
 
-
-# Software architecture
-
-%%/book
-
-%%book
-
 ![](images/02a_Softwarearchitektur/mj_title_band.jpg)
 
 > Good architecture is not just about structure - it’s about intention. In code as in buildings, clarity and purpose leave the longest legacy
-> 
+>
 > — Louis Kahn
 
 %%/book
@@ -97,6 +90,32 @@ Origin: Mathematics (logic, algorithms) + Electrical Engineering (hardware)
 
 %%/slides
 
+%%book
+
+
+# Software architecture
+
+%%/book
+
+%%book
+
+
+## Monolithic, machine-oriented software before 1950
+
+%%col 50 50
+
+Over the years, software architectures have adapted to modern requirements. As a result, new programming languages and software architectures have also developed. The first programs were written directly in binary machine code. This code was written with specialized machines that communicated directly with the hardware. The software was monolithic, i.e., there was no separation of functionality. All functions were combined in a single program. This software was tightly bound to the hardware, which meant that it ran only on a specific hardware platform.
+
+Problem: The problem arose that programs for new hardware typically had to be completely rewritten or heavily modified.
+
+%%sep
+
+![](images/02a_Softwarearchitektur/archi_1.svg)
+
+%%/col
+
+%%/book
+
 %%slides
 
 
@@ -120,17 +139,17 @@ Origin: Mathematics (logic, algorithms) + Electrical Engineering (hardware)
 %%book
 
 
-## Monolithic, machine-oriented software before 1950
+## Division into Operating Systems and Monolithic Software from around 1960
 
 %%col 50 50
 
-Over the years, software architectures have adapted to modern requirements. As a result, new programming languages and software architectures have also developed. The first programs were written directly in binary machine code. This code was written with specialized machines that communicated directly with the hardware. The software was monolithic, i.e., there was no separation of functionality. All functions were combined in a single program. This software was tightly bound to the hardware, which meant that it ran only on a specific hardware platform.
+Operating systems were introduced to fulfill standard tasks (file management, memory management, display, etc.) and to abstract the hardware. This is done through hardware-specific drivers. This means that with new hardware, only the driver needs to be replaced, which provides the same functions as the old driver. The program does not need to be modified.
 
-Problem: The problem arose that programs for new hardware typically had to be completely rewritten or heavily modified.
+Problem: The programs are very hard to write because they require a very good understanding of the hardware, the drivers, and the operating system functions. They are very low-level and offer little abstraction.
 
 %%sep
 
-![](images/02a_Softwarearchitektur/archi_1.svg)
+![](images/02a_Softwarearchitektur/archi_3.svg)
 
 %%/col
 
@@ -160,17 +179,17 @@ Problem: The problem arose that programs for new hardware typically had to be co
 %%book
 
 
-## Division into Operating Systems and Monolithic Software from around 1960
+## Development of higher-level programming languages from around 1970
 
 %%col 50 50
 
-Operating systems were introduced to fulfill standard tasks (file management, memory management, display, etc.) and to abstract the hardware. This is done through hardware-specific drivers. This means that with new hardware, only the driver needs to be replaced, which provides the same functions as the old driver. The program does not need to be modified.
+To simplify programming, higher-level programming languages were introduced that use more 'natural-language-like' commands. They must be translated into machine language by compilers or interpreters. They are, however, specific to the operating system and the drivers used to access their specific functions. This means that programs written for a particular operating system and drivers cannot easily run on another operating system.
 
-Problem: The programs are very hard to write because they require a very good understanding of the hardware, the drivers, and the operating system functions. They are very low-level and offer little abstraction.
+Problem: When operating systems change, programs do not run and must either be recompiled or rewritten.
 
 %%sep
 
-![](images/02a_Softwarearchitektur/archi_3.svg)
+![](images/02a_Softwarearchitektur/archi_5.svg)
 
 %%/col
 
@@ -199,17 +218,19 @@ Problem: The programs are very hard to write because they require a very good un
 %%book
 
 
-## Development of higher-level programming languages from around 1970
+## Virtualization of Monolithic Software Starting Around 1995
 
 %%col 50 50
 
-To simplify programming, higher-level programming languages were introduced that use more 'natural-language-like' commands. They must be translated into machine language by compilers or interpreters. They are, however, specific to the operating system and the drivers used to access their specific functions. This means that programs written for a particular operating system and drivers cannot easily run on another operating system.
+To reduce dependence on operating systems, virtual runtime environments were introduced. They abstract the operating systems and enable code to be compiled in real time (e.g., Java) or interpreted (e.g., Python). This allows programs to run on different operating systems without being rewritten.
 
-Problem: When operating systems change, programs do not run and must either be recompiled or rewritten.
+This also made it easier to develop new operating systems, which is why Android and iOS for mobile devices emerged, devices that rely heavily on virtualization.
+
+Problem: With the Internet, the need arose not only to share text and images, but also to dynamically adapt content on web pages and run smaller (to larger) programs. To access the data from different devices, a central point is needed to store the data and perform more complex computations.
 
 %%sep
 
-![](images/02a_Softwarearchitektur/archi_5.svg)
+![](images/02a_Softwarearchitektur/archi_7.svg)
 
 %%/col
 
@@ -237,19 +258,19 @@ Problem: When operating systems change, programs do not run and must either be r
 %%book
 
 
-## Virtualization of Monolithic Software Starting Around 1995
+## Distributed, Virtualized Software on the Internet from around 2000
 
 %%col 50 50
 
-To reduce dependence on operating systems, virtual runtime environments were introduced. They abstract the operating systems and enable code to be compiled in real time (e.g., Java) or interpreted (e.g., Python). This allows programs to run on different operating systems without being rewritten.
+On the Internet, traditional monolithic software applications that ran on a single computer no longer worked well. There arose a need for applications that could run on multiple, partly mobile devices and use the same data. For this, distributed software architecture was developed.
 
-This also made it easier to develop new operating systems, which is why Android and iOS for mobile devices emerged, devices that rely heavily on virtualization.
+This architecture separates the frontend applications from the backend servers. The frontend applications are responsible for presenting content and interacting with users, while the backend servers provide the web pages and manage long-term data in databases. This separation makes it possible for frontend applications (websites or apps) to visualize the content and interact with users without needing direct access to the databases.
 
-Problem: With the Internet, the need arose not only to share text and images, but also to dynamically adapt content on web pages and run smaller (to larger) programs. To access the data from different devices, a central point is needed to store the data and perform more complex computations.
+Problem: On the Internet, many users often access the same servers (pages) simultaneously. To avoid overloading them, ways to duplicate these on demand quickly were needed. With the development of mobile devices (smartphones, tablets, etc.), there were increasingly many relatively small specialized applications (apps). Here the demand for computing capacity can grow dynamically and quickly, and dynamically scalable servers were also needed.
 
 %%sep
 
-![](images/02a_Softwarearchitektur/archi_7.svg)
+![](images/02a_Softwarearchitektur/archi_8.svg)
 
 %%/col
 
@@ -280,19 +301,17 @@ Problem: With the Internet, the need arose not only to share text and images, bu
 %%book
 
 
-## Distributed, Virtualized Software on the Internet from around 2000
+## Distributed, Virtualized Apps and Cloud Software from around 2010
 
 %%col 50 50
 
-On the Internet, traditional monolithic software applications that ran on a single computer no longer worked well. There arose a need for applications that could run on multiple, partly mobile devices and use the same data. For this, distributed software architecture was developed. 
+Apps and websites completely replace traditional monolithic programs. They no longer run entirely on a single computer, but have user interfaces on mobile devices and data in the cloud. This also requires improving the scalability and flexibility of Internet applications to respond quickly to high user volumes. To scale web servers and cloud computations more effectively, programs with the operating system are packaged into images and hardware is virtualized. This enables distributing programs with the complete operating system across many machines very quickly.
 
-This architecture separates the frontend applications from the backend servers. The frontend applications are responsible for presenting content and interacting with users, while the backend servers provide the web pages and manage long-term data in databases. This separation makes it possible for frontend applications (websites or apps) to visualize the content and interact with users without needing direct access to the databases.
-
-Problem: On the Internet, many users often access the same servers (pages) simultaneously. To avoid overloading them, ways to duplicate these on demand quickly were needed. With the development of mobile devices (smartphones, tablets, etc.), there were increasingly many relatively small specialized applications (apps). Here the demand for computing capacity can grow dynamically and quickly, and dynamically scalable servers were also needed.
+Problem: The resulting modern distributed applications exhibit very high complexity. There are many specialized programming languages and sub-architectures to solve individual problems within them.
 
 %%sep
 
-![](images/02a_Softwarearchitektur/archi_8.svg)
+![](images/02a_Softwarearchitektur/archi_10.svg)
 
 %%/col
 
@@ -323,29 +342,14 @@ Problem: On the Internet, many users often access the same servers (pages) simul
 %%book
 
 
-## Distributed, Virtualized Apps and Cloud Software from around 2010
-
-%%col 50 50
-
-Apps and websites completely replace traditional monolithic programs. They no longer run entirely on a single computer, but have user interfaces on mobile devices and data in the cloud. This also requires improving the scalability and flexibility of Internet applications to respond quickly to high user volumes. To scale web servers and cloud computations more effectively, programs with the operating system are packaged into images and hardware is virtualized. This enables distributing programs with the complete operating system across many machines very quickly.
-
-Problem: The resulting modern distributed applications exhibit very high complexity. There are many specialized programming languages and sub-architectures to solve individual problems within them.
-
-%%sep
-
-![](images/02a_Softwarearchitektur/archi_10.svg)
-
-%%/col
-
-%%/book
-
-
 ## Classification of Programming Languages by Historical Usage
 
 
 Programming languages have evolved over time in line with architectures. Consequently, the popular programming languages have changed over the years.
 
 ![Classification of Programming Languages](images/02a_Softwarearchitektur/archi_11.svg)
+
+%%/book
 
 %%book
 
@@ -360,81 +364,81 @@ Programming languages have evolved over time in line with architectures. Consequ
     ---
 
     ### What was typical for software before 1950?
-    - [x] Directly written in binary machine code  
-    - [x] Monolithic structure without functional separation  
-    - [x] Tight coupling to specific hardware  
+    - [x] Directly written in binary machine code
+    - [x] Monolithic structure without functional separation
+    - [x] Tight coupling to specific hardware
     - [ ] Use of cloud-based microservices
 
     ### What main problem arose from the tight coupling of software and hardware?
-    - [x] Changes to hardware often required a complete reprogramming  
-    - [ ] Software was not executable  
-    - [ ] It was not possible to use memory  
+    - [x] Changes to hardware often required a complete reprogramming
+    - [ ] Software was not executable
+    - [ ] It was not possible to use memory
     - [ ] Software was too slow for deployment
 
     ### Why were operating systems introduced from the 1960s onwards?
-    - [x] To abstract hardware functions  
-    - [x] To take over standard tasks such as file management  
-    - [ ] To completely replace hardware  
+    - [x] To abstract hardware functions
+    - [x] To take over standard tasks such as file management
+    - [ ] To completely replace hardware
     - [ ] To make games more efficient
 
     ### What role do drivers play in modern operating systems?
-    - [x] They allow hardware to be exchanged without changing the program  
-    - [ ] They store programs in RAM  
-    - [ ] They provide the GUI  
+    - [x] They allow hardware to be exchanged without changing the program
+    - [ ] They store programs in RAM
+    - [ ] They provide the GUI
     - [ ] They are optional for hardware control
 
     ### Why were higher programming languages introduced?
-    - [x] To simplify programming  
-    - [ ] To write machine code directly  
-    - [x] To make programs more human-readable  
+    - [x] To simplify programming
+    - [ ] To write machine code directly
+    - [x] To make programs more human-readable
     - [ ] To avoid compilers
 
     ### What is a disadvantage of higher programming languages?
-    - [x] Programs must be recompiled or rewritten for each operating system  
-    - [ ] They cannot process numbers  
-    - [ ] They are too close to the hardware  
+    - [x] Programs must be recompiled or rewritten for each operating system
+    - [ ] They cannot process numbers
+    - [ ] They are too close to the hardware
     - [ ] They do not work on modern computers
 
     ### What task do virtual runtime environments perform?
-    - [x] They abstraхt the operating system  
-    - [x] They interpret or compile code at runtime  
-    - [ ] They completely replace the compiler  
+    - [x] They abstraхt the operating system
+    - [x] They interpret or compile code at runtime
+    - [ ] They completely replace the compiler
     - [ ] They manage file access over the network
 
     ### Why did the need for virtualization rise from around 1995?
-    - [ ] Because servers stopped functioning  
-    - [x] Because content needed to be available over the Internet on mobile devices  
-    - [ ] Because there were no compilers anymore  
+    - [ ] Because servers stopped functioning
+    - [x] Because content needed to be available over the Internet on mobile devices
+    - [ ] Because there were no compilers anymore
     - [ ] Because operating systems were abolished
 
     ### What tasks does the frontend handle in distributed web software?
-    - [x] Visualization of content  
-    - [x] Interaction with users  
-    - [ ] Management of long-term data  
+    - [x] Visualization of content
+    - [x] Interaction with users
+    - [ ] Management of long-term data
     - [ ] Control of server hardware
 
     ### What challenge occurred with web servers handling many simultaneous users?
-    - [x] Risk of server overload  
-    - [ ] Security vulnerabilities in CSS  
-    - [x] Need for rapid scaling (scaling out)  
+    - [x] Risk of server overload
+    - [ ] Security vulnerabilities in CSS
+    - [x] Need for rapid scaling (scaling out)
     - [ ] No possibility of storing data
 
     ### How do images help with scaling cloud applications?
-    - [x] Programs and operating systems are bundled  
-    - [x] They can be quickly distributed to servers  
-    - [ ] Images replace the user interface  
+    - [x] Programs and operating systems are bundled
+    - [x] They can be quickly distributed to servers
+    - [ ] Images replace the user interface
     - [ ] They enable code analysis by AI
 
     ### What is a feature of modern apps and cloud software?
-    - [ ] They are installed and run locally  
-    - [ ] They run only on one computer  
-    - [x] They are distributed and store data in the cloud  
+    - [ ] They are installed and run locally
+    - [ ] They run only on one computer
+    - [x] They are distributed and store data in the cloud
     - [x] They replace monolithic software
 
     ### How do programming languages relate to software architecture?
-    - [x] They have evolved together with architectural patterns  
-    - [x] Popular languages depend on the type of architecture  
-    - [ ] They have no relation to architecture  
+    - [x] They have evolved together with architectural patterns
+    - [x] Popular languages depend on the type of architecture
+    - [ ] They have no relation to architecture
     - [ ] Only object-oriented languages can be used
 
 ```

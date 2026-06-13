@@ -14,6 +14,29 @@ resources:
   - data/04c_Objects_en
 ---
 
+%%slides
+
+
+## Process
+
+![](images/partA_6.svg)
+
+%%/slides
+
+%%slides
+
+
+## Objectives
+
+- Learn the fundamentals of object-oriented programming
+- A basic understanding of programming with objects
+- Data types vs. classes
+- Functions vs. methods
+
+- Introduction to advanced concepts such as inheritance
+
+%%/slides
+
 %%book
 
 
@@ -38,6 +61,20 @@ Object-oriented programming (OOP) is a programming paradigm that assumes that a 
 Object-oriented programming helps address some problems that arise when dealing with frequently recurring data structures in large programs.
 
 %%/book
+
+%%slides
+
+
+## Object-Oriented Programming
+%%def Object-Oriented Programming
+Object-oriented programming (OOP) is a programming paradigm that assumes that a program consists exclusively of objects that interact cooperatively with each other.
+%%/def
+Each object has:
+
+- *Attributes* (Properties): Define the value describing the state of an object.
+- *Methods* define the possible state changes (actions) of an object.
+
+%%/slides
 
 %%book
 
@@ -83,6 +120,28 @@ If you try to process these points, you may encounter problems because both have
 
 %%/book
 
+%%slides
+
+
+## Why Objects – The Syntactic Problem of Repeating Data Structures
+
+- Objects are used to determine how repeating data structures are stored.
+- As the program grows, so does the number of variables and data structures
+    - for storing data
+    - for controlling the flow of the program
+    - for storing states
+    - for processing input and output
+
+- The underlying elements are usually based on repeating data structures.
+- For example, point coordinates in blueprints or maps could be expressed as tuples or lists.
+
+```python
+punkt_1 = (54.083336, 12.108811) # What is the correct syntax?
+punkt_2 = [12.108811, 54.083336]
+```
+
+%%/slides
+
 %%book
 
 ### The semantic problem
@@ -109,9 +168,25 @@ point_2 = (12.094167, 54.075211)
 
 %%book
 
-Another programmer may not understand the semantic meaning here. In this example, one might assume that the first value is the `x` coordinate and the second is the `y` coordinate. Maybe it’s the other way around. Perhaps it is not a Cartesian coordinate system, but a radial one. To eliminate such ambiguities, one would like to give the data structure a clear semantic definition, where it is unambiguous what the values mean.
+Another programmer may not understand the semantic meaning here. In this example, one might assume that the first value is the `x` coordinate and the second is the `y` coordinate. Maybe it's the other way around. Perhaps it is not a Cartesian coordinate system, but a radial one. To eliminate such ambiguities, one would like to give the data structure a clear semantic definition, where it is unambiguous what the values mean.
 
 %%/book
+
+%%slides
+
+
+## Why Objects – The Semantic Problem of Repeated Data Structures
+
+- Objects are also used to clearly define the semantics of values within a data structure.
+
+- For instance, if we've agreed that we syntactically represent a point as a tuple, the meaning of the values is still unknown
+
+```python
+punkt_1 = (54.083336, 12.108811) # What is the semantics of these values?
+punkt_2 = (12.108811, 54.083336) # So which is Latitude, which is Longitude?
+```
+
+%%/slides
 
 %%book
 
@@ -145,12 +220,65 @@ This function can, due to Python's dynamic typing, also be applied to other data
 
 %%/book
 
+%%slides
+
+
+## Why Objects – The Behavioral Problem of Repeated Data Structures
+
+- Objects bundle functions and data structures.
+
+- A distance function can be applied to the wrong data structures, e.g., to lines instead of points.
+
+```python
+def distance(a, b):
+    return math.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
+
+point_1 = (54.083336, 12.108811)
+point_2 = (12.108811, 54.083336)
+
+distance(point_1, point_2)
+
+line_1 = [(54.08, 12.11), (54.10, 12.11)]
+line_2 = [(12.11, 54.08), (12.20, 54.10)]
+
+distance(line_1, line_2)
+```
+
+%%/slides
+
 %%book
 
 
 ## Object-Oriented Programming
 
 %%/book
+
+%%slides
+
+
+## Object-oriented Programming in Python
+
+- Python is object-oriented from the ground up – a fact we have so far ignored
+
+- All data types in Python are objects (that's why they also have their own methods)
+- User-defined classes are always a composite (complex) data type
+    - Each data type has: value, type, identity
+    - Variables are references
+
+%%/slides
+
+%%slides
+
+
+## Basics of Object-Oriented Programming
+
+- Instead of using a large number of scattered data structures and functions in a confusing way, we group them into objects.
+
+- The structure of these objects is defined in the form of *classes*, which act as a kind of blueprint. A class defines:
+    - which *attributes* (variables / properties) an object of this class possesses.
+    - which *methods* (functions) an object of the class provides
+
+%%/slides
 
 %%book
 
@@ -186,6 +314,20 @@ class ClassName:
 
 %%/book
 
+%%slides
+
+
+## Defining Classes
+
+The first step in creating an object is to define a new class for the object's type. This is done using the `class` keyword:
+
+```python
+class ClassName:
+    # class definition
+```
+
+%%/slides
+
 %%book
 
 ### Constructor
@@ -211,6 +353,29 @@ class ClassName:
 ```
 
 %%/book
+
+%%slides
+
+
+## Constructors with the __init__ method
+
+The constructor `__init__()` is a special method that defines how a new instance of the class is created.
+
+```python
+class Point:
+    # Constructor
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+```
+
+- `self` describes a self-reference to the new instance of the class
+- You can access the attributes of an instance using dot syntax
+- `self.x` is therefore a reference to the instance's x attribute
+- `self.x = x` means that we assign the value of the variable x to the new instance attribute x
+- Since `__init__` is a function, you can also define defaults
+
+%%/slides
 
 %%book
 
@@ -264,6 +429,25 @@ class Point:
 
 %%/book
 
+%%slides
+
+
+## Instance-level Attributes
+
+- Instance attributes can differ between instances
+- If one instance changes the attribute, the change does not affect other instances (isolation)
+- They are defined in the constructor `__init__`
+
+```python
+class Punkt:
+    # Konstruktor
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+```
+
+%%/slides
+
 %%book
 
 ### Class attributes
@@ -295,6 +479,23 @@ class Point:
 
 %%/book
 
+%%slides
+
+
+## Class-Level Attributes
+
+- Class attributes are attributes that have the same value for all instances of a class
+- They are defined at the class level using the `class` keyword, just like a variable
+- *Important!* They apply to all instances; if one instance changes the value, it changes for all other instances
+
+```python
+class Punkt:
+    # Attribut aller Instanzen
+    einheit = "m"
+```
+
+%%/slides
+
 %%book
 
 ### Methods
@@ -318,7 +519,7 @@ For example, we can define the am Anfang definierte `distance`-Funktion as a met
 class Point:
     # Class attribute
     unit = "m"
-    
+
     # Constructor
     def __init__(self, x, y):
         self.x = x
@@ -331,6 +532,26 @@ class Point:
 
 %%/book
 
+%%slides
+
+
+## Methods
+
+- Methods are defined like functions with the keyword `def`, indented at the same level as the class
+- These methods are then available to all instances
+- Methods always have `self` as the first parameter (reference to the current instance)
+- This allows you to access attributes or other methods
+- You can also assign defaults to method parameters
+
+```python
+class Punkt:
+    # Methode
+    def distanz(self, punkt_2):
+        return math.sqrt((self.x - punkt_2.x)**2 + (self.y - punkt_2.y)**2)
+```
+
+%%/slides
+
 %%book
 
 
@@ -340,7 +561,7 @@ class Point:
 
 %%book
 
-Objects themselves are always instances of a class (the class is just a blueprint). A class can have any number of instances, or none at all. All instances have the same structure, but they don’t necessarily have the same values in their attributes.
+Objects themselves are always instances of a class (the class is just a blueprint). A class can have any number of instances, or none at all. All instances have the same structure, but they don't necessarily have the same values in their attributes.
 
 With the new class `Point`, we can now define the points at the outset syntactically, semantically, and in their behavior in a clear way. We create instances of the class not directly with the constructor but by calling the class name as a function, with the parameters of the constructor. The `self` parameter is omitted (it is assigned by Python).
 
@@ -360,7 +581,7 @@ point_2 = Point(y=12.094167, x=54.075211) # With named parameters, we can change
 
 %%book
 
-Also the values of the object are now semantically well-defined. We can access them using dot notation, where the object’s variable name is on the left and the attribute name on the right. To access the attribute `x`, we write
+Also the values of the object are now semantically well-defined. We can access them using dot notation, where the object's variable name is on the left and the attribute name on the right. To access the attribute `x`, we write
 
 %%/book
 
@@ -427,6 +648,67 @@ point_1.distance(point_2)
 ```
 
 %%/book
+
+%%slides
+
+
+## Classes and Instances
+
+- Objects are *instances* of a class (the class is just a blueprint).
+- A class can have any number of instances.
+- All instances have the same structure.
+- However, instances do not necessarily have the same values in their attributes.
+
+%%col 50 50
+
+![](https://mermaid.ink/svg/pako:eNp9kT1vgzAQhv-KdTNBODh8eOjQdkFtl6pT4wwWNmAJ7MiYfoTw32sgZKyX8z3vvXfS3QilERIoVK35LhtuHXr8YBr599LyvpfHNZyYXqlQVpZOGY1e31dS4GOhe8f1BeHTDek70ndngdFu93BVvUOb-GX09TZnM_5XAwHUVgmgzg4ygE7ajs8pjLObgWtkJxlQ_xWy4kPrGDA9eduZ609jus1pzVA3QCve9j4bzoI7-ax4bXl3p1ZqIe2TGbQDSiKyNAE6wg9QHCchjj3MSIJzTKIkgN-5KtyTPM8TnB3iaJ_GZArgssyNwiydJS_gPI3IwfeTQjlj39b9L2eY_gD5vnxs)
+
+%%sep
+
+![](https://mermaid.ink/svg/pako:eNp9kTtvgzAQgP8KupkgG8zDHjq0XaK2UlV1aslgYQNWwY6M6SOE_15eyRhPvu_uu5PuBiiMkMCgbMxPUXPrvPv3XHvTe2p418nP115_uUOuVyiUlYVTRnvPbyvZ47XEw4cN6A3oq7XH3m53d1adm7Kd4_rkfRt93kZctFs14ENllQDmbC99aKVt-RzCMNs5uFq2Mgc2fYUsed-4HHI9TtqR6w9j2otpTV_VwEredFPUHwV38lHxyvL2Sq3UQtoH02sHLEZoaQJsgF9gOEoCHBFEMpJgiglKfPgDRlAQEkppgrM4QmEakdGH0zIXBVk6p2iYJDSNaIx9kEI5Y1_W1S8XGP8BBLJ6eQ)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Creating Instances
+
+Instances of the class are created by using the class name as if it were a function (this implicitly calls the constructor). The `self` parameter is not supplied.
+
+```python
+punkt_1 = Punkt(54.083336, 12.108811)
+punkt_2 = Punkt(12.108811, 54.083336)
+```
+
+%%/slides
+
+%%slides
+
+
+## Calling Methods
+
+Class methods are available on all instances. They are invoked using dot syntax:
+
+```python
+punkt_1.distanz()
+```
+
+In the same way, attributes can also be accessed:
+
+```python
+print(punkt_1.x, punkt_1.y)
+```
+
+and these can be modified:
+
+```python
+punkt_1.x = 20
+```
+
+%%/slides
 
 %%book
 
@@ -505,7 +787,7 @@ To ensure that no one can change the coordinates anymore, we must declare `x` an
 #| echo: true
 class ImmutablePoint:
     unit = "m"
-    
+
     def __init__(self, x, y):
         self.__x = x
         self.__y = y
@@ -751,288 +1033,6 @@ pentagon_1.area()
 
 %%/book
 
-%%slides
-
-
-## Process
-
-![](images/partA_6.svg)
-
-%%/slides
-
-%%slides
-
-
-## Objectives
-
-- Learn the fundamentals of object-oriented programming  
-- A basic understanding of programming with objects  
-- Data types vs. classes  
-- Functions vs. methods
-
-- Introduction to advanced concepts such as inheritance
-
-%%/slides
-
-%%slides
-
-
-## Object-Oriented Programming
-%%def Object-Oriented Programming
-Object-oriented programming (OOP) is a programming paradigm that assumes that a program consists exclusively of objects that interact cooperatively with each other.
-%%/def
-Each object has:
-
-- *Attributes* (Properties): Define the value describing the state of an object.
-- *Methods* define the possible state changes (actions) of an object.
-
-%%/slides
-
-%%slides
-
-
-## Why Objects – The Syntactic Problem of Repeating Data Structures
-
-- Objects are used to determine how repeating data structures are stored.
-- As the program grows, so does the number of variables and data structures
-    - for storing data
-    - for controlling the flow of the program
-    - for storing states
-    - for processing input and output
-
-- The underlying elements are usually based on repeating data structures.
-- For example, point coordinates in blueprints or maps could be expressed as tuples or lists.
-
-```python
-punkt_1 = (54.083336, 12.108811) # What is the correct syntax?
-punkt_2 = [12.108811, 54.083336]
-```
-
-%%/slides
-
-%%slides
-
-
-## Why Objects – The Semantic Problem of Repeated Data Structures
-
-- Objects are also used to clearly define the semantics of values within a data structure.
-
-- For instance, if we've agreed that we syntactically represent a point as a tuple, the meaning of the values is still unknown
-
-```python
-punkt_1 = (54.083336, 12.108811) # What is the semantics of these values?
-punkt_2 = (12.108811, 54.083336) # So which is Latitude, which is Longitude?
-```
-
-%%/slides
-
-%%slides
-
-
-## Why Objects – The Behavioral Problem of Repeated Data Structures
-
-- Objects bundle functions and data structures.
-
-- A distance function can be applied to the wrong data structures, e.g., to lines instead of points.
-
-```python
-def distance(a, b):
-    return math.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
-
-point_1 = (54.083336, 12.108811)
-point_2 = (12.108811, 54.083336)
-
-distance(point_1, point_2)
-
-line_1 = [(54.08, 12.11), (54.10, 12.11)]
-line_2 = [(12.11, 54.08), (12.20, 54.10)]
-
-distance(line_1, line_2)
-```
-
-%%/slides
-
-%%slides
-
-
-## Basics of Object-Oriented Programming
-
-- Instead of using a large number of scattered data structures and functions in a confusing way, we group them into objects.
-
-- The structure of these objects is defined in the form of *classes*, which act as a kind of blueprint. A class defines:
-    - which *attributes* (variables / properties) an object of this class possesses.
-    - which *methods* (functions) an object of the class provides
-
-%%/slides
-
-%%slides
-
-
-## Classes and Instances
-
-- Objects are *instances* of a class (the class is just a blueprint).
-- A class can have any number of instances.
-- All instances have the same structure.
-- However, instances do not necessarily have the same values in their attributes.
-
-%%col 50 50
-
-![](https://mermaid.ink/svg/pako:eNp9kT1vgzAQhv-KdTNBODh8eOjQdkFtl6pT4wwWNmAJ7MiYfoTw32sgZKyX8z3vvXfS3QilERIoVK35LhtuHXr8YBr599LyvpfHNZyYXqlQVpZOGY1e31dS4GOhe8f1BeHTDek70ndngdFu93BVvUOb-GX09TZnM_5XAwHUVgmgzg4ygE7ajs8pjLObgWtkJxlQ_xWy4kPrGDA9eduZ609jus1pzVA3QCve9j4bzoI7-ax4bXl3p1ZqIe2TGbQDSiKyNAE6wg9QHCchjj3MSIJzTKIkgN-5KtyTPM8TnB3iaJ_GZArgssyNwiydJS_gPI3IwfeTQjlj39b9L2eY_gD5vnxs)
-
-%%sep
-
-![](https://mermaid.ink/svg/pako:eNp9kTtvgzAQgP8KupkgG8zDHjq0XaK2UlV1aslgYQNWwY6M6SOE_15eyRhPvu_uu5PuBiiMkMCgbMxPUXPrvPv3XHvTe2p418nP115_uUOuVyiUlYVTRnvPbyvZ47XEw4cN6A3oq7XH3m53d1adm7Kd4_rkfRt93kZctFs14ENllQDmbC99aKVt-RzCMNs5uFq2Mgc2fYUsed-4HHI9TtqR6w9j2otpTV_VwEredFPUHwV38lHxyvL2Sq3UQtoH02sHLEZoaQJsgF9gOEoCHBFEMpJgiglKfPgDRlAQEkppgrM4QmEakdGH0zIXBVk6p2iYJDSNaIx9kEI5Y1_W1S8XGP8BBLJ6eQ)
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Object-oriented Programming in Python
-
-- Python is object-oriented from the ground up – a fact we have so far ignored
-
-- All data types in Python are objects (that’s why they also have their own methods)
-- User-defined classes are always a composite (complex) data type
-    - Each data type has: value, type, identity
-    - Variables are references
-
-%%/slides
-
-%%slides
-
-
-## Defining Classes
-
-The first step in creating an object is to define a new class for the object's type. This is done using the `class` keyword:
-
-```python
-class ClassName:
-    # class definition
-```
-
-%%/slides
-
-%%slides
-
-
-## Constructors with the __init__ method
-
-The constructor `__init__()` is a special method that defines how a new instance of the class is created.
-
-```python
-class Point:
-    # Constructor
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-```
-
-- `self` describes a self-reference to the new instance of the class
-- You can access the attributes of an instance using dot syntax
-- `self.x` is therefore a reference to the instance's x attribute
-- `self.x = x` means that we assign the value of the variable x to the new instance attribute x
-- Since `__init__` is a function, you can also define defaults
-
-%%/slides
-
-%%slides
-
-
-## Creating Instances
-
-Instances of the class are created by using the class name as if it were a function (this implicitly calls the constructor). The `self` parameter is not supplied.
-
-```python
-punkt_1 = Punkt(54.083336, 12.108811)
-punkt_2 = Punkt(12.108811, 54.083336)
-```
-
-%%/slides
-
-%%slides
-
-
-## Instance-level Attributes
-
-- Instance attributes can differ between instances
-- If one instance changes the attribute, the change does not affect other instances (isolation)
-- They are defined in the constructor `__init__`
-
-```python
-class Punkt:
-    # Konstruktor
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-```
-
-%%/slides
-
-%%slides
-
-
-## Class-Level Attributes
-
-- Class attributes are attributes that have the same value for all instances of a class
-- They are defined at the class level using the `class` keyword, just like a variable
-- *Important!* They apply to all instances; if one instance changes the value, it changes for all other instances
-
-```python
-class Punkt:
-    # Attribut aller Instanzen
-    einheit = "m"
-```
-
-%%/slides
-
-%%slides
-
-
-## Methods
-
-- Methods are defined like functions with the keyword `def`, indented at the same level as the class
-- These methods are then available to all instances
-- Methods always have `self` as the first parameter (reference to the current instance)
-- This allows you to access attributes or other methods
-- You can also assign defaults to method parameters
-
-```python
-class Punkt:
-    # Methode
-    def distanz(self, punkt_2):
-        return math.sqrt((self.x - punkt_2.x)**2 + (self.y - punkt_2.y)**2)
-```
-
-%%/slides
-
-%%slides
-
-
-## Calling Methods
-
-Class methods are available on all instances. They are invoked using dot syntax:
-
-```python
-punkt_1.distanz()
-```
-
-In the same way, attributes can also be accessed:
-
-```python
-print(punkt_1.x, punkt_1.y)
-```
-
-and these can be modified:
-
-```python
-punkt_1.x = 20
-```
-
-%%/slides
-
 %%book
 
 
@@ -1040,10 +1040,10 @@ punkt_1.x = 20
 
 
 ```{quizdown}
-	
+
 	shuffleQuestions: true
 	shuffleAnswers: true
-	
+
 
     ### Was beschreibt ein Objekt in der objektorientierten Programmierung?
     - [x] Eine Einheit mit Zustand (Attribute) und Verhalten (Methoden)
@@ -1282,7 +1282,7 @@ punkt_1.x = 20
     - [x] Eine grafische Notation für Software-Design
     - [ ] Die Programmiersprache
     - [ ] Die Datenbank-Sprache
-    - [ ] Eine Art von Algorithmus 
+    - [ ] Eine Art von Algorithmus
 ```
 
 %%/book
