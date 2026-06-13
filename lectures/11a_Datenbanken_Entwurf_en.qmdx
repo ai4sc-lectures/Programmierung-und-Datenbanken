@@ -16,13 +16,6 @@ resources:
 
 %%book
 
-
-# Relational Database Design
-
-%%/book
-
-%%book
-
 ![](images/11a_Datenbanken_Entwurf/mj_title_band.jpg)
 
 > Simple things should be simple. Complex things should be possible.
@@ -49,6 +42,22 @@ resources:
 %%slides
 
 
+## Process
+
+![](images/partB_3.svg)
+
+%%/slides
+
+%%book
+
+
+# Relational Database Design
+
+%%/book
+
+%%slides
+
+
 ## In-class Question {background="#FFD966" cols40x60 txtL="What are relational databases?" capR="Midjourney: Relational Database" imgR="images/11a_Datenbanken_Entwurf/mj_datenbank1.png"}
 
 %%/slides
@@ -64,58 +73,6 @@ resources:
 - The standard language for creating/modifying/deleting is *SQL*
 
 - Popular systems: Oracle, MySQL, Microsoft SQL Server, PostgreSQL, IBM Db2
-
-%%/slides
-
-%%slides
-
-
-## Lecture Hall Question {background="#FFD966" cols40x60 txtL="What types of keys are there in relational databases?" capR="Midjourney: Key on a Keyring" imgR="images/11a_Datenbanken_Entwurf/mj_schluessel.png"}
-
-%%/slides
-
-%%slides
-
-
-## Recap: Key References
-
-%%col 50 50
-
-**Municipalities Table**
-
-| MunicipalityID | Name | Population |
-|---|--------------|-------|
-| 1 | Dummerstorf  | 7,329 |
-| 2 | Graal-Müritz | 4,278 |
-| 3 | Sanitz       | 5,831 |
-
-
- Primary key: MunicipalityID
-
-%%sep
-
-**Buildings Table**
-
-| BuildingID | Building Type | MunicipalityID |
-|------------|-------------|------------|
-| 5000       | Gas Station  | 2 |
-| 5001       | Hotel        | 1 |
-| 5002       | Church       | 2 |
-
-
-
- Foreign key: MunicipalityID
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Process
-
-![](images/partB_3.svg)
 
 %%/slides
 
@@ -146,6 +103,22 @@ What is decisive in the approach is that there is a high-level design at the con
 ![Steps in Database Design](images/11a_Datenbanken_Entwurf/dbentwurf.png)
 
 %%/book
+
+%%slides
+
+
+## Database Design Process
+
+The traditional design process resembles the waterfall model used in software design.
+
+1. *Requirements analysis*: What requirements and use cases does the database need to support?
+2. *Conceptual design*: High-level design in the ER diagram with entities, attributes, and relationships
+3. *Logical design*: Detailed design of the concrete database schema for a specific DBMS
+4. *Physical design*: Primary indexes and secondary indexes to optimize access
+5. *Implementation*: Creating the database with SQL
+6. *Maintenance*: Using the database
+
+%%/slides
 
 %%book
 
@@ -188,292 +161,6 @@ A simple example is shown in the following image. We have a person who lives in 
 ![](https://mermaid.ink/svg/pako:eNqNUEFqAzEM_IrROTn0akIg0FsLXZpb8UWslazBloMtE9Kwf8lb-rKKZk0p9BCYgzQeeYa5wpg9gYUxYq3PAY8Fk-Ovm1H4UGiUkNm8vnduoFKVcPDkwKzXy_BWxFhzzhOLCWy22y7_-XY5unbyjs2GWIJcfsV3VCmBj2bX6plC5ZYSFTO8_CtiTNQf5r-eGulBw6Chh1wlUpBPnOKDZrACTZYweK1PrYx2IROpBqyOng7YojhwPKsUm-T9hUewUhqtoJ08Ci2Fgz1grMqekD9y7vv8DX4bo1o)
 
 %%/book
-
-%%book
-
-
-## Cardinalities
-
-%%/book
-
-%%book
-
-In ER diagrams, the cardinality of relationships plays a key role, since it leads to different table representations. Cardinalities describe the number of minimal and maximal possible relationships between entities for this relationship. In general, the following cardinalities are distinguished:
-
-%%/book
-
-%%book
-
-<table>
-    <tr>
-        <td style="width: 10%">Cardinality</td>
-        <td style="width: 40%">Example</td>
-        <td style="width: 50%">ER Diagram</td>
-    </tr>
-    <tr>
-        <td>1 to 1</td>
-        <td>A person is born in at least one, at most one place.</td>
-        <td>![](https://mermaid.ink/svg/pako:eNqNjzEOwjAMRa8SeW4H1gh1YkQCwYaymMYtkdqkSpyhqnoXzsLJMNAKsSF7sL_--7InqIMl0FB3mNLOYRuxN_5xV9LWRarZBa_2p1U7UkwiGNgYUGW5DIfISquWriGSV86rqlqBd_CCTav46e2WPDsev-b5l5LYf5BXQQE9xR6dlWcEUnIZ36gnA1pGSw3mjg0YP4sVM4fz6GvQHDMVkAeLTMv7oBvskqgD-ksI6z4_AW2lcZg)</td>
-    </tr>
-    <tr>
-        <td>1 to 0..1</td>
-        <td>A person has died in zero or one place.</td>
-        <td>![](https://mermaid.ink/svg/pako:eNqNkLEKwkAMhl_lyNyCrkfp5CgousktsZfWg_au3KVDKX0Xn8UnM2qLuEky_PnJF5JMUAVLoKFqMaWdwyZiZ_zjriSti1SxC17tT6t3pJjEMLA1oPJcxEbEIbLSqqHEIV7JK-dVWa7Ie_QCTqv5yaIgz47Hb_P8S8ngf5BXQAYdxQ6dlXMEUrIb36gjA1qkpRqHlg0YP0srDhzOo69Acxwog6G3yLQ8AHSNbRK3R38JYa3nJ20xcn4)</td>
-    </tr>
-    <tr>
-        <td>1 to 0..*</td>
-        <td>A person goes on vacation to zero or more places.</td>
-        <td>![](https://mermaid.ink/svg/pako:eNqNkL0KQjEMhV8lZBQVXYs4OQqKbtIltlELt630poPIfRefxScz_lzETXqG00O-NOkVXfaMBl1DbbsIdCwUbbrfQOVDYSchJ1hu-mzNpdXA4tQijEZqJuPxQP2qCBiI5E4CtTRU9xASzOc9-Hrgg1_78K3ZjJMEuXyLu19Ke_-DPA8OMXKJFLwupRDohHLiyBaNWs8Hqo1YtKnTUqqSt5fk0EipPMR69iT8-QY0B2paTc-Udjn39-4BWmFz8w)</td>
-    </tr>
-    <tr>
-        <td>1 to 1..*</td>
-        <td>A person has previously been to at least one, at most many places.</td>
-        <td>![](https://mermaid.ink/svg/pako:eNqNT0EKwkAM_MqSo7QFr0vpyaOg6E32ErqpLrS7ZZsipfQvvsWXmWqLeJPMYTLMDMkIZbAEGsoau27n8BqxMf75UALrIpXsglf706odKXYiGNgaUGk6kyzbCD9EVlrdMSrnVVGs_nfvkhpX8YM8J8-Oh695-k1J5T-ReSCBhmKDzsovElJyGN-oIQNaqKUK-5oNGD-JFXsO58GXoDn2lEDfWmRavgddYd2J2qK_hLDu0wtjFnCG)</td>
-    </tr>
-</table>
-
-%%/book
-
-%%book
-
-It should be noted that the reading direction (`<<` or `>>`) is important, since no statement is made about the cardinality of the reverse direction! In the above example, only a statement is made about how many places *one* person was in, and not about how many people can be in places.
-
-%%/book
-
-%%book
-
-
-## Example: ER Conceptual Design for Geometric Objects
-
-%%/book
-
-%%book
-
-As a design example, we refer to the geometry objects example discussed in the chapter [Objektorientierung](7a_Objects.html). We have the classes `Point`, `Line` and `Polygon` with the variants `Triangle`, `Tetragon` and `Pentagon`.
-
-The `Point` has attributes the `x` and `y` coordinates of type `float`, both of which are `public` as annotated with `+`. Furthermore, there are different methods in `Point`, `Line`, and `Polygon` for calculating the distance, area, and length of the respective objects.
-
-In the UML diagram we have depicted that a `Polygon` has the aggregation association with multiplicity `1` to `3..*` to the class `Point`, i.e., a polygon is linked to at least three points. The `Line` is, in turn, associated with the `Point` class with the multiplicity `1` to `2`, i.e., a line is associated with exactly two points.
-
-The classes `Triangle`, `Tetragon` and `Pentagon` are subclasses of `Polygon`, which add no further functionality.
-
-%%/book
-
-%%book
-
-![](https://mermaid.ink/svg/pako:eNptUcFqwzAM_RWjU7o1hW03s-OOOxS20zAEEStpwJGDrcBCl3-fkyxlKfFJ7-m9JxldofSWQEPpMMa3BuuArWGV3syos29Yrguj1GPlPIr6vsPDDdsmCnJJ2ew7LPy4DXRD7VndMpMLA2F2-EcURZRQFNlewHvDtHE74loud9p5vjLwbEDluU_VU6pmr1ZpxyBHRWy34pfT6WGjX5fVqpskcZUv7OtPnqvP0CDXjvZaJAEntNM7E8vUgyO0FFpsbDrC_CsDcqGWDOhUWqqwd2LA8Jik2Iv_GLgELaGnI_SdRaG_s4Gu0MXEdshf3q94_AW6H5O5)
-
-%%/book
-
-%%book
-
-To design a database schema for these objects, we map them into an ER diagram by applying the conversion rules shown above.
-
-- We annotate the classes first with `<<Entity>>` to mark them as such.
-- We remove all methods, since ER diagrams do not support them.
-- We remove all encapsulation annotations `+`, `-`, or `#` before attributes
-- We add primary keys to all entities
-- We convert the special association types Aggregation and Composition into simple associations
-
-Since there is no inheritance in ER diagrams and DBMS, we need to decide how to handle the subclasses `Triangle`, `Tetragon`, and `Pentagon`. One possibility would be to introduce a new entity for each, built just like a Polygon. But this would lead to several redundant tables. This is necessary if the subclasses introduce their own attributes. Since they do not do this, we also do not need separate entities, but can incorporate them into the generic Polygon entity by introducing the attribute `PolygonType`, in which we can store whether it is a `Triangle`, `Tetragon`, `Pentagon`, or subtype.
-
-We obtain the following conceptual design:
-
-![](https://mermaid.ink/svg/pako:eNqVUk1rwzAM_StCx9EWxm6m9NTLWA-h62n4osVKZ5bYwZGhofS_7Lfsl83Nx0ZIDysIIz-_Jz0ZnTH3hlFhXlLTbC0dA1XafX9BCmMD52K9g91-xHbWWQaNjxphuRySLLpPAQWNUBA28M4WNpt_SdiZmaDz0svOI9bHes1OrLR_3D6skyufn7eQvYxPl2m9ruMd9TKfzknBPorSk8DpFtjOWvdjanxarR4m4_uyPaaPVRCrIrmT2fgD4y7DneKG5UbC-Hpo61-TuMCKQ0XWpAVIjSCZkw-uWKNKqeGCYikatbtSKYp_bV2OSkLkBcbakPCwMqgKKpuE1uTevB_vlx87g-rt)
-
-In the conceptual design there are three entity types. The entity `Point` still has `x` and `y` coordinates as attributes of type `float`. The entity `Line` has two relations to `Point` for the start point and end point. The entity `Polygon` has the relation to `Point` with cardinality `1` to `3..*`, i.e., at least three points. It also has a new attribute `PolygonType` of type `str` to store the subtype. For all three entities we have defined a numeric primary key, since numeric indexes are the most efficient.
-
-%%/book
-
-%%book
-
-
-## Normalization of Conceptual Designs to Logical Designs
-
-%%/book
-
-%%book
-
-The normalization is an important step in the process of mapping a conceptual data model to a logical and physical data model. Its purpose is to minimize redundancies (storing the same fact multiple times) by creating new tables and linking them via new relations for
-
-- complex attributes (lists, dictionaries)
-- relations with high cardinality
-- redundant data (e.g., polygon type)
-
-%%/book
-
-%%book
-
-There are several normal forms, defined by progressively stricter conditions on the database schema:
-
-- 1NF - First Normal Form: All attribute values are atomic — that is, each piece of information within a table gets its own column, and related information, such as the postal code and the city, or complex attributes like lists or dictionaries, are not stored in a single column.
-- 2NF - Second Normal Form: Non-key attributes are fully functionally dependent on all primary keys — that is, only information that functionally depends on the key is stored in an entity. For example, for an invoice, the customer's name is not stored directly, but belongs to a separate Customer entity, since a customer can have multiple invoices. When drawing an ER diagram and thinking about the entities, you usually automatically apply the Second Normal Form.
-- 3NF - Third Normal Form: Non-key attributes depend only on the primary key — that is, redundant attributes that belong together should be stored together. So ZIP codes and place names tend to occur in pairs and should form a separate entity.
-- BCNF - Boyce-Codd Normal Form: All attributes on which other attributes depend are keys — that is, if several foreign keys occur in an entity and these depend on each other, this dependency is moved into its own entity. For example, if you store place names and ZIP codes in separate entities (because place names duplicate), you should not store the foreign keys ZIP and city name in the Customer entity, but still need the ZIP–City entity.
-- 4NF - Fourth Normal Form: There are only trivial multivalued dependencies remaining — that is, if multivalued attributes occur with foreign keys or other multivalued attributes that have no functional relation, they are moved out. For example, in 4NF it is incorrect to store in one table an order’s shipping address, customer number, and item numbers, since the shipping address depends on the customer number but not on the item numbers. The correct design is two tables with shipping address and customer number, and one with item number and customer number.
-- 5NF - Fifth Normal Form: There are no join dependencies remaining — that is, every join dependency between attributes and foreign keys is moved into its own table.
-
-Usually only the first three normal forms are relevant in database design. Higher normal forms result in a very large number of small tables, which even for simple queries must be joined together, drastically limiting usability.
-
-%%/book
-
-%%book
-
-In our geometry example, we want to look at a few examples of violations of the first through third normal forms.
-
-In the following ER diagram, we violate the first normal form because we define a complex attribute `List<Punkt>` instead of decomposing it into a relation.
-
-%%/book
-
-%%book
-
-![](https://mermaid.ink/svg/pako:eNpVjzEOgzAMRa8See4JEGJiqcqA2q3KYiWGRgUHgTMgBGfpWXqyhpYMtb5k--l_yV7AeEuQgelwmkqH7Yi95vdLRVk3khHnWVXXxL4-Vftubj0vif6U58TiZC6Kf-5YUuJcqvqiWR1VuUm2OvBTNjXsjVJy1awZTtDT2KOz8cJlj2mQB_WkIYujpQZDJxo0r9GKQfxtZgOZjIFOEAaLQsdPkDXYTZEOyHfv075-AHfmYNg)
-
-%%/book
-
-%%book
-
-In the second ER diagram we violate the second normal form, because we store the coordinates of the start and end points directly in the line, even though these points are represented as points and thus have a functional dependency. Here is the solution: move them into the `Punkt` entity and create relationships.
-
-%%/book
-
-%%book
-
-![](https://mermaid.ink/svg/pako:eNp1kEEKg0AMRa8yZO0JRFy5KXVR2l0ZKMGJ7YBmZMxARbxLz9KTdWxrQbCQRfL-_5BkhMoZghSqBvu-sHj12Gp-PlQsYz1VYh2r8riwt0-Vli2NC_tUlhGLlSHP19yyzH7aFeqwX0t141BUL-jlcv8vDVsSsdnOzMIvMWmGBFryLVoTz4w7K6VBbtSShjS2hmoMjWjQPEUrBnGngStIxQdKIHQGhb6PgbTGpo-0Qz47t8zTCyn2gtQ)
-
-%%/book
-
-%%book
-
-In the last example, we erroneously store the PolygonTyp attribute in the Point entity, even though it belongs to the Polygon entity.
-
-![](https://mermaid.ink/svg/pako:eNqVUctqwzAQ_JVljyUJLrmJkFMupT2Ypqeii2rJqageRl5BRfC_9Fv6ZV0ci2LopbCI0czuMiNdsYvaoMDOqXE8WXVJysvw_QVc2ibTkY0Bnp4rN_dBm8MHXSt3q8PBBLJUjsc1bwNBG_l8OEH7uNZ6FxXB519kWZMjJd7iyiWGlzJUbapgkUDivUTYbhnsd7s7xrNVEJB9z84Jfu0tUW6T_wozT6zisBGZm6Z5kwE36E3yymp-Vl4L7IXejTcSBUNtepUdSZRh4laVKZ5L6FBQymaDedCKzPIRKHrlRmYHFV5jrPfpB_QlrEw)
-
-%%/book
-
-%%book
-
-
-## Normalization of Cardinalities
-
-%%/book
-
-%%book
-
-According to the first normal form, we must map cardinalities differently according to their degree. Simple cardinalities (0 or 1) can be stored as an attribute, while higher cardinalities `>1` are mapped as a relation in a new entity. In both logical and physical design, it matters whether an attribute when storing a new entity in the database does not have to be specified (`Nullable`) or must be specified (`Not Null`).
-
-%%/book
-
-%%book
-
-<table>
-    <tr>
-        <td style="width: 10%">Cardinality</td>
-        <td style="width: 40%">Example</td>
-        <td style="width": 50%">ER Diagram</td>
-    </tr>
-    <tr>
-        <td>1 to 1</td>
-        <td>The relationships are represented by foreign keys in the entity from which the relationship starts, denoted by `>>`. The foreign key is `NOT NULL`, so an entry must ALWAYS be present.</td>
-        <td>![](https://mermaid.ink/svg/pako:eNp1UMtqQjEQ_ZVh1rpwG8SVCGKx0u5KNtOb0QZyJ5I7WYjcf-m3-GWNmiAihbOYnJxHMmfsomM02AUahqWnQ6LeyuUXCpxP3KmPAm8fjdtxGgphcWYRptM6vCcFAwf-jokFvMBi0Qy34Go7N_KO-ZxFvZ4e4ju8aDWsl7DbvF7WorXAagPbqLDNITTZ-NxcnvZvLbxGF_lT6YgT7Dn15F3ZUkmC8mX94Z4tmjI63lMOatHKVUpZ4-dJOjSaMk8wHx0p172i2VMYCnsk-Yqxncc_DKqVow)</td>
-    </tr>
-    <tr>
-        <td>1 to 0..1</td>
-        <td>The relation is represented by a foreign key in the entity. The foreign key is `NULLABLE`, so an entry does not have to be present.</td>
-        <td>![](https://mermaid.ink/svg/pako:eNp1UMFqQjEQ_JVlj0WFXoN4koJYWmlvkkt8WW0gbyPJ5iDy_sVv6Zd1W19aRApzmExmZ5I9Y5c8ocEuulKWwR2y6y1_XkDhQ6ZOQmJ4fmvahnJRweKjRZhOv8ls9qD8NQsYOFCRlHfEEBgWizb1kz7Onpt4xXxOLEFOf-YrAss4sFrCZn1_-Vu1Ynhaw0uN0e0iNeNw263P-7cY7sPVflOraTjBnnLvgtd1aRbo3-WDerJolHrauxrFouVBra5Kej9xh0ZypQnWo3dC44LR7F0sqh4db1Nq5-ELDQSZBA)</td>
-    </tr>
-    <tr>
-        <td>1 to 0..*</td>
-        <td>The relation is represented as a new entity with a foreign key.</td>
-        <td>![](https://mermaid.ink/svg/pako:eNqVUctKA0EQ_JWmz8nB6xICQhAkgkHxInNpd3rdgXmE2Z5DCPsvfotfZrsPkhg9CH2oqX5U9fQR62QZK6w9dd3G0XumYOLnB2hYl7kWlyI8PM3cUAc7zl2Kx5kcY7XiKE4O6_Ul76JMDfcb2G3nZD-DMQcGbwzCcjmB29LouJa8MFQ6GwLVrUDJnsrbpZvHLH9agWsvWv67kXPJH260R124CKflRu2znn98x7DLy7AK3G2v8yp0ontcYOAcyFk9lKqAmpKWAxusFFpuqHgxaOJ3KRVJz4dYYyW58ALL3pLwdFqsGvKdsnuKrynN7_4L_TzJhQ)</td>
-    </tr>
-    <tr>
-        <td>1 to 1..*</td>
-        <td>The relation is represented as a new entity with a foreign key. At least one entry should exist (this is a consistency rule that cannot be enforced by a DBMS alone (there is otherwise a chicken-and-egg problem)).</td>
-        <td>![](https://mermaid.ink/svg/pako:eNqVkc1qwzAMx19F6NweejWlMCiF0cHKdhu-iFhZDYldHPlQSt5lz7Inq2jiNl23w8AH-a-vn6QTVtExGqwa6rq1p89ErQ3fX6DP-cSV-Bjg5a1olzjYcepiOBVxeMslB_FyXK3udR9kTHhew25bnH0xBh9YXFiE-Xw0nnKt5fbUCIPR2kBX4Z7lNcmfIPBIouG_Y0wb_mDRHGXwAW6jDb0nOf9Yxm0S2Gwf3dpnM8XDGbacWvJO76RtQKlkzy1bNGo6rinrUtCGXkMpS3w_hgqNpMwzzAdHwuNl0dTUdKoeKHzEWP79GZXPyXc)</td>
-    </tr>
-</table>
-
-%%/book
-
-%%book
-
-
-## Example Geometry
-
-%%/book
-
-%%book
-
-To convert the above-mentioned conceptual design for the geometry objects into a logical design, we must normalize the design. Let's take another look at the design.
-
-![](https://mermaid.ink/svg/pako:eNqVUk1rwzAM_StCx9EWxm6m9NTLWA-h62n4osVKZ5bYwZGhofS_7Lfsl83Nx0ZIDysIIz-_Jz0ZnTH3hlFhXlLTbC0dA1XafX9BCmMD52K9g91-xHbWWQaNjxphuRySLLpPAQWNUBA28M4WNpt_SdiZmaDz0svOI9bHes1OrLR_3D6skyufn7eQvYxPl2m9ruMd9TKfzknBPorSk8DpFtjOWvdjanxarR4m4_uyPaaPVRCrIrmT2fgD4y7DneKG5UbC-Hpo61-TuMCKQ0XWpAVIjSCZkw-uWKNKqeGCYikatbtSKYp_bV2OSkLkBcbakPCwMqgKKpuE1uTevB_vlx87g-rt)
-
-%%/book
-
-%%book
-
-We have the three entities `Linie`, `Punkt` and `Polygon` with two 1:1 relationships from `Linie` to `Punkt` and a 1:3..*-relationship from `Polygon` to `Punkt`.
-
-First, by applying the rules of 1NF and decomposing these relations according to the table mentioned above, we can represent the two 1:1 relationships from `Linie` to `Punkt` using foreign keys in the `Linie` entity.
-
-The 1:3..*-relationships from `Polygon` to `Punkt`, however, cannot be directly mapped according to 1NF, since the multiplicity is greater than 1 and we must introduce a new entity. This entity (table) lists which polygons use which points. The new entity thus contains the two foreign keys and a new primary key. In the logical design we also include the foreign keys as attributes to represent them unambiguously.
-
-%%/book
-
-%%book
-
-![](https://mermaid.ink/svg/pako:eNqVk0FqwzAQRa8yaJ0sujUmq7RQEoJJuireqNY4FZUlI49KTchdepaerLIVNzi22xoGIc38j56k0YllRiCLWKZ4Va0lP1pepPrrE3wIaTEjaTRs911uK7VESNldymC5vEwSp98IIqiIW0IBLyhhtfqXBbUYGFqWYDt1uRBxjJok1VdtCKmp0ePjGpLNsHRouMKODxvYGdo5pYayey2mROc-WyubwZYYP47A5cpwgo9xpFCs_0Ixqj4aPQumdYzgVGS76lNdTm4cLun2QYOvraF_2DgGV-SekH5sPcW43Rvf_XjbCz3rjKPuUfGmgSf64noTv7VF93gjXcEWrEBbcCn8F_Jc4E9Dr1hgyiI_FZhzpyhlqW6k3JE51DpjEVmHC-ZKwQkvn45FOVeVz5ZcPxvTrc_fQ2JraQ)
-
-%%/book
-
-%%book
-
-In this draft, 2NF and 3NF are already satisfied.
-
-However, we have many duplications (redundancies) with the attribute `PolygonTyp`, which can only take the values `Triangle`, `Tetragon`, and `Pentagon`, but must be stored as a new string each time. At the same time, we also want this attribute to only take these values and not be filled with gibberish.
-
-Therefore, it makes sense to constrain the values here and to avoid duplication of strings by introducing a new entity `PolygonType`. This defines the base types `Triangle`, `Tetragon`, and `Pentagon` and assigns them a numeric primary key, which we reference in the entity `Polygon` as a foreign key.
-
-Lastly, we also define for all attributes and foreign keys whether they are `Nullable` or `NotNull`.
-
-We obtain the final logical design:
-
-%%/book
-
-%%book
-
-![](https://mermaid.ink/svg/pako:eNqVVEFugzAQ_MrK5-TQK0I5pZWqRBFKeqp8cfGSWDV2BOuqKOIvfUtfVoMhVQKhDbIs450RM7M2J5ZaiSxiqRZluVRiX4icm-8v8EOqAlNS1sB62--tlVEInD1wBvN5t0iceSeIoCRREEp4QwWLxb8oaOSA0GoJtFO_F0YcoyFF1S82DGWowePzEpLVsLRrdIUvPq1gY2njtB7CHo28BaovtbWwO7Ql1s8j4jJtBcHnuKRQrP6SYnW1t-YuMS3jRlZd9aU6esBEECGp664GcltD3904BpdnXiadaReIcbonfvj5-kBcUCf8Qvc0braoRXOCp82OOh12byqNc2pobrvycRx8S0dttdT7uxj6dO2tpAI2IscRvWzGcixyoaS_9acmLc7ogDlyFvmlxEw4TZxxU3uocGR3lUlZRIXDGXNHKQi7_0S_eRTm1Vr_mgldYv0DvTmt6A)
-
-%%/book
-
-%%book
-
-Wichtig zu erkennen in dem logischen Entwurf ist, dass wir jetzt nur noch 1:1-Relationen haben, also alle höherwertigen Kardinalitäten aufgelöst haben. Zusätzlich haben wir Redundanzen aufgelöst und haben jetzt ein sehr effizienten Datenbankentwurf.
-
-Im Physikalischen Entwurf würde man diesem Entwurf jetzt noch weitere Informationen hinzufügen, wie zum Beispiel zusätzliche Zugangangsbeschränkungen oder Abfrageindizies. Zugangsbeschränkungen gibt es in den meisten DBMSs nur auf Entitätsebene und nicht auf Attributsebene (wie in UML), man kann also Beschränken welche Nutzer, welche Tabellen sehen, lesen, erzeugen, oder verändern können, aber nicht welche Spalten sie sehen. 
-
-Beim Entwurf von Abfrageindizies ist die Regel, dass man versucht alle häufig genutzten `WHERE`-Bedingungen, die man in `SELECT`-Anfragen in SQL benutzt, durch entsprechende Indizies beschleunigt werden.
-
-Damit sind wir auch schon direkt im SQL Thema wo wir uns mit der Erzeugung von Tabellen beschäftigen wollen.
-
-%%/book
-
-%%slides
-
-
-## Database Design Process
-
-The traditional design process resembles the waterfall model used in software design.
-
-1. *Requirements analysis*: What requirements and use cases does the database need to support?
-2. *Conceptual design*: High-level design in the ER diagram with entities, attributes, and relationships
-3. *Logical design*: Detailed design of the concrete database schema for a specific DBMS
-4. *Physical design*: Primary indexes and secondary indexes to optimize access
-5. *Implementation*: Creating the database with SQL
-6. *Maintenance*: Using the database
-
-%%/slides
 
 %%slides
 
@@ -523,7 +210,7 @@ The traditional design process resembles the waterfall model used in software de
 *Historical development:*
 
 - *Chen notation* (Peter Chen, 1976)
-- *IDEF1X* (U.S. government standard, 1985)  
+- *IDEF1X* (U.S. government standard, 1985)
 - *Bachman notation* (Charles Bachman, 1969)
 - *Crow's Foot notation* (Gordon Everest, 1976)
 - *(min, max) notation* (Jean-Raymond Abrial, 1974)
@@ -637,6 +324,100 @@ In database design, an *entity-based database* is modeled:
 %%slides
 
 
+## Lecture Hall Question {background="#FFD966" cols40x60 txtL="What types of keys are there in relational databases?" capR="Midjourney: Key on a Keyring" imgR="images/11a_Datenbanken_Entwurf/mj_schluessel.png"}
+
+%%/slides
+
+%%slides
+
+
+## Recap: Key References
+
+%%col 50 50
+
+**Municipalities Table**
+
+| MunicipalityID | Name | Population |
+|---|--------------|-------|
+| 1 | Dummerstorf  | 7,329 |
+| 2 | Graal-Müritz | 4,278 |
+| 3 | Sanitz       | 5,831 |
+
+
+ Primary key: MunicipalityID
+
+%%sep
+
+**Buildings Table**
+
+| BuildingID | Building Type | MunicipalityID |
+|------------|-------------|------------|
+| 5000       | Gas Station  | 2 |
+| 5001       | Hotel        | 1 |
+| 5002       | Church       | 2 |
+
+
+
+ Foreign key: MunicipalityID
+
+%%/col
+
+%%/slides
+
+%%book
+
+
+## Cardinalities
+
+%%/book
+
+%%book
+
+In ER diagrams, the cardinality of relationships plays a key role, since it leads to different table representations. Cardinalities describe the number of minimal and maximal possible relationships between entities for this relationship. In general, the following cardinalities are distinguished:
+
+%%/book
+
+%%book
+
+<table>
+    <tr>
+        <td style="width: 10%">Cardinality</td>
+        <td style="width: 40%">Example</td>
+        <td style="width: 50%">ER Diagram</td>
+    </tr>
+    <tr>
+        <td>1 to 1</td>
+        <td>A person is born in at least one, at most one place.</td>
+        <td>![](https://mermaid.ink/svg/pako:eNqNjzEOwjAMRa8SeW4H1gh1YkQCwYaymMYtkdqkSpyhqnoXzsLJMNAKsSF7sL_--7InqIMl0FB3mNLOYRuxN_5xV9LWRarZBa_2p1U7UkwiGNgYUGW5DIfISquWriGSV86rqlqBd_CCTav46e2WPDsev-b5l5LYf5BXQQE9xR6dlWcEUnIZ36gnA1pGSw3mjg0YP4sVM4fz6GvQHDMVkAeLTMv7oBvskqgD-ksI6z4_AW2lcZg)</td>
+    </tr>
+    <tr>
+        <td>1 to 0..1</td>
+        <td>A person has died in zero or one place.</td>
+        <td>![](https://mermaid.ink/svg/pako:eNqNkLEKwkAMhl_lyNyCrkfp5CgousktsZfWg_au3KVDKX0Xn8UnM2qLuEky_PnJF5JMUAVLoKFqMaWdwyZiZ_zjriSti1SxC17tT6t3pJjEMLA1oPJcxEbEIbLSqqHEIV7JK-dVWa7Ie_QCTqv5yaIgz47Hb_P8S8ngf5BXQAYdxQ6dlXMEUrIb36gjA1qkpRqHlg0YP0srDhzOo69Acxwog6G3yLQ8AHSNbRK3R38JYa3nJ20xcn4)</td>
+    </tr>
+    <tr>
+        <td>1 to 0..*</td>
+        <td>A person goes on vacation to zero or more places.</td>
+        <td>![](https://mermaid.ink/svg/pako:eNqNkL0KQjEMhV8lZBQVXYs4OQqKbtIltlELt630poPIfRefxScz_lzETXqG00O-NOkVXfaMBl1DbbsIdCwUbbrfQOVDYSchJ1hu-mzNpdXA4tQijEZqJuPxQP2qCBiI5E4CtTRU9xASzOc9-Hrgg1_78K3ZjJMEuXyLu19Ke_-DPA8OMXKJFLwupRDohHLiyBaNWs8Hqo1YtKnTUqqSt5fk0EipPMR69iT8-QY0B2paTc-Udjn39-4BWmFz8w)</td>
+    </tr>
+    <tr>
+        <td>1 to 1..*</td>
+        <td>A person has previously been to at least one, at most many places.</td>
+        <td>![](https://mermaid.ink/svg/pako:eNqNT0EKwkAM_MqSo7QFr0vpyaOg6E32ErqpLrS7ZZsipfQvvsWXmWqLeJPMYTLMDMkIZbAEGsoau27n8BqxMf75UALrIpXsglf706odKXYiGNgaUGk6kyzbCD9EVlrdMSrnVVGs_nfvkhpX8YM8J8-Oh695-k1J5T-ReSCBhmKDzsovElJyGN-oIQNaqKUK-5oNGD-JFXsO58GXoDn2lEDfWmRavgddYd2J2qK_hLDu0wtjFnCG)</td>
+    </tr>
+</table>
+
+%%/book
+
+%%book
+
+It should be noted that the reading direction (`<<` or `>>`) is important, since no statement is made about the cardinality of the reverse direction! In the above example, only a statement is made about how many places *one* person was in, and not about how many people can be in places.
+
+%%/book
+
+%%slides
+
+
 ## Cardinalities (Multiplicities)
 
 <table>
@@ -668,6 +449,117 @@ In database design, an *entity-based database* is modeled:
 </table>
 
 %%/slides
+
+%%book
+
+
+## Example: ER Conceptual Design for Geometric Objects
+
+%%/book
+
+%%book
+
+As a design example, we refer to the geometry objects example discussed in the chapter [Objektorientierung](7a_Objects.html). We have the classes `Point`, `Line` and `Polygon` with the variants `Triangle`, `Tetragon` and `Pentagon`.
+
+The `Point` has attributes the `x` and `y` coordinates of type `float`, both of which are `public` as annotated with `+`. Furthermore, there are different methods in `Point`, `Line`, and `Polygon` for calculating the distance, area, and length of the respective objects.
+
+In the UML diagram we have depicted that a `Polygon` has the aggregation association with multiplicity `1` to `3..*` to the class `Point`, i.e., a polygon is linked to at least three points. The `Line` is, in turn, associated with the `Point` class with the multiplicity `1` to `2`, i.e., a line is associated with exactly two points.
+
+The classes `Triangle`, `Tetragon` and `Pentagon` are subclasses of `Polygon`, which add no further functionality.
+
+%%/book
+
+%%book
+
+![](https://mermaid.ink/svg/pako:eNptUcFqwzAM_RWjU7o1hW03s-OOOxS20zAEEStpwJGDrcBCl3-fkyxlKfFJ7-m9JxldofSWQEPpMMa3BuuArWGV3syos29Yrguj1GPlPIr6vsPDDdsmCnJJ2ew7LPy4DXRD7VndMpMLA2F2-EcURZRQFNlewHvDtHE74loud9p5vjLwbEDluU_VU6pmr1ZpxyBHRWy34pfT6WGjX5fVqpskcZUv7OtPnqvP0CDXjvZaJAEntNM7E8vUgyO0FFpsbDrC_CsDcqGWDOhUWqqwd2LA8Jik2Iv_GLgELaGnI_SdRaG_s4Gu0MXEdshf3q94_AW6H5O5)
+
+%%/book
+
+%%book
+
+To design a database schema for these objects, we map them into an ER diagram by applying the conversion rules shown above.
+
+- We annotate the classes first with `<<Entity>>` to mark them as such.
+- We remove all methods, since ER diagrams do not support them.
+- We remove all encapsulation annotations `+`, `-`, or `#` before attributes
+- We add primary keys to all entities
+- We convert the special association types Aggregation and Composition into simple associations
+
+Since there is no inheritance in ER diagrams and DBMS, we need to decide how to handle the subclasses `Triangle`, `Tetragon`, and `Pentagon`. One possibility would be to introduce a new entity for each, built just like a Polygon. But this would lead to several redundant tables. This is necessary if the subclasses introduce their own attributes. Since they do not do this, we also do not need separate entities, but can incorporate them into the generic Polygon entity by introducing the attribute `PolygonType`, in which we can store whether it is a `Triangle`, `Tetragon`, `Pentagon`, or subtype.
+
+We obtain the following conceptual design:
+
+![](https://mermaid.ink/svg/pako:eNqVUk1rwzAM_StCx9EWxm6m9NTLWA-h62n4osVKZ5bYwZGhofS_7Lfsl83Nx0ZIDysIIz-_Jz0ZnTH3hlFhXlLTbC0dA1XafX9BCmMD52K9g91-xHbWWQaNjxphuRySLLpPAQWNUBA28M4WNpt_SdiZmaDz0svOI9bHes1OrLR_3D6skyufn7eQvYxPl2m9ruMd9TKfzknBPorSk8DpFtjOWvdjanxarR4m4_uyPaaPVRCrIrmT2fgD4y7DneKG5UbC-Hpo61-TuMCKQ0XWpAVIjSCZkw-uWKNKqeGCYikatbtSKYp_bV2OSkLkBcbakPCwMqgKKpuE1uTevB_vlx87g-rt)
+
+In the conceptual design there are three entity types. The entity `Point` still has `x` and `y` coordinates as attributes of type `float`. The entity `Line` has two relations to `Point` for the start point and end point. The entity `Polygon` has the relation to `Point` with cardinality `1` to `3..*`, i.e., at least three points. It also has a new attribute `PolygonType` of type `str` to store the subtype. For all three entities we have defined a numeric primary key, since numeric indexes are the most efficient.
+
+%%/book
+
+%%book
+
+
+## Normalization of Conceptual Designs to Logical Designs
+
+%%/book
+
+%%book
+
+The normalization is an important step in the process of mapping a conceptual data model to a logical and physical data model. Its purpose is to minimize redundancies (storing the same fact multiple times) by creating new tables and linking them via new relations for
+
+- complex attributes (lists, dictionaries)
+- relations with high cardinality
+- redundant data (e.g., polygon type)
+
+%%/book
+
+%%book
+
+There are several normal forms, defined by progressively stricter conditions on the database schema:
+
+- 1NF - First Normal Form: All attribute values are atomic — that is, each piece of information within a table gets its own column, and related information, such as the postal code and the city, or complex attributes like lists or dictionaries, are not stored in a single column.
+- 2NF - Second Normal Form: Non-key attributes are fully functionally dependent on all primary keys — that is, only information that functionally depends on the key is stored in an entity. For example, for an invoice, the customer's name is not stored directly, but belongs to a separate Customer entity, since a customer can have multiple invoices. When drawing an ER diagram and thinking about the entities, you usually automatically apply the Second Normal Form.
+- 3NF - Third Normal Form: Non-key attributes depend only on the primary key — that is, redundant attributes that belong together should be stored together. So ZIP codes and place names tend to occur in pairs and should form a separate entity.
+- BCNF - Boyce-Codd Normal Form: All attributes on which other attributes depend are keys — that is, if several foreign keys occur in an entity and these depend on each other, this dependency is moved into its own entity. For example, if you store place names and ZIP codes in separate entities (because place names duplicate), you should not store the foreign keys ZIP and city name in the Customer entity, but still need the ZIP–City entity.
+- 4NF - Fourth Normal Form: There are only trivial multivalued dependencies remaining — that is, if multivalued attributes occur with foreign keys or other multivalued attributes that have no functional relation, they are moved out. For example, in 4NF it is incorrect to store in one table an order’s shipping address, customer number, and item numbers, since the shipping address depends on the customer number but not on the item numbers. The correct design is two tables with shipping address and customer number, and one with item number and customer number.
+- 5NF - Fifth Normal Form: There are no join dependencies remaining — that is, every join dependency between attributes and foreign keys is moved into its own table.
+
+Usually only the first three normal forms are relevant in database design. Higher normal forms result in a very large number of small tables, which even for simple queries must be joined together, drastically limiting usability.
+
+%%/book
+
+%%book
+
+In our geometry example, we want to look at a few examples of violations of the first through third normal forms.
+
+In the following ER diagram, we violate the first normal form because we define a complex attribute `List<Punkt>` instead of decomposing it into a relation.
+
+%%/book
+
+%%book
+
+![](https://mermaid.ink/svg/pako:eNpVjzEOgzAMRa8See4JEGJiqcqA2q3KYiWGRgUHgTMgBGfpWXqyhpYMtb5k--l_yV7AeEuQgelwmkqH7Yi95vdLRVk3khHnWVXXxL4-Vftubj0vif6U58TiZC6Kf-5YUuJcqvqiWR1VuUm2OvBTNjXsjVJy1awZTtDT2KOz8cJlj2mQB_WkIYujpQZDJxo0r9GKQfxtZgOZjIFOEAaLQsdPkDXYTZEOyHfv075-AHfmYNg)
+
+%%/book
+
+%%book
+
+In the second ER diagram we violate the second normal form, because we store the coordinates of the start and end points directly in the line, even though these points are represented as points and thus have a functional dependency. Here is the solution: move them into the `Punkt` entity and create relationships.
+
+%%/book
+
+%%book
+
+![](https://mermaid.ink/svg/pako:eNp1kEEKg0AMRa8yZO0JRFy5KXVR2l0ZKMGJ7YBmZMxARbxLz9KTdWxrQbCQRfL-_5BkhMoZghSqBvu-sHj12Gp-PlQsYz1VYh2r8riwt0-Vli2NC_tUlhGLlSHP19yyzH7aFeqwX0t141BUL-jlcv8vDVsSsdnOzMIvMWmGBFryLVoTz4w7K6VBbtSShjS2hmoMjWjQPEUrBnGngStIxQdKIHQGhb6PgbTGpo-0Qz47t8zTCyn2gtQ)
+
+%%/book
+
+%%book
+
+In the last example, we erroneously store the PolygonTyp attribute in the Point entity, even though it belongs to the Polygon entity.
+
+![](https://mermaid.ink/svg/pako:eNqVUctqwzAQ_JVljyUJLrmJkFMupT2Ypqeii2rJqageRl5BRfC_9Fv6ZV0ci2LopbCI0czuMiNdsYvaoMDOqXE8WXVJysvw_QVc2ibTkY0Bnp4rN_dBm8MHXSt3q8PBBLJUjsc1bwNBG_l8OEH7uNZ6FxXB519kWZMjJd7iyiWGlzJUbapgkUDivUTYbhnsd7s7xrNVEJB9z84Jfu0tUW6T_wozT6zisBGZm6Z5kwE36E3yymp-Vl4L7IXejTcSBUNtepUdSZRh4laVKZ5L6FBQymaDedCKzPIRKHrlRmYHFV5jrPfpB_QlrEw)
+
+%%/book
 
 %%slides
 
@@ -839,6 +731,51 @@ CREATE TABLE Polygon (
 
 %%/slides
 
+%%book
+
+
+## Normalization of Cardinalities
+
+%%/book
+
+%%book
+
+According to the first normal form, we must map cardinalities differently according to their degree. Simple cardinalities (0 or 1) can be stored as an attribute, while higher cardinalities `>1` are mapped as a relation in a new entity. In both logical and physical design, it matters whether an attribute when storing a new entity in the database does not have to be specified (`Nullable`) or must be specified (`Not Null`).
+
+%%/book
+
+%%book
+
+<table>
+    <tr>
+        <td style="width: 10%">Cardinality</td>
+        <td style="width: 40%">Example</td>
+        <td style="width": 50%">ER Diagram</td>
+    </tr>
+    <tr>
+        <td>1 to 1</td>
+        <td>The relationships are represented by foreign keys in the entity from which the relationship starts, denoted by `>>`. The foreign key is `NOT NULL`, so an entry must ALWAYS be present.</td>
+        <td>![](https://mermaid.ink/svg/pako:eNp1UMtqQjEQ_ZVh1rpwG8SVCGKx0u5KNtOb0QZyJ5I7WYjcf-m3-GWNmiAihbOYnJxHMmfsomM02AUahqWnQ6LeyuUXCpxP3KmPAm8fjdtxGgphcWYRptM6vCcFAwf-jokFvMBi0Qy34Go7N_KO-ZxFvZ4e4ju8aDWsl7DbvF7WorXAagPbqLDNITTZ-NxcnvZvLbxGF_lT6YgT7Dn15F3ZUkmC8mX94Z4tmjI63lMOatHKVUpZ4-dJOjSaMk8wHx0p172i2VMYCnsk-Yqxncc_DKqVow)</td>
+    </tr>
+    <tr>
+        <td>1 to 0..1</td>
+        <td>The relation is represented by a foreign key in the entity. The foreign key is `NULLABLE`, so an entry does not have to be present.</td>
+        <td>![](https://mermaid.ink/svg/pako:eNp1UMFqQjEQ_JVlj0WFXoN4koJYWmlvkkt8WW0gbyPJ5iDy_sVv6Zd1W19aRApzmExmZ5I9Y5c8ocEuulKWwR2y6y1_XkDhQ6ZOQmJ4fmvahnJRweKjRZhOv8ls9qD8NQsYOFCRlHfEEBgWizb1kz7Onpt4xXxOLEFOf-YrAss4sFrCZn1_-Vu1Ynhaw0uN0e0iNeNw263P-7cY7sPVflOraTjBnnLvgtd1aRbo3-WDerJolHrauxrFouVBra5Kej9xh0ZypQnWo3dC44LR7F0sqh4db1Nq5-ELDQSZBA)</td>
+    </tr>
+    <tr>
+        <td>1 to 0..*</td>
+        <td>The relation is represented as a new entity with a foreign key.</td>
+        <td>![](https://mermaid.ink/svg/pako:eNqVUctKA0EQ_JWmz8nB6xICQhAkgkHxInNpd3rdgXmE2Z5DCPsvfotfZrsPkhg9CH2oqX5U9fQR62QZK6w9dd3G0XumYOLnB2hYl7kWlyI8PM3cUAc7zl2Kx5kcY7XiKE4O6_Ul76JMDfcb2G3nZD-DMQcGbwzCcjmB29LouJa8MFQ6GwLVrUDJnsrbpZvHLH9agWsvWv67kXPJH260R124CKflRu2znn98x7DLy7AK3G2v8yp0ontcYOAcyFk9lKqAmpKWAxusFFpuqHgxaOJ3KRVJz4dYYyW58ALL3pLwdFqsGvKdsnuKrynN7_4L_TzJhQ)</td>
+    </tr>
+    <tr>
+        <td>1 to 1..*</td>
+        <td>The relation is represented as a new entity with a foreign key. At least one entry should exist (this is a consistency rule that cannot be enforced by a DBMS alone (there is otherwise a chicken-and-egg problem)).</td>
+        <td>![](https://mermaid.ink/svg/pako:eNqVkc1qwzAMx19F6NweejWlMCiF0cHKdhu-iFhZDYldHPlQSt5lz7Inq2jiNl23w8AH-a-vn6QTVtExGqwa6rq1p89ErQ3fX6DP-cSV-Bjg5a1olzjYcepiOBVxeMslB_FyXK3udR9kTHhew25bnH0xBh9YXFiE-Xw0nnKt5fbUCIPR2kBX4Z7lNcmfIPBIouG_Y0wb_mDRHGXwAW6jDb0nOf9Yxm0S2Gwf3dpnM8XDGbacWvJO76RtQKlkzy1bNGo6rinrUtCGXkMpS3w_hgqNpMwzzAdHwuNl0dTUdKoeKHzEWP79GZXPyXc)</td>
+    </tr>
+</table>
+
+%%/book
+
 %%slides
 
 
@@ -852,6 +789,69 @@ Cardinalities are represented differently:
 - *one-to-one-or-more:* The relation is represented as a new entity with foreign keys. At least one entry should exist
 
 %%/slides
+
+%%book
+
+
+## Example Geometry
+
+%%/book
+
+%%book
+
+To convert the above-mentioned conceptual design for the geometry objects into a logical design, we must normalize the design. Let's take another look at the design.
+
+![](https://mermaid.ink/svg/pako:eNqVUk1rwzAM_StCx9EWxm6m9NTLWA-h62n4osVKZ5bYwZGhofS_7Lfsl83Nx0ZIDysIIz-_Jz0ZnTH3hlFhXlLTbC0dA1XafX9BCmMD52K9g91-xHbWWQaNjxphuRySLLpPAQWNUBA28M4WNpt_SdiZmaDz0svOI9bHes1OrLR_3D6skyufn7eQvYxPl2m9ruMd9TKfzknBPorSk8DpFtjOWvdjanxarR4m4_uyPaaPVRCrIrmT2fgD4y7DneKG5UbC-Hpo61-TuMCKQ0XWpAVIjSCZkw-uWKNKqeGCYikatbtSKYp_bV2OSkLkBcbakPCwMqgKKpuE1uTevB_vlx87g-rt)
+
+%%/book
+
+%%book
+
+We have the three entities `Linie`, `Punkt` and `Polygon` with two 1:1 relationships from `Linie` to `Punkt` and a 1:3..*-relationship from `Polygon` to `Punkt`.
+
+First, by applying the rules of 1NF and decomposing these relations according to the table mentioned above, we can represent the two 1:1 relationships from `Linie` to `Punkt` using foreign keys in the `Linie` entity.
+
+The 1:3..*-relationships from `Polygon` to `Punkt`, however, cannot be directly mapped according to 1NF, since the multiplicity is greater than 1 and we must introduce a new entity. This entity (table) lists which polygons use which points. The new entity thus contains the two foreign keys and a new primary key. In the logical design we also include the foreign keys as attributes to represent them unambiguously.
+
+%%/book
+
+%%book
+
+![](https://mermaid.ink/svg/pako:eNqVk0FqwzAQRa8yaJ0sujUmq7RQEoJJuireqNY4FZUlI49KTchdepaerLIVNzi22xoGIc38j56k0YllRiCLWKZ4Va0lP1pepPrrE3wIaTEjaTRs911uK7VESNldymC5vEwSp98IIqiIW0IBLyhhtfqXBbUYGFqWYDt1uRBxjJok1VdtCKmp0ePjGpLNsHRouMKODxvYGdo5pYayey2mROc-WyubwZYYP47A5cpwgo9xpFCs_0Ixqj4aPQumdYzgVGS76lNdTm4cLun2QYOvraF_2DgGV-SekH5sPcW43Rvf_XjbCz3rjKPuUfGmgSf64noTv7VF93gjXcEWrEBbcCn8F_Jc4E9Dr1hgyiI_FZhzpyhlqW6k3JE51DpjEVmHC-ZKwQkvn45FOVeVz5ZcPxvTrc_fQ2JraQ)
+
+%%/book
+
+%%book
+
+In this draft, 2NF and 3NF are already satisfied.
+
+However, we have many duplications (redundancies) with the attribute `PolygonTyp`, which can only take the values `Triangle`, `Tetragon`, and `Pentagon`, but must be stored as a new string each time. At the same time, we also want this attribute to only take these values and not be filled with gibberish.
+
+Therefore, it makes sense to constrain the values here and to avoid duplication of strings by introducing a new entity `PolygonType`. This defines the base types `Triangle`, `Tetragon`, and `Pentagon` and assigns them a numeric primary key, which we reference in the entity `Polygon` as a foreign key.
+
+Lastly, we also define for all attributes and foreign keys whether they are `Nullable` or `NotNull`.
+
+We obtain the final logical design:
+
+%%/book
+
+%%book
+
+![](https://mermaid.ink/svg/pako:eNqVVEFugzAQ_MrK5-TQK0I5pZWqRBFKeqp8cfGSWDV2BOuqKOIvfUtfVoMhVQKhDbIs450RM7M2J5ZaiSxiqRZluVRiX4icm-8v8EOqAlNS1sB62--tlVEInD1wBvN5t0iceSeIoCRREEp4QwWLxb8oaOSA0GoJtFO_F0YcoyFF1S82DGWowePzEpLVsLRrdIUvPq1gY2njtB7CHo28BaovtbWwO7Ql1s8j4jJtBcHnuKRQrP6SYnW1t-YuMS3jRlZd9aU6esBEECGp664GcltD3904BpdnXiadaReIcbonfvj5-kBcUCf8Qvc0braoRXOCp82OOh12byqNc2pobrvycRx8S0dttdT7uxj6dO2tpAI2IscRvWzGcixyoaS_9acmLc7ogDlyFvmlxEw4TZxxU3uocGR3lUlZRIXDGXNHKQi7_0S_eRTm1Vr_mgldYv0DvTmt6A)
+
+%%/book
+
+%%book
+
+Wichtig zu erkennen in dem logischen Entwurf ist, dass wir jetzt nur noch 1:1-Relationen haben, also alle höherwertigen Kardinalitäten aufgelöst haben. Zusätzlich haben wir Redundanzen aufgelöst und haben jetzt ein sehr effizienten Datenbankentwurf.
+
+Im Physikalischen Entwurf würde man diesem Entwurf jetzt noch weitere Informationen hinzufügen, wie zum Beispiel zusätzliche Zugangangsbeschränkungen oder Abfrageindizies. Zugangsbeschränkungen gibt es in den meisten DBMSs nur auf Entitätsebene und nicht auf Attributsebene (wie in UML), man kann also Beschränken welche Nutzer, welche Tabellen sehen, lesen, erzeugen, oder verändern können, aber nicht welche Spalten sie sehen.
+
+Beim Entwurf von Abfrageindizies ist die Regel, dass man versucht alle häufig genutzten `WHERE`-Bedingungen, die man in `SELECT`-Anfragen in SQL benutzt, durch entsprechende Indizies beschleunigt werden.
+
+Damit sind wir auch schon direkt im SQL Thema wo wir uns mit der Erzeugung von Tabellen beschäftigen wollen.
+
+%%/book
 
 %%slides
 
@@ -1057,7 +1057,7 @@ First estimate the effort and only then look at the date (don't plan based on ho
     ### Sort the normal forms by their strictness (from less to more strict):
 
     1. 1NF (First Normal Form)
-    2. 2NF (Second Normal Form) 
+    2. 2NF (Second Normal Form)
     3. 3NF (Third Normal Form)
     4. BCNF (Boyce-Codd Normal Form)
 
@@ -1136,7 +1136,7 @@ First estimate the effort and only then look at the date (don't plan based on ho
     ### Sort these SQL commands in the logical order for creating a database:
 
     1. CREATE TABLE for main entities
-    2. CREATE TABLE for foreign-key dependent tables  
+    2. CREATE TABLE for foreign-key dependent tables
     3. INSERT core data
     4. INSERT linked data
 
@@ -1203,7 +1203,7 @@ First estimate the effort and only then look at the date (don't plan based on ho
     *Assume there is already data in the table*
 
     - [ ] ADD COLUMN is wrong
-    - [ ] REAL is not a valid data type  
+    - [ ] REAL is not a valid data type
     - [x] A DEFAULT value is missing for existing rows
     - [ ] The column name z is too short
 

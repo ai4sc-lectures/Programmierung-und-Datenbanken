@@ -16,18 +16,18 @@ resources:
 
 %%book
 
-
-# Create tables with SQL
-
-%%/book
-
-%%book
-
 ![](images/11b_Datenbanken_SQL_Create/mj_title_band.jpg)
 
 > The problem with SQL is that it pretends to implement the relational model, but doesn’t.
 >
 > — David McGoveran
+
+%%/book
+
+%%book
+
+
+# Create tables with SQL
 
 %%/book
 
@@ -226,6 +226,171 @@ for row in rows:
 
 %%/book
 
+%%slides
+
+
+## Creating tables with SQL {background="#E2F0D9" cols40x60 txtL="" capR="Midjourney: Construction plan of the tower of babel" imgR="images/11b_Datenbanken_SQL_Create/mj_babel2.png"}
+
+%%/slides
+
+%%slides
+
+
+## Final Step: Implementation of the ER Diagram
+
+Mapping the ER model to SQL commands to create the tables
+
+- Create the tables
+- For every attribute of every relation, find a sensible data type
+- Determine whether attributes are nullable or non-nullable
+- Define the primary key
+- Define foreign keys
+- Declare additional indexes to optimize performance
+- Define access rights
+
+To create the table, you need the `CREATE TABLE` SQL command.
+
+*This does not insert any data yet, but only creates an empty scaffold.*
+
+%%/slides
+
+%%slides
+
+
+## DDL - Data Definition Language
+
+Allows operations on the definitions of data structures:
+
+%%col 50 50
+
+- `CREATE` – creating tables
+- `ALTER` – modifying tables
+- `DROP` – deleting tables
+- `TRUNC` – truncating data but not deleting the table
+
+%%sep
+
+The possible data structures are:
+
+- `TABLE` – tables for storing data
+- `VIEW` – dynamically generated views on tables
+- `MATERIALIZED VIEW` – tables that are derived from other tables
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Creating Tables in SQL
+
+```sql
+CREATE TABLE table_name (
+    attribute1_name attribute1_type attribute1_constraints,
+    attribute2_name attribute2_type attribute2_constraints,
+    ...,
+    table_constraints
+)
+```
+
+%%/slides
+
+%%slides
+
+
+## Data types in SQLite vs. Python
+
+| SQLite | Python | Description |
+|-----|----|-----|
+| `Boolean (INTEGER)` | `bool` | Boolean values |
+| `INTEGER` | `int` | Integer |
+| `REAL` | `float` | Floating-point number |
+| `NUMERIC` | - | Interprets arbitrary input data as numbers |
+| `TEXT` | `str` | Text string, stored in UTF-8 or UTF-16 |
+| `BLOB` | `bytes` | Arbitrary block of binary data |
+| `NULL` | `None` | No data |
+
+%%/slides
+
+%%slides
+
+
+## Example: Creating Tables in SQLite
+
+For our geometry example, the following CREATE TABLE statements are produced:
+
+```sql
+CREATE TABLE Points (
+    point_id INTEGER,
+    x REAL,
+    y REAL
+);
+
+CREATE TABLE Lines (
+    lines_id INTEGER,
+    start INTEGER,
+    end INTEGER
+);
+```
+
+%%/slides
+
+%%slides
+
+
+## Keys and Constraints in SQL
+
+- Primary and secondary keys are usually represented by INTEGER columns.
+
+- The primary key of every table must be explicitly marked by the PRIMARY KEY constraint.
+
+- Other constraints that must be observed when inserting new data:
+
+- `NOT NULL` – Values must not be null
+- `AUTOINCREMENT` – Numeric primary keys are generated automatically
+- `UNIQUE` – Values must be unique; duplicates are not allowed
+- `CHECKED` – Additional logical constraint for new values
+- `FOREIGN KEY` – Value of an existing foreign key
+
+%%/slides
+
+%%slides
+
+
+## Example: Primary Keys, Foreign Keys, and Constraints
+
+```sql
+CREATE TABLE Points (
+    point_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    x REAL NOT NULL,
+    y REAL NOT NULL
+);
+
+CREATE TABLE Lines (
+    lines_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    start INTEGER NOT NULL,
+    end INTEGER NOT NULL,
+    FOREIGN KEY(start) REFERENCES Points(point_id),
+    FOREIGN KEY(end) REFERENCES Points(point_id)
+);
+```
+
+%%/slides
+
+%%slides
+
+
+## CREATE TABLE Advanced Features
+
+Additional options:
+
+- `DEFAULT`: Set the default value for new elements
+- `WITHOUT ROWID`: Tables without a ROWID
+- `STRICT`: Enforces strict data types for the table
+
+%%/slides
+
 %%book
 
 
@@ -402,6 +567,37 @@ cur.lastrowid
 
 %%/book
 
+%%slides
+
+
+## Adding data to tables
+
+Data is added to tables using the SQL command `INSERT`
+
+%%col 50 50
+
+Add data in the order of the column names:
+
+```sql
+INSERT INTO Points VALUES(1, 54.083336, 12.108811);
+INSERT INTO Points VALUES(2, 12.094167, 54.075211);
+INSERT INTO Lines VALUES(1, 1, 2);
+```
+
+%%sep
+
+or with explicit column names:
+
+```sql
+INSERT INTO Points(x, y) VALUES(54.083336, 12.108811);
+INSERT INTO Points(x, y) VALUES(12.094167, 54.075211);
+INSERT INTO Lines(start, end) VALUES(1, 2);
+```
+
+%%/col
+
+%%/slides
+
 %%book
 
 
@@ -490,6 +686,60 @@ It should be noted that this creates the column but doesn't write any values. Th
 
 %%/book
 
+%%slides
+
+
+## Create a table from existing data
+
+```sql
+CREATE TABLE tablename AS
+SELECT ... FROM ... WHERE ...
+```
+
+It has no primary key; it can only be defined afterwards.
+
+%%/slides
+
+%%slides
+
+
+## ALTER TABLE - Statement
+
+Renaming tables and columns, and adding and dropping columns
+
+```sql
+ALTER TABLE tablename TO newtablename
+```
+
+
+
+Example:
+```sql
+ALTER TABLE Points RENAME TO Punkte
+```
+
+%%/slides
+
+%%slides
+
+
+## ALTER TABLE - Example
+
+Rename owner to customer, add a column for account number
+
+```sql
+ALTER TABLE tablename ADD COLUMN column_name column_type
+```
+
+
+
+Example:
+```sql
+ALTER TABLE PolygonType ADD COLUMN maxPoints INTEGER
+```
+
+%%/slides
+
 %%book
 
 
@@ -561,267 +811,6 @@ con.close()
 
 %%/book
 
-%%book
-
-
-## Note on storing tables in SQLite with Pandas
-
-:::note
-In the last exercise we created tables directly with Pandas in SQLite. This is certainly sensible when you want to quickly and securely store larger datasets in a database. However, it should be noted that the tables generated by Pandas do not define relationships with foreign keys, constraints (e.g., NOT NULL), or search indexes. The resulting tables are therefore by no means 3NF-compliant and not optimized for querying and storing large amounts of data in practical applications. It is always recommended to create a proper ER design. Create the tables with `CREATE` including all relations, constraints, and indexes, and only then load data into the existing tables with Pandas.
-:::
-
-%%/book
-
-%%slides
-
-
-## Creating tables with SQL {background="#E2F0D9" cols40x60 txtL="" capR="Midjourney: Construction plan of the tower of babel" imgR="images/11b_Datenbanken_SQL_Create/mj_babel2.png"}
-
-%%/slides
-
-%%slides
-
-
-## Final Step: Implementation of the ER Diagram
-
-Mapping the ER model to SQL commands to create the tables
-
-- Create the tables
-- For every attribute of every relation, find a sensible data type
-- Determine whether attributes are nullable or non-nullable
-- Define the primary key
-- Define foreign keys
-- Declare additional indexes to optimize performance
-- Define access rights
-
-To create the table, you need the `CREATE TABLE` SQL command.
-
-*This does not insert any data yet, but only creates an empty scaffold.*
-
-%%/slides
-
-%%slides
-
-
-## DDL - Data Definition Language
-
-Allows operations on the definitions of data structures:
-
-%%col 50 50
-
-- `CREATE` – creating tables
-- `ALTER` – modifying tables
-- `DROP` – deleting tables
-- `TRUNC` – truncating data but not deleting the table
-
-%%sep
-
-The possible data structures are:
-
-- `TABLE` – tables for storing data
-- `VIEW` – dynamically generated views on tables
-- `MATERIALIZED VIEW` – tables that are derived from other tables
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Creating Tables in SQL
-
-```sql
-CREATE TABLE table_name (
-    attribute1_name attribute1_type attribute1_constraints,
-    attribute2_name attribute2_type attribute2_constraints,
-    …,
-    table_constraints
-)
-```
-
-%%/slides
-
-%%slides
-
-
-## Data types in SQLite vs. Python
-
-| SQLite | Python | Description |
-|-----|----|-----|
-| `Boolean (INTEGER)` | `bool` | Boolean values |
-| `INTEGER` | `int` | Integer |
-| `REAL` | `float` | Floating-point number |
-| `NUMERIC` | - | Interprets arbitrary input data as numbers |
-| `TEXT` | `str` | Text string, stored in UTF-8 or UTF-16 |
-| `BLOB` | `bytes` | Arbitrary block of binary data |
-| `NULL` | `None` | No data |
-
-%%/slides
-
-%%slides
-
-
-## Example: Creating Tables in SQLite
-
-For our geometry example, the following CREATE TABLE statements are produced:
-
-```sql
-CREATE TABLE Points (
-    point_id INTEGER,
-    x REAL,
-    y REAL
-);
-
-CREATE TABLE Lines (
-    lines_id INTEGER,
-    start INTEGER,
-    end INTEGER
-);
-```
-
-%%/slides
-
-%%slides
-
-
-## Keys and Constraints in SQL
-
-- Primary and secondary keys are usually represented by INTEGER columns.
-
-- The primary key of every table must be explicitly marked by the PRIMARY KEY constraint.
-
-- Other constraints that must be observed when inserting new data:
-
-- `NOT NULL` – Values must not be null
-- `AUTOINCREMENT` – Numeric primary keys are generated automatically
-- `UNIQUE` – Values must be unique; duplicates are not allowed
-- `CHECKED` – Additional logical constraint for new values
-- `FOREIGN KEY` – Value of an existing foreign key
-
-%%/slides
-
-%%slides
-
-
-## Example: Primary Keys, Foreign Keys, and Constraints
-
-```sql
-CREATE TABLE Points (
-    point_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    x REAL NOT NULL,
-    y REAL NOT NULL
-);
-
-CREATE TABLE Lines (
-    lines_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    start INTEGER NOT NULL,
-    end INTEGER NOT NULL,
-    FOREIGN KEY(start) REFERENCES Points(point_id),
-    FOREIGN KEY(end) REFERENCES Points(point_id)
-);
-```
-
-%%/slides
-
-%%slides
-
-
-## CREATE TABLE Advanced Features
-
-Additional options:
-
-- `DEFAULT`: Set the default value for new elements
-- `WITHOUT ROWID`: Tables without a ROWID
-- `STRICT`: Enforces strict data types for the table
-
-%%/slides
-
-%%slides
-
-
-## Adding data to tables
-
-Data is added to tables using the SQL command `INSERT`
-
-%%col 50 50
-
-Add data in the order of the column names:
-
-```sql
-INSERT INTO Points VALUES(1, 54.083336, 12.108811);
-INSERT INTO Points VALUES(2, 12.094167, 54.075211);
-INSERT INTO Lines VALUES(1, 1, 2);
-```
-
-%%sep
-
-or with explicit column names:
-
-```sql
-INSERT INTO Points(x, y) VALUES(54.083336, 12.108811);
-INSERT INTO Points(x, y) VALUES(12.094167, 54.075211);
-INSERT INTO Lines(start, end) VALUES(1, 2);
-```
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Create a table from existing data
-
-```sql
-CREATE TABLE tablename AS
-SELECT … FROM … WHERE …
-```
-
-It has no primary key; it can only be defined afterwards.
-
-%%/slides
-
-%%slides
-
-
-## ALTER TABLE - Statement
-
-Renaming tables and columns, and adding and dropping columns
-
-```sql
-ALTER TABLE tablename TO newtablename
-```
-
-
-
-Example:
-```sql
-ALTER TABLE Points RENAME TO Punkte
-```
-
-%%/slides
-
-%%slides
-
-
-## ALTER TABLE - Example
-
-Rename owner to customer, add a column for account number
-
-```sql
-ALTER TABLE tablename ADD COLUMN column_name column_type
-```
-
-
-
-Example:
-```sql
-ALTER TABLE PolygonType ADD COLUMN maxPoints INTEGER
-```
-
-%%/slides
-
 %%slides
 
 
@@ -841,6 +830,17 @@ DROP TABLE Points
 ```
 
 %%/slides
+
+%%book
+
+
+## Note on storing tables in SQLite with Pandas
+
+:::note
+In the last exercise we created tables directly with Pandas in SQLite. This is certainly sensible when you want to quickly and securely store larger datasets in a database. However, it should be noted that the tables generated by Pandas do not define relationships with foreign keys, constraints (e.g., NOT NULL), or search indexes. The resulting tables are therefore by no means 3NF-compliant and not optimized for querying and storing large amounts of data in practical applications. It is always recommended to create a proper ER design. Create the tables with `CREATE` including all relations, constraints, and indexes, and only then load data into the existing tables with Pandas.
+:::
+
+%%/book
 
 %%book
 
@@ -960,7 +960,7 @@ DROP TABLE Points
     ### Sort the normal forms by their strictness (from less to more strict):
 
     1. 1NF (First Normal Form)
-    2. 2NF (Second Normal Form) 
+    2. 2NF (Second Normal Form)
     3. 3NF (Third Normal Form)
     4. BCNF (Boyce-Codd Normal Form)
 
@@ -1039,7 +1039,7 @@ DROP TABLE Points
     ### Sort these SQL commands in the logical order for creating a database:
 
     1. CREATE TABLE for main entities
-    2. CREATE TABLE for foreign-key dependent tables  
+    2. CREATE TABLE for foreign-key dependent tables
     3. INSERT seed data
     4. INSERT linked data
 
@@ -1106,7 +1106,7 @@ DROP TABLE Points
     *Assume there is already data in the table*
 
     - [ ] ADD COLUMN is wrong
-    - [ ] REAL is not a valid data type  
+    - [ ] REAL is not a valid data type
     - [x] A DEFAULT value is missing for existing rows
     - [ ] The column name z is too short
 
