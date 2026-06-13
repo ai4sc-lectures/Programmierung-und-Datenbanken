@@ -25,7 +25,7 @@ resources:
 
 ![](images/09_Datenhaltung/mj_title_band.jpg)
 
-> We don’t have better algorithms. We just have more data.
+> We don't have better algorithms. We just have more data.
 >
 > — Peter Norvig
 
@@ -45,971 +45,6 @@ resources:
 In Programmen müssen regelmäßig Daten geladen und gespeichert werden. Dies geschieht in Computern in Dateien, welche in Verzeichnissen organisiert sind. In der letztem Abschnitt zu Paketen haben wir bereits einige Beispiele gesehen die mit Dateien arbeiten. Diese wollen wir nun detaillierter kennen lernen.
 
 %%/book
-
-%%book
-
-
-## Dateien lesen
-
-%%/book
-
-%%book
-
-Eine typische Aufgabe ist es Dateien zu laden. Hierfür bietet Python die `open()`-Funktion mit dem Kürzel `r` (read). Hierfür gibt man der `open()`-Funktion den Pfad der zu ladenden Datei an und auch den Datentyp der Datei also ob die Datei eine Textdatei ist `t` oder eine binäre Datei `b` ist.
-
-Die `open()`-Funktion verwendet man meist im `with`-Konstrukt, welcher die Datei einer Variable zuordnet (`fi`) und die Datei nach Beendigung des Blocks auch automatisch schließt. Zum lesen des Inhalts der Datei nutzen wir die `read()` des Dateiobjektes.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-with open("geometry/shapes/Line.py", "tr") as fi:
-    dateinhalt=fi.read()
-    print(f"Datentyp Datei {type(fi)}")
-    print(f"Datentyp Variable {type(dateinhalt)}\n")
-    print(dateinhalt)
-```
-
-%%/book
-
-%%book
-
-In gleicher Form kann man auch binäre Dateien einlesen. Dafür tauschen wir den Dateityp `t` mit binär aus `b` und laden die Datei. Wir sehen, dass jetzt der Datentyp der geladenen Dateinhalts zu `byte` wechselt. Printen wir den Dateinhalt sehen wir auch direkt die Sonderzeichen in der Datei wie `\r` und `\n` welche für den Zeilenumbruch stehen.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-with open("geometry/shapes/Line.py", "br") as fi:
-    dateinhalt=fi.read()
-    print(f"Datentyp Datei {type(fi)}")
-    print(f"Datentyp Variable {type(dateinhalt)}\n")
-    print(dateinhalt)
-```
-
-%%/book
-
-%%book
-
-
-## Dateien schreiben
-
-%%/book
-
-%%book
-
-In gleicher Weise können wir mit der `open()`-Funktion auch neue Dateien erzeugen. Hierfür nutzen wir das Kürzel `w` (write). Auch hier werden Textdateien mit `t` und binäre Dateien mit `b` unterschieden. Zum Schreiben der Datei nutzen wir die `write()`-Methode des Dateiobjektes `fo`.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-with open("meineDatei.txt", "tw") as fo:
-    dateinhalt="Meine eigener Inhalt"
-    fo.write(dateinhalt)
-```
-
-%%/book
-
-%%book
-
-Zum überprüfen lesen wir die Datei wieder.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-with open("meineDatei.txt", "tr") as fi:
-    print(fi.read())
-```
-
-%%/book
-
-%%book
-
-Wichtig zu wissen ist, dass die Datei vollständig überschrieben wird.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-with open("meineDatei.txt", "tw") as fo:
-    dateinhalt="Neuer Inhalt"
-    fo.write(dateinhalt)
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-with open("meineDatei.txt", "tr") as fi:
-    print(fi.read())
-```
-
-%%/book
-
-%%book
-
-
-## Datei existenz testen
-
-%%/book
-
-%%book
-
-Häufig will man testen ob eine Datei bereits existiert und dementsprechend diese laden oder z.B. neu erzeugen. Solche und andere Funktionen bietet die Standardbibliothek `os` die wir bereits kennen gelernt haben.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-import os
-
-if os.path.exists("meineDatei.txt"):
-    print("Datei existiert")
-else:
-    print("Datei existiert noch nicht")
-```
-
-%%/book
-
-%%book
-
-
-## Dateien auflisten
-
-%%/book
-
-%%book
-
-Zum Auflisten aller Dateien in einem Verzeichnis `folder` können wir die Funktion `os.listdir()` benutzen. Mit der Funktion `os.path.isfile()` können wir prüfen ob der Name auf eine Datei oder ein Verzeichnis ist. Ist es eine Datei, so können wir diese mit der `open`-Funktion öffnen, um z.B. alle Dateien zu laden und die Anzahl der Code-Zeilen zu berechnen. Dafür nutzen wir anstatt der `read`-Funktion die `readlines`-Funktion um alle Zeilen einzeln in einer Liste zu erhalten.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-import os
-
-folder = "geometry/shapes/"
-files = 0
-codelines = 0
-for count, name in enumerate(os.listdir(folder)):
-	if os.path.isfile(os.path.join(folder, name)):
-		with open(os.path.join(folder, name), "tr") as fi:
-			codelines += len(fi.readlines())
-			files += 1
-
-print(f"{codelines} Codezeilen in {files} Dateien")
-```
-
-%%/book
-
-%%book
-
-
-## Dateien löschen
-
-%%/book
-
-%%book
-
-Die `os`-Paket bietet auch Funktionen, um Dateien zu löschen. Selbstverständlich sollte die mit Vorsicht verwendet werdet werden.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-os.remove("meineDatei.txt")
-```
-
-%%/book
-
-%%book
-
-
-## Typische textuelle Dateiformate
-
-%%/book
-
-%%book
-
-### TXT-Dateien
-
-%%/book
-
-%%book
-
-Eine der einfachsten Formate um Texte auf dem Computer zu Speichern sind Text-Dateien. Sie haben meist die Dateiendung `.txt`. Diese Dateiänderung haben wir bereits oben genutzt.
-
-%%/book
-
-%%book
-
-### JSON-Dateien
-
-%%/book
-
-%%book
-
-Heutzutage werden strukturierte Informationen oft im `JSON`-Format ausgetauscht. Insbesondere viele APIs von Webserver im Internet nutzen diesen Standard. Er hat den Vorteil, dass die Daten durch den Menschen lesbar bleiben und somit auch vom Webdeveloper interpretiert werden können. Im Kern ähnelt der Standard der Darstellung von `dict` in Python.
-
-Wir können zum Beispiel den Datensatz zu einer Person in dem folgendem `dict` speichern.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-person={
-	"firstName": "John",
-	"lastName": "Smith",
-	"isAlive": True,
-	"age": 25,
-	"address": {
-		"streetAddress": "21 2nd Street",
-		"city": "New York",
-		"state": "NY",
-		"postalCode": "10021-3100" 
-	},
- 	"children": [],
-	"spouse": None
-}
-```
-
-%%/book
-
-%%book
-
-Mit Hilfe des `json`-Pakets lässt sich dieser Datensatz jetzt einfach in ein `JSON` String umwandeln und in eine Datei schreiben.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-import json
-
-with open("person.json", "tw") as fo:
-    json.dump(person, fo, indent=2)
-```
-
-%%/book
-
-%%book
-
-Schauen wir uns einmal die Datei an. Da es eine textuelle Datei ist, können wir sie mit `open(name, "tr")` laden.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-with open("person.json", "tr") as fi:
-    dateinhalt=fi.read()
-    print(dateinhalt)
-```
-
-%%/book
-
-%%book
-
-Wir sehen, dass die JSON-Representation dem oben definiertem Dictionary `person` sehr ähnlich ist. Die einzigen unterschiede sind, dass das in Pyton Großgeschriebene `True` hier klein geschrieben wird und das `none` aus Python mit `null` ersetzt wurde. Die Struktur beider Repräsentationen ist jedoch identisch. 
-
-Aus dieser Textdatei können wir jetzt unseren Datensatz direkt als `dict` wieder laden. Zur Darstellung nutzen wir diesmal pretty Print, weil es besser zu lesen ist.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-from pprint import pprint
-
-with open("person.json", "tr") as fi:
-    person_geladen=json.load(fi)
-    print(f"Datentyp {type(person_geladen)}")
-    pprint(person_geladen)
-```
-
-%%/book
-
-%%book
-
-Das geladene `dict` entspricht unserem ursprünglichem Dictionary `person`. Es hat sich zwar die Reihenfolge der Einträge geändert, aber dies ist nicht garantiert in J
-
-%%/book
-
-%%book
-
-
-## GeoJSON-Dateien
-
-%%/book
-
-%%book
-
-Eine besondere Variante des JSON-Formates das insbesondere für die Umweltinformatik relevant ist, ist das standartisierte [GeoJSON-Format](https://geojson.org/). Dieses auf JSON-basierende Format definiert wie bestimmte Geometrische Objekte wie Punkt, Linien und Polygone in JSON dargestellt werden sollen. Jedes Element wird dabei als JSON-Objekt (`dict` in Python) beschrieben und definiert die Attribute `type` und `coordinates`.
-
-%%/book
-
-%%book
-
-Ein Punkt ist dabei definiert als Element mit dem Typen `Point` und zwei Koordinaten.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-punkt = {
-    "type": "Point",
-    "coordinates": [12.095843457646907, 54.075229197333016]
-}
-```
-
-%%/book
-
-%%book
-
-Eine Linie ist gegeben als `LineString` mit einer Liste an Punkt-Koordinaten, welche meist die Anfangs- und End-Koordinaten sind. Werden im `LineString` mehr als zwei Koordinaten angegeben haben wir eine Linienkette.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-linie_oki_auf = {
-    "type": "LineString",
-    "coordinates": [
-        [ 12.095844241344963, 54.075206445655795 ],
-        [ 12.09606074723871, 54.075028604743636 ],
-        [ 12.09593084370266, 54.074930156768204 ],
-        [ 12.096282665780166, 54.07495873846247 ],
-        [ 12.096558710795335, 54.07507941651065 ],
-        [ 12.096840168457192, 54.074863466071434 ],
-        [ 12.098052601464076, 54.07534617726671 ],
-        [ 12.098187917647891, 54.07534617726671 ],
-        [ 12.098317821183883, 54.07541286718799 ],
-        [ 12.098377360305278, 54.075339825840246 ],
-        [ 12.098501851194726, 54.0753779343855 ]
-    ]
-}
-```
-
-%%/book
-
-%%book
-
-Ein Polygon ist definiert mit dem Typ `Polygon` wessen Koordinaten geben ist als Liste einer oder meherer Linienketten, welche geschlossen sind, so dass der Endpunkt mit dem Startpunkt übereinstimmt.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-campus = { 
-    "type": "Polygon",
-    "coordinates": [
-        [
-            [ 12.093402064538196, 54.07479416035679 ],
-            [ 12.094194380118807, 54.074246433609375 ],
-            [ 12.094578770845374, 54.074103747303894 ] ,
-            [ 12.095018074534778, 54.074191200259065 ],
-            [ 12.095661340649713, 54.074435147002276 ],
-            [ 12.096328140890677, 54.073947252082434 ],
-            [ 12.098359920447564, 54.075010487417984 ],
-            [ 12.098822758261605, 54.07471591412107 ],
-            [ 12.099866104521425, 54.07523141601854 ],
-            [ 12.09959938442529, 54.075383303749476 ],
-            [ 12.100462302384159, 54.075700885391115 ],
-            [ 12.098869826513692, 54.0770356222489 ],
-            [ 12.09752838132394, 54.076602988106 ],
-            [ 12.095394620552042, 54.076082900668524 ],
-            [ 12.09422575895411, 54.07581595060367 ],
-            [ 12.094743509729398, 54.07538790639916 ],
-            [ 12.093402064538196, 54.07479416035679 ]
-        ]
-    ]
-}
-```
-
-%%/book
-
-%%book
-
-Da viele Objekte ja nicht neben der Geometrie auch noch weitere Attribute haben, gibt es das Hilfsobjekt `Feature` indem es das Attribute `properties` gibt in dem man eigenen Meta-Daten definieren kann. So können wir uns ein GeoJSON-Objekt definieren, um die Position des OKI zu speichern.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-#| code-fold: true
-oki = {
-  "type": "Feature",
-  "geometry": {
-    "type": "Point",
-    "coordinates": [12.095843457646907, 54.075229197333016]
-  },
-  "properties": {
-    "name": "OKI",
-    "addresse": "Justus-von-Liebig-Weg 2",
-    "stadt": "Rostock",
-    "postleitzahl": "18059",
-    "land": "Deutschland"
-  }
-}
-
-auf = {
-  "type": "Feature",
-  "geometry": {
-    "type": "Point",
-    "coordinates": [12.098494794410726, 54.075390284810425]
-  },
-  "properties": {
-    "name": "AUF",
-    "addresse": "Justus-von-Liebig-Weg 6",
-    "stadt": "Rostock",
-    "postleitzahl":"18059",
-    "land": "Deutschland"
-  }
-}
-
-weg_oki_auf = {
-  "type": "Feature",
-  "geometry": linie_oki_auf,
-  "properties": {
-    "name": "Weg OKI zu AUF",
-    "stadt": "Rostock",
-    "postleitzahl":"18059",
-    "land": "Deutschland"
-  }
-}
-    
-campus_auf = {
-  "type": "Feature",
-  "geometry": campus,
-  "properties": {
-    "name": "Campus",
-    "stadt": "Rostock",
-    "postleitzahl":"18059",
-    "land": "Deutschland"
-  }
-}
-```
-
-%%/book
-
-%%book
-
-Eine Sammlung an `Features` wird in einer `FeatureCollection` abgelegt. Sie besitzt neben dem `type` die Liste `features`.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-features = {
-  "type": "FeatureCollection",
-  "features": [
-    oki,
-    auf,
-    weg_oki_auf,
-    campus_auf
-  ]
-}
-```
-
-%%/book
-
-%%book
-
-Zur Verarbeitung dieser GeoJSON-Objekte in Python können wir das Paket `geojson` nutzen. Wir installieren diese wieder mit `pip`.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-pip install geojson  --quiet
-```
-
-%%/book
-
-%%book
-
-Das Paket `geojson` bietet uns auch Standardklassen für Punkte, Linien und Polygone an, die wir uns zuvor selbst als [Klassen](7a_Object.html) definiert hatten. Aufgrund des umfangreichen Angebots and Paketen für Python lassen sich häufig auch Pakete finden, die entsprechende Klassen für die eigenen Problemstellungen bieten, so dass sich immer eine Suche lohnt. Ein Punkt in GeoJSON erzeugen wir mit dem Paket durch
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-from geojson import Point
-
-geojson_punkt=Point((12.095843457646907, 54.075229197333016))
-print(type(geojson_punkt))
-print(geojson_punkt)
-```
-
-%%/book
-
-%%book
-
-Neue Instanzen lassen sich auch direkt aus dem JSON erzeugen. Hierfür benutzen wir die `loads`-Funktion des Pakets. Sie wandelt einen JSON-String in ein Objekt um. Um den JSON-String zu erzeugen, wandeln wir das Dictionary `punkt` in ein String um mit der Funktion `json.dumps()`.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-import geojson
-import json
-
-json_str=json.dumps(punkt)
-gson_punkt=geojson.loads(json_str)
-
-print(type(gson_punkt))
-print(gson_punkt)
-```
-
-%%/book
-
-%%book
-
-So lässt sich auch unser ganze Feature Collection laden.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-import geojson
-import json
-
-json_str=json.dumps(features)
-gson_features=geojson.loads(json_str)
-
-print(type(gson_features))
-print(gson_features)
-```
-
-%%/book
-
-%%book
-
-Der Vorteil von GeoJSON-Objekten ist, dass wiederum viele weitere Pakete existieren, um dieses Format zu analysieren. Wollen wir zum Beispile unsere Feature Collection auf einer Karte visualisieren, können wir das Paket `geojsonio` nutzen.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-pip install geojsonio  --quiet
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-import geojsonio
-
-geojsonio.display(json_str)
-```
-
-%%/book
-
-%%book
-
-Wenn wir dem Link folgen kommen wir zu einer Webseite die uns die Polygone, Linie und Punkte anzeigt.
-
-%%/book
-
-%%book
-
-![Campus](images/09_Datenhaltung/campus.png)
-
-%%/book
-
-%%book
-
-Weitere Anwendungen von GeoJSON werden wir in der Übung kennen lernen.
-
-%%/book
-
-%%book
-
-
-## XML
-
-%%/book
-
-%%book
-
-XML ist ein anderes sehr weit verbreitetes Dateiformat. Alle Webseiten im Internet nutzen z.B. dieses Format. Es ist älter als JSON und immer noch sehr beliebt, weil es erlaubt Schemata (XLS) zu definieren, gegen diese die Datei validiert werden kann. So kann man z.B. sicher stellen das HTML-Dateien korrekt sind.
-
-Mit Hilfe der externen Pakete `dicttoxml` und `xmltodict` können XML-Dateien auch einfach geschrieben und gelesen werden. Wir installieren sie mit `pip`.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-pip install dicttoxml xmltodict  --quiet
-```
-
-%%/book
-
-%%slides
-
-```{python}
-#| echo: true
-import dicttoxml
-
-with open("person.xml", "bw") as fo:
-    fo.write(dicttoxml.dicttoxml(person, custom_root="person"))
-```
-
-%%/slides
-
-%%book
-
-```{python}
-#| echo: true
-with open("person.xml", "tr") as fi:
-    dateinhalt = fi.read()
-    print(dateinhalt)
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-import xmltodict
-
-with open("person.xml", "tr") as fi:
-    person_geladen = xmltodict.parse(fi.read(), xml_attribs=False)
-    print(f"Datentyp {type(person_geladen)}")
-    pprint(person_geladen)
-```
-
-%%/book
-
-%%book
-
-Auch hier entspricht das geladene `dict` unserem ursprünglichem.
-
-%%/book
-
-%%book
-
-### CSV-Dateien
-
-%%/book
-
-%%book
-
-Tabellen und Messwerte werden häufig als CSV-Dateien ausgetauscht. Dies ist ein sehr einfaches Format bei dem in der ersten Zeile der Text-Datei die Spaltennamen stehen und dann in jeder Zeile steht eine Reihe der Tabelle. Alle Werte werden durch Kommata `,` getrennt. Da das Komma im Deutschen als Dezimaltrennzeichen genutzt wird, wird hier häufig ein `;` oder Tabulator `\t` genutzt.
-
-Zum Verarbeiten von Tabellen nutzt man in Python meist die `pandas`-Bibliothek. Wollen wir zum Beispiel den Datensatz zweier Personen speichern, so wandeln wir diesen zuerst in eine `pandas`-Tabelle (DataFrame) um.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-leute=[
-    {"FirstName":"John", "LastName":"Smith", "IsAlive":True, "Age":25},
-    {"FirstName":"Mary", "LastName":"Sue", "IsAlive":True, "Age":30}
-]
-```
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-import pandas as pd
-
-tabelle=pd.DataFrame(leute)
-tabelle
-```
-
-%%/book
-
-%%book
-
-Diesen können wir jetzt als CSV-Datei speichern.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-tabelle.to_csv("leute.csv", index=False) # index=False sorgt dafür dass die Zeilennummern 0 und 1 weggelassen werden
-```
-
-%%/book
-
-%%book
-
-Wir lesen probeweise die Datei wieder ein. Da sie text-basiert ist können wir `open()` mit `tr` nutzen.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-with open("leute.csv", "tr") as fi:
-    dateinhalt = fi.read()
-    print(dateinhalt)
-```
-
-%%/book
-
-%%book
-
-Wir können jetzt die CSV-Datei wieder in eine Tabelle laden.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-tabelle_gelesen = pd.read_csv("leute.csv")
-tabelle_gelesen
-```
-
-%%/book
-
-%%book
-
-und zu dem Dictionary zurückverwandeln
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-tabelle_gelesen.to_dict("records")
-```
-
-%%/book
-
-%%slides
-
-```{python}
-#| echo: true
-
-
-# wir löschen die Datei
-os.remove("leute.csv")
-```
-
-%%/slides
-
-%%book
-
-
-## Typische binäre Dateiformate
-### XLS-Dateien
-
-%%/book
-
-%%book
-
-Diese CSV-Dateien können wir auch einfach in andere Programme wie Microsoft Excel einlesen oder von dort aus speichern. Das Hausformat von Excel sind `.xlsx` Dateien. Diese können wir mit dem Paket `openpyxl` auch direkt aus pandas heraus schreiben. Wir installieren uns `openpyxl` mit ´pip`.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-pip install openpyxl  --quiet
-```
-
-%%/book
-
-%%book
-
-Nach der installation können wir einfach die Tabelle als Excel-Datei exportieren.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-tabelle.to_excel("leute.xlsx", index=False) # index=False sorgt dafür dass die Zeilennummer weggelassen wird
-```
-
-%%/book
-
-%%book
-
-Diese Datei ist erstmal eine binäre Datei. Wir können sie also nicht mit `open()` und `tr` lesen, sondern müssen die binäre Variante mit `br` nehmen.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-with open("leute.xlsx", "br") as fi:
-    dateinhalt = fi.read()
-    print(dateinhalt)
-```
-
-%%/book
-
-%%book
-
-Was wir sehen sind viele unverständliche binäre Zeichen. Dahinter steckt in diesem Fall eine komprimierte ZIP-Datei, da das `.xlsx`-Dateiformat eigentlich nur eine ZIP-Datei ist die mehrere XML-Dateien enthält.
-
-%%/book
-
-%%book
-
-### ZIP-Dateien
-
-%%/book
-
-%%book
-
-ZIP-Dateien sind Dateien, welche andere Dateien und Verzeichnisse enthalten und diese komprimieren. Dadurch können mehrere Dateien in einer einzigen zusammengefasst werden und verbrauchen weniger Speicher. Deshalb werden ZIP-Dateien gerne im Versand mehrere Dateien verwendet.
-
-Auch die `.xlsx` Datei von Excel ist eine verkappte ZIP-Datei, die mehrere XML-Dateien in dem offenen Office-Format enthält.
-
-Dies lässt sich zeigen in dem wir die Datei in eine ZIP-Datei umbenennen mit `os.rename()`.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-os.rename("leute.xlsx", "leute.zip")
-```
-
-%%/book
-
-%%book
-
-Wollen wir die Dateien in der Zip-Datei sehen, so können wir diese mit dem `ZipFile`-Objekt des Standardpaktes `zipfile` öffnen. Es funktioniert genauso wie `open()` nur für ZIP-Dateien. Mit der Methode `namelist` können wir alle Dateien in der Zip-Datei auflisten.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-import zipfile
-
-with zipfile.ZipFile("leute.zip",'r') as zipdatei:
-    for fname in zipdatei.namelist():
-        print(fname)
-```
-
-%%/book
-
-%%book
-
-Um aus der Zip-Datei eine einzelne Datei zu lesen, können wir die `read()`-Methode nutzen. Laden wir z.B. die 'xl/worksheets/sheet1.xml' welche unsere Daten enthält so sehen wir unsere Daten in der typischen XML-Struktur.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-import zipfile
-from pprint import pprint
-
-with zipfile.ZipFile("leute.zip",'r') as zipdatei:
-    xmldatei = zipdatei.read("xl/worksheets/sheet1.xml")
-    print(xmldatei)
-```
-
-%%/book
-
-%%book
-
-Mit der `parse`-Funktion des `xmltodict`-Paketes können wir diese XML-Datei zum Beispiel in ein ´dict´ in Python umwandeln.
-
-%%/book
-
-%%book
-
-```{python}
-#| echo: true
-xmldict = xmltodict.parse(xmldatei, xml_attribs=False)
-pprint(xmldict)
-```
-
-%%/book
-
-%%book
-
-Unser ursprüngliches Dictionary `leute`, welches wir oben definiert haben ist in diesem Dictionary nicht mehr erkenntlich. Das liegt daran, dass dieses Format von Microsoft Excel definiert wurde und nicht speziel für unseren Zweck ausgelegt ist. Wichtig ist allerdings, dass das Format durchaus durch Menschen lesbar ist, so dass heutzutage viele andere Tools, wie LibreOffice, Google Docs, etc. dieses Format lesen und schreiben können. Das ist ein wichtiger Grund für die Nutzung von offenen XML-Formaten.
-
-%%/book
-
-%%slides
-
-```{python}
-#| echo: true
-
-
-# wir löschen die temporären datei
-os.remove("person.json")
-os.remove("person.xml")
-os.remove("leute.zip")
-```
-
-%%/slides
 
 %%slides
 
@@ -1254,6 +289,320 @@ Der Computer hat ähnliche Gedächtnisarten wie der Mensch:
 
 %%/slides
 
+%%book
+
+
+## Dateien lesen
+
+%%/book
+
+%%book
+
+Eine typische Aufgabe ist es Dateien zu laden. Hierfür bietet Python die `open()`-Funktion mit dem Kürzel `r` (read). Hierfür gibt man der `open()`-Funktion den Pfad der zu ladenden Datei an und auch den Datentyp der Datei also ob die Datei eine Textdatei ist `t` oder eine binäre Datei `b` ist.
+
+Die `open()`-Funktion verwendet man meist im `with`-Konstrukt, welcher die Datei einer Variable zuordnet (`fi`) und die Datei nach Beendigung des Blocks auch automatisch schließt. Zum lesen des Inhalts der Datei nutzen wir die `read()` des Dateiobjektes.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+with open("geometry/shapes/Line.py", "tr") as fi:
+    dateinhalt=fi.read()
+    print(f"Datentyp Datei {type(fi)}")
+    print(f"Datentyp Variable {type(dateinhalt)}\n")
+    print(dateinhalt)
+```
+
+%%/book
+
+%%book
+
+In gleicher Form kann man auch binäre Dateien einlesen. Dafür tauschen wir den Dateityp `t` mit binär aus `b` und laden die Datei. Wir sehen, dass jetzt der Datentyp der geladenen Dateinhalts zu `byte` wechselt. Printen wir den Dateinhalt sehen wir auch direkt die Sonderzeichen in der Datei wie `\r` und `\n` welche für den Zeilenumbruch stehen.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+with open("geometry/shapes/Line.py", "br") as fi:
+    dateinhalt=fi.read()
+    print(f"Datentyp Datei {type(fi)}")
+    print(f"Datentyp Variable {type(dateinhalt)}\n")
+    print(dateinhalt)
+```
+
+%%/book
+
+%%book
+
+
+## Dateien schreiben
+
+%%/book
+
+%%book
+
+In gleicher Weise können wir mit der `open()`-Funktion auch neue Dateien erzeugen. Hierfür nutzen wir das Kürzel `w` (write). Auch hier werden Textdateien mit `t` und binäre Dateien mit `b` unterschieden. Zum Schreiben der Datei nutzen wir die `write()`-Methode des Dateiobjektes `fo`.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+with open("meineDatei.txt", "tw") as fo:
+    dateinhalt="Meine eigener Inhalt"
+    fo.write(dateinhalt)
+```
+
+%%/book
+
+%%book
+
+Zum überprüfen lesen wir die Datei wieder.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+with open("meineDatei.txt", "tr") as fi:
+    print(fi.read())
+```
+
+%%/book
+
+%%book
+
+Wichtig zu wissen ist, dass die Datei vollständig überschrieben wird.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+with open("meineDatei.txt", "tw") as fo:
+    dateinhalt="Neuer Inhalt"
+    fo.write(dateinhalt)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+with open("meineDatei.txt", "tr") as fi:
+    print(fi.read())
+```
+
+%%/book
+
+%%book
+
+
+## Datei existenz testen
+
+%%/book
+
+%%book
+
+Häufig will man testen ob eine Datei bereits existiert und dementsprechend diese laden oder z.B. neu erzeugen. Solche und andere Funktionen bietet die Standardbibliothek `os` die wir bereits kennen gelernt haben.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import os
+
+if os.path.exists("meineDatei.txt"):
+    print("Datei existiert")
+else:
+    print("Datei existiert noch nicht")
+```
+
+%%/book
+
+%%book
+
+
+## Dateien auflisten
+
+%%/book
+
+%%book
+
+Zum Auflisten aller Dateien in einem Verzeichnis `folder` können wir die Funktion `os.listdir()` benutzen. Mit der Funktion `os.path.isfile()` können wir prüfen ob der Name auf eine Datei oder ein Verzeichnis ist. Ist es eine Datei, so können wir diese mit der `open`-Funktion öffnen, um z.B. alle Dateien zu laden und die Anzahl der Code-Zeilen zu berechnen. Dafür nutzen wir anstatt der `read`-Funktion die `readlines`-Funktion um alle Zeilen einzeln in einer Liste zu erhalten.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import os
+
+folder = "geometry/shapes/"
+files = 0
+codelines = 0
+for count, name in enumerate(os.listdir(folder)):
+	if os.path.isfile(os.path.join(folder, name)):
+		with open(os.path.join(folder, name), "tr") as fi:
+			codelines += len(fi.readlines())
+			files += 1
+
+print(f"{codelines} Codezeilen in {files} Dateien")
+```
+
+%%/book
+
+%%book
+
+
+## Dateien löschen
+
+%%/book
+
+%%book
+
+Die `os`-Paket bietet auch Funktionen, um Dateien zu löschen. Selbstverständlich sollte die mit Vorsicht verwendet werdet werden.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+os.remove("meineDatei.txt")
+```
+
+%%/book
+
+%%book
+
+
+## Typische textuelle Dateiformate
+
+%%/book
+
+%%book
+
+### TXT-Dateien
+
+%%/book
+
+%%book
+
+Eine der einfachsten Formate um Texte auf dem Computer zu Speichern sind Text-Dateien. Sie haben meist die Dateiendung `.txt`. Diese Dateiänderung haben wir bereits oben genutzt.
+
+%%/book
+
+%%book
+
+### JSON-Dateien
+
+%%/book
+
+%%book
+
+Heutzutage werden strukturierte Informationen oft im `JSON`-Format ausgetauscht. Insbesondere viele APIs von Webserver im Internet nutzen diesen Standard. Er hat den Vorteil, dass die Daten durch den Menschen lesbar bleiben und somit auch vom Webdeveloper interpretiert werden können. Im Kern ähnelt der Standard der Darstellung von `dict` in Python.
+
+Wir können zum Beispiel den Datensatz zu einer Person in dem folgendem `dict` speichern.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+person={
+	"firstName": "John",
+	"lastName": "Smith",
+	"isAlive": True,
+	"age": 25,
+	"address": {
+		"streetAddress": "21 2nd Street",
+		"city": "New York",
+		"state": "NY",
+		"postalCode": "10021-3100"
+	},
+ 	"children": [],
+	"spouse": None
+}
+```
+
+%%/book
+
+%%book
+
+Mit Hilfe des `json`-Pakets lässt sich dieser Datensatz jetzt einfach in ein `JSON` String umwandeln und in eine Datei schreiben.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import json
+
+with open("person.json", "tw") as fo:
+    json.dump(person, fo, indent=2)
+```
+
+%%/book
+
+%%book
+
+Schauen wir uns einmal die Datei an. Da es eine textuelle Datei ist, können wir sie mit `open(name, "tr")` laden.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+with open("person.json", "tr") as fi:
+    dateinhalt=fi.read()
+    print(dateinhalt)
+```
+
+%%/book
+
+%%book
+
+Wir sehen, dass die JSON-Representation dem oben definiertem Dictionary `person` sehr ähnlich ist. Die einzigen unterschiede sind, dass das in Pyton Großgeschriebene `True` hier klein geschrieben wird und das `none` aus Python mit `null` ersetzt wurde. Die Struktur beider Repräsentationen ist jedoch identisch.
+
+Aus dieser Textdatei können wir jetzt unseren Datensatz direkt als `dict` wieder laden. Zur Darstellung nutzen wir diesmal pretty Print, weil es besser zu lesen ist.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+from pprint import pprint
+
+with open("person.json", "tr") as fi:
+    person_geladen=json.load(fi)
+    print(f"Datentyp {type(person_geladen)}")
+    pprint(person_geladen)
+```
+
+%%/book
+
+%%book
+
+Das geladene `dict` entspricht unserem ursprünglichem Dictionary `person`. Es hat sich zwar die Reihenfolge der Einträge geändert, aber dies ist nicht garantiert in J
+
+%%/book
+
 %%slides
 
 
@@ -1381,6 +730,384 @@ Der Computer hat ähnliche Gedächtnisarten wie der Mensch:
 
 %%/slides
 
+%%book
+
+
+## GeoJSON-Dateien
+
+%%/book
+
+%%book
+
+Eine besondere Variante des JSON-Formates das insbesondere für die Umweltinformatik relevant ist, ist das standartisierte [GeoJSON-Format](https://geojson.org/). Dieses auf JSON-basierende Format definiert wie bestimmte Geometrische Objekte wie Punkt, Linien und Polygone in JSON dargestellt werden sollen. Jedes Element wird dabei als JSON-Objekt (`dict` in Python) beschrieben und definiert die Attribute `type` und `coordinates`.
+
+%%/book
+
+%%book
+
+Ein Punkt ist dabei definiert als Element mit dem Typen `Point` und zwei Koordinaten.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+punkt = {
+    "type": "Point",
+    "coordinates": [12.095843457646907, 54.075229197333016]
+}
+```
+
+%%/book
+
+%%book
+
+Eine Linie ist gegeben als `LineString` mit einer Liste an Punkt-Koordinaten, welche meist die Anfangs- und End-Koordinaten sind. Werden im `LineString` mehr als zwei Koordinaten angegeben haben wir eine Linienkette.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+linie_oki_auf = {
+    "type": "LineString",
+    "coordinates": [
+        [ 12.095844241344963, 54.075206445655795 ],
+        [ 12.09606074723871, 54.075028604743636 ],
+        [ 12.09593084370266, 54.074930156768204 ],
+        [ 12.096282665780166, 54.07495873846247 ],
+        [ 12.096558710795335, 54.07507941651065 ],
+        [ 12.096840168457192, 54.074863466071434 ],
+        [ 12.098052601464076, 54.07534617726671 ],
+        [ 12.098187917647891, 54.07534617726671 ],
+        [ 12.098317821183883, 54.07541286718799 ],
+        [ 12.098377360305278, 54.075339825840246 ],
+        [ 12.098501851194726, 54.0753779343855 ]
+    ]
+}
+```
+
+%%/book
+
+%%book
+
+Ein Polygon ist definiert mit dem Typ `Polygon` wessen Koordinaten geben ist als Liste einer oder meherer Linienketten, welche geschlossen sind, so dass der Endpunkt mit dem Startpunkt übereinstimmt.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+campus = {
+    "type": "Polygon",
+    "coordinates": [
+        [
+            [ 12.093402064538196, 54.07479416035679 ],
+            [ 12.094194380118807, 54.074246433609375 ],
+            [ 12.094578770845374, 54.074103747303894 ] ,
+            [ 12.095018074534778, 54.074191200259065 ],
+            [ 12.095661340649713, 54.074435147002276 ],
+            [ 12.096328140890677, 54.073947252082434 ],
+            [ 12.098359920447564, 54.075010487417984 ],
+            [ 12.098822758261605, 54.07471591412107 ],
+            [ 12.099866104521425, 54.07523141601854 ],
+            [ 12.09959938442529, 54.075383303749476 ],
+            [ 12.100462302384159, 54.075700885391115 ],
+            [ 12.098869826513692, 54.0770356222489 ],
+            [ 12.09752838132394, 54.076602988106 ],
+            [ 12.095394620552042, 54.076082900668524 ],
+            [ 12.09422575895411, 54.07581595060367 ],
+            [ 12.094743509729398, 54.07538790639916 ],
+            [ 12.093402064538196, 54.07479416035679 ]
+        ]
+    ]
+}
+```
+
+%%/book
+
+%%book
+
+Da viele Objekte ja nicht neben der Geometrie auch noch weitere Attribute haben, gibt es das Hilfsobjekt `Feature` indem es das Attribute `properties` gibt in dem man eigenen Meta-Daten definieren kann. So können wir uns ein GeoJSON-Objekt definieren, um die Position des OKI zu speichern.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+#| code-fold: true
+oki = {
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [12.095843457646907, 54.075229197333016]
+  },
+  "properties": {
+    "name": "OKI",
+    "addresse": "Justus-von-Liebig-Weg 2",
+    "stadt": "Rostock",
+    "postleitzahl": "18059",
+    "land": "Deutschland"
+  }
+}
+
+auf = {
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [12.098494794410726, 54.075390284810425]
+  },
+  "properties": {
+    "name": "AUF",
+    "addresse": "Justus-von-Liebig-Weg 6",
+    "stadt": "Rostock",
+    "postleitzahl":"18059",
+    "land": "Deutschland"
+  }
+}
+
+weg_oki_auf = {
+  "type": "Feature",
+  "geometry": linie_oki_auf,
+  "properties": {
+    "name": "Weg OKI zu AUF",
+    "stadt": "Rostock",
+    "postleitzahl":"18059",
+    "land": "Deutschland"
+  }
+}
+
+campus_auf = {
+  "type": "Feature",
+  "geometry": campus,
+  "properties": {
+    "name": "Campus",
+    "stadt": "Rostock",
+    "postleitzahl":"18059",
+    "land": "Deutschland"
+  }
+}
+```
+
+%%/book
+
+%%book
+
+Eine Sammlung an `Features` wird in einer `FeatureCollection` abgelegt. Sie besitzt neben dem `type` die Liste `features`.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+features = {
+  "type": "FeatureCollection",
+  "features": [
+    oki,
+    auf,
+    weg_oki_auf,
+    campus_auf
+  ]
+}
+```
+
+%%/book
+
+%%book
+
+Zur Verarbeitung dieser GeoJSON-Objekte in Python können wir das Paket `geojson` nutzen. Wir installieren diese wieder mit `pip`.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import subprocess
+subprocess.run(["pip", "install", "geojson", "--quiet"])
+```
+
+%%/book
+
+%%book
+
+Das Paket `geojson` bietet uns auch Standardklassen für Punkte, Linien und Polygone an, die wir uns zuvor selbst als [Klassen](7a_Object.html) definiert hatten. Aufgrund des umfangreichen Angebots and Paketen für Python lassen sich häufig auch Pakete finden, die entsprechende Klassen für die eigenen Problemstellungen bieten, so dass sich immer eine Suche lohnt. Ein Punkt in GeoJSON erzeugen wir mit dem Paket durch
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+from geojson import Point
+
+geojson_punkt=Point((12.095843457646907, 54.075229197333016))
+print(type(geojson_punkt))
+print(geojson_punkt)
+```
+
+%%/book
+
+%%book
+
+Neue Instanzen lassen sich auch direkt aus dem JSON erzeugen. Hierfür benutzen wir die `loads`-Funktion des Pakets. Sie wandelt einen JSON-String in ein Objekt um. Um den JSON-String zu erzeugen, wandeln wir das Dictionary `punkt` in ein String um mit der Funktion `json.dumps()`.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import geojson
+import json
+
+json_str=json.dumps(punkt)
+gson_punkt=geojson.loads(json_str)
+
+print(type(gson_punkt))
+print(gson_punkt)
+```
+
+%%/book
+
+%%book
+
+So lässt sich auch unser ganze Feature Collection laden.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import geojson
+import json
+
+json_str=json.dumps(features)
+gson_features=geojson.loads(json_str)
+
+print(type(gson_features))
+print(gson_features)
+```
+
+%%/book
+
+%%book
+
+Der Vorteil von GeoJSON-Objekten ist, dass wiederum viele weitere Pakete existieren, um dieses Format zu analysieren. Wollen wir zum Beispile unsere Feature Collection auf einer Karte visualisieren, können wir das Paket `geojsonio` nutzen.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+subprocess.run(["pip", "install", "geojsonio", "--quiet"])
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import geojsonio
+
+geojsonio.display(json_str)
+```
+
+%%/book
+
+%%book
+
+Wenn wir dem Link folgen kommen wir zu einer Webseite die uns die Polygone, Linie und Punkte anzeigt.
+
+%%/book
+
+%%book
+
+![Campus](images/09_Datenhaltung/campus.png)
+
+%%/book
+
+%%book
+
+Weitere Anwendungen von GeoJSON werden wir in der Übung kennen lernen.
+
+%%/book
+
+%%book
+
+
+## XML
+
+%%/book
+
+%%book
+
+XML ist ein anderes sehr weit verbreitetes Dateiformat. Alle Webseiten im Internet nutzen z.B. dieses Format. Es ist älter als JSON und immer noch sehr beliebt, weil es erlaubt Schemata (XLS) zu definieren, gegen diese die Datei validiert werden kann. So kann man z.B. sicher stellen das HTML-Dateien korrekt sind.
+
+Mit Hilfe der externen Pakete `dicttoxml` und `xmltodict` können XML-Dateien auch einfach geschrieben und gelesen werden. Wir installieren sie mit `pip`.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+subprocess.run(["pip", "install", "dicttoxml", "xmltodict", "--quiet"])
+```
+
+%%/book
+
+%%slides
+
+```{python}
+#| echo: true
+import dicttoxml
+
+with open("person.xml", "bw") as fo:
+    fo.write(dicttoxml.dicttoxml(person, custom_root="person"))
+```
+
+%%/slides
+
+%%book
+
+```{python}
+#| echo: true
+with open("person.xml", "tr") as fi:
+    dateinhalt = fi.read()
+    print(dateinhalt)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import xmltodict
+
+with open("person.xml", "tr") as fi:
+    person_geladen = xmltodict.parse(fi.read(), xml_attribs=False)
+    print(f"Datentyp {type(person_geladen)}")
+    pprint(person_geladen)
+```
+
+%%/book
+
+%%book
+
+Auch hier entspricht das geladene `dict` unserem ursprünglichem.
+
+%%/book
+
 %%slides
 
 
@@ -1417,6 +1144,119 @@ Der Computer hat ähnliche Gedächtnisarten wie der Mensch:
 
 %%/slides
 
+%%book
+
+### CSV-Dateien
+
+%%/book
+
+%%book
+
+Tabellen und Messwerte werden häufig als CSV-Dateien ausgetauscht. Dies ist ein sehr einfaches Format bei dem in der ersten Zeile der Text-Datei die Spaltennamen stehen und dann in jeder Zeile steht eine Reihe der Tabelle. Alle Werte werden durch Kommata `,` getrennt. Da das Komma im Deutschen als Dezimaltrennzeichen genutzt wird, wird hier häufig ein `;` oder Tabulator `\t` genutzt.
+
+Zum Verarbeiten von Tabellen nutzt man in Python meist die `pandas`-Bibliothek. Wollen wir zum Beispiel den Datensatz zweier Personen speichern, so wandeln wir diesen zuerst in eine `pandas`-Tabelle (DataFrame) um.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+leute=[
+    {"FirstName":"John", "LastName":"Smith", "IsAlive":True, "Age":25},
+    {"FirstName":"Mary", "LastName":"Sue", "IsAlive":True, "Age":30}
+]
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import pandas as pd
+
+tabelle=pd.DataFrame(leute)
+tabelle
+```
+
+%%/book
+
+%%book
+
+Diesen können wir jetzt als CSV-Datei speichern.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+tabelle.to_csv("leute.csv", index=False) # index=False sorgt dafür dass die Zeilennummern 0 und 1 weggelassen werden
+```
+
+%%/book
+
+%%book
+
+Wir lesen probeweise die Datei wieder ein. Da sie text-basiert ist können wir `open()` mit `tr` nutzen.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+with open("leute.csv", "tr") as fi:
+    dateinhalt = fi.read()
+    print(dateinhalt)
+```
+
+%%/book
+
+%%book
+
+Wir können jetzt die CSV-Datei wieder in eine Tabelle laden.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+tabelle_gelesen = pd.read_csv("leute.csv")
+tabelle_gelesen
+```
+
+%%/book
+
+%%book
+
+und zu dem Dictionary zurückverwandeln
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+tabelle_gelesen.to_dict("records")
+```
+
+%%/book
+
+%%slides
+
+```{python}
+#| echo: true
+
+
+# wir löschen die Datei
+os.remove("leute.csv")
+```
+
+%%/slides
+
 %%slides
 
 
@@ -1437,6 +1277,167 @@ Mary;Sue;true;30
 ```
 
 %%/col
+
+%%/slides
+
+%%book
+
+
+## Typische binäre Dateiformate
+### XLS-Dateien
+
+%%/book
+
+%%book
+
+Diese CSV-Dateien können wir auch einfach in andere Programme wie Microsoft Excel einlesen oder von dort aus speichern. Das Hausformat von Excel sind `.xlsx` Dateien. Diese können wir mit dem Paket `openpyxl` auch direkt aus pandas heraus schreiben. Wir installieren uns `openpyxl` mit ´pip`.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+subprocess.run(["pip", "install", "openpyxl", "--quiet"])
+```
+
+%%/book
+
+%%book
+
+Nach der installation können wir einfach die Tabelle als Excel-Datei exportieren.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+tabelle.to_excel("leute.xlsx", index=False) # index=False sorgt dafür dass die Zeilennummer weggelassen wird
+```
+
+%%/book
+
+%%book
+
+Diese Datei ist erstmal eine binäre Datei. Wir können sie also nicht mit `open()` und `tr` lesen, sondern müssen die binäre Variante mit `br` nehmen.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+with open("leute.xlsx", "br") as fi:
+    dateinhalt = fi.read()
+    print(dateinhalt)
+```
+
+%%/book
+
+%%book
+
+Was wir sehen sind viele unverständliche binäre Zeichen. Dahinter steckt in diesem Fall eine komprimierte ZIP-Datei, da das `.xlsx`-Dateiformat eigentlich nur eine ZIP-Datei ist die mehrere XML-Dateien enthält.
+
+%%/book
+
+%%book
+
+### ZIP-Dateien
+
+%%/book
+
+%%book
+
+ZIP-Dateien sind Dateien, welche andere Dateien und Verzeichnisse enthalten und diese komprimieren. Dadurch können mehrere Dateien in einer einzigen zusammengefasst werden und verbrauchen weniger Speicher. Deshalb werden ZIP-Dateien gerne im Versand mehrere Dateien verwendet.
+
+Auch die `.xlsx` Datei von Excel ist eine verkappte ZIP-Datei, die mehrere XML-Dateien in dem offenen Office-Format enthält.
+
+Dies lässt sich zeigen in dem wir die Datei in eine ZIP-Datei umbenennen mit `os.rename()`.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+os.rename("leute.xlsx", "leute.zip")
+```
+
+%%/book
+
+%%book
+
+Wollen wir die Dateien in der Zip-Datei sehen, so können wir diese mit dem `ZipFile`-Objekt des Standardpaktes `zipfile` öffnen. Es funktioniert genauso wie `open()` nur für ZIP-Dateien. Mit der Methode `namelist` können wir alle Dateien in der Zip-Datei auflisten.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import zipfile
+
+with zipfile.ZipFile("leute.zip",'r') as zipdatei:
+    for fname in zipdatei.namelist():
+        print(fname)
+```
+
+%%/book
+
+%%book
+
+Um aus der Zip-Datei eine einzelne Datei zu lesen, können wir die `read()`-Methode nutzen. Laden wir z.B. die 'xl/worksheets/sheet1.xml' welche unsere Daten enthält so sehen wir unsere Daten in der typischen XML-Struktur.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import zipfile
+from pprint import pprint
+
+with zipfile.ZipFile("leute.zip",'r') as zipdatei:
+    xmldatei = zipdatei.read("xl/worksheets/sheet1.xml")
+    print(xmldatei)
+```
+
+%%/book
+
+%%book
+
+Mit der `parse`-Funktion des `xmltodict`-Paketes können wir diese XML-Datei zum Beispiel in ein ´dict´ in Python umwandeln.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+xmldict = xmltodict.parse(xmldatei, xml_attribs=False)
+pprint(xmldict)
+```
+
+%%/book
+
+%%book
+
+Unser ursprüngliches Dictionary `leute`, welches wir oben definiert haben ist in diesem Dictionary nicht mehr erkenntlich. Das liegt daran, dass dieses Format von Microsoft Excel definiert wurde und nicht speziel für unseren Zweck ausgelegt ist. Wichtig ist allerdings, dass das Format durchaus durch Menschen lesbar ist, so dass heutzutage viele andere Tools, wie LibreOffice, Google Docs, etc. dieses Format lesen und schreiben können. Das ist ein wichtiger Grund für die Nutzung von offenen XML-Formaten.
+
+%%/book
+
+%%slides
+
+```{python}
+#| echo: true
+
+
+# wir löschen die temporären datei
+os.remove("person.json")
+os.remove("person.xml")
+os.remove("leute.zip")
+```
 
 %%/slides
 
