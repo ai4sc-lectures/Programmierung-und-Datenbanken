@@ -408,6 +408,15 @@ _WARNING_BLOCK_RE = re.compile(
 )
 
 
+_INFO_BLOCK_RE = re.compile(
+    r'\s*<div class="alert alert-block alert-info">\s*'
+    r'(?:<b>(.*?)</b>\s*)?'
+    r'(.*?)'
+    r'</div>\s*',
+    re.DOTALL,
+)
+
+
 _MJ_FIGURE_RE = re.compile(
     r'<figure class="mj-fig">\s*'
     r'<img src="([^"]+)" class="mj-fig-img">\s*'
@@ -432,9 +441,21 @@ _HTML_FIGURE_RE = re.compile(
 
 _VIDEO_RE = re.compile(
     r'<video\b[^>]*>\s*'
-    r'<source src="([^"]+)"[^>]*>\s*'
+    r"<source src=['\"]([^'\"]+)['\"][^>]*>\s*"
     r'.*?'
     r'</video>',
+    re.DOTALL,
+)
+
+
+_HTML_LIST_RE = re.compile(
+    r'<ul>\s*(.*?)\s*(?:</ul>|<ul>\s*(?=</div>|$)|$)',
+    re.DOTALL | re.IGNORECASE,
+)
+
+
+_HTML_IMG_RE = re.compile(
+    r'<img src="([^"]+)"[^>]*>',
     re.DOTALL,
 )
 
@@ -468,6 +489,68 @@ def convert_videos(source: str) -> str:
         return f"![]({media_path})"
 
     return _VIDEO_RE.sub(repl, source)
+
+
+def convert_html_images(source: str) -> str:
+    """Replace standalone HTML img tags with markdown image syntax."""
+    def repl(match: re.Match) -> str:
+        image_path = match.group(1).strip()
+        return f"![]({image_path})"
+
+    return _HTML_IMG_RE.sub(repl, source)
+
+
+_CENTER_BLOCK_RE = re.compile(
+    r"<center>\s*(.*?)\s*</center>",
+    re.DOTALL | re.IGNORECASE,
+)
+
+
+def unwrap_center_wrappers(source: str) -> str:
+    """Unwrap legacy center wrappers around already-converted markdown or media."""
+    source = _CENTER_BLOCK_RE.sub(lambda match: match.group(1).strip(), source)
+    source = re.sub(r"(?im)^[ \t]*<center>[ \t]*\n?", "", source)
+    source = re.sub(r"(?im)^[ \t]*</center>[ \t]*\n?", "", source)
+    return source
+
+
+def remove_stray_list_tags(source: str) -> str:
+    """Drop stray list wrapper tags left behind after HTML list conversion."""
+    source = re.sub(r"</ul>", "", source, flags=re.IGNORECASE)
+    source = re.sub(r"<ul>", "", source, flags=re.IGNORECASE)
+    return source
+
+
+def convert_html_lists(source: str) -> str:
+    """Replace simple HTML unordered lists with markdown bullet lists."""
+    def items_to_lines(inner: str) -> list[str]:
+        lines: list[str] = []
+        for match in re.finditer(r'<li([^>]*)>(.*?)</li>', inner, re.DOTALL | re.IGNORECASE):
+            attrs, item = match.groups()
+            text = re.sub(r"<br\s*/?>", "\n", item, flags=re.IGNORECASE)
+            text = re.sub(r"<[^>]+>", "", text)
+            text = _normalize_whitespace(text)
+            if text:
+                if re.search(r"color\s*:\s*orange", attrs, re.IGNORECASE) or text.startswith("Problem:"):
+                    text = f"*{text}*"
+                lines.append(f"- {text}")
+        return lines
+
+    def repl(match: re.Match) -> str:
+        lines = items_to_lines(match.group(1))
+        return "\n".join(lines) if lines else match.group(0)
+
+    source = re.sub(r"<br\s*/?>", "\n", source, flags=re.IGNORECASE)
+    source = _HTML_LIST_RE.sub(repl, source)
+    if "<li" in source and not re.search(r"<div\b|<figure\b|<img\b|<video\b", source, re.IGNORECASE):
+        lines = items_to_lines(source)
+        if lines:
+            source = re.sub(r"</?ul>", "", source, flags=re.IGNORECASE)
+            source = re.sub(r"<li\b[^>]*>.*?</li>", "", source, flags=re.DOTALL | re.IGNORECASE)
+            source = source.strip()
+            list_block = "\n".join(lines)
+            source = f"{source}\n\n{list_block}" if source else list_block
+    return source
 
 
 def _normalize_heading_text(heading_text: str) -> str:
@@ -667,6 +750,23 @@ def convert_warning_block(source: str) -> str:
         return f"\n%%warning{title_part}\n{body}\n%%/warning\n"
 
     converted = _WARNING_BLOCK_RE.sub(repl, source)
+    return converted.lstrip("\n")
+
+
+def convert_info_block(source: str) -> str:
+    """Convert legacy HTML info alerts into note macros."""
+    def repl(match: re.Match) -> str:
+        raw_title, body = match.groups()
+        raw_title = raw_title or ""
+        title = _normalize_whitespace(re.sub(r"<[^>]+>", "", raw_title))
+        title = re.sub(r"^[^A-Za-zÄÖÜäöüß]*", "", title).rstrip(":").strip()
+        body = body.strip()
+        if title.lower() == "warning":
+            return f"\n%%warning {title}\n{body}\n%%/warning\n"
+        title_part = f" {title}" if title else ""
+        return f"\n%%note{title_part}\n{body}\n%%/note\n"
+
+    converted = _INFO_BLOCK_RE.sub(repl, source)
     return converted.lstrip("\n")
 
 
@@ -950,12 +1050,17 @@ def convert_markdown_cell(source: str) -> str:
     source = convert_lecture_question_block(source)
     source = convert_definition_block(source)
     source = convert_warning_block(source)
+    source = convert_info_block(source)
     source = remove_background_scripts(source)
+    source = convert_html_lists(source)
+    source = remove_stray_list_tags(source)
     source = convert_style_columns(source)
     source = convert_flex_rows(source)
     source = convert_midjourney_figures(source)
     source = convert_html_figures(source)
     source = convert_videos(source)
+    source = convert_html_images(source)
+    source = unwrap_center_wrappers(source)
     source = convert_myst_figures(source)
     return source.strip() + "\n"
 
@@ -1073,13 +1178,15 @@ def convert(ipynb_path: Path, qmd_path: Path) -> None:
 
         # --- Markdown cell ---
         if cell["cell_type"] == "markdown":
+            full_cell_conversion = convert_markdown_cell(source)
+
             # Heading-only cells:
             #   • skip → wrap unless-format (docs only, no slide break in revealjs)
             #   • remove-cell tag → wrap when-format (slides only)
             #   • slide/subslide/fragment/'' → emit raw (section marker in HTML
             #     AND slide break / heading in revealjs)
             if is_heading_only(source):
-                content = convert_markdown_cell(source) + "\n"
+                content = full_cell_conversion + "\n"
                 if slide_type == "skip" or "remove-cell" in tags:
                     items.append(("wrapped", visibility, content))
                 else:
@@ -1091,6 +1198,9 @@ def convert(ipynb_path: Path, qmd_path: Path) -> None:
             # Only the --- separator is when-format; the body is raw so it
             # appears in HTML documentation and revealjs slides alike.
             if slide_type in ("slide", "subslide", "fragment") and "remove-cell" not in tags:
+                if full_cell_conversion.strip() != source.strip() and full_cell_conversion.lstrip().startswith("#"):
+                    items.append(("raw", full_cell_conversion))
+                    continue
                 heading, body = split_heading(source)
                 if heading:
                     items.append(("raw", heading + "\n\n"))
@@ -1102,7 +1212,7 @@ def convert(ipynb_path: Path, qmd_path: Path) -> None:
                     items.append(("raw", convert_markdown_cell(source)))
                 continue
 
-            content = convert_markdown_cell(source)
+            content = full_cell_conversion
             if visibility:
                 items.append(("wrapped", visibility, content))
             else:

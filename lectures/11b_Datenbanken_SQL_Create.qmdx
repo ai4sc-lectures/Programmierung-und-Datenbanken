@@ -102,7 +102,7 @@ Mit diesen Datentypen und dem ER-Diagramm des Logischen Entwurfsmodells oben kö
 ```{python}
 #| echo: true
 #| code-fold: true
-sql = '''
+sql='''
 CREATE TABLE Points (
   point_id INTEGER,
   x REAL,
@@ -154,7 +154,7 @@ Damit ergibt sich unser vervollständigtes SQL-Skript zum Erzeugen aller Tabelle
 ```{python}
 #| echo: true
 #| code-fold: true
-sql = '''
+sql='''
 CREATE TABLE Points (
   point_id INTEGER PRIMARY KEY AUTOINCREMENT,
   x REAL NOT NULL,
@@ -217,7 +217,7 @@ Um zu prüfen ob unsere Tabellen angelegt worden sind, können wir alle Tabellen
 
 ```{python}
 #| echo: true
-sql = "SELECT name FROM sqlite_schema WHERE type='table' ORDER BY name;"
+sql="SELECT name FROM sqlite_schema WHERE type='table' ORDER BY name;"
 
 rows=cur.execute(sql)
 for row in rows:
@@ -245,7 +245,7 @@ Zum Beispiel wollen wir zwei Punkte mit den Koordinaten (54.083336, 12.108811) u
 
 ```{python}
 #| echo: true
-sql = """
+sql="""
 INSERT INTO Points VALUES(1, 54.083336, 12.108811);
 INSERT INTO Points VALUES(2, 12.094167, 54.075211);
 """
@@ -290,7 +290,7 @@ Wollen wir von der Spaltenreihenfolge abweichen oder Werte weglassen. So können
 ```{python}
 #| echo: true
 #| output: false
-sql = "INSERT INTO Points(x, y) VALUES(54.083336, 12.108811);"
+sql="INSERT INTO Points(x, y) VALUES(54.083336, 12.108811);"
 cur.execute(sql)
 ```
 
@@ -321,7 +321,7 @@ Als nächstes wollen wir eine Linie zwischen dem Punkt (54.083336, 12.108811) un
 
 ```{python}
 #| echo: true
-sql = "INSERT INTO Lines(start, end) VALUES(1, 2);"
+sql="INSERT INTO Lines(start, end) VALUES(1, 2);"
 cur.execute(sql)
 cur.lastrowid
 ```
@@ -338,7 +338,7 @@ Bevor wir ein Polygon erzeugen können müssen wir erst den Polygontyp in der Ta
 
 ```{python}
 #| echo: true
-sql = 'INSERT INTO PolygonTypes VALUES(0, "Dreieck");'
+sql='INSERT INTO PolygonTypes VALUES(0, "Dreieck");'
 cur.execute(sql)
 cur.lastrowid
 ```
@@ -355,7 +355,7 @@ Jetzt erzeugen wir den Eintrag für das Polygon in der Tabelle `Polygon`. Hier g
 
 ```{python}
 #| echo: true
-sql = 'INSERT INTO Polygons VALUES(33, 0);'
+sql='INSERT INTO Polygons VALUES(33, 0);'
 cur.execute(sql)
 cur.lastrowid
 ```
@@ -373,7 +373,7 @@ Wollen wir zum Beispiel ein Polygon für einen nicht existenten Polygontypen mit
 ```{python}
 #| echo: true
 #| error: true
-sql = 'INSERT INTO Polygons VALUES(66, 6);'
+sql='INSERT INTO Polygons VALUES(66, 6);'
 cur.execute(sql)
 cur.lastrowid
 ```
@@ -392,7 +392,7 @@ Allerdings ist unser Polygon noch nicht fertig definiert und wir müssen noch di
 
 ```{python}
 #| echo: true
-sql = """INSERT INTO PolygonPoints VALUES(331, 33, 1);
+sql="""INSERT INTO PolygonPoints VALUES(331, 33, 1);
 INSERT INTO PolygonPoints VALUES(332, 33, 2);
 INSERT INTO PolygonPoints VALUES(333, 33, 3);
 """
@@ -419,7 +419,7 @@ Um Einträge aus einer Tabelle zu löschen verwendet man in SQL den `DELETE FROM
 
 ```{python}
 #| echo: true
-sql = "DELETE FROM PolygonPoints WHERE polygon_id=33;"
+sql="DELETE FROM PolygonPoints WHERE polygon_id=33;"
 cur.execute(sql)
 cur.lastrowid # gibt uns die zuletzt gelöschte Zeile zurück
 ```
@@ -444,7 +444,7 @@ Machmal ist es notwendig Tabellen zu sichern oder SQL Abfragen mit SQL Select zu
 ```{python}
 #| echo: true
 #| output: false
-sql = "CREATE TABLE PointsCopy AS SELECT * FROM Points;"
+sql="CREATE TABLE PointsCopy AS SELECT * FROM Points;"
 cur.execute(sql)
 ```
 
@@ -461,7 +461,7 @@ Möchte man eine Tabelle umbennenen so nutzt man dafür den `ALTER TABLE ... REN
 ```{python}
 #| echo: true
 #| output: false
-sql = "ALTER TABLE Points RENAME TO Punkte;"
+sql="ALTER TABLE Points RENAME TO Punkte;"
 cur.execute(sql)
 ```
 
@@ -478,7 +478,7 @@ Auf ähnliche Weise können wir auch Spalten in Tabellen umbenennen oder neue Sp
 ```{python}
 #| echo: true
 #| output: false
-sql = "ALTER TABLE PolygonTypes ADD COLUMN maxPoints INTEGER DEFAULT 0;"
+sql="ALTER TABLE PolygonTypes ADD COLUMN maxPoints INTEGER DEFAULT 0;"
 cur.execute(sql)
 ```
 
@@ -507,7 +507,7 @@ SQL bietet natürlich auch einen Befehl um Tabellen vollständig zu löschen. M�
 
 ```{python}
 #| echo: true
-sql = "DELETE FROM PointsCopy;"
+sql="DELETE FROM PointsCopy;"
 cur.execute(sql)
 ```
 
@@ -523,7 +523,7 @@ Möchte man eine Tabelle vollständig löschen so nutzt man den `DROP TABLE` Bef
 
 ```{python}
 #| echo: true
-sql = '''
+sql='''
 DROP TABLE IF EXISTS PointsCopy;
 DROP TABLE IF EXISTS Punkte;
 DROP TABLE IF EXISTS Lines;
@@ -793,7 +793,8 @@ Hat keinen Primärschlüssel, kann nur nachträglich definiert werden
 ALTER TABLE tablename TO newtablename
 ```
 
-<br/>
+
+
 Beispiel:
 ```sql
 ALTER TABLE Points RENAME TO Punkte
@@ -812,7 +813,8 @@ Besitzer zu Kunde umbenennen, Spalte für Kontonummer hinzufügen
 ALTER TABLE tablename ADD COLUMN column_name column_type
 ```
 
-<br/>
+
+
 Beispiel:
 ```sql
 ALTER TABLE PolygonType ADD COLUMN maxPoints INTEGER
@@ -831,7 +833,8 @@ Das Löschen von kompletten Tabellen.
 DROP TABLE tablename
 ```
 
-<br/>
+
+
 Beispiel:
 ```sql
 DROP TABLE Points

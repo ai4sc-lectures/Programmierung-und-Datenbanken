@@ -642,7 +642,8 @@ Die Tabelle enthält ja bereits die Latitude und Longitude. Mit dem Paket `panda
 
 %%slides
 
-```bash
+```{python}
+#| echo: true
 pip install pandas_geojson --quiet
 ```
 
@@ -781,12 +782,11 @@ geojsonio.display(json.dumps(geo_json))
 SELECT … FROM …
 ```
 
-<br/>
-
 - *SELECT* – Selektiert die benötigten Spalten (mit * werden alle Spalten gewählt)
 - *FROM* – Legt die Relationen fest, aus denen selektiert wird
 
-<br/>
+
+
 ```sql
 SELECT GemeindeID, Name 
 FROM Gemeinden
@@ -795,7 +795,8 @@ FROM Gemeinden
 %%sep
 
 *Ergebnis:*
-<br/>
+
+
 
 | GemeindeID | Name |
 |---|--------------|
@@ -842,11 +843,10 @@ FROM Gemeinden
 SELECT … FROM … WHERE …
 ```
 
-<br/>
-
 - *WHERE* – Filtert in den ausgewählten Tabellen nach bestimmten Bedingungen
 
-<br/>
+
+
 *Beispiel:*
 ```sql
 SELECT * FROM Gemeinden 
@@ -882,7 +882,8 @@ Bei einem *JOIN* kombinieren wir die Einträge aus beiden Tabellen da wo immer F
 | 2 | Graal-Müritz | 4.278 |
 | 3 | Sanitz       | 5.831 |
 
-<br/> Primärschlüssel: GemeindeID
+
+ Primärschlüssel: GemeindeID
 
 %%sep
 
@@ -895,7 +896,8 @@ Bei einem *JOIN* kombinieren wir die Einträge aus beiden Tabellen da wo immer F
 | 5002       | Kirche      | 2 |
 
 
-<br/> Fremdschlüssel: GemeindeID
+
+ Fremdschlüssel: GemeindeID
 
 %%/col
 
@@ -918,7 +920,8 @@ Verknüpfung von Tabellen durch übereinstimmende Spalten:
 | 2 | Graal-Müritz | 4.278 |
 | 3 | Sanitz       | 5.831 |
 
-<br/> Primärschlüssel: GemeindeID
+
+ Primärschlüssel: GemeindeID
 
 %%sep
 
@@ -931,11 +934,13 @@ Verknüpfung von Tabellen durch übereinstimmende Spalten:
 | 5002       | Kirche      | 2 |
 
 
-<br/> Fremdschlüssel: GemeindeID
+
+ Fremdschlüssel: GemeindeID
 
 %%/col
 
-Ergebnis<br/>
+Ergebnis
+
 
 | BauwerksID | Bauwerkstyp | GemeindeID | Name | Einwohner |
 |--|--|--|--|--|
@@ -959,11 +964,10 @@ Im Beispiel: Sanitz taucht im Ergebnis nicht auf, weil keines der vorhandenen Ba
 SELECT … FROM … NATURAL JOIN
 ```
 
-<br/>
-
 - *NATURAL JOIN* – Verbindet zwei Tabellen über den natürlichen Verbund
 
-<br/>
+
+
 *Beispiel:*
 ```sql
 SELECT * FROM Bauwerke 
@@ -982,11 +986,10 @@ NATURAL JOIN Gemeinden
 SELECT … FROM Table1, Table2
 ```
 
-<br/>
-
 - Separiert man statt mit NATURAL JOIN mit einem Komma, wird ein *Kreuzprodukt* gebildet – alle Zeilen werden mit allen Zeilen verbunden!
 
-<br/>
+
+
 *Sinnvoll um mehrere Tabellen nach bestimmten Bedingungen zu kombinieren:*
 ```sql
 SELECT … FROM Table1, Table2 
@@ -1033,7 +1036,8 @@ SELECT tbl1.attr1 AS Identifikationsnummer
 FROM Table1 AS tbl1
 ```
 
-<br/>
+
+
 *Das Beispiel von vorhin:*
 ```sql
 SELECT BauwerksID, Bauwerkstyp, Name AS Gemeindename
@@ -1041,7 +1045,8 @@ FROM Bauwerke
 NATURAL JOIN Gemeinden
 ```
 
-<br/>
+
+
 Sowohl im `SELECT` als auch im `FROM` möglich durch die Nutzung des `AS` Keywords
 
 %%/slides
@@ -1067,7 +1072,8 @@ Sowohl im `SELECT` als auch im `FROM` möglich durch die Nutzung des `AS` Keywor
 | 2 | Graal-Müritz | 4.278 |
 | 3 | Sanitz | 5.831 |
 
-<br/>
+
+
 *Summe: 17.438*
 
 %%/col
@@ -1138,19 +1144,16 @@ SELECT * FROM Gemeinden
 ORDER BY Einwohner DESC
 ```
 
-<br/>
-
 - `ORDER BY` mit `ASC` (aufsteigend) oder `DESC` (absteigend)
 
-<br/>
+
+
 *Begrenzung der Ergebnismenge:*
 ```sql
 SELECT * FROM Gemeinden 
 ORDER BY Einwohner DESC 
 LIMIT 2
 ```
-
-<br/>
 
 - `LIMIT` schneidet die Ergebnistabelle nach einer gewissen Anzahl an Elementen ab
 - Hier: Die zwei Gemeinden mit der höchsten Einwohnerzahl
