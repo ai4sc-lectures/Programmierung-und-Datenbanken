@@ -12,7 +12,7 @@ The skill covers ALL authoring patterns including FRONTMATTER. Do ***NOT*** open
 
 ## Concept-marker symbols
 
-Task files use shorthand symbols to specify concept markers. **Never put these as emoji in slide content.** Translate them to `{{< ai4sc-icon name >}}` shortcodes (inline at first mention) or `%%div eyebrow` / `%%/div` labels for section headers.
+Do not add emojis to title or text. Task files use shorthand symbols to specify concept markers. **Never put these as emoji in slide content.** Translate them to `{{< ai4sc-icon name >}}` shortcodes (inline at first mention) or `%%div eyebrow` / `%%/div` labels for section headers.
 
 | Shorthand | Shortcode | Concept |
 |-----------|-----------|---------|
@@ -34,4 +34,5 @@ Example eyebrow label:
 %%/div
 ```
 
+## DO NOT
 Stay inside the `lectures/` directory. Do not search for or open files outside this project.
