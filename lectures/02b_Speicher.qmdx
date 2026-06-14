@@ -1,0 +1,545 @@
+---
+title: "Speicher"
+subtitle: "Variablen, Referenzen und das Python-Speichermodell"
+image-credit: "Midjourney: Memory palace — abstract architecture of storage and reference"
+footertext: Programmieren und Datenbanken · Universität Rostock
+institute-logo: _extensions/ai4sc-style/assets/logos/ai4sc-logo-ink.svg
+university-logo: _extensions/ai4sc-style/assets/logos/uni_logo2.svg
+format:
+  ai4sc-style-revealjs:
+    css:
+      - _extensions/ai4sc-style/themes/color/mineral.css
+    title-slide-attributes:
+      data-background-video: images/02b_Speicher/mj_title.mp4
+    output-file: 02b_Speicher.slide.html
+  html:
+    output-file: 02b_Speicher.page.html
+  typst:
+    output-file: 02b_Speicher.page.pdf
+resources:
+  - data/02b_Speicher
+---
+
+%%book
+
+![](images/02b_Speicher/mj_title_band.jpg)
+
+> Jede Variable ist ein Name — kein Behälter, sondern ein Zeiger auf ein Objekt im Speicher.
+>
+> — Python Data Model, docs.python.org
+
+%%/book
+
+%%slides
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Was passiert, wenn du `a = b` schreibst — wird der Wert kopiert?" capR="Midjourney: Two paths leading to the same destination, abstract light trails" imgR="images/02b_Speicher/mj_two_paths.png"}
+
+%%/slides
+
+%%# Variablen als Referenzen
+
+%%book
+
+### TL;DR
+
+In Python ist eine Variable kein Behälter, der einen Wert enthält — sie ist ein **Name**, der auf ein **Objekt im Speicher** verweist. Jedes Objekt hat eine eindeutige Identität (Adresse), einen Typ und einen Wert. Die Funktion `id()` gibt die Speicheradresse zurück. Das Konzept der Namens-Bindung ist grundlegend für das Verständnis von Aliasing, Mutation und Garbage Collection.
+
+*(→ Voraussetzung: `02a_Computerhardware` — Speicherhierarchie und Ausführungsmodell)*
+
+%%/book
+
+## {{< ai4sc-icon box >}} Variable = Name, nicht Box
+
+%%scol 50 50
+**Falsche Vorstellung:**
+
+```text
+x ┌─────────┐
+──▶│    42   │
+  └─────────┘
+```
+
+**Richtige Vorstellung:**
+
+```text
+□ x ──▶ Objekt: 42
+         Typ: int
+         Adresse: 0x7f3a
+```
+%%sep
+```python
+x = 42
+print(id(x))   # Speicheradresse des Objekts
+
+y = 42
+print(id(y))   # Gleiche Adresse! (Integer-Cache)
+print(x is y)  # True
+```
+
+Die Funktion `id()` gibt die **Objektidentität** zurück — nicht den Wert.
+%%/scol
+
+%%book
+
+Für kleine ganze Zahlen (typischerweise −5 bis 256) cached Python die Objekte intern, sodass `id(x) == id(y)` gilt, wenn beide denselben Wert haben. Das spart Speicher und erklärt, warum `x is y` für kleine Zahlen `True` ist.
+
+%%/book
+
+## {{< ai4sc-icon box >}} Zuweisung bindet Namen □
+
+%%scol 50 50
+```python
+x = [1, 2, 3]
+# □ Schritt 1: Listobjekt im Heap erzeugen
+# □ Schritt 2: Namen 'x' daran binden
+
+x = [4, 5, 6]
+# □ Schritt 3: Neues Objekt erzeugen
+# □ Schritt 4: Namen 'x' neu binden
+# Altes Objekt: kein Name mehr → Garbage Collection
+```
+%%sep
+```text
+Vor x = [4,5,6]:
+  x ──▶ [1,2,3]   Adresse A
+
+Nach x = [4,5,6]:
+  x ──▶ [4,5,6]   Adresse B
+  [1,2,3]         → wird freigegeben
+```
+
+Zuweisung (`=`) erzeugt **keine Kopie** — sie bindet den Namen neu.
+%%/scol
+
+## `id()` — Objektidentität □
+
+```python
+a = "Hallo"
+b = "Hallo"
+c = a
+
+print(id(a), id(b), id(c))
+# a und b: Python kann Strings intern cachen (String-Interning)
+# c: garantiert dieselbe Adresse wie a
+
+print(a is b)   # Möglicherweise True (Interning)
+print(a is c)   # Immer True
+print(a == c)   # Immer True (Wertgleichheit)
+```
+
+%%note Merksatz
+`==` prüft **Wertgleichheit**. `is` prüft **Objektidentität** (dieselbe Speicheradresse). Für eigene Objekte fast immer `==` verwenden.
+%%/note
+
+%%# Werttypen und Referenztypen
+
+%%book
+
+### TL;DR
+
+Python unterscheidet **unveränderliche** (*immutable*) und **veränderliche** (*mutable*) Objekte. Bei unveränderlichen Typen kann Aliasing — zwei Namen, ein Objekt — nicht zu Seiteneffekten führen, weil jede scheinbare Änderung ein neues Objekt erzeugt. Bei veränderlichen Typen wie Listen ist Aliasing die häufigste Ursache für schwer zu findende Bugs im KI-generierten Code.
+
+*(→ weiterführend: `02c_Datentypen` — Datentypen als Speicherrepräsentationen)*
+
+%%/book
+
+## {{< ai4sc-icon braces >}} Unveränderlich vs. veränderlich ≡
+
+%%scol 50 50
+### Unveränderlich (*immutable*)
+
+- `int`, `float`, `bool`
+- `str`
+- `tuple`
+- `frozenset`
+
+→ Wert **kann nicht** geändert werden
+→ Neue Operationen erzeugen neue Objekte
+→ Aliasing ist immer sicher
+%%sep
+### Veränderlich (*mutable*)
+
+- `list`
+- `dict`
+- `set`
+- eigene Klassen (in der Regel)
+
+→ Wert **kann** in-place geändert werden
+→ Änderungen sichtbar für **alle** Namen, die dasselbe Objekt teilen
+→ Aliasing kann Seiteneffekte erzeugen
+%%/scol
+
+## Warum unveränderlich sicher ist ≡
+
+%%scol 50 50
+```python
+a = 42
+b = a         # b zeigt auf dasselbe int-Objekt
+b = b + 1     # erzeugt neues Objekt 43, bindet b neu
+print(a)      # 42 — unverändert!
+```
+
+```text
+a ──▶ [42]       (immer noch)
+b ──▶ [42]  →  b ──▶ [43]
+```
+%%sep
+Bei unveränderlichen Typen:
+
+- [Aliasing ist sicher — kein geteilter Zustand]{.pro}
+- [Mehrere Namen auf ein Objekt: kein Risiko]{.pro}
+- [Ändert sich ein Name, entsteht ein neues Objekt]{.pro}
+- [Weniger Überraschungen beim Lesen von KI-Code]{.pro}
+%%/scol
+
+%%# Aliasing und Mutation
+
+%%book
+
+### TL;DR
+
+Aliasing bedeutet, dass zwei oder mehr Namen auf **dasselbe Objekt** zeigen. Bei veränderlichen Typen wie Listen führt Aliasing zu einem geteilten Zustand — Änderungen über einen Namen sind für alle anderen Namen sichtbar. KI-Werkzeuge übersehen diesen Effekt häufig und erzeugen Code, der Eingabelisten unbemerkt verändert.
+
+%%/book
+
+## {{< ai4sc-icon arrow-left-right >}} Aliasing — zwei Namen, ein Objekt ⇄
+
+```python
+a = [1, 2, 3]
+b = a           # b ist KEINE Kopie — b zeigt auf dasselbe Objekt!
+b.append(4)
+print(a)        # [1, 2, 3, 4] — a wurde verändert!
+print(b)        # [1, 2, 3, 4]
+print(a is b)   # True
+```
+
+%%scol 50 50
+```text
+Vor b.append(4):
+  a ──▶ [1, 2, 3]
+  b ──▶ [1, 2, 3]   (dasselbe Objekt!)
+
+Nach b.append(4):
+  a ──▶ [1, 2, 3, 4]
+  b ──▶ [1, 2, 3, 4]   (immer noch dasselbe!)
+```
+%%sep
+Echte Kopie erzeugen:
+
+```python
+b = a.copy()          # flache Kopie
+b = a[:]              # flache Kopie (Slice)
+import copy
+b = copy.deepcopy(a)  # tiefe Kopie (verschachtelte Objekte)
+```
+%%/scol
+
+## {{< ai4sc-icon arrow-left-right >}} Agentic Check: Mutation oder Rückgabe? ⇄
+
+> **Agentic Workflow:** Wenn KI eine Funktion generiert, die eine Liste entgegennimmt:
+> 1. Enthält sie `.sort()`, `.append()`, `.remove()` oder `del` auf einem Parameter? → Mutation des Inputs.
+> 2. Gibt sie `return lst` oder `return result` zurück? — Gleiche Adresse = Mutation.
+> 3. Testet mit `print(id(eingabe), id(rückgabe))` — stimmen die Adressen überein?
+
+```python
+# KI-generiert: "sortiere die Messwerte"
+def sortiere(lst):
+    lst.sort()      # ← in-place Mutation! Original zerstört
+    return lst
+
+daten = [3.2, 1.1, 4.5, 2.0]
+ergebnis = sortiere(daten)
+print(daten)    # [1.1, 2.0, 3.2, 4.5] — Original weg!
+
+# Korrekte Version
+def sortiere(lst):
+    return sorted(lst)   # ← neue Liste, Original bleibt
+```
+
+%%# Der Call Stack
+
+%%book
+
+### TL;DR
+
+Wenn Python eine Funktion aufruft, legt es einen neuen **Stack Frame** auf den Call Stack. Dieser Frame enthält alle lokalen Variablen der Funktion. Kehrt die Funktion zurück, wird der Frame entfernt — lokale Variablen hören auf zu existieren. Der Call Stack arbeitet nach dem LIFO-Prinzip (*last in, first out*). Das Verständnis des Stacks ist die Voraussetzung für das Lesen von Tracebacks und für das Thema Rekursion.
+
+*(→ weiterführend: `09b_Rekursion` — Rekursion mit Call Stack)*
+
+%%/book
+
+## {{< ai4sc-icon workflow >}} Der Call Stack — Struktur
+
+%%scol 50 50
+```python
+def berechne_fläche(breite, höhe):
+    fläche = breite * höhe   # lokal
+    return fläche
+
+def main():
+    b = 5
+    h = 3
+    ergebnis = berechne_fläche(b, h)
+    print(ergebnis)
+
+main()
+```
+%%sep
+```text
+Call Stack (LIFO — oben = aktuell):
+┌──────────────────────────┐
+│ berechne_fläche          │ ← aktiver Frame
+│   breite = 5             │
+│   höhe   = 3             │
+│   fläche = 15            │
+├──────────────────────────┤
+│ main                     │
+│   b        = 5           │
+│   h        = 3           │
+│   ergebnis = ?           │
+├──────────────────────────┤
+│ __main__ (Modulebene)    │
+└──────────────────────────┘
+```
+%%/scol
+
+## Der Call Stack — Wachsen und Schrumpfen
+
+%%scol 50 50
+```text
+1. main() aufgerufen
+   Stack: [__main__, main]
+
+2. berechne_fläche() aufgerufen
+   Stack: [__main__, main, berechne_fläche]
+
+3. berechne_fläche() kehrt zurück
+   Stack: [__main__, main]
+   fläche existiert nicht mehr!
+
+4. main() kehrt zurück
+   Stack: [__main__]
+```
+%%sep
+Lokale Variablen:
+
+- Entstehen beim **Eintritt** in die Funktion
+- Verschwinden beim **Rücksprung**
+- Nicht von außen erreichbar
+- Jeder Funktionsaufruf hat seinen **eigenen** Frame
+%%/scol
+
+## {{< ai4sc-icon workflow >}} Rekursion und Stacktiefe
+
+```python
+def fakultät(n):
+    if n <= 1:
+        return 1
+    return n * fakultät(n - 1)   # ← neuer Frame pro Aufruf
+
+fakultät(4)
+# Stack: [__main__, fak(4), fak(3), fak(2), fak(1)]
+```
+
+%%warning Achtung: RecursionError
+Zu viele rekursive Aufrufe → `RecursionError: maximum recursion depth exceeded`
+
+Python limitiert standardmäßig auf ~1000 Frames.
+%%/warning
+
+%%book
+
+Rekursion erzeugt für jeden Aufruf einen neuen Frame auf dem Stack. Bei sehr tiefer Rekursion läuft der Stack über. In Session S09 werden wir Rekursion im Detail behandeln — das Verständnis des Call Stack ist die Voraussetzung dafür.
+
+%%/book
+
+%%# Der Heap
+
+%%book
+
+### TL;DR
+
+Während der Stack Funktionsframes enthält, leben alle Objekte im **Heap** — einem großen, dynamischen Speicherbereich. Namen auf dem Stack sind Referenzen (Zeiger) auf Objekte im Heap. Python verwaltet den Heap automatisch durch **Garbage Collection**: sobald kein Name mehr auf ein Objekt zeigt, gibt Python den Speicher frei.
+
+%%/book
+
+## Stack und Heap — Zusammenspiel
+
+%%scol 50 50
+```text
+STACK (geordnet, LIFO)
+┌────────────────────┐
+│ frame: main        │
+│   lst ─────────────┼──▶
+│   n   ─────────────┼──▶
+└────────────────────┘
+
+HEAP (dynamisch)
+┌────────────┐  ┌────┐
+│ [1, 2, 3] │  │ 42 │
+└────────────┘  └────┘
+┌──────────────────────┐
+│ "Hallo Welt"         │
+└──────────────────────┘
+```
+%%sep
+**Stack:**
+
+- Klein, schnell
+- Streng LIFO-geordnet
+- Frame-Lebensdauer = Funktionsaufruf
+- Enthält Namen → Referenzen
+
+**Heap:**
+
+- Groß, flexibel
+- Objekte beliebiger Größe
+- Lebensdauer: bis keine Referenz mehr zeigt
+- Verwaltet durch Python automatisch
+%%/scol
+
+## {{< ai4sc-icon workflow >}} Garbage Collection
+
+%%scol 50 50
+```python
+def erstelle_daten():
+    daten = [1, 2, 3, 4, 5]  # Objekt im Heap
+    return daten              # Referenz zurückgeben
+
+result = erstelle_daten()
+# 'daten' (lokal) existiert nicht mehr
+# Objekt lebt weiter — result zeigt darauf!
+
+result = None
+# Kein Name mehr → GC gibt Speicher frei
+```
+%%sep
+**Reference Counting:**
+
+```text
+[1,2,3,4,5]  Zähler = 1 (result)
+
+result = None
+[1,2,3,4,5]  Zähler = 0 → freigegeben
+```
+
+- [Automatisch — kein manuelles `free()`]{.pro}
+- [Kein Speicherleck bei normalen Programmen]{.pro}
+- [Zirkuläre Referenzen brauchen Cycle Collector]{.neutral}
+%%/scol
+
+%%# Engineering: KI-Fehler erkennen
+
+%%book
+
+### TL;DR
+
+KI-Werkzeuge erzeugen häufig Code, der das Python-Speichermodell falsch einschätzt. Die beiden häufigsten Fehlerklassen sind: **Mutation des Eingabe-Arguments** (die Funktion zerstört die Originaldaten) und **veränderliche Default-Argumente** (ein geteiltes Objekt akkumuliert Werte über mehrere Aufrufe). Beide sind mit dem Wissen über Aliasing und Referenztypen sofort erkennbar.
+
+%%/book
+
+## KI-Fehler: Mutation des Inputs ⇄
+
+**Häufiger KI-Fehler — Input-Liste wird verändert:**
+
+%%scol 55 45
+```python
+# KI-generiert: "sortiere die Messwerte absteigend"
+def sortiere_messwerte(werte):
+    werte.sort(reverse=True)   # ← Mutation! Original zerstört
+    return werte
+
+messreihe = [3.2, 1.1, 4.5, 2.0]
+sortiert = sortiere_messwerte(messreihe)
+print(messreihe)  # [4.5, 3.2, 2.0, 1.1] — Original weg!
+```
+
+**Korrekte Version:**
+
+```python
+def sortiere_messwerte(werte):
+    return sorted(werte, reverse=True)   # neue Liste
+```
+%%sep
+**Prüfregeln:**
+
+- Enthält die Funktion `.sort()`, `.append()`, `.remove()`, `del` auf einem Parameter?
+- Gibt sie `return param` zurück (gleicher Name wie Eingabe)?
+- Sind `id(eingabe)` und `id(rückgabe)` identisch?
+%%/scol
+
+## KI-Fehler: Veränderlicher Default ≡
+
+**Klassischer Python-Fallstrick — KI erzeugt ihn regelmäßig:**
+
+%%scol 55 45
+```python
+# KI-generiert — FALSCH
+def füge_messwert_hinzu(wert, liste=[]):
+    liste.append(wert)    # ← liste ist shared default!
+    return liste
+
+print(füge_messwert_hinzu(1))   # [1]
+print(füge_messwert_hinzu(2))   # [1, 2] — nicht [2]!
+```
+
+```python
+# Korrekte Version
+def füge_messwert_hinzu(wert, liste=None):
+    if liste is None:
+        liste = []
+    liste.append(wert)
+    return liste
+```
+%%sep
+%%tip Merksatz
+Niemals veränderliche Objekte (`list`, `dict`, `set`) als Default-Argumente verwenden. Immer `None` als Default, Objekt innerhalb der Funktion anlegen.
+%%/tip
+%%/scol
+
+%%# Debugging: Tracebacks lesen
+
+%%book
+
+### TL;DR
+
+Ein Python-Traceback ist eine Auslesung des Call Stack zum Zeitpunkt eines Fehlers. Den Traceback zu lesen bedeutet, den Stack von unten (Fehlerstelle) nach oben (Ausgangspunkt) zu verfolgen. Mit dem Wissen über den Call Stack wird ein Traceback vom kryptischen Fehlertext zur präzisen Diagnose.
+
+%%/book
+
+## Traceback = Call Stack lesen
+
+```python
+def berechne(x):
+    return 1 / x        # ← ZeroDivisionError hier
+
+def verarbeite(daten):
+    return [berechne(d) for d in daten]
+
+verarbeite([1, 2, 0, 4])
+```
+
+```text
+Traceback (most recent call last):
+  File "programm.py", line 7, in <module>
+    verarbeite([1, 2, 0, 4])
+  File "programm.py", line 5, in verarbeite
+    return [berechne(d) for d in daten]
+  File "programm.py", line 2, in berechne
+    return 1 / x
+ZeroDivisionError: division by zero
+```
+
+%%scol 50 50
+**Von unten nach oben lesen:**
+
+1. `ZeroDivisionError` — **was** ist passiert?
+2. `berechne`, Zeile 2 — **wo** genau?
+3. `verarbeite`, Zeile 5 — **aufgerufen von**?
+4. `<module>`, Zeile 7 — **Ursprung**
+%%sep
+> **Agentic Workflow:** KI erklärt Tracebacks oft korrekt — aber prüft zuerst: Versteht ihr die Fehlerstelle selbst? Welcher Frame ist der eigentliche Fehler, welcher nur der Aufrufer? Erst dann KI befragen.
+%%/scol
+
+%%references
+%%final
