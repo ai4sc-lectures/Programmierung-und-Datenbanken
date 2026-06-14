@@ -1,0 +1,397 @@
+---
+title: "Datenbanktypen"
+image-credit: "Midjourney: Database Tree, ref. Gustav Klimt"
+format:
+  revealjs:
+    title-slide-attributes:
+      data-background-video: images/10a_Datenbanktypen/mj_title.mp4
+    output-file: 12b_Datenbanktypen.slide.html
+  html:
+    output-file: 12b_Datenbanktypen.page.html
+  typst:
+    output-file: 12b_Datenbanktypen.page.pdf
+---
+
+%%book
+
+![](images/10a_Datenbanktypen/mj_title_band.jpg)
+
+> Eventually, you have to throw the data over a wall.
+>
+> — Pat Helland
+
+%%/book
+
+%%slides
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Wann reichen Dateien nicht mehr aus und wir brauchen eine Datenbank?" capR="Midjourney: thief breaking into a bank safe" imgR="images/10a_Datenbanktypen/mj_thief.png"}
+
+%%/slides
+
+%%book
+
+# Datenbanktypen
+
+Diese Sitzung baut auf `12a_Datenhaltung` auf: Dort wurde sichtbar, warum
+dateibasierte Speicherung bei wachsenden Datenmengen, mehreren Nutzern und
+komplexen Abfragen an Grenzen stößt. Hier folgt nun der nächste Schritt:
+Welche Art von Datenbank passt zu welchem Problem?
+
+Die Leitidee dieser Vorlesung lautet: Nicht "Welche Datenbank ist modern?",
+sondern "Welches Informationsmodell beschreibt unser Problem am besten?".
+Tabellarische Daten sprechen für relationale Datenbanken, Dokumentstrukturen
+für dokumentenorientierte Systeme und Netzwerkprobleme für Graphdatenbanken.
+
+%%/book
+
+%%slides
+
+## Dateien kippen irgendwann um
+
+- Wenige Daten, ein Nutzer, lineare Ablage: Datei reicht oft
+- Viele Daten, mehrere Nutzer, konkurrierende Zugriffe: Datei wird fragil
+- Abfragen, Integrität, Synchronisation, Protokollierung: dafür ist ein *DBMS* gebaut
+- Rückbezug: `12a_Datenhaltung` zeigte genau diese Grenzen
+
+%%/slides
+
+%%book
+
+## Warum Datenbanken?
+
+Dateien sind einfach und oft der richtige Startpunkt. Sobald aber mehrere
+Anwendungen dieselben Daten nutzen, Inkonsistenzen vermieden werden müssen oder
+gezielte Abfragen auf großen Datenbeständen nötig sind, reicht eine reine
+Dateiablage nicht mehr aus. Dann trennt man die Datenhaltung von den Programmen
+und übergibt Verwaltung, Zugriffskontrolle und Konsistenz einem
+Datenbankmanagementsystem.
+
+%%/book
+
+%%slides
+
+## Datenbank und Datenbanksystem
+
+%%def Datenbank
+Unter einer *Datenbank (DB)* versteht man logisch zusammengehörende Daten.
+%%/def
+
+%%def Datenbankmanagementsystem
+Ein *DBMS* verwaltet diese Daten, koordiniert Zugriffe und schützt ihre
+Konsistenz.
+%%/def
+
+%%def Datenbanksystem
+*Datenbank + DBMS* zusammen bilden das *Datenbanksystem*.
+%%/def
+
+%%/slides
+
+%%slides
+
+## Dateien versus Datenbank
+
+%%col 50 50
+### Datei
+
+- Jede Anwendung baut eigene Struktur
+- Kopien und Redundanz entstehen leicht
+- Gleichzeitiges Schreiben ist heikel
+- Abfragen müssen selbst programmiert werden
+%%sep
+### Datenbank
+
+- Gemeinsames Modell für alle Anwendungen
+- Zentrale Regeln für Integrität
+- Transaktionen koordinieren Zugriffe
+- Abfragen sind Kernfunktion des Systems
+%%/col
+
+%%/slides
+
+%%book
+
+## Dateien versus Datenbanken
+
+Der zentrale Unterschied ist nicht nur der Speicherort, sondern das
+Informationsmodell. Bei Dateien modelliert jede Anwendung ihre Daten
+implizit selbst. Bei Datenbanken wird das Modell explizit festgelegt und vom
+DBMS durchgesetzt. Dadurch werden Integrität, Synchronisation und
+leistungsfähige Abfragen zu Eigenschaften des Systems und nicht zu
+Einzellösungen in jedem Programm.
+
+%%/book
+
+%%slides
+
+## Codd: Was eine Datenbank leisten soll
+
+- *Integration*: gemeinsame, nicht redundante Datenbasis
+- *Benutzersichten*: unterschiedliche Sichten auf dieselben Daten
+- *Integrität*: Regeln gegen widersprüchliche Inhalte
+- *Transaktionen*: Änderungen ganz oder gar nicht
+- *Synchronisation*: parallele Zugriffe sauber koordinieren
+- *Datensicherung*: Wiederherstellung nach Fehlern
+
+%%/slides
+
+%%slides
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Wenn das Problem schon wie ein Netzwerk aussieht: Warum sollten wir es in Tabellen pressen?" capR="Database families as a landscape" imgR="images/10a_Datenbanktypen/databases.svg"}
+
+%%/slides
+
+%%book
+
+## Die eigentliche Auswahlfrage
+
+Die interessante Frage lautet nicht, ob relationale oder NoSQL-Systeme
+"besser" sind. Die bessere Frage ist: Welche Struktur haben unsere Daten und
+welche Operationen brauchen wir darauf? Diese Sicht verbindet die
+Datenbankwahl mit den Problemklassen aus Block 5.
+
+%%/book
+
+%%slides
+
+## Das Informationsmodell führt
+
+- *Tabellarisch, stabil, stark strukturiert* → relationale Datenbank
+- *Dokumentartig, verschachtelt, variabel* → dokumentenorientierte Datenbank
+- *Netzwerk aus Knoten und Kanten* → Graphdatenbank
+- *Einzelwerte zu Schlüsseln, extrem schnell* → Key-Value-Store
+- *Suche in vielen Texten* → Suchmaschinen-Datenbank
+
+%%/slides
+
+%%slides
+
+## Vom Problem zur Datenbank
+
+%%col 33 33 33
+### Problemklasse
+
+- Rohrnetz
+- Verkehrsnetz
+- Abhängigkeiten
+%%sep
+### Informationsmodell
+
+- Knoten
+- Kanten
+- Pfade
+%%sep
+### Passende DB
+
+- {{< ai4sc-icon database >}} *Graph DB*
+- nicht "Tabellen um jeden Preis"
+- siehe auch `10a_Graphprobleme`
+%%/col
+
+%%/slides
+
+%%slides
+
+## Noch zwei typische Zuordnungen
+
+%%col 50 50
+### BIM / Projektdokumente
+
+- Verschachtelte Objekte
+- Nicht jede Entität gleich aufgebaut
+- JSON-artige Strukturen
+- → *Document Store*
+%%sep
+### Strukturierte Verwaltungsdaten
+
+- Klare Spalten
+- Wiederkehrende Datensätze
+- Konsistenz und JOINs wichtig
+- → *Relationale DB*
+%%/col
+
+%%/slides
+
+%%slides
+
+## {{< ai4sc-icon database >}} Datenbanktypen im Überblick
+
+![Verteilung der Datenbanktypen](images/10a_Datenbanktypen/databases.svg)
+
+%%/slides
+
+%%book
+
+## Datenbankfamilien
+
+Über die Jahrzehnte haben sich mehrere Datenbankfamilien herausgebildet. Sie
+unterscheiden sich nicht primär durch Marketing oder Popularität, sondern durch
+das zugrunde liegende Datenmodell. Im Folgenden wird jede Familie mit ihrem
+typischen Informationsmodell und einem passenden Anwendungsfall aus dem
+Ingenieurkontext verknüpft.
+
+%%/book
+
+%%slides
+
+## {{< ai4sc-icon database >}} Relationale Datenbanken
+
+- Daten in Tabellen mit festem Schema
+- Stark für Konsistenz, Schlüssel, Beziehungen und *JOINs*
+- Standardsprache: *SQL*
+- Gute Wahl für strukturierte Verwaltungs- und Prozessdaten
+- Beispiele: PostgreSQL, MySQL, Oracle, SQL Server
+
+%%/slides
+
+%%book
+
+### Relationale Datenbanken
+
+Relationale Systeme sind die richtige Wahl, wenn die Daten klar strukturiert
+und die Beziehungen zwischen Tabellen stabil modellierbar sind. Sie sind
+besonders stark bei Integritätsregeln, Transaktionen und deklarativen Abfragen
+mit SQL.
+
+%%/book
+
+%%slides
+
+## {{< ai4sc-icon database >}} Dokumentenorientierte Datenbanken
+
+- Datensätze als Dokumente, oft in *JSON*
+- Flexible, auch verschachtelte Struktur
+- Nicht jedes Dokument braucht dieselben Felder
+- Gute Wahl für BIM-nahe oder semistrukturierte Objekte
+- Beispiele: MongoDB, Couchbase, Cosmos DB
+
+%%/slides
+
+%%book
+
+### Dokumentenorientierte Datenbanken
+
+Document Stores eignen sich, wenn Objekte unterschiedlich aufgebaut sein dürfen
+oder wenn hierarchische Strukturen natürlicher sind als Tabellen. Das ist etwa
+bei BIM-bezogenen Objekten, Dokumentmetadaten oder variablen
+Projektbeschreibungen nützlich.
+
+%%/book
+
+%%slides
+
+## {{< ai4sc-icon database >}} Key-Value-Datenbanken
+
+- Einfachstes Modell: *Schlüssel → Wert*
+- Extrem schnell für direkten Zugriff
+- Gut für Cache, Sessions, Zustände und Konfiguration
+- Schwach für komplexe Beziehungen und Abfragen
+- Beispiele: Redis, Memcached, DynamoDB
+
+%%/slides
+
+%%book
+
+### Key-Value-Datenbanken
+
+Key-Value-Stores reduzieren Datenhaltung auf eine sehr einfache Abbildung. Das
+ist leistungsfähig, wenn ein eindeutiger Schlüssel bekannt ist und komplexe
+Struktur keine zentrale Rolle spielt. Für analytische Fragestellungen sind sie
+meist nicht die erste Wahl.
+
+%%/book
+
+%%slides
+
+## {{< ai4sc-icon database >}} Suchmaschinen-Datenbanken
+
+- Optimiert auf *Textsuche* statt auf Tabellenlogik
+- Volltextsuche, Ranking, Stemming, Filter
+- Gut für viele Berichte, Gutachten oder Protokolle
+- Fokus liegt auf Finden, nicht auf Transaktionslogik
+- Beispiele: Elasticsearch, OpenSearch, Solr
+
+%%/slides
+
+%%book
+
+### Suchmaschinen-Datenbanken
+
+Suchorientierte Systeme sind sinnvoll, wenn große Mengen an Textdokumenten
+durchsuchbar gemacht werden müssen. Für Umwelt- oder Bauprojekte kann das die
+Recherche in Berichten, Gutachten und Protokollen stark vereinfachen.
+
+%%/book
+
+%%slides
+
+## {{< ai4sc-icon database >}} Graphdatenbanken
+
+- Daten als *Knoten* und *Beziehungen*
+- Natürliche Modellierung von Netzen und Abhängigkeiten
+- Gut für Pfade, Nachbarschaften und Verbindungsanalysen
+- Beste Wahl bei echten Netzwerkproblemen
+- Beispiele: Neo4j, Cosmos DB, Virtuoso
+
+%%/slides
+
+%%book
+
+### Graphdatenbanken
+
+Graphdatenbanken passen dort, wo die Beziehungen selbst der Kern des Problems
+sind. Das gilt für Verkehrsnetze, Leitungsnetze, Abhängigkeitsgraphen oder
+Empfehlungsstrukturen. Die Brücke zu `10a_Graphprobleme` ist hier direkt:
+Graphproblem und Graphdatenbank passen strukturell zusammen.
+
+%%/book
+
+%%slides
+
+## Agentischer Prüfpunkt
+
+> **Agentic workflow:** Wenn KI eine Datenbanktechnologie vorschlägt:
+> 1. Beschreibe zuerst euer *Informationsmodell* in einem Satz.
+> 2. Prüfe dann, ob das vorgeschlagene DB-Modell dieselbe Struktur natürlich abbildet.
+> 3. Frage nach dem *Mismatch*: "Welche Teile unseres Problems passen schlecht zu dieser Datenbank?"
+
+- Eine Graphaufgabe in Tabellen kann funktionieren, aber mit Reibung
+- Eine Dokumentstruktur in starren Tabellen kann unnötig kompliziert werden
+- Technologie folgt Problemklasse, nicht Mode
+
+%%/slides
+
+%%book
+
+## Agentische Verifikation
+
+Gerade bei KI-gestützten Technologieentscheidungen ist Skepsis wichtig. Ein
+Modell kann eine populäre Technologie nennen, ohne zu prüfen, ob sie zur
+Problemstruktur passt. Deshalb sollte die erste Rückfrage immer lauten:
+"Welches Informationsmodell nehmen wir eigentlich an?" Erst dann ist eine
+fundierte Datenbankwahl möglich.
+
+%%/book
+
+%%slides
+
+## Auswahlkriterien für diese Vorlesung
+
+- Erst *Informationsmodell*, dann Technologie
+- Erst *Entwurf*, dann Implementierung
+- Oft ist auch eine Kombination mehrerer Datenbanken sinnvoll
+- Vorschau: `12c_Datenbanken_Entwurf` vertieft das Modellieren vor dem Bauen
+
+%%/slides
+
+%%slides
+
+## Merksätze
+
+- Datenbanken werden interessant, wenn Dateien bei Größe, Zugriffen und Integrität scheitern
+- Wähle die Datenbank nach dem *Informationsmodell*
+- *Relational* für tabellarisch, *Document Store* für BIM-artig, *Graph DB* für Netzwerke
+
+%%/slides
+
+%%final

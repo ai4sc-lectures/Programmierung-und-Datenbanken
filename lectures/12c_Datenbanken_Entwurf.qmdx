@@ -1,0 +1,565 @@
+---
+title: "12c Datenbankentwurf"
+image-credit: "Midjourney: A walk in the park, ref. Georges Seurat"
+format:
+  revealjs:
+    title-slide-attributes:
+      data-background-video: images/11a_Datenbanken_Entwurf/mj_title.mp4
+    output-file: 12c_Datenbanken_Entwurf.slide.html
+  html:
+    output-file: 12c_Datenbanken_Entwurf.page.html
+  typst:
+    output-file: 12c_Datenbanken_Entwurf.page.pdf
+---
+
+%%book
+
+![](images/11a_Datenbanken_Entwurf/mj_title_band.jpg)
+
+> Bad programmers worry about the code. Good programmers worry about data structures and their relationships.
+>
+> - Linus Torvalds
+
+%%/book
+
+%%slides
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Warum sollte man eine Datenbank modellieren, bevor man AI nach SQL fragt?" capR="Midjourney: Data Bank" imgR="images/11a_Datenbanken_Entwurf/mj_datenbank0.png"}
+
+%%/slides
+
+%%slides
+
+## Ablauf
+
+![](images/partB_3.svg)
+
+%%/slides
+
+%%book
+
+# Datenbankentwurf
+
+%%/book
+
+%%book
+
+Diese Sitzung liegt bewusst *vor* den SQL-Sitzungen. Die Idee ist dieselbe wie in `03c_Softwareentwurf`: Erst das Modell, dann die Implementierung. Im Datenbankkontext ist das Modell das ER-Diagramm. Es beschreibt, *welche* Informationen gespeichert werden, *wie* sie zusammenhängen und *welche Regeln* gelten. Genau dieses Modell wird spaeter zur Spezifikation fuer AI-generierte `CREATE TABLE`-Statements.
+
+%%/book
+
+%%slides
+
+## 🗄 Entwurf vor Implementierung
+
+- Das *ER-Diagramm* ist die Spezifikation
+- SQL-Tabellen sind nur die *Umsetzung*
+- AI kann `CREATE TABLE` erzeugen
+- Sie muessen pruefen, ob die SQL-Struktur dem Modell entspricht
+
+> **Agentic workflow:** Entwerft zuerst das ER-Modell. Gebt erst dann einen Prompt fuer SQL. Vergleicht anschliessend jede Tabelle, jeden Fremdschluessel und jede Constraint mit dem Entwurf.
+
+%%/slides
+
+%%slides
+
+## 🗄 Drei Ebenen des Datenbankentwurfs
+
+%%col 33 33 34
+
+**Konzeptionell**
+
+- fachliche Entitaeten
+- Attribute
+- Beziehungen ⇄
+- Kardinalitaeten
+
+%%sep
+
+**Logisch**
+
+- Tabellen
+- Primaerschluessel
+- Fremdschluessel
+- Datentypen
+
+%%sep
+
+**Physikalisch**
+
+- Indizes
+- Performance
+- Speicher
+- DBMS-spezifische Details
+
+%%/col
+
+Die wichtigste Regel fuer heute: *AI darf auf der logischen Ebene helfen, aber die konzeptionelle Ebene muessen wir selbst verstehen.*
+
+%%/slides
+
+%%slides
+
+## ⇄ UML und ER verfolgen dieselbe Idee
+
+%%col 50 50
+
+**UML-Klassendiagramm aus S03**
+
+- modelliert Software-Struktur
+- Klassen, Attribute, Beziehungen
+- Schwerpunkt: Verhalten und Struktur
+
+%%sep
+
+**ER-Diagramm heute**
+
+- modelliert Informations-Struktur
+- Entitaeten, Attribute, Beziehungen ⇄
+- Schwerpunkt: speicherbare Fachlogik
+
+%%/col
+
+ER-Diagramme und UML-Klassendiagramme dienen demselben Zweck auf verschiedenen Ebenen: *beide sind Informationsmodelle*.
+
+%%/slides
+
+%%book
+
+## ER-Diagramme als Informationsmodell
+
+Ein ER-Diagramm beantwortet nicht die Frage, wie eine SQL-Syntax genau aussieht. Es beantwortet die wichtigere Vorfrage: *Welche Dinge der Realitaet muessen wir unterscheiden und wie haengen sie zusammen?* Genau deshalb passt die Sitzung inhaltlich zu `03c_Softwareentwurf`: Dort wurden Modelle als Denkwerkzeuge eingefuehrt, hier wird dieselbe Haltung auf Daten angewendet.
+
+%%/book
+
+%%slides
+
+## ⇄ ER-Modell - Grundbegriffe
+
+%%col 50 50
+
+**Bausteine**
+
+- *Entitaetstyp*: Klasse von Dingen
+- *Entitaet*: konkreter Datensatz
+- *Attribut*: Eigenschaft einer Entitaet
+
+%%sep
+
+**Beziehungen**
+
+- *Relationship* verbindet Entitaeten ⇄
+- Kardinalitaeten beschreiben Mengen
+- Beispiele: `1`, `0..1`, `0..*`, `1..*`
+
+%%/col
+
+%%/slides
+
+%%slides
+
+## ⇄ UML-Notation fuer ER-Diagramme
+
+%%col 50 50
+
+- `<<Entity>>` markiert eine Entitaet
+- Attribute werden wie Klassenattribute notiert
+- `PK` kennzeichnet Primaerschluessel
+- Beziehungen ⇄ repraesentieren Fremdschluessel
+
+%%sep
+
+- Kardinalitaeten stehen an Beziehungen
+- Leserichtung `<<` oder `>>` bleibt wichtig
+- Keine Methoden
+- Keine Vererbung als Datenbankmechanismus
+
+%%/col
+
+%%/slides
+
+%%slides
+
+## ⇄ Kardinalitaeten werden spaeter zu Constraints
+
+| ER-Aussage | Typische SQL-Folge |
+|---|---|
+| `1 zu 1` | Fremdschluessel `NOT NULL` |
+| `1 zu 0..1` | Fremdschluessel `NULL` erlaubt |
+| `1 zu 0..*` | mehrere Zeilen auf der Gegenseite |
+| `1 zu 1..*` | wie oben plus fachliche Pflichtregel |
+
+*Merke:* Kardinalitaet ist keine Deko. Sie bestimmt, welche Tabellen und Constraints spaeter noetig sind.
+
+%%/slides
+
+%%book
+
+## Beispielkontext: Umweltmonitoring
+
+Statt eines abstrakten Lehrbuchbeispiels betrachten wir ein typisches Ingenieurproblem: Messstationen im Feld, Sensoren an jeder Station und laufend eintreffende Messungen. Dieses Beispiel ist nah an Umwelt- und Bauingenieurpraxis und zeigt direkt, warum sauberes Datenmodellieren vor SQL notwendig ist.
+
+%%/book
+
+%%slides
+
+## 🗄 Beispiel: Umweltmonitoring
+
+Wir modellieren ein einfaches Messsystem:
+
+- *Stationen* stehen an Orten
+- Jede Station hat mehrere *Sensoren*
+- Sensoren erzeugen viele *Messungen*
+- Jede Messung hat `timestamp`, `value`, `unit`
+
+Die Frage ist nicht zuerst: *Wie lautet das SQL?*\
+Die Frage ist zuerst: *Welche Entitaeten und Beziehungen existieren?*
+
+%%/slides
+
+%%slides
+
+## 🗄 Beispiel: Entitaeten und Attribute
+
+%%col 33 33 34
+
+**Station**
+
+- `station_id` (PK)
+- `name`
+- `standort`
+
+%%sep
+
+**Sensor**
+
+- `sensor_id` (PK)
+- `typ`
+- `hoehe`
+
+%%sep
+
+**Measurement**
+
+- `measurement_id` (PK)
+- `timestamp`
+- `value`
+- `unit`
+
+%%/col
+
+%%/slides
+
+%%slides
+
+## ⇄ Beispiel: Beziehungen und Kardinalitaeten
+
+%%col 50 50
+
+**Station ⇄ Sensor**
+
+- Eine Station hat `1..*` Sensoren
+- Ein Sensor gehoert zu genau `1` Station
+
+%%sep
+
+**Sensor ⇄ Measurement**
+
+- Ein Sensor produziert `0..*` Messungen
+- Eine Messung gehoert zu genau `1` Sensor
+
+%%/col
+
+> **Agentic workflow:** Wenn AI spaeter SQL erzeugt, muessen diese beiden Beziehungen als Fremdschluessel sichtbar sein: `sensor.station_id` und `measurement.sensor_id`.
+
+%%/slides
+
+%%slides
+
+## ⇄ Beispiel: Textuelles ER-Diagramm
+
+```text
+<<Entity>> Station
+- station_id : int (PK)
+- name : str
+- standort : str
+
+<<Entity>> Sensor
+- sensor_id : int (PK)
+- typ : str
+- hoehe : float
+
+<<Entity>> Measurement
+- measurement_id : int (PK)
+- timestamp : datetime
+- value : float
+- unit : str
+
+Station 1 <<hat>> 1..* Sensor
+Sensor 1 <<produziert>> 0..* Measurement
+```
+
+Dieses Textmodell reicht bereits als praezise Spezifikation fuer einen AI-Prompt.
+
+%%/slides
+
+%%slides
+
+## 🗄 Vom ER-Modell zur Tabelle
+
+%%col 50 50
+
+**Entitaeten werden zu Tabellen**
+
+- `Station` -> `stations`
+- `Sensor` -> `sensors`
+- `Measurement` -> `measurements`
+
+%%sep
+
+**Beziehungen werden zu FK**
+
+- `sensors.station_id`
+- `measurements.sensor_id`
+- Kardinalitaet bestimmt `NULL`/`NOT NULL`
+
+%%/col
+
+Die SQL-Struktur darf nie mehrdeutig sein als das ER-Modell.
+
+%%/slides
+
+%%book
+
+## Normalisierung
+
+Der konzeptionelle Entwurf ist noch nicht automatisch ein gutes relationales Schema. Beim Uebergang zum logischen Entwurf werden Redundanzen reduziert und nicht-atomare Strukturen aufgeloest. Genau das meint Normalisierung.
+
+%%/book
+
+%%slides
+
+## 🗄 Warum wir normalisieren
+
+- Relationale Tabellen speichern *atomare* Werte
+- Redundanzen verursachen Pflegefehler
+- Hohe Kardinalitaeten brauchen eigene Abbildungen
+- Das logische Modell ist oft feiner als das ER-Modell
+
+%%/slides
+
+%%slides
+
+## 🗄 Normalformen in einem Satz
+
+- *1NF:* keine Listen oder verschachtelten Attribute
+- *2NF:* Attribute gehoeren voll zur Entitaet
+- *3NF:* keine transitiven Redundanzen
+- Hoehere Normalformen sind Spezialfaelle
+
+*Im Alltag reichen meist 1NF bis 3NF als Denkrahmen.*
+
+%%/slides
+
+%%slides
+
+## 🗄 1NF im Monitoring-Beispiel
+
+%%col 50 50
+
+```sql
+-- Falsch
+CREATE TABLE Station (
+  id INT PRIMARY KEY,
+  sensoren JSON
+);
+```
+
+%%sep
+
+```sql
+-- Besser
+CREATE TABLE Sensor (
+  sensor_id INT PRIMARY KEY,
+  station_id INT NOT NULL,
+  typ TEXT
+);
+```
+
+%%/col
+
+*Warum?* Eine Liste von Sensoren gehoert nicht als komplexes Attribut in eine Tabellenzelle.
+
+%%/slides
+
+%%slides
+
+## 🗄 3NF im Monitoring-Beispiel
+
+%%col 50 50
+
+```sql
+-- Problematisch
+Measurement(
+  measurement_id,
+  sensor_id,
+  sensor_typ,
+  station_name,
+  value
+)
+```
+
+%%sep
+
+```sql
+-- Besser
+Station(...)
+Sensor(..., station_id)
+Measurement(..., sensor_id)
+```
+
+%%/col
+
+Redundante Stations- oder Sensordaten in jeder Messzeile fuehren schnell zu Inkonsistenzen.
+
+%%/slides
+
+%%book
+
+## ER-Diagramm zu Prompt
+
+Hier wird die neue agentische Perspektive explizit: Das ER-Modell ist nicht nur ein Entwurfsdokument, sondern direkt die Grundlage fuer den Prompt, mit dem AI die DDL generieren soll.
+
+%%/book
+
+%%slides
+
+## 📋 ER-Diagramm -> Prompt
+
+Ein guter Prompt enthaelt drei Teile:
+
+1. *Entitaeten* mit Attributen und Primaerschluesseln
+2. *Beziehungen* mit Kardinalitaeten ⇄
+3. *Constraints* wie `NOT NULL`, Eindeutigkeit, erlaubte Werte
+
+AI schreibt danach SQL.\
+Sie pruefen, ob das SQL wirklich dem Modell entspricht.
+
+%%/slides
+
+%%slides
+
+## 📋 Beispielprompt fuer Claude Code
+
+```text
+Erzeuge SQL CREATE TABLE Statements fuer folgendes ER-Modell:
+
+- Station(station_id PK, name, standort)
+- Sensor(sensor_id PK, typ, hoehe, station_id FK -> Station)
+- Measurement(measurement_id PK, timestamp, value, unit,
+  sensor_id FK -> Sensor)
+
+Beziehungen:
+- Eine Station hat 1..* Sensoren.
+- Ein Sensor produziert 0..* Measurements.
+
+Constraints:
+- station_id und sensor_id sind NOT NULL.
+- Jede Measurement gehoert genau zu einem Sensor.
+```
+
+%%/slides
+
+%%slides
+
+## 📋 Verifikation nach der AI-Antwort
+
+Prueft systematisch:
+
+- Jede *Entitaet* -> eigene Tabelle?
+- Jede Beziehung ⇄ -> passender Fremdschluessel?
+- Stimmen `NULL` vs. `NOT NULL` mit der Kardinalitaet?
+- Sind Primaerschluessel eindeutig erkennbar?
+- Hat die AI stillschweigend etwas erfunden oder weggelassen?
+
+> **Agentic workflow:** Lest bei AI-SQL nicht nur die Syntax. Vergleicht Zeile fuer Zeile mit dem ER-Modell als Referenz.
+
+%%/slides
+
+%%slides
+
+## Bruecke zu den naechsten Sitzungen
+
+- `03c_Softwareentwurf` (S03): Modelle beschreiben Struktur vor Code
+- `13a_RelationaleDatenbanken` (S13): Tabellen setzen das ER-Modell technisch um
+- `13b_Datenbanken_SQL_Select` (S13): Abfragen funktionieren nur sinnvoll auf gut entworfenen Tabellen
+
+*Ohne sauberen Entwurf wird spaeter auch gutes SQL schwer.*
+
+%%/slides
+
+%%slides
+
+## Was Sie mitnehmen sollten
+
+- 🗄 Gute Datenbanken beginnen mit *konzeptioneller Modellierung*
+- ⇄ ER-Diagramme beschreiben Entitaeten, Beziehungen und Kardinalitaeten
+- UML und ER haben denselben Modellierungsgedanken auf verschiedenen Ebenen
+- 📋 AI kann SQL generieren, aber das *ER-Modell bleibt die Spezifikation*
+
+%%/slides
+
+%%book
+
+## Quiz
+
+```{quizdown}
+    ---
+    shuffleQuestions: true
+    shuffleAnswers: true
+    ---
+
+    ### Warum liegt diese Sitzung vor SQL?
+
+    - [x] Weil das ER-Modell die Spezifikation fuer spaetere Tabellen ist
+    - [ ] Weil SQL keine Entitaeten speichern kann
+    - [ ] Weil Datenbanken ohne SQL nicht existieren
+    - [ ] Weil AI nur Diagramme, aber kein SQL erzeugen kann
+
+
+    ### Was beschreibt ein ER-Diagramm?
+
+    - [x] Entitaeten, Attribute und Beziehungen
+    - [x] Kardinalitaeten zwischen Entitaeten
+    - [ ] Konkrete SQL-Syntax
+    - [ ] Methoden und Vererbung
+
+
+    ### Welche Aussage passt zum Umweltmonitoring-Beispiel?
+
+    - [x] Eine Station hat viele Sensoren
+    - [x] Ein Sensor produziert viele Messungen
+    - [ ] Eine Messung gehoert zu vielen Sensoren
+    - [ ] Sensoren brauchen keinen Fremdschluessel zur Station
+
+
+    ### Was sollte in einem AI-Prompt fuer `CREATE TABLE` enthalten sein?
+
+    - [x] Entitaeten mit Attributen
+    - [x] Beziehungen mit Kardinalitaeten
+    - [x] Constraints wie `NOT NULL`
+    - [ ] Nur die gewuenschten Tabellennamen
+
+
+    ### Was prueft man nach AI-generiertem SQL zuerst?
+
+    - [x] Ob jede Entitaet als Tabelle auftaucht
+    - [x] Ob jede Beziehung als Fremdschluessel sichtbar ist
+    - [ ] Ob die SQL-Datei besonders lang ist
+    - [ ] Ob die AI kreative Zusatzspalten erfunden hat
+```
+
+%%/book
+
+%%references
+%%final

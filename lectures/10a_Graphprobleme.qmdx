@@ -1,0 +1,451 @@
+---
+title: "Graphprobleme"
+image-credit: "Midjourney: A network of city roads and water pipes viewed from above, blueprint style"
+footertext: Programmieren und Datenbanken
+institute-logo: _extensions/ai4sc-style/assets/logos/ai4sc-logo-ink.svg
+university-logo: _extensions/ai4sc-style/assets/logos/uni_logo2.svg
+format:
+  ai4sc-style-revealjs:
+    css:
+      - _extensions/ai4sc-style/themes/color/mineral.css
+    title-slide-attributes:
+      data-background-video: images/10a_Graphprobleme/mj_title.mp4
+    output-file: 10a_Graphprobleme.slide.html
+  html:
+    output-file: 10a_Graphprobleme.page.html
+  typst:
+    output-file: 10a_Graphprobleme.page.pdf
+resources:
+  - data/10a_Graphprobleme
+bibliography: references.bib
+---
+
+%%book
+
+![](images/10a_Graphprobleme/mj_title_band.jpg)
+
+> Viele Ingenieurprobleme sind Graphprobleme — man muss sie nur als solche erkennen.
+>
+> — Lehrveranstaltung Programmieren und Datenbanken, Universität Rostock
+
+%%/book
+
+%%slides
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Welche Probleme im Bauwesen lassen sich als Netzwerk darstellen?" capR="Midjourney: Network of roads and water pipes beneath a city, blueprint style" imgR="images/10a_Graphprobleme/mj_netzwerk.png"}
+
+%%/slides
+
+%%# Graphprobleme erkennen
+
+## Was ist ein Graphproblem? {cols40x60 imgR="images/10a_Graphprobleme/mj_graph_abstract.png" capR="Midjourney: Abstract connected nodes and edges on a dark background"}
+
+%%div eyebrow
+{{< ai4sc-icon arrow-left-right >}} Beziehungsstruktur
+%%/div
+
+Ein Problem ist ein *Graphproblem*, wenn:
+
+- Es **Entitäten** gibt (Knoten: Kreuzungen, Anschlüsse, Räume)
+- Diese durch **Verbindungen** verknüpft sind (Kanten: Straßen, Rohre, Türen)
+- Fragen nach **Wegen**, **Erreichbarkeit** oder **Fluss** entstehen
+
+Wenn man das Problem als Netzwerk zeichnen kann — es ist ein Graphproblem.
+
+%%book
+
+Das Schlüsselmerkmal eines Graphproblems ist die Beziehungsstruktur. Typische Fragen, die auf ein Graphproblem hindeuten:
+
+- "Welcher Weg von A nach B ist am kürzesten?"
+- "Sind alle Teile des Netzes verbunden?"
+- "Wie viel kann durch das Netz fließen?"
+- "Von welchem Knoten aus ist welcher Bereich erreichbar?"
+
+%%/book
+
+## Graphprobleme im Bauingenieurwesen
+
+%%col 50 50
+**Straßennetz** — Routing
+
+Knoten: Kreuzungen\
+Kanten: Straßenabschnitte\
+Gewicht: Reisezeit oder Distanz\
+*Frage: Kürzeste Route A → B?*
+
+---
+
+**Rohrnetz** — Fluss
+
+Knoten: Anschlüsse / Ventile\
+Kanten: Rohrleitungen\
+Gewicht: Durchmesser, Länge\
+*Frage: Druckverlust minimal?*
+%%sep
+**Grundriss** — Konnektivität
+
+Knoten: Räume\
+Kanten: Türöffnungen\
+*Frage: Alle Räume erreichbar?*
+
+---
+
+**Entwässerungsnetz** — Gerichteter Fluss
+
+Knoten: Einzugsgebiete\
+Kanten: Abflussrichtungen\
+Gewicht: Gefälle, Kapazität\
+*Frage: Wohin fließt das Wasser?*
+%%/col
+
+%%# Der Graph als Datenstruktur
+
+## {{< ai4sc-icon list-tree >}} Knoten, Kanten, Gewichte, Richtung
+
+%%col 50 50
+**Knoten** *(Vertices)*
+
+- Entitäten im Netzwerk
+- Bezeichner: `A`, `B`, `1`, `2`
+- Optional: Attribute (Bedarf, Koordinaten)
+
+**Kanten** *(Edges)*
+
+- Verbindungen zwischen Knoten
+- **Gewicht**: Länge, Zeit, Kapazität
+- **Richtung**: gerichtet oder ungerichtet
+%%sep
+```
+Ungerichtet:
+  A ——— B ——— C
+  |           |
+  D ————————— E
+
+Gerichtet (Digraph):
+  A ——→ B ——→ C
+  ↓           ↑
+  D ——→ ——→ ——→
+```
+
+```python
+G = nx.Graph()    # ungerichtet
+G = nx.DiGraph()  # gerichtet
+```
+%%/col
+
+%%book
+
+Formal ist ein Graph G = (V, E), wobei V die Menge der Knoten (*Vertices*) und E die Menge der Kanten (*Edges*) ist.
+
+**Gewichte** werden als Kantenattribute gespeichert — sie repräsentieren physikalische Größen wie Längen, Reisezeiten oder Kapazitäten.
+
+**Richtung** bestimmt die Modellwahl: Entwässerungsnetze oder Einbahnstraßen erfordern `DiGraph`, symmetrische Verbindungen (z.B. Rohre mit Druckausgleich) verwenden `Graph`.
+
+%%/book
+
+## Gerichtet oder ungerichtet?
+
+%%col 50 50
+### Ungerichtet (`nx.Graph`)
+
+- Straßennetz (beide Fahrtrichtungen)
+- Rohrnetz mit Druckausgleich
+- Gebäudeverbindungen (Türen)
+
+[Einfachere Algorithmen]{.pro}
+[Symmetrische Beziehungen]{.pro}
+[Nicht für alle Realfälle geeignet]{.con}
+%%sep
+### Gerichtet (`nx.DiGraph`)
+
+- Entwässerung (nur bergab)
+- Einbahnstraßen
+- Abhängigkeitsgraphen
+
+[Realistische Modellierung]{.pro}
+[Einbahnbeziehungen möglich]{.pro}
+[Komplexere Traversierung]{.neutral}
+%%/col
+
+%%note Definition: Graph
+**Graph** G = (V, E): Menge von Knoten V und Kanten E. Jede Kante verbindet zwei Knoten. Optional mit Gewichten und Richtungen.
+%%/note
+
+%%# Traversierung und kürzeste Wege
+
+## {{< ai4sc-icon workflow >}} Breitensuche (BFS): Schicht für Schicht
+
+%%col 55 45
+**Breitensuche** besucht Knoten **schichtweise** — zuerst alle direkten Nachbarn, dann deren Nachbarn.
+
+1. Starte am Quellknoten (Schicht 0)
+2. Besuche alle direkten Nachbarn (Schicht 1)
+3. Dann deren Nachbarn (Schicht 2) usw.
+
+**Findet**: Kürzester Weg in Sprüngen (ohne Gewichte)
+
+**Anwendung**: Ausbreitung eines Hochwasserereignisses — welche Gebiete sind in wie vielen Schritten betroffen?
+
+```python
+nx.bfs_tree(G, source="Quelle")
+```
+%%sep
+```
+Schicht 0:   [Quelle]
+Schicht 1:   [A, B, C]
+Schicht 2:   [D, E, F]
+Schicht 3:   [Ziel]
+```
+
+BFS garantiert: Weg zur **kleinsten Sprungzahl**
+
+Nicht geeignet, wenn Gewichte wichtig sind!
+%%/col
+
+## {{< ai4sc-icon workflow >}} Tiefensuche (DFS): Pfad bis zum Ende
+
+%%col 55 45
+**Tiefensuche** folgt einem Pfad **so tief wie möglich** vor dem Zurückkehren.
+
+1. Starte an einem Knoten
+2. Folge einem Pfad bis zum letzten Knoten
+3. Kehre zurück, wähle nächsten unerkundeten Zweig
+4. Wiederhole bis alle erreichbaren Knoten besucht
+
+**Findet**: Erreichbarkeit, zusammenhängende Komponenten
+
+**Anwendung**: Ist das Rohrnetz vollständig verbunden — gibt es isolierte Leitungsabschnitte?
+
+```python
+nx.dfs_tree(G, source="Eingang")
+nx.connected_components(G)  # alle Gruppen
+```
+%%sep
+```
+Pfad 1:  A → B → E → H
+         ← zurück zu E
+         ← zurück zu B
+         B → F
+         ← zurück ...
+Pfad 2:  A → C → ...
+```
+
+DFS findet **alle erreichbaren Knoten**\
+Reihenfolge variiert je nach Startknoten
+%%/col
+
+%%book
+
+**Wann BFS, wann DFS?**
+
+- Kürzester Weg in Sprüngen (ungewichtet) → BFS
+- Zusammenhang prüfen → DFS oder `nx.is_connected(G)`
+- Alle Pfade finden → DFS
+- Gewichteter kürzester Weg → Dijkstra (nächste Folie)
+
+%%/book
+
+## {{< ai4sc-icon workflow >}} Dijkstra: Kürzester gewichteter Weg
+
+%%col 55 45
+**Dijkstra-Algorithmus** (E. Dijkstra, 1956)
+
+1. Alle Knoten erhalten Distanz ∞ — Start: 0
+2. Wähle immer den Knoten mit kleinster bekannter Distanz
+3. Aktualisiere Distanzen aller Nachbarn
+4. Wiederhole bis Zielknoten erreicht
+
+**Bedingung**: Alle Kantengewichte ≥ 0
+
+**Anwendung**: Kürzeste Evakuierungsroute mit Reisezeiten je Abschnitt
+
+```python
+path = nx.shortest_path(
+    G, "A", "D", weight="time")
+dist = nx.shortest_path_length(
+    G, "A", "D", weight="time")
+```
+%%sep
+**Beispiel: Evakuierungsrouting**
+
+```
+  A —5— B
+  |     |
+  3     1
+  |     |
+  C —4— D
+
+BFS:      A→B→D = 2 Sprünge
+Dijkstra: A→C = 3 min
+          C→B = 2 min  (gesamt 5)
+          B→D = 1 min  (gesamt 6)
+
+Kürzester Weg: A→C→B→D = 6 min
+```
+
+BFS hätte A→B→D = 2 Sprünge gefunden,\
+aber 5+1 = **6 min** (gleich hier!)
+%%/col
+
+%%# Mit KI Graphprobleme lösen
+
+## networkx: Straßennetz modellieren und analysieren
+
+%%div eyebrow
+{{< ai4sc-icon workflow >}} KI-generierter Code — vor dem Ausführen lesen
+%%/div
+
+```python
+#| echo: true
+import networkx as nx
+
+# Straßennetz als gerichteter Graph
+G = nx.DiGraph()
+G.add_edge("A", "B", time=5)
+G.add_edge("A", "C", time=3)
+G.add_edge("C", "B", time=2)
+G.add_edge("B", "D", time=1)
+G.add_edge("C", "D", time=4)
+
+# Kürzester Weg nach Reisezeit
+path = nx.shortest_path(G, "A", "D", weight="time")
+dist = nx.shortest_path_length(G, "A", "D", weight="time")
+print(f"Weg: {' → '.join(path)}, Zeit: {dist} min")
+```
+
+> **Vor dem Ausführen lesen:**
+> 1. Warum `DiGraph` — was wäre anders mit `Graph`?
+> 2. Was gibt `shortest_path` zurück — eine Liste oder eine Zahl?
+> 3. Was passiert, wenn `"A"` und `"D"` nicht verbunden sind?
+
+## networkx: Ergebnis und Visualisierung
+
+%%col 50 50
+**Ausgabe**
+
+```
+Weg: A → C → B → D, Zeit: 6 min
+```
+
+Dijkstra wählt:
+
+- A→C (3 min) statt A→B (5 min)
+- C→B (2 min) statt C→D (4 min)
+- B→D (1 min)
+
+Gesamtzeit: 3 + 2 + 1 = **6 min**
+
+%%sep
+**Netz visualisieren** *(optional)*
+
+```python
+#| echo: true
+#| code-fold: true
+import matplotlib.pyplot as plt
+
+pos = {"A": (0,1), "B": (2,2),
+       "C": (2,0), "D": (4,1)}
+labels = nx.get_edge_attributes(G, "time")
+nx.draw(G, pos, with_labels=True,
+        node_size=700, arrows=True)
+nx.draw_networkx_edge_labels(
+    G, pos, edge_labels=labels)
+plt.show()
+```
+%%/col
+
+## KI-Prompt-Muster: Graphproblem spezifizieren
+
+%%div eyebrow
+{{< ai4sc-icon workflow >}} Agentic Cycle
+%%/div
+
+%%col 50 50
+**Prompt-Vorlage**
+
+```
+Gegeben ein gewichteter [gerichteter /
+ungerichteter] Graph, der [Rohrnetz /
+Straßennetz / Grundriss] darstellt:
+- Knoten haben: [Bezeichner, Attribut]
+- Kanten haben: [Gewicht, Einheit]
+
+Implementiere [Dijkstra / BFS / DFS]
+mit networkx.
+Gib zurück: [Weg-Liste / Länge / bool].
+Testfall: [Knoten + erwartetes Ergebnis]
+```
+
+**Erkenne → Spezifiziere → Verifiziere**
+%%sep
+**Beispiel: Entwässerungsnetz**
+
+```
+Gegeben ein gerichteter gewichteter
+Graph, der ein Entwässerungsnetz
+darstellt:
+- Knoten: Einzugsgebiete
+  (ID, Fläche [ha])
+- Kanten: Abflussrichtungen
+  mit Gefälle [%] und Länge [m]
+
+Finde den Abflusspfad von
+"EZG_07" zum Vorfluter "Kanal_A"
+mit nx.shortest_path().
+Testfall: EZG_07 → Kanal_A = 3 Schritte.
+```
+%%/col
+
+## Verifikations-Checkliste
+
+%%div eyebrow
+{{< ai4sc-icon test-tube >}} Verifikation
+%%/div
+
+%%col 33 33 33
+### 1. Graphtyp prüfen
+
+- [ ] `DiGraph` oder `Graph`?
+- [ ] Entspricht der Problemstellung?
+
+```python
+G.is_directed()
+# True oder False?
+```
+
+[Entwässerung → DiGraph]{.pro}
+[Rohrnetz beidseitig → Graph]{.pro}
+[Falscher Typ → falsches Ergebnis]{.con}
+
+%%sep
+### 2. Gewichte prüfen
+
+- [ ] Kantenattribut vorhanden?
+- [ ] Richtige Einheit (Zeit, Länge)?
+- [ ] Alle Gewichte ≥ 0?
+
+```python
+nx.get_edge_attributes(G, "time")
+# {} bedeutet: keine Gewichte!
+```
+
+[Dijkstra braucht Gewichte]{.neutral}
+[BFS/DFS funktionieren auch ohne]{.pro}
+
+%%sep
+### 3. Algorithmus prüfen
+
+- [ ] BFS → Schritte minimal?
+- [ ] Dijkstra → Gewicht minimal?
+- [ ] DFS → Erreichbarkeit?
+
+```python
+# Auf bekanntem Testfall prüfen:
+nx.shortest_path(
+    G, "A", "D", weight="time")
+# Stimmt das Ergebnis manuell?
+```
+%%/col
+
+%%references
+%%final

@@ -1,0 +1,513 @@
+---
+title: "Rekursion"
+image-credit: "Midjourney: Fractal"
+format:
+  revealjs:
+    title-slide-attributes:
+      data-background-video: images/04b_Rekursion/mj_title.mp4
+    output-file: 09b_Rekursion.slide.html
+  html:
+    output-file: 09b_Rekursion.page.html
+  typst:
+    output-file: 09b_Rekursion.page.pdf
+resources:
+  - data/09b_Rekursion
+---
+
+%%book
+
+# Rekursion als Divide-and-Conquer-Strategie
+
+%%/book
+
+%%book
+
+![](images/04b_Rekursion/mj_title_band.jpg)
+
+> History repeats itself, first as tragedy, second as farce.
+>
+> — Karl Marx
+
+%%/book
+
+%%book
+
+Rekursion ist keine Python-Besonderheit — sie ist eine Lösungsstrategie für Probleme, die sich in kleinere Probleme *desselben Typs* zerlegen lassen. In der Bauplanung und Umweltinformatik begegnen uns solche hierarchischen Strukturen ständig: BIM-Modelle mit Gebäude, Stockwerken, Räumen und Elementen; geographische Gebiete in Quadtrees; Tragwerkshierarchien. Rekursion ist die natürliche Werkzeugwahl für diese Probleme.
+
+%%/book
+
+%%slides
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Was müsst ihr tun, um alle Räume in einem mehrstöckigen Gebäude zu inventarisieren?" capR="Midjourney: Building floor plan" imgR="images/04b_Rekursion/image_1.jpg"}
+
+%%/slides
+
+
+%%book
+
+## Rekursion als Strategie
+
+%%/book
+
+%%book
+
+Rekursion folgt dem Divide-and-Conquer-Prinzip: das Problem wird in kleinere Teilprobleme gleicher Art zerlegt, bis ein direkt lösbares Kleinstproblem erreicht ist — der Basisfall. → S09a Algorithmen behandelt Divide-and-Conquer als allgemeine Algorithmenstrategie; Rekursion ist deren eleganteste Implementierung in Code.
+
+%%/book
+
+%%slides
+
+## {{< ai4sc-icon workflow >}} Rekursion — Divide-and-Conquer
+
+%%def Rekursion
+*Rekursion* ist eine Strategie für Probleme, die sich in kleinere Probleme **desselben Typs** zerlegen lassen. Eine rekursive Funktion ruft sich selbst auf und löst dabei jedes Mal ein einfacheres Teilproblem.
+%%/def
+
+- Zwei Bestandteile: *Basisfall* (direktes Ergebnis) und *rekursiver Fall* (Zerlegung)
+- Geeignet für **hierarchische Strukturen**: Bäume, Modelle, Gebiete
+- → S09a: Rekursion als Divide-and-Conquer-Algorithmusstrategie
+
+%%/slides
+
+%%book
+
+Das Grundmuster jeder rekursiven Funktion sieht so aus:
+
+```python
+def löse(problem):
+    if problem.ist_klein_genug():       # Basisfall: direkte Lösung
+        return direkte_lösung(problem)
+    else:                               # Rekursiver Fall: zerlegen
+        teile = zerlege(problem)
+        return kombiniere([löse(teil) for teil in teile])
+```
+
+%%/book
+
+%%slides
+
+## Das rekursive Muster
+
+```python
+def löse(problem):
+    if problem.ist_klein_genug():       # Basisfall
+        return direkte_lösung(problem)
+    teile = zerlege(problem)            # Rekursiver Fall
+    return kombiniere([löse(teil) for teil in teile])
+```
+
+- **Basisfall**: kein weiterer Selbstaufruf — direkte Rückgabe
+- **Rekursiver Fall**: Teilung → Delegation → Zusammenführung
+
+%%/slides
+
+
+%%book
+
+## Rekursion in Python
+
+%%/book
+
+%%book
+
+Das Standardbeispiel einer rekursiven Funktion ist die Fakultät. Es dient hier nur als minimale Einführung in die Python-Syntax — die ingenieurspraktischen Beispiele sind das Kernthema dieser Session.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def factorial(x):
+    if x <= 1:                     # Basisfall
+        return 1
+    return x * factorial(x - 1)   # Rekursiver Fall
+
+factorial(5)
+```
+
+%%/book
+
+%%book
+
+Ebenso wichtig: Endlosrekursion vermeiden. Wenn der Basisfall nie erreicht wird, wächst die Aufrufkette unbegrenzt und führt zum Absturz.
+
+> **Aus S02 bekannt:** Der Call-Stack verwaltet jeden Funktionsaufruf — bei zu tiefer Rekursion kommt es zum Stack Overflow. Details zu Stack und Heap in Session 02.
+
+%%/book
+
+%%slides
+
+## Beispiel: Fakultät (Einführung)
+
+```python
+def factorial(x):
+    if x <= 1:                     # Basisfall
+        return 1
+    return x * factorial(x - 1)   # Rekursiver Fall
+```
+
+- `factorial(5)` → `5 × factorial(4)` → … → `5 × 4 × 3 × 2 × 1`
+- Basisfall: `factorial(1)` → `1`
+
+%%/slides
+
+%%slides
+
+## Achtung: Endlosrekursion
+
+- Wenn der Basisfall nie erreicht wird, ruft die Funktion sich endlos selbst auf
+- Deshalb **muss** mindestens ein Pfad ohne rekursiven Aufruf existieren
+- Python stoppt bei ~1000 Aufrufen mit `RecursionError`
+
+> **Aus S02:** Call-Stack und Stack Overflow werden in Session 02 erklärt — kein Wiederholung hier.
+
+%%/slides
+
+%%slides
+
+## Agentic Workflow: Rekursive Funktion prüfen
+
+> **Wenn KI eine rekursive Funktion generiert:**
+>
+> 1. **Basisfall identifizieren** — gibt es mindestens einen Pfad ohne Selbstaufruf?
+> 2. **Erste zwei Aufrufe von Hand durchlaufen** — stimmt das Ergebnis?
+> 3. **Stack-Tiefe abschätzen** — wie tief rekursiert die Funktion bei realer Eingabegröße? (Python-Limit: ~1000)
+
+%%/slides
+
+
+%%book
+
+## BIM-Hierarchie traversieren
+
+%%/book
+
+%%book
+
+Gebäudemodelle (BIM) sind von Natur aus hierarchisch aufgebaut: ein Gebäude enthält Stockwerke, Stockwerke enthalten Räume, Räume enthalten Elemente. Dieselbe Traversierungslogik gilt auf jeder Ebene — ein klassisches rekursives Muster. Eine KI generiert den Code; die Aufgabe der Studierenden ist es, Basisfall und rekursiven Schritt zu verstehen und zu verifizieren.
+
+%%/book
+
+%%slides
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Wie navigiert man durch alle Elemente eines BIM-Modells — ohne vorher die Tiefe zu kennen?" capR="Midjourney: BIM hierarchy" imgR="images/04b_Rekursion/image_1.jpg"}
+
+%%/slides
+
+%%slides
+
+## BIM-Hierarchie — natürliche Rekursion
+
+%%col 50 50
+
+**Gebäudemodell**
+
+```
+Gebäude A
+├─ Stockwerk 1
+│  ├─ Raum 101
+│  │  ├─ Tür
+│  │  └─ Fenster
+│  └─ Raum 102
+└─ Stockwerk 2
+   └─ Raum 201
+```
+
+%%sep
+
+- Jede Ebene hat die **gleiche Struktur**
+- Dieselbe Funktion traversiert jede Ebene
+- Basisfall: Element ohne Kinder
+- Tiefe ist zur Compile-Zeit unbekannt
+
+%%/col
+
+%%/slides
+
+%%book
+
+Eine KI-generierte Funktion zur Traversierung sieht so aus — zu lesen und zu verifizieren, nicht blind zu übernehmen:
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def bim_traversiere(element, tiefe=0):
+    """KI-generiert: Traversiert ein BIM-Modell rekursiv."""
+    print("  " * tiefe + element["name"])
+    for kind in element.get("kinder", []):   # Basisfall implizit: leere Liste
+        bim_traversiere(kind, tiefe + 1)
+
+gebaeude = {
+    "name": "Gebäude A",
+    "kinder": [
+        {"name": "Stockwerk 1", "kinder": [
+            {"name": "Raum 101", "kinder": [
+                {"name": "Tür", "kinder": []},
+                {"name": "Fenster", "kinder": []}
+            ]},
+            {"name": "Raum 102", "kinder": []}
+        ]},
+        {"name": "Stockwerk 2", "kinder": [
+            {"name": "Raum 201", "kinder": []}
+        ]}
+    ]
+}
+bim_traversiere(gebaeude)
+```
+
+%%/book
+
+%%slides
+
+## KI-generierter Code: BIM-Traversierung
+
+```python
+# KI-generiert
+def bim_traversiere(element, tiefe=0):
+    print("  " * tiefe + element["name"])
+    for kind in element.get("kinder", []):    # Rekursiver Fall
+        bim_traversiere(kind, tiefe + 1)      # Basisfall: leere Liste
+```
+
+Vor dem Ausführen:
+
+- [Wo ist der Basisfall?]{.fragment}
+- [Was passiert beim ersten rekursiven Aufruf?]{.fragment}
+- [Wie tief kann die Hierarchie werden?]{.fragment}
+
+%%/slides
+
+%%slides
+
+## BIM: Erwartete Ausgabe verifizieren
+
+%%col 50 50
+
+**Eingabe**
+```
+Gebäude A
+├─ Stockwerk 1
+│  ├─ Raum 101 (Tür, Fenster)
+│  └─ Raum 102
+└─ Stockwerk 2
+   └─ Raum 201
+```
+
+%%sep
+
+**Erwartete Ausgabe**
+```
+Gebäude A
+  Stockwerk 1
+    Raum 101
+      Tür
+      Fenster
+    Raum 102
+  Stockwerk 2
+    Raum 201
+```
+
+%%/col
+
+%%/slides
+
+
+%%book
+
+## Räumliche Unterteilung — Quadtree
+
+%%/book
+
+%%book
+
+Ein weiteres klassisches Beispiel für Rekursion in der Umweltinformatik ist der Quadtree: ein geografisches Gebiet wird rekursiv in vier gleich große Quadranten unterteilt, solange sich mehr als ein Messpunkt darin befindet. Damit lassen sich Geländedaten, Sensornetze oder GIS-Abfragen effizient strukturieren.
+
+%%/book
+
+%%slides
+
+## Quadtree — Rekursive Raumaufteilung
+
+%%col 50 50
+
+1. Gebiet enthält mehr als einen Punkt
+2. → Vierteile in vier Quadranten
+3. Jeden Quadranten rekursiv unterteilen
+
+**Basisfall:** ≤ 1 Punkt im Quadranten oder Tiefenlimit
+
+%%sep
+
+**Anwendung in der Umweltinformatik:**
+
+- Geländemodelle
+- Sensornetze
+- GIS-Abfragen und Nachbarschaftssuche
+
+%%/col
+
+%%/slides
+
+%%book
+
+```{python}
+#| echo: true
+def quadtree_unterteile(grenzen, punkte, max_tiefe=4, tiefe=0):
+    """Divide-and-Conquer: Unterteilt ein Gebiet rekursiv."""
+    xmin, ymin, xmax, ymax = grenzen
+    if tiefe >= max_tiefe or len(punkte) <= 1:    # Basisfall
+        return {"grenzen": grenzen, "punkte": punkte}
+    mx = (xmin + xmax) / 2
+    my = (ymin + ymax) / 2
+    quadranten = [
+        ((xmin, ymin, mx,   my),   [p for p in punkte if p[0] <= mx and p[1] <= my]),
+        ((mx,   ymin, xmax, my),   [p for p in punkte if p[0] > mx  and p[1] <= my]),
+        ((xmin, my,   mx,   ymax), [p for p in punkte if p[0] <= mx and p[1] > my ]),
+        ((mx,   my,   xmax, ymax), [p for p in punkte if p[0] > mx  and p[1] > my ]),
+    ]
+    return [quadtree_unterteile(b, pts, max_tiefe, tiefe + 1) for b, pts in quadranten]
+```
+
+%%/book
+
+%%slides
+
+## Quadtree — Rekursiver Code
+
+```python
+def quadtree_unterteile(grenzen, punkte, max_tiefe=4, tiefe=0):
+    if tiefe >= max_tiefe or len(punkte) <= 1:    # Basisfall
+        return {"grenzen": grenzen, "punkte": punkte}
+    mx, my = (grenzen[0]+grenzen[2])/2, (grenzen[1]+grenzen[3])/2
+    quadranten = [...]   # vier Teilgebiete
+    return [quadtree_unterteile(b, pts, ...) for b, pts in quadranten]
+```
+
+- Basisfall: Tiefenlimit oder ≤ 1 Punkt
+- Vier rekursive Aufrufe — einer je Quadrant
+- Typische Tiefe: 4–8 für Geländedaten
+
+%%/slides
+
+
+%%book
+
+## Rekursion vs. Iteration
+
+%%/book
+
+%%book
+
+Rekursion und Iteration sind gleichwertig ausdrucksstark — jede Schleife kann als Rekursion formuliert werden und umgekehrt. Die Wahl hängt von der Problemstruktur und den Rahmenbedingungen ab.
+
+%%/book
+
+%%slides
+
+## Rekursion vs. Iteration — Vergleich
+
+%%col 50 50
+
+**Rekursion**
+
+- [Klar bei hierarchischen Problemen]{.pro}
+- [Entspricht natürlicher Problemstruktur]{.pro}
+- [Stack-Tiefe begrenzt (~1000 in Python)]{.con}
+- [Schwerer zu debuggen]{.con}
+
+%%sep
+
+**Iteration (Schleife)**
+
+- [Kein Stack-Overhead]{.pro}
+- [Einfacher zu debuggen]{.pro}
+- [Expliziter Stack nötig für Baumtraversierung]{.con}
+- [Unnatürlich für hierarchische Daten]{.con}
+
+%%/col
+
+%%/slides
+
+%%slides
+
+## Wann Rekursion wählen?
+
+%%col 50 50
+
+**Ja — Rekursion**
+
+- Datenstruktur ist selbst rekursiv (BIM, Quadtree, Verzeichnisbaum)
+- Rekursionstiefe bleibt klein und kontrollierbar
+- Lesbarkeit hat Vorrang
+
+%%sep
+
+**Nein — Iteration**
+
+- Lange flache Listen oder einfache Schleifen
+- Tiefe unbekannt oder potenziell groß
+- Performance-kritisch
+
+%%/col
+
+> **Aus S02:** Call-Stack und Stack Overflow werden dort erklärt — bei Rekursion gelten dieselben Regeln.
+
+%%/slides
+
+
+%%slides
+
+## Lesson Learned {colR capR="Midjourney: Six Sense" imgR="images/02b_Wissenspyramide/mj_senses.mp4" background="#66ccffff"}
+
+%%col 40 60
+
+Welche Lerntypen gibt es?
+
+%%sep
+
+%%/col
+
+%%/slides
+
+%%slides
+
+## Lesson Learned - Nacharbeit
+
+- **S**urvey (Überblick gewinnen): Blättert durch ein Thema und gewinnt einen Überblick
+- **Q**uestion (Fragen): Notiert euch Fragen zu Punkten die ihr nicht versteht.
+- **R**ead (Lesen): Lest eure Notizen durch; Hebt Schlüsselwörter hervor; Recherchiert zu den Fragen.
+- **R**ecite (Wiedergeben): Rekapituliert jeden Abschnitt (Inhalt, Schlüsselwörter, Zusammenhänge). Strukturiert euch die Inhalte, z.B. mit Mindmaps. Wiederholt Gelerntes mehrmals (Karteikarten).
+- **R**eview (Rückblick): Wiederholt gedanklich die wichtigsten Punkte und beantwortet eure Fragen.
+
+%%col 50 50
+
+[![https://youtu.be/n0ql-yeY9u0](https://img.youtube.com/vi/n0ql-yeY9u0/0.jpg)](https://www.youtube.com/watch?v=n0ql-yeY9u0)
+
+%%sep
+
+[![https://youtu.be/NONST7mwhX8](https://img.youtube.com/vi/NONST7mwhX8/0.jpg)](https://www.youtube.com/watch?v=NONST7mwhX8)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+## Mindmap
+
+- Man arbeitet von innen nach außen
+- Reduziert Themen auf einzelne Begriffe
+- Man entwickelt automatisch eine Struktur
+- Nutzt Farben und Symbole
+- Verweise zwischen Begriffen erschaffen
+
+![](images/04b_Rekursion/image_1.jpg)
+
+%%/slides
+
+%%references
+%%final

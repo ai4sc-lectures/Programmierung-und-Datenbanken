@@ -1,0 +1,433 @@
+---
+title: "UI-Design für Ingenieuranwendungen"
+image-credit: "Midjourney: A futuristic engineering control room filled with sensor dashboards and data monitors"
+footertext: Programmieren und Datenbanken
+institute-logo: _extensions/ai4sc-style/assets/logos/ai4sc-logo-ink.svg
+university-logo: _extensions/ai4sc-style/assets/logos/uni_logo2.svg
+format:
+  ai4sc-style-revealjs:
+    css:
+      - _extensions/ai4sc-style/themes/color/mineral.css
+    title-slide-attributes:
+      data-background-video: images/11b_UIDesign/mj_title.mp4
+    output-file: 11b_UIDesign.slide.html
+  html:
+    output-file: 11b_UIDesign.page.html
+  typst:
+    output-file: 11b_UIDesign.page.pdf
+resources:
+  - data/11b_UIDesign
+bibliography: references.bib
+---
+
+%%book
+
+![](images/11b_UIDesign/mj_title_band.jpg)
+
+> Ein korrektes Ergebnis, das niemand lesen kann, ist kein Ergebnis.
+>
+> — Grundsatz des Interface-Designs
+
+%%/book
+
+%%slides
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Du hast die Schadstoffbelastung für 500 Standorte berechnet — wer sieht das Ergebnis, und wie?" capR="Midjourney: An environmental engineer presenting contamination risk maps to city planners in a meeting room" imgR="images/11b_UIDesign/mj_engineer_presentation.png"}
+
+%%/slides
+
+## 500 Standorte, ein CSV — was jetzt?
+
+%%scol 55 45
+**Das Ergebnis liegt vor:**
+
+- 500 Zeilen · 12 Spalten · keine Legende
+- Kritische Grenzwertüberschreitungen — irgendwo darin
+- Nächste Entscheidung: Welche 20 Standorte priorisieren?
+
+**Ohne Interface bleibt die Frage offen.**
+%%sep
+*Eine Zahl ohne Einheit ist keine Messung.*
+
+*Ein Messwert ohne Kontext ist keine Information.*
+
+*Eine Information ohne Interface ist keine Entscheidungsgrundlage.*
+%%/scol
+
+%%book
+Ein typischer Fehler im Ingenieurstudium: die Berechnung als Endziel zu betrachten. In der Praxis ist die Berechnung ein Zwischenschritt. Das Ergebnis muss für die Zielgruppe — Behörden, Fachkollegen, Management — aufbereitet werden. Die Wahl des Ausgabeformats ist eine Ingenieurentscheidung, keine nachgelagerte Nebensache.
+
+Cross-Referenz: Die Rasterberechnungen aus `11a_Raster_Simulation` sind ein typisches Beispiel — ein numpy-Array ist kein Ergebnis für einen Stadtrat.
+%%/book
+
+%%# UI-Typen
+
+%%book
+### TL;DR
+
+Verschiedene Ausgabeformate bedienen verschiedene Zielgruppen und Anwendungsfälle. Streamlit und Gradio ermöglichen interaktive Web-UIs direkt aus Python — ohne Webentwicklungskenntnisse.
+%%/book
+
+## UI-Typen im Vergleich {{< ai4sc-icon list-tree >}}
+
+| Format | Interaktiv | Zielgruppe | Typischer Einsatz |
+|--------|:----------:|-----------|------------------|
+| Konsole / Terminal | — | Entwickler | Tests, Skripts |
+| Jupyter Notebook | begrenzt | Ingenieure | Analyse, Dokumentation |
+| **Streamlit Web-App** | **ja** | **Fachpublikum** | **Dashboards, Prototypen** |
+| **Gradio Interface** | **ja** | **Endnutzer** | **ML- und Modell-Schnittstellen** |
+| PDF-Report | — | Management | Offizielle Berichte |
+
+%%book
+Jedes Format hat seinen Platz im Ingenieuralltag. Für schnelle Exploration intern eignet sich Jupyter. Wenn ein Ergebnis mit einer Fachabteilung oder einem Auftraggeber geteilt werden soll, erlauben Streamlit oder Gradio einen professionelleren Eindruck bei minimalem Zusatzaufwand. Für rechtlich relevante Dokumentation ist der PDF-Report meist obligatorisch.
+
+Die Entscheidung für ein Format ist keine rein technische: Sie hängt davon ab, wer das Ergebnis wann und in welchem Kontext sehen soll — ein Kernaspekt des Design-Thinking-Prozesses.
+%%/book
+
+%%# Design-Prinzipien
+
+%%book
+### TL;DR
+
+Gutes Interface-Design folgt messbaren Prinzipien: Klarheit, Präzision, konsistente Bedeutung. Design Thinking strukturiert den Designprozess nutzerorientiert — und verhindert, dass Ingenieure Dashboards bauen, die nur sie selbst verstehen.
+%%/book
+
+## Design Thinking für Ingenieur-UIs {{< ai4sc-icon workflow >}}
+
+%%slides
+%%col 20 20 20 20 20
+#### 1. Empathize
+*Wer* nutzt das Interface?
+
+Welche Entscheidungen trifft er?
+%%sep
+#### 2. Define
+Welche *Mindest­information* braucht der Nutzer?
+
+(Nicht alle Berechnungs­ergebnisse!)
+%%sep
+#### 3. Ideate
+Welche Darstellung?
+
+Linien­diagramm, Karte, Tabelle — und warum?
+%%sep
+#### 4. Prototype
+Streamlit in 30 min
+
+Früh zeigen, früh korrigieren
+%%sep
+#### 5. Test
+Versteht der Nutzer?
+
+Trifft er die *richtige* Entscheidung?
+%%/col
+%%/slides+book
+
+### Prozess: Empathize → Define → Ideate → Prototype → Test
+
+Design Thinking ist ein strukturierter Ansatz zur nutzerorientierten Gestaltung von Systemen, der ursprünglich aus dem Produktdesign stammt. Für Ingenieur-UIs ist er besonders wertvoll, weil technisch korrekte Ausgaben oft für die falsche Zielgruppe optimiert sind.
+
+**Empathize:** Führe ein kurzes Interview mit der Zielgruppe durch. Welche Fragen stellt sie täglich? In welchem Kontext öffnet sie das Dashboard — am Desktop, im Außeneinsatz, im Meeting?
+
+**Define:** Formuliere eine klare Problemaussage: "Der Standortleiter braucht auf einen Blick zu sehen, welche Standorte heute den Grenzwert für PM2.5 überschreiten." Das begrenzt den Scope.
+
+**Ideate:** Erst auf Papier skizzieren — Wireframe, kein Code. Schlechte Ideen findet man mit einem Bleistift schneller als nach drei Stunden Streamlit-Coding.
+
+**Prototype:** Streamlit und Gradio sind ideal für schnelle Prototypen. Ein KI-generiertes Grundgerüst kann in 30 Minuten für einen ersten Nutzerfeedback-Loop bereit sein.
+
+**Test:** Beobachte, wie die Zielgruppe das Interface nutzt. Stellt sie Fragen, die das Interface beantworten sollte? Dann fehlt Information. Ignoriert sie Elemente? Dann sind es zu viele.
+%%/book
+
+## Grundsätze: Klarheit — Präzision — Bedeutung
+
+%%scol 50 50
+**Klarheit**
+
+- Ein Diagramm = eine Aussage
+- Keine 10 Kurven in einem Chart
+- Wichtigstes zuerst (*Informationshierarchie*)
+
+**Präzision**
+
+- Einheiten immer: "PM2.5 [µg/m³]", nicht "value_1"
+- Signifikante Stellen: 2,34 mg/l — nicht 2,3400000
+- Achsengrenzen: physikalisch sinnvoll, kein Auto-Scale
+%%sep
+**Gestalt-Prinzipien**
+
+- *Proximity:* Zusammengehörige Werte beieinander
+- *Similarity:* Gleiche Farbe = gleiche Bedeutung
+- *Figure/Ground:* Daten vom Hintergrund abheben
+
+**Data-Ink-Ratio** *(Tufte)*
+
+- Minimaler dekorativer Aufwand
+- Maximaler Informationsgehalt
+- Jedes Element muss eine Funktion erfüllen
+%%/scol
+
+%%aside
+Ref.: Tufte, E. R.: The Visual Display of Quantitative Information, Graphics Press, 1983
+%%/aside
+
+%%book
+Edward Tuftes Konzept der *Data-Ink-Ratio* besagt, dass jeder Tropfen Tinte auf einem Diagramm entweder Datenwert trägt oder entfernt werden sollte. Gitternetzlinien, überflüssige Rahmen, übermäßige Legenden — alles Rauschen, das die eigentliche Information überlagert.
+
+Die Gestalt-Psychologie liefert Erklärungen, warum Menschen visuelle Muster erkennen. **Proximity:** Elemente, die räumlich beieinander liegen, werden als zusammengehörig wahrgenommen — nutze das für Gruppierungen im Dashboard. **Similarity:** Gleiche Farbe signalisiert die gleiche Kategorie. Wenn Rot auf einem Slide "Grenzwert überschritten" bedeutet, muss Rot auf allen Slides dasselbe bedeuten. **Continuity:** Linien und Kurven werden als zusammenhängende Einheit wahrgenommen — daher sind Zeitreihendaten als Liniendiagramm intuitiver als als Balken.
+
+Informationshierarchie bedeutet: Die wichtigste Information bekommt den prominentesten Platz, die größte Schrift, den höchsten Kontrast. Sekundäre Details sind sichtbar, aber nicht dominant.
+
+*Affordances* — ein weiteres zentrales UI-Konzept — beschreiben, ob Interaktionselemente intuitiv nutzbar sind: Ein Slider sollte wie ein Slider aussehen, ein Button wie ein Button. Streamlit und Gradio erzeugen korrekte Affordances automatisch; der Ingenieur muss nur die Beschriftung liefern.
+%%/book
+
+%%# Streamlit Demo
+
+%%book
+### TL;DR
+
+KI generiert ein Streamlit-Grundgerüst in wenigen Sekunden. Die kritische Ingenieurarbeit beginnt danach: Stimmen die Spaltennamen? Sind Einheiten im Label? Ist die Schwellenwert-Logik korrekt?
+%%/book
+
+## Agentischer Workflow: Streamlit-Dashboard {{< ai4sc-icon workflow >}}
+
+%%scol 60 40
+**Prompt an die KI:**
+
+> *"Generiere eine Streamlit-App, die Sensorzeitreihendaten aus einer CSV-Datei lädt, nach Standort filtert und mit einem einstellbaren Schwellenwert als Linie im Plotly-Diagramm anzeigt."*
+
+**Prompt → Generate → Understand → Verify → Iterate**
+
+KI liefert ein funktionierendes Grundgerüst in < 1 min.
+
+*Der Ingenieur trägt Verantwortung für das Ergebnis.*
+%%sep
+**Nicht: "Läuft es?"**
+
+**Sondern: "Ist das Ergebnis korrekt?"**
+
+- Labels richtig? ✓
+- Einheiten angegeben? ✓
+- Daten korrekt gemappt? ✓
+- Schwellenwert sinnvoll? ✓
+%%/scol
+
+%%book
+Der agentische Zyklus beim UI-Design folgt demselben Muster wie bei jeder anderen KI-unterstützten Programmieraufgabe: Erst einen klaren, vollständigen Prompt formulieren — je präziser die Anforderungen, desto besser das Grundgerüst. Dann den generierten Code verstehen (nicht nur ausführen), und schließlich systematisch verifizieren, ob das Interface das zeigt, was es zeigen soll. Iteriere, bis das Interface für die Zielgruppe geeignet ist.
+
+Gute Prompts für UI-Generierung benennen: Datenformat (CSV, DataFrame), relevante Spalten, gewünschte Interaktionselemente (Slider, Dropdown, Upload), und Ausgabeformat (Plotly-Chart, Tabelle, Download-Button).
+%%/book
+
+## KI-generierter Code: Sensor-Dashboard {{< ai4sc-icon list-tree >}}
+
+```{python}
+#| echo: true
+#| eval: false
+# KI-generiert — Streamlit Sensor-Dashboard
+import streamlit as st
+import pandas as pd
+import plotly.express as px
+
+st.title("Sensor-Monitoring")
+
+file = st.file_uploader("CSV laden", type="csv")
+if file:
+    df = pd.read_csv(file)
+    standort = st.selectbox("Standort", df["location"].unique())
+    df_filtered = df[df["location"] == standort]
+    threshold = st.slider("Schwellenwert", 0, 500, 100)
+    fig = px.line(df_filtered, x="timestamp", y="value",
+                  title=f"Messwerte – {standort}")
+    fig.add_hline(y=threshold, line_color="red")
+    st.plotly_chart(fig)
+```
+
+%%tip Ingenieur prüft (Pattern C)
+Was passiert, wenn deine CSV die Spalte `messwert` heißt, nicht `value`?
+
+Welche Einheit hat der Schwellenwert? Steht sie im Label oder Diagramm?
+%%/tip
+
+%%book
+Dieser Code zeigt ein typisches KI-generiertes Streamlit-Grundgerüst. Er funktioniert — unter der Annahme, dass die CSV-Datei Spalten namens `location`, `timestamp` und `value` enthält. In der Praxis heißen diese Spalten oft anders.
+
+**Pattern C — AI-Code Reading:** Bevor du den Code ausführst:
+
+1. Welche Spaltennamen erwartet der Code? (`df["location"]`, `df["timestamp"]`, `df["value"]`)
+2. Was passiert, wenn eine davon fehlt? (KeyError — kein hilfreicher Fehler für den Endnutzer)
+3. Wird die Einheit des Schwellenwerts dem Nutzer kommuniziert? (Nein — das Label lautet nur "Schwellenwert")
+4. Ist die Y-Achse mit Größe und Einheit beschriftet? (px.line verwendet den Spaltennamen "value" — nicht informativ)
+
+Diese vier Fragen sind die Kern-Verifikation vor dem Deployment. Iteriere dann mit einem präziseren Prompt: *"Benenne die Y-Achse mit 'PM2.5 [µg/m³]' und zeige die Einheit des Schwellenwerts im Slider-Label an."*
+%%/book
+
+## Streamlit verifizieren — was der Ingenieur prüft {{< ai4sc-icon test-tube >}}
+
+%%slides
+%%col 50 50
+**Datenmapping** {{< ai4sc-icon list-tree >}}
+
+- Spaltennamen im Code ↔ Spalten in der CSV
+- Datentypen korrekt? (Datum als `datetime`, Messwert als `float`)
+- Fehlende Werte: wie behandelt?
+
+**Darstellung**
+
+- Y-Achse beschriftet mit Größe und Einheit?
+- Achsengrenzen physikalisch sinnvoll?
+- Farbskala: Bedeutung klar und konsistent?
+%%sep
+**Logik**
+
+- Schwellenwert in richtiger Einheit?
+- Filter-Logik: Ort, Zeit — korrekt umgesetzt?
+- Edge cases: leere CSV, ein Standort, kein Grenzwertverstoß?
+
+**Nutzerführung**
+
+- Fehlermeldungen für Nicht-Entwickler verständlich?
+- Ladezeit akzeptabel bei echten Datenmengen?
+- Entscheidet ein Nutzer korrekt auf Basis der Anzeige?
+%%/col
+%%/slides+book
+
+**Vier Verifikationsdimensionen:**
+
+1. **Datenmapping** ist die kritischste Prüfung. Ein korrekter Code mit falschen Spaltennamen zeigt Unsinn — aber korrekt formatiert. Vergleiche jeden Spaltennamen im Code mit der tatsächlichen Datenstruktur.
+
+2. **Darstellung:** Achsenbeschriftungen mit Einheiten sind nicht optional. "value" ist keine Information. "PM2.5 [µg/m³]" ist eine Information.
+
+3. **Logik:** Teste mit synthetischen Daten, bei denen du das erwartete Ergebnis kennst. Wenn der Grenzwert 50 µg/m³ beträgt und deine Testdaten Werte von 30, 60 und 80 haben, sollten genau zwei Punkte als überschritten markiert sein.
+
+4. **Nutzerführung:** Ein Ingenieur kann einen Python-Traceback lesen. Ein Stadtrat nicht. Verifikation schließt ein, ob Fehlerzustände für die Zielgruppe verständlich kommuniziert werden.
+%%/book
+
+## Gradio: Interaktive Schnittstellen für Modelle
+
+%%scol 55 45
+**Gradio** eignet sich, wenn ein Simulations- oder ML-Modell direkt interaktiv ausgeführt werden soll — ohne Datei-Upload-Logik.
+
+```{python}
+#| echo: true
+#| eval: false
+# KI-generiert — Gradio Abfluss-Rechner
+import gradio as gr
+
+def berechne_abfluss(niederschlag, bodentyp):
+    faktor = 0.3 if bodentyp == "Ton" else 0.1
+    return f"Abfluss: {niederschlag * faktor:.2f} mm"
+
+demo = gr.Interface(
+    fn=berechne_abfluss,
+    inputs=[gr.Number(label="Niederschlag [mm]"),
+            gr.Dropdown(["Sand", "Ton"],
+                        label="Bodentyp")],
+    outputs=gr.Text(label="Abfluss [mm]")
+)
+demo.launch()
+```
+%%sep
+**Streamlit** — Daten laden, filtern, visualisieren
+
+→ Sensor-Dashboard, Messwertauswertung
+
+**Gradio** — Parameter eingeben, Modell ausführen
+
+→ Bemessungstools, Simulations-Schnittstellen
+
+*Gradio eignet sich besonders für die Weitergabe von Berechnungsmodellen an Fachkollegen ohne Python-Kenntnisse.*
+%%/scol
+
+%%book
+Gradio und Streamlit decken unterschiedliche Anwendungsprofile ab. Streamlit ist ideal für Daten-Dashboards: CSV laden, filtern, visualisieren, exportieren. Gradio ist ideal für Modell-Interfaces: Parameter eingeben, Ergebnis erhalten. Das Modell selbst bleibt dem Nutzer verborgen.
+
+**Verifikation gilt auch für Gradio:** Stimmt die Rechenformel? Sind Einheiten in Labels klar? Werden ungültige Eingaben (negativer Niederschlag, leeres Feld) korrekt abgefangen?
+
+%%aside
+→ Gradio-Dokumentation: gradio.app
+%%/aside
+%%/book
+
+%%# Verifikations-Checkliste
+
+%%book
+### TL;DR
+
+Falsche Daten klar dargestellt ist gefährlicher als richtige Daten unzugänglich. Die Verifikations-Checkliste stellt sicher, dass das KI-generierte Interface die Ingenieuranforderungen erfüllt — bevor es in Betrieb geht.
+%%/book
+
+## UI-Verifikations-Checkliste {{< ai4sc-icon test-tube >}}
+
+%%slides
+%%col 50 50
+**Beschriftung & Einheiten** {{< ai4sc-icon test-tube >}}
+
+- [ ] Achsenbeschriftungen inkl. Einheit ("PM2.5 [µg/m³]")
+- [ ] Achsenbereiche physikalisch sinnvoll
+- [ ] Legendeneinträge klar und vollständig
+- [ ] Titel beschreibt Inhalt, nicht Technik
+
+**Datenmapping** {{< ai4sc-icon list-tree >}}
+
+- [ ] Jeder Code-Spaltenname ↔ tatsächliche CSV-Spalte geprüft
+- [ ] Daten korrekt gefiltert (Ort, Zeit, Parameter)
+- [ ] Aggregation bewusst gewählt (Summe, Mittel — warum?)
+%%sep
+**Darstellung**
+
+- [ ] Farbskala semantisch korrekt (Rot = Alarm, Grün = OK)
+- [ ] Kein irreführender Achsenstart (Y beginnt bei 0, wo sinnvoll)
+- [ ] Ein Diagramm = eine Aussage (kein Overloading)
+
+**Fehler & Robustheit**
+
+- [ ] Fehlerzustände für Zielgruppe verständlich
+- [ ] Korrekt bei leeren oder fehlerhaften Daten
+- [ ] Grenzwert-Logik mit bekannten Testdaten verifiziert
+%%/col
+
+%%note Grundregel
+Falsche Daten klar darzustellen ist gefährlicher als richtige Daten unübersichtlich zu lassen. Das Datenmapping ist immer Ingenieurverantwortung.
+%%/note
+%%/slides+book
+
+Diese Checkliste entspricht dem Prinzip aus `08b_CodeReview`: systematische Verifikation statt intuitivem "Sieht gut aus". Jeder Punkt wird aktiv geprüft — mit echten oder synthetischen Testdaten.
+
+Die vier Kategorien decken ab: **Was steht dran** (Beschriftung), **Was steckt drin** (Datenmapping), **Wie es aussieht** (Darstellung) und **Was passiert im Fehlerfall** (Robustheit).
+%%/book
+
+## Ausblick: Block 6 — Persistente Datenhaltung
+
+%%scol 55 45
+**Das Dashboard funktioniert.** Aber:
+
+- 10 Millionen Messwerte — aus Dateien laden?
+- 50 Nutzer gleichzeitig — auf eine CSV?
+- Historische Abfragen über Monate — durch alle Ordner?
+
+**Dateien skalieren nicht.**
+
+→ Block 6: **Datenbanken** als persistente, skalierbare Datenschicht hinter dem Dashboard.
+
+%%aside
+→ `12a_Datenhaltung`: Warum Datenbanken statt Dateien?
+%%/aside
+%%sep
+**Heute:** {{< ai4sc-icon list-tree >}} CSV-Datei → Streamlit
+
+**Block 6:** {{< ai4sc-icon database >}} Datenbank → Streamlit
+
+*Ein Streamlit-Dashboard ist so gut wie seine Datenquelle.*
+
+*Für Produktivsysteme: Datenbanken statt CSV-Dateien.*
+%%/scol
+
+%%book
+Das Sensor-Dashboard aus dieser Einheit funktioniert hervorragend für einige tausend Datenpunkte aus einer CSV-Datei. In der Ingenieurpraxis sieht die Situation oft anders aus: Sensornetze liefern Millionen von Messwerten, mehrere Benutzer greifen gleichzeitig zu, historische Analysen erfordern Abfragen über lange Zeiträume.
+
+Diese Anforderungen motivieren **Datenbanken** als persistente Datenschicht hinter dem Dashboard. Block 6 (Sitzungen 12–13) führt relationale Datenbanken und SQL ein — die gleiche Streamlit-App kann danach mit einer Datenbankabfrage statt einem CSV-Upload betrieben werden.
+
+Cross-Referenz: `12a_Datenhaltung` motiviert den Übergang von dateibasierter zu datenbankgestützter Datenhaltung im Detail.
+%%/book
+
+%%references
+%%final

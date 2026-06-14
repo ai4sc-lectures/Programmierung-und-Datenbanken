@@ -1,0 +1,1578 @@
+---
+title: "Algorithmen"
+image-credit: "Midjourney: Two Towers, ref. M.C. Escher"
+format:
+  ai4sc-style-revealjs:
+    title-slide-attributes:
+      data-background-video: images/09a_Algorithmen/mj_title.mp4
+    output-file: 09a_Algorithmen.slide.html
+  html:
+    output-file: 09a_Algorithmen.page.html
+  typst:
+    output-file: 09a_Algorithmen.page.pdf
+resources:
+  - data/09a_Algorithmen
+---
+
+%%book
+
+
+# Algorithmen
+
+%%/book
+
+%%book
+
+![](images/09a_Algorithmen/mj_title_band.jpg)
+
+> Everything should be made as simple as possible, but not simpler.
+>
+> — Albert Einstein
+
+%%/book
+
+%%slides
+
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Du musst Messstationen nach Entfernung sortieren und prüfen, ob eine davon in einem Schutzgebiet liegt — womit fängst du an?" capR="Google Maps" imgR="images/09a_Algorithmen/polymap.png"}
+
+%%/slides
+
+%%# Problemklassen und Algorithmen
+
+%%slides
+
+
+## {{< ai4sc-icon workflow >}} Algorithmen — erst die Klasse, dann das Verfahren
+
+%%def Algorithmen
+Algorithmen sind wohldefinierte, eindeutige Handlungsanweisungen.
+%%/def
+
+%%div lead
+Die Problemklasse bestimmt die Algorithmenfamilie. Erst identifizieren, dann wählen.
+%%/div
+
+- Bekannte Beispiele: Schriftliche Division, Dreieckskonstruktion
+- In der Informatik: computerausführbar und endlich
+- Programmieren = Algorithmen + Datenstrukturen kombinieren
+
+%%/slides
+
+%%slides
+
+
+## Ablauf
+
+![](images/partA_6.svg)
+
+%%/slides
+
+%%slides
+
+
+## {{< ai4sc-icon workflow >}} Vier Problemklassen erkennen
+
+%%col 50 50
+
+**Sortieren**
+
+- Elemente in eine Reihenfolge bringen
+- *Erkennungszeichen:* „sortiere", „ordne", „rangiere"
+
+**Suchen**
+
+- Ein Element in einer Menge finden
+- *Erkennungszeichen:* „finde", „enthält", „liegt in"
+
+%%sep
+
+**Pfad**
+
+- Optimale Route zwischen Knoten finden
+- *Erkennungszeichen:* „kürzester Weg", „nächste Station", „Route"
+
+**Partition**
+
+- Menge nach Kriterium aufteilen
+- *Erkennungszeichen:* „liegt in Zone", „gehört zu Gruppe", „klassifiziere"
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## {{< ai4sc-icon workflow >}} Algorithmen-Erkennung: Szenarien 1 & 2
+
+%%col 50 50
+
+**Szenario 1**
+
+*„Finde die nächste Regenmessstation zum Monitoring-Punkt."*
+
+::: {.fragment}
+→ **Suche** — Element mit kleinstem Abstand finden
+
+Verfahren: lineare Suche, binäre Suche, k-d-Baum
+:::
+
+%%sep
+
+**Szenario 2**
+
+*„Ordne Bauangebote nach Kosten."*
+
+::: {.fragment}
+→ **Sortieren** — Elemente in aufsteigende Reihenfolge bringen
+
+Verfahren: `sorted()`, Quick Sort, Insertion Sort
+:::
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## {{< ai4sc-icon workflow >}} Algorithmen-Erkennung: Szenarien 3 & 4
+
+%%col 50 50
+
+**Szenario 3**
+
+*„Berechne den kürzesten Zufahrtsweg zum Überflutungsgebiet."*
+
+::: {.fragment}
+→ **Pfad** — optimale Route in einem Netzwerk
+
+Verfahren: Dijkstra, A\*
+:::
+
+%%sep
+
+**Szenario 4**
+
+*„Prüfe, welche Gebäude im Überschwemmungsgebiet liegen."*
+
+::: {.fragment}
+→ **Partition / Räumliche Anfrage** — Punkt-in-Polygon-Test
+
+Verfahren: Ray Casting, Polygon-Enthaltungstest
+:::
+
+%%/col
+
+%%/slides
+
+%%# Heuristiken
+
+%%slides
+
+
+## Heuristiken
+
+- Basieren nicht auf wohldefinierten oder eindeutigen Schritten, sondern auf praktischen Erfahrungen
+
+- Versuchen schnell ein hinreichend korrektes Ergebnis zu erreichen. *KEINE* Garantie die optimale Lösung zu finden.
+
+- Beispiel:
+  - Die Schätzung eines Experten
+  - Schrittweises Annähern
+
+%%/slides
+
+%%slides
+
+
+## Exkurs – Beispiel für eine Heuristik: A*Star Suchalgorithmus
+
+%%col 50 50
+
+- Die Wegsuche gehört zu den komplexesten Problemen in der Informatik (NP-Komplex: Aufgrund des kombinatorischen Problems)
+
+- A* ist eine Heuristik um den kürzesten Weg zwischen zwei Punkten in einem Feld mit Hindernissen zu finden
+
+  ![](images/09a_Algorithmen/astar.svg){class="midjourney"}
+
+%%sep
+
+![](images/09a_Algorithmen/astar.gif){class="midjourney"}
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Beispielproblem – Liegt ein Punkt in einem Polygon?
+
+- Ein Polygon ist ein beliebiges Vieleck
+
+- Die Lösung dieses Problems ist ein häufiger Teil von Berechnungen in den Bau- und Umweltwissenschaften, z. B. um zu testen, ob ein geplantes Objekt in einem Naturschutzgebiet liegt.
+
+![Polygon Beispiel](https://upload.wikimedia.org/wikipedia/commons/1/1f/Assorted_polygons.svg)
+
+%%/slides
+
+%%slides
+
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Wie kann ich bestimmen ob ein Punkt in einem Polygon liegt?" capR="Google Maps" imgR="images/09a_Algorithmen/polymap.png"}
+
+%%/slides
+
+%%slides
+
+
+## Beispielproblem – Aus- und Eingaben
+
+%%col 50 50
+
+Eingaben:
+
+- Die Position des Punktes `x`
+- Ein Linienzug der den Rand des Polygons beschreibt
+  - Eine Liste von verbundenen, aufeinanderfolgenden Linien
+
+Ausgaben:
+
+- Ein Boolean
+
+%%sep
+
+![Google Maps](images/09a_Algorithmen/polymap2.png){class="midjourneyXX"}
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Beispielproblem – Entwerfen eines Algorithmus
+
+- Was sind Berechnungen, die man auf Punkten und Linien ausführen kann?
+
+- Wir können prüfen ob der Punkt genau auf einer Linie liegt.
+- Wir können prüfen auf welcher Seite einer Linie ein Punkt liegt.
+
+- Reicht Punkt 2 aus? Für konvexe Flächen — ja. Für konkave Flächen — nein ⇒ Heuristik!
+
+%%/slides
+
+%%# Datenstrukturen: Bäume
+
+%%book
+
+
+## {{< ai4sc-icon list-tree >}} Komplexe Datenstruktur – Bäume
+
+%%/book
+
+%%book
+
+Eine weitere wichtige komplexe (zusammengesetzte) Datenstruktur sind Bäume. Sie werden insbesondere für effizientes Suchen benutzt.
+
+%%/book
+
+%%book
+
+![](https://mermaid.ink/svg/pako:eNptj8EKgzAQRH8l7GkDekhE0Rx68g_aYy7BrFUwKjY5FPHfm2pbKLinmXnDsrtCM1kCBffFzB271XpkcYREFJJzlqYXxgrEgvODHHrPM8TsJK4Qq2_8v0eU0ZU_9nE7E3k0-SmSAlEKziEBR4szvY3nru-iBt-RIw0qSkutCYPXoMctVk3w0_U5NqD8EiiBMFvjqe5NfNSBas3woO0FhYI-BA)
+
+%%/book
+
+%%book
+
+Wir stellen den Baum als Dictionaries dar, bei denen wir den Wert semantisch als `wert` und die Unterbäume mit `links` und `rechts` bezeichnen.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+baum = {
+        "wert": 12,
+        "links":{
+                "wert": 6,
+                "links": {"wert":  3},
+                "rechts":{"wert":  9}
+        },
+        "rechts":{
+                "wert": 18,
+                "links": {"wert": 15},
+                "rechts":{"wert": 21}
+        }
+}
+```
+
+%%/book
+
+%%book
+
+Wenn wir den Baum durchlaufen (traversen) wollen, brauchen wir eine rekursive Funktion. Sie lassen sich nicht in Loops umwandeln. Die rekursiven Funktionen arbeiten dabei auf dem angegebenen Knoten und rufen sich dann selbst mit dem entsprechenden Teilbaum der Kinder auf.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def traverse(tree):
+	wert=tree["wert"]                 # der aktuelle Wert
+	print(wert)                       # gebe den aktuellen Wert aus
+	if "links" in tree:               # wenn der unterbaum links definiert ist
+		traverse(tree["links"])       # rufe die Funktion rekursiv auf
+	if "rechts" in tree:              # wenn der unterbaum rechts definiert ist
+		traverse(tree["rechts"])      # rufe die Funktion rekursiv auf
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+traverse(baum)
+```
+
+%%/book
+
+%%book
+
+Wenn wir den Baum rekursiv durchlaufen (traversen), dann sehen wir, dass wir den Baum von oben nach unten, links vor rechts durchlaufen. Wir fangen also beim Wurzelknoten 12 an, und gehen dann links tiefer zur 6, von dort links tiefer zur 3, dann rechts zur 9, u.s.w.
+
+%%/book
+
+%%slides
+
+
+## {{< ai4sc-icon list-tree >}} Datenstruktur: Baum
+
+%%div eyebrow
+{{< ai4sc-icon list-tree >}} Datenstruktur
+%%/div
+
+*Baum:* Datenstruktur, in der jedes Element auf weitere Unterelemente verweisen kann.
+
+%%col 50 50
+
+```
+       12
+      /  \
+     6    18
+    / \   / \
+   3   9 15  21
+```
+
+- Jedes Element: *Knoten*
+- Verbindungen: *Kanten*
+- Oberstes Element: *Wurzel*
+
+%%sep
+
+```python
+baum = (12, [
+        (6,[
+            (3,[]),
+            (9,[])
+        ]),
+        (18,[
+            (15,[]),
+            (21,[])
+        ])
+])
+```
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## {{< ai4sc-icon list-tree >}} Rekursion – Tree Traversal
+
+Traversals sind Funktionen welche den Baum durchlaufen, z.B. um Elemente zu suchen.
+
+```{python}
+#| echo: true
+def traverse(tree):
+    wert = tree[0]  # der aktuelle Wert
+    print(wert)     # gebe den aktuellen Wert aus
+    if tree[1]:     # wenn Kinder definiert sind
+        for child in tree[1]:  # iteriere durch alle Kinder
+            traverse(child)    # und rufe die Funktion rekursiv auf
+
+traverse(baum)
+```
+
+%%/slides
+
+%%# Sortieren
+
+%%book
+
+
+## Sortier-Algorithmen
+
+%%/book
+
+%%slides
+
+
+## {{< ai4sc-icon workflow >}} Problemklasse: Sortieren
+
+%%div eyebrow
+{{< ai4sc-icon workflow >}} Problemklasse: Sortieren
+%%/div
+
+- Speziell das Sortieren von Listen, unabhängig vom Datentyp
+- Eine der Standard-Anwendungen für Schleifen und Rekursion
+- Die Lösung im Programmieralltag: `sorted()`
+- Gutes Beispiel für strukturiertes Informatik-Problem
+
+%%/slides
+
+%%book
+
+### Bubble Sort
+
+%%/book
+
+%%book
+
+Das Sortieren von Elementen in einer Liste ist eine übliche Aufgabe beim Programmieren. Hierfür gibt es einige Standard-Algorithmen, die man kennen sollte.
+
+Bubble Sort ist einer der einfachsten Sortieralgorithmen. Hierbei wird jedes Element der Liste durchlaufen und mit dem nächsten Element verglichen. Ist das zweite Element kleiner als das erste wird die Position getauscht. Die Liste wird so lange wieder und wieder durchlaufen bis dieser Fall nicht mehr auftritt.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def bubbleSort(numbers):
+    for i in range(len(numbers)-1):
+        for j in range(0, len(numbers)-i-1):
+            if numbers[j] > numbers[j + 1] :
+                numbers[j], numbers[j + 1] = numbers[j + 1], numbers[j]
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
+
+bubbleSort(zahlenfolge)
+
+zahlenfolge
+```
+
+%%/book
+
+%%book
+
+Es ist zu beachten, dass Bubble Sort die Liste direkt modifiziert, also die vorherige Reihenfolge geändert wird.
+
+%%/book
+
+%%slides
+
+
+## {{< ai4sc-icon workflow >}} Sortieren – Algorithmus 1: Bubble Sort
+
+- Jedes Element der Liste wird durchlaufen und mit dem nächsten Element verglichen.
+- Ist das zweite Element kleiner als das erste wird die Position getauscht.
+- Die Liste wird immer wieder durchlaufen bis dieser Fall nicht mehr auftritt.
+
+```python
+def bubbleSort(numbers):
+    for i in range(len(numbers)-1):
+        for j in range(0, len(numbers)-i-1):
+            if numbers[j] > numbers[j + 1]:
+                numbers[j], numbers[j + 1] = numbers[j + 1], numbers[j]
+```
+
+%%/slides
+
+%%book
+
+### QuickSort
+
+%%/book
+
+%%book
+
+QuickSort ist ein Divide-and-Conquer-Algorithmus. Er wählt ein Element aus der Liste als zentrales Element und erzeugt dann jeweils eine Liste der Elemente die Kleiner sind als das zentrale Element und eine die Größer sind. Diese zwei Teillisten werden dann wieder mit QuickSort sortiert, bis die Teillisten die Größe 1 erreichen. So wird das Sortierproblem sukzessive immer kleiner.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def quickSort(elements):
+    less = []
+    equal = []
+    greater = []
+
+    if len(elements) > 1:
+        pivot = elements[len(elements) % 2]
+        for x in elements:
+            if x < pivot:
+                less.append(x)
+            elif x == pivot:
+                equal.append(x)
+            elif x > pivot:
+                greater.append(x)
+        return quickSort(less) + equal + quickSort(greater)
+    else:  # Falls nur ein oder kein Element in der list ist
+        return elements
+```
+
+%%/book
+
+%%book
+
+Das Ergebnis ist eine sortierte Liste welche neu ist und zugewiesen werden muss.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
+
+zahlenfolge=quickSort(zahlenfolge)
+
+zahlenfolge
+```
+
+%%/book
+
+%%slides
+
+
+## {{< ai4sc-icon workflow >}} Sortieren – Algorithmus 2: Quick Sort
+
+Das Grundprinzip ist das Aufteilen der Liste:
+
+1. Das erste Element der Liste als „Pivot"-Element abspeichern.
+2. Dann wird die Liste durchlaufen und jedes Element mit dem Pivot verglichen.
+3. Einsortiert in eine von drei Listen: Kleiner, Gleich und Größer.
+4. Dann wird Quick Sort rekursiv auf die Listen Kleiner und Größer ausgeführt.
+5. Am Ende werden alle Listen rekursiv wieder zusammengeführt.
+
+%%/slides
+
+%%book
+
+### Insertion Sort
+
+%%/book
+
+%%book
+
+Ein weiterer Algorithmus zum Sortieren ist Insertion-Sort. Er basiert auf der menschlichen Strategie Karten zu sortieren, indem wir die Werte dort einfügen, wo sie am besten passen.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i-1
+        while j >= 0 and key < arr[j] :
+            arr[j+1] = arr[j]
+            j -= 1
+        arr[j+1] = key
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
+
+insertion_sort(zahlenfolge)
+
+zahlenfolge
+```
+
+%%/book
+
+%%book
+
+### Python Standardfunktion `sorted`
+
+%%/book
+
+%%book
+
+Die Lösung im Programmieralltag ist die in Python eingebaute Funktion `sorted()`. Hier wird die Liste nicht modifiziert und muss neu zugewiesen werden.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
+
+zahlenfolge=sorted(zahlenfolge)
+
+zahlenfolge
+```
+
+%%/book
+
+%%book
+
+### Performancevergleich der Sortierfunktionen
+
+%%/book
+
+%%book
+
+Im Performancevergleich der Funktionen schneidet Bubble-Sort schlechter ab als Insertion-Sort. Die eingebaute Funktion `sorted()` ist deutlich schneller als beide. Sie nutzt den Timsort-Algorithmus (eine Variante von insertion_sort) und ist in C implementiert.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import timeit
+timeit.timeit(lambda: bubbleSort([12, 6, 3, 9, 18, 15, 21]), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: quickSort([12, 6, 3, 9, 18, 15, 21]), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: insertion_sort([12, 6, 3, 9, 18, 15, 21]), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: sorted([12, 6, 3, 9, 18, 15, 21]), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zahlenfolge_gross = list(range(100000))
+zahlenfolge_gross.reverse()
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: bubbleSort(zahlenfolge_gross), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: quickSort(zahlenfolge_gross), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: insertion_sort(zahlenfolge_gross), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: sorted(zahlenfolge_gross), number=1000)
+```
+
+%%/book
+
+%%book
+
+Hier zeigt sich erneut, dass BubbleSort am schlechtesten abscheidet aufgrund der vielen Vergleiche. Quick Sort schneidet besser ab, weil es das Problem in kleinere Probleme unterteilt. Insertion Sort ist allerdings immer noch performanter. Am schnellsten löst das Problem die eingebaute `sorted()` Funktion, welche auch auf dem Insertion Sort Algorithmus basiert.
+
+%%/book
+
+%%# Suchen
+
+%%book
+
+
+## Suchen von Elementen in Listen
+
+%%/book
+
+%%slides
+
+
+## {{< ai4sc-icon workflow >}} Problemklasse: Suchen
+
+%%div eyebrow
+{{< ai4sc-icon workflow >}} Problemklasse: Suchen
+%%/div
+
+- Speziell das Suchen auf sortierten Listen und Bäumen
+- Meist kennt man die Anzahl an Elementen, weiß also genau wo z.B. die Mitte ist.
+- In echten Anwendungen: Datensätze haben oft mehr als einen Wert (Tabellen), hier arbeitet man mit Indexierung.
+
+%%/slides
+
+%%book
+
+### Vollständige Suche
+
+%%/book
+
+%%book
+
+Der naive Ansatz ist die vollständige Suche, indem wir in einer For-Each-Schleife durch alle Elemente in einer Liste iterieren, um zu sehen ob das Element irgendwo zu finden ist.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def contains(list, x):
+	for l in list:
+		if(l == x):
+			return True
+	return False
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zahlenfolge = [12, 6, 3, 9, 18, 15, 21]
+
+contains(zahlenfolge, 15)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+contains(zahlenfolge, 1)
+```
+
+%%/book
+
+%%slides
+
+
+## {{< ai4sc-icon workflow >}} Suchen – Suche in Listen
+
+Die einfachste Methode: *lineare Suche*
+
+```python
+def contains(list, x):
+    for l in list:
+        if(l == x):
+            return True
+    return False
+```
+
+%%/slides
+
+%%book
+
+### Suchen mit Binary-Search
+
+%%/book
+
+%%book
+
+Binary-Search ist ein Divide-and-Conquer-Algorithmus zum Suchen in einer *sortierten* Liste. Er greift aus der Liste immer das mittlere Element heraus und entscheidet, ob das gesuchte Element kleiner oder größer ist und fährt dann mit der Teilliste rechts oder links fort.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def binarySearch_sub(arr, suchwert, low, high):
+    while low <= high:
+        mid = low + (high - low)//2
+        if arr[mid] == suchwert:
+            return mid
+        elif arr[mid] > suchwert:
+            return binarySearch_sub(arr, suchwert, low, mid - 1)
+        else:
+            return binarySearch_sub(arr,  suchwert, mid + 1, high)
+    return -1
+
+def binarySearch(arr, suchwert):
+    arr_sorted = sorted(arr)
+    return binarySearch_sub(arr_sorted, suchwert, 0, len(arr_sorted))
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+binarySearch(zahlenfolge, 15)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+binarySearch(zahlenfolge, 1)
+```
+
+%%/book
+
+%%slides
+
+
+## {{< ai4sc-icon workflow >}} Teile und Herrsche – Binäre Suche
+
+%%col 50 50
+
+- Finde den Index einer Zahl in einer Liste (z. B. um zu prüfen ob die Zahl in einer Menge (set) vorkommt)
+
+- Anstatt die ganze Liste zu durchsuchen, teilt man die Liste rekursiv in zwei Teile und schaut ob die gesuchte Zahl gleich (gefunden), größer (rechts) oder kleiner (links) in der Liste ist
+
+    ![](images/09a_Algorithmen/bin_suche.svg){class="midjourney"}
+
+%%sep
+
+![](images/09a_Algorithmen/bin_suche.png){class="midjourney"}
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## {{< ai4sc-icon workflow >}} Suchen – Binäre Suche
+
+Das optimale Verfahren: *Binäre Suche*
+
+- Deutlich komplexerer Code
+- *Idee:* Mittleres Element der Liste finden, dann mit dem gesuchten Wert vergleichen
+- Wert kleiner: Selbes Verfahren für die erste Hälfte der Liste
+- Wert größer: Selbes Verfahren für die zweite Hälfte der Liste
+- Implementation meistens über Rekursion
+
+%%/slides
+
+%%book
+
+### Suchen mit binären Suchbäumen
+
+%%/book
+
+%%book
+
+Der am Anfang aufgestellte Datenstruktur Baum stellt einen binären Suchbaum dar und kann zur Suche verwendet werden. Wir nutzen hierbei aus, dass dieser *bereits sortiert* ist.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def suchBaum(tree, suchwert):
+	wert=tree["wert"]
+	if wert == suchwert:
+		return True
+	if suchwert < wert and "links" in tree:
+		return suchBaum(tree["links"], suchwert)
+	elif suchwert > wert and "rechts" in tree:
+		return suchBaum(tree["rechts"], suchwert)
+	else:
+		return False
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+suchBaum(baum, 15)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+suchBaum(baum, 1)
+```
+
+%%/book
+
+%%slides
+
+
+## {{< ai4sc-icon list-tree >}} Suchen – Strategien im Baum
+
+Strategien um einen unsortierten Baum zu durchsuchen:
+
+- *Breitensuche:* Vom Ursprung beginnend jede „Ebene" des Baumes von links nach rechts durchlaufen.
+- *Tiefensuche:* Einem Pfad vom Ursprung bis zum Ende folgen, dann schrittweise rückwärts gehen bis sich weitere Pfade anbieten.
+
+%%/slides
+
+%%slides
+
+
+## {{< ai4sc-icon list-tree >}} Suchen – Suchbäume
+
+- In sortierten Bäumen (Suchbäumen) kann das Ergebnis extrem effizient gefunden werden, da nur ein Pfad durchlaufen werden muss.
+
+- *Wie sortiert man einen Baum?*
+
+%%/slides
+
+%%book
+
+### Binäre Suchbäume erstellen
+
+%%/book
+
+%%book
+
+Bei der Nutzung eines binären Suchbaums kann man auch beim Einfügen ausnutzen, dass er immer sortiert ist. Insbesondere bei wachsenden Datenstrukturen die sortiert vorliegen müssen, macht das Suchbäume äußerst effektiv.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def erweitereBaum(tree, neuer_wert):
+    wert=tree["wert"]
+    if wert == neuer_wert:
+        return
+    elif neuer_wert < wert:
+        if "links" not in tree:
+            tree["links"]={"wert":neuer_wert}
+        else:
+            return erweitereBaum(tree["links"], neuer_wert)
+    else:
+        if "rechts" not in tree:
+            tree["rechts"]={"wert":neuer_wert}
+        else:
+            return erweitereBaum(tree["rechts"], neuer_wert)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+baum2 = {"wert": 12}
+for wert in [12, 6, 3, 9, 18, 15, 21]:
+    erweitereBaum(baum2, wert)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+print(baum)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+print(baum2)
+```
+
+%%/book
+
+%%slides
+
+
+## {{< ai4sc-icon list-tree >}} Erstellen eines binären Suchbaums
+
+*Ausgangsliste:* 12 6 18 15 3 21 9
+
+%%col 50 50
+
+*Schritt 1:* 12 als Wurzel setzen
+```
+12
+```
+
+%%sep
+
+*Schritt 3:* 18 > 12, rechts einfügen
+```
+   12
+  /  \
+ 6    18
+```
+
+%%/col
+
+%%col 50 50
+
+*Schritt 2:* 6 < 12, links einfügen
+```
+   12
+  /
+ 6
+```
+
+%%sep
+
+*Schritt 4:* 15 > 12, aber 15 < 18
+```
+   12
+  /  \
+ 6    18
+     /
+    15
+```
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## {{< ai4sc-icon list-tree >}} Suchbaum – Fortsetzung
+
+%%col 50 50
+
+*Schritt 5:* 3 < 12 und 3 < 6
+```
+   12
+  /  \
+ 6    18
+/    /
+3   15
+```
+
+%%sep
+
+*Schritt 7:* 9 < 12 aber 9 > 6
+```
+   12
+  /  \
+ 6    18
+/ \  /  \
+3  9 15  21
+```
+
+%%/col
+
+%%col 50 50
+
+*Schritt 6:* 21 > 12 und 21 > 18
+```
+   12
+  /  \
+ 6    18
+/    /  \
+3   15   21
+```
+
+%%sep
+
+*Fertiger Suchbaum!*
+
+%%/col
+
+%%/slides
+
+%%book
+
+### Suchen mit Python in Listen und Sets
+
+%%/book
+
+%%book
+
+Im Alltag kann die in Python eingebaute Suche mit `15 in zahlenfolge` genutzt werden. Insbesondere bei großen Listen (>> 100) lohnt sich die Umwandlung in ein Set. Diese sind optimiert für die Abfrage, ob ein Element bereits enthalten ist. Hierfür werden Hashing-Algorithmen und meist Sortierbäume verwendet.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+15 in zahlenfolge
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zahlenset = set(zahlenfolge)
+15 in zahlenset
+```
+
+%%/book
+
+%%book
+
+### Performancevergleich der Suchfunktionen
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: contains(zahlenfolge, 15), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: binarySearch(zahlenfolge, 15), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: suchBaum(baum, 15), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: 15 in zahlenfolge, number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zahlenset = set(zahlenfolge)
+timeit.timeit(lambda: 15 in zahlenset, number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zahlenfolge_gross = list(range(100000))
+zahlenfolge_gross.reverse()
+zahlenset_gross = set(zahlenfolge_gross)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+baum_gross = {"wert": zahlenfolge_gross[len(zahlenfolge_gross)//2]}
+step = len(zahlenfolge_gross)//4
+while step>0:
+    idx=step
+    while idx < len(zahlenfolge_gross):
+        erweitereBaum(baum_gross, zahlenfolge_gross[idx])
+        idx=idx+step
+    step = step // 2
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: contains(zahlenfolge_gross, 15), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: binarySearch(zahlenfolge_gross, 15), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: suchBaum(baum_gross, 15), number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: 15 in zahlenfolge_gross, number=1000)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+timeit.timeit(lambda: 15 in zahlenset_gross, number=1000)
+```
+
+%%/book
+
+%%book
+
+Das Ergebnis sieht hier ganz anders aus. Jetzt scheidet `contains()` deutlich schlechter ab und Binary-Search ist jetzt um Größenordnungen besser. Am besten schneidet allerdings der Suchbaum ab, da er ja immer sortiert ist und somit den Binary-Search-Algorithmus ohne Sortieren ausführen kann. Nur die Suche im Set ist noch einmal um eine Größenordnung besser.
+
+%%/book
+
+%%slides
+
+
+## {{< ai4sc-icon workflow >}} Exkurs: Komplexität und effiziente Algorithmen
+
+- Die eigentliche Berechnungszeit ergibt sich erst durch die genauen Eingabedaten und den genutzten Prozessor.
+
+- Formal ist Effizienz stattdessen eher eine Anstiegskurve, welche eine relative Schätzung abgibt wie viel länger ein Algorithmus bei mehr Eingabedaten rechnen muss.
+
+- *Notation:* $O(x)$, wobei $x$ die Menge der nötigen Rechenschritte angibt.
+
+- Für Bäume und Listen hängt diese von der Anzahl an Elementen ab (Variable $n$).
+
+%%/slides
+
+%%slides
+
+
+## {{< ai4sc-icon workflow >}} Komplexität – Vergleich der Algorithmen
+
+%%col 50 50
+
+*Suchverfahren:*
+
+- Lineare Suche
+  $$O(n)$$
+
+- Binäre Suche
+  $$O(\log(n))$$
+
+%%sep
+
+*Sortierverfahren:*
+
+- Bubble Sort
+  $$O(n^2)$$
+
+- Quick Sort
+  $$O(n \cdot \log(n))$$
+
+%%/col
+
+%%/slides
+
+%%# KI und Algorithmenauswahl
+
+%%slides
+
+
+## {{< ai4sc-icon workflow >}} KI und Algorithmenauswahl – das Problem
+
+%%col 50 50
+
+%%div eyebrow
+{{< ai4sc-icon workflow >}} KI und Algorithmen
+%%/div
+
+KI wählt oft den naheliegendsten Algorithmus — *nicht* den optimalen:
+
+- Suchen → lineare Suche $O(n)$
+- Sortieren → Bubble Sort $O(n^2)$
+- Weg finden → Brute Force
+
+Das reicht für kleine Datenmengen — *versagt* bei großen.
+
+%%sep
+
+*Warum?*
+
+KI generiert Code der funktioniert und lesbar ist. Performanz-Optimierung erfordert, dass du die Problemklasse kennst.
+
+%%div lead
+Erkenne die Klasse → formuliere den Prompt → verifiziere den Code.
+%%/div
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## {{< ai4sc-icon workflow >}} KI und Algorithmenauswahl – Prompting-Strategie
+
+%%col 50 50
+
+*Ohne Klasse im Prompt:*
+
+> „Schreibe eine Funktion die prüft ob 15 in der Liste ist."
+
+→ KI gibt oft lineare Suche
+
+*Mit Klasse im Prompt:*
+
+> „Die Liste ist sortiert. Implementiere eine **binäre Suche** für diesen Anwendungsfall."
+
+→ KI wählt den richtigen Algorithmus
+
+%%sep
+
+**Verifizieren:**
+
+1. Gibt die Funktion den Index zurück?
+2. Wird `mid = low + (high - low)//2` berechnet?
+3. Terminiert die Rekursion bei leerer Teilliste?
+4. Teste mit bekanntem Ergebnis: `binarySearch([3,6,9,12], 9)` → Index 2
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## {{< ai4sc-icon workflow >}} Agentischer Arbeitsablauf: Algorithmen
+
+%%tip Vor dem Prompting
+**1. Problemklasse identifizieren:** Suchen, Sortieren, Pfad oder Partition?
+
+**2. Klasse in den Prompt einbauen:**
+
+> „Implementiere eine *binäre Suche* für diese sortierte Liste."
+
+**3. Generierten Code verifizieren:**
+
+- Stimmt die Komplexitätsklasse? ($O(\log n)$ für binäre Suche)
+- Wird die Sortiervoraussetzung berücksichtigt?
+- Terminiert die Rekursion korrekt?
+
+**→ Nächste Vorlesung:** Rekursion als Divide-and-Conquer-Strategie (`09b_Rekursion`)
+%%/tip
+
+%%/slides
+
+%%book
+
+
+## Quiz
+
+
+```{quizdown}
+    ---
+    shuffleQuestions: true
+    shuffleAnswers: true
+    ---
+
+    ### Was ist ein Algorithmus?
+    - [x] Eine Schritt-für-Schritt-Anleitung zur Lösung eines Problems
+    - [ ] Ein zufälliger Code ohne Struktur
+    - [ ] Eine Art von Datenbank
+    - [ ] Ein grafisches Design-Tool
+
+    ### Welche der folgenden Eigenschaften hat ein guter Algorithmus?
+    - [x] Er ist effizient und löst das Problem in akzeptabler Zeit
+    - [ ] Er ist immer kompliziert und schwer zu verstehen
+    - [ ] Er benötigt keine Eingaben
+    - [ ] Er kann nur auf Zahlen angewendet werden
+
+    ### Was ist ein typischer Anwendungsbereich von Bäumen in der Informatik?
+    - [x] Effizientes Suchen
+    - [ ] Textformatierung
+    - [ ] Dateikompression
+    - [ ] Netzwerkanalyse
+
+    ### Was ist ein Baum in der Informatik?
+    - [x] Eine hierarchische Datenstruktur mit Knoten
+    - [ ] Eine Schleife mit mehreren Bedingungen
+    - [ ] Eine spezielle Liste mit fester Länge
+    - [ ] Ein Zahlenarray mit zufälliger Reihenfolge
+
+    ### Sortiere die folgenden Zeilen, um eine rekursive Funktion zur Traversierung eines binären Baums korrekt aufzubauen:
+    ```python
+    # Gegeben ist: tree = {"wert": 5, "links": {"wert": 3}, "rechts": {"wert": 7}}
+    ```
+    1. `def traverse(tree):`
+    2. `  print(tree["wert"])`
+    3. `  if "links" in tree:`
+    4. `    traverse(tree["links"])`
+    5. `  if "rechts" in tree:`
+    6. `    traverse(tree["rechts"])`
+
+    ### Welcher Fehler steckt in diesem Beispiel?
+    ```python
+    def traverse(tree):
+        print(tree["wert"])
+        traverse(tree["links"])
+        traverse(tree["rechts"])
+    ```
+    - [x] Es fehlt die Prüfung, ob "links" oder "rechts" überhaupt vorhanden sind
+    - [ ] Die Funktion darf nicht rekursiv aufgerufen werden
+    - [ ] Der `print`-Befehl ist falsch eingerückt
+    - [ ] Python kennt keine Dictionaries
+
+    ### Wie funktioniert Bubble Sort?
+    - [x] Elemente werden paarweise verglichen und bei Bedarf getauscht
+    - [x] Die Liste wird mehrfach durchlaufen, bis keine Vertauschung mehr nötig ist
+    - [ ] Alle Elemente werden sofort sortiert
+    - [ ] Nur gerade Zahlen werden betrachtet
+
+    ### Warum ist Bubble Sort ineffizient für große Datenmengen?
+    - [x] Weil viele Vergleiche und Tauschvorgänge nötig sind
+    - [ ] Weil Python keine Listen verarbeiten kann
+    - [ ] Weil es keine `for`-Schleifen verwendet
+    - [ ] Weil die Elemente gelöscht werden
+
+    ### Wie funktioniert QuickSort?
+    - [x] Wählt ein Pivot-Element, teilt in kleinere und größere Teilmengen und sortiert rekursiv
+    - [x] Nutzt das Divide-and-Conquer-Prinzip
+    - [ ] Tauscht benachbarte Elemente mehrfach aus
+    - [ ] Sortiert nur durch Anhängen an eine Liste
+
+    ### Sortiere die folgenden Zeilen, um eine vereinfachte QuickSort-Funktion korrekt zu bauen:
+    ```python
+    # Annahme: Liste besteht nur aus Zahlen
+    ```
+    1. `def quicksort(arr):`
+    2. `  if len(arr) <= 1:`
+    3. `    return arr`
+    4. `  pivot = arr[0]`
+    5. `  less = [x for x in arr[1:] if x <= pivot]`
+    6. `  greater = [x for x in arr[1:] if x > pivot]`
+    7. `  return quicksort(less) + [pivot] + quicksort(greater)`
+
+    ### Wie funktioniert Insertion Sort?
+    - [x] Elemente werden an der richtigen Stelle in eine bereits sortierte Teilliste eingefügt
+    - [ ] Jedes Element wird mit einem zufälligen verglichen
+    - [ ] Alle Elemente werden gleichzeitig verschoben
+    - [ ] Die Liste wird rückwärts durchlaufen und sortiert
+
+    ### Was ist der Hauptunterschied zwischen Insertion Sort und Bubble Sort?
+    - [x] Insertion Sort fügt Elemente korrekt ein, Bubble Sort vertauscht sie wiederholt
+    - [ ] Insertion Sort verwendet keine Schleifen
+    - [ ] Bubble Sort nutzt keinen Vergleich
+    - [ ] Insertion Sort kann nur auf Zeichenketten angewendet werden
+
+    ### Welcher Fehler steckt in diesem Beispiel?
+    ```python
+    zahlenfolge = [4, 2, 1]
+    zahlenfolge = zahlenfolge.sort()
+    ```
+    - [x] `sort()` verändert die Liste in-place und gibt `None` zurück – `zahlenfolge` wird `None`
+    - [ ] `sort()` ist nicht erlaubt auf Listen
+    - [ ] Listen dürfen nicht sortiert werden
+    - [ ] `sorted()` wäre hier schneller
+
+    ### Warum ist `sorted()` schneller als Bubble Sort oder Insertion Sort?
+    - [x] Es ist in C implementiert und verwendet eine optimierte Variante von `insert_sort`
+    - [ ] Es nutzt Zufallszahlen zum Sortieren
+    - [ ] Es verwendet keine Vergleiche
+    - [ ] Es sortiert nur die Hälfte der Liste
+
+    ### Welche Problemklasse gehört zum A*-Algorithmus?
+    - [x] Pfad — kürzester Weg in einem Graphen mit Hindernissen
+    - [ ] Sortieren — Elemente in eine Reihenfolge bringen
+    - [ ] Suchen — ein Element in einer Liste finden
+    - [ ] Partition — Menge nach Kriterium aufteilen
+
+    ### Warum wählt KI oft keinen optimalen Algorithmus?
+    - [x] KI generiert lesbaren, funktionierenden Code — Performanz-Optimierung erfordert die Problemklasse im Prompt
+    - [ ] KI kennt keine Algorithmen
+    - [ ] KI wählt immer den schnellsten Algorithmus
+    - [ ] Algorithmen sind für KI nicht relevant
+
+```
+
+%%/book
+
+
+%%final

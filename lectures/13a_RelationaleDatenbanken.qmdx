@@ -1,0 +1,519 @@
+---
+title: "13a Relationale Datenbanken"
+image-credit: "Midjourney: Tabular Relief, ref. Ben Nicholson"
+format:
+  revealjs:
+    title-slide-attributes:
+      data-background-video: images/10b_RelationaleDatenbanken/mj_title.mp4
+    output-file: 13a_RelationaleDatenbanken.slide.html
+  html:
+    output-file: 13a_RelationaleDatenbanken.page.html
+  typst:
+    output-file: 13a_RelationaleDatenbanken.page.pdf
+resources:
+  - data/13a_RelationaleDatenbanken
+---
+
+%%book
+
+![](images/10b_RelationaleDatenbanken/mj_title_band.jpg)
+
+> If you think you understand SQL, you’re probably wrong.
+>
+> — C. J. Date
+
+%%/book
+
+%%book
+
+
+# Relationale Datenbanken
+
+%%/book
+
+%%slides
+
+
+## Ablauf
+
+![](images/partB_2.svg)
+
+%%/slides
+
+%%book
+
+
+## Einführung in relationale Datenbanken
+
+Relationale Datenbanken bilden das Fundament moderner Informationssysteme und sind aus der heutigen Ingenieurspraxis nicht mehr wegzudenken. In dieser Sitzung betrachten wir Tabellen nicht isoliert, sondern als direkte *Implementierung* des ER-Entwurfs aus S12. Eine relationale Datenbank ist ein Datenbanksystem, das Informationen in Tabellen speichert, wobei die Daten als Tupel organisiert sind und jede Spalte einen definierten Datentyp besitzt.
+%%def Relationale Datenbank
+Eine relationale Datenbank ist ein *Datenbanksystem*, das Informationen in *Tabellen* (Relationen) speichert, wobei die Daten als *Tupel* (Zeilen) organisiert sind und jede Spalte (Attribut) einen definierten Datentyp besitzt.
+%%/def
+Der Begriff "Relation" stammt aus der Mathematik und bezeichnet eine Tabelle mit all ihren Datenzeilen. Für uns ist wichtig: Die Tabelle ist die technische Umsetzung einer Entität oder Beziehung aus dem ER-Modell. Für Ingenieure bedeutet dies beispielsweise, dass Projektdaten, Materiallisten und Kostenkalkulationen in separaten, aber verknüpften Tabellen gespeichert werden können.
+
+%%/book
+
+%%slides
+
+
+## 🗄 Relationale Datenbanken {background="#E2F0D9" cols40x60 txtL="Wie wird aus dem ER-Modell aus S12 eine echte Datenbank?" capR="Midjourney: Relational Database" imgR="images/10b_RelationaleDatenbanken/mj_databank2.png"}
+
+%%/slides
+
+%%slides
+
+
+## 🗄 Relationale Datenbanken - Grundkonzepte
+%%def Relationale Datenbank
+Eine relationale Datenbank ist ein *Datenbanksystem*, das Informationen in *Tabellen* (Relationen) speichert, wobei die Daten als *Tupel* (Zeilen) organisiert sind und jede Spalte (Attribut) einen definierten Datentyp besitzt.
+%%/def
+%%col 50 50
+
+- Daten sind in Tabellenstrukturen (Schemata) organisiert
+- *Relation* ist hierbei der Begriff für eine Tabelle
+- Eine *relationale Datenbank* ist eine Menge von Tabellen
+- Jede Tabelle setzt einen Teil des ER-Entwurfs aus S12 um
+
+%%sep
+
+| Spalte 1 | Spalte 2 | Spalte 3 |
+|----------|----------|----------|
+| Zeile 1  | ...      | ...      |
+| Zeile 2  | ...      | ...      |
+
+%%/col
+
+> **Agentic workflow:** Wenn AI eine Datenbankstruktur erzeugt, prüfe zuerst, ob jede geplante Entität wirklich als Tabelle auftaucht.
+
+%%/slides
+
+%%slides
+
+
+## 🗄 Vom ER-Modell zur Tabelle
+
+%%col 50 50
+
+**S12: ER-Entwurf**
+
+- Entität *Gemeinde*
+- Attribute: `GemeindeID`, `Name`, `Einwohner`
+- Entität *Bauwerk*
+- Attribute: `BauwerksID`, `Bauwerkstyp`
+
+%%sep
+
+**S13: relationale Umsetzung**
+
+- Tabelle `gemeinden`
+- Spalten `gemeinde_id`, `name`, `einwohner`
+- Tabelle `bauwerke`
+- Spalten `bauwerks_id`, `bauwerkstyp`, `gemeinde_id`
+
+%%/col
+
+Die Tabelle ist die *Implementierung* der Entität.
+
+%%/slides
+
+%%slides
+
+
+## 🗄 Beziehungen werden zu Fremdschlüsseln
+
+%%col 50 50
+
+**Im ER-Modell**
+
+- Beziehung: *Bauwerk gehört zu Gemeinde*
+- Kardinalität: viele Bauwerke pro Gemeinde
+- Jede Beziehung braucht eine technische Umsetzung
+
+%%sep
+
+**In der relationalen Datenbank**
+
+- `bauwerke.gemeinde_id` verweist auf `gemeinden.gemeinde_id`
+- Der Verweis ist ein *Fremdschlüssel*
+- Die Kardinalität erscheint als Integritätsregel
+
+%%/col
+
+> **Agentic workflow:** Prüfe bei AI-generierten Tabellen immer, ob jede Beziehung aus dem ER-Modell als Fremdschlüssel vorhanden ist.
+
+%%/slides
+
+%%book
+
+
+## Tabellenstruktur und Grundbegriffe
+
+Jede Tabelle in einer relationalen Datenbank besitzt einen eindeutigen Namen (*Relationennamen*), der ihren Inhalt beschreibt. Die *Relation* selbst steht für die Gesamtheit aller Datentupel in dieser Tabelle. Ein *Tupel* entspricht einer einzelnen Zeile und besteht aus einer Abfolge von Attributwerten. Die Bedeutung dieser Werte wird durch das *Relationenschema* festgelegt, welches die Spaltennamen und deren Anordnung definiert.
+
+Die zentrale Brücke zu S12 lautet: Entitäten und Beziehungen aus dem ER-Modell werden jetzt in Tabellen, Spalten und Schlüssel übersetzt. Die Frage ist daher nicht nur, wie eine Tabelle aussieht, sondern ob die konkrete Tabelle das geplante Fachmodell korrekt *implementiert*.
+
+%%col 25 25 50 50
+
+:::
+
+%%sep
+
+:::
+
+%%sep
+
+**Gemeinden Tabelle**
+
+| GemeindeID | Name | Einwohner |
+|---|--------------|-------|
+| 1 | Dummerstorf  | 7.329 |
+| 2 | Graal-Müritz | 4.278 |
+| 3 | Sanitz       | 5.831 |
+
+
+ Primärschlüssel: GemeindeID
+
+%%sep
+
+**Bauwerke Tabelle**
+
+| BauwerksID | Bauwerkstyp | GemeindeID |
+|------------|-------------|------------|
+| 5000       | Tankstelle  | 2 |
+| 5001       | Hotel       | 1 |
+| 5002       | Kirche      | 2 |
+
+
+ Fremdschlüssel: GemeindeID
+
+%%/col
+
+%%/book
+
+%%slides
+
+
+## 🗄 Relationale Datenbanken - Grundbegriffe
+
+%%col 50 50
+
+- Jede Tabelle hat einen *Relationennamen* (Tabellennamen)
+- *Relation* steht für die Gesamtheit der Datentupel (Alle Zeilen)
+- Jedes *Tupel* an Daten besteht aus einer Abfolge von Attributwerten (Einzelne Zeile)
+- Reihenfolge festgelegt durch *Relationenschema* (Spaltennamen)
+- Die Spalten müssen den Attributen aus dem ER-Modell entsprechen
+
+%%sep
+
+| Attribut 1   | Attribut 2 | Attribut 3 |
+|--------------|------------|------------|
+| Attributwert |     ...    |     ...    |
+| Attributwert |     ...    |     ...    |
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## 🗄 Beispiel: OpenData Hanse-Stadt Rostock
+
+Informationen sind meist über verschiedene Tabellen verteilt und müssen oft zusammengeführt verarbeitet werden, um daraus anwendbares Wissen abzuleiten.
+
+- Beispiel: https://www.opendata-hro.de
+    - Bebauungspläne
+    - Gemeinden  
+    - Baustellen
+    - Bodenrichtwerte
+    - Adressenliste
+
+%%/slides
+
+%%book
+
+
+## Integritätsbedingungen und Datenqualität
+
+Schlüssel definieren wichtige Integritätsbedingungen, die die Qualität und Konsistenz der Daten sicherstellen. Primärschlüssel gewährleisten die *lokale Integrität* der einzelnen Tabelle, indem sie verhindern, dass identische Datensätze mehrfach gespeichert werden. Fremdschlüssel hingegen sichern die *globale Integrität* des gesamten Datenbanksystems, indem sie gewährleisten, dass alle Verweise zwischen Tabellen gültig bleiben.
+
+Für Ingenieure ist diese Integrität von entscheidender Bedeutung. In einer Baudatenbank muss beispielsweise sichergestellt sein, dass jeder Verweis auf ein Baumaterial tatsächlich zu einem existierenden Material führt. Ein ungültiger Verweis könnte zu Fehlern in der Kostenberechnung oder Materialbeschaffung führen. Ebenso kritisch ist in der Umwelttechnik die korrekte Zuordnung von Messdaten zu ihren Herkunftsstationen, um falsche Schlüsse über Umweltbedingungen zu vermeiden.
+
+Die Tabellen werden somit über Schlüssel in Beziehung gesetzt, wodurch ein zusammenhängendes und konsistentes Datenmodell entsteht, das die Grundlage für zuverlässige ingenieurtechnische Entscheidungen bildet. Gerade bei AI-generiertem SQL ist das ein typischer Prüfpunkt: Die Syntax stimmt oft, aber `NOT NULL`, `UNIQUE`, `CHECK` oder passende Fremdschlüssel fehlen überraschend oft.
+
+Darum gehört zur agentischen Arbeitsweise bei Datenbanken immer eine Verifikationsrunde: Stimmen alle Tabellen mit dem ER-Modell überein? Sind die Attribute vollständig? Sind Beziehungen und Kardinalitäten als Integritätsbedingungen ausgedrückt? Erst wenn diese Fragen mit Ja beantwortet sind, ist das Schema belastbar genug für spätere SQL-Abfragen in S13b.
+
+%%/book
+
+%%slides
+
+
+## 🗄 Schlüsselattribute
+
+%%col 50 50
+
+- Gewisse *Attribute (Spalten)* können als *Schlüssel* markiert werden
+- Schlüssel sind meist *eindeutig (unique)* zuordenbar
+- Sie existieren in der Tabelle nur *einmal*
+- Man kann damit die *Zeile (Tupel) identifizieren*
+- Zeilennummern eignen sich nicht (können gelöscht werden)
+- Im ER-Modell sind diese Attribute meist schon als Identifikatoren erkennbar
+
+%%sep
+
+Schlüsseltypen:
+
+- *Einzelnes Attribut* oder *Menge von Attributen*
+- *Unique ID (UID)* - einzelnes Attribut
+- *Globally Unique IDs (GUID)* - global eindeutig
+- *UUID* (universally unique identifier) - ISO Standard
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## 🗄 Schlüsselattribute - Beispiel
+
+**Gemeinden Tabelle**
+
+| GemeindeID | Name | Einwohner |
+|------------|------|-----------|
+| 1 | Dummerstorf | 7.329 |
+| 2 | Graal-Müritz | 4.278 |
+| 3 | Sanitz | 5.831 |
+
+
+ Schlüssel: GemeindeID
+
+%%/slides
+
+%%slides
+
+
+## 🗄 Verweise über Schlüssel
+
+%%col 50 50
+
+**Gemeinden Tabelle**
+
+| GemeindeID | Name | Einwohner |
+|---|--------------|-------|
+| 1 | Dummerstorf  | 7.329 |
+| 2 | Graal-Müritz | 4.278 |
+| 3 | Sanitz       | 5.831 |
+
+
+ Primärschlüssel: GemeindeID
+
+%%sep
+
+**Bauwerke Tabelle**
+
+| BauwerksID | Bauwerkstyp | GemeindeID |
+|------------|-------------|------------|
+| 5000       | Tankstelle  | 2 |
+| 5001       | Hotel       | 1 |
+| 5002       | Kirche      | 2 |
+
+
+
+ Fremdschlüssel: GemeindeID
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## 🗄 Schlüsselkonzepte
+
+- Die *Schlüssel anderer Tabellen* kann man nutzen um auf Tupel in diesen zu verweisen
+- Die *eigenen Schlüssel* einer Tabelle heißen *Primärschlüssel* (Primary Key)
+- Die *Schlüssel anderer Tabellen* heißen *Fremdschlüssel* (Foreign Key)
+- Die *Tabellen werden über Schlüssel in Beziehung gesetzt*
+- So wird der Entwurf aus S12 in Tabellenkonsistenz übersetzt
+
+> Der Fremdschlüssel verweist auf den Primärschlüssel in der anderen Tabelle
+
+%%/slides
+
+%%slides
+
+
+## 🗄 Die Rolle von Schlüsseln
+
+Schlüssel definieren sogenannte Integritätsbedingungen:
+
+%%col 50 50
+
+**Primärschlüssel**
+
+- Stehen für die *Integrität der einzelnen Tabelle*
+- *Lokale Integrität*
+
+%%sep
+
+**Fremdschlüssel**
+
+- Stehen für die *Integrität des gesamten Datenbanksystems*
+- *Globale Integrität*
+
+%%/col
+
+> **Agentic workflow:** Lies bei AI-SQL nicht nur die Tabellennamen. Prüfe, welche Integritätsbedingungen wirklich im `CREATE TABLE` stehen.
+
+%%/slides
+
+%%slides
+
+
+## 🗄 AI erzeugt oft gültiges SQL
+
+AI erzeugt häufig `CREATE TABLE`-Code, der *syntaktisch korrekt* ist, aber fachlich unvollständig bleibt.
+
+Typische Lücken:
+
+- fehlendes `NOT NULL`
+- fehlendes `UNIQUE`
+- fehlendes `CHECK`
+- fehlende oder unpräzise `FOREIGN KEY`-Definitionen
+
+Die SQL-Datei sieht dann plausibel aus, setzt den ER-Entwurf aber nur teilweise um.
+
+%%/slides
+
+%%slides
+
+
+## 🗄 Review von AI-generiertem CREATE TABLE
+
+> **Agentic workflow:** Verifiziere systematisch:
+>
+> 1. Alle *Entitäten* aus S12 werden zu Tabellen
+> 2. Alle *Attribute* werden zu passenden Spalten mit sinnvollen Datentypen
+> 3. Alle *Beziehungen* erscheinen als Fremdschlüssel
+> 4. Alle *Kardinalitäten* erscheinen als `NOT NULL` oder `UNIQUE`
+
+Nach dieser Prüfung kann in S13b mit `SELECT` auf einer belastbaren Struktur gearbeitet werden.
+
+%%/slides
+
+%%slides
+
+
+## Lesson Learned {background="#66ccffff" cols40x60 txtL="" capR="https://youtu.be/arj7oStGLkU" imgR="images/10b_RelationaleDatenbanken/procrastbrain.png"}
+
+%%/slides
+
+%%slides
+
+
+## Lessons Learned - Prokrastination
+![](images/10b_RelationaleDatenbanken/timing0.svg)
+
+- Etwas Prokrastination ist normal und oft Teil des Arbeitslebens (folgt aus Priotisierung)
+- Prokrastination ist sehr gefährlich, wenn wir den Aufwand falsch einschätzen und sich als grösser herausstellt als die verfügbare Zeit ist
+
+%%/slides
+
+%%slides
+
+
+## Lessons Learned - Zeitmanagement
+![](images/10b_RelationaleDatenbanken/timing1.svg)
+
+%%/slides
+
+%%book
+
+
+## Quiz
+
+
+```{quizdown}
+    ---
+    shuffleQuestions: true
+    shuffleAnswers: true
+    ---
+
+    ### Was implementiert eine relationale Tabelle in dieser Vorlesungsperspektive?
+
+    - [x] Eine Entität oder Beziehung aus dem ER-Modell
+    - [ ] Eine beliebige Liste ohne Fachbezug
+    - [ ] Nur eine Python-Klasse
+    - [ ] Ausschließlich ein Diagramm
+
+    ### Was ist SQLite?
+
+    - [x] Eine lokale relationale Datenbank ohne separaten Server
+    - [ ] Ein Cloud-Datenbank-Service
+    - [ ] Ein NoSQL-Datenbanksystem
+    - [ ] Ein Datenvisualisierungstool
+
+    ### Welcher Schlüssel identifiziert eine Zeile eindeutig innerhalb ihrer Tabelle?
+
+    - [x] Primärschlüssel
+    - [ ] Fremdschlüssel
+    - [ ] Dateischlüssel
+    - [ ] Sortierschlüssel
+
+    ### Was beschreibt ein Fremdschlüssel korrekt?
+
+    - [x] Er verweist auf den Primärschlüssel einer anderen Tabelle
+    - [ ] Er sortiert die Zeilen innerhalb einer Tabelle
+    - [ ] Er ersetzt den Primärschlüssel
+    - [ ] Er speichert automatisch alle Beziehungen
+
+    ### Welche Aussage passt zur Beziehung aus S12 "Bauwerk gehört zu Gemeinde"?
+
+    - [x] `bauwerke.gemeinde_id` verweist auf `gemeinden.gemeinde_id`
+    - [ ] `gemeinden.name` verweist auf `bauwerke.bauwerkstyp`
+    - [ ] Es braucht keine Spalte für die Beziehung
+    - [ ] Die Beziehung wird nur im ER-Diagramm gespeichert
+
+    ### Welche Integritätsbedingung erzwingt, dass ein Wert vorhanden sein muss?
+
+    - [x] `NOT NULL`
+    - [ ] `ORDER BY`
+    - [ ] `LIMIT`
+    - [ ] `DISTINCT`
+
+    ### Welche Integritätsbedingung verhindert doppelte Werte in einer Spalte?
+
+    - [x] `UNIQUE`
+    - [ ] `GROUP BY`
+    - [ ] `JOIN`
+    - [ ] `VALUES`
+
+    ### Welche Lücke tritt bei AI-generiertem `CREATE TABLE` laut Vorlesung häufig auf?
+
+    - [x] Fehlende Constraints wie `NOT NULL`, `UNIQUE` oder `CHECK`
+    - [ ] Falsche Einrückung im SQL-Text
+    - [ ] Zu viele Kommentare
+    - [ ] Es werden nie Fremdschlüssel verwendet
+
+    ### Sortiere die Verifikationsschritte für AI-generiertes SQL:
+
+    1. `Prüfen: alle Entitäten -> Tabellen`
+    2. `Prüfen: alle Attribute -> Spalten mit Datentypen`
+    3. `Prüfen: alle Beziehungen -> Fremdschlüssel`
+    4. `Prüfen: Kardinalitäten -> NOT NULL oder UNIQUE`
+
+    ### Welche Aussage beschreibt die Kardinalität am besten?
+
+    - [x] Sie kann als Constraint wie `NOT NULL` oder `UNIQUE` in Tabellen sichtbar werden
+    - [ ] Sie ist nur im Python-Code relevant
+    - [ ] Sie ersetzt den Datentyp einer Spalte
+    - [ ] Sie spielt nur bei `SELECT`-Abfragen eine Rolle
+
+
+```
+
+%%/book
+
+
+%%final

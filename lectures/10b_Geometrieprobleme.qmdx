@@ -1,0 +1,565 @@
+---
+title: "Geometrieprobleme"
+image-credit: "Midjourney: Geometric city plan viewed from above, architectural blueprint"
+footertext: Programmieren und Datenbanken
+institute-logo: _extensions/ai4sc-style/assets/logos/ai4sc-logo-ink.svg
+university-logo: _extensions/ai4sc-style/assets/logos/uni_logo2.svg
+format:
+  ai4sc-style-revealjs:
+    css:
+      - _extensions/ai4sc-style/themes/color/mineral.css
+    title-slide-attributes:
+      data-background-video: images/10b_Geometrieprobleme/mj_title.mp4
+    output-file: 10b_Geometrieprobleme.slide.html
+  html:
+    output-file: 10b_Geometrieprobleme.page.html
+  typst:
+    output-file: 10b_Geometrieprobleme.page.pdf
+bibliography: references.bib
+---
+
+%%book
+
+![](images/10b_Geometrieprobleme/mj_title_band.jpg)
+
+> Die Welt ist dreidimensional — unsere Modelle müssen es auch sein.
+>
+> — Grundsatz der Geodäsie
+
+%%/book
+
+%%slides
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Welche Aufgaben im Bauwesen haben mit Geometrie zu tun?" capR="Midjourney: Engineer analyzing a 3D city model blueprint" imgR="images/10b_Geometrieprobleme/mj_hoersaalfrage_geometrie.png"}
+
+%%/slides
+
+%%# Geometrische Probleme
+
+%%book
+### TL;DR
+
+Geometrische Probleme sind überall im Bauingenieurwesen zu finden — von CAD-Modellen über BIM bis GIS. Diese Lektion stellt die Problemklasse vor, erläutert ihre typischen Datenstrukturen und zeigt, wie die Python-Bibliothek `shapely` geometrische Aufgaben löst.
+%%/book
+
+## Was macht ein Problem geometrisch? {{< ai4sc-icon arrow-left-right >}}
+
+%%scol 50 50
+**Geometrische Probleme** drehen sich um:
+
+- Räumliche Objekte: Punkte, Linien, Flächen
+- {{< ai4sc-icon arrow-left-right >}} Räumliche Beziehungen: enthält, schneidet, nächster
+- Koordinaten, Maße, Orientierungen
+
+**Problemklassen-Signatur:**
+
+- *Eingabe:* Koordinaten, Formen, Abstände
+- *Frage:* Liegt A in B? Wie weit? Überlappen sie?
+- *Ausgabe:* Bool, Zahl oder neue Geometrie
+%%sep
+%%div eyebrow
+{{< ai4sc-icon arrow-left-right >}} Problemklasse
+%%/div
+
+**Geometrische Domänen:**
+
+| Domäne | Beispiel |
+|--------|---------|
+| CAD | Gebäudegrundriss prüfen |
+| BIM | Bauteilkollision erkennen |
+| GIS | Gebäude in Überschwemmungszone |
+| Netze | Trassierung einer Straße |
+%%/scol
+
+## Geometrische Domänen im Bauwesen
+
+%%scol 33 33 33
+#### CAD
+
+- Gebäudegrundrisse
+- Konstruktionspläne
+- Bauteilgeometrien
+%%sep
+#### BIM
+
+- 3D-Gebäudemodelle
+- Kollisionsprüfung
+- Mengenermittlung
+%%sep
+#### GIS
+
+- Geländemodelle
+- Flächennutzung
+- Leitungsnetze
+%%/scol
+
+%%# Ingenieursanwendungen
+
+%%book
+### TL;DR
+
+Geometrische Fragestellungen durchziehen viele Kernaufgaben des Bauingenieurwesens: Grundflächenanalyse, Hochwasserzonierung, Trassierung und Kollisionsprüfung sind alle geometrische Probleme, die mit denselben Grundoperationen lösbar sind.
+%%/book
+
+## Geometrie im Bauwesen — Beispiele
+
+%%scol 55 45
+**Gebäude und Infrastruktur:**
+
+- Grundfläche eines Gebäudes berechnen
+- Liegt ein Sensor innerhalb eines Raumes?
+- Kollisionsprüfung: schneidet Rohr die Decke?
+- Straßenachse als Linienzug modellieren
+
+**Raumbezogene Analyse:**
+
+- Welche Gebäude liegen in der Überschwemmungszone?
+- Welche Haltestelle ist am nächsten?
+- Kreuzen sich zwei unterirdische Leitungen?
+%%sep
+![](images/10b_Geometrieprobleme/mj_building_footprint.png){class="midjourney"}
+%%/scol
+
+## Gemeinsame Problemstruktur
+
+%%scol 50 50
+**Problem 1:** Sensor im Raum?
+→ *Point-in-Polygon*
+
+**Problem 2:** Nächstes Krankenhaus?
+→ *Distanzberechnung*
+
+**Problem 3:** Rohrkollision?
+→ *Schnittprüfung*
+
+**Problem 4:** Überlappen zwei Bauparzellen?
+→ *Flächenschnitt*
+%%sep
+%%div eyebrow
+{{< ai4sc-icon workflow >}} Muster erkennen
+%%/div
+
+Alle vier Fragen nutzen nur drei Grundoperationen:
+
+1. **contains / within** — Enthaltensein
+2. **distance** — Abstand
+3. **intersects / intersection** — Schnitt
+
+Dieselbe Bibliothek löst alle vier.
+%%/scol
+
+%%# Vektoralgebra
+
+%%book
+### TL;DR
+
+Geometrische Berechnungen basieren auf Vektoralgebra. Die Grundobjekte — Punkt, Liniensegment, Polygon — und ihre Operationen (Abstand, Kreuzprodukt) bilden die Basis jeder geometrischen Programmierbibliothek.
+%%/book
+
+## Geometrische Grundobjekte {{< ai4sc-icon list-tree >}}
+
+%%scol 50 50
+%%div eyebrow
+{{< ai4sc-icon list-tree >}} Datenstrukturen
+%%/div
+
+**Punkt:** `(x, y)` oder `(x, y, z)`
+
+**Liniensegment:** Liste von 2+ Punkten
+
+**Polygon:** Geordnete Punktliste, geschlossen
+(erster Punkt = letzter Punkt)
+%%sep
+```python
+# Punkt
+p = (3.0, 2.5)
+
+# Liniensegment
+linie = [(0, 0), (10, 5)]
+
+# Polygon (Rechteck)
+polygon = [
+    (0, 0),
+    (10, 0),
+    (10, 5),
+    (0, 5),
+    (0, 0)   # geschlossen
+]
+```
+%%/scol
+
+## Vektor-Operationen {{< ai4sc-icon workflow >}}
+
+%%scol 50 50
+%%div eyebrow
+{{< ai4sc-icon workflow >}} Algorithmen
+%%/div
+
+**Abstand zwischen zwei Punkten:**
+
+$$d = \sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}$$
+
+**Kreuzprodukt (Orientierung):**
+
+$$\vec{u} \times \vec{v} = u_x v_y - u_y v_x$$
+
+- Positiv → Punkt liegt links der Linie
+- Negativ → Punkt liegt rechts der Linie
+- Null → Punkt liegt auf der Linie
+%%sep
+**Anwendung des Kreuzprodukts:**
+
+- Grundlage für Point-in-Polygon
+- Orientierung von Polygonecken
+- Kollisionserkennung
+
+```python
+def kreuzprodukt_2d(u, v):
+    return u[0]*v[1] - u[1]*v[0]
+
+# Liegt (3,2) links von (0,0)→(5,5)?
+u = (5-0, 5-0)  # Richtung
+v = (3-0, 2-0)  # zum Punkt
+k = kreuzprodukt_2d(u, v)
+# k > 0 → links
+```
+%%/scol
+
+%%# Grundoperationen
+
+%%book
+### TL;DR
+
+Die drei wichtigsten geometrischen Operationen für Ingenieure sind: Point-in-Polygon, Distanzberechnung und Schnittprüfung. Die Bibliothek `shapely` stellt alle drei als einfache Methodenaufrufe zur Verfügung.
+%%/book
+
+## Point-in-Polygon: Liegt ein Punkt in einer Zone?
+
+%%scol 50 50
+**Problem:** Liegt Sensor in Gebäude?
+Liegt Adresse in Überschwemmungszone?
+
+**Ray-Casting-Algorithmus:**
+
+1. Strahl vom Punkt nach rechts
+2. Zähle Schnitte mit Polygon-Kanten
+3. Ungerade Anzahl → Punkt liegt innen
+
+%%tip Merksatz
+Ungerade = drinnen. Gerade = draußen.
+%%/tip
+%%sep
+```python
+from shapely.geometry import Point, Polygon
+
+zone = Polygon([
+    (0,0),(10,0),(10,5),(0,5)
+])
+sensor = Point(3, 2)
+
+# contains: Punkt vollständig innen?
+print(zone.contains(sensor))   # True
+print(zone.contains(Point(15, 2)))  # False
+
+# within ist die Umkehrung
+print(sensor.within(zone))     # True
+```
+%%/scol
+
+## Distanz und Schnitt
+
+%%scol 50 50
+**Distanz** — kürzester Abstand zweier Geometrien:
+
+```python
+from shapely.geometry import Point
+
+krankenhaus = Point(5, 5)
+unfallort   = Point(12, 8)
+
+dist = krankenhaus.distance(unfallort)
+print(f"{dist:.2f}")  # 7.62
+```
+
+**Anwendung:** Nächste Haltestelle, nächstes Krankenhaus, nächste Feuerwehr
+%%sep
+**Schnitt** — überlappen sich zwei Geometrien?
+
+```python
+from shapely.geometry import LineString
+
+rohr1 = LineString([(0,0),(10,10)])
+rohr2 = LineString([(0,10),(10,0)])
+
+# Kreuzen sie sich?
+print(rohr1.intersects(rohr2))  # True
+
+# Wo genau?
+punkt = rohr1.intersection(rohr2)
+print(punkt)  # POINT (5 5)
+```
+
+**Anwendung:** Kollisionsprüfung in BIM
+%%/scol
+
+%%# shapely
+
+%%book
+### TL;DR
+
+Die Python-Bibliothek `shapely` implementiert alle gängigen 2D-Geometrieoperationen. KI kann aufgefordert werden, `shapely` für geometrische Probleme zu verwenden — der Ingenieur prüft, ob Geometrietyp und Koordinatensystem korrekt repräsentiert sind.
+%%/book
+
+## shapely — Die geometrische Standardbibliothek {{< ai4sc-icon list-tree >}}
+
+%%scol 50 50
+%%div eyebrow
+{{< ai4sc-icon list-tree >}} Bibliothek
+%%/div
+
+**Kerntypen:**
+
+- `Point` — Koordinate
+- `LineString` — Linienzug
+- `Polygon` — Fläche mit Grenze
+- `MultiPolygon` — z.B. Parzellengruppe
+
+**Kernoperationen:**
+
+- `.contains()`, `.within()`
+- `.intersects()`, `.intersection()`
+- `.distance()`, `.area`, `.length`
+- `.buffer()` — Pufferzone erzeugen
+%%sep
+```python
+from shapely.geometry import Polygon
+
+gebaeude = Polygon([
+    (0, 0), (20, 0),
+    (20, 15), (0, 15)
+])
+
+print(f"Fläche: {gebaeude.area} m²")
+# Fläche: 300 m²
+
+# 5m Pufferzone
+puffer = gebaeude.buffer(5)
+print(f"Mit Puffer: {puffer.area:.0f} m²")
+# Mit Puffer: 478 m²
+
+# Enthält ein Punkt die Zone?
+sensor = Point(10, 7)
+print(gebaeude.contains(sensor))  # True
+```
+%%/scol
+
+## KI-Code mit shapely lesen — Aufgabe {{< ai4sc-icon workflow >}}
+
+%%div eyebrow
+{{< ai4sc-icon workflow >}} KI-Code lesen
+%%/div
+
+```python
+# KI-generiert: Gebäude im Radius finden
+from shapely.geometry import Point, Polygon
+
+def gebaeude_in_radius(gebaeude_liste, mittelpunkt_coords, radius_m):
+    mittelpunkt = Point(mittelpunkt_coords)
+    suchzone = mittelpunkt.buffer(radius_m)
+    treffer = []
+    for geb in gebaeude_liste:
+        polygon = Polygon(geb['koordinaten'])
+        if suchzone.intersects(polygon):
+            treffer.append(geb)
+    return treffer
+```
+
+%%warning Versteht den Code — bevor ihr ihn ausführt
+1. Was gibt `buffer(radius_m)` zurück — in welcher Einheit?
+2. Warum `intersects()` und nicht `contains()`? Was ist der Unterschied?
+3. Was fehlt, wenn die Koordinaten in WGS84 (Grad) sind — nicht in Metern?
+%%/warning
+
+%%# Koordinatensysteme
+
+%%book
+### TL;DR
+
+Koordinatensysteme (KBS) und Projektionen sind eine der häufigsten Fehlerquellen bei geometrischen Problemen — und eine typische Auslassung in KI-generiertem Code. Jede Distanzberechnung setzt ein metrisches KBS voraus.
+%%/book
+
+## Warum Projektionen wichtig sind {{< ai4sc-icon arrow-left-right >}}
+
+%%scol 55 45
+**Problem:** Die Erde ist eine Kugel — Karten sind flach.
+
+**WGS84 (EPSG:4326):**
+
+- Koordinaten in Grad (Länge/Breite)
+- Standard für GPS, Google Maps, GeoJSON
+- 1 Grad ≠ 1 Meter!
+
+**Lokale Systeme (z.B. UTM, EPSG:25833):**
+
+- Koordinaten in Metern
+- Geeignet für lokale Distanzberechnungen
+- Verzerrt über große Gebiete
+%%sep
+%%note Häufiger KI-Fehler
+KI-generierter Code berechnet Abstände direkt aus WGS84-Koordinaten. `shapely` kennt kein KBS — `distance()` gibt dimensionslose Zahlen zurück, keine Meter.
+%%/note
+%%/scol
+
+## Projektionen im Code
+
+%%scol 50 50
+**Falsch — typischer KI-Output:**
+
+```python
+from shapely.geometry import Point
+
+# Koordinaten in WGS84 (Grad)
+berlin  = Point(13.405, 52.520)
+potsdam = Point(13.064, 52.400)
+
+dist = berlin.distance(potsdam)
+# ≠ Meter! Einheit: Grad
+print(dist)  # 0.35 — bedeutungslos
+```
+
+**Problem:** 0.35 Grad ≈ 35 km, aber `shapely` weiß das nicht.
+%%sep
+**Richtig — mit Projektion:**
+
+```python
+from pyproj import Transformer
+from shapely.ops import transform
+
+# WGS84 → UTM Zone 33N
+t = Transformer.from_crs(4326, 25833,
+                          always_xy=True)
+
+berlin_utm  = transform(t.transform, berlin)
+potsdam_utm = transform(t.transform, potsdam)
+
+dist_m = berlin_utm.distance(potsdam_utm)
+print(f"{dist_m:.0f} m")  # 28 422 m ✓
+```
+%%/scol
+
+%%# KI-Prompt-Muster
+
+%%book
+### TL;DR
+
+Beim Einsatz von KI für geometrische Probleme müssen Geometrierepräsentation und Koordinatensystem im Prompt explizit angegeben werden. Ohne diese Angaben erzeugt KI häufig Code ohne KBS-Berücksichtigung.
+%%/book
+
+## Prompt-Muster für geometrische Probleme {{< ai4sc-icon workflow >}}
+
+%%div eyebrow
+{{< ai4sc-icon workflow >}} Agentic Cycle
+%%/div
+
+%%scol 50 50
+**Schlechter Prompt:**
+
+> "Schreibe Python-Code, um Gebäude in der Nähe eines Punktes zu finden."
+
+**Fehlende Angaben:**
+
+- Kein Koordinatensystem
+- Kein Datenformat
+- Keine Einheit für "Nähe"
+- Keine Bibliotheksvorgabe
+%%sep
+**Guter Prompt:**
+
+> "Gegeben: Gebäudepolygone als Liste von WGS84-Koordinaten (Länge, Breite).
+> Aufgabe: Alle Gebäude zurückgeben, die innerhalb von 500 m eines gegebenen Punktes liegen.
+> Verwende `shapely` und `pyproj`.
+> Transformiere alle Geometrien zuerst nach UTM Zone 33N (EPSG:25833)."
+
+**Checkliste Prompt Geometrie:**
+
+- Koordinatensystem angeben
+- Einheit angeben (Meter, Grad)
+- Bibliothek benennen (`shapely`)
+%%/scol
+
+## KI-Fehler bei Geometrie erkennen
+
+%%scol 55 45
+**Häufige KI-Fehler:**
+
+- Kein KBS angegeben oder verwendet
+- `distance()` auf WGS84-Koordinaten (Grad)
+- Polygon nicht geschlossen
+- Koordinatenreihenfolge vertauscht (lat/lon statt lon/lat)
+- Gleichheitsvergleich ohne Fließkomma-Toleranz
+
+**Prüffragen beim Code-Review:**
+
+- Welches KBS verwenden die Eingabedaten?
+- Wie wird Distanz berechnet — in welcher Einheit?
+- Wird das Polygon korrekt geschlossen?
+%%sep
+```python
+# Fließkomma-Toleranz
+
+from shapely.geometry import Point, LineString
+
+p    = Point(1.0, 2.0)
+linie = LineString([(0,0),(2,4)])
+
+# Falsch: exakter Vergleich
+if linie.distance(p) == 0:
+    print("auf der Linie")
+
+# Richtig: Toleranz
+TOL = 1e-9
+if linie.distance(p) < TOL:
+    print("auf der Linie")
+```
+%%/scol
+
+%%# Verifikation
+
+%%book
+### TL;DR
+
+KI-generierter geometrischer Code muss systematisch überprüft werden. Die Checkliste stellt sicher, dass Geometrietyp, Koordinatensystem und Fließkomma-Präzision korrekt behandelt werden.
+%%/book
+
+## Verifikations-Checkliste {{< ai4sc-icon test-tube >}}
+
+%%div eyebrow
+{{< ai4sc-icon workflow >}} Agentic Cycle · Geometrie
+%%/div
+
+%%scol 55 45
+**Vor dem Ausführen:**
+
+- Geometrietyp korrekt? Punkt, Linie oder Polygon?
+- KBS spezifiziert? WGS84 oder metrisches System?
+- Polygon geschlossen? Erster = Letzter Punkt?
+- Koordinatenreihenfolge? `(lon, lat)` oder `(lat, lon)`?
+
+**Beim Testen:**
+
+- Mit bekannter Geometrie testen (Einheitsquadrat)
+- Grenzfälle prüfen: Punkt auf Kante, Punkt im Eckpunkt
+- Numerische Ergebnisse mit Handrechnung vergleichen
+- Distanzwerte plausibel? (Größenordnung stimmt?)
+%%sep
+> **Agentic workflow:** Bei KI-generiertem Geometriecode:
+>
+> 1. KBS prüfen — steht es im Code oder fehlt es?
+> 2. Geometrietyp prüfen — `.geom_type` ausgeben lassen
+> 3. Einfachen Testfall ausführen (Einheitsquadrat: Fläche = 1?)
+> 4. Distanzberechnung prüfen — Einheit plausibel?
+> 5. Fließkomma-Toleranz ergänzen wenn nötig
+%%/scol
+
+%%references
+%%final

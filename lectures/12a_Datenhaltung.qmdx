@@ -1,0 +1,580 @@
+---
+title: "Datenhaltung"
+image-credit: "Midjourney: Librarian, ref. Giuseppe Arcimboldo"
+format:
+  revealjs:
+    title-slide-attributes:
+      data-background-video: images/09_Datenhaltung/mj_title.mp4
+    output-file: 12a_Datenhaltung.slide.html
+  html:
+    output-file: 12a_Datenhaltung.page.html
+  typst:
+    output-file: 12a_Datenhaltung.page.pdf
+---
+
+%%book
+
+# Umgang mit Dateien
+
+%%/book
+
+%%book
+
+![](images/09_Datenhaltung/mj_title_band.jpg)
+
+> We don't have better algorithms. We just have more data.
+>
+> — Peter Norvig
+
+%%/book
+
+%%slides
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Eine Messstation exportiert CSV. Ein GIS liefert GeoJSON. Ein BIM-Tool liefert IFC-JSON. Woran erkennt ihr, wie Python die Datei korrekt lesen muss?" capR="DALL-E 2: Early designs of the iPhone by Leonardo da Vinci" imgR="images/09_Datenhaltung/image_4.jpg"}
+
+%%/slides
+
+%%book
+
+Ingenieurdaten kommen selten in einer selbst gewählten Idealform an. Meist
+bestimmt das Werkzeug, das die Daten erzeugt hat, auch das Format: Sensorik
+liefert CSV, GIS-Werkzeuge oft GeoJSON, Bürosoftware XLSX, CAD und BIM ihre
+eigenen Austauschformate. Deshalb ist Dateiarbeit keine Nebensache, sondern ein
+zentraler Teil des Datenmodells.
+
+%%/book
+
+%%# Dateien als Eingangskanal
+
+## Dateien sind Ankunftspunkte für Fachdaten
+
+- Dateien sind nicht nur "Speicher"
+- Dateien sind die Form, in der Werkzeuge Daten an uns übergeben
+- Das Format wird oft vom Ursprungswerkzeug bestimmt
+- Unsere Aufgabe: lesen, verstehen, prüfen, weiterverarbeiten
+
+## Engineering-Szenario 1: Messdaten aus dem Feld 📂
+
+%%col 50 50
+
+**Monitoring-Station**
+
+- Zeitreihen als `CSV`
+- Oft `;` statt `,`
+- Fehlwerte als `-9999` oder leer
+- Umlaute in Kopfzeilen sind möglich
+
+%%sep
+
+**Fragen vor dem Einlesen**
+
+- Welche Kodierung?
+- Welches Trennzeichen?
+- Hat die Datei eine Kopfzeile?
+- Wie sind fehlende Werte markiert?
+
+%%/col
+
+## Engineering-Szenario 2: Modelle aus anderen Werkzeugen 📂
+
+%%col 50 50
+
+**GIS / Umweltinformatik**
+
+- Geometrien oft als `GeoJSON`
+- Struktur ist verschachtelt
+- Attribute liegen in `properties`
+
+%%sep
+
+**BIM / Planung**
+
+- Modelle als `IFC`, XML oder JSON-Varianten
+- Große Dateien, viele Objekte
+- Fachlogik steckt im Format
+
+%%/col
+
+%%book
+
+Die erste fachliche Frage lautet daher selten "Wie programmiere ich Lesen?",
+sondern "Was hat das Werkzeug, das die Datei erzeugt hat, eigentlich gemeint?".
+Gerade mit KI-generiertem Code ist diese Unterscheidung wichtig, weil das Modell
+oft ein plausibles, aber falsches Standardformat annimmt.
+
+%%/book
+
+%%# Speicher und Dateisysteme
+
+## Wo liegen unsere Daten?
+
+%%col 33 33 33
+
+**Smartphones und Tablets**
+
+- App-bezogene Datenhaltung
+- Starke Kapselung
+- Wenig direkte Dateisicht
+
+%%sep
+
+**Desktop-PCs**
+
+- Dateien in Ordnerstrukturen
+- Direkte Arbeit mit Pfaden
+- Typisch für Python-Skripte
+
+%%sep
+
+**Web- und Cloudsysteme**
+
+- Daten verteilt auf Servern
+- Häufig Datenbanken im Hintergrund
+- Dateien oft nur Import/Export-Schnittstelle
+
+%%/col
+
+## Speicherhierarchie im Computer 🗄
+
+![](images/09_Datenhaltung/computer_hardware2.svg)
+
+- Register und Cache: sehr schnell, sehr klein
+- RAM: schnell, aber flüchtig
+- SSD/HDD: langsam im Vergleich, aber dauerhaft
+- Dateien liegen im permanenten Speicher
+
+## Von RAM zu Datei 🗄
+
+%%col 50 50
+
+**Während das Programm läuft**
+
+- Variablen im RAM
+- Daten können verändert werden
+- Inhalt geht beim Ausschalten verloren
+
+%%sep
+
+**Wenn Daten bleiben sollen**
+
+- Schreiben in Dateien
+- Organisation über Dateisystem
+- Identifikation über Pfad und Dateiname
+
+%%/col
+
+## Dateisysteme organisieren Dateien 📂
+
+%%col 50 50
+
+**Desktop**
+
+- Hierarchische Ordnerstruktur
+- Gut für viele unterschiedliche Dateien
+- Schnell unübersichtlich
+
+%%sep
+
+**App- und Cloud-Kontexte**
+
+- Stärker gekapselt
+- Mehr Sicherheit
+- Weniger direkte Kontrolle
+
+%%/col
+
+![](images/09_Datenhaltung/oscomp.png)
+
+## Python und Dateisysteme
+
+- `open()` für direktes Lesen und Schreiben
+- `os` und `pathlib` für Pfade, Listen, Existenztests
+- Textdateien oft zeilenweise lesen
+- Binärdateien als Bytes behandeln
+
+%%# Dateien mit Python
+
+## Dateien lesen und schreiben
+
+%%col 50 50
+
+**Lesen**
+
+- `open(path, "rt")`
+- mit `with` automatisch schließen
+- `read()`, `readlines()`, Iteration über Zeilen
+
+%%sep
+
+**Schreiben**
+
+- `open(path, "wt")`
+- `write()` überschreibt im Modus `w`
+- für Binärdateien: `rb` und `wb`
+
+%%/col
+
+## AI-generierter Code: Was macht dieser Block?
+
+```python
+with open("messung.csv", "rt") as fi:
+    text = fi.read()
+```
+
+- Welchen Datentyp hat `text`?
+- Für welche Dateitypen ist das passend?
+- Was würde bei einer Binärdatei schiefgehen?
+
+## Dateien prüfen, auflisten, löschen
+
+```python
+from pathlib import Path
+
+pfad = Path("daten")
+
+for datei in pfad.iterdir():
+    if datei.is_file():
+        print(datei.name)
+
+print(Path("messung.csv").exists())
+Path("temp.txt").unlink(missing_ok=True)
+```
+
+## Formate: Text oder Binär? 📂
+
+%%col 50 50
+
+**Text**
+
+- Als Zeichen lesbar
+- Gut debugbar
+- Beispiele: `txt`, `json`, `xml`, `csv`
+
+%%sep
+
+**Binär**
+
+- Als Bytes gespeichert
+- Kompakter oder softwaregebunden
+- Beispiele: `xlsx`, `zip`, Bilder, Videos
+
+%%/col
+
+%%book
+
+Im Unterricht reicht oft eine grobe Zweiteilung in Text- und Binärdateien.
+Fachlich entscheidend ist aber die dritte Frage: Welche Struktur erwartet das
+erzeugende Werkzeug? Zwei Textdateien können sich völlig unterschiedlich lesen
+lassen, wenn eine flache CSV-Tabelle und die andere eine tief verschachtelte
+GeoJSON-Datei ist.
+
+%%/book
+
+%%# Fachformate verstehen
+
+## Typische Formate für Ingenieurdaten 📂
+
+%%col 33 33 33
+
+**Geometrie**
+
+- DWG, DXF, IFC
+- GeoTIFF, Shapefile
+- GeoJSON
+
+%%sep
+
+**Attribute**
+
+- CSV
+- XLSX
+- JSON
+
+%%sep
+
+**Struktur / Austausch**
+
+- XML
+- JSON
+- ZIP als Container
+
+%%/col
+
+## JSON: strukturierte Objekte
+
+%%col 50 50
+
+- Menschen- und maschinenlesbar
+- Nahe an Python-`dict` und `list`
+- Gut für APIs und Konfigurationsdaten
+- Auch Basis für GeoJSON
+
+%%sep
+
+```json
+{
+  "name": "Station 7",
+  "active": true,
+  "values": [12.4, 13.1],
+  "location": {"x": 12.10, "y": 54.08}
+}
+```
+
+%%/col
+
+## GeoJSON: Geometrie plus Attribute 📂
+
+%%col 50 50
+
+- Standard für geographische Objekte
+- Geometrien wie `Point`, `LineString`, `Polygon`
+- Attribute typischerweise in `properties`
+- Verschachtelung ist normal, nicht die Ausnahme
+
+%%sep
+
+```json
+{
+  "type": "Feature",
+  "geometry": {"type": "Point",
+               "coordinates": [12.09, 54.07]},
+  "properties": {"name": "OKI"}
+}
+```
+
+%%/col
+
+## XML: Markup mit Tags 📂
+
+%%col 50 50
+
+- Älter als JSON, aber weiter verbreitet
+- Gut für formalisierte Austauschstandards
+- Struktur über öffnende und schließende Tags
+- Häufig in Office- und Fachstandards
+
+%%sep
+
+```xml
+<station>
+  <name>Station 7</name>
+  <active>true</active>
+  <value unit="m">12.4</value>
+</station>
+```
+
+%%/col
+
+## CSV: Tabellen und Messwerte 📂
+
+%%col 50 50
+
+- Sehr einfaches Tabellenformat
+- Eine Zeile pro Datensatz
+- Trennzeichen nicht immer Komma
+- Deutsche Daten nutzen oft `;`
+
+%%sep
+
+```text
+Zeit;Pegel;Status
+08:00;2.41;ok
+09:00;;wartung
+10:00;2.55;ok
+```
+
+%%/col
+
+## XLSX und ZIP: Container statt Klartext 📂
+
+%%col 50 50
+
+**XLSX**
+
+- Excel-Arbeitsmappe
+- Für Menschen komfortabel
+- Intern mehrere XML-Dateien
+
+%%sep
+
+**ZIP**
+
+- Verpackt viele Dateien in einer
+- Kann Inhalte komprimieren
+- Auch Fachformate nutzen ZIP als Hülle
+
+%%/col
+
+%%book
+
+Für Python bedeutet das: Nicht jedes scheinbar "einfache" Dateiformat ist im
+Inneren einfach. Eine `.xlsx`-Datei wirkt wie eine einzelne Tabelle, ist aber
+technisch ein Container aus mehreren Dateien. Deshalb sollte das Lesewerkzeug
+zum Format passen, nicht nur zur Dateiendung.
+
+%%/book
+
+%%# KI-Verifikation beim Datei-I/O
+
+## Wenn KI Dateicode erzeugt: typische Fehlannahmen
+
+%%col 50 50
+
+**Das Modell nimmt oft an**
+
+- UTF-8-Kodierung
+- Komma als Trennzeichen
+- Erste Zeile ist Header
+- Fehlwerte sind leer
+
+%%sep
+
+**Engineering-Daten sind oft anders**
+
+- `latin-1` oder Windows-Kodierung
+- `;` oder Tabulator
+- Metazeilen vor dem Header
+- `-9999`, `NA`, `---`
+
+%%/col
+
+## Verifikation mit `pandas`
+
+```python
+import pandas as pd
+
+probe = pd.read_csv(
+    "messung.csv",
+    sep=";",
+    encoding="latin-1",
+    header=0,
+    na_values=["-9999", "NA", ""]
+)
+
+print(probe.head())
+print(probe.dtypes)
+```
+
+- Erst kleine Probe lesen
+- Kopfzeile und Datentypen prüfen
+- Fehlwerte sichtbar machen
+
+## AI-Code-Reading: Wo kann dieser Vorschlag scheitern?
+
+```python
+df = pd.read_csv("messung.csv")
+```
+
+1. Stimmt das Trennzeichen?
+2. Stimmt die Kodierung?
+3. Ist Zeile 1 wirklich der Header?
+4. Werden Fehlwerte korrekt erkannt?
+
+## Agentic Workflow für Datei-I/O
+
+> **Agentic workflow:** Wenn KI Code zum Einlesen von Dateien erzeugt:
+> 1. Prüfe zuerst Kodierung und Trennzeichen.
+> 2. Kontrolliere Header-Behandlung und fehlende Werte.
+> 3. Teste auf einer kleinen echten Stichprobe vor dem Gesamtdatensatz.
+> 4. Präzisiere den Prompt mit Formatwissen aus dem Ursprungstool.
+
+## Mini-Checkliste vor dem Vollimport
+
+%%col 50 50
+
+**Fachlich**
+
+- Welches Tool hat die Datei erzeugt?
+- Welche Struktur erwarte ich?
+- Was bedeutet ein fehlender Wert?
+
+%%sep
+
+**Technisch**
+
+- `encoding`
+- `sep`
+- `header`
+- `na_values`
+
+%%/col
+
+%%# Grenzen von Dateien
+
+## Dateien sind praktisch, aber begrenzt
+
+%%col 50 50
+
+**Stärken**
+
+- Einfach austauschbar
+- Direkt sichtbar
+- Gut für Import/Export
+
+%%sep
+
+**Grenzen**
+
+- Gleichzeitiger Zugriff schwierig
+- Versionierung und Konsistenz mühsam
+- Suchen, Filtern, Verknüpfen schnell aufwendig
+
+%%/col
+
+## Ausblick
+
+- In `11b_UIDesign` lesen Dashboards Daten aus Dateien oder APIs ein
+- In `12b_Datenbanktypen` sehen wir, warum Dateien allein oft nicht reichen
+- Später folgen relationale Datenbanken als robustere Mehrnutzer-Lösung
+
+## Lesson Learned
+
+- Dateien sind der übliche Eingangskanal für technische Daten
+- Formatwahl ist eine Modellierungsentscheidung
+- Textformat heißt nicht automatisch "einfach"
+- KI-generierter Dateicode muss immer an echten Beispieldaten verifiziert werden
+
+%%book
+
+## Quiz
+
+```{quizdown}
+    ---
+    shuffleQuestions: true
+    shuffleAnswers: true
+    ---
+
+    ### Warum ist Dateiarbeit in Ingenieurprojekten mehr als nur "Speichern"?
+    - [x] Weil Daten meist in tool-spezifischen Formaten ankommen, die erst verstanden und geprüft werden müssen.
+    - [ ] Weil Dateien automatisch Datenbanken ersetzen.
+    - [ ] Weil Python nur mit Dateien rechnen kann.
+    - [ ] Weil alle Ingenieurdaten Binärdateien sind.
+
+    ### Welche Annahme ist bei AI-generiertem `read_csv` besonders riskant?
+    - [x] Dass Komma, UTF-8 und eine saubere Kopfzeile schon stimmen werden.
+    - [ ] Dass CSV-Dateien Textdateien sind.
+    - [ ] Dass `pandas` Tabellen lesen kann.
+    - [ ] Dass Dateien einen Namen haben.
+
+    ### Welche Parameter sollte man bei problematischen CSV-Dateien typischerweise prüfen?
+    - [x] `encoding`, `sep`, `header`, `na_values`
+    - [ ] `class`, `return`, `yield`, `global`
+    - [ ] `plot`, `color`, `legend`, `dpi`
+    - [ ] `chmod`, `ssh`, `sudo`, `cron`
+
+    ### Was beschreibt GeoJSON am besten?
+    - [x] Ein JSON-basiertes Format für Geometrien und zugehörige Attribute.
+    - [ ] Ein Binärformat für Excel-Tabellen.
+    - [ ] Ein reines Bildformat für Karten.
+    - [ ] Ein Dateisystem für SSDs.
+
+    ### Warum ist `.xlsx` nicht einfach nur "eine Texttabelle"?
+    - [x] Weil das Format intern ein Container mit mehreren XML-Dateien ist.
+    - [ ] Weil Excel nur in der Cloud funktioniert.
+    - [ ] Weil `pandas` keine Excel-Dateien lesen kann.
+    - [ ] Weil `.xlsx` immer GeoJSON enthält.
+```
+
+%%/book
+
+%%final
