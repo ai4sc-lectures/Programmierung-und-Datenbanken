@@ -103,7 +103,7 @@ throughout the course.
 **Symbols to add**: ≡ on data-types slide; 🔄 on agentic cycle diagram.
 
 **Cross-references**:
-- → `01d_AgentischesProgrammieren` (S01): mechanics of the workflow introduced visually here
+- → `01c_AgentischesProgrammieren` (S01): mechanics of the workflow introduced visually here
 - → `03a_Wissenspyramide` (S03): pyramid levels map to course block structure
 
 ---
@@ -156,7 +156,7 @@ generates Python.
 
 **Cross-references**:
 - → `01c_Programmiersprachen_ani` (S01): companion notebook using Python
-- → `01d_AgentischesProgrammieren` (S01): language knowledge enables code reading
+- → `01c_AgentischesProgrammieren` (S01): language knowledge enables code reading
 
 ---
 
@@ -205,16 +205,16 @@ establishing the "understand before run" habit from session one.
 **Symbols to add**: 🔄 on intro block.
 
 **Cross-references**:
-- → `01d_AgentischesProgrammieren` (S01): full workflow model that this notebook begins
+- → `01c_AgentischesProgrammieren` (S01): full workflow model that this notebook begins
 - → `07b_Debugging` (S07): "read before run" is also the first step of debugging
 
 ---
 
-### 01d_AgentischesProgrammieren
+### 01c_AgentischesProgrammieren
 
 **Block**: Block 1 — Computational Foundations | **Session**: S01
 **Status**: NEW (~20 min, ~15 slides) | **Primary symbols**: 🔄 📋 🔍
-**Source file**: NEW — create `01d_AgentischesProgrammieren.qmdx`
+**Source file**: NEW — create `01c_AgentischesProgrammieren.qmdx`
 
 #### Summary: Agentic Programming
 
@@ -620,7 +620,7 @@ notation is introduced here to prepare object design in S04.
   fits as a fourth model."
 
 **Agentic workflow integration**:
-- The agentic dev loop slide explicitly maps the cycle from `01d_AgentischesProgrammieren`
+- The agentic dev loop slide explicitly maps the cycle from `01c_AgentischesProgrammieren`
   onto project management rhythm.
 
 **Symbols to add**: 📋 on requirements slides; ⇄ on UML relationship diagrams;
@@ -678,7 +678,7 @@ confidently.
 - Slide 10: User story format — as a [facility manager], I want [sensor alert
   dashboard] so that [I can respond before an SLA breach]
 - Slides 11–12: Requirement → prompt — user story converted step-by-step into a
-  Claude Code prompt using the structure from `01d_AgentischesProgrammieren`
+  Claude Code prompt using the structure from `01c_AgentischesProgrammieren`
 - Slides 13–14: Requirement → test — same user story converted into a unit test
   (motivates `08a_UnitTest` in S08)
 - Slide 15: Traceability triangle: requirement ↔ test ↔ prompt; changing one must
@@ -693,7 +693,7 @@ confidently.
 **Symbols to add**: 📋 on every requirements slide; 🔍 on test-traceability slides.
 
 **Cross-references**:
-- → `01d_AgentischesProgrammieren` (S01): prompt structure applied here
+- → `01c_AgentischesProgrammieren` (S01): prompt structure applied here
 - → `03c_Softwareentwurf` (S03): requirements precede design
 - → `04b_Programmablauf` (S04): flowcharts operationalize requirements
 - → `08a_UnitTest` (S08): test-driven prompting is the "verify" step
@@ -749,7 +749,7 @@ write the prompt" is the key message.
 
 **Cross-references**:
 - → `04a_Anforderungen` (S04): requirements generate the flowchart
-- → `01d_AgentischesProgrammieren` (S01): prompt structure applied here
+- → `01c_AgentischesProgrammieren` (S01): prompt structure applied here
 
 ---
 
@@ -1315,7 +1315,7 @@ example.
 
 **Cross-references**:
 - → `04a_Anforderungen` (S04): requirements are the source of tests
-- → `01d_AgentischesProgrammieren` (S01): "verify" step formalised here
+- → `01c_AgentischesProgrammieren` (S01): "verify" step formalised here
 - → `08b_CodeReview` (S08): code review follows testing; both are verification
 
 ---
@@ -2119,7 +2119,7 @@ of AI output against the ER, not DDL syntax mastery.
 | File | Session | Purpose |
 |------|---------|---------|
 | `02b_Speicher.qmdx` | S02 | Memory model, stack/heap, references, visual diagrams |
-| `01d_AgentischesProgrammieren.qmdx` | S01 | LLM basics, agentic workflow, prompt structure, code reading |
+| `01c_AgentischesProgrammieren.qmdx` | S01 | LLM basics, agentic workflow, prompt structure, code reading |
 | `04a_Anforderungen.qmdx` | S04 | Requirements engineering, user stories, quality criteria |
 | `10a_Graphprobleme.qmdx` | S10 | Graph problems — transport, utility networks, routing |
 | `10b_Geometrieprobleme.qmdx` | S10 | Geometric problems — CAD, BIM, GIS, vector algebra |
