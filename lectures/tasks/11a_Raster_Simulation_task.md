@@ -1,5 +1,16 @@
 # Task: 11a_Raster_Simulation
 
+## Course Context
+
+**Course**: "Programming and Databases" — civil/environmental engineering, 1st semester, University of Rostock.
+
+**What we are doing**: Redesigning 13 sessions of lecture slides (`.qmdx` Quarto format with companion Jupyter notebooks) around agentic coding tools (Claude Code, GitHub Copilot, Cursor).
+
+**Why**: AI tools are now standard in engineering practice. The course shifts its pedagogical model from "write code from scratch" to **Understand → Modify → Verify AI-generated code**. Students still need genuine Python competence, computational thinking, and engineering judgment — but they acquire it by reading, questioning, and verifying AI output rather than by typing code from a blank page.
+
+**Goal**: Students leave able to (1) read and understand AI-generated Python, (2) verify it meets the engineering requirement, (3) debug and modify it confidently. The agentic cycle — **prompt → generate → understand → verify → iterate** — is woven into every session.
+
+
 | Field | Value |
 |-------|-------|
 | **New file** | `../11a_Raster_Simulation.qmdx` |
@@ -8,9 +19,12 @@
 | **Session** | S11 |
 | **Status** | NEW (~20–30 min, ~18 slides) |
 
-> Open NEW — create `11a_Raster_Simulation.qmdx` as starting point (or create new if Status is NEW).
-> **Read `../lecture_skill/SKILL.md` before writing any slides.**
-> Apply its conventions for layout, icons, code blocks, and Quarto syntax.
+## Instructions
+
+1. Read `../lecture_skill/SKILL.md` — follow its conventions for layout, icons, Quarto syntax, and slide structure throughout.
+2. Create `../11a_Raster_Simulation.qmdx` from scratch as a new `.qmdx` lecture file.
+3. Use the **Change Notes** below as the complete content specification — they define every section, slide group, and callout to include.
+4. Save the finished file to `../11a_Raster_Simulation.qmdx`.
 
 ---
 
