@@ -1,0 +1,567 @@
+---
+title: "Anforderungen"
+subtitle: "Vom Problem zum Prompt"
+image-credit: "Midjourney: A civil engineer reviewing a digital blueprint with an AI assistant"
+footertext: "Programmieren und Datenbanken · S04"
+institute-logo: _extensions/ai4sc-style/assets/logos/ai4sc-logo-ink.svg
+university-logo: _extensions/ai4sc-style/assets/logos/uni_logo2.svg
+format:
+  ai4sc-style-revealjs:
+    css:
+      - _extensions/ai4sc-style/themes/color/mineral.css
+    title-slide-attributes:
+      data-background-video: images/04a_Anforderungen/mj_title.mp4
+    output-file: 04a_Anforderungen.slide.html
+  html:
+    output-file: 04a_Anforderungen.page.html
+  typst:
+    output-file: 04a_Anforderungen.page.pdf
+resources:
+  - data/04a_Anforderungen
+---
+
+%%book
+
+![](images/04a_Anforderungen/mj_title_band.jpg)
+
+> Die KI erfüllt den Prompt — nicht die Anforderung.\
+> Du bist die Brücke.
+>
+> — Kernsatz dieser Vorlesung
+
+%%/book
+
+%%slides
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Wer legt fest, was ein Programm tun soll?" capR="Midjourney: A civil engineer reviewing a blueprint with an AI assistant" imgR="images/04a_Anforderungen/mj_engineer_blueprint.png"}
+
+%%/slides
+
+%%# Warum Anforderungen?
+
+%%book
+### TL;DR
+
+KI-Werkzeuge erzeugen Code aus Prompts — aber ein guter Prompt setzt voraus, dass das Problem präzise verstanden ist. Anforderungsanalyse ist die Vorbedingung für jede KI-gestützte Entwicklung: Sie liefert die Quelle des Prompts und die Grundlage des Tests.
+%%/book
+
+## 📋 KI erfüllt den Prompt — nicht den Bedarf {.scramble-slide data-transition="none"}
+
+%%scol 50 50
+**Was KI tut:**
+
+Sie erzeugt Code, der den Prompt erfüllt.
+
+**Was KI nicht tut:**
+
+Sie versteht nicht, was der Stakeholder wirklich braucht.
+%%sep
+**Konsequenz:**
+
+Der Entwickler ist die Brücke zwischen Stakeholder-Bedarf und KI-generiertem Code.
+
+→ Keine gute Anforderung → kein guter Prompt
+%%/scol
+
+%%book
+KI-Werkzeuge wie Claude Code generieren Code, der den gegebenen Prompt möglichst gut erfüllt. Sie können jedoch nicht selbständig entscheiden, ob der Prompt das richtige Problem beschreibt. Diese Lücke schließt der Entwickler — durch systematische Anforderungsanalyse, die dem Prompting vorausgeht.
+%%/book
+
+## 📋 Anforderung: Quelle von Prompt und Test
+
+%%scol 50 50
+Der agentische Zyklus:
+
+1. **Prompt** → KI generiert Code
+2. **Generate** → Code entsteht
+3. **Understand** → Code lesen
+4. **Verify** → Testen gegen Anforderung
+5. **Iterate** → Prompt verfeinern
+
+%%sep
+**Anforderung** ist Grundlage für Schritt 1 *und* Schritt 4.
+
+Ohne klare Anforderung:
+
+- kein präziser Prompt
+- kein sinnvoller Test
+- kein Maßstab für „fertig"
+
+%%/scol
+
+%%book
+Die Anforderung hat im agentischen Entwicklungszyklus eine doppelte Rolle: Sie ist die Quelle des Prompts (Schritt 1) und die Grundlage des Tests (Schritt 4). Ohne sie lässt sich weder sinnvoll prompten noch verifizieren.
+
+→ Verweis: `01c_AgentischesProgrammieren` (S01) — Prompt-Struktur
+%%/book
+
+%%# Anforderungsarten
+
+%%book
+### TL;DR
+
+Anforderungen lassen sich in drei Kategorien unterteilen: funktionale Anforderungen (was das System tun muss), nichtfunktionale Anforderungen (wie gut es das tun muss) und Randbedingungen (was den Lösungsraum einschränkt). Alle drei sind relevant für Prompt und Test.
+%%/book
+
+%%slides
+## 📋 Drei Kategorien {{< ai4sc-icon clipboard-list >}}
+
+%%col 33 33 33
+#### Funktional
+
+**Was** das System tun muss
+
+- Messwerte einlesen
+- Grenzwert prüfen
+- Alarm auslösen
+- Bericht erzeugen
+%%sep
+#### Nichtfunktional
+
+**Wie gut** es das tun muss
+
+- Antwortzeit < 2 s
+- Verfügbarkeit 99,9 %
+- 1 Mio. Datensätze
+- IFC-konform
+%%sep
+#### Randbedingungen
+
+**Womit** und **worunter**
+
+- Raspberry Pi 4
+- Python 3.11
+- DSGVO
+- DIN EN ISO 9001
+%%/col
+
+%%note Definition: Anforderung
+Eine Anforderung ist eine **messbare Aussage** darüber, was ein System tun oder sein soll — nicht, wie es das erreicht.
+%%/note
+%%/slides+book
+
+**Funktionale Anforderungen** beschreiben das gewünschte Verhalten — Ein-/Ausgaben, Abläufe, Reaktionen auf Ereignisse. **Nichtfunktionale Anforderungen** beschreiben Qualitätseigenschaften wie Geschwindigkeit, Zuverlässigkeit oder Wartbarkeit. **Randbedingungen** schränken den Lösungsraum von außen ein — durch Hardware, Plattform, Gesetze oder Standards.
+
+%%def Anforderung
+Eine Anforderung ist eine messbare Aussage darüber, was ein System tun oder sein soll — nicht, wie es das erreicht.
+%%/def
+
+%%/book
+
+## 📋 Beispiel: Sensorüberwachung Brückenbauwerk
+
+%%scol 50 50
+**Szenario:**\
+Überwachungssystem für Feuchte- und Temperatursensoren in einem Brückenbauwerk.
+
+**Funktionale Anforderungen:**
+
+- Messwerte alle 60 s einlesen
+- Grenzwertüberschreitung erkennen
+- Alarm per E-Mail versenden
+- Messdaten lokal speichern
+%%sep
+**Nichtfunktionale Anforderungen:**
+
+- Antwortzeit: < 2 s
+- Weiterbetrieb bei Netzausfall
+
+**Randbedingungen:**
+
+- Hardware: Raspberry Pi 4
+- Betriebssystem: Raspberry Pi OS
+- Norm: DIN EN 13791
+%%/scol
+
+%%book
+Dieses Beispiel begleitet die gesamte Vorlesung. Das Sensorüberwachungssystem für ein Brückenbauwerk ist typisch für die Domäne Bauingenieurwesen und Umweltüberwachung: eingebettete Hardware, geringe Netzanbindung, harte Zeitanforderungen, regulatorische Vorgaben.
+%%/book
+
+## 📋 Häufige Fehler bei Anforderungen
+
+- [Vage: „Das System soll schnell sein"]{.con}
+- [Nicht testbar: „Benutzerfreundliche Oberfläche"]{.con}
+- [Lösungsorientiert: „Nutze SQLite als Datenbank"]{.con}
+- [Messbar: „Antwortzeit < 2 s bei 95 % der Anfragen"]{.pro}
+- [Testbar: „Nutzer findet Alarmfunktion ohne Anleitung in < 30 s"]{.pro}
+- [Problemorientiert: „Messdaten bleiben nach Stromausfall abrufbar"]{.pro}
+
+%%book
+Eine gute Anforderung ist messbar, überprüfbar und beschreibt das *Was*, nicht das *Wie*. Vage oder lösungsorientierte Anforderungen führen zu schlechten Prompts und untestbaren Ergebnissen.
+%%/book
+
+%%# Stakeholder-Perspektiven
+
+%%book
+### TL;DR
+
+Dasselbe System wird von verschiedenen Stakeholdern mit unterschiedlichen Erwartungen betrachtet. Das Verstehen aller Perspektiven ist Voraussetzung dafür, vollständige und konsistente Anforderungen zu formulieren.
+%%/book
+
+%%slides
+## 📋 Drei Perspektiven — ein System
+
+%%col 33 33 33
+#### Tragwerksplaner
+
+Braucht:
+
+- Rohmesswerte (kPa, °C)
+- Langzeittrends
+- Normkonforme Ausgabe
+- Export in IFC / CSV
+%%sep
+#### Facility Manager
+
+Braucht:
+
+- Echtzeit-Alarmierung
+- Dashboard auf Tablet
+- SLA-Monitoring
+- Eskalationsregeln
+%%sep
+#### Behördenprüfer
+
+Braucht:
+
+- Audit-Trail
+- Manipulationssicherheit
+- Normkonformität DIN
+- Exportierbare Berichte
+%%/col
+%%/slides+book
+
+Stakeholder-Analyse deckt auf, dass verschiedene Nutzergruppen aus denselben Rohdaten völlig unterschiedliche Anforderungen ableiten. Wer diese Unterschiede nicht kennt, baut Systeme, die nur einer Gruppe dienen.
+
+| Stakeholder | Kernbedarf | Schlüssel-Anforderung |
+|-------------|------------|----------------------|
+| Tragwerksplaner | Langzeitdaten | IFC-Export, Normkonformität |
+| Facility Manager | Echtzeit | Dashboard-Ladezeit < 2 s |
+| Behördenprüfer | Nachvollziehbarkeit | Audit-Log, Manipulationsschutz |
+
+%%/book
+
+## 📋 Stakeholder → Anforderungen ableiten
+
+%%scol 50 50
+**Vorgehen:**
+
+1. Stakeholder identifizieren
+2. Nutzungsszenarien je Rolle erfassen
+3. Funktionale und nichtfunktionale Anforderungen ableiten
+4. Konflikte aufdecken und priorisieren
+
+%%sep
+**Typische Konflikte:**
+
+- Echtzeit (Manager) vs. Langzeitarchiv (Planer)
+- Offene API vs. Sicherheitsanforderung (Prüfer)
+- Detailtiefe vs. Übersichtlichkeit
+
+%%/scol
+
+%%book
+Konflikte zwischen Stakeholderanforderungen sind normal und müssen explizit verhandelt werden — nicht implizit aufgelöst. Ohne Stakeholder-Analyse entstehen Systeme, die einem Stakeholder gerecht werden und allen anderen nicht.
+%%/book
+
+%%# Qualitätskriterien
+
+%%book
+### TL;DR
+
+Qualitätskriterien überführen nichtfunktionale Anforderungen in messbare Abnahmekriterien. Ohne quantitatives Kriterium ist eine Anforderung nicht testbar und damit für Prompt und Test wertlos.
+%%/book
+
+## 📋 Messbare Abnahmekriterien
+
+%%scol 50 50
+**Anforderung:** „Das System soll zuverlässig sein."
+
+**Daraus messbare Kriterien:**
+
+- Verfügbarkeit ≥ 99,5 % p.a.
+- Max. 30 min Ausfallzeit pro Monat
+- Automatischer Neustart nach < 60 s
+%%sep
+**Anforderung:** „Das System soll skalierbar sein."
+
+**Daraus messbare Kriterien:**
+
+- 1 Mio. Datensätze in < 10 s verarbeiten
+- Ausgabe konform zu IFC-Schema 4.0
+- Horizontale Skalierung ohne Codeänderung
+%%/scol
+
+%%note Merksatz
+Jede nichtfunktionale Anforderung braucht ein **quantitatives Akzeptanzkriterium** — sonst ist sie nicht testbar.
+%%/note
+
+%%book
+Messbare Abnahmekriterien sind der Übergang von der Anforderungsanalyse zur Testspezifikation. Ohne sie gibt es keinen objektiven Maßstab dafür, ob ein System die Anforderung erfüllt.
+%%/book
+
+## 📋 Domänenbeispiele
+
+| Kategorie | Vage | Messbar |
+|-----------|------|---------|
+| Performance | „schnell" | Antwortzeit < 2 s (P95) |
+| Kapazität | „viele Daten" | 1 Mio. Datensätze in < 10 s |
+| Interoperabilität | „kompatibel" | Ausgabe konform zu IFC 4.0 |
+| Zuverlässigkeit | „stabil" | Verfügbarkeit ≥ 99,5 % p.a. |
+| Datenschutz | „sicher" | DSGVO-konform, Audit-Log |
+
+%%book
+Dieses Muster zieht sich durch alle Domänen: vage Wünsche müssen in messbare Kriterien übersetzt werden. Erst dann können sie als Prompt-Bedingung und als Testfall verwendet werden.
+%%/book
+
+%%# User Stories
+
+%%book
+### TL;DR
+
+User Stories strukturieren Anforderungen aus der Nutzerperspektive. Die Schablone (als … möchte ich … damit …) trennt Rolle, Funktion und Nutzen — genau die Struktur, die ein KI-Werkzeug braucht, um relevanten Code zu erzeugen.
+%%/book
+
+## 📋 User-Story-Format {{< ai4sc-icon workflow >}}
+
+%%scol 45 55
+**Schablone:**
+
+> Als **[Rolle]**\
+> möchte ich **[Funktion]**\
+> damit ich **[Nutzen]**.
+
+**Akzeptanzkriterien:**\
+Wann ist die Story erledigt?
+%%sep
+**Beispiel:**
+
+> Als **Facility Manager**\
+> möchte ich ein **Sensor-Alarm-Dashboard**\
+> damit ich **vor einem SLA-Bruch reagieren kann**.
+
+**Akzeptanzkriterien:**
+
+- Dashboard lädt in < 2 s
+- Aktive Alarme werden rot hervorgehoben
+- Quittierung wird mit UTC-Zeitstempel gespeichert
+%%/scol
+
+%%book
+Die User-Story-Schablone stammt aus dem agilen Softwaremanagement. Sie ist besonders wertvoll für das Prompting, weil sie Rolle, Funktion und Nutzen explizit trennt. Diese drei Elemente bilden den Kern eines guten Prompts.
+%%/book
+
+%%# Anforderung → Prompt
+
+%%book
+### TL;DR
+
+Eine gut formulierte User Story lässt sich schrittweise in einen strukturierten Claude-Code-Prompt überführen. Jedes Akzeptanzkriterium wird direkt zu einer Prompt-Bedingung.
+%%/book
+
+## 📋 Von der User Story zum Prompt — Schritt 1
+
+%%scol 50 50
+**User Story:**
+
+> Als Facility Manager\
+> möchte ich ein Sensor-Alarm-Dashboard\
+> damit ich vor einem SLA-Bruch reagieren kann.
+
+**Akzeptanzkriterien:**
+
+- Lädt in < 2 s
+- Aktive Alarme rot markiert
+- Quittierung mit UTC-Zeitstempel
+%%sep
+**Prompt: Kontext-Abschnitt**
+
+```
+Du bist ein Python-Entwickler.
+Aufgabe: Sensor-Alarm-Dashboard.
+Nutzer: Facility Manager
+Ziel: SLA-Überwachung in Echtzeit
+```
+
+Rolle und Nutzen aus der User Story\
+→ Kontext des Prompts
+
+%%/scol
+
+%%book
+Der erste Schritt überführt Rolle und Nutzen der User Story in den Kontext-Abschnitt des Prompts. Das Kontextrahmen teilt dem KI-Werkzeug mit, aus welcher Perspektive und mit welchem Ziel es arbeitet.
+
+→ Verweis: Prompt-Struktur aus `01c_AgentischesProgrammieren` (S01)
+%%/book
+
+## 📋 Von der User Story zum Prompt — Schritt 2
+
+%%scol 50 50
+**Akzeptanzkriterien → Anforderungen im Prompt:**
+
+- Lädt in < 2 s\
+  → `Ladezeit < 2 s, optimiere Datenbankabfragen`
+- Alarme rot\
+  → `Alarme mit Status "active" rot hervorheben`
+- Zeitstempel\
+  → `Quittierung mit UTC-Zeitstempel speichern`
+
+%%sep
+**Vollständiger Prompt:**
+
+```
+Erstelle ein Streamlit-Dashboard
+für Sensor-Alarme (Python).
+
+Anforderungen:
+- Ladezeit < 2 s
+- Aktive Alarme rot hervorheben
+- Quittierung + UTC-Zeitstempel
+
+Schreibe pytest-Tests, die diese
+Anforderungen prüfen.
+```
+%%/scol
+
+%%tip Merksatz
+Eine präzise Anforderung ist der beste Prompt.
+%%/tip
+
+%%book
+Jedes Akzeptanzkriterium wird direkt in eine Prompt-Bedingung übersetzt. Der resultierende Prompt ist präziser und enthält bereits die Grundlage für die Testspezifikation. Das KI-Werkzeug bekommt ein klares Zielkriterium.
+%%/book
+
+%%# Anforderung → Test
+
+%%book
+### TL;DR
+
+Dieselbe User Story, die den Prompt erzeugt, liefert auch die Testfälle. Akzeptanzkriterien werden direkt in Unit-Tests übersetzt. Dieser Abschnitt motiviert die vertiefte Behandlung in `08a_UnitTest` (S08).
+%%/book
+
+## 🔍 Von der Anforderung zum Test {{< ai4sc-icon test-tube >}}
+
+%%scol 50 50
+**Akzeptanzkriterium:**\
+„Dashboard lädt in < 2 s"
+
+```python
+def test_dashboard_load_time():
+    start = time.time()
+    dashboard = load_dashboard(
+        sensor_data
+    )
+    elapsed = time.time() - start
+    assert elapsed < 2.0, \
+        f"Zu langsam: {elapsed:.2f}s"
+```
+%%sep
+**Akzeptanzkriterium:**\
+„Quittierung mit UTC-Zeitstempel"
+
+```python
+def test_alarm_acknowledgment():
+    alarm = Alarm(
+        sensor_id="S01",
+        level="critical"
+    )
+    alarm.acknowledge(user="jdoe")
+    assert alarm.ack_timestamp \
+        is not None
+    assert alarm.ack_user == "jdoe"
+```
+%%/scol
+
+> **Agentic workflow:** Wenn die KI einen Test generiert:
+> 1. Prüfe, ob der Test das Akzeptanzkriterium testet — nicht nur die Implementierung.
+> 2. Führe den Test gegen die Anforderung aus, nicht nur gegen den Code.
+> 3. Schreibe den Test vor dem Prompt — dann siehst du sofort, was fehlt.
+
+%%book
+Der Unit-Test ist die formale Repräsentation des Akzeptanzkriteriums. Wenn der Test grün ist, ist die Anforderung erfüllt. Diese direkte Traceability — Anforderung → Akzeptanzkriterium → Test — ist der Kern des testgetriebenen Promptings.
+
+→ Verweis: `08a_UnitTest` (S08) vertieft Unit-Testing mit pytest in Python.
+%%/book
+
+## 🔍 Test-Driven Prompting
+
+%%scol 50 50
+**Reihenfolge:**
+
+1. Anforderung formulieren
+2. Akzeptanzkriterien ableiten
+3. **Test schreiben** (noch kein Code)
+4. Prompt aus Anforderung + Test
+5. KI generiert Code
+6. Test grün → Anforderung erfüllt
+%%sep
+**Vorteil:**
+
+- Prompt enthält den Test als Spezifikation
+- KI hat klares Zielkriterium
+- Verifikation ist objektiv und automatisierbar
+- Anforderung ↔ Prompt ↔ Test bleiben synchron
+%%/scol
+
+%%book
+Test-Driven Prompting überträgt das Prinzip von Test-Driven Development (TDD) auf den KI-gestützten Entwicklungsprozess: Zuerst den Test schreiben, dann den Prompt formulieren, dann Code generieren lassen. Das Ergebnis ist ein objektiv verifizierbarer Code, bei dem der Test die Anforderung abbildet.
+%%/book
+
+%%# Das Traceability-Dreieck
+
+%%book
+### TL;DR
+
+Anforderung, Prompt und Test sind keine unabhängigen Artefakte — sie bilden ein Traceability-Dreieck. Änderungen an einem Element müssen die anderen beiden mitberücksichtigen.
+%%/book
+
+## 🔍 Traceability-Dreieck
+
+%%scol 50 50
+```
+     Anforderung 📋
+        /    \
+       /      \
+  Prompt  ↔  Test 🔍
+```
+
+**Regel:**
+
+Ändert sich die **Anforderung**:\
+→ Prompt anpassen\
+→ Test anpassen
+
+Ändert sich der **Test**:\
+→ Anforderung prüfen\
+→ Prompt prüfen
+%%sep
+| Artefakt | Quelle | Werkzeug |
+|----------|--------|---------|
+| Anforderung | Stakeholder | User Story |
+| Prompt | Anforderung | Claude Code |
+| Test | Akzeptanzkriterium | pytest |
+
+**Warnung:**
+
+- Kein Test ohne Anforderung
+- Kein Prompt ohne Anforderung
+- Keine Änderung ohne alle drei zu prüfen
+%%/scol
+
+%%tip Merksatz
+Das Traceability-Dreieck ist vollständig, wenn jede Anforderung einen Prompt und einen Test hat — und jede Änderung alle drei aktualisiert.
+%%/tip
+
+%%book
+Das Traceability-Dreieck ist das zentrale Konzept dieser Vorlesung: Anforderung, Prompt und Test sind drei Seiten desselben Dreiecks. Jede Änderung an einer Seite hat Konsequenzen für die anderen beiden. Dieses Prinzip zieht sich durch den gesamten Kurs.
+
+**Querverweise:**
+
+→ `01c_AgentischesProgrammieren` (S01) — Prompt-Struktur, die hier angewendet wird\
+→ `03c_Softwareentwurf` (S03) — Anforderungen gehen dem Entwurf voraus\
+→ `04b_Programmablauf` (S04) — Flussdiagramme operationalisieren Anforderungen\
+→ `08a_UnitTest` (S08) — Unit-Tests als formale Verifikationsschicht
+%%/book
+
+%%references
+%%final

@@ -26,6 +26,7 @@ resources:
 
 %%book
 
+
 # Computerhardware
 
 %%/book
@@ -270,6 +271,7 @@ STORE [Adresse □ z], R3   # z schreiben
 
 
 %%book
+
 
 ## Binären Zahlen
 
@@ -638,105 +640,8 @@ Alle Pixel eines Bildes werden so als lange Folge von Binärzahlen im Speicher a
 %%/slides
 
 
-%%# Stack und Heap
-
-%%book
-
-### Stack und Heap – Zwei Speicherbereiche im RAM
-
-Wenn ein Programm ausgeführt wird, nutzt es zwei klar getrennte Bereiche im RAM: den *Stack* und den *Heap*. Diese Trennung ist kein Python-Feature, sondern eine fundamentale Eigenschaft des Betriebssystems und der Prozessorarchitektur.
-
-**Stack** (Stapel): Ein geordneter Speicherbereich, der nach dem LIFO-Prinzip (Last In, First Out) funktioniert. Lokale □ Variablen und Funktionsaufruf-Informationen (Rücksprungadressen, Parameter) werden hier automatisch verwaltet. Der Stack wächst bei jedem Funktionsaufruf und schrumpft bei jeder Rückkehr. Seine Größe ist begrenzt (typisch: 1–8 MB).
-
-**Heap**: Ein ungeordneter, dynamisch wachsender Speicherbereich für Objekte und Datenstrukturen, die zur Laufzeit erzeugt werden. In Python landen alle Objekte auf dem Heap. Der Garbage Collector gibt Speicher frei, sobald keine Referenz mehr auf ein Objekt zeigt. Der Heap ist deutlich größer als der Stack, aber die Verwaltung ist aufwändiger.
-
-%%/book
-
-
-## Stack und Heap – Zwei Speicherbereiche im RAM
-
-%%col 50 50
-
-**Stack** (Stapel)
-
-- LIFO: letzter rein, erster raus
-- Lokale □ Variablen und Funktionsrahmen
-- Automatisch verwaltet — kein Aufwand für den Programmierer
-- Begrenzte Größe (~1–8 MB)
-- Sehr schnell
-
-**Heap**
-
-- Dynamisch — wächst und schrumpft zur Laufzeit
-- Python-Objekte, Listen, Dictionaries
-- Garbage Collector gibt freien Speicher zurück
-- Deutlich größer als Stack
-- Langsamer (Verwaltungsaufwand)
-
-%%sep
-
-```
-RAM
-┌──────────────────┐
-│      Stack       │
-│  ┌────────────┐  │
-│  │ frame: f() │  │  ← lokale □ Variablen
-│  ├────────────┤  │
-│  │ frame: g() │  │  ← lokale □ Variablen
-│  └────────────┘  │
-│      ↓ wächst    │
-│                  │
-│      ↑ wächst    │
-│  ┌────────────┐  │
-│  │    Heap    │  │  ← Objekte (Python)
-│  └────────────┘  │
-└──────────────────┘
-```
-
-%%/col
-
-
-## Stack und Heap – Lebensdauer von □ Variablen
-
-%%col 50 50
-
-- **Stack**: □ Variable lebt nur, solange die Funktion aktiv ist
-- **Heap**: Objekt lebt, solange eine Referenz darauf zeigt
-- In Python: alle Objekte (Zahlen, Strings, Listen) → Heap
-- Variablennamen (Referenzen) → Stack oder Register der CPU
-
-%%sep
-
-```python
-def berechne(x):
-    y = x * 2      # □ y auf Stack
-    return y       # □ y verschwindet hier
-
-ergebnis = berechne(5)
-# ergebnis-Objekt lebt auf dem Heap
-```
-
-%%warning Achtung
-Stack-Größe ist begrenzt. Tiefe Rekursion kann den Stack erschöpfen → *Stack Overflow* (`RecursionError` in Python).
-%%/warning
-
-%%/col
-
-
-## Agentic Workflow: Rekursion und Stack-Größe
-
-%%warning Agentic Workflow
-Wenn KI tiefen Rekursionscode generiert, kennt das Modell Ihre System-Stack-Größe nicht.
-
-1. **Prüfen**: Wie tief geht die Rekursion maximal? Python-Limit: `sys.getrecursionlimit()` (Standard: 1000)
-2. **Verifizieren**: Erzeugt der Code bei großen Eingaben einen `RecursionError`?
-3. **Prompt anpassen**: *"Schreibe eine iterative Variante ohne Rekursion"*
-
-Das Ausführungsmodell (IP, Stack, Heap) hilft Ihnen, solche Fehler zu erkennen — bevor das Programm abstürzt.
-%%/warning
-
 %%aside
-→ `02b_Speicher` (S02): detailliertes Speichermodell | → `02c_Datentypen` (S02): Datentypen als Speicherdarstellungen | → `09b_Rekursion` (S09): Rekursion und Stack-Verhalten
+→ `02b_Speicher` (S02): Stack, Heap und Python-Speichermodell | → `02c_Datentypen` (S02): Datentypen als Speicherdarstellungen | → `09b_Rekursion` (S09): Rekursion und Stack-Verhalten
 %%/aside
 
 %%slides

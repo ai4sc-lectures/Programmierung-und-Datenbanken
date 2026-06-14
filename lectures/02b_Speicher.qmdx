@@ -256,6 +256,98 @@ def sortiere(lst):
     return sorted(lst)   # ← neue Liste, Original bleibt
 ```
 
+
+%%# Stack und Heap: Zwei Speicherbereiche im RAM
+
+%%book
+
+### Stack und Heap als Hardware-Konzept
+
+Stack und Heap sind keine Python-Feature — sie sind fundamentale Bereiche im RAM, die das Betriebssystem jedem laufenden Prozess zuweist.
+
+**Stack** (Stapel): Ein geordneter Speicherbereich nach dem LIFO-Prinzip (*Last In, First Out*). Lokale □ Variablen und Funktionsaufruf-Informationen werden hier automatisch verwaltet. Der Stack wächst bei jedem Funktionsaufruf und schrumpft bei jeder Rückkehr. Seine Größe ist begrenzt (typisch: 1–8 MB).
+
+**Heap**: Ein ungeordneter, dynamisch wachsender Speicherbereich für Objekte und Datenstrukturen, die zur Laufzeit erzeugt werden. In Python landen alle Objekte auf dem Heap. Der Garbage Collector gibt Speicher frei, sobald keine Referenz mehr auf ein Objekt zeigt.
+
+*(← Voraussetzung: `02a_Computerhardware` — Speicherhierarchie und Ausführungsmodell)*
+
+%%/book
+
+
+## Stack und Heap – Zwei Speicherbereiche im RAM
+
+%%scol 50 50
+
+**Stack** (Stapel)
+
+- LIFO: letzter rein, erster raus
+- Lokale □ Variablen und Funktionsrahmen
+- Automatisch verwaltet — kein Aufwand für den Programmierer
+- Begrenzte Größe (~1–8 MB)
+- Sehr schnell
+
+**Heap**
+
+- Dynamisch — wächst und schrumpft zur Laufzeit
+- Python-Objekte, Listen, Dictionaries
+- Garbage Collector gibt freien Speicher zurück
+- Deutlich größer als Stack
+- Langsamer (Verwaltungsaufwand)
+
+%%sep
+
+```
+RAM
+┌──────────────────┐
+│      Stack       │
+│  ┌────────────┐  │
+│  │ frame: f() │  │  ← lokale □ Variablen
+│  ├────────────┤  │
+│  │ frame: g() │  │  ← lokale □ Variablen
+│  └────────────┘  │
+│      ↓ wächst    │
+│                  │
+│      ↑ wächst    │
+│  ┌────────────┐  │
+│  │    Heap    │  │  ← Objekte (Python)
+│  └────────────┘  │
+└──────────────────┘
+```
+
+%%/scol
+
+
+## Stack und Heap – Lebensdauer von □ Variablen
+
+%%scol 50 50
+
+- **Stack**: □ Variable lebt nur, solange die Funktion aktiv ist
+- **Heap**: Objekt lebt, solange eine Referenz darauf zeigt
+- In Python: alle Objekte (Zahlen, Strings, Listen) → Heap
+- Variablennamen (Referenzen) → Stack oder Register der CPU
+
+%%sep
+
+```python
+def berechne(x):
+    y = x * 2      # □ y auf Stack
+    return y       # □ y verschwindet hier
+
+ergebnis = berechne(5)
+# ergebnis-Objekt lebt auf dem Heap
+```
+
+%%warning Agentic Workflow
+Wenn KI tiefen Rekursionscode generiert, kennt das Modell Ihre System-Stack-Größe nicht.
+
+1. **Prüfen**: Wie tief geht die Rekursion maximal? `sys.getrecursionlimit()` (Standard: 1000)
+2. **Verifizieren**: Erzeugt der Code bei großen Eingaben einen `RecursionError`?
+3. **Prompt anpassen**: *"Schreibe eine iterative Variante ohne Rekursion"*
+%%/warning
+
+%%/scol
+
+
 %%# Der Call Stack
 
 %%book

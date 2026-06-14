@@ -1,0 +1,749 @@
+---
+title: "Softwareentwurf"
+image-credit: "Midjourney: Waterfall in chinese mountain range"
+format:
+  ai4sc-style-revealjs:
+    title-slide-attributes:
+      data-background-video: images/05a_Softwareentwurf/mj_title.mp4
+    output-file: 03c_Softwareentwurf.slide.html
+  html:
+    output-file: 03c_Softwareentwurf.page.html
+  typst:
+    output-file: 03c_Softwareentwurf.page.pdf
+resources:
+  - data/03c_Softwareentwurf
+---
+
+%%book
+
+![](images/05a_Softwareentwurf/mj_title_band.jpg)
+
+> Guter Code beginnt mit einem guten Entwurf — nicht mit einer leeren Datei.
+>
+> — Ralph Johnson (sinngemäß)
+
+%%/book
+
+%%slides
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Was entsteht zuerst — Code oder Plan?" capR="Midjourney: Software Waterfall" imgR="images/05a_Softwareentwurf/waterfall.png"}
+
+%%/slides
+
+%%slides
+
+## Ablauf
+
+![](images/partA_6.svg)
+
+%%/slides
+
+%%book
+
+# 📋 Von der Anforderung zum Code
+
+Bevor eine einzige Zeile Code geschrieben wird, muss klar sein, *was* das Programm leisten soll und *wie* es strukturiert werden soll. Dieser Abschnitt zeigt, wie die Lücke zwischen einer Anforderung des Auftraggebers und einer Zeile Python geschlossen wird — und warum dieser Entwurfsschritt entscheidend ist.
+
+%%/book
+
+%%slides
+
+## 📋 Die Lücke: Anforderung → Code
+
+%%col 50 50
+
+**Auftraggeber sagt:**
+
+> „Ich brauche ein Programm, das den Wasserverbrauch eines Gebäudes pro Raum berechnet."
+
+%%sep
+
+**Entwickler braucht:**
+
+- Welche *Klassen* gibt es?
+- Welche *Attribute* (mit Typen)?
+- Welche *Methoden* (Signaturen)?
+- Wie hängen die *Teile zusammen*?
+
+%%/col
+
+%%/slides
+
+%%slides
+
+## 📋 Entwurf schließt die Lücke
+
+%%col 50 50
+
+Der Entwurf übersetzt eine Anforderung in eine strukturierte Programmbeschreibung — *bevor* Code geschrieben wird.
+
+%%sep
+
+```text
+📋 Anforderung
+     ↓  Entwurf
+⇄ Klassenmodell (UML)
+     ↓  Implementierung
+⚙ Python Code
+     ↓  Verifikation
+🔄 Fertiges Programm
+```
+
+%%/col
+
+%%/slides
+
+%%book
+
+## Die Phasen der Softwareentwicklung
+
+Ein strukturiertes Vorgehen ist essentiell, weil es Teamarbeit ermöglicht, Qualität sicherstellt und Kosten kontrollierbar macht. Ohne systematische Planung entstehen oft chaotische Entwicklungsprozesse, die zu fehlerhafter Software, Terminüberschreitungen und Budgetproblemen führen.
+
+### Anforderungsdefinition
+
+Die erste Phase dient der präzisen Definition dessen, was die Software leisten soll. Hier werden sowohl die funktionalen Aspekte als auch die Randbedingungen festgelegt.
+
+### Entwurfsphase
+
+Der Entwurf definiert, wie die Software strukturell aufgebaut werden soll — Klassenmodell und Ausführungsplanung: Was wird wann, durch wen, und wie implementiert.
+
+### Ausführungsphase
+
+Die Ausführung umfasst die Implementation der einzelnen Softwarekomponenten und deren Integration zu einem funktionsfähigen Gesamtsystem.
+
+### Abnahme und Test
+
+Die Abnahmephase stellt sicher, dass die fertige Software alle Anforderungen erfüllt — durch Modul-, Integrations- und Systemtests.
+
+%%/book
+
+%%slides
+
+## 📋 Phasen der Softwareentwicklung
+
+%%col 50 50
+
+- *Anforderungsdefinition*
+  – Was soll das Programm können?
+
+- *Entwurf*
+  – Klassenmodell
+  – Ausführungsplanung
+
+%%sep
+
+- *Ausführung*
+  – Implementation der Klassen
+  – Integration zur fertigen Lösung
+
+- *Abnahme*
+  – Modultest
+  – Integrationstest
+  – Systemtest
+
+%%/col
+
+%%/slides
+
+%%slides
+
+## Vergleich: Software- vs. Bauingenieurwesen
+
+%%col 50 50
+
+**Softwareentwicklung**
+
+- *Anforderung:* Funktionen und Randbedingungen
+- *Entwurf:* Klassenmodell, Ausführungsplanung
+- *Ausführung:* Implementation + Integration
+- *Abnahme:* Modul-, Integrations-, Systemtest
+
+%%sep
+
+**Bauingenieurwesen**
+
+- *Ausschreibung:* Funktionen und Randbedingungen
+- *Entwurf:* Architektur, Fachplanung
+- *Ausführung:* Einzelgewerke + Integration
+- *Abnahme:* Gewerke-, Teil-, Gesamtabnahme
+
+%%/col
+
+%%/slides
+
+%%book
+
+# 🔄 Vorgehensmodelle
+
+Software wird heute fast ausschließlich im Team über längere Zeiträume entwickelt. Unterschiedliche Projekttypen erfordern unterschiedliche Vorgehensmodelle — das richtige Modell zu wählen ist selbst eine Entwurfsentscheidung.
+
+%%/book
+
+%%slides
+
+## 🔄 Welches Vorgehensmodell passt?
+
+%%col 50 50
+
+Vier Modelle — je nach Projekttyp:
+
+1. *Wasserfall* — sequenziell, dokumentiert
+2. *V-Modell* — sicherheitskritisch, testbasiert
+3. *Agil* — iterativ, änderungsbereit
+4. *Agentisch* — KI implementiert, Mensch verifiziert
+
+%%sep
+
+Entscheidungskriterien:
+
+- Wie *stabil* sind die Anforderungen?
+- Wie *sicherheitskritisch* ist die Software?
+- Wie *groß* ist das Team?
+- Stehen *KI-Tools* zur Verfügung?
+
+%%/col
+
+%%/slides
+
+%%book
+
+## Wasserfallmethode — Das traditionelle Entwicklungsmodell
+
+Die Wasserfallmethode repräsentiert den traditionellen Ansatz der Softwareentwicklung und wird noch heute häufig in Ausschreibungen großer Systeme gefordert. Ihr charakteristisches Merkmal ist die streng sequenzielle Abarbeitung der Entwicklungsphasen, wobei jede Phase vollständig abgeschlossen werden muss, bevor die nächste beginnt.
+
+![](images/05a_Softwareentwurf/waterflow.svg)
+
+Der große Vorteil liegt in der Planbarkeit und dem strukturierten Vorgehen. Allerdings führt die sequenzielle Natur dazu, dass Fehler aus frühen Phasen erst sehr spät entdeckt werden.
+
+%%/book
+
+%%slides
+
+## 🔄 Wasserfallmethode
+
+%%col 50 50
+
+- Traditionelles Modell, oft in Ausschreibungen gefordert
+
+- *Sequenzielle Phasen* — jede Phase vollständig vor der nächsten
+
+- [Planbar, gut dokumentierbar, ISO-9000-konform]{.pro}
+- [Fehler werden spät entdeckt]{.con}
+
+*Geeignet wenn:* Anforderungen stabil, formale Ausschreibung
+
+%%sep
+
+![](images/05a_Softwareentwurf/waterflow.svg)
+
+%%/col
+
+%%/slides
+
+%%book
+
+## V-Methode — Entwicklung mit systematischer Testplanung
+
+Die V-Methode wurde speziell für die Entwicklung sicherheitskritischer Software konzipiert. Das charakteristische V-förmige Modell trennt Entwicklungs- und Testaktivitäten klar voneinander, wobei Tests bereits im Entwicklungsarm definiert werden.
+
+![](images/05a_Softwareentwurf/vmodel.svg)
+
+%%/book
+
+%%slides
+
+## 🔄 V-Methode
+
+%%col 50 50
+
+- Primär für *sicherheitskritische Software* (Auto, Flugzeug, Tunnel)
+
+- Separiert *Entwicklung* (links) und *Testaktivitäten* (rechts)
+
+- Tests werden schon *im Entwicklungsarm* definiert
+
+- [Systematische Qualitätssicherung, hohe Testabdeckung]{.pro}
+- [Aufwendiger als andere Modelle]{.con}
+
+*Geeignet wenn:* Tunnelsteuerung, Kläranlagen-SCADA
+
+%%sep
+
+![](images/05a_Softwareentwurf/vmodel.svg)
+
+%%/col
+
+%%/slides
+
+%%book
+
+## Agile Methode — Flexibilität durch iterative Entwicklung
+
+Die agile Methode stellt eine moderne Antwort auf die Herausforderungen sich schnell ändernder Anforderungen dar. Anstatt ein komplettes System von Anfang bis Ende zu planen, wird schrittweise entwickelt und kontinuierlich verbessert.
+
+![](images/05a_Softwareentwurf/agile.svg)
+
+Der agile Ansatz beginnt mit einem Minimal Viable Product — einer einfachsten funktionsfähigen Version. Diese wird in regelmäßigen Zyklen (typischerweise alle 3 Monate) erweitert und verbessert.
+
+%%/book
+
+%%slides
+
+## 🔄 Agile Methode
+
+%%col 50 50
+
+- *Iterative Entwicklung* mit regelmäßigen Releases (~alle 3 Monate)
+
+- Startet mit *MVP* (Minimal Viable Product)
+
+- [Flexibel, frühes Feedback, änderungsbereit]{.pro}
+- [Frühe Entwurfsfehler können Neuentwurf erzwingen]{.con}
+
+*Geeignet wenn:* Anforderungen unklar oder sich ändernd
+
+%%sep
+
+![](images/05a_Softwareentwurf/agile.svg)
+
+%%/col
+
+%%/slides
+
+%%book
+
+## Agentischer Entwicklungs-Loop — das vierte Modell
+
+Der agentische Entwicklungs-Loop ist ein modernes viertes Vorgehensmodell, das die Verfügbarkeit von KI-Coding-Assistenten voraussetzt. Er folgt dem gleichen iterativen Rhythmus wie die agile Methode, aber die KI übernimmt die Implementierungsphase.
+
+**Mapping auf den agilen Rhythmus:**
+
+- Sprint Planning → *Prompt formulieren* (📋 Anforderungsspezifikation)
+- Sprint (Implementierung) → *KI generiert Code*
+- Sprint Review → *Mensch versteht und testet Code* (🔄 Verifikation)
+- Retrospektive → *Prompt verfeinern*, nächste Anforderung
+
+**Kernkompetenz im agentischen Loop:**
+Nicht Tippen, sondern *Verstehen und Verifizieren* ist die Schlüsselkompetenz. Die KI generiert immer Code — ob dieser korrekt ist, liegt beim Ingenieur.
+
+Der agentische Loop wurde in `01c_AgentischesProgrammieren` eingeführt. Hier sehen wir ihn als formales Vorgehensmodell im Software-Engineering-Kontext.
+
+%%/book
+
+%%slides
+
+## 🔄 Agentischer Entwicklungs-Loop
+
+%%col 50 50
+
+KI übernimmt die Implementierungsphase — der Ingenieur steuert und verifiziert:
+
+- 📋 *Prompt* = Anforderungsspezifikation
+- ⚙ *Generate* = Implementierungssprint (KI)
+- 🔄 *Verify* = Verstehen & Testen (Mensch)
+- 🔄 *Iterate* = Prompt verfeinern
+
+**Kernkompetenz:** Verstehen und Verifizieren
+
+%%sep
+
+```text
+📋 Prompt
+(Anforderung formulieren)
+        ↓
+⚙ Generate
+(KI implementiert)
+        ↓
+🔄 Verify
+(Mensch versteht & testet)
+        ↓
+🔄 Iterate ←─────────┘
+(Anforderung verfeinern)
+```
+
+%%/col
+
+%%/slides
+
+%%slides
+
+## 🔄 Vier Vorgehensmodelle im Vergleich
+
+%%col 25 25 25 25
+
+**Wasserfall**
+
+- Sequenziell
+- Dokumentiert
+- Stabile Anf.
+
+%%sep
+
+**V-Modell**
+
+- Testbasiert
+- Sicherheit
+- Hohe Qualität
+
+%%sep
+
+**Agil**
+
+- Iterativ
+- Flexibel
+- Schnell
+
+%%sep
+
+**Agentisch**
+
+- KI generiert
+- Prompt = Spec
+- Verify = Kern
+
+%%/col
+
+%%/slides
+
+%%book
+
+# ⇄ UML Klassendiagramme
+
+Im objektorientierten Softwareentwurf wird ein Programm so entworfen, dass es aus interagierenden Objekten besteht. Hierbei verwendet man die Modellierungssprache [UML](https://de.wikipedia.org/wiki/Unified_Modeling_Language) um Klassen visuell zu entwerfen.
+
+In diesem Kurs nutzen wir UML-Klassendiagramme als Brücke zwischen Anforderung und KI-Prompt: Wer sein Klassenmodell als UML zeichnen kann, kann es auch in einen präzisen Prompt übersetzen.
+
+*Hinweis: In `04c_Objects` (S04) wird das hier eingeführte UML auf konkrete Python-Klassen angewendet.*
+
+%%/book
+
+%%slides
+
+## ⇄ UML — Entwurfssprache für Software
+
+%%col 50 50
+
+*UML (Unified Modelling Language)* ist ein ISO-Standard zur Beschreibung von Softwareentwürfen.
+
+Wird genutzt für:
+
+- Entwurf und Ausschreibung
+- Implementation und Dokumentation
+- Kommunikation im Team
+
+%%sep
+
+Wichtigste Diagrammtypen:
+
+- *Klassendiagramm* — Klassen- und Datenstruktur
+- *Programmablaufplan* — Algorithmen
+- *Sequenzdiagramm* — Interaktionen
+- *Use-Case-Diagramm* — Nutzfälle
+
+%%/col
+
+%%/slides
+
+%%book
+
+## Klassen, Attribute und Methoden
+
+Eine Klasse wird als Rechteck mit drei Ebenen dargestellt. In der ersten Ebene steht der Klassenname. In der zweiten Ebene werden alle Attribute mit ihrem Datentyp aufgelistet. Die dritte Ebene enthält alle Methoden mit ihrer vollständigen Signatur.
+
+Für die zuvor definierte Klasse `Point` mit den Attributen `x` und `y` und der Methode `distance()` sieht die Klasse in UML so aus:
+
+%%/book
+
+%%slides
+
+## ⚙ UML Klasse — Aufbau
+
+%%col 50 50
+
+Eine Klasse besteht aus drei Ebenen:
+
+1. *Klassenname* (oben)
+2. *Attribute* mit Datentyp (mitte)
+3. *Methoden* mit Signatur (unten)
+
+%%sep
+
+![](https://mermaid.ink/svg/pako:eNpdjk0OAiEMRq9CutI4J2DtAUzcGTYNFCWBMoGSOJnM3UVGXdhV30t_vhVsdgQabMRazwHvBZNh1WsYdcmBZd2NUicfM4p6_nHyYxeqIFs6jL3j7jeYIFFJGFz_NI4ZkAclMqB768hji2LA8HsUm-Trwha0lEYTtNmh0CcbaI-xdjsj33L-8vYCAldBOA)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+## ⚙ Attribut- und Methoden-Notation
+
+%%col 50 50
+
+**Attribute:**
+
+```text
+attributname: Typ
+```
+
+*Beispiele:*
+
+```text
+name: str
+area: float
+rooms: list[Room]
+```
+
+%%sep
+
+**Methoden:**
+
+```text
+method(param: Typ) Rückgabetyp
+```
+
+*Beispiele:*
+
+```text
+calculate_area() float
+get_rooms() list[Room]
+add_room(r: Room)
+```
+
+%%/col
+
+%%/slides
+
+%%slides
+
+## ⚙ Das am häufigsten verwendete Diagramm
+
+- Das am *häufigsten verwendete Diagramm* im objektorientierten Modellieren
+
+- Im Klassendiagramm werden modelliert:
+  - Klassen mit: Attributen, Methoden
+  - Beziehungen zwischen Klassen
+  - Hierarchien und Vererbungen
+
+%%/slides
+
+%%book
+
+## Referenzen
+
+Eine sehr wichtige Arbeit mit UML ist die Visualisierung von Abhängigkeiten zwischen Klassen in Form von Referenzen. Man unterscheidet in UML die Referenzen in der Art der Besitzverhältnisse: ob ein Objekt Teil eines anderen ist und ohne ihn existieren kann (Aggregation) oder nicht ohne diesen existieren kann (Komposition) oder komplett unabhängig ist (Assoziation).
+
+<table><tr>
+<td style="border: none;">![](https://mermaid.ink/svg/pako:eNpljj0KwzAMha8iNJYk0NVb2t6gWxEEESuuwT_BsYcScvc6bTpVg3jv00PSimPUggpHx8tys2wSewpQ60Pguveh_0eXLzrmQHgmhNi2u-q6UzVHDhT0xiQxnG0MgA16SZ6trlfXfQlhfooXQlWllomLy4QUthrlkuP9FUZUORVpsMyasxx_oprYLZXOHB4x_vz2BiRzRRk)</td>
+<td style="border: none;">![](https://mermaid.ink/svg/pako:eNpljjEKwzAMRa9iNIYk0NVbm96gWxEEESutwbZMbA8l5O512nSqBvH_00fSCpMYBg2To5Sulh4LeQyq1oeoYe_j-R9dvuiYK4QTgmq6bld931Rz5JRWg_goyWYrAVrwvHiyph5d9x0I-cmeEXSVhmcqLiNg2GqUSpbbK0yg81K4hRINZT7eBD2TS5VGCneRn9_e4yBE4A)</td>
+<td style="border: none;">![](https://mermaid.ink/svg/pako:eNpljkELwjAMhf9KeUfZBl57EKb-A28SkNBmWlhbWduDjP13O50ncwjvfXkkmWGiFWiYkVM6O75P7CmoWh-iTmu_9f_o-EXbXBH2BNW2h1V13a6aLae06lOKxnF2MaCBl8mzs_XovO4g5Id4IegqrQxcxkygsNQolxwvr2Cg81SkQXlazrK9CT3wmCp9crjG-PPLG-QFRN0)</td>
+</tr>
+</table>
+
+%%/book
+
+%%slides
+
+## ⇄ Referenzen — Beziehungen zwischen Klassen
+
+%%col 50 50
+
+- Objekte stehen meist im Zusammenhang: eine *Linie* besteht aus zwei *Punkten*
+- Diesen Zusammenhang bezeichnet man als *Referenz*
+- UML unterscheidet nach *Besitzverhältnis*:
+  - *Assoziation* — unabhängig voneinander
+  - *Aggregation* — Teil kann ohne Ganzes existieren
+  - *Komposition* — Teil kann *nicht* ohne Ganzes existieren
+
+%%sep
+
+<table><tr>
+<td style="border: none;">![](https://mermaid.ink/svg/pako:eNpljj0KwzAMha8iNJYk0NVb2t6gWxEEESuuwT_BsYcScvc6bTpVg3jv00PSimPUggpHx8tys2wSewpQ60Pguveh_0eXLzrmQHgmhNi2u-q6UzVHDhT0xiQxnG0MgA16SZ6trlfXfQlhfooXQlWllomLy4QUthrlkuP9FUZUORVpsMyasxx_oprYLZXOHB4x_vz2BiRzRRk)</td>
+<td style="border: none;">![](https://mermaid.ink/svg/pako:eNpljjEKwzAMRa9iNIYk0NVbm96gWxEEESutwbZMbA8l5O512nSqBvH_00fSCpMYBg2To5Sulh4LeQyq1oeoYe_j-R9dvuiYK4QTgmq6bld931Rz5JRWg_goyWYrAVrwvHiyph5d9x0I-cmeEXSVhmcqLiNg2GqUSpbbK0yg81K4hRINZT7eBD2TS5VGCneRn9_e4yBE4A)</td>
+<td style="border: none;">![](https://mermaid.ink/svg/pako:eNpljkELwjAMhf9KeUfZBl57EKb-A28SkNBmWlhbWduDjP13O50ncwjvfXkkmWGiFWiYkVM6O75P7CmoWh-iTmu_9f_o-EXbXBH2BNW2h1V13a6aLae06lOKxnF2MaCBl8mzs_XovO4g5Id4IegqrQxcxkygsNQolxwvr2Cg81SkQXlazrK9CT3wmCp9crjG-PPLG-QFRN0)</td>
+</tr>
+</table>
+
+%%/col
+
+%%/slides
+
+%%slides
+
+## ⇄ Multiplizität
+
+%%col 50 50
+
+*Zahlen* an Pfeilen geben die *Multiplizität* an — wie viele Objekte in Relation stehen:
+
+| Notation | Bedeutung |
+|----------|-----------|
+| `1` | Genau eins |
+| `0..*` | Null oder mehr |
+| `1..*` | Ein oder mehr |
+| `0..1` | Keins oder eins |
+
+%%sep
+
+![](https://mermaid.ink/svg/pako:eNpdT0EKwkAM_ErISbEe9Lhnjx4Eb7KX0E3rwjYrbQoW6d8NqxY1p5lhZsI8sM6B0WGdaBgOkdqeOi9gVxQ45Sj6eCkAmyZlUrj_8WnhIQ5KUvOq5NYvff4uPEZhWAotklhava5-vcXlcecR8nZraG-odIIDe9FrBSwBK-y47ygGm1BKPeqVO_boDAZuaEzq0ctsVho1nyep0Wk_coXjLZDyezS6htJg6o3kkvOHz0_cjFoV)
+
+%%/col
+
+%%/slides
+
+%%book
+
+## Vererbung
+
+Ein wichtiger Aspekt in der Arbeit mit UML ist die Vererbung. Die Vererbung wird in UML durch eine Referenz mit einem gefüllten Dreieck "▲" bei der Oberklasse gezeichnet.
+
+![](https://mermaid.ink/svg/pako:eNptjz0KwzAMha9iNLU0vYDp2AME2qkYjIiVNOCfYMtDSHP3OkkDHaJFet-T4GmCJhgCCY3FlO49dhGd8qLUSkQd7NgFL6YNLnXBSHg6_wGtE0etdzZvbT-9fa5X8Yw9-s7SkUUccVEHXk2eFw8qcBQd9qZkXbMo4Dc5UiDLaKjFbFmB8nNZxczhMfoGJMdMFeTBINPvO5At2lTogP4Vwq7nLzIuVXA)
+
+%%/book
+
+%%slides
+
+## ⇄ Vererbung
+
+%%col 50 50
+
+- Gleiche Objekte teilen oft ähnliche Eigenschaften und Methoden
+- *Vererbung* erlaubt Definieren von *Unterklassen* und *Oberklassen*
+- Unterklasse erbt alle Attribute und Methoden der Oberklasse
+- In UML: Referenz mit *gefülltem Dreieck "▲"* bei der Oberklasse
+
+%%sep
+
+![](https://mermaid.ink/svg/pako:eNptkcFqwzAMhl8l6LSxNNiJmzo-7LDtOtihp2EYplbTQGIXxYF1Xd99SZOUZUwILH3SLxn7DDtvERTsatO2L5UpyTTaRb3ZinAXKu-ip-1Irj3Rm69PpXcjmhIVPRhCc3f_l2r90XsbaAyGht-ztlQZV9a4YBjI3BZMO9GFkY101kWr1ffj8kaz_J_SPGVRghhKqiyoQB3G0CA1ZkjhPIg0hAM2qEH1ocW96eqgQbtLLzsa9-59MyvJd-UB1N7UbZ91R2sCTg96o4TOIj37zgVQacGvQ0Cd4RMUz_KEZ4IJKXJecMHyGE6gBEtSURRFzuU6Y-kmE5cYvq57WSI3a9Ybz6TMWC5lDGir4Ol1-tThuPwAlpuYcw)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+## ⇄ Klassendiagramm — Gesamtbeispiel
+
+%%col 17 83
+
+- Klassendiagramme können groß werden
+
+- Sie stellen das *(Daten-)Modell* dar
+
+%%sep
+
+![](https://mermaid.ink/svg/pako:eNp9VF1vmzAU_SvWlSp1G40guPlAe9m6PVTbtKjb04QUuXADloxNbSM1zfLfazBEkEb1C9f3nnuOfWxzgEzlCAlkghnzjbNCsyqVxI2rK_KVGSQFqgqt3pMOgsZXuwnZKC4tOfhUOz7thGKWPL_J7EeZnBvLZIbXXfsHXzmmcsz8k0ucEAuUhS2vL6M3SuwLJScNTCMb4F1iuzVWb7dvKNxG71RVK8MtdxwaBWsDU_K63-xAn0KUAlE3Ny6KXeS3n5C6_fbYbuEe-LEDzkdAt29tA4IyH4nfyxI17xwhJUfNdFbuyU6rahCeruLzf8f7V3MmC4GXSu602OWuDUrrS744sPjqn4w5l3H7wIvSvgf4_Wgbg-8hvmSNxUFlwutx90aZDAWasdiU_hw4Fp3InAN77RZ3lvTI708Nd0fsjBYnH3rLBm9ZjS-XKhvmmgQK5Z9J7_A46XEPmNnR8ZymvUlPjbucl7V_8GHtbdSzlap6bAwEUGieQ2J1gwFUqCvWTqG79SnYEitMIXFhjjvWCJtCKo-urWbyn1LV0KlVU5SQ7JgwbtbUuTOjf_qnrHZ3FPWdaqSFJA5pRwLJAZ4hieLFLIppSFd0Ea0jGi4C2ENCw9mcrtfrRbS6jcP5MqbHAF463XC2Wt6GbkSrJZ1HlMYBYM6t0r_630_7Ob4C5I5vIg)
+
+%%/col
+
+%%/slides
+
+%%book
+
+# 📋 BIM Anwendungsbeispiel: Anforderung → UML → KI → Code
+
+Dieses Beispiel führt den vollständigen agentic workflow durch: von einer natürlichsprachlichen Anforderung über ein UML-Klassendiagramm zu einem KI-generierten Python-Programm. Die Verifikationsphase zeigt, wie man prüft, ob der generierte Code das Diagramm korrekt umsetzt.
+
+%%/book
+
+%%slides
+
+## 📋 BIM Beispiel — Schritt 1: Anforderung formulieren
+
+%%col 50 50
+
+**Auftraggeber formuliert:**
+
+> „Ein Gebäude hat mehrere Räume. Jeder Raum hat einen Namen, eine Fläche und eine Liste von Fenstern. Ein Fenster hat eine Breite und Höhe. Das Programm soll die Gesamtfensterfläche eines Raumes berechnen."
+
+%%sep
+
+**Ingenieursfragen für den Entwurf:**
+
+- Welche *Klassen* brauchen wir?
+- Welche *Attribute* mit welchen Typen?
+- Welche *Methoden* mit Signaturen?
+- Welche *Beziehungen* zwischen Klassen?
+
+→ Diese Fragen beantwortet das UML-Diagramm
+
+%%/col
+
+%%/slides
+
+%%book
+
+Das UML-Klassendiagramm für das BIM-Beispiel identifiziert drei Klassen: Building, Room und Window. Building enthält einen oder mehrere Rooms (1 zu 1..*), jeder Room hat null oder mehr Windows (1 zu 0..*).
+
+%%/book
+
+%%slides
+
+## ⇄ BIM Beispiel — Schritt 2: Anforderung → UML
+
+```{.mermaid}
+classDiagram
+    class Building {
+        name: str
+        address: str
+        get_rooms() list[Room]
+    }
+    class Room {
+        name: str
+        area: float
+        get_window_area() float
+    }
+    class Window {
+        width: float
+        height: float
+        get_area() float
+    }
+    Building "1" --> "1..*" Room : enthält
+    Room "1" --> "0..*" Window : hat
+```
+
+%%/slides
+
+%%slides
+
+## 🔄 BIM Beispiel — Schritt 3: UML → KI-Prompt → Verifizieren
+
+%%col 50 50
+
+**KI-Prompt (aus UML abgeleitet):**
+
+> Erstelle Python-Klassen für `Building`, `Room` und `Window`. Building enthält eine Liste von Rooms. Room hat `name: str`, `area: float` und eine Liste von Windows. Window hat `width: float`, `height: float` und `get_area() -> float`. Room hat `get_window_area() -> float`.
+
+%%sep
+
+**Verifikation gegen UML:**
+
+- ✓ Alle drei Klassen vorhanden?
+- ✓ Attribute mit korrekten Typen?
+- ✓ Methoden-Signaturen korrekt?
+- ✓ Beziehungen implementiert?
+- ✓ Multiplizität berücksichtigt?
+
+%%/col
+
+%%/slides
+
+%%slides
+
+## Anwendungsbeispiel — BIM (Building Information Models)
+
+%%col 60 40
+
+- Bauzeichnungen werden heutzutage als *IFC (Industry Foundation Class)* gespeichert
+- *IFC* ist ein objektorientiertes Modell mit Vererbung, Spezialisierung und Generalisierung
+- Es wird u.a. in *UML* dokumentiert
+
+%%sep
+
+![Polygon Klassen](images/05a_Softwareentwurf/ifc_classes.jpg)
+
+%%/col
+
+%%/slides
+
+%%final
