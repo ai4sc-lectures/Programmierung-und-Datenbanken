@@ -21,9 +21,8 @@
 
 ## Instructions
 
-1. Read `../lecture_skill/SKILL.md` — follow its conventions for layout, icons, Quarto syntax, and slide structure throughout.
-2. Read the source file(s):
-   - `../oldx/11b_Datenbanken_SQL_Create.qmdx`
+1. Follow the `.qmdx` conventions in `CLAUDE.md` (auto-loaded — do not read any other files).
+2. The **Summary**, **Main topics**, and **Key takeaways** sections below describe the existing content — do not open the source file.
 3. Apply every item in the **Change Notes** below:
    - ADD the specified content (new slides, callouts, sections).
    - REMOVE or REDUCE the specified content.

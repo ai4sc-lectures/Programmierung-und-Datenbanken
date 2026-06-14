@@ -21,7 +21,7 @@
 
 ## Instructions
 
-1. Read `../lecture_skill/SKILL.md` — follow its conventions for layout, icons, Quarto syntax, and slide structure throughout.
+1. Follow the `.qmdx` conventions in `CLAUDE.md` (auto-loaded — do not read any other files).
 2. Create `../01c_AgentischesProgrammieren.qmdx` from scratch as a new `.qmdx` lecture file.
 3. Use the **Change Notes** below as the complete content specification — they define every section, slide group, and callout to include.
 4. Save the finished file to `../01c_AgentischesProgrammieren.qmdx`.
