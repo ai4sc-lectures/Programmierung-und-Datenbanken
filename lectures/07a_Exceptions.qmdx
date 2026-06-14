@@ -1,0 +1,875 @@
+---
+title: "Exceptions"
+image-credit: "Midjourney: Exception in Time, ref. Salvador Dalí"
+format:
+  revealjs:
+    title-slide-attributes:
+      data-background-video: images/06a_Exceptions/mj_title.mp4
+    output-file: 07a_Exceptions.slide.html
+  html:
+    output-file: 07a_Exceptions.page.html
+  typst:
+    output-file: 07a_Exceptions.page.pdf
+resources:
+  - data/07a_Exceptions
+---
+
+%%slides
+
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Welche Ebenen hat die Wissenspyramide?" capR="Midjourney: Tower of Babel" imgR="images/03a_Operatoren/mj_tower.png"}
+
+%%/slides
+
+%%slides
+
+
+## Wiederholung: Wissenspyramide
+%%col 50 50
+
+Die Wissenspyramide ist ein Modell zur Darstellung der Entstehung von Wissen.
+
+Die vier Elementtypen: *Zeichen, Daten, Informationen* und *Wissen* werden pyramidenförmig als 4 Ebenen dargestellt.
+
+Zeichen formen die Basis und das Wissen die Spitze der Pyramide.
+
+%%sep
+
+![](images/02b_Wissenspyramide/pyramide1.svg)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Was sind die vier Grundelemente eines Programms?" capR="Midjourney: Fundamentals of a Programming Language" imgR="images/05a_Softwareentwurf/mj_fundamentals.png"}
+
+%%/slides
+
+%%slides
+
+
+## Wiederholung: Programmelemente
+
+- Wir kennen alle grundlegenden Grundelemente eines Programms:
+  - Statements
+  - Funktionen
+  - Verzweigungen
+  - Schleifen & Rekursion
+
+- Wir wissen wie man Algorithmen plant und diese Elemente kombinieren kann.
+
+%%/slides
+
+%%slides
+
+
+## Ablauf
+
+![](images/partA_7.svg)
+
+%%/slides
+
+%%book
+
+
+# Exceptions
+
+%%/book
+
+%%book
+
+![](images/06a_Exceptions/mj_title_band.jpg)
+
+> Anything that can go wrong, will go wrong.
+>
+> — Murphy's Law #1
+
+%%/book
+
+%%slides
+
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Du führst 200 Zeilen KI-Code aus und erhältst: `TypeError: unsupported operand type(s) for +: 'NoneType' and 'float'` — was tust du zuerst?" capR="Midjourney: Exception in Time, ref. Salvador Dalí" imgR="images/06a_Exceptions/mj_title_band.jpg"}
+
+%%/slides
+
+%%slides
+
+
+## KI-Code wirft eine Exception
+
+*Szenario:* KI generiert eine Analyse-Funktion für Sensordaten.
+
+```python
+def berechne_mittleren_durchfluss(sensor_id):
+    messungen = hole_messungen(sensor_id)
+    return sum(messungen) / len(messungen)
+```
+
+*Beim Ausführen:*
+
+```
+TypeError: unsupported operand type(s) for +: 'NoneType' and 'float'
+```
+
+*Die KI hat stillschweigend angenommen: `hole_messungen()` gibt immer eine Liste zurück.*
+
+%%/slides
+
+%%book
+
+## Das Szenario: KI-Exception analysieren
+
+KI-generierter Code enthält häufig stillschweigende **Annahmen über Eingaben und Rückgabewerte**, die im realen Betrieb verletzt werden. Eine Exception ist kein Zeichen dafür, dass der KI-Code grundsätzlich falsch ist — sie zeigt, welche Annahme der Realität nicht entspricht.
+
+Betrachten wir folgendes Szenario:
+
+```{python}
+#| echo: true
+#| error: true
+def hole_messungen(sensor_id):
+    sensors = {"sensor_02": [1.2, 3.4, 2.1]}
+    return sensors.get(sensor_id)   # gibt None zurück wenn nicht gefunden
+
+def berechne_mittleren_durchfluss(sensor_id):
+    messungen = hole_messungen(sensor_id)
+    return sum(messungen) / len(messungen)
+
+berechne_mittleren_durchfluss("sensor_01")
+```
+
+%%/book
+
+%%book
+
+Der vollständige Traceback zeigt:
+
+```
+Traceback (most recent call last):
+  File "analyse.py", line 9, in <module>
+    berechne_mittleren_durchfluss("sensor_01")
+  File "analyse.py", line 7, in berechne_mittleren_durchfluss
+    return sum(messungen) / len(messungen)
+TypeError: unsupported operand type(s) for +: 'NoneType' and 'float'
+```
+
+Unterste Zeile: `sum(messungen)` ist abgestürzt, weil `messungen` den Wert `None` hatte. Die KI hat angenommen, `hole_messungen()` gibt immer eine Liste zurück — aber `dict.get()` gibt `None` zurück, wenn der Schlüssel nicht existiert.
+
+%%/book
+
+%%slides
+
+
+## Tracebacks: Den Aufrufstapel lesen {{< ai4sc-icon test-tube >}}
+
+%%div eyebrow
+{{< ai4sc-icon test-tube >}} Traceback-Analyse
+%%/div
+
+%%col 50 50
+
+*Traceback von unten nach oben lesen:*
+
+1. **Unterste Zeile** — die Stelle die abgestürzt ist
+2. **Exception-Typ** — welche Annahme verletzt wurde
+3. **Fehlermeldung** — welcher konkrete Wert das ausgelöst hat
+4. **Aufwärts** — der Aufrufpfad bis zum Startpunkt
+
+%%sep
+
+```
+Traceback (most recent call last):
+  File "analyse.py", line 9      ← Startpunkt
+    berechne_mittleren_durchfluss(...)
+  File "analyse.py", line 7      ← Absturz
+    return sum(messungen) / ...
+TypeError: 'NoneType' and 'float' ← Annahme
+```
+
+*Traceback = Aufrufliste eingefroren im Fehlermoment*
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Guard Clauses: KI prüft Vorbedingungen oft nicht
+
+%%col 50 50
+
+*KI-Code ohne Guard Clauses:*
+
+```python
+def berechne_mittleren_durchfluss(sensor_id):
+    messungen = hole_messungen(sensor_id)
+    return sum(messungen) / len(messungen)
+    # Annahme: messungen ist nie None
+    # Annahme: messungen ist nie leer
+```
+
+%%sep
+
+*Mit Guard Clauses abgesichert:*
+
+```python
+def berechne_mittleren_durchfluss(sensor_id):
+    messungen = hole_messungen(sensor_id)
+    if messungen is None:       # Guard
+        return None
+    if len(messungen) == 0:     # Guard
+        return 0.0
+    return sum(messungen) / len(messungen)
+```
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Guard Clauses: Welche Annahme hat die KI gemacht?
+
+- *Frage beim KI-Code-Review:* Welche Eingaben **nimmt die KI stillschweigend an?**
+  - Rückgabewert ist nie `None`?
+  - Liste ist nie leer?
+  - Zahl ist nie `0` (Division)?
+  - Objekt hat immer das erwartete Attribut?
+
+- *Guard Clauses* schützen riskante Operationen:
+  - vor Division: `if nenner == 0`
+  - vor Attributzugriff: `if obj is None`
+  - vor Listenoperationen: `if not liste`
+
+%%/slides
+
+%%slides
+
+
+## Agentic Workflow: KI-Exception → Reprompt
+
+%%div eyebrow
+{{< ai4sc-icon test-tube >}} Agentic Cycle — Exception-Diagnose
+%%/div
+
+1. **Traceback lesen** — welche Zeile ist abgestürzt?
+2. **Annahme identifizieren** — was hat die KI stillschweigend erwartet?
+3. **Guard Clause hinzufügen oder Daten korrigieren** — Vorbedingung explizit prüfen
+4. **Reprompt** — Constraint explizit formulieren:
+
+> *"Die Funktion `hole_messungen()` kann `None` zurückgeben wenn der Sensor nicht existiert. Behandle diesen Fall."*
+
+%%/slides
+
+%%slides
+
+
+## Warum macht KI-generierter Code Fehler?
+
+%%col 50 50
+
+*Ungewollte Fehler entstehen durch:*
+
+- falsche Annahmen weil Anforderungen nicht vollständig bekannt
+- KI kennt den konkreten Anwendungskontext nicht
+- KI lässt Vorbedingungsprüfungen häufig weg
+
+%%sep
+
+*Exceptions helfen bei der Diagnose:*
+
+- Exceptions zeigen **welche Annahme verletzt** wurde
+- Der Traceback zeigt **wo** und **durch welchen Wert**
+- Jede Exception ist ein Hinweis auf eine fehlende Constraint im Prompt
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Klassen von Fehlern
+
+%%col 60 40
+
+*Entlang der Wissenspyramide:*
+
+- *Lexikalisch* – Code enthält ungültige Zeichen oder Zeichenketten
+- *Syntaktisch* – Code kombiniert lexikalisch gültige Wörter in ungültiger Weise
+- *Semantisch* – Code ist syntaktisch gültig, aber stürzt ab oder liefert keine Ergebnisse
+- *Logisch* – Code ist semantisch gültig, aber löst das gegebene Problem nicht
+
+%%sep
+
+![Wissenspyramide](images/wissenspyramide.svg)
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Andere Klassifizierungen von Fehlern
+
+%%col 50 50
+
+*Nach Häufigkeit und Reproduzierbarkeit:*
+
+- *Deterministische Fehler* — treten immer auf und lassen sich reproduzieren
+- *Sporadische Fehler* — treten nur selten und in besonderen Zuständen auf
+
+%%sep
+
+*Nach Auftreten:*
+
+- *Statische Fehler* — direkt im geschriebenen Code erkennbar
+- *Dynamische Fehler* — treten erst beim Ausführen des Programms auf
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Lexikalische & Syntaktische Fehler
+
+- Sind in den meisten Fällen *statisch* und *deterministisch*
+- Erzeugen *immer* eine Fehlermeldung
+  - Schon in IDE, beim Compilieren oder nach dem Ausführen
+
+- *Diese Fehlermeldungen können allerdings trügerisch sein!*
+
+%%/slides
+
+%%slides
+
+
+## Lexikalische & Syntaktische Fehler — Beispiele
+
+- Ein *Schlüsselwort* ist falsch geschrieben
+- *Nicht geschlossene* Anführungszeichen oder Klammern
+- Einen *Doppelpunkt* nach einer Bedingung oder Funktion vergessen
+- *Falsche Einrückung* nach einer Bedingung, Schleife oder Funktion
+- Ggf. auch falsches Einrücken durch *Tabs vs. Leerzeichen*
+
+%%/slides
+
+%%slides
+
+
+## Lexikalische & Syntaktische Fehler — Behandlung
+
+- *Erster Blick:* In welcher Zeile ist der Fehler aufgetreten?
+- Gibt der *Text der Fehlermeldung* einen Hinweis?
+- Liegt der Fehler in der Zeile oder ist der Fehler nur ein *Symptom* und der Fehler liegt in einer Zeile davor?
+- Normalerweise *einfach zu beheben* — von der Fehlerzeile den Code Zeile für Zeile rückwärts durchgehen
+
+%%/slides
+
+%%book
+
+
+## Fehler mit Exceptions behandeln
+
+%%/book
+
+%%book
+
+Exceptions unterbrechen den normalen Verlauf eines Programmes in einem Fehlerfall. Sie dienen dazu den Fehler im Programm zu kommunizieren und werden genutzt, um im Fehlerfall unkontrolliertes Abstürzen des Programmes zu verhindern.
+
+In KI-generiertem Code signalisieren Exceptions, dass eine **Annahme der KI über Eingaben oder Rückgabewerte verletzt wurde**. Der Traceback zeigt welche Annahme und an welcher Stelle. Das ist wertvolle Diagnoseinformation — kein Grund zur Panik.
+
+Bekannte Exceptions sollten immer abgefangen werden. In Python werden sie durch den `try-except`-Block abgefangen.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zaehler = 10
+nenner = 0
+try:
+    ergebnis = zaehler / nenner
+    print("Die Division war erfolgreich")
+except:
+    print("Divisionsfehler")
+    ergebnis = None
+
+print(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
+```
+
+%%/book
+
+%%book
+
+Das `except` ist in dem obigen Fall untypisiert. Damit lassen sich alle Fehler abfangen (auch unbekannte). Es ist allerdings sinnvoll, die genaue Exception abzufangen und die Fehlermeldung auszugeben. Der allgemeinste Fehlertyp in Python ist die `Exception`:
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zaehler = 10
+nenner = 0
+ergebnis = None
+try:
+    ergebnis = zaehler / nenner
+except Exception as e:
+    print(f"Divisionsfehler mit Fehler vom Typ `{type(e)}` und Meldung `{e}`")
+
+print(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
+```
+
+%%/book
+
+%%book
+
+Sind die Exceptions bekannt, sollten sie typisiert behandelt werden, um spezifische Meldungen auszugeben:
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zaehler = 'keine_zahl'
+nenner = 0
+ergebnis = None
+try:
+    ergebnis = zaehler / nenner
+except TypeError as e:
+    print(f"Zaehler oder Nenner nicht vom Datentyp `int`")
+except ZeroDivisionError as e:
+    print("Teilung durch 0")
+
+print(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
+```
+
+%%/book
+
+%%book
+
+Der `try-except`-Block unterstützt auch die `else`-Anweisung, welche immer ausgeführt wird, wenn *keine* Exception auftritt. Ferner gibt es die `finally`-Anweisung, welche *immer* ausgeführt wird — also im fehlerfreien Fall und im Fehlerfall. `finally` wird häufig verwendet, um Verbindungen zu Dateien oder Datenbanken zu schließen.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zaehler = 2
+nenner = 1
+ergebnis = None
+try:
+    ergebnis = zaehler / nenner
+except TypeError as e:
+    print(f"Zaehler oder Nenner nicht vom Datentyp `int`")
+except ZeroDivisionError as e:
+    print("Teilung durch 0")
+else:
+    print(f"Die Division war erfolgreich: {zaehler}/{nenner} = {ergebnis}")
+finally:
+    print(f"Ergebnis (immer ausgegeben): {ergebnis}")
+```
+
+%%/book
+
+%%slides
+
+
+## Semantische Fehler — Grundlagen
+
+- Entstehen durch die *fehlerhafte Anwendung* von syntaktisch korrekten Programmstrukturen auf ein bestimmtes Problem
+- *Erkennbare Fehler* — weiß man, dass sie auftreten können (Division durch Null, fehlender Sensor)
+  - Sollten *immer* abgefangen und behandelt werden
+
+- *Unerkannte Fehler* — beim Erstellen des Programms unbekannt; deutlich schwieriger abzufangen
+
+%%/slides
+
+%%slides
+
+
+## Semantische Fehler — Beispiele
+
+- Eine *Variable wird als Funktion* aufgerufen
+  *(statisch, deterministisch)*
+
+- Ein *Operator wird mit einem Wert des falschen Typs* genutzt
+  *(statisch oder dynamisch, deterministisch)*
+
+- Ein *Wert des falschen Typs* wird in eine Funktion übergeben
+  *(statisch oder dynamisch, deterministisch)*
+
+- Es geschieht eine *Division durch 0*
+  *(dynamisch, deterministisch)*
+
+%%/slides
+
+%%slides
+
+
+## Semantische Fehler — Behandlung
+
+%%div eyebrow
+{{< ai4sc-icon test-tube >}} Traceback-Analyse
+%%/div
+
+*Erster Schritt: Traceback verstehen*
+
+- **Unterste Zeile:** Wo ist der Code abgestürzt?
+- **Exception-Typ:** Welche Annahme wurde verletzt? (`TypeError`, `AttributeError`, `ZeroDivisionError` …)
+- **Aufwärts:** Wer hat den fehlerhaften Wert übergeben?
+- **Fehlermeldung:** Welcher konkrete Wert hat das Problem ausgelöst?
+
+*Bei KI-Code: Welche stillschweigende Annahme hat die KI über diesen Wert gemacht?*
+
+%%/slides
+
+%%book
+
+
+## Exceptions selbst erzeugen
+
+%%/book
+
+%%book
+
+Exceptions können auch selbst mit `raise` erzeugt werden. Das ist sinnvoll, wenn in dem eigenen Code Fehler auftreten können, die woanders behandelt werden müssen. Es ist ratsam, spezifische Fehlertypen zu nutzen, da der Typ des Fehlers viel beim Behandeln hilft.
+
+Als Beispiel definieren wir eine eigene Divisionsfunktion mit expliziten Guard Clauses und klarer Fehlerbenennung:
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def division(zaehler, nenner):
+    if not isinstance(nenner, (int, float)):
+        raise ValueError(f"Nenner nicht vom Datentyp `int` oder `float`")
+    elif not isinstance(zaehler, (int, float)):
+        raise ValueError(f"Zaehler nicht vom Datentyp `int` oder `float`")
+    elif nenner == 0:
+        print("Warnung Division durch 0")
+        return None
+    else:
+        ergebnis = zaehler / nenner
+        print(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
+        return ergebnis
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+#| error: true
+zaehler = "test"
+nenner = 0
+
+ergebnis = division(zaehler, nenner)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+zaehler = 10
+nenner = 2
+
+ergebnis = division(zaehler, nenner)
+```
+
+%%/book
+
+%%book
+
+
+### Fehlerbehandlung bei Funktionen im Stack
+
+%%/book
+
+%%book
+
+Exceptions werden im Stack (Aufrufreihenfolge der Funktionen) nach oben weitergegeben, bis sie entweder abgefangen und behandelt werden oder das Programm abstürzt. Der Traceback zeigt diesen Aufrufpfad — das ist die Diagnoseinformation, die uns zeigt, welche Annahme auf welcher Ebene des Stacks verletzt wurde.
+
+Als Beispiel definieren wir eine rekursive Fakultätsfunktion mit einer Guard Clause gegen zu tiefe Rekursion:
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def factorial_recursiv(x, depth=1):
+    if depth > 20:
+        raise RecursionError("Recursion zu tief")
+    if x > 1:
+        return x * factorial_recursiv(x-1, depth+1)
+    else:
+        return 1
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+factorial_recursiv(20)
+```
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+#| error: true
+factorial_recursiv(21)
+```
+
+%%/book
+
+%%book
+
+Im Traceback oben wird der Stack-Trace sichtbar — die Liste der Funktionsaufrufe die auf dem Stack gesammelt wurde. Um das Abstürzen zu vermeiden, fangen wir den Fehler mit `try-except` ab:
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import traceback
+try:
+    factorial_recursiv(21)
+except RecursionError as e:
+    print(e)
+    traceback.print_exc()
+```
+
+%%/book
+
+%%slides
+
+
+## Logische Fehler — Grundlagen
+
+*Entstehen durch:*
+
+- Fehler in der *Programmlogik*
+- Ein *falsches mentales Modell*
+- Einen grundlegenden *Fehler im Programmentwurf*
+
+*Charakteristika:*
+
+- Erzeugen *nur selten Exceptions* — stattdessen falsches Verhalten oder falsche Ergebnisse
+- Bleiben oft *unentdeckt* und treten erst dynamisch auf
+- Können *deterministisch* oder *sporadisch* sein
+
+%%/slides
+
+%%slides
+
+
+## Logische Fehler — Beispiele
+
+%%col 50 50
+
+*Deterministische Fehler:*
+
+- Verwendung eines *falschen Faktors* in einer Einheitenkonvertierung
+- Verwenden der *falschen Art von Schleife* oder falsche Schachtelung
+- Verwenden einer *falschen Zeitzone* beim Schreiben von Sensor-Daten
+
+%%sep
+
+*Sporadische Fehler:*
+
+- Probleme mit *Sommer-/Winterzeitkonvertierung* bei Sensor-Daten
+- Die Bedingung in einer Schleife hat Fälle, in der sie *immer True* ist und so endlos wird
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Logische Fehler — Behandlung
+
+- *Testfälle erstellen* um zu reproduzieren wann und wie unerwartetes Verhalten stattfindet
+
+  → `08a_UnitTest` (S08): Tests fangen Exception-Fälle bevor sie in Produktion gelangen
+
+- *Debugging-Tools* nutzen um Ausführung Schritt für Schritt nachzuvollziehen
+
+  → `07b_Debugging` (S07): Debugger, Breakpoints, Schritt-für-Schritt-Analyse
+
+%%/slides
+
+%%slides
+
+
+## Zusatz: Warnungen in der IDE
+
+- Weisen auf Code hin, der *syntaktisch und semantisch korrekt* scheint, seinen Zweck aber wahrscheinlich *nicht erfüllen* wird
+- Basieren auf *Erfahrungswerten*
+- Können dabei helfen *semantische und logische Fehler frühzeitig* zu erkennen
+
+%%/slides
+
+%%book
+
+
+## Quiz
+
+
+```{quizdown}
+    ---
+    shuffleQuestions: true
+    shuffleAnswers: true
+    ---
+
+    ### Was ist eine Exception in Python?
+    - [x] Eine Ausnahme, die den normalen Ablauf des Programms unterbricht
+    - [ ] Ein Spezialfall bei Loops
+    - [ ] Eine Warnung, die ignoriert werden kann
+    - [ ] Eine globale Variable
+
+    ### Was signalisiert eine Exception in KI-generiertem Code?
+    - [x] Eine Annahme der KI über Eingaben oder Rückgabewerte wurde verletzt
+    - [ ] Der KI-Code ist grundsätzlich unbrauchbar
+    - [ ] Die Programmiersprache Python hat einen Fehler
+    - [ ] Der Computer hat einen Hardwarefehler
+
+    ### Wie liest man einen Traceback?
+    - [x] Von unten nach oben — unterste Zeile ist der Absturz, aufwärts der Aufrufpfad
+    - [ ] Von oben nach unten — erste Zeile zeigt den Absturz
+    - [ ] Nur die erste Zeile ist relevant
+    - [ ] Der Traceback enthält keine nützlichen Informationen
+
+    ### Warum verwendet man `try-except`-Blöcke?
+    - [x] Um kontrolliert auf Fehler zu reagieren
+    - [x] Um das Programm vor Abstürzen zu bewahren
+    - [ ] Um Variablen zu initialisieren
+    - [ ] Um Funktionen automatisch zu wiederholen
+
+    ### Was ist eine Guard Clause?
+    - [x] Eine Vorbedingungsprüfung am Anfang einer Funktion die riskante Operationen auf ungültige Werte verhindert
+    - [ ] Ein try-except Block
+    - [ ] Eine spezielle Art von Schleife
+    - [ ] Ein Kommentar im Code
+
+    ### Welcher Fehler steckt in diesem Beispiel?
+    ```python
+    x = 10
+    y = 0
+    z = x / y
+    print("Ergebnis:", z)
+    ```
+    - [x] Division durch null führt zu einer `ZeroDivisionError`-Exception
+    - [ ] `print` darf nicht in try-Blöcken verwendet werden
+    - [ ] `x` darf nicht 10 sein
+    - [ ] `y` muss als String deklariert werden
+
+    ### Was ist der Vorteil, wenn man `Exception as e` verwendet?
+    - [x] Man kann Typ und Fehlermeldung der Exception gezielt ausgeben
+    - [ ] Dadurch wird die Exception automatisch gelöst
+    - [ ] Der Code wird kürzer
+    - [ ] `as` ist Pflicht in jeder Fehlerbehandlung
+
+    ### Was passiert, wenn eine Exception im `try`-Block auftritt?
+    - [x] Der Code im `except`-Block wird ausgeführt
+    - [ ] Der `try`-Block wird ignoriert
+    - [ ] Das Programm wird automatisch beendet
+    - [ ] Der Fehler wird immer ignoriert
+
+    ### Wann wird der `else`-Block bei `try-except-else` ausgeführt?
+    - [x] Nur wenn im `try`-Block **keine** Exception auftritt
+    - [ ] Wenn irgendein Fehler auftritt
+    - [ ] Immer nach dem `except`
+    - [ ] Wenn `print()` im `try` verwendet wird
+
+    ### Was bewirkt ein `finally`-Block in Python?
+    - [x] Der Code im `finally` wird **immer** ausgeführt — egal ob Fehler oder nicht
+    - [ ] Der Code wird übersprungen bei Fehlern
+    - [ ] Nur verwendet bei Netzwerken
+    - [ ] Dient zur Initialisierung von Variablen
+
+    ### Wann sollte man eigene Exceptions mit `raise` erzeugen?
+    - [x] Wenn man Fehler gezielt kennzeichnen und weiterreichen will
+    - [ ] Wenn man eine Schleife abbrechen will
+    - [ ] Nur bei Syntaxfehlern
+    - [ ] Nur für Debugging-Zwecke
+
+    ### Wie verhalten sich Exceptions in einem Funktionsaufruf-Stack?
+    - [x] Sie steigen nach oben, bis sie behandelt oder zum Absturz führen
+    - [ ] Sie verschwinden nach dem ersten Funktionsaufruf
+    - [ ] Sie führen nur in der aktuellen Funktion zum Fehler
+    - [ ] Sie werden automatisch ignoriert
+
+    ### Was ist der korrekte Agentic Workflow wenn KI-Code eine Exception wirft?
+    - [x] Traceback lesen → Annahme identifizieren → Guard Clause hinzufügen → Reprompt mit explizitem Constraint
+    - [ ] KI-Code neu generieren ohne Kontext
+    - [ ] Exception ignorieren und mit try-except verstecken
+    - [ ] try-except um den gesamten Code wickeln
+
+    ### Sortiere die folgenden Zeilen, um einen vollständigen `try-except`-Block korrekt aufzubauen:
+    ```python
+    # Annahme: Fehlerhafte Division
+    ```
+    1. `try:`
+    2. `  ergebnis = 10 / 0`
+    3. `  print("Ergebnis:", ergebnis)`
+    4. `except:`
+    5. `  print("Fehler bei der Division")`
+
+    ### Warum ist es sinnvoll, spezifische Fehlertypen wie `ValueError` zu verwenden?
+    - [x] Damit Fehler gezielter behandelt und unterschieden werden können
+    - [ ] Damit `try`-Blöcke kürzer werden
+    - [ ] Damit das Programm schneller läuft
+    - [ ] Weil `Exception` in Python nicht erlaubt ist
+
+    ### Welcher Fehler steckt in diesem Beispiel?
+    ```python
+    if not isinstance(x, int):
+        raise "Fehler"
+    ```
+    - [x] `raise` erwartet ein Exception-Objekt, kein String
+    - [ ] `raise` ist kein gültiges Python-Schlüsselwort
+    - [ ] Strings dürfen nicht mit `if` verglichen werden
+    - [ ] `int` ist kein gültiger Typ
+
+    ### Sortiere die folgenden Zeilen, um eine sichere Funktion mit Guard Clauses zu definieren:
+    ```python
+    # Annahme: Division mit Typprüfung und Division durch 0
+    ```
+    1. `def division(zaehler, nenner):`
+    2. `  if not isinstance(zaehler, (int, float)):`
+    3. `    raise ValueError("Zaehler ist ungültig")`
+    4. `  if nenner == 0:`
+    5. `    return None`
+    6. `  return zaehler / nenner`
+
+```
+
+%%/book
+
+
+%%final

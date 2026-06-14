@@ -1,0 +1,1125 @@
+---
+title: "Schleifen"
+image-credit: "Midjourney: Loops, ref. Robert Delaunay"
+format:
+  revealjs:
+    title-slide-attributes:
+      data-background-video: images/05c_Schleifen/mj_title.mp4
+    output-file: 05c_Schleifen.slide.html
+  html:
+    output-file: 05c_Schleifen.page.html
+  typst:
+    output-file: 05c_Schleifen.page.pdf
+resources:
+  - data/05c_Schleifen
+---
+
+%%book
+
+
+# Schleifen
+
+%%/book
+
+%%book
+
+![](images/05c_Schleifen/mj_title_band.jpg)
+
+> Insanity is doing the same thing over and over again and expecting different results.
+>
+> — Albert Einstein
+
+%%/book
+
+%%book
+
+KI-Tools generieren Schleifen routinemäßig. Als Ingenieur*in müssen Sie nicht jede Schleife von Grund auf selbst schreiben — aber Sie müssen sie **lesen, verstehen und verifizieren** können.
+
+Drei Kernfragen beim Lesen einer Schleife:
+
+1. Worüber iteriert die Schleife? *(Liste, Dict, Zahlenfolge, Bedingung?)*
+2. Was verändert sich pro Iteration? *(Welche Variablen ändern sich wie?)*
+3. Terminiert die Schleife? *(Gibt es eine klare Abbruchbedingung?)*
+
+In Python sind zwei Schleifen verfügbar:
+
+- `for` — For-Each-Loop: iteriert durch eine Sequenz
+- `while` — While-Loop: wiederholt, solange eine Bedingung wahr ist
+
+→ Kollektionstypen (Listen, Dicts, Tupel): siehe `02c_Datentypen` (S02)
+
+%%/book
+
+%%slides
+
+
+## Warum Schleifen? — Ingenieursskala
+
+%%div eyebrow
+{{< ai4sc-icon list-tree >}} Ingenieursdaten
+%%/div
+
+Manuelle Berechnung scheitert an der **Datenmenge:**
+
+- 10.000 Bodenproben aus einer Baustelle auswerten
+- 1 Million Sensormessungen pro Tag verarbeiten
+- 50.000 Bauelemente in einem BIM-Modell prüfen
+
+Schleifen sind **das** Werkzeug für diese Skala.
+
+%%/slides
+
+%%slides
+
+
+## Ablauf
+
+![](images/partA_4.svg)
+
+%%/slides
+
+%%slides
+
+
+## Schleifen lesen — nicht nur schreiben
+
+%%div eyebrow
+{{< ai4sc-icon workflow >}} Lesekompetenz
+%%/div
+
+Wenn KI eine Schleife generiert, müssen Sie:
+
+- **Erkennen**, worüber iteriert wird *(Liste, Dict, Zahlenfolge?)*
+- **Verfolgen**, wie Variablen sich verändern *(Spur-Tabelle)*
+- **Prüfen**, ob die Schleife terminiert *(Abbruchbedingung)*
+
+In Python sind verfügbar:
+
+- `for` (For-Each-Loop)
+- `while` (While-Loop)
+
+Variablen aus Schleifen sind auch außerhalb der Schleife verfügbar.
+
+%%/slides
+
+%%book
+
+
+## Wiederholungen mit bekannter Anzahl
+
+%%/book
+
+%%book
+
+### For-Each-Loop bei Sequenzen
+
+%%/book
+
+%%book
+
+Der `for`-Loop in Python ist ein For-Each-Loop. Er iteriert immer durch eine Sequenz an Werten, wie z.B. eine Liste. Die Variable des *Iterators* `e` enthält dabei den aktuellen Wert der Sequenz `seq`. Hiermit lässt sich sehr leicht durch Listen iterieren.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+seq = ['a','b','c', 1]
+for e in seq:
+	print(e)
+```
+
+%%/book
+
+%%book
+
+oder Tupels
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+seq = ('a','b','c', 1)
+for e in seq:
+	print(e)
+```
+
+%%/book
+
+%%slides
+
+
+## Schleifen — FOR-Loop {{< ai4sc-icon list-tree >}}
+
+Der for-Loop wiederholt einen Block an Statements für alle Elemente in einer Sequenz. `Element` ist dabei eine Variable, die immer mit dem aktuellen Element aus der Sequenz belegt wird.
+
+```python
+for Element in Sequenz:
+    # Statement
+```
+
+%%/slides
+
+%%slides
+
+
+## Schleifen — FOR-Each-Loop Beispiel
+
+%%div eyebrow
+{{< ai4sc-icon list-tree >}} Kollektionsiteration
+%%/div
+
+Der for-Loop in Python ist ein For-Each-Loop. Er iteriert immer durch eine Sequenz an Werten, wie z.B. eine Liste. Die Variable des Iterators `e` enthält dabei den aktuellen Wert der Liste `seq`.
+
+%%col 50 50
+
+```python
+seq = ['a','b','c']
+for e in seq:
+    print(e)
+```
+
+%%sep
+
+Ausgabe:
+```
+a
+b
+c
+```
+
+%%/col
+
+%%/slides
+
+%%book
+
+### For-Loop bei bekannter Anzahl $n$ an Wiederholungen
+
+%%/book
+
+%%book
+
+Der `for`-Loop in Python kann auch als klassischer For-Loop verwendet werden, bei der man $n$-mal etwas wiederholt. Dazu erzeugt man mit der `range(n)` Funktion eine Folge an Zahlen, durch die dann wie gewohnt als For-Each-Loop iteriert wird. Der Iterator `i` nimmt dabei den Wert des Zählindexes an.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+n = 3
+seq = range(n)
+for i in seq:
+	print(i)
+```
+
+%%/book
+
+%%book
+
+Der Unterschied wird klarer, wenn man sich ansieht, wie man mit einem nummerierten Index durch eine Liste laufen würde. Hierfür bestimmt man die Länge der Sequenz mit `len()`, erzeugt einen numerischen Iterator mit `range()` und greift dann auf die indizierten Werte der Liste mit `seq[i]` zu. Dies entspricht einem klassischen for-Loop durch ein Array, wie er z.B. in C oder Java zu finden ist.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+seq = ['a','b','c']
+for i in range(len(seq)):
+    wert = seq[i]
+    print(f"Index: {i}; Wert {wert}")
+```
+
+%%/book
+
+%%book
+
+Da dies sehr umständlich ist, bietet Python die `enumerate`-Funktion als Vereinfachung an. Sie macht aus einer beliebigen Sequenz eine nummerierte Sequenz. Das ist sinnvoll, wenn man den Index `i` noch aus anderem Grund braucht.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+seq = ['a','b','c']
+for i, wert in enumerate(seq):
+	print(f"Index: {i}; Wert {wert}")
+```
+
+%%/book
+
+%%slides
+
+
+## Schleifen — FOR-Loop mit Zähler {{< ai4sc-icon list-tree >}}
+
+Der for-Loop kann auch als klassischer For-Loop verwendet werden, bei der man n-mal etwas wiederholt. Dazu erzeugt man mit der `range(n)`-Funktion eine Folge an Zahlen.
+
+%%col 50 50
+
+```python
+n = 3
+seq = range(n)
+for e in seq:
+    print(e)
+```
+
+%%sep
+
+Ausgabe:
+```
+0
+1
+2
+```
+
+%%/col
+
+%%/slides
+
+%%book
+
+### For-Each-Loop bei Dictionaries
+
+%%/book
+
+%%book
+
+Auch durch Dictionaries kann man mit einem For-Loop iterieren. Hierfür kann man entweder durch die Schlüssel iterieren und dann den Wert separat über `seq[key]` nachschlagen.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+seq = {"key1":"wert1", "key2":"wert2", "key3":"wert3"}
+for key in seq:
+    wert = seq[key]
+    print(f"Schlüssel: {key}; Wert {wert}")
+```
+
+%%/book
+
+%%book
+
+oder man iteriert gleich durch alle Schlüssel-Wert-Tupel.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+for key, wert in seq.items():
+    print(f"Schlüssel: {key}; Wert {wert}")
+```
+
+%%/book
+
+%%book
+
+### For-Loop Beispiel
+
+%%/book
+
+%%book
+
+Damit kann man dann zum Beispiel eine Liste an Messwerten aus imperialen Fuß in metrische Meter umrechnen.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+measurements_feet =  [4.2, 2.3, 6.2, 10.5]	# Eingabe
+measurements_meter = []						# Ergebnisse
+for feets in measurements_feet:
+	measurements_meter.append(0.3048 * feets)
+
+print(measurements_meter)
+```
+
+%%/book
+
+%%book
+
+In Python gibt es für solche einfachen For-Loops auch wieder eine Kurzschreibweise als Syntax-Zucker.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+measurements_meter = [0.3048 * feets for feets in measurements_feet]
+
+print(measurements_meter)
+```
+
+%%/book
+
+%%slides
+
+
+## Schleifen — FOR-Loop Praxisbeispiel
+
+Umrechnung einer Liste an Messwerten von imperialen Fuß in metrische Meter.
+
+```python
+measurements_feet = [4.2, 2.3, 6.2, 10.5]  # Eingabe
+measurements_meter = []  # Ergebnisse
+
+for feets in measurements_feet:
+    measurements_meter.append(0.3048 * feets)
+
+print(measurements_meter)
+```
+
+Ausgabe:
+```
+[1.2801600000000002, 0.70104, 1.88976, 3.2004]
+```
+
+%%/slides
+
+%%slides
+
+
+## Spur-Tabelle: KI-Loop lesen
+
+%%div eyebrow
+{{< ai4sc-icon workflow >}} Pattern C — KI-Code lesen
+%%/div
+
+%%col 55 45
+
+**KI-generierter Code** — *erst lesen, dann ausführen!*
+
+```python
+# AI generated
+temperaturen = [18.5, 21.3, 19.8, 22.1]
+summe = 0
+for t in temperaturen:
+    summe = summe + t
+durchschnitt = summe / len(temperaturen)
+print(durchschnitt)
+```
+
+**Fragen vor dem Ausführen:**
+
+- Worüber iteriert die Schleife?
+- Wie verändert sich `summe` pro Iteration?
+
+%%sep
+
+**Spurungstabelle ausfüllen:**
+
+| Iter. | `t` | `summe` |
+|-------|-----|---------|
+| 1 | ? | ? |
+| 2 | ? | ? |
+| 3 | ? | ? |
+| 4 | ? | ? |
+| Ende | — | ? |
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## KI-Loop verifizieren
+
+%%div eyebrow
+{{< ai4sc-icon workflow >}} Agentic Cycle — Verifizieren
+%%/div
+
+**Drei Schritte beim Lesen eines KI-generierten Loops:**
+
+1. **Identifizieren** — worüber iteriert die Schleife? *(Liste, Dict, Zahlenfolge?)*
+2. **Verfolgen** — die ersten zwei und die letzte Iteration in Gedanken durchlaufen
+3. **Prüfen** — terminiert die Schleife? Gibt es eine klare Abbruchbedingung?
+
+%%tip Merksatz
+**Agentic workflow:** Wenn KI eine Schleife generiert: (1) Identifiziert, worüber sie iteriert. (2) Verfolgt die ersten zwei und die letzte Iteration. (3) Prüft, ob sie terminiert.
+%%/tip
+
+%%/slides
+
+%%book
+
+
+## Wiederholungen mit unbekannter Anzahl
+
+%%/book
+
+%%book
+
+While-Loops werden primär verwendet, wenn die Länge der Schleife am Anfang noch nicht bekannt ist. Dabei wird die Schleife so lange wiederholt, wie eine bestimmte Bedingung gegeben ist. Man unterscheidet in der Informatik die Typen:
+
+-  While-Loop: 			Wiederhole solange eine Bedingung wahr ist (ggf. nie)
+-  Do-While-Loop:		Wiederhole bis eine Bedingung falsch ist (d.h. mindestens einmal)
+-  Repeat-Until-Loop:   Wiederhole bis eine Bedingung wahr wird (d.h. mindestens einmal)
+
+%%/book
+
+%%slides
+
+
+## Schleifen — WHILE-Loop
+
+%%div eyebrow
+{{< ai4sc-icon workflow >}} Bedingungsschleife
+%%/div
+
+Die while-Loop-Schleife wird so lange ausgeführt, solange eine Bedingung wahr ist. Da diese am Anfang geprüft wird und von Anfang an falsch sein kann, muss der Inhalt nicht ausgeführt werden.
+
+```python
+while Bedingung:
+    # Statement
+```
+
+Wie beim if wird die Bedingung auf seinen Wahrheitswert geprüft:
+
+- Ist dieser `True` läuft die Schleife einmal durch, woraufhin wieder geprüft wird
+- Ist dieser `False` endet die Schleife und der Code wird nicht (noch einmal) ausgeführt
+
+%%/slides
+
+%%slides
+
+
+## While-Loop vs. Do-While vs. Repeat-Until {{< ai4sc-icon workflow >}}
+
+%%col 33 33 33
+
+**While-Loop**
+
+Im While-Loop kann die Bedingung schon am Anfang falsch sein. Die Schleife muss also nicht ausgeführt werden.
+
+```python
+Bedingung = True/False
+while Bedingung:
+    # Statement
+    Bedingung = False
+```
+
+%%sep
+
+**Do-While-Loop**
+
+Im Do-While-Loop wird die Bedingung erst am Ende geprüft. Die Schleife wird also immer mindestens einmal durchlaufen.
+
+```python
+Bedingung = True
+while Bedingung:
+    # Statement
+    Bedingung = False
+```
+
+%%sep
+
+**Repeat-Until-Loop**
+
+Beim Repeat-Until-Loop wird die Bedingung auch erst am Ende geprüft. Die Schleife wird wiederholt bis die Bedingung wahr wird.
+
+```python
+Bedingung = False
+while not Bedingung:
+    # Statement
+    Bedingung = True
+```
+
+%%/col
+
+%%/slides
+
+%%book
+
+### While-Loop
+
+%%/book
+
+%%book
+
+Im While-Loop kann die Bedingung schon am Anfang falsch sein. Die Schleife muss also nicht ausgeführt werden.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+n = 3
+while n > 0:
+		print(f"Die While-Schleife wird ausgeführt wenn die Bedingung am Anfang der Schleife {n} > 0 wahr ist")
+		n -= 1 # wir zählen die variable n runter
+```
+
+%%/book
+
+%%book
+
+Die While-Schleife wird 3-mal ausgeführt da die Bedingung wahr ist und wir bis 0 runter zählen
+
+%%/book
+
+%%book
+
+Die While-Schleife wird nicht ausgeführt, da n bereits 0 ist
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+n = 0
+while n > 0:
+		print(f"Die While-Schleife wird ausgeführt wenn die Bedingung am Anfang der Schleife {n} > 0 wahr ist")
+		n -= 1 # wir zählen die variable n runter
+```
+
+%%/book
+
+%%book
+
+### Do-While-Loops
+
+%%/book
+
+%%book
+
+Im Do-While-Loop wird die Bedingung erst am Ende geprüft. Die Schleife wird also immer mindestens einmal durchlaufen. Das ist jedoch identisch im Verhalten mit einem While-Loop bei der die Bedingung am Anfang als True gesetzt wurde und in der Schleife geändert wird.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+n = 3
+bedingung = True # Bedingung ist immer als True initialisiert
+while bedingung:
+	n -= 1 # wir zählen die variable n runter
+	bedingung = n > 0 # Die Bedingung wird erst am Ende der Schleife neu gesetzt
+	print(f"Die Do-While-Schleife wird mindestens einmal ausgeführt bis die Bedingung am Ende der Schleife {n} > 0 wahr ist")
+```
+
+%%/book
+
+%%book
+
+Die Do-While-Schleife wird auch 3 mal ausgeführt da die Bedingung wahr ist und wir bis 0 runter zählen
+
+%%/book
+
+%%book
+
+Die Do-While-Schleife wird einmal ausgeführt, obwohl n bereits 0 ist.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+n = 0
+bedingung = True # Bedingung ist immer als True initialisiert
+while bedingung:
+	n -= 1 # wir zählen die variable n runter
+	bedingung = n > 0 # Die Bedingung wird erst am Ende der Schleife neu gesetzt
+	print(f"Die Do-While-Schleife wird mindestens einmal ausgeführt bis die Bedingung am Ende der Schleife {n} > 0 wahr ist")
+```
+
+%%/book
+
+%%book
+
+### Repeat-Until-Loop
+
+%%/book
+
+%%book
+
+Beim Repeat-Until-Loop wird die Bedingung auch erst am Ende geprüft. Die Schleife wird also auch immer mindestens einmal durchlaufen. Die Schleife wird allerdings wiederholt bis die Bedingung Wahr wird. Es ist also eine Negation des Do-While-Loops.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+n = -3
+bedingung = False # Bedingung ist immer als False initialisiert
+while not bedingung:  # wird aber im while negiert
+	n += 1 # wir zählen die variable n HOCH
+	bedingung = n > 0 # Die Bedingung wird erst am Ende der Schleife neu gesetzt
+	print(f"Die Repeat-Until-Schleife wird mindestens einmal ausgeführt bis die Bedingung am Ende der Schleife {n} > 0 falsch ist")
+```
+
+%%/book
+
+%%book
+
+Die Repeat-Until-Schleife wird 3 mal ausgeführt, da die Bedingung am Anfang falsch ist und wir bis 0 hoch zählen.
+
+%%/book
+
+%%book
+
+Die Repeat-Until-Schleife wird einmal ausgeführt, da n am Ende der Schleife > 0 ist.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+n = 0
+bedingung = False # Bedingung ist immer als False initialisiert
+while not bedingung:  # wird aber im while negiert
+	n += 1 # wir zählen die variable n HOCH
+	bedingung = n > 0 # Die Bedingung wird erst am Ende der Schleife neu gesetzt
+	print(f"Die Repeat-Until-Schleife wird mindestens einmal ausgeführt bis die Bedingung am Ende der Schleife {n} > 0 falsch ist")
+```
+
+%%/book
+
+%%book
+
+### Endlosschleifen
+
+%%/book
+
+%%book
+
+:::{.callout-warning}
+While-Schleifen haben keine maximale Wiederholungsanzahl. Sie können potentiell für immer laufen, wenn sich die Bedingung nie ändert.
+Es ist daher immer wichtig zu durchdenken, ob es den Fall gibt in dem sich die Bedingung nicht ändern kann und dann eine zweite Abbruchbedingung (z.B. maximale Iterationen, maximale Zeit, etc.) hinzuzufügen.
+:::
+
+%%/book
+
+%%book
+
+Wir schauen uns unsere `while_loop`-Funktion noch einmal an. Wie könnte diese Funktion zu einer Endlosschleife werden?
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+n = 3
+while n > 0:
+	print(f"Die While-Schleife wird ausgeführt wenn die Bedingung am Anfang der Schleife {n} > 0 wahr ist")
+	n -= 1 # wir zählen die variable n runter
+```
+
+%%/book
+
+%%book
+
+Es sieht erstmal so aus, als ob das nicht möglich ist. Wir werden dennoch sicherheitshalber eine zweite Variante mit zusätzlicher Abbruchbedingung definieren.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def while_loop_mit_abbruch(n, max_iterations=99):
+	iterations = 0
+	while n > 0 and iterations < max_iterations:
+		print(f"Die While-Schleife wird ausgeführt wenn die Bedingung am Anfang der Schleife {n} > 0 wahr ist")
+		n -= 1 # wir zählen die variable n runter
+		iterations += 1
+	print(f"Die While-Schleife wurde nach {iterations} von {max_iterations} beendet")
+```
+
+%%/book
+
+%%book
+
+Der obige Testfall mit 3 scheint zu funktionieren.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+while_loop_mit_abbruch(3)
+```
+
+%%/book
+
+%%book
+
+Was passiert allerdings wenn wir die Funktion mit Unendlich (Infinity) initialisieren? Die Subtraktion/Addition einer Zahl, ungleich Unendlich, zu Unendlich ist Unendlich. Die Variable `n` wird sich also nie ändern.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import math # die Zahl unendlich ist in der math bibliothek definiert
+
+while_loop_mit_abbruch(math.inf)
+```
+
+%%/book
+
+%%slides
+
+
+## Endlosschleifen erkennen
+
+%%div eyebrow
+{{< ai4sc-icon workflow >}} Warnsignale
+%%/div
+
+**KI generiert gelegentlich Endlosschleifen. Diese Zeichen verraten sie:**
+
+- Loop-Variable wird im Schleifenblock **nicht verändert**
+- Bedingung kann logisch **nie `False` werden**
+- Kein `break` und kein Zähler als Sicherheitsnetz
+
+```python
+x = 10
+while x > 0:       # ← Bedingung scheinbar sinnvoll
+    print(x)       # ← ABER: x wird nie verändert!
+                   # → ENDLOSSCHLEIFE
+```
+
+%%warning Achtung
+While-Schleifen ohne sichtbare Abbruchbedingung sind ein Risiko — besonders in KI-generiertem Code. Immer Terminierung prüfen.
+%%/warning
+
+%%/slides
+
+%%slides
+
+
+## Endlosschleifen absichern
+
+%%div eyebrow
+{{< ai4sc-icon workflow >}} Absicherungsstrategie
+%%/div
+
+While-Schleifen haben keine maximale Wiederholungsanzahl — **Sicherheitsbedingung immer hinzufügen:**
+
+```python
+Bedingung = True
+while Bedingung:  # DAS IST EINE ENDLOSSCHLEIFE
+    # Statement
+    Bedingung = True  # Bedingung ändert sich nie!
+```
+
+**Standardabsicherung mit maximaler Iterationsanzahl:**
+
+```python
+max_iter = 1000
+iterations = 0
+while bedingung and iterations < max_iter:
+    # Statement
+    iterations += 1
+```
+
+- [Schützt vor hängendem Programm]{.pro}
+- [Pflicht bei KI-generierten `while`-Schleifen ohne klare Terminierung]{.con}
+
+%%/slides
+
+%%book
+
+### Schleifen vorzeitig abbrechen oder Elemente überspringen
+
+%%/book
+
+%%book
+
+Manchmal möchte man eine for/while-Schleife verfrüht abbrechen. Hierfür bietet Python den `break`–Befehl. Er bricht die Wiederholschleife an der aktuellen Position ab (ähnlich wie return in einer Funktion). Damit lassen sich zusätzliche Abbruchbedingungen in der Schleife implementieren.
+
+Der `continue`-Befehl bricht die Schleife nicht ab, sondern beginnt direkt die nächste Iteration. Das ist sinnvoll wenn z.B. eine Filterbedingung nicht erfüllt ist.
+
+Der folgende Loop soll das erste essbare Ding in meinem Rucksack finden.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+dinge_in_meinem_rucksack = ["Papier", "Stift", "Apfel", "Brot", "Messer"]
+essbares = {"Apfel", "Brot"}
+essbar = None
+
+for ding in dinge_in_meinem_rucksack:   # Finde das erste essbare Ding in meinem Rucksack
+	if ding not in essbares:
+		print(f"Überspringe {ding}")
+		continue
+	print(f"Essbares gefunden {ding}")
+	essbar = ding
+	break
+
+print("")
+print(f"Ergebnis ist {essbar}")
+```
+
+%%/book
+
+%%book
+
+Wir sehen, dass der Loop `Papier` und `Stift` überspringt und nicht `"Essbares gefunden Papier"` schreibt.
+
+Sobald der Loop etwas Essbares gefunden hat, so gibt er `"Essbares gefunden Apfel"` aus und beendet den Loop, obwohl noch `Brot` und `Messer` im Rucksack sind.
+
+Beides sind typische Befehle, um die Performance von Loops zu verbessern.
+
+%%/book
+
+%%slides
+
+
+## Schleife verfrüht abbrechen — break / continue
+
+`break`-Befehl: Bricht die Wiederholschleife an der aktuellen Position ab
+
+`continue`-Befehl: Beginnt direkt die nächste Iteration
+
+```python
+dinge_in_meinem_rucksack = ["Papier", "Stift", "Apfel", "Brot", "Messer"]
+essbares = {"Apfel", "Brot"}
+essbar = None
+
+for ding in dinge_in_meinem_rucksack:  # Finde das erste essbare Ding
+    if ding not in essbares:
+        print(f"Überspringe {ding}")
+        continue
+    print(f"Essbares gefunden {ding}")
+    essbar = ding
+    break
+
+print(essbar)
+```
+
+%%/slides
+
+%%book
+
+### Endlosschleifen mit Timeout
+
+%%/book
+
+%%book
+
+Mit `break` lassen sich zusätzliche Abbruchbedingungen realisieren, wie z.B. eine maximale Ausführzeit. Z.B. definieren wir einen zusätzlichen Timeout in einer Endlosschleife von 3 Sekunden mit Hilfe der `time()`-Funktion aus dem Paket `time`, welche die aktuelle Zeit (seit 1970) in Sekunden ausgibt.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import time
+
+iterations = 0
+start = time.time() # wir speichern die Anfangszeit
+while True:         # DAS IST EINE ENDLOSSCHLEIFE
+	iterations += 1
+	elapsed = time.time() - start  # wir berechnen die Zeitdifferenz in Sekunden
+	if elapsed > 3:
+		print(f"Timeout after {elapsed}s and {iterations} iterations")
+		break       # Wir brechen die Schleife ab
+```
+
+%%/book
+
+%%book
+
+Das ist allerdings keine gute Methode um ein Programm eine Zeit lang zu unterbrechen. Dafür sollten Sie lieber die `sleep()` Funktion aus dem Paket `time` nutzen. Beachten Sie die Ausführungszeit unter der Zelle.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+start = time.time()              # wir speichern die Anfangszeit
+
+time.sleep(3)                    # wir schlafen 3s
+
+print(f"Sleeped for {time.time() - start}s")  # wir geben die Zeitdifferenz aus
+```
+
+%%/book
+
+%%slides
+
+
+## Endlosschleife mit Timeout-Abbruch
+
+Mit `break` lassen sich zusätzliche Abbruchbedingungen realisieren, wie z.B. eine maximale Ausführzeit:
+
+```python
+import time
+
+iterations = 0
+start = time.time()
+
+while True:  # DAS IST EINE ENDLOSSCHLEIFE
+    iterations += 1
+    elapsed = time.time() - start
+
+    if elapsed > 3:
+        print(f"Timeout after {iterations} iterations")
+        break
+```
+
+%%/slides
+
+%%slides
+
+
+## Programmflusskontrolle
+
+Wir kennen nun zwei Werkzeuge:
+
+%%col 50 50
+
+Bedingte Ausführung:
+
+- `if`, `else`, `elif`
+
+%%sep
+
+Mehrfachausführung:
+
+- `while`, `for`
+
+%%/col
+
+Jedes Programm, was jemals auf einem Computer ausgeführt wurde, könnte mit diesen Mitteln geschrieben werden.
+
+→ Schleifen als Algorithmus-Bausteine: siehe `09a_Algorithmen` (S09)
+
+%%/slides
+
+%%book
+
+
+## Quiz
+
+
+```{quizdown}
+	---
+	shuffleQuestions: true
+	shuffleAnswers: true
+	---
+
+    ### Warum werden Schleifen in Programmen verwendet?
+
+    - [x] Um Anweisungen mehrfach auszuführen
+    - [ ] Um Programme zu beenden
+    - [ ] Um Fehler im Code zu suchen
+    - [ ] Um Funktionen zu definieren
+
+    ### Was ist typisch für eine `for`-Schleife?
+
+    - [x] Sie wiederholt Anweisungen für eine Sequenz oder Anzahl
+    - [ ] Sie führt Anweisungen nur einmal aus
+    - [ ] Sie erzeugt automatisch Variablen
+    - [ ] Sie wird immer mit `if` kombiniert
+
+    ### Wie funktioniert ein For-Each-Loop in Python?
+
+    - [x] Er iteriert direkt über die Elemente einer Sequenz
+    - [ ] Er zählt von 1 bis 100
+    - [ ] Er verändert automatisch alle Elemente
+    - [ ] Er wird nur für Zahlen verwendet
+
+    ### Was enthält die Schleifenvariable bei einem For-Each-Loop?
+
+    - [x] Das aktuelle Element aus der Sequenz
+    - [ ] Die Länge der Sequenz
+    - [ ] Den Index des vorherigen Elements
+    - [ ] Immer eine Zahl
+
+    ### Wozu wird `range(n)` in Python verwendet?
+
+    - [x] Um eine Sequenz von Zahlen von 0 bis n-1 zu erzeugen
+    - [ ] Um eine Sequenz von Zahlen von 0 bis n zu erzeugen
+    - [ ] Um eine Liste mit n Nullen zu erstellen
+    - [ ] Um Strings zu vergleichen
+    - [ ] Um Bedingungen auszuwerten
+
+    ### Was macht `enumerate()` in Python?
+    - [x] Erzeugt eine Sequenz mit Index und Element
+    - [ ] Sortiert eine Liste alphabetisch
+    - [ ] Entfernt Duplikate aus einem Dictionary
+    - [ ] Wandelt Strings in Zahlen um
+
+    ### Wie kann man durch ein Dictionary iterieren?
+    - [x] Mit einer Schleife über die Schlüssel
+    - [x] Mit einer Schleife über Schlüssel-Wert-Paare mit `items()`
+    - [ ] Nur mit einer While-Schleife
+    - [ ] Nur durch Umwandlung in eine Liste
+
+    ### Was sind typische Warnsignale für eine Endlosschleife in KI-generiertem Code?
+    - [x] Die Loop-Variable wird im Schleifenblock nicht verändert
+    - [x] Die Bedingung kann logisch nie False werden
+    - [ ] Die Schleife enthält einen break-Befehl
+    - [ ] Die Schleife iteriert über eine Liste
+
+    ### Welche drei Schritte gehören zur Verifikation eines KI-generierten Loops?
+    - [x] Identifizieren, worüber die Schleife iteriert
+    - [x] Erste zwei und letzte Iteration verfolgen
+    - [x] Prüfen, ob die Schleife terminiert
+    - [ ] Den Code sofort ausführen und Ausgabe prüfen
+
+    ### Sortiere die folgenden Zeilen, um eine gültige `for`-Schleife zu schreiben, die alle geraden Zahlen von 0 bis 10 (inklusive) ausgibt:
+    1. `for i in range(0, 11, 2):`
+    2. `  print(i)`
+
+    ### Sortiere die folgenden Zeilen, um alle Elemente einer Liste mit `for` und einer Bedingung auszugeben. Gegeben ist:
+    ```python
+    zahlen = [3, 6, 9, 12, 15]
+    ```
+    1. `for z in zahlen:`
+    2. `  if z > 8:`
+    3. `    print(z)`
+
+    ### Sortiere die folgenden Zeilen, um die Schlüssel und Werte eines Dictionary korrekt auszugeben und dabei nur Werte größer als 20 zu drucken. Gegeben ist:
+    ```python
+    person = {"name": "Anna", "alter": 30, "punkte": 18}
+    ```
+    1. `for key, value in person.items():`
+    2. `  if isinstance(value, int) and value > 20:`
+    3. `    print(f"{key}: {value}")`
+
+    ### Sortiere die folgenden Zeilen, um `enumerate()` korrekt zu nutzen und das Element mit Index auszugeben, wenn der Index ungerade ist. Gegeben ist:
+    ```python
+    tiere = ["Katze", "Hund", "Maus", "Vogel"]
+    ```
+    1. `for i, tier in enumerate(tiere):`
+    2. `  if i % 2 == 1:`
+    3. `    print(f"{i}: {tier}")`
+
+```
+
+%%/book
+
+
+%%final

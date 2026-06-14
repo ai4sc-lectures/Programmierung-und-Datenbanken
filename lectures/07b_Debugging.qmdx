@@ -1,0 +1,735 @@
+---
+title: "Debugging"
+image-credit: "Midjourney: Waves testing a boat, ref. Hokusai"
+format:
+  revealjs:
+    title-slide-attributes:
+      data-background-video: images/07b_Debugging/mj_title.mp4
+    output-file: 07b_Debugging.slide.html
+  html:
+    output-file: 07b_Debugging.page.html
+  typst:
+    output-file: 07b_Debugging.page.pdf
+resources:
+  - data/07b_Debugging
+---
+
+%%book
+
+![](images/07b_Debugging/mj_title_band.jpg)
+
+> Everyone knows that debugging is twice as hard as writing a program in the first place.
+>
+> — Brian Kernighan
+
+%%/book
+
+%%book
+
+
+# Debugging
+
+%%/book
+
+%%slides
+
+
+## Ablauf
+
+![](images/partA_7.svg)
+
+%%/slides
+
+%%# Ausgangslage
+
+%%slides
+
+## 200 Zeilen KI-Code. Falsche Ausgabe.
+
+%%div eyebrow
+{{< ai4sc-icon test-tube >}} Debugging-Szenario
+%%/div
+
+%%col 55 45v
+Der Code läuft — aber das Ergebnis ist falsch.
+
+- Keine Exception, kein Traceback
+- Der KI-generierte Code *sieht* korrekt aus
+- Eine Funktion gibt einen Wert zurück — aber den falschen
+
+**Wo fängt man an?**
+%%sep
+%%div lead
+Statisches Lesen reicht nicht.\
+Ausführung muss beobachtet werden.
+%%/div
+%%/col
+
+%%/slides
+
+%%# Die 5-Schritt-KI-Debugging-Strategie
+
+%%slides
+
+## {.section-divider}
+
+%%div eyebrow
+{{< ai4sc-icon test-tube >}} Strategie
+%%/div
+
+%%div display
+5 Schritte zum\
+systematischen\
+Debugging von KI-Code
+%%/div
+
+%%div lead
+Reproduce → Isolate → Hypothesize → Inspect → Fix & Re-verify
+%%/div
+
+%%/slides
+
+%%slides
+
+## Schritt 1 — Reproduzieren {{< ai4sc-icon test-tube >}}
+
+%%div eyebrow
+Strategie · Schritt 1 von 5
+%%/div
+
+- Schreibe den **kleinsten Input**, der das Fehlverhalten auslöst
+- Entferne alle Abhängigkeiten, die nicht zum Fehler beitragen
+- Prüfe: Tritt der Fehler **immer** oder nur unter bestimmten Bedingungen auf?
+
+%%tip Merksatz
+Ein Bug, den man nicht reproduzieren kann, kann man nicht debuggen.
+%%/tip
+
+%%/slides
+
+%%slides
+
+## Schritt 2 — Isolieren {{< ai4sc-icon test-tube >}}
+
+%%div eyebrow
+Strategie · Schritt 2 von 5
+%%/div
+
+- Schreibe einen **Unit-Test** direkt für die verdächtige Funktion
+- Teste Ein- und Ausgabe isoliert — ohne das gesamte Programm
+- Das grenzt das Problem auf eine einzelne Funktion ein
+
+%%aside
+→ `08a_UnitTest`: Isolieren ist Schritt 2 der Strategie
+%%/aside
+
+%%/slides
+
+%%slides
+
+## Schritt 3 — Hypothese bilden {{< ai4sc-icon test-tube >}}
+
+%%div eyebrow
+Strategie · Schritt 3 von 5
+%%/div
+
+%%col 50 50
+**Stelle dir diese Fragen:**
+
+- Was *erwartest* du als Ergebnis?
+- Was gibt der Code *tatsächlich* zurück?
+- Welche Annahme des KI-Codes könnte falsch sein?
+%%sep
+**Typische falsche Annahmen:**
+
+- Falscher Datentyp
+- Falsche Reihenfolge der Parameter
+- Grenzfall nicht behandelt
+- Off-by-one im Index
+%%/col
+
+%%/slides
+
+%%slides
+
+## Schritt 4 — Ausführung inspizieren {{< ai4sc-icon test-tube >}}
+
+%%div eyebrow
+Strategie · Schritt 4 von 5
+%%/div
+
+- Setze einen **Breakpoint** an der Eintrittsstelle der verdächtigen Funktion
+- Führe den Code im Debugger aus — Schritt für Schritt
+- Beobachte, **wo** Erwartung und tatsächlicher Zustand auseinanderlaufen
+
+%%tip Merksatz
+`print()` zeigt ausgewählte Werte. Der Debugger zeigt **alles**.
+%%/tip
+
+%%/slides
+
+%%slides
+
+## Schritt 5 — Beheben und re-verifizieren {{< ai4sc-icon test-tube >}}
+
+%%div eyebrow
+Strategie · Schritt 5 von 5
+%%/div
+
+- Korrigiere nur die identifizierte Fehlerursache — **minimaler Fix**
+- Führe den Unit-Test aus Schritt 2 erneut aus
+- Prüfe, ob angrenzende Funktionen ebenfalls betroffen sind
+
+%%tip Agentic Workflow
+Debugging ist der **Verify**-Schritt auf Ausführungsebene:\
+*prompt → generate → understand → **verify** → iterate*
+%%/tip
+
+%%/slides
+
+%%slides
+
+## Strategie-Übersicht {{< ai4sc-icon test-tube >}}
+
+%%col 50 50
+**1. Reproduzieren**
+: Minimalen Fehler-Input finden
+
+**2. Isolieren**
+: Unit-Test für die Funktion schreiben
+
+**3. Hypothese**
+: Welche Annahme ist falsch?
+%%sep
+**4. Inspizieren**
+: Debugger, Schritt für Schritt
+
+**5. Fix + Re-Verifikation**
+: Testen, ob der Fix vollständig ist
+%%/col
+
+%%aside
+→ `07a_Exceptions`: Exceptions sind der Ausgangspunkt für Schritt 1
+%%/aside
+
+%%/slides
+
+%%# Werkzeuge implementieren die Strategie
+
+%%book
+
+Die folgenden Werkzeuge setzen die 5-Schritt-Strategie in die Praxis um. Entscheidend ist nicht die Wahl des Werkzeugs, sondern die systematische Anwendung der Strategie.
+
+%%/book
+
+%%book
+
+
+## Debugging mit `print()`
+
+%%/book
+
+%%slides
+
+## `print()`-Debugging — Schritt 1 und 3
+
+%%div eyebrow
+Werkzeug · Reproduzieren & Inspizieren
+%%/div
+
+```python
+def division(zaehler, nenner):
+    print(f"Debug: Eingabe Zaehler: {zaehler}")  # Schritt 3: Zustand prüfen
+    print(f"Debug: Eingabe Nenner: {nenner}")
+    ...
+    ergebnis = zaehler / nenner
+    print(f"Info: Ergebnis {zaehler}/{nenner} = {ergebnis}")
+    return ergebnis
+```
+
+- [Einfach und sofort einsetzbar]{.pro}
+- [Ausgewählte Werte — nicht der vollständige Zustand]{.con}
+- [Viele Ausgaben verdecken den eigentlichen Fehler]{.con}
+
+%%/slides
+
+%%book
+
+Logische Fehler treten häufig erst dynamisch auf und lassen sich nicht durch statische Code-Analyse durch Lint-Tools finden. Hier muss man dann den aktuellen Programmfluss nachvollziehen. Dies nennt man Debugging. Die einfachste Form ist das `print`-Debugging bei der man den Code mit `print()`-Befehlen zuspammt.
+
+Wir erweitern mal unsere Divisionsfunktion mit schönen vielen `print()`-Statements. Üblich ist es zum Beispiel, die Eingangsparameter auszugeben, Fehler und Warnungen auszugeben, als auch dann Ergebnisse zu loggen.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def division(zaehler, nenner):
+    print(f"Debug: Eingabe Zaehler: {zaehler}")
+    print(f"Debug: Eingabe Nenner: {nenner}")
+    if not isinstance(nenner, (int, float)):
+        print(f"Error: Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")
+        raise ValueError(f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")
+    elif not isinstance(zaehler, (int, float)):
+        print(f"Error: Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")
+        raise ValueError(f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")
+    elif not nenner:
+        print("Warning: Division durch 0")
+        return None
+    else:
+        ergebnis = zaehler / nenner
+        print(f"Info: Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
+        return ergebnis
+```
+
+%%/book
+
+%%book
+
+Jetzt können wir insbesondere im Fehlerfall sehr gut nachvollziehen was genau geschehen ist. Zum Beispiel bei der Division durch 0.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+division(10, 0)
+```
+
+%%/book
+
+%%book
+
+Allerdings haben wir auch im korrekten Fall sehr viele Ausgaben. Das kann sehr störend sein, weil man dann richtige Fehler sehr schnell übersieht. Zum Beispiel erzeugen wir zehn Divisionen, von der eine eine Division durch 0 war.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+for nenner in range(-2, 8):
+    division(10, nenner)
+```
+
+%%/book
+
+%%book
+
+
+## Debugging mit `logging`
+
+%%/book
+
+%%slides
+
+## `logging` — Gefilterte Sichtbarkeit
+
+%%div eyebrow
+Werkzeug · Reproduzieren & Inspizieren
+%%/div
+
+```python
+import logging
+log = logging.getLogger("meinlog")
+
+log.setLevel(logging.WARNING)  # nur Warnungen und Fehler
+log.setLevel(logging.DEBUG)    # volle Sichtbarkeit beim Debuggen
+```
+
+Log-Level: `DEBUG` → `INFO` → `WARNING` → `ERROR` → `CRITICAL`
+
+- [Kategorisierte Ausgaben — leichter zu filtern]{.pro}
+- [Level dynamisch anpassbar — kein Code-Umbau nötig]{.pro}
+- [Erfordert initiale Konfiguration]{.neutral}
+
+%%/slides
+
+%%book
+
+Deshalb verwendet man bei komplexeren Programmen meist ein `logging`-Paket. Diese erlauben es `print`-Statements Kategorien zuzuordnen und anhand dieser zu filtern. In der Python-Bibliothek `logging` sind die Kategorien: `debug`, `info`, `warning`, `error` und `critical`.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+import logging
+
+log=logging.getLogger("meinlog")
+
+def division(zaehler, nenner):
+    log.debug(f"Eingabe Zaehler: {zaehler}")
+    log.debug(f"Eingabe Nenner: {nenner}")
+    if not isinstance(nenner, (int, float)):
+        log.error(f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")
+        raise ValueError(f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")
+    elif not isinstance(zaehler, (int, float)):
+        log.error(f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")
+        raise ValueError(f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")
+    elif not nenner:
+        log.warning("Division durch 0")
+        return None
+    else:
+        ergebnis = zaehler / nenner
+        log.info(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
+        return ergebnis
+```
+
+%%/book
+
+%%book
+
+Wenn wir jetzt die Funktion aufrufen, sehen wir nur noch die Division durch 0 Warnung.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+log.setLevel(logging.WARNING)
+for nenner in range(-2, 8):
+    division(10, nenner)
+```
+
+%%/book
+
+%%book
+
+Wir können allerdings bei Bedarf, wie bei der Fehlersuche den Loglevel auch erhöhen. Zum Beispiel wollen wir alle Debug-Nachrichten erhalten.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+log.setLevel(logging.DEBUG)
+for nenner in range(-2, 8):
+    division(10, nenner)
+```
+
+%%/book
+
+%%book
+
+Ferner erlaub das Logging auch automatisch weitere Informationen hinzuzufügen. Wir sehen im Log oben bereits, das nicht nur das Level (INFO, DEBUG, WARNING) sondern auch den Namen des Loggers (meinlog). Wir können dieses Format anpassen um z.B. auch die Zeit auszugeben, was insbesondere wichtig ist um zu verstehen wann etwas passiert ist.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+sh=logging.StreamHandler()
+formatter = logging.Formatter('%(asctime)s  %(name)s  %(levelname)s: %(message)s')
+sh.setFormatter(formatter)
+log.addHandler(sh)
+log.setLevel(logging.INFO)
+
+for nenner in range(-2, 8):
+    division(10, nenner)
+```
+
+%%/book
+
+%%book
+
+In der Praxis wird das Logging sehr häufig insbesondere in Cloud-Anwendungen verwendet. Da diese ja keine Bildschirme haben, müssen Fehler in Logs gesucht werden. Solange alles ok ist, läuft so eine Anwendung dann z.B. im Log-Level `INFO`, mit nur wenig Ausgaben. Tritt ein Fehler auf, so wird der Server auf das Log-Level `DEBUG` gesetzt und man sucht in den detaillierten Logs dann nach Informationen, um den Fehler einzugrenzen.
+
+%%/book
+
+%%book
+
+
+## Debugging durch Debug-Oberflächen
+
+%%/book
+
+%%slides
+
+## Grafischer Debugger — Voller Zustandsüberblick
+
+%%div eyebrow
+Werkzeug · Inspizieren (Schritt 4)
+%%/div
+
+%%col 50 50
+**Breakpoints** — Ausführung gezielt unterbrechen:
+
+- An einer bestimmten Zeile anhalten
+- Bei einer bestimmten Exception stoppen
+
+**Was der Debugger zeigt:**
+
+- Aktuelle Zeile (hervorgehoben)
+- Alle Variablen im Speicher
+- Den gesamten Call Stack
+%%sep
+![](images/debug_vscode_3.png)
+%%/col
+
+%%/slides
+
+%%book
+
+Viele integrierte Entwicklungsumgebungen (IDE) bieten an direkt Debugger auszuführen. Diese Debugger erlauben es die dynamische Ausführung des Codes zu unterbrechen. Ziel ist es kurz vor Auftreten des Fehlers die Ausführung anzuhalten, um dann das Fehlerverhalten genau beobachten zu können.
+
+Dabei werden meist zwei Formen der Unterbrechung unterstützt:
+
+-  Die Unterbrechung in bestimmten Code-Zeilen mit Hilfe von Breakpoints.
+-  Die Unterbrechung bei bestimmten Exceptions.
+
+%%/book
+
+%%book
+
+### Debugging in Jupyter-Notebooks in VSCode
+
+%%/book
+
+%%book
+
+Die Debug-Oberflächen sehen je nach IDE etwas anders aus, verfügen aber über ähnliche Funktionen. Dieses Jupyter Notebook wurde in VSCode geschrieben, welches wir als erstes Beispiel betrachten.
+
+%%/book
+
+%%book
+
+Dafür kann man meist in der IDE links neben eine Zeile klicken um einen Breakpoint <span style="color: red">⬤</span> zu setzen. Wir setzen dafür einen Breakpoint auf die Zeile 11 auf die Ausgabe der Warnung.
+
+%%/book
+
+%%book
+
+![](images/debug_vscode_1.png)
+
+%%/book
+
+%%book
+
+Dann wird der Code in einer speziellen Debugumgebung ausgeführt, die es erlaub die Ausführung zu unterbrechen. In unserm Notebook in VSCode starten wird diese durch das Symbol ![](images/debug_vscode_2.png).
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+def division(zaehler, nenner):
+    log.debug(f"Eingabe Zaehler: {zaehler}")
+    log.debug(f"Eingabe Nenner: {nenner}")
+    if not isinstance(nenner, (int, float)):
+        log.error(f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")
+        raise ValueError(f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")
+    elif not isinstance(zaehler, (int, float)):
+        log.error(f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")
+        raise ValueError(f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")
+    elif not nenner:
+        log.warning("Division durch 0")
+        return None
+    else:
+        ergebnis = zaehler / nenner
+        log.info(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
+        return ergebnis
+
+division(10, 0)
+```
+
+%%/book
+
+%%book
+
+Dies startet den Debug-Modus. In diesem wird die aktuelle Zeile vorgehoben als auch die aktuellen Variablen im Speicher angezeigt.
+
+%%/book
+
+%%book
+
+![Debugging in VS Code](images/debug_vscode_3.png)
+
+%%/book
+
+%%book
+
+In der Debugumgebung kann man dann Zeile für Zeile vorgehen durch drücken von ![](images/debug_vscode_2.png) und damit nachvollziehen wie das Programm bearbeitet wird und welche Variablen sich ändern.
+
+%%/book
+
+%%# Multi-Funktions-Modul Walkthrough
+
+%%slides
+
+## KI generiert oft mehrere Funktionen {{< ai4sc-icon test-tube >}}
+
+%%div eyebrow
+Walkthrough · Schritt 4 — Inspizieren
+%%/div
+
+%%col 55 45v
+KI-generierter Code besteht häufig aus **mehreren verschachtelten Funktionen**:
+
+```python
+def verarbeite_daten(daten):
+    bereinigt = bereinige(daten)
+    ergebnis  = berechne(bereinigt)
+    return formatiere(ergebnis)
+```
+
+- `print()` reicht nicht — der Fehler kann in jeder Funktion stecken
+- Der Debugger folgt dem Call Stack durch alle Ebenen
+
+%%sep
+%%div lead
+Breakpoint setzen → hineinsteigen → Zustand auf jeder Ebene prüfen
+%%/div
+%%/col
+
+%%/slides
+
+%%slides
+
+## Breakpoint am Einstiegspunkt setzen {{< ai4sc-icon test-tube >}}
+
+%%div eyebrow
+Walkthrough · Schritt 1 von 3
+%%/div
+
+- Setze den ersten Breakpoint an der **Eintrittsfunktion** (`verarbeite_daten`)
+- Rufe die Funktion mit dem **minimalen Fehler-Input** aus Schritt 1 auf
+- Die Ausführung hält — du siehst den Eingangszustand vor dem ersten Aufruf
+
+%%tip Merksatz
+Starte immer am Anfang der Aufrufkette, nicht tief im Code.
+%%/tip
+
+%%/slides
+
+%%slides
+
+## Durch Funktionsaufrufe schrittweise gehen {{< ai4sc-icon test-tube >}}
+
+%%div eyebrow
+Walkthrough · Schritt 2 von 3
+%%/div
+
+%%col 50 50
+**Step Into** (Hineinsteigen):
+: Debugger springt in die aufgerufene Funktion
+
+**Step Over** (Überspringen):
+: Debugger führt die Funktion aus, ohne hineinzuspringen
+
+**Step Out** (Heraussteigen):
+: Debugger führt die Funktion zu Ende und kehrt zurück
+
+%%sep
+**Wann welches nutzen?**
+
+- Funktion *verdächtig* → Step Into
+- Funktion *bekannt korrekt* → Step Over
+- Zu tief geraten → Step Out
+%%/col
+
+%%/slides
+
+%%slides
+
+## Zustand auf jeder Ebene inspizieren {{< ai4sc-icon test-tube >}}
+
+%%div eyebrow
+Walkthrough · Schritt 3 von 3
+%%/div
+
+- Prüfe nach **jedem Funktionsaufruf**: Entspricht der Rückgabewert der Erwartung?
+- Vergleiche den **Call Stack** — welche Funktion hat was geändert?
+- Sobald der Rückgabewert abweicht: **Hypothese bestätigt** → Schritt 5: Fix
+
+%%tip Agentic Workflow
+Der grafische Debugger ist mächtiger als `print()` für KI-Module mit mehreren Funktionen — er zeigt den vollständigen Zustand ohne Code-Änderungen.
+%%/tip
+
+%%/slides
+
+%%book
+
+
+## Quiz
+
+
+```{quizdown}
+    ---
+    shuffleQuestions: true
+    shuffleAnswers: true
+    ---
+
+    ### Was versteht man unter Debugging?
+    - [x] Das Finden und Beheben von Fehlern im Programmcode
+    - [ ] Die Optimierung des Programmcodes
+    - [ ] Das Schreiben von Dokumentation
+    - [ ] Das Formatieren von Quellcode
+
+    ### Warum reicht statische Code-Analyse allein nicht aus?
+    - [x] Weil logische Fehler zur Laufzeit auftreten können
+    - [ ] Weil sie keine Sicherheitslücken erkennt
+    - [ ] Weil sie den Code langsamer macht
+    - [ ] Weil sie nicht mit Python funktioniert
+
+    ### Was ist `print`-Debugging?
+    - [x] Das Einfügen von `print()`-Befehlen zur Laufzeitanalyse
+    - [ ] Das Entfernen aller `print()`-Befehle
+    - [ ] Ein automatisiertes Debugging-Verfahren
+    - [ ] Ein grafischer Debugger
+
+    ### Was ist der Zweck von `logging` in Python?
+    - [x] Protokollierung von Ereignissen und Fehlern
+    - [ ] Optimierung der Programmausführung
+    - [ ] Erstellen von Benutzeroberflächen
+    - [ ] Automatisches Testen von Funktionen
+
+    ### Sortiere die folgenden Zeilen, um einen vollständigen `try-except`-Block korrekt aufzubauen
+
+    1. `def division(zaehler, nenner):`
+    2. `    print(f"Debug: Eingabe Zaehler: {zaehler}")`
+    3. `    print(f"Debug: Eingabe Nenner: {nenner}")`
+    4. `    if not isinstance(nenner, (int, float)):`
+    5. `        print(f"Error: Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")`
+    6. `        raise ValueError(f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")`
+    7. `    elif not isinstance(zaehler, (int, float)):`
+    8. `        print(f"Error: Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")`
+    9. `        raise ValueError(f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")`
+    10. `    elif not nenner:`
+    11. `        print("Warning: Division durch 0")`
+    12. `        return None`
+    13. `    else:`
+    14. `        ergebnis = zaehler / nenner`
+    15. `        print(f"Info: Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")`
+    16. `        return ergebnis`
+
+
+    ### Was passiert bei einer Division durch Null im folgenden Code?
+    ```python
+    def division(zaehler, nenner):
+        print(f"Debug: Eingabe Zaehler: {zaehler}")
+        print(f"Debug: Eingabe Nenner: {nenner}")
+        if not isinstance(nenner, (int, float)):
+            ...
+        elif not nenner:
+            print("Warning: Division durch 0")
+            return None
+    ```
+    - [x] Eine Warnung wird ausgegeben und `None` zurückgegeben.
+    - [ ] Es erfolgt ein Abbruch durch `ZeroDivisionError`.
+    - [ ] Es wird 0 zurückgegeben.
+    - [ ] Der Nenner wird automatisch auf 1 gesetzt.
+
+```
+
+%%/book
+
+
+%%final

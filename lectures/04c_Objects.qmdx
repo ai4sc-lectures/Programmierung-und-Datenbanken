@@ -1,0 +1,577 @@
+---
+title: "Objekte"
+image-credit: "Midjourney: Bauhaus line drawing"
+format:
+  ai4sc-style-revealjs:
+    title-slide-attributes:
+      data-background-video: images/04c_Objects/mj_title.mp4
+    output-file: 04c_Objects.slide.html
+  html:
+    output-file: 04c_Objects.page.html
+  typst:
+    output-file: 04c_Objects.page.pdf
+resources:
+  - data/04c_Objects
+---
+
+%%book
+
+![](images/04c_Objects/mj_title_band.jpg)
+
+> The best way to predict the future is to invent it — and then encapsulate it in objects.
+>
+> — Alan Kay
+
+%%/book
+
+%%slides
+
+## Ablauf
+
+![](images/partA_6.svg)
+
+%%/slides
+
+%%slides
+
+## Zielsetzung
+
+- Objekte als **Entwurfseinheiten** verstehen — bevor Python-Syntax kommt
+- Domänen in Entitäten, Attribute und Verantwortlichkeiten zerlegen
+- Beziehungen zwischen Objekten explizit im Entwurf festhalten
+- UML-Klassendiagramm als Entwurfsartefakt und KI-Prompt nutzen
+
+%%/slides
+
+%%# Warum in Objekten denken?
+
+%%book
+
+# Objekte
+
+Objektorientierte Programmierung (OOP) ist ein Programmierparadigma, das annimmt, dass ein Programm aus *Objekten* besteht, die miteinander kooperativ interagieren. Jedes Objekt verfügt über *Attribute* (Eigenschaften) und *Methoden* (Verantwortlichkeiten).
+
+In dieser Einheit betrachten wir Objekte als **Entwurfskonzept** — noch bevor wir eine Zeile Python schreiben. Das Ziel ist: Denken in Objekten, Beziehungen und Verantwortlichkeiten.
+
+%%/book
+
+%%slides
+
+## Objekte als Denkstrategie {{< ai4sc-icon box >}}
+
+%%div eyebrow
+{{< ai4sc-icon box >}} Entwurfskonzept
+%%/div
+
+Nicht: „Wie schreibt man eine Klasse in Python?"
+
+Sondern: **„Welche Entitäten hat meine Domäne — und was macht jede davon?"**
+
+- Objekte sind Entwurfseinheiten **vor** dem Code
+- Eine Klasse beschreibt Struktur und Verantwortlichkeit einer Entität
+- Beziehungen zwischen Klassen müssen explizit entworfen werden
+
+%%/slides
+
+%%book
+
+## Warum Objekte denken?
+
+Die Objektorientierung löst grundlegende Probleme im Umgang mit sich wiederholenden Datenstrukturen in großen Programmen. Diese Probleme entstehen bereits beim **Entwurf**, nicht erst bei der Implementierung. Wir betrachten daher drei Probleme, die durch Objekte gelöst werden.
+
+%%/book
+
+%%slides
+
+## Warum Objekte — Das syntaktische Problem
+
+- Wächst das Programm, wächst die Menge der Variablen und Datenstrukturen
+    - zur Speicherung von Daten
+    - zur Kontrolle des Programmflusses
+    - zum Abspeichern von Zuständen
+- Die zugrundeliegenden Elemente basieren oft auf denselben Strukturen
+- Z.B. Punkt-Koordinaten: als Tupel oder als Liste? — ohne Festlegung sind beide möglich
+- Objekte legen den **Syntax** einer Datenstruktur verbindlich fest
+
+%%/slides
+
+%%book
+
+### Das syntaktische Problem
+
+Wächst das Programm an, so wächst auch die Menge der Variablen und Datenstrukturen. Dabei basieren die zugrundeliegenden Elemente meist auf sich wiederholenden Datenstrukturen. Analysiert man z.B. Baupläne oder Karten, so verwaltet man viele Punkt-Koordinaten — aber ohne Festlegung kann eine Koordinate unterschiedlich ausgedrückt werden. Das ist das syntaktische Problem. Objekte lösen es, indem sie den Syntax der Datenstruktur eindeutig definieren.
+
+%%/book
+
+%%slides
+
+## Warum Objekte — Das semantische Problem
+
+- Haben wir uns auf eine Darstellung geeinigt, ist die **Bedeutung** der Werte noch offen
+
+%%col 50 50
+
+Ohne Objekt:
+
+```
+punkt_1 = (54.083336, 12.108811)
+```
+
+- Ist der erste Wert Latitude oder Longitude?
+- Kartesisch oder radial?
+
+%%sep
+
+Mit Objekt:
+
+```
+punkt_1.latitude  = 54.083336
+punkt_1.longitude = 12.108811
+```
+
+- Attributnamen machen Bedeutung explizit
+
+%%/col
+
+%%/slides
+
+%%book
+
+### Das semantische Problem
+
+Ein anderer Programmierer wird nicht ohne Weiteres die semantische Bedeutung der Werte verstehen. Um solche Unklarheiten zu beseitigen, will man der Datenstruktur eine klare semantische Definition geben. Objekte lösen das, indem sie Attributnamen vergeben, die die Bedeutung der Werte dokumentieren.
+
+%%/book
+
+%%slides
+
+## Warum Objekte — Das Verhaltensproblem
+
+- Objekte bündeln Datenstrukturen mit den Operationen, die für sie sinnvoll sind
+
+%%col 50 50
+
+**Ohne Objekte:**
+
+- Freie Funktion `distanz()` kann auf beliebige Typen angewendet werden
+- Auf Punkte, Linien, Strings — kein Schutz
+- Führt zu semantischen und logischen Fehlern
+
+%%sep
+
+**Mit Objekten:**
+
+- Methode `punkt.distanz()` ist nur für Punkte verfügbar
+- Die Klasse *kapselt* Daten und zulässige Operationen
+- Falsche Anwendung wird verhindert
+
+%%/col
+
+%%/slides
+
+%%book
+
+### Das Verhaltensproblem
+
+Objekte werden zudem verwendet, um die Funktionen zur Verarbeitung der Datenstrukturen direkt mit dieser zu bündeln, so dass die Datenstruktur nur jene Funktionen anbietet, welche auch sinnvoll anwendbar sind. Das vermeidet semantische und logische Fehler durch falsche Verwendung.
+
+%%/book
+
+%%# Klassen als Entwurfseinheiten
+
+%%slides
+
+## Klassen: Bauplan einer Entität {{< ai4sc-icon box >}}
+
+%%def Objektorientierte Programmierung
+Objektorientierte Programmierung (OOP) ist ein Programmierparadigma, das annimmt, dass ein Programm aus Objekten besteht, die miteinander kooperativ interagieren.
+%%/def
+
+Anstatt viele verstreute Datenstrukturen und Funktionen zu nutzen, gruppieren wir diese in **Klassen**. Eine Klasse definiert:
+
+- welche **Attribute** (Eigenschaften) eine Entität besitzt
+- welche **Verantwortlichkeiten** (Methoden) sie bereitstellt
+
+%%/slides
+
+%%book
+
+## Klassen als Entwurfseinheiten
+
+Eine Klasse ist der Entwurfsplan für eine Familie gleichartiger Objekte. Sie legt fest, welche Attribute (Eigenschaften) ein Objekt hat und welche Methoden (Operationen) es bereitstellt. Der Entwurf der Klasse kommt **vor** der Implementierung.
+
+%%/book
+
+%%slides
+
+## Klassen und Instanzen {{< ai4sc-icon box >}}
+
+%%col 50v 50
+
+**Klasse** = Bauplan (Entwurf)
+
+- Definiert Struktur und Verhalten
+- Kein konkretes Objekt, keine Werte
+
+**Instanz** = konkretes Objekt (Laufzeit)
+
+- Entsteht nach dem Bauplan der Klasse
+- Hat eigene Werte in den Attributen
+- Viele Instanzen einer Klasse möglich
+
+%%sep
+
+![](https://mermaid.ink/svg/pako:eNp9kT1vgzAQhv-KdTNBODh8eOjQdkFtl6pT4wwWNmAJ7MiYfoTw32sgZKyX8z3vvXfS3QilERIoVK35LhtuHXr8YBr599LyvpfHNZyYXqlQVpZOGY1e31dS4GOhe8f1BeHTDek70ndngdFu93BVvUOb-GX09TZnM_5XAwHUVgmgzg4ygE7ajs8pjLObgWtkJxlQ_xWy4kPrGDA9eduZ609jus1pzVA3QCve9j4bzoI7-ax4bXl3p1ZqIe2TGbQDSiKyNAE6wg9QHCchjj3MSIJzTKIkgN-5KtyTPM8TnB3iaJ_GZArgssyNwiydJS_gPI3IwfeTQjlj39b9L2eY_gD5vnxs)
+
+%%aside
+Ref.: UML-Klassendiagramm — Klasse (oben) und Instanzen (unten)
+%%/aside
+
+%%/col
+
+%%/slides
+
+%%book
+
+### Klassen und Instanzen
+
+Objekte selbst sind immer Instanzen einer Klasse (die Klasse ist ja nur ein Bauplan). Eine Klasse kann beliebig viele Instanzen haben oder gar keine. Alle Instanzen sind gleich aufgebaut, besitzen aber nicht unbedingt die gleichen Werte in den Attributen.
+
+%%/book
+
+%%# Beziehungen zwischen Objekten
+
+%%slides
+
+## Objektbeziehungen {{< ai4sc-icon arrow-left-right >}}
+
+%%div eyebrow
+{{< ai4sc-icon arrow-left-right >}} Beziehungen
+%%/div
+
+In Programmen stehen Objekte im Zusammenhang. Diese Beziehungen müssen im Entwurf **explizit** festgehalten werden:
+
+%%col 33 33 33
+
+**Assoziation**
+
+Ein Objekt *verwendet* ein anderes.
+
+Z.B. `Ingenieur` verwendet `Werkzeug`
+
+%%sep
+
+**Aggregation**
+
+Ein Objekt *enthält* andere (lose).
+
+Z.B. `Polygon` enthält `Punkte`\
+(Punkte können auch allein existieren)
+
+%%sep
+
+**Komposition**
+
+Ein Objekt *besteht aus* anderen (strikt).
+
+Z.B. `Gebäude` besteht aus `Etagen`\
+(Etage ohne Gebäude nicht sinnvoll)
+
+%%/col
+
+%%/slides
+
+%%book
+
+## Beziehungen zwischen Objekten
+
+In Programmen stehen Objekte meist im Zusammenhang. Z.B. besteht eine Linie aus zwei Punkten. Diesen Zusammenhang zweier Objekt-Klassen bezeichnet man als *Assoziation*. Bei stärkerer Bindung spricht man von *Aggregation* (lose) oder *Komposition* (untrennbar). Diese Beziehungen müssen im Entwurf explizit festgehalten werden, **bevor** man sie in Code übersetzt.
+
+%%/book
+
+%%slides
+
+## Beziehungen im UML-Diagramm {{< ai4sc-icon arrow-left-right >}}
+
+%%col 50v 50
+
+- Pfeile zeigen Richtung und Typ der Beziehung
+- Multiplizitäten: `1`, `0..*`, `1..*`
+- Im Entwurf: Welche Richtung? Wie viele? Wer lebt von wem ab?
+
+%%sep
+
+![](https://mermaid.ink/svg/pako:eNp9kTtvgzAQgP8KupkgG8zDHjq0XaK2UlV1aslgYQNWwY6M6SOE_15eyRhPvu_uu5PuBiiMkMCgbMxPUXPrvPv3XHvTe2p418nP115_uUOuVyiUlYVTRnvPbyvZ47XEw4cN6A3oq7XH3m53d1adm7Kd4_rkfRt93kZctFs14ENllQDmbC99aKVt-RzCMNs5uFq2Mgc2fYUsed-4HHI9TtqR6w9j2otpTV_VwEredFPUHwV38lHxyvL2Sq3UQtoH02sHLEZoaQJsgF9gOEoCHBFEMpJgiglKfPgDRlAQEkppgrM4QmEakdGH0zIXBVk6p2iYJDSNaIx9kEI5Y1_W1S8XGP8BBLJ6eQ)
+
+%%aside
+Ref.: UML-Notation aus 03c_Softwareentwurf (S03)
+%%/aside
+
+%%/col
+
+%%/slides
+
+%%book
+
+### UML-Klassendiagramm
+
+Das UML-Klassendiagramm ist die standardisierte Notation für Objektbeziehungen. Rechtecke stellen Klassen dar (Name, Attribute, Methoden); Pfeile zeigen Beziehungen mit Richtung und Multiplizität. Die Notation wurde in `03c_Softwareentwurf` (S03) eingeführt.
+
+%%/book
+
+%%# Design before you prompt
+
+%%slides
+
+## Design before you prompt {{< ai4sc-icon clipboard-list >}}
+
+%%div eyebrow
+{{< ai4sc-icon clipboard-list >}} Entwurf → Prompt → Verifikation
+%%/div
+
+%%col 50v 50
+
+**Der agentische Entwurfszyklus für Objekte:**
+
+1. **Entwerfe** das UML-Klassendiagramm
+2. **Prompte** die KI mit dem Diagramm als Spezifikation
+3. **Generiere** Python-Klassen (KI übernimmt Syntax)
+4. **Verifiziere** den Code gegen das Diagramm
+
+%%sep
+
+%%div lead
+Das UML-Diagramm ist die Spezifikation.\
+Der Code ist das Ergebnis.
+%%/div
+
+%%/col
+
+%%/slides
+
+%%book
+
+## Design before you prompt
+
+Der agentische Ansatz für Objektorientierung bedeutet: **zuerst entwerfen, dann prompten**. Das UML-Klassendiagramm ist die Spezifikation, die wir der KI übergeben. Die KI generiert daraus Python-Code. Der Ingenieur verifiziert, ob der generierte Code dem Entwurf entspricht.
+
+Dieser Zyklus — Entwerfen → Prompten → Generieren → Verifizieren — ist die Kernkompetenz des agentischen Programmierens für Objekte.
+
+%%/book
+
+%%slides
+
+## UML-Diagramm als KI-Prompt {{< ai4sc-icon clipboard-list >}}
+
+%%div eyebrow
+{{< ai4sc-icon clipboard-list >}} Spezifikation
+%%/div
+
+Ein vollständiges UML-Klassendiagramm enthält:
+
+- **Klassennamen**: eindeutig, aussagekräftig
+- **Attribute**: Name + Typ (z.B. `fläche: float`)
+- **Verantwortlichkeiten**: Methoden mit Parametern und Rückgabetyp
+- **Beziehungen**: Assoziation/Aggregation/Komposition mit Multiplizität
+
+%%tip Merksatz
+Was nicht im Diagramm steht, wird die KI erfinden — oft falsch.
+%%/tip
+
+%%/slides
+
+%%book
+
+### UML als Prompt-Vorlage
+
+Ein UML-Klassendiagramm, das einer KI als Prompt übergeben wird, muss vollständig sein: Klassennamen, Attribute mit Typen, Methoden mit Parametern und Rückgabetypen, Beziehungen mit Richtung und Multiplizität. Was nicht im Diagramm steht, wird die KI erfinden — und das oft falsch.
+
+%%/book
+
+%%slides
+
+## Verifizieren gegen das Diagramm {{< ai4sc-icon clipboard-list >}}
+
+%%div eyebrow
+{{< ai4sc-icon workflow >}} Agentic Workflow
+%%/div
+
+> **Agentic Workflow — Objekte entwerfen:**
+>
+> 1. Lies die generierten Klassen gegen das UML-Diagramm
+> 2. Prüfe: Sind alle Attribute vorhanden und korrekt benannt?
+> 3. Prüfe: Sind alle Beziehungen korrekt implementiert?
+> 4. Wenn nicht: Ergänze das Diagramm und prompte erneut
+
+%%/slides
+
+%%book
+
+### Verifizieren gegen das Diagramm
+
+Die Verifikation ist der entscheidende Schritt im agentischen Workflow. Wer nur den generierten Code liest, ohne gegen das Diagramm zu prüfen, übersieht fehlende Attribute, falsche Beziehungstypen oder falsch typisierte Rückgabewerte. Das Diagramm ist das Kriterium — nicht das eigene Bauchgefühl.
+
+%%/book
+
+%%# BIM-Beispiel: Gebäudehierarchie
+
+%%slides
+
+## Domänenzerlegung: Gebäude {{< ai4sc-icon box >}}
+
+%%div eyebrow
+{{< ai4sc-icon box >}} Werkzeug: Domänenzerlegung
+%%/div
+
+Wie zerlegen wir ein Gebäude in Objekte?
+
+%%col 50 50
+
+**Entitäten:**
+
+- `Gebäude`
+- `Etage`
+- `Raum`
+- `Fenster`
+
+**Beziehungen:**
+
+- Gebäude **besteht aus** Etagen (Komposition, `1..*`)
+- Etage **besteht aus** Räumen (Komposition, `1..*`)
+- Raum **enthält** Fenster (Aggregation, `0..*`)
+
+%%sep
+
+**Attribute — z.B. Raum:**
+
+- `name: str`
+- `fläche: float`
+- `höhe: float`
+
+**Verantwortlichkeiten:**
+
+- `berechne_volumen() → float`
+- `get_fenster() → List[Fenster]`
+
+%%/col
+
+%%/slides
+
+%%book
+
+## BIM-Beispiel: Gebäudehierarchie
+
+Ein typisches BIM-Modell lässt sich als Objekthierarchie ausdrücken: `Gebäude → Etage → Raum → Fenster`. Jede Klasse hat eigene Attribute (z.B. `Raum.fläche`, `Fenster.u_wert`) und eigene Verantwortlichkeiten (z.B. `Etage.berechne_gesamtfläche()`). Die Beziehungen — Komposition, Aggregation — müssen im Entwurf mit Multiplizitäten explizit festgehalten werden.
+
+%%/book
+
+%%slides
+
+## Entwurfsaufgabe: UML-Diagramm {background-color="#D9FF66"}
+
+%%div eyebrow
+{{< ai4sc-icon clipboard-list >}} Entwurfsaufgabe
+%%/div
+
+Entwerft das UML-Klassendiagramm für die Gebäudehierarchie:
+
+1. Identifiziert alle Klassen
+2. Definiert Attribute mit Typen
+3. Legt Verantwortlichkeiten fest
+4. Zeichnet Beziehungen mit Richtung und Multiplizität
+5. Formuliert daraus einen KI-Prompt
+
+%%/slides
+
+%%slides
+
+## Querverbindungen {{< ai4sc-icon arrow-left-right >}}
+
+%%col 33 33 33
+
+**S03** — `03c_Softwareentwurf`
+
+UML-Klassendiagramm-Notation als Entwurfswerkzeug
+
+%%sep
+
+**S06** — `04c_Objects` (Implementierung)
+
+Python-Syntax für dieselben Konzepte:\
+`class`, `__init__`, Attribute, Methoden
+
+%%sep
+
+**S08** — `08a_UnitTest`
+
+Tests verifizieren, ob die Python-Implementierung dem UML-Entwurf entspricht
+
+%%/col
+
+%%/slides
+
+%%book
+
+## Quiz
+
+```{quizdown}
+
+    shuffleQuestions: true
+    shuffleAnswers: true
+
+
+    ### Was beschreibt ein Objekt in der objektorientierten Programmierung?
+    - [x] Eine Einheit mit Zustand (Attribute) und Verhalten (Methoden)
+    - [ ] Eine reine Datenstruktur ohne Funktionen
+    - [ ] Nur eine Methode in einem Programm
+    - [ ] Eine Zeile in einer Datenbank
+
+    ### Warum verwendet man Objekte bei wiederholenden Datenstrukturen?
+    - [x] Um missverständliche Strukturen zu vermeiden
+    - [x] Um redundante Strukturen zu vermeiden
+    - [ ] Um Daten alphabetisch zu sortieren
+    - [ ] Um den Programmfluss zu verlangsamen
+
+    ### Warum helfen Objekte bei semantischen Problemen?
+    - [x] Sie machen die Bedeutung der Werte durch Attributnamen klar
+    - [ ] Sie ersetzen alle Werte automatisch durch Strings
+    - [ ] Sie wandeln alles in Listen um
+    - [ ] Sie benötigen keine Werte zur Laufzeit
+
+    ### Was ist der Unterschied zwischen einer Klasse und einer Instanz?
+    - [x] Die Klasse ist der Bauplan; die Instanz ist das konkrete Objekt
+    - [ ] Die Klasse ist das Objekt; die Instanz ist der Bauplan
+    - [ ] Klassen und Instanzen sind dasselbe
+    - [ ] Eine Instanz hat keine Attribute
+
+    ### Was beschreibt eine Komposition?
+    - [x] Ein Objekt besteht aus anderen; die Teile existieren nicht ohne das Ganze
+    - [ ] Ein Objekt verwendet ein anderes, aber unabhängig
+    - [ ] Zwei Objekte teilen sich Attribute
+    - [ ] Ein Objekt erbt Methoden von einem anderen
+
+    ### Was ist UML?
+    - [x] Eine grafische Notation für Software-Design
+    - [ ] Eine Programmiersprache
+    - [ ] Eine Datenbanksprache
+    - [ ] Eine Art von Algorithmus
+
+    ### Was enthält ein vollständiges UML-Klassendiagramm als KI-Prompt?
+    - [x] Klassennamen, Attribute mit Typen, Methoden, Beziehungen mit Multiplizität
+    - [ ] Nur die Klassennamen
+    - [ ] Nur den Python-Code
+    - [ ] Nur die Attributnamen
+
+    ### Was sind objektorientierte Programmierparadigmen?
+    - [x] Kapselung
+    - [x] Vererbung
+    - [x] Polymorphismus
+    - [ ] Spezialisierung allein
+    - [x] Generalisierung
+    - [ ] Redundanz
+
+```
+
+%%/book
+
+%%final
