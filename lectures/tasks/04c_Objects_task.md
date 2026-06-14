@@ -21,8 +21,8 @@
 
 ## Instructions
 
-1. Follow the `.qmdx` conventions in `CLAUDE.md` (auto-loaded — do not read any other files).
-2. The **Summary**, **Main topics**, and **Key takeaways** sections below describe the existing content — do not open the source file.
+1. Use `../lecture_skill/SKILL.md` for `.qmdx` authoring conventions. Do NOT open completed lectures in `lectures/` to check patterns — the skill has everything.
+2. Open the source file listed in the metadata above. Use the **Change Notes** to transform it — the **Summary**, **Main topics**, and **Key takeaways** give context.
 3. Apply every item in the **Change Notes** below:
    - ADD the specified content (new slides, callouts, sections).
    - REMOVE or REDUCE the specified content.

@@ -21,7 +21,7 @@
 
 ## Instructions
 
-1. Follow the `.qmdx` conventions in `CLAUDE.md` (auto-loaded — do not read any other files).
+1. Use `../lecture_skill/SKILL.md` for `.qmdx` authoring conventions. Do NOT open completed lectures in `lectures/` to check patterns — the skill has everything.
 2. Create `../10a_Graphprobleme.qmdx` from scratch as a new `.qmdx` lecture file.
 3. Use the **Change Notes** below as the complete content specification — they define every section, slide group, and callout to include.
 4. Save the finished file to `../10a_Graphprobleme.qmdx`.

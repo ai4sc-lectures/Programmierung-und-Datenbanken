@@ -8,4 +8,6 @@ Each file here is a self-contained task for redesigning one lecture in the cours
 2. For `.qmdx` authoring conventions use `../lecture_skill/SKILL.md` and its `references/` files as needed.
 3. Write the output to the path in the task's **New file** field.
 
+The skill covers ALL authoring patterns including FRONTMATTER. Do ***NOT*** open completed lecture files in `lectures/` to check frontmatter or patterns — the skill has everything!
+
 Stay inside the `lectures/` directory. Do not search for or open files outside this project.
