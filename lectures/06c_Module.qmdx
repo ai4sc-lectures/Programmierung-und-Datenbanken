@@ -676,7 +676,7 @@ import json
 import pprint
 
 stationID='12495' # Rostock-Hansaviertel
-with urllib.request.urlopen(f'https://dwd.api.proxy.bund.dev/v30/stationOverviewExtended?stationIds={stationID}') as f:
+with urllib.request.urlopen(f'https://app-prod-ws.warnwetter.de/v30/stationOverviewExtended?stationIds={stationID}') as f:
     data=f.read() # Dies gibt uns ein binären Datentyp zurück
     wetter=json.loads(data) # Wir konvertieren den binären Datentyp in ein dict
     pprint.pprint(wetter, indent=2, compact=True)
@@ -747,7 +747,6 @@ Jetzt laden wir beide Pakete, wobei man üblicher Weise `pandas` die Abkürzung 
 #| echo: true
 import pandas as pd
 import plotly.express as px
-import dash
 ```
 
 %%/book
@@ -827,8 +826,7 @@ Und starten den Webserver.
 
 %%book
 
-```{python}
-#| echo: true
+```python
 app.run_server()
 ```
 
