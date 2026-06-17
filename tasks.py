@@ -1,20 +1,112 @@
-from invoke import task, call
-from termcolor import cprint
-import shutil
-from pathlib import Path
-import os, sys
-import time
-from pyppeteer import launch
 import asyncio
-import re
-import json
-
 import concurrent.futures
+import http.server
+import os
+import re
+import shutil
+import socket
+import sys
+import threading
+from pathlib import Path
 
-VERSION_TEMPLATE = """__version__ = "{version_string}"
-"""
+from ai4sc_style.preprocess import preprocess_lectures
+from invoke import task
+from pyppeteer import launch
+from termcolor import cprint
 
 HERE = Path(__file__).parent
+
+_STAMP_DIR = HERE / "lectures" / ".stamps"
+
+# Local clone of https://github.com/AI4SC/qi4sc-quarto-template (private repo).
+# quarto's GitHub installer needs a valid GITHUB_TOKEN for private repos, so we
+# pull this local clone instead and install the extension from disk.
+AI4SC_TEMPLATE_DIR = os.environ.get(
+    "AI4SC_TEMPLATE_DIR",
+    "/Users/jplonnigs/Documents/code/Presentations/2026/template",
+)
+
+
+def _find_free_port() -> int:
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(("", 0))
+        return s.getsockname()[1]
+
+
+def _start_http_server(directory: str, port: int):
+    class _Handler(http.server.SimpleHTTPRequestHandler):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, directory=directory, **kwargs)
+
+        def log_message(self, *args):
+            pass
+
+    class _Server(http.server.ThreadingHTTPServer):
+        def handle_error(self, *_):
+            pass  # silence BrokenPipeError when browsers abort mid-transfer
+
+    srv = _Server(("localhost", port), _Handler)
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    return srv
+
+
+def _stamp_path(name: str) -> Path:
+    _STAMP_DIR.mkdir(exist_ok=True)
+    return _STAMP_DIR / name
+
+
+def _is_stale(qmdx_stem: str, kind: str) -> bool:
+    """True if the *kind* build for *qmdx_stem* is out of date."""
+    stamp = _stamp_path(f"{qmdx_stem}.{kind}")
+    if not stamp.exists():
+        return True
+    qmdx = HERE / "lectures" / f"{qmdx_stem}.qmdx"
+    if not qmdx.exists():
+        return False
+    return qmdx.stat().st_mtime > stamp.stat().st_mtime
+
+
+def _mark_fresh(qmdx_stem: str, kind: str) -> None:
+    _stamp_path(f"{qmdx_stem}.{kind}").touch()
+
+
+def _any_qmdx_stale(kind: str) -> bool:
+    return any(_is_stale(q.stem, kind) for q in (HERE / "lectures").glob("*.qmdx"))
+
+
+def _mark_all_fresh(kind: str) -> None:
+    for q in (HERE / "lectures").glob("*.qmdx"):
+        _mark_fresh(q.stem, kind)
+
+
+def _inject_pdf_link(p: Path) -> None:
+    fn = p.name
+    fnspdf = fn.replace(".page.html", ".slide.pdf")
+    text = p.read_text()
+    # Quarto appends " (ext-name)" to format-link labels for extension formats
+    text = re.sub(r'(</i>[^<]+?) \([^)]+\)(</a></li>)', r'\1\2', text)
+    if fnspdf not in text:
+        text = text.replace(
+            '</i>Slides</a></li>',
+            f'</i>Slides</a></li><li><a href="{fnspdf}">'
+            f'<i class="bi bi-file-earmark-easel"></i>Slides PDF</a></li>'
+        )
+    p.write_text(text)
+
+
+def _clean_lectures_artifacts(lecture_dir: Path) -> None:
+    """Delete intermediate build artifacts from lectures/, preserving caches."""
+    patterns = [
+        "*.qmd", "*.slide.html", "*.slide.pdf",
+        "*.page.html", "*.page.pdf",
+        "*.quarto_ipynb", "*.quarto_ipynb_*", "*.typ",
+    ]
+    for pattern in patterns:
+        for f in lecture_dir.glob(pattern):
+            f.unlink()
+    for d in lecture_dir.iterdir():
+        if d.is_dir() and d.name.endswith("_files"):
+            shutil.rmtree(d)
 
 
 @task
@@ -28,16 +120,83 @@ def clean(c, docs=False, bytecode=False, extra=""):
         patterns.append(extra)
     for pattern in patterns:
         c.run("rm -rf {}".format(pattern))
+    _clean_lectures_artifacts(HERE / "lectures")
+    if _STAMP_DIR.exists():
+        shutil.rmtree(str(_STAMP_DIR))
 
 
-def make_and_clean_dir(dir_, glob="*"):
-    info(f"Cleaning {dir_}/{glob}")
-    (HERE / dir_).mkdir(exist_ok=True)
-    for file_ in (HERE / dir_).glob(glob):
-        if file_.is_file():
-            file_.unlink()
-        elif file_.is_dir():
-            shutil.rmtree(file_)
+def _crop_pdf_pages(pdf_path, fx, fy, fw, fh):
+    """Set CropBox on every page using fractions (0–1) of the MediaBox."""
+    import pypdf
+    from pypdf.generic import RectangleObject
+    reader = pypdf.PdfReader(pdf_path)
+    writer = pypdf.PdfWriter()
+    for page in reader.pages:
+        pw = float(page.mediabox.width)
+        ph = float(page.mediabox.height)
+        left = fx * pw
+        right = (fx + fw) * pw
+        top = ph - fy * ph          # PDF y=0 is at bottom
+        bottom = ph - (fy + fh) * ph
+        page.cropbox = RectangleObject([left, bottom, right, top])
+        writer.add_page(page)
+    with open(pdf_path, "wb") as f:
+        writer.write(f)
+
+
+def _detect_content_bounds_from_pdf(pdf_path: str) -> dict | None:
+    """Render up to 5 pages via pdftoppm, detect the non-white content bounding box.
+
+    Scans multiple pages and uses the one with the tallest dark area (most content),
+    so a minimal title slide doesn't give misleading bounds.
+    Returns fractions (0–1) of the PDF page dimensions, or None on failure.
+    """
+    import subprocess
+    import tempfile
+    import numpy as np
+    from PIL import Image
+
+    with tempfile.TemporaryDirectory() as tmp:
+        try:
+            subprocess.run(
+                ["pdftoppm", "-r", "72", "-f", "1", "-l", "5", "-png", pdf_path, f"{tmp}/page"],
+                check=True, capture_output=True,
+            )
+        except Exception:
+            return None
+        pages = sorted(Path(tmp).glob("*.png"))
+        if not pages:
+            return None
+
+        best = None
+        best_h = 0
+        for png in pages:
+            img = Image.open(png).convert("RGB")
+            arr = np.array(img)
+            content = ~np.all(arr >= 240, axis=2)
+            row_counts = np.sum(content, axis=1)
+            col_counts = np.sum(content, axis=0)
+            # Threshold at 5% of the peak count — filters scattered noise while
+            # keeping real content even on light slides with few dark pixels
+            row_thresh = max(10, int(row_counts.max() * 0.05))
+            col_thresh = max(10, int(col_counts.max() * 0.05))
+            rows = row_counts >= row_thresh
+            cols = col_counts >= col_thresh
+            if not rows.any():
+                continue
+            y0 = int(np.argmax(rows))
+            y1 = int(len(rows) - 1 - np.argmax(rows[::-1]))
+            x0 = int(np.argmax(cols))
+            x1 = int(len(cols) - 1 - np.argmax(cols[::-1]))
+            h = y1 - y0
+            if h > best_h:
+                best_h = h
+                best = (x0, y0, x1, y1, img.width, img.height)
+
+        if best is None:
+            return None
+        x0, y0, x1, y1, iw, ih = best
+        return {"fx": x0 / iw, "fy": y0 / ih, "fw": (x1 - x0 + 1) / iw, "fh": (y1 - y0 + 1) / ih}
 
 
 def error(text):
@@ -48,15 +207,9 @@ def info(text):
     cprint(text, "blue")
 
 
-@task
-def clean(c):
-    make_and_clean_dir("_build")
-
-
 async def html_to_pdf(url, output_file):
     """Convert a HTML file to a PDF"""
     info(f"Convert {url} to {output_file}")
-    # info(f"Write PDF {output_file}")
     try:
         browser = await launch(
             headless=True,
@@ -65,18 +218,73 @@ async def html_to_pdf(url, output_file):
             handleSIGTERM=False,
             handleSIGHUP=False,
             autoClose=False,
-            defaultViewport=dict(
-                width=1050, height=700,
-                isLandscape=True,
-            )
+            defaultViewport=dict(width=1920, height=1080, isLandscape=True),
         )
         page = await browser.newPage()
-        #await page.setViewport(dict(width=1050, height=700))
-        await page.emulateMedia("print") # "screen"
-        await page.goto(url, {"waitUntil": ["load","domcontentloaded","networkidle2","networkidle0"]})  # 8910
+        await page.goto(url, {"waitUntil": ["load"], "timeout": 60000})
+        # Reveal.js expands the print layout asynchronously after load — wait for it
+        await page.waitForFunction("document.body.scrollHeight > window.innerHeight", timeout=10000)
+        result = await page.evaluate(
+            """async () => {
+                // Wait for plotly-loader.js to finish loading Plotly and draining the queue
+                if (window.PLOTLY_READY && typeof window.PLOTLY_READY.then === 'function') {
+                    try { await window.PLOTLY_READY; } catch(e) {}
+                }
+                // Poll until every plot has a rendered SVG (drainQueuedPlotlyCalls is fire-and-forget)
+                const allPlots = [...document.querySelectorAll('.plotly-graph-div')];
+                const t0 = Date.now();
+                while (allPlots.length > 0 && Date.now() - t0 < 20000) {
+                    if (allPlots.every(el => el.querySelector('svg.main-svg'))) break;
+                    await new Promise(r => setTimeout(r, 400));
+                }
+                // Keep @media print from collapsing plot containers
+                const style = document.createElement('style');
+                style.textContent =
+                    '@media print {' +
+                    '  .plotly-graph-div, .cell-output-display, .cell-output, .quarto-figure' +
+                    '  { display:block!important; visibility:visible!important; overflow:visible!important; }' +
+                    '  .plotly-graph-div svg { display:block!important; }' +
+                    '}';
+                document.head.appendChild(style);
+                // Replace each Plotly div with a static SVG image so it survives page.pdf()
+                let converted = 0;
+                const errors = [];
+                const missing = [];
+                for (const el of allPlots) {
+                    try {
+                        const svg = el.querySelector('svg.main-svg');
+                        if (svg) {
+                            const h = el.style.height || '450px';
+                            const img = document.createElement('img');
+                            img.src = 'data:image/svg+xml;charset=utf-8,'
+                                + encodeURIComponent(new XMLSerializer().serializeToString(svg));
+                            img.style.cssText = 'width:100%;height:' + h + ';display:block;';
+                            el.replaceWith(img);
+                            converted++;
+                        } else {
+                            missing.push(el.id || '?');
+                        }
+                    } catch(e) { errors.push(String(e)); }
+                }
+                return {plots: allPlots.length, converted,
+                        missing: missing.slice(0, 5), errors: errors.slice(0, 5)};
+            }"""
+        )
+        info(f"  plot conversion: {result}")
         await page.pdf(
-            path=output_file, format="A4", printBackground=True, landscape=True
-        )  # , margin= page_margins
+            path=output_file,
+            printBackground=True,
+            width="1920px",
+            height="1080px",
+            margin={"top": "0", "bottom": "0", "left": "0", "right": "0"},
+        )
+        # Render the first PDF page to a raster, detect the non-white content bounds,
+        # and set a CropBox to remove the surrounding whitespace on every page.
+        bounds = _detect_content_bounds_from_pdf(output_file)
+        info(f"  detected content bounds: {bounds}")
+        if bounds:
+            _crop_pdf_pages(output_file, bounds["fx"], bounds["fy"], bounds["fw"], bounds["fh"])
+            info(f"  cropped to {bounds['fw']*100:.1f}%×{bounds['fh']*100:.1f}% at ({bounds['fx']*100:.1f}%,{bounds['fy']*100:.1f}%)")
     except Exception as ex:
         error("Error " + str(ex))
     finally:
@@ -84,427 +292,227 @@ async def html_to_pdf(url, output_file):
             await browser.close()
 
 
-@task
-def build_quarto(c):
-    info("Build slides")
-    files = [fn for fn in os.listdir("slides") if fn.endswith(".qmd")]
-    os.makedirs("_build/html/slides", exist_ok=True)
-    for fn in files:
-        fni = os.path.join("slides", fn)
-        fno = os.path.join("_build", "html", "slides", fn.replace(".qmd", ".html"))
-        if not os.path.exists(fno) or os.path.getctime(fni) > os.path.getctime(fno):
-            fno = fn.replace(".qmd", ".html")
-            info(f"Convert slides {fn}")
-            with c.cd(os.path.join("slides")):
-                c.run(f"quarto render {fn} --output-dir ../_build/html/slides")
-    files = [
-        fn
-        for fn in os.listdir("slides")
-        if os.path.splitext(fn)[1] in [".html", ".js", ".css"]
-    ]
-    for fn in files:
-        fni = os.path.join("slides", fn)
-        fno = os.path.join("_build", "html", "slides", fn)
-        if not os.path.exists(fno) or os.path.getctime(fni) > os.path.getctime(fno):
-            info(f"Copy {fni} to {fno}")
-            shutil.copyfile(fni, fno)
+def _sync_site_to_build(site_dir: Path, build_dir: Path, stale: list[Path], full_render: bool) -> None:
+    """Copy quarto's lectures/_site output into _build/html_quarto."""
+    if full_render:
+        info("Sync lectures/_site to _build/html_quarto")
+        if build_dir.exists():
+            shutil.rmtree(str(build_dir))
+        shutil.copytree(str(site_dir), str(build_dir))
+        for p in build_dir.glob("*.html"):
+            _inject_pdf_link(p)
+    else:
+        info("Incrementally updating _build/html_quarto")
+        build_dir.mkdir(parents=True, exist_ok=True)
+        for qmdx in stale:
+            stem = qmdx.stem
+            for src in site_dir.iterdir():
+                name = src.name
+                if name == stem or name.startswith(stem + ".") or name.startswith(stem + "_"):
+                    dst = build_dir / name
+                    if src.is_dir():
+                        if dst.exists():
+                            shutil.rmtree(str(dst))
+                        shutil.copytree(str(src), str(dst))
+                    else:
+                        shutil.copy2(str(src), str(dst))
+                        if name.endswith(".html"):
+                            _inject_pdf_link(dst)
+        for src in site_dir.iterdir():
+            dst = build_dir / src.name
+            if src.is_file() and (not dst.exists() or src.stat().st_mtime > dst.stat().st_mtime):
+                shutil.copy2(str(src), str(dst))
+            elif src.is_dir() and src.name == "site_libs":
+                if dst.exists():
+                    shutil.rmtree(str(dst))
+                shutil.copytree(str(src), str(dst))
 
 
-@task(build_quarto)
-def build_quarto_pdf(c):
-    files = [fn for fn in os.listdir("_build/html/slides") if fn.endswith(".html")]
-    os.makedirs("_build/html/pdf/slides", exist_ok=True)
-    for fn in files:
-        fni = os.path.abspath(os.path.join("_build", "html", "slides", fn))
-        fno = os.path.join("_build", "html", "pdf", "slides", fn.replace(".html", ".pdf"))
-        if not os.path.exists(fno) or os.path.getctime(fni) > os.path.getctime(fno):
-            pool = concurrent.futures.ThreadPoolExecutor()
-            pool.submit(
-                asyncio.run, html_to_pdf(f"file://{fni}?view=print-pdf", fno)
-            ).result()
-
-
-@task
+@task()
 def build_quarto_book(c):
     info("Build quarto book ALL")
-    os.makedirs("_build/html_quarto", exist_ok=True)
+    preprocess_lectures(HERE / "lectures")
+
+    build_dir = HERE / "_build" / "html_quarto"
+    stale = [q for q in sorted((HERE / "lectures").glob("*.qmdx"))
+             if _is_stale(q.stem, "quarto")]
+    if not stale and build_dir.exists():
+        info("Quarto book up to date, skipping render")
+        return
+
+    site_dir = HERE / "lectures" / "_site"
+    full_render = not build_dir.exists()
+
+    if not full_render and not site_dir.exists():
+        info("Restoring _site from _build/html_quarto for incremental render")
+        shutil.copytree(str(build_dir), str(site_dir))
+
     with c.cd(os.path.join("lectures")):
-        c.run(f"quarto render  --output-dir ../_build/html_quarto")
+        if full_render:
+            c.run("quarto render")
+        else:
+            for qmdx in stale:
+                c.run(f"quarto render {qmdx.stem}.qmd")
+
+    _sync_site_to_build(site_dir, build_dir, stale, full_render)
+
+    _clean_lectures_artifacts(HERE / "lectures")
+    for qmdx in stale:
+        _mark_fresh(qmdx.stem, "quarto")
 
 
-@task
-def config_book(c):
-    c.run("jupyter-book config sphinx .")
+@task()
+def build_quarto_book_quick(c):
+    info("Build quarto book QUICK")
+    preprocess_lectures(HERE / "lectures")
+    site_dir = HERE / "lectures" / "_site"
+    build_dir = HERE / "_build" / "html_quarto"
+    stale = [q for q in sorted((HERE / "lectures").glob("*.qmdx"))
+             if _is_stale(q.stem, "quarto_quick")]
+    if not stale and build_dir.exists():
+        info("Quarto book up to date, skipping render")
+        _clean_lectures_artifacts(HERE / "lectures")
+        return
+    full_render = not build_dir.exists()
+    if not full_render and not site_dir.exists():
+        info("Restoring _site from _build/html_quarto for incremental render")
+        shutil.copytree(str(build_dir), str(site_dir))
+    if full_render and not stale:
+        stale = sorted((HERE / "lectures").glob("*.qmdx"))
+    with c.cd(os.path.join("lectures")):
+        if full_render:
+            c.run("quarto render --no-execute")
+        else:
+            for qmdx in stale:
+                c.run(f"quarto render {qmdx.stem}.qmd --no-execute")
 
-# load dictionary from JSON
-with open("toc_translations.json", "r", encoding="utf-8") as f:
-    translations = json.load(f)
+    _sync_site_to_build(site_dir, build_dir, stale, full_render)
 
-def replace_anchor_text(m: re.Match) -> str:
-    s = m.group(1)
-    return ">" + translations.get(s,s) + m.group(2)
+    _clean_lectures_artifacts(HERE / "lectures")
+    for qmdx in stale:
+        _mark_fresh(qmdx.stem, "quarto_quick")
 
-@task
-def build_book(c, all=False):
+
+@task()
+def build_quarto_pdf(c):
+    if not os.path.isdir("_build/html_quarto"):
+        return
+    files = [fn for fn in os.listdir("_build/html_quarto") if fn.endswith(".slide.html")]
+    jobs = []
+    for fn in files:
+        stem = Path(fn).stem.replace(".slide", "")
+        fno = os.path.abspath(os.path.join("_build", "html_quarto", fn.replace(".slide.html", ".slide.pdf")))
+        if _is_stale(stem, "pdf") or not Path(fno).exists():
+            jobs.append((stem, fn, fno))
+    if jobs:
+        # Serve over HTTP so <script type="module"> (plotly-loader.js) works in headless Chrome.
+        # file:// URLs block ES module loading due to CORS, causing Plotly to never initialise.
+        serve_dir = os.path.abspath("_build/html_quarto")
+        port = _find_free_port()
+        srv = _start_http_server(serve_dir, port)
+        try:
+            pool = concurrent.futures.ThreadPoolExecutor()
+            futures = [
+                pool.submit(asyncio.run, html_to_pdf(f"http://localhost:{port}/{fn}?view=print", fno))
+                for _, fn, fno in jobs
+            ]
+            for future in futures:
+                future.result()
+            pool.shutdown()
+        finally:
+            srv.shutdown()
+        for stem, _, _ in jobs:
+            _mark_fresh(stem, "pdf")
+    build_dir = HERE / "_build" / "html_quarto"
+    for p in build_dir.glob("*.page.html"):
+        _inject_pdf_link(p)
+
+
+@task()
+def qbuild(c, all=False):
+    info("Build Quarto")
     if all:
-        info("Build jupyter book ALL")
-        os.environ["PYDEVD_DISABLE_FILE_VALIDATION"] = "1"
-        c.run("jupyter-book build --all .")
+        build_quarto_book(c)
+        build_quarto_pdf(c)
     else:
-        info("Build jupyter book")
-        os.environ["PYDEVD_DISABLE_FILE_VALIDATION"] = "1"
-        c.run("jupyter-book build .")
-    
-    files = [
-        os.path.join("_build/html/lectures/", fn)
-        for fn in os.listdir("_build/html/lectures/")
-        if fn.endswith(".html") or fn.endswith(".css")
-    ]+["_build/html/intro.html","_build/html/intro_en.html"]
-    for fni in files:
-        fn = os.path.basename(fni)
-        with open(fni, "r") as fi:
-            htmltxt = fi.read()
-            # htmltxt = re.sub(r'(<style type="text/css">\s*pre \{ line-height: 125%; \})(.*?)(</style>\s*<!-- Load mathjax -->)', '<link href="jp-notebook-style.css" rel="stylesheet"/>', htmltxt, flags=re.DOTALL)
-            htmltxt = htmltxt.replace('src="images/', 'src="../_images/')
-            htmltxt = htmltxt.replace("src='images/", "src='../_images/")
-            htmltxt = htmltxt.replace(", 'images/", ", '../_images/")
-            htmltxt = htmltxt.replace(", 'images/", ", '../_images/")
-            if "_en." not in fn:
-                fnn = fn.replace('.html', '_en.html')
-                htmltxt = htmltxt.replace('<div class="dropdown dropdown-download-buttons">', f'<a href="{fnn}" class="button btn btn-sm" title="en" data-bs-placement="bottom" data-bs-toggle="tooltip"><span class="btn__icon-container"><i class="fas fa-language "></i></span></a><div  class="dropdown dropdown-download-buttons">')
-            else:
-                htmltxt = htmltxt.replace('.html"', '_en.html"')
-                htmltxt = htmltxt.replace('_en_en.html"', '_en.html"')
-                htmltxt = htmltxt.replace('.slides.html"', '_en.slides.html"')
-                htmltxt = htmltxt.replace('.slides_en.html"', '_en.slides.html"')
-                htmltxt = htmltxt.replace('_en_en.slides.html"', '_en.slides.html"')
-                htmltxt = htmltxt.replace('_en_en.slides.html"', '_en.slides.html"')
-                htmltxt = htmltxt.replace('.pdf"', '_en.pdf"')
-                htmltxt = htmltxt.replace('_en_en.pdf"', '_en.pdf"')
-                fnn = fn.replace('_en.html', '.html')
-                htmltxt = htmltxt.replace('<div class="dropdown dropdown-download-buttons">', f'<a href="{fnn}" class="button btn btn-sm" title="en" data-bs-placement="bottom" data-bs-toggle="tooltip"><span class="btn__icon-container"><i class="fas fa-language "></i></span></a><div  class="dropdown dropdown-download-buttons">')
-                apat1 = re.compile(r">(?!\s*<)([^<]*)(</a>)")
-                htmltxt = apat1.sub(replace_anchor_text, htmltxt)
-                apat2 = re.compile(r">(?!\s*<)([^<]*)(</span>)")
-                htmltxt = apat2.sub(replace_anchor_text, htmltxt)
-
-        with open(fni, "w") as fo:
-            fo.write(htmltxt)
-
-
-@task
-def copy_images(c):
-    info("Copy Images")
-    # os.makedirs("_build/html/_images", exist_ok=True)
-    # c.run("cp -Rf lectures/images/* _build/html/_images")
-    shutil.copytree("lectures/images", "_build/html/_images", dirs_exist_ok=True)
-
-
-@task
-def build_book_slides(c):
-    info("Build jupyter book html")
-    os.makedirs("_build/html/lec_slides", exist_ok=True)
-    shutil.copyfile("lectures/rise.css", "_build/html/lec_slides/rise.css")
-    shutil.copyfile(
-        "lectures/jp-notebook-style.css", "_build/html/lec_slides/jp-notebook-style.css"
-    )
-    files = [fn for fn in os.listdir("lectures/") if fn.endswith(".ipynb")]
-    for fn in files:
-        fni = os.path.join("lectures", fn)
-        fno = os.path.join("_build", "html", "lec_slides", fn.replace(".ipynb", ".slides.html"))
-        if not os.path.exists(fno) or os.path.getctime(fni) > os.path.getctime(fno):
-            info(f"Convert slides {fn}")
-            c.run(
-                f"jupyter nbconvert --to slides {fni} --output-dir=_build/html/lec_slides"
-            )
-    files = [
-        fn
-        for fn in os.listdir("_build/html/lec_slides/")
-        if fn.endswith(".html") or fn.endswith(".css")
-    ]
-    for fn in files:
-        fni = os.path.join("_build/html/lec_slides/", fn)
-        with open(fni, "r") as fi:
-            htmltxt = fi.read()
-            # htmltxt = re.sub(r'(<style type="text/css">\s*pre \{ line-height: 125%; \})(.*?)(</style>\s*<!-- Load mathjax -->)', '<link href="jp-notebook-style.css" rel="stylesheet"/>', htmltxt, flags=re.DOTALL)
-            htmltxt = htmltxt.replace('src="images/', 'src="../_images/')
-            htmltxt = htmltxt.replace("src='images/", "src='../_images/")
-            htmltxt = htmltxt.replace(", 'images/", ", '../_images/")
-            htmltxt = htmltxt.replace(", 'images/", ", '../_images/")
-            htmltxt = htmltxt.replace(
-                'id="theme" rel="stylesheet"/>',
-                'id="theme"  rel="stylesheet"/>\n<link href="rise.css" rel="stylesheet"/>',
-            )
-            #htmltxt = htmltxt.replace("document.getElementsByTagName( 'head' )[0].appendChild( link );", "document.getElementsByTagName( 'head' )[0].appendChild( link );window.addEventListener('load', () => {window.print();});")
-            htmltxt = htmltxt.replace('slideNumber: "",', 'slideNumber: "c/t",')
-            htmltxt = htmltxt.replace("width: 960,", "width: 1050,")  # 1200
-            htmltxt = htmltxt.replace("height: 700,", "height: 700,")  # 800
-            if "mouseWheel: true" not in htmltxt:
-                htmltxt = htmltxt.replace(
-                    "plugins: [RevealNotes]",
-                    """            progress: true,
-            keyboard: true,
-            overview: true,
-            center: false,
-            disableLayout: false,
-            touch: true,
-            loop: false,
-            rtl: false,
-            navigationMode: 'default',
-            pause: true,
-            autoPlayMedia: true,
-            mouseWheel: true,
-            display: 'block',
-            pdfSeparateFragments: true,
-            previewLinks: false,
-            transition: 'convex',
-            transitionSpeed: 'fast',
-            backgroundTransition: 'none',
-            viewDistance: 3,
-            mobileViewDistance: 2,
-            margin: 0.01,
-            plugins: [RevealNotes]""",
-                )  # plugins: [RevealNotes, PdfExport, Verticator, RevealMenu, RevealChalkboard, RevealMath, RevealSearch, RevealZoom]
-            htmltxt = htmltxt.replace(
-                """
-</div>
-</div>
-</main>""",
-                """
-<img src="../_images/ai4sc_logo_v2.svg" class="slide-logo">
-<div class="footer footer-default" style="display: block;">
-<span style="letter-spacing: .04rem;">programmierung</span><br><span style="letter-spacing: .0rem;">und datenbanken</span>
-</div></div></div>
-</main>""",
-            )
-            htmltxt = htmltxt.replace(
-                """
-  --jp-content-font-family: system-ui, -apple-system, blinkmacsystemfont,
-    'Segoe UI', helvetica, arial, sans-serif, 'Apple Color Emoji',
-    'Segoe UI Emoji', 'Segoe UI Symbol';
-""",
-                """
-  --jp-content-font-family: "IBM Plex Sans", sans-serif;""",
-            )
-            htmltxt = htmltxt.replace(
-                '/dist/theme/simple.css" id="theme"  rel="stylesheet"/>',
-                """/dist/theme/simple.css" id="theme"  rel="stylesheet"/>""",
-            )
-            if (
-                "https://unpkg.com/reveal.js@4.0.2/plugin/markdown/markdown.js"
-                not in htmltxt
-            ):
-                htmltxt = htmltxt.replace(
-                    '"https://unpkg.com/reveal.js@4.0.2/plugin/notes/notes.js"',
-                    """ "https://unpkg.com/reveal.js@4.0.2/plugin/notes/notes.js",
-      "https://unpkg.com/reveal.js@4.0.2/plugin/markdown/markdown.js",
-      "https://unpkg.com/reveal.js@4.0.2/plugin/math/math.js",
-      "https://unpkg.com/reveal.js@4.0.2/plugin/search/search.js",
-      "https://unpkg.com/reveal.js@4.0.2/plugin/zoom/zoom.js",
-      "https://unpkg.com/reveal.js@4.0.2/plugin/highlight/highlight.js" """,
-                )
-
-        with open(fni, "w") as fo:
-            fo.write(htmltxt)
-
-
-@task
-def build_excercise_slides(c):
-    info("Build excercise html")
-    os.makedirs("_build/html/excercises", exist_ok=True)
-    for dirpath, _, filenames in os.walk("excercises/source"):
-        for file in filenames:
-            if file.endswith(".ipynb") and ".ipynb_checkpoints" not in dirpath:
-                fni = os.path.join(dirpath, file)
-                fno = os.path.join(
-                    "_build", "html", "excercises", file.replace(".ipynb", ".html")
-                )
-                if not os.path.exists(fno) or os.path.getctime(fni) > os.path.getctime(
-                    fno
-                ):
-                    info(f"Convert slides {file}")
-                    c.run(
-                        f"jupyter nbconvert --to html {fni} --output-dir=_build/html/excercises"
-                    )
-
-
-def ipynb_slides_to_pdf_old(c, file, output):
-    info(f"Convert slides {file} to pdf {output}")
-    serve = c.run(
-        f"jupyter nbconvert --to slides {file} --post serve", asynchronous=True
-    )
-    time.sleep(10)  # ie do a bunch of work in the foreground
-    c.run(
-        f"open -a 'Google Chrome' --headless --print-to-pdf={output} http://127.0.0.1:8000/{file}?print-pdf"
-    )
-    serve.runner.kill()
-
-
-def ipynb_slides_to_pdf2(c, filename, input_file, output_file):
-    info(f"Convert slides {filename} to PDF {output_file}")
-    serve = c.run(
-        f"jupyter nbconvert --to slides {input_file} --post serve --ServePostProcessor.open_in_browser=False",
-        asynchronous=True,
-    )  # --ServePostProcessor.port=8910
-    time.sleep(3)  # ie do a bunch of work in the foreground
-    pool = concurrent.futures.ThreadPoolExecutor()
-    pool.submit(
-        asyncio.run,
-        html_to_pdf(
-            f"http://127.0.0.1:8000/{filename.replace('.ipynb', '.slides.html')}?view=print-pdf",
-            output_file,
-        ),
-    ).result()
-    serve.runner.kill()
-
-
-def ipynb_slides_to_pdf(c, filename, input_file, output_file):
-    info(f"Convert slides {filename} to PDF {output_file}")
-    pool = concurrent.futures.ThreadPoolExecutor()
-    pool.submit(
-        asyncio.run,
-        html_to_pdf(
-            f"http://127.0.0.1:8080/lec_slides/{filename.replace('.ipynb', '.slides.html')}?view=print-pdf",
-            output_file,
-        ),
-    ).result()
-
-
-@task(build_book_slides)
-def build_nbook_slides_pdf(c):
-    info("Convert jupyter book slides to pdf")
-    if sys.platform == "win32":
-        serve = c.run("weave 8080 to ./_build/html", asynchronous=True)
-    elif sys.platform == "darwin":
-        serve = c.run("./weave_mac 8080 to ./_build/html", asynchronous=True)
-    time.sleep(3)  # ie do a bunch of work in the foreground
-    files = [fn for fn in os.listdir("lectures/") if fn.endswith(".ipynb")]
-    #os.makedirs("_build/html/pdf/slides", exist_ok=True)
-    os.makedirs("_build/html/pdf/slides", exist_ok=True)
-    pool = concurrent.futures.ThreadPoolExecutor()
-    for fn in files:
-        fni = os.path.join("lectures", fn)
-        fno = os.path.join("_build", "html", "pdf", "slides", fn.replace(".ipynb", ".pdf"))
-        if not os.path.exists(fno) or os.path.getctime(fni) > os.path.getctime(fno):
-            ##ipynb_slides_to_pdf(c, fn, fni, fno)
-            info(f"Convert slides {fni} to PDF {fno}")
-            pool.submit(
-                asyncio.run,
-                html_to_pdf(
-                    f"http://127.0.0.1:8080/{fni.replace('lectures', 'lec_slides').replace('.ipynb', '.slides.html')}?view=print-pdf",
-                    fno,),
-            )
-    pool.shutdown()
-    serve.runner.kill()
-
-
-@task(build_book_slides, build_quarto)
-def build_pdf(c):
-    info("Convert jupyter book slides to pdf")
-    os.makedirs("_build/html/pdf/slides", exist_ok=True)
-    jobs = []
-    slides = [fn for fn in os.listdir("slides") if fn.endswith(".qmd")]
-    for fn in slides:
-        fni = os.path.join("slides", fn)
-        fno = os.path.join("_build", "html", "pdf", "slides", "qmd_" + fn.replace(".qmd", ".pdf"))
-        if not os.path.exists(fno) or os.path.getctime(fni) > os.path.getctime(fno):
-            fno2 = fn.replace(".qmd", ".html")
-            jobs.append((f"http://localhost:8080/slides/{fno2}?print-pdf", fno))
-    notebooks = [fn for fn in os.listdir("lectures/") if fn.endswith(".ipynb")]
-    for fn in notebooks:
-        fni = os.path.join("lectures", fn)
-        fno = os.path.join("_build", "html", "pdf", "slides", "nb_" + fn.replace(".ipynb", ".pdf"))
-        if not os.path.exists(fno) or os.path.getctime(fni) > os.path.getctime(fno):
-            fno2 = fn.replace(".ipynb", ".slides.html")
-            jobs.append((f"http://localhost:8080/lec_slides/{fno2}?print-pdf", fno))
-    # info(f"Convert {len(jobs)} pdfs")
-    if jobs:
-        serve = c.run(
-            "weave_mac 8080 to ./_build/html", asynchronous=True
-        )  # --ServePostProcessor.port=8910
-        time.sleep(3)  # ie do a bunch of work in the foreground
-        pool = concurrent.futures.ThreadPoolExecutor()
-        futures = [
-            pool.submit(asyncio.run, html_to_pdf(job[0], job[1])) for job in jobs
-        ]
-        for future in futures:
-            future.result()
-        time.sleep(5)
-        info(f"Stop server")
-        serve.runner.kill()
-
-@task(build_book_slides, build_quarto)
-def build_pdf(c):
-    info("Convert jupyter book slides to pdf")
-    os.makedirs("_build/html/pdf/slides", exist_ok=True)
-    jobs = []
-    slides = [fn for fn in os.listdir("_build/html/slides") if fn.endswith(".html")]
-    for fn in slides:
-        fni = os.path.abspath(os.path.join("_build", "html", "slides", fn))
-        fno = os.path.abspath(os.path.join("_build", "html", "pdf", "slides", fn.replace(".html", ".pdf")))
-        if not os.path.exists(fno) or os.path.getctime(fni) > os.path.getctime(fno):
-            jobs.append((f"file://{fni}?print-pdf", fno))
-    os.makedirs("_build/html/pdf/lectures", exist_ok=True)
-    notebooks = [fn for fn in os.listdir("_build/html/lec_slides") if fn.endswith(".html")]
-    for fn in notebooks:
-        fni = os.path.abspath(os.path.join("_build", "html", "lec_slides", fn))
-        fno = os.path.abspath(os.path.join("_build", "html", "pdf", "lectures", fn.replace(".html", ".pdf")))
-        if not os.path.exists(fno) or os.path.getctime(fni) > os.path.getctime(fno):
-            jobs.append((f"file://{fni}?print-pdf", fno))
-    if jobs:
-        pool = concurrent.futures.ThreadPoolExecutor()
-        futures = [
-            pool.submit(asyncio.run, html_to_pdf(job[0], job[1])) for job in jobs
-        ]
-        for future in futures:
-            future.result()
-        time.sleep(5)
-
+        build_quarto_book_quick(c)
 
 
 @task()
 def build(c, all=False):
-    info("Build")
-    config_book(c)
-    build_book(c, all)
-    copy_images(c)
-    build_quarto(c)
-    build_book_slides(c)
-    build_excercise_slides(c)
+    qbuild(c, all)
 
 
 @task()
-def pdf(c, all=False):
-    info("Build PDF")
-    build_nbook_slides_pdf(c)
+def build_quarto_book_full(c):
+    info("Build quarto book FULL (clears all caches)")
+    build_dir = HERE / "_build" / "html_quarto"
+    site_dir = HERE / "lectures" / "_site"
+    if build_dir.exists():
+        shutil.rmtree(str(build_dir))
+    if site_dir.exists():
+        shutil.rmtree(str(site_dir))
+    if _STAMP_DIR.exists():
+        shutil.rmtree(str(_STAMP_DIR))
+    build_quarto_book(c)
 
 
-@task(build)
-def build_book_pdf(c):
-    info("Build jupyter book pdf")
-    c.run("jupyter-book build . --builder pdfhtml")
+@task()
+def ghp_import_quarto(c):
+    c.run("ghp-import -n -p -f _build/html_quarto")
 
 
-@task(build)
-def ghp_import(c):
-    c.run("ghp-import -n -p -f _build/html")
+@task()
+def restart_book_ml2(c):
+    """Restart the book-ml2 deployment pod on the ai4sc-lectures k8s cluster."""
+    info("Restart book-ml2 pod on ai4sc-lectures")
+    c.run("ssh ai4sc-lectures 'microk8s kubectl rollout restart deployment/book-ml2 -n books'")
 
 
-@task(pre=[call(build, all=True)])
+@task()
 def publish(c):
-    ghp_import(c)
+    build_quarto_book(c)
+    build_quarto_pdf(c)
+    ghp_import_quarto(c)
+    restart_book_ml2(c)
 
 
 @task()
 def serve(c):
     if sys.platform == "win32":
-        c.run("weave 8080 to ./_build/html")
+        c.run("weave 8081 to ./_build/html_quarto")
     elif sys.platform == "darwin":
-        c.run("./weave_mac 8080 to ./_build/html")
+        c.run("./weave_mac 8081 to ./_build/html_quarto")
     else:
         print("not supported ", sys.platform)
 
 
-@task(serve)
-def start(c):
-    pass
+@task()
+def servequarto(c):
+    serve(c)
+
+
+@task()
+def qserve(c):
+    servequarto(c)
+
+
+@task()
+def update_ai4sc(c):
+    """Update the ai4sc-style python package and quarto extension from GitHub."""
+    info("Update ai4sc-style python package")
+    c.run("uv lock --upgrade-package ai4sc-style")
+    c.run("uv sync")
+
+    info(f"Pull latest qi4sc-quarto-template into {AI4SC_TEMPLATE_DIR}")
+    with c.cd(AI4SC_TEMPLATE_DIR):
+        c.run("git pull")
+
+    info("Update ai4sc-style quarto extension")
+    with c.cd(os.path.join("lectures")):
+        c.run(f'quarto add "{AI4SC_TEMPLATE_DIR}/_extensions" --no-prompt')
+
+
+@task()
+def update(c):
+    update_ai4sc(c)

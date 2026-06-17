@@ -421,6 +421,78 @@ So kann jede beliebige Zahl als Folge von Nullen und Einsen dargestellt werden. 
 
 %%/slides
 
+
+## Binäre Addition
+%%book
+Wenn wir Menschen größere Zahlen addieren, rechnen wir die einzelnen Stellen von rechts nach links zusammen und merken uns einen möglichen Übertrag. Zum Beispiel ergibt sich bei $38 + 27$ zunächst $8 + 7 = 15$. Wir schreiben die 5 auf und übernehmen die 1 als Übertrag. Anschließend rechnen wir $3 + 2 + 1 = 6$ und erhalten insgesamt $65$.
+
+Ein Computer verwendet dieselbe Grundidee, arbeitet aber mit Binärzahlen. Da jede Stelle nur 0 oder 1 sein kann, gibt es nur vier mögliche Additionen:
+
+$$
+0 + 0 = 0; 0 + 1 = 1; 1 + 0 = 1; 1 + 1 = 10
+$$
+
+Der letzte Fall erzeugt einen Übertrag. Die 0 wird an der aktuellen Stelle eingetragen und die 1 an die nächste Stelle weitergegeben.
+
+Der große Vorteil der Binärdarstellung besteht darin, dass die Summe einer Stelle genau einem logischen XOR entspricht:
+
+$$
+0 \oplus 0 = 0, 0 \oplus 1 = 1, 1 \oplus 0 = 1, 1 \oplus 1 = 0
+$$
+
+Der Übertrag entspricht einem logischen UND:
+
+$$
+0 \land 0 = 0, 0 \land 1 = 0, 1 \land 0 = 0, 1 \land 1 = 1
+$$
+
+Die Addition einzelner Bits kann daher durch ein XOR-Gatter für die Summe und ein UND-Gatter für den Übertrag realisiert werden.
+![](images/01c_Computerhardware/binary_addition_static.svg)
+%%/book
+%%slides
+%%col 50 50
+
+* Zerlegung in Addition der Stellen mit Übertrag
+* Mensch: Addition einzelner Zehnerpotenzen + Übertrag
+* Computer: Addition einfacher Bits + Übertrag
+* Bitaddition: Übertrag nur bei $1+1$
+* Realisierung: XOR-Gatter (Summe) + UND-Gatter (Übertrag)
+%%sep
+{{< include images/01c_Computerhardware/binary_addition.svg >}}
+%%/col
+%%/slides
+
+
+## Binäre Multiplikation
+%%book
+Wenn wir Menschen im Kopf multiplizieren, zerlegen wir größere Multiplikationen meist in kleinere Teilaufgaben. Zum Beispiel rechnen wir bei $14 * 12$ die Zerlegung $10 * 12 = 120$, $4 * 10 = 40$ und $4 * 2 = 8$ und addieren anschließend $120 + 40 + 8 = 168$.
+
+Der Computer multipliziert nach einer ähnlichen Idee, verwendet aber die Zerlegung in Zweierpotenzen. Diese kann er direkt aus der Binärdarstellung ablesen. Die Binärdarstellung von 5 ist $101$, also $2^2 + 2^0$. Somit kann man $5*3$ zerlegen in $4*3 + 1*3$. 
+
+Genauso wie wir bei $10 * 12 = 120$ die Multiplikation mit 10 nicht ausrechnen, sondern einfach eine 0 anhängen, kann der Computer Multiplikationen mit Zweierpotenzen durch Verschieben der Bits durchführen (also 0 anhängen). Für $4 * 3 = 2^2 * 3$ muss er die Binärdarstellung von 3, also $011$, lediglich zwei Stellen nach links verschieben und erhält $01100$.
+
+Der große Vorteil der Binärdarstellung ist, dass jede Stelle nur 0 oder 1 sein kann. Während wir Menschen die Ergebnisse von $0 * 0$ bis $9 * 9$ auswendig lernen, braucht der Computer bei dieser Zerlegung nur die Fälle $0$ und $1$ berücksichtigen, wobei alle möglichen Multiplikationen trivial sind:
+$$
+0 * 0 = 0; 0 * 1 = 0; 1 * 0 = 0; 1 * 1 = 1
+$$
+
+Das Ergebnis entspricht damit genau der Wahrheitstabelle eines logischen UND. Die Multiplikation von Binärzahlen kann daher durch UND-Gatter zur Berechnung der Teilprodukte und anschließende Additionen realisiert werden.
+
+![](images/01c_Computerhardware/binary_multiplication.svg)
+%%/book+slides
+%%col 50 50
+* Zerlegung in Multiplikation der Stellen mit Addition
+* Mensch: Zerlegung nach Zehnerpotenzen, Anhängen von 0 + Addition
+* Computer: Zerlegung nach Zweierpotenzen, Anhängen von 0 + Addition
+* Binärdarstellung → enthaltene Zweierpotenzen direkt sichtbar
+* Multiplikation mit $2^n$ → Bitverschiebung um $n$ Stellen
+* Realisierung: UND-Gatter (Bitmultiplikation) + Addierer
+%%sep
+{{< include images/01c_Computerhardware/binary_multiplication.svg >}}
+%%/col
+%%/slides
+
+
 %%book
 
 ### Darstellung von reellen Zahlen im Binärsystem
@@ -459,11 +531,7 @@ So werden beliebige reelle Zahlen im Computer als Gleitkommazahlen nach IEEE 754
 Begrenzte Anzahl an Bits können nicht alle reellen Zahlen exakt dargestellt werden. Es kommt zu Rundungsfehlern und einer endlichen Genauigkeit.
 %%/warning
 
-%%/book
-
-%%slides
-
-
+%%/book+slides
 ## Binären Zahlen – Gleitkommazahl
 
 
@@ -495,8 +563,8 @@ Im IEEE 754 Standard werden die Bits zusätzlich aufgefüllt, so dass sie in die
 - Die Binärdarstellung im Speicher lautet also: `1 10000010 10101000000000000000000`
 
 %%/col
-
 %%/slides
+
 
 %%book
 

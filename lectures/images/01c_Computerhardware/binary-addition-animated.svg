@@ -1,0 +1,149 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 290" width="520" height="290" font-family="'DIN Pro','DINPro',Arial,sans-serif" font-size="14">
+
+  <!--
+    Layout:
+    label col: x=0..110 (text-anchor:end at x=108)
+    cols Bit4..Bit0: cx = 160, 200, 240, 280, 320  (step 40)
+    extra result bit: cx = 120
+    box: 32x32, centered on cx
+    rows:
+      hdr      y=20
+      carry    y=55   (box 22 tall: y=44..66)
+      A        y=100  (box y=84..116)
+      B        y=140  (box y=124..156)
+      sep      y=168
+      result   y=195  (box y=179..211)
+      status   y=255
+  -->
+
+  <style>
+    text { font-family: 'DIN Pro','DINPro',Arial,sans-serif; }
+    .lbl { font-size: 13px; fill: #888; text-anchor: end; dominant-baseline: middle; }
+    .hdr { font-size: 11px; fill: #bbb; text-anchor: middle; dominant-baseline: middle; }
+    .n   { font-size: 16px; font-weight: 500; fill: #222;    text-anchor: middle; dominant-baseline: middle; }
+    .nu  { font-size: 13px; font-weight: 500; fill: #78350f; text-anchor: middle; dominant-baseline: middle; }
+    .ns  { font-size: 16px; font-weight: 500; fill: #14532d; text-anchor: middle; dominant-baseline: middle; }
+    .st  { font-size: 12px; fill: #666; text-anchor: middle; dominant-baseline: middle; }
+  </style>
+
+  <!-- column headers -->
+  <text class="hdr" x="160" y="20">Bit 4</text>
+  <text class="hdr" x="200" y="20">Bit 3</text>
+  <text class="hdr" x="240" y="20">Bit 2</text>
+  <text class="hdr" x="280" y="20">Bit 1</text>
+  <text class="hdr" x="320" y="20">Bit 0</text>
+
+  <!-- row labels -->
+  <text class="lbl" x="80" y="60">Übertrag</text>
+  <text class="lbl" x="80" y="100">13</text>
+  <text class="lbl" x="80" y="140">7</text>
+  <text class="lbl" x="80" y="195">20</text>
+
+  <!-- separator -->
+  <line x1="112" y1="168" x2="344" y2="168" stroke="#ccc" stroke-width="1.5"/>
+
+  <!-- base A boxes: 0 1 1 0 1  (Bit4..Bit0 = x 160..320) -->
+  <rect x="144" y="84" width="32" height="32" rx="4" fill="#f5f5f5" stroke="#ccc" stroke-width="0.75"/><text class="n" x="160" y="100">0</text>
+  <rect x="184" y="84" width="32" height="32" rx="4" fill="#f5f5f5" stroke="#ccc" stroke-width="0.75"/><text class="n" x="200" y="100">1</text>
+  <rect x="224" y="84" width="32" height="32" rx="4" fill="#f5f5f5" stroke="#ccc" stroke-width="0.75"/><text class="n" x="240" y="100">1</text>
+  <rect x="264" y="84" width="32" height="32" rx="4" fill="#f5f5f5" stroke="#ccc" stroke-width="0.75"/><text class="n" x="280" y="100">0</text>
+  <rect x="304" y="84" width="32" height="32" rx="4" fill="#f5f5f5" stroke="#ccc" stroke-width="0.75"/><text class="n" x="320" y="100">1</text>
+
+  <!-- base B boxes: 0 0 1 1 1 -->
+  <rect x="144" y="124" width="32" height="32" rx="4" fill="#f5f5f5" stroke="#ccc" stroke-width="0.75"/><text class="n" x="160" y="140">0</text>
+  <rect x="184" y="124" width="32" height="32" rx="4" fill="#f5f5f5" stroke="#ccc" stroke-width="0.75"/><text class="n" x="200" y="140">0</text>
+  <rect x="224" y="124" width="32" height="32" rx="4" fill="#f5f5f5" stroke="#ccc" stroke-width="0.75"/><text class="n" x="240" y="140">1</text>
+  <rect x="264" y="124" width="32" height="32" rx="4" fill="#f5f5f5" stroke="#ccc" stroke-width="0.75"/><text class="n" x="280" y="140">1</text>
+  <rect x="304" y="124" width="32" height="32" rx="4" fill="#f5f5f5" stroke="#ccc" stroke-width="0.75"/><text class="n" x="320" y="140">1</text>
+
+  <!-- === STEP 0: Bit 0 (cx=320), carry→Bit1 (cx=280), sum=0, t=0.5s === -->
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0;0.6;0.8" dur="2s" begin="0.5s" fill="freeze"/>
+    <rect x="304" y="84"  width="32" height="32" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="0.75"/><text class="n" fill="#1e40af" x="320" y="100">1</text>
+    <rect x="304" y="124" width="32" height="32" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="0.75"/><text class="n" fill="#1e40af" x="320" y="140">1</text>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1" keyTimes="0;1" dur="0.3s" begin="1.0s" fill="freeze"/>
+    <rect x="304" y="179" width="32" height="32" rx="4" fill="#dcfce7" stroke="#86efac" stroke-width="0.75"/><text class="ns" x="320" y="195">0</text>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1" keyTimes="0;1" dur="0.3s" begin="1.2s" fill="freeze"/>
+    <rect x="264" y="44" width="32" height="32" rx="4" fill="#fef3c7" stroke="#fcd34d" stroke-width="0.75"/><text class="ns" x="280" y="60">1</text>
+  </g>
+  <text class="st" x="230" y="255" opacity="0">Bit 0: 1+1 = 10₂ → Summe 0, Übertrag 1
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0;0.7;1" dur="1.8s" begin="0.5s" fill="freeze"/>
+  </text>
+
+  <!-- === STEP 1: Bit 1 (cx=280), carry→Bit2 (cx=240), sum=0, t=2s === -->
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0;0.6;0.8" dur="2s" begin="2s" fill="freeze"/>
+    <rect x="264" y="84"  width="32" height="32" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="0.75"/><text class="n" fill="#1e40af" x="280" y="100">0</text>
+    <rect x="264" y="124" width="32" height="32" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="0.75"/><text class="n" fill="#1e40af" x="280" y="140">1</text>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1" keyTimes="0;1" dur="0.3s" begin="2.5s" fill="freeze"/>
+    <rect x="264" y="179" width="32" height="32" rx="4" fill="#dcfce7" stroke="#86efac" stroke-width="0.75"/><text class="ns" x="280" y="195">0</text>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1" keyTimes="0;1" dur="0.3s" begin="2.7s" fill="freeze"/>
+    <rect x="224" y="44" width="32" height="32" rx="4" fill="#fef3c7" stroke="#fcd34d" stroke-width="0.75"/><text class="ns" x="240" y="60">1</text>
+  </g>
+  <text class="st" x="230" y="255" opacity="0">Bit 1: 0+1+1 = 10₂ → Summe 0, Übertrag 1
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0;0.7;1" dur="1.8s" begin="2s" fill="freeze"/>
+  </text>
+
+  <!-- === STEP 2: Bit 2 (cx=240), carry→Bit3 (cx=200), sum=1, t=3.5s === -->
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0;0.6;0.8" dur="2s" begin="3.5s" fill="freeze"/>
+    <rect x="224" y="84"  width="32" height="32" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="0.75"/><text class="n" fill="#1e40af" x="240" y="100">1</text>
+    <rect x="224" y="124" width="32" height="32" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="0.75"/><text class="n" fill="#1e40af" x="240" y="140">1</text>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1" keyTimes="0;1" dur="0.3s" begin="4.0s" fill="freeze"/>
+    <rect x="224" y="179" width="32" height="32" rx="4" fill="#dcfce7" stroke="#86efac" stroke-width="0.75"/><text class="ns" x="240" y="195">1</text>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1" keyTimes="0;1" dur="0.3s" begin="4.2s" fill="freeze"/>
+    <rect x="184" y="44" width="32" height="32" rx="4" fill="#fef3c7" stroke="#fcd34d" stroke-width="0.75"/><text class="ns" x="200" y="60">1</text>
+  </g>
+  <text class="st" x="230" y="255" opacity="0">Bit 2: 1+1+1 = 11₂ → Summe 1, Übertrag 1
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0;0.7;1" dur="1.8s" begin="3.5s" fill="freeze"/>
+  </text>
+
+  <!-- === STEP 3: Bit 3 (cx=200), carry→Bit4 (cx=160), sum=0, t=5s === -->
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0;0.6;0.8" dur="2s" begin="5s" fill="freeze"/>
+    <rect x="184" y="84"  width="32" height="32" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="0.75"/><text class="n" fill="#1e40af" x="200" y="100">1</text>
+    <rect x="184" y="124" width="32" height="32" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="0.75"/><text class="n" fill="#1e40af" x="200" y="140">0</text>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1" keyTimes="0;1" dur="0.3s" begin="5.5s" fill="freeze"/>
+    <rect x="184" y="179" width="32" height="32" rx="4" fill="#dcfce7" stroke="#86efac" stroke-width="0.75"/><text class="ns" x="200" y="195">0</text>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1" keyTimes="0;1" dur="0.3s" begin="5.7s" fill="freeze"/>
+    <rect x="144" y="44" width="32" height="32" rx="4" fill="#fef3c7" stroke="#fcd34d" stroke-width="0.75"/><text class="ns" x="160" y="60">1</text>
+  </g>
+  <text class="st" x="230" y="255" opacity="0">Bit 3: 1+0+1 = 10₂ → Summe 0, Übertrag 1
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0;0.7;1" dur="1.8s" begin="5s" fill="freeze"/>
+  </text>
+
+  <!-- === STEP 4: Bit 4 (cx=160), kein carry, sum=1 + extra bit, t=6.5s === -->
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0;0.6;0.8" dur="2s" begin="6.5s" fill="freeze"/>
+    <rect x="144" y="84"  width="32" height="32" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="0.75"/><text class="n" fill="#1e40af" x="160" y="100">0</text>
+    <rect x="144" y="124" width="32" height="32" rx="4" fill="#dbeafe" stroke="#93c5fd" stroke-width="0.75"/><text class="n" fill="#1e40af" x="160" y="140">0</text>
+  </g>
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;1" keyTimes="0;1" dur="0.3s" begin="7.0s" fill="freeze"/>
+    <rect x="144" y="179" width="32" height="32" rx="4" fill="#dcfce7" stroke="#86efac" stroke-width="0.75"/><text class="ns" x="160" y="195">1</text>
+    <rect x="104" y="179" width="32" height="32" rx="4" fill="#dcfce7" stroke="#86efac" stroke-width="0.75"/><text class="ns" x="120" y="195">1</text>
+  </g>
+  <text class="st" x="230" y="255" opacity="0">Bit 4: 0+0+1 = 01₂ → Summe 1, kein Übertrag
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0;0.7;1" dur="1.8s" begin="6.5s" fill="freeze"/>
+  </text>
+  <text class="st" x="230" y="255" opacity="0">13 + 7 = 20 ✓
+    <animate attributeName="opacity" values="0;1" keyTimes="0;1" dur="0.3s" begin="8.2s" fill="freeze"/>
+  </text>
+
+</svg>
