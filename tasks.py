@@ -286,7 +286,8 @@ async def html_to_pdf(url, output_file):
             _crop_pdf_pages(output_file, bounds["fx"], bounds["fy"], bounds["fw"], bounds["fh"])
             info(f"  cropped to {bounds['fw']*100:.1f}%×{bounds['fh']*100:.1f}% at ({bounds['fx']*100:.1f}%,{bounds['fy']*100:.1f}%)")
     except Exception as ex:
-        error("Error " + str(ex))
+        error(f"PDF render failed for {output_file}: {ex}")
+        raise
     finally:
         if "browser" in locals() and browser:
             await browser.close()
@@ -347,14 +348,11 @@ def build_quarto_book(c):
         info("Restoring _site from _build/html_quarto for incremental render")
         shutil.copytree(str(build_dir), str(site_dir))
 
+    render_list = sorted((HERE / "lectures").glob("*.qmdx")) if full_render else stale
     with c.cd(os.path.join("lectures")):
-        if full_render:
-            c.run("quarto render")
-        else:
-            for qmdx in stale:
-                c.run(f"quarto render {qmdx.stem}.qmd")
-
-    _sync_site_to_build(site_dir, build_dir, stale, full_render)
+        for qmdx in render_list:
+            c.run(f"quarto render {qmdx.stem}.qmd")
+            _sync_site_to_build(site_dir, build_dir, [qmdx], False)
 
     _clean_lectures_artifacts(HERE / "lectures")
     for qmdx in stale:
@@ -379,14 +377,11 @@ def build_quarto_book_quick(c):
         shutil.copytree(str(build_dir), str(site_dir))
     if full_render and not stale:
         stale = sorted((HERE / "lectures").glob("*.qmdx"))
+    render_list = sorted((HERE / "lectures").glob("*.qmdx")) if full_render else stale
     with c.cd(os.path.join("lectures")):
-        if full_render:
-            c.run("quarto render --no-execute")
-        else:
-            for qmdx in stale:
-                c.run(f"quarto render {qmdx.stem}.qmd --no-execute")
-
-    _sync_site_to_build(site_dir, build_dir, stale, full_render)
+        for qmdx in render_list:
+            c.run(f"quarto render {qmdx.stem}.qmd --no-execute")
+            _sync_site_to_build(site_dir, build_dir, [qmdx], False)
 
     _clean_lectures_artifacts(HERE / "lectures")
     for qmdx in stale:
@@ -412,35 +407,36 @@ def build_quarto_pdf(c):
         srv = _start_http_server(serve_dir, port)
         try:
             pool = concurrent.futures.ThreadPoolExecutor()
-            futures = [
-                pool.submit(asyncio.run, html_to_pdf(f"http://localhost:{port}/{fn}?view=print", fno))
-                for _, fn, fno in jobs
-            ]
-            for future in futures:
-                future.result()
+            futures = {
+                pool.submit(asyncio.run, html_to_pdf(f"http://localhost:{port}/{fn}?view=print", fno)): (stem, fn, fno)
+                for stem, fn, fno in jobs
+            }
+            failed = []
+            for future, (stem, fn, fno) in futures.items():
+                try:
+                    future.result()
+                    _mark_fresh(stem, "pdf")
+                except Exception as ex:
+                    error(f"PDF render failed for {fn}: {ex}")
+                    failed.append(fn)
             pool.shutdown()
         finally:
             srv.shutdown()
-        for stem, _, _ in jobs:
-            _mark_fresh(stem, "pdf")
+        if failed:
+            error(f"PDF render failed for {len(failed)} file(s): {', '.join(failed)}")
     build_dir = HERE / "_build" / "html_quarto"
     for p in build_dir.glob("*.page.html"):
         _inject_pdf_link(p)
 
 
 @task()
-def qbuild(c, all=False):
+def build(c, all=False):
     info("Build Quarto")
     if all:
         build_quarto_book(c)
         build_quarto_pdf(c)
     else:
         build_quarto_book_quick(c)
-
-
-@task()
-def build(c, all=False):
-    qbuild(c, all)
 
 
 @task()
@@ -485,17 +481,6 @@ def serve(c):
         c.run("./weave_mac 8081 to ./_build/html_quarto")
     else:
         print("not supported ", sys.platform)
-
-
-@task()
-def servequarto(c):
-    serve(c)
-
-
-@task()
-def qserve(c):
-    servequarto(c)
-
 
 @task()
 def update_ai4sc(c):
