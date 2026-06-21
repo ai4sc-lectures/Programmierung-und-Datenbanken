@@ -73,7 +73,10 @@ abfragen.
 
 %%/book
 
-## 🗄 Tabellen in SQLite speichern
+## Tabellen in SQLite speichern
+%%div eyebrow
+{{< ai4sc-icon database >}}
+%%/div
 
 - `pandas` lädt CSV-Daten als DataFrame
 - `sqlite3` legt eine lokale Datenbankdatei an
@@ -101,7 +104,10 @@ Die meisten praktischen Anfragen bestehen aus drei Fragen:
 
 %%/book
 
-## 🗄 Das Grundmuster von `SELECT`
+## Das Grundmuster von `SELECT`
+%%div eyebrow
+{{< ai4sc-icon database >}}
+%%/div
 
 ```sql
 SELECT spalten
@@ -113,7 +119,10 @@ WHERE bedingung
 - `FROM`: Wo liegen diese Informationen?
 - `WHERE`: Welche Zeilen sollen übrig bleiben?
 
-## 🗄 Beispiel: Auswahl einzelner Spalten
+## Beispiel: Auswahl einzelner Spalten
+%%div eyebrow
+{{< ai4sc-icon database >}}
+%%/div
 
 ```sql
 SELECT station_id, measured_at, pm25
@@ -124,7 +133,10 @@ FROM measurements
 - weniger Spalten = leichter zu prüfen
 - oft der beste Startpunkt beim Debuggen
 
-## 🗄 Beispiel: Filtern mit `WHERE`
+## Beispiel: Filtern mit `WHERE`
+%%div eyebrow
+{{< ai4sc-icon database >}}
+%%/div
 
 ```sql
 SELECT station_id, measured_at, pm25
@@ -146,14 +158,20 @@ Messungen mit Sensoren und Stationen.
 
 %%/book
 
-## 🗄 Warum `JOIN`?
+## Warum `JOIN`?
+%%div eyebrow
+{{< ai4sc-icon database >}}
+%%/div
 
 - `measurements`: Wert und Zeitpunkt
 - `sensors`: welcher Sensortyp?
 - `stations`: an welchem Ort?
 - eine fachliche Antwort braucht oft Daten aus allen drei Tabellen
 
-## 🗄 `JOIN` mit Schlüsseln
+## `JOIN` mit Schlüsseln
+%%div eyebrow
+{{< ai4sc-icon database >}}
+%%/div
 
 ```sql
 SELECT st.name, se.sensor_type, m.measured_at, m.pm25
@@ -185,7 +203,10 @@ Ohne Schema rät das Modell. Mit Schema arbeitet es deutlich zuverlässiger.
 
 %%/book
 
-## 🗄 Prompting-Muster
+## Prompting-Muster
+%%div eyebrow
+{{< ai4sc-icon database >}}
+%%/div
 
 1. Nenne die Tabellen mit Schlüsseln.
 2. Beschreibe das gewünschte Ergebnis.
@@ -198,7 +219,10 @@ sensors(sensor_id, station_id, sensor_type)
 measurements(measurement_id, sensor_id, measured_at, pm25)
 ```
 
-## 🗄 Ein guter SQL-Prompt
+## Ein guter SQL-Prompt
+%%div eyebrow
+{{< ai4sc-icon database >}}
+%%/div
 
 ```text
 Gegeben sind:
@@ -211,7 +235,10 @@ aus den letzten 30 Tagen zurückgibt. Ausgabe: Stationsname, Zeitstempel,
 PM2.5-Wert. Sortiere nach Stationsname und dann nach Zeitstempel.
 ```
 
-## 🗄 Mögliche AI-Antwort
+## Mögliche AI-Antwort
+%%div eyebrow
+{{< ai4sc-icon database >}}
+%%/div
 
 ```sql
 SELECT st.name, m.measured_at, m.pm25
@@ -237,14 +264,20 @@ ist der Testgegenstand, sondern das Ergebnis.
 
 %%/book
 
-## 🔍 Nicht durch Lesen vertrauen
+## Nicht durch Lesen vertrauen
+%%div eyebrow
+{{< ai4sc-icon search >}}
+%%/div
 
 - SQL kann korrekt aussehen und trotzdem falsch sein
 - besonders riskant: falscher `JOIN`, falscher Zeitraum, falsche Sortierung
 - deshalb: bekannte Testdaten vor unbekannten Echtdaten
 
 
-## 🔍 Mini-Datensatz mit bekannter Lösung
+## Mini-Datensatz mit bekannter Lösung
+%%div eyebrow
+{{< ai4sc-icon search >}}
+%%/div
 
 %%col 50 50
 
@@ -281,7 +314,10 @@ ist der Testgegenstand, sondern das Ergebnis.
 
 %%/col
 
-## 🔍 Prüfung wie ein Unit-Test
+## Prüfung wie ein Unit-Test
+%%div eyebrow
+{{< ai4sc-icon search >}}
+%%/div
 
 1. kleinen Datensatz mit bekannter Soll-Ausgabe bauen
 2. AI-SQL genau darauf ausführen
@@ -294,7 +330,10 @@ ist der Testgegenstand, sondern das Ergebnis.
   festen Stichtag
 - so bleibt die erwartete Ausgabe reproduzierbar
 
-## 🔍 Verifikation in Python
+## Verifikation in Python
+%%div eyebrow
+{{< ai4sc-icon search >}}
+%%/div
 
 ```python
 sql = """
@@ -332,7 +371,10 @@ sortieren und die Ausgabe auf wenige Zeilen begrenzen.
 
 %%/book
 
-## 🗄 Gruppen bilden mit `GROUP BY`
+## Gruppen bilden mit `GROUP BY`
+%%div eyebrow
+{{< ai4sc-icon database >}}
+%%/div
 
 ```sql
 SELECT station_id
@@ -344,7 +386,10 @@ GROUP BY station_id
 - erst die Gruppen, dann die Kennwerte
 - fachlich fragen: Nach welchem Merkmal soll zusammengefasst werden?
 
-## 🗄 Aggregation leichtgewichtig
+## Aggregation leichtgewichtig
+%%div eyebrow
+{{< ai4sc-icon database >}}
+%%/div
 
 ```sql
 SELECT station_id, AVG(pm25), MAX(pm25)
@@ -356,7 +401,10 @@ GROUP BY station_id
 - genug für viele Ingenieurfragen
 - prüfen: Sind Gruppen und Kennwerte fachlich plausibel?
 
-## 🗄 Referenz: Sortieren und Begrenzen
+## Referenz: Sortieren und Begrenzen
+%%div eyebrow
+{{< ai4sc-icon database >}}
+%%/div
 
 ```sql
 SELECT station_id, pm25
@@ -393,7 +441,10 @@ kleinen Verifikation nachvollziehbar zum richtigen Ergebnis fuehrt.
 - `JOIN` für mehrere Tabellen
 - einfache Aggregation für Kennwerte
 
-## 🔍 Vorgehen für die Praxis
+## Vorgehen für die Praxis
+%%div eyebrow
+{{< ai4sc-icon search >}}
+%%/div
 
 1. Anforderung fachlich formulieren
 2. Schema im Prompt angeben
