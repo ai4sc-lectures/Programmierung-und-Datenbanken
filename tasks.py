@@ -323,10 +323,11 @@ def _sync_site_to_build(site_dir: Path, build_dir: Path, stale: list[Path], full
             dst = build_dir / src.name
             if src.is_file() and (not dst.exists() or src.stat().st_mtime > dst.stat().st_mtime):
                 shutil.copy2(str(src), str(dst))
-            elif src.is_dir() and src.name == "site_libs":
-                if dst.exists():
-                    shutil.rmtree(str(dst))
-                shutil.copytree(str(src), str(dst))
+            elif src.is_dir() and not src.name.endswith("_files"):
+                if not dst.exists() or src.stat().st_mtime > dst.stat().st_mtime:
+                    if dst.exists():
+                        shutil.rmtree(str(dst))
+                    shutil.copytree(str(src), str(dst))
 
 
 @task()
