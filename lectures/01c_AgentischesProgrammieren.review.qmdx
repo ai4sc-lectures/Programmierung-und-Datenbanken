@@ -1,0 +1,153 @@
+# Lecture Review: 01c_AgentischesProgrammieren.qmdx
+
+## Summary
+| Personality | Verdict |
+|---|---|
+| Content | Needs revision |
+| Pedagogical | Needs revision |
+| Language | Needs revision |
+| Technical | Needs revision |
+| Coverage | Pass |
+
+**Overall:** Needs revision
+
+---
+
+## Content Review
+
+**Verdict:** Needs revision
+
+### Findings
+- [CRITICAL] Slide "Die Verschiebung der Ingenieursrolle" (line 562): Claims "Studien zeigen, dass Entwickler mit KI-Unterstützung zwei- bis dreimal mehr Code pro Stunde schreiben — aber auch mehr Bugs einführen." No citation is provided for this specific empirical claim. This is an empirical assertion about developer productivity and defect rates that requires a source (e.g., GitHub research studies, IEEE papers). → Add a concrete reference (e.g., GitHub "Co-Pilot Study" or a peer-reviewed study), or rephrase as general guidance rather than cited fact.
+
+- [MODERATE] Slide "Was ist ein Sprachmodell?" (line 92, book text): States the generated code is "was in den Trainingsdaten am häufigsten auf einen ähnlichen Prompt folgte." This conflates token-level next-token prediction with pattern recall. LLMs do not retrieve and repeat frequent training sequences — they generate novel token sequences via learned probability distributions. A model can produce code that was never in the training set (compositional creativity). This simplification can lead students to think LLMs are retrieval-augmented, which is incorrect for base LLMs. → Clarify the distinction: tokens are predicted probabilistically, not selected from frequent training examples; the output can be novel even if learned from statistical patterns.
+
+- [MODERATE] Slide "Die vier Leseebenen" (line 457): Presents "Signatur → Docstring → Tests → Implementierung" as the reading order. This is framed as if it corresponds to what "erfahrene Software-Ingenieure" call "test-first reading" (line 492). This is an authorial construct, not an established industry term. "Test-first reading" is not a canonical concept with a published definition — the technique is closer to "assertive reading" (Menzies et al.) or "top-down code review." → Attribute this framework honestly as the course's methodology, not as an established industry practice.
+
+- [MINOR] Slide "Determinismus vs. Probabilismus" (lines 96-129): Compares LLMs against database queries and compilers as categorically "probabilistic." While directionally useful, a deterministic temperature=0, fixed seed inference produces identical outputs from identical prompts. The probabilistic nature is a property of the *sampling procedure*, not the model itself. → Add a brief note that LLM outputs are deterministic under fixed conditions (temperature=0, seed), but unpredictable in practice due to non-deterministic sampling and system-level variability.
+
+- [MINOR] Quiz question "Warum muss KI-generierter Code immer verifiziert werden?" (line 618): The distractor "Weil KI-Code immer Syntaxfehler enthält" could reinforce the misconception that AI code is inherently buggy. While it's the wrong answer, students might incorrectly internalize the framing that bugs are expected. → Consider a less reinforcing distractor, e.g., "Weil KI-Code nicht auf verschiedenen Systemen läuft."
+
+- [MINOR] Karpathy attribution (line 23): The "vibe coding" quote is attributed to Andrej Karpathy, who popularized the term in December 2023 on social media — not from a formal publication. For a lecture context, this is acceptable as a pop-culture attribution, but the source should ideally be cited as a social media post, not left as an unattributed quote. → Add a reference link or note (e.g., "Karpathy, X/Twitter, Dec. 2023").
+
+---
+
+## Pedagogical Review
+
+**Verdict:** Needs revision
+
+### Findings
+- [CRITICAL] Slide 38 (Hörsaalfrage): "Wie verlässlich ist Code, den eine KI generiert?" is placed before *any* conceptual foundation. The student has seen only the title and an "Ablauf" image. The lecture never connects this Hörsaalfrage back to its answer. → Move the Hörsaalfrage to after the "Warum LLM-Output immer verifiziert werden muss" section, OR replace the question with a concrete artifact (e.g., show plausible-but-faulty AI code and ask whether it's correct). Explicitly revisit the question after the section.
+
+- [CRITICAL] Sections "Der Kern dieses Kurses" and "Quiz" (line 603): The course goal is stated as application-level competency ("KI-generierten Code sicher lesen, beurteilen und korrigieren zu können"). The only assessment is a 7-question multiple-choice quiz, all testing Remember/Understand level. No Apply-level assessment exists, and no homework brief is provided. → Add at least one Apply-level task (e.g., "Lesen Sie diesen KI-generierten Code mit der 4-Ebenen-Strategie und finden Sie den Fehler") as a quiz question or homework assignment.
+
+- [CRITICAL] Slide "Was jeder Schritt erfordert" (line 231): Three full concept clusters (Prompt-Erfordernisse, Verstehen-Fähigkeiten, Verifizieren-Fähigkeiten) introduced simultaneously on one slide with no worked example for any of them. This is a concept dump — intrinsic cognitive load exceeds working memory capacity. → Split into three slides. Provide a concrete worked example demonstrating each skill.
+
+- [MODERATE] Slides "Der Kern dieses Kurses" and "Die Verschiebung der Ingenieursrolle": These two slides present overlapping content (engineer's role vs. what must be done). The role-shift frame is introduced twice with different emphases, creating cognitive friction. → Consolidate into one well-sequenced comparison with concrete task examples.
+
+- [MODERATE] Opening narrative: The Karpathy "vibe coding" quote introduces a theme of *trusting* AI, while the lecture systematically argues for *not* trusting it. The narrative irony is unresolved — no section says "and here's why that approach fails." → Add one sentence in the first content section addressing the Karpathy quote directly: "Vibe coding funktioniert in Experimenten, aber nicht in Produktion — genau das führt zu unserem zentralen Thema: Verifikation."
+
+- [MODERATE] Slide "Der Prompt als Anforderungsspezifikation": The prompt example demonstrates the *output* of a good prompt but does not provide a worked example of the *process* — how to take a vague prompt and iteratively refine it. → Add explicit "Warum?" annotations to each step (e.g., "Ohne Rolle: Die KI weiß nicht, welchen Erfahrungshorizont sie nutzen soll").
+
+- [MODERATE] Prior knowledge activation: "Python-Grundlagen" are assumed via the book text but never activated or checked. Students who struggle with Python fundamentals receive no recovery path. → Add a brief "Voraussetzungen" callout listing expected prior knowledge and link to remedial material.
+
+- [MODERATE] Interactivity timing: The quiz appears *after* all content, testing recall of discrete facts. But the lecture's own methodology advocates thinking before looking. The quiz design contradicts the lecture's own pedagogical stance. → Restructure at least 3 questions to test reasoning rather than recall.
+
+- [MODERATE] Section transitions: Section markers (`%%#`) provide no verbal or structural signpost explaining *why* the next section follows. → Add bridging sentences at each section boundary.
+
+- [MINOR] Slide "Was ist ein Sprachmodell": Step 3 and Step 4 are themselves novel conceptual claims, effectively introducing 4 ideas. → Consider splitting Step 3 and 4, or move the "plausibel ≠ korrekt" distinction to the next section.
+
+- [MINOR] Slide "Determinismus vs. Probabilismus": The third comparison dimension ("Fehler → ...") may compete with the main point. → Use a highlight bar to draw attention to the "Deterministisch / Probabilistisch" row as the single most important takeaway.
+
+- [MINOR] Slide "Der Prompt als Anforderungsspezifikation" (line 356): The `%%/col` closing tag appears after a `%%book` reference block, creating a structural break. → Move the reference line into the book text section, not inside the slide col block.
+
+- [MINOR] "Ingenieursverantwortung" section: Merksätze are declarative (Remember level) rather than helping students practice the skill. → Transform each Merksatz into a checkpoint, e.g., "Warum war der Constraint entscheidend?"
+
+---
+
+## Language Review
+
+**Verdict:** Needs revision
+
+### Findings
+- [MODERATE] Headings contain non-text symbols — `{{< ai4sc-icon workflow >}}` on lines 43, 161, 164, 331, 450, 569 — and `≡` on line 73. Per criteria, headings should contain words instead of symbols. → Remove icon/emoji syntax from headings; use plain text titles.
+
+- [MODERATE] Missing Midjourney/image credits on book title band image (line 19, `mj_title_band.jpg`), senior engineer image (line 520, `.midjourney` class with no `credit=` or `%%credit` attribute), and `partA_3.svg` (line 31). → Add `Midjourney: <description>` credits to each image.
+
+- [MODERATE] Slide "Ablauf" (line 29) and "Quiz" (line 602): Navigation labels, not claims. → Replace "Ablauf" with a claim such as "Agile Arbeitsweise als Grundprinzip dieses Kurses". (Quiz may be acceptable as an appendix section title exception.)
+
+- [MODERATE] Repeated use of gendered noun forms: `Ingenieur` (line 55), `Ingenieursrolle` (line 529), `Ingenieursverantwortung` (line 500), `Senior-Entwickler` (line 503), `Junior-Entwickler` (line 508). → Replace with gender-inclusive forms: `Ingenieurin und Ingenieur`, `Senior-Entwicklerin und Senior-Entwickler`, etc.
+
+- [MINOR] Book line 157: "denselben Review-Prozess" — the text has "dieselben" which is feminine; `Prozess` is masculine, requiring "denselben". → `denselben Review-Prozess`.
+
+- [MINOR] Slide line 285: "Agentisches Werkzeug" — inconsistent capitalization; `agentisch` elsewhere is lowercase. → Lowercase to `agentisches Werkzeug`.
+
+- [MINOR] Slide line 140: Bullet "Schnell Entwürfe liefern" breaks parallelism with the other verb+noun bullets in the group. → `[Entwürfe schnell liefern]{.pro}` for parallel construction.
+
+- [MINOR] Book line 92: Long sentence (47 words) with two em-dash structures that break parallel flow. → Consider splitting or using a semicolon for clarity.
+
+- [MINOR] Book line 55: Vague quantifier "Milliarden von Texten" — acceptable in context but could cite source. → Consider "mehreren hundert Milliarden" or add a footnote.
+
+---
+
+## Technical Review
+
+**Verdict:** Needs revision
+
+### Findings
+- [MODERATE] Lines 45, 74, 98, 134, 166, 231, 267, 296, 314, 336, 414, 455, 505, 531, 549: All 15 instances use bare `%%col` instead of `%%scol`. This is a dual-output deck (`ai4sc-style-revealjs` + `ai4sc-style-html`). Per AI4SC spec, `%%scol` must be used for column layouts so the preprocessor linearises columns for book mode while keeping them as columns in slides. → Replace every `%%col` with `%%scol` and every `%%/col` with `%%/scol`; `%%sep` stays as-is.
+
+- [MINOR] Frontmatter (lines 1-15): Missing `footertext`, `institute-logo`, and `university-logo` top-level fields. → Add e.g. `footertext: Kompetenz von KI & für KI`, `institute-logo`, `university-logo` per project conventions.
+
+- [MINOR] Frontmatter: `bibliography:` field is absent. The file ends with `%%references` (line 658) which expands to a references heading, but without a `bibliography` key there is no `.bib` source for the bibliography to render. → Add `bibliography: references.bib` referencing a valid `.bib` file, or remove `%%references` if no bibliography is intended.
+
+## Positive checks (all pass)
+- ✅ `format.ai4sc-style-revealjs` and `format.ai4sc-style-html` present with correct output-file naming (`*.slide.html`, `*.page.html`, `*.page.pdf`)
+- ✅ `image-credit` present as top-level field
+- ✅ `resources: data/01c_AgentischesProgrammieren` listed
+- ✅ All `%%book` blocks balanced (17 open, 17 closed)
+- ✅ All `%%slides` blocks balanced (5 open, 5 closed)
+- ✅ All `%%col`/`%%sep`/`%%/col` triplets correctly paired
+- ✅ `%%final` present on line 659
+- ✅ `%%references` present on line 658
+- ✅ No use of nonexistent `%%slide` macro
+- ✅ Pro/con lists use `.pro`, `.con`, `.neutral` span classes
+- ✅ Hörsaalfrage on line 38 uses correct archetype D/G with `cols40x60`
+- ✅ `%%note` correctly used with `Merksatz:` titles
+- ✅ No Plotly figures or intentional exception chunks — no `#| error:` needed
+
+---
+
+## Coverage Review
+
+**Verdict:** Pass
+
+**Slides→Book:** 18/18 sections covered | **Book→Slides:** 18/19 sections covered
+
+### Section Coverage
+| Section | Slides | Book | Status |
+|---|---|---|---|
+| §1 Ablauf | ✓ | ✓ | OK |
+| §2 Hörsaalfrage | ✓ | ✓ | OK |
+| §3 Der Kern dieses Kurses | ✓ | ✓ | OK |
+| §4 Was ist ein Sprachmodell? | ✓ | ✓ | OK |
+| §5 Determinismus vs. Probabilismus | ✓ | ✓ | OK |
+| §6 Warum LLM-Output immer verifiziert werden muss | ✓ | ✓ | OK |
+| §7 Der agentische Arbeitsablauf | ✓ | ✓ | OK |
+| §8 Was jeder Schritt erfordert | ✓ | ✓ | OK |
+| §9 Werkzeuglandschaft: Claude Code | ✓ | ✓ | OK |
+| §10 Werkzeuglandschaft: Copilot & Cursor | ✓ | ✓ | OK |
+| §11 Der Prompt als Anforderungsspezifikation | ✓ | ✓ | OK |
+| §12 Prompt-Beispiel: Schritt für Schritt | ✓ | ✓ | OK |
+| §13 Warum Constraints entscheidend sind | ✓ | ✓ | OK |
+| §14 Die vier Leseebenen | ✓ | ✓ | OK |
+| §15 Code-Lesen: Verifikationsstrategie | ✓ | ✓ | OK |
+| §16 Der Ingenieur als Senior-Entwickler | ✓ | ✓ | OK |
+| §17 Die Verschiebung der Ingenieursrolle | ✓ | ✓ | OK |
+| §18 Dieser Zyklus erscheint in jedem Block | ✓ | ✓ | OK |
+
+### Missing Book Coverage
+- None identified
+
+### Missing Slide Coverage
+- [MINOR] Quiz (line 601): The `quizdown` block is inside a `%%book`/`%%/book` block (lines 599–655), so it renders only in book output and never appears on slides. → This is intentional for take-home quizzes. If the quiz should be interactive during the lecture, move it into a `%%slides` block instead.
