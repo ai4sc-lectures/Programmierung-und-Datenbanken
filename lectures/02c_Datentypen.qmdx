@@ -104,7 +104,25 @@ nummer
 
 %%book
 
-Grundsätzlich sollte man bei der Benennung von Variablen darauf achten, dass sie aussagekräftig sind und den Inhalt der Variable beschreiben. Das erleichtert das Verständnis des Codes und die Wartung des Programms. Es gibt hierbei einige Regeln
+Grundsätzlich sollte man bei der Benennung von Variablen darauf achten, dass sie aussagekräftig sind und den Inhalt der Variable beschreiben. Das erleichtert das Verständnis des Codes und die Wartung des Programms. Betrachten Sie folgenden typischen KI-generierten Code:
+
+```python
+h = 3
+b = 5
+e = h * b
+print(e)  # 15
+```
+
+Was berechnet dieser Code? Ist `h` die Höhe oder ein Heizwert? Ist `b` die Breite in Metern oder Bytes? Ist `e` eine Energie oder ein Ergebnis? Sechs Wochen später oder für eine Kollegin, die den Code das erste Mal sieht ist diese Frage nicht mehr zu beantworten, ohne den gesamten Kontext zu rekonstruieren. Derselbe Code mit aussagekräftigen Namen ist sofort verständlich:
+
+```python
+hoehe_meter = 3
+breite_meter = 5
+wandflaeche_qm = hoehe_meter * breite_meter
+print(wandflaeche_qm)  # 15
+```
+
+Damit solche Probleme gar nicht erst entstehen, gibt es einige Regeln für die Benennung von Variablen:
 
 * Verwenden Sie Namen, die die Bedeutung und den Inhalt der Variablen klar vermitteln.
 * Vermeiden Sie übermäßig generische Namen wie "Daten" oder "v".
@@ -133,6 +151,83 @@ score_total  | score    | Zeigt, dass es sich um die Gesamtsumme handelt.
 user_count   | count    | Gibt an, dass es sich um die Anzahl der Nutzer handelt.
 
 %%/book
+
+%%book
+
+
+## Lernziele
+
+Nach dieser Lektion können Sie Variablen und Konstanten in Python definieren und den Typ mit `type()` bestimmen. Sie kennen die einfachen Datentypen (`int`, `float`, `bool`, `str`, `bytes`) und können einfache von zusammengesetzten Datentypen (`list`, `tuple`, `set`, `dict`) unterscheiden und einsetzen. Sie sind in der Lage, geeignete Datentypen für technische Berechnungen zu wählen und KI-generierten Code auf korrekte Typverwendung zu prüfen und zu korrigieren.
+
+%%/book
+
+%%slides
+
+
+## Lernziele
+
+%%col 50 50
+
+**Was Sie lernen:**
+
+- Variablen definieren, Datentypen mit `type()` bestimmen
+- Einfache Datentypen (`int`, `float`, `bool`, `str`, `bytes`) einsetzen
+- Einfache von zusammengesetzten Datentypen unterscheiden
+- Zusammengesetzte Datentypen (`list`, `tuple`, `set`, `dict`) verwenden
+
+%%sep
+
+**Warum das wichtig ist:**
+
+- Geeignete Typen sichern die Korrektheit technischer Berechnungen
+- KI-generierter Code wählt Typen automatisch — Ihr Job ist die Verifikation
+
+%%/col
+
+%%/slides
+
+%%book
+
+Ein KI-Assistent hat folgenden Code zur Berechnung einer Wandfläche generiert:
+
+```python
+hoehe = 3    # Meter
+breite = 5   # Meter
+flaeche = hoehe * breite
+print(f"Wandfläche: {flaeche} m²")
+```
+
+Das Ergebnis ist `15` — eine ganze Zahl. Für eine reale Wand wären `2.85 m × 4.70 m` denkbar. Warum liefert der Code dann eine falsche Antwort? Die Ursache liegt im Datentyp. In dieser Lektion lernen Sie, warum die Typwahl eine Modellierungsentscheidung ist und wie Sie KI-generierten Code auf solche Fehler prüfen.
+
+%%/book
+
+%%slides
+
+
+## Einstieg: Was stimmt hier nicht?
+
+%%col 55 45
+
+```python
+# KI-generiert — Wandfläche berechnen
+hoehe = 3    # Meter
+breite = 5   # Meter
+flaeche = hoehe * breite
+print(f"Wandfläche: {flaeche} m²")
+# Ausgabe: Wandfläche: 15 m²
+```
+
+- Was ist `type(flaeche)`?
+- Reale Wände: `hoehe = 2.85`, `breite = 4.70`
+- Warum liefert der Code dann eine falsche Antwort?
+
+%%sep
+
+*Antwort nach der Einführung in Datentypen.*
+
+%%/col
+
+%%/slides
 
 %%slides
 
@@ -282,6 +377,8 @@ Wenn KI-generierter Code einen Typ ableitet (z.B. `distanz = 5` → `int`):
 3. Korrigieren Sie die Anweisung: „Verwende `float` für physikalische Größen."
 
 %%/tip
+
+Das ist genau der Fehler aus dem Einstiegsbeispiel: `hoehe = 3` erzeugt `int`, obwohl eine Wandhöhe in Metern Nachkommastellen haben kann. Mit `hoehe: float = 2.85` ist das Modell korrekt.
 
 %%/book
 
@@ -1099,7 +1196,7 @@ print(liste[-10:]) # greift auf die letzten zehn Element zu
 	x[1] # 2. Element
   ```
 
-- Eine Besonderheit in Python ist dass auch negative Indizes erlaubt sind um das Ende von Listen zuzugreifen (a.k.a. Syntax-Suggar)
+- Eine Besonderheit in Python ist dass auch negative Indizes erlaubt sind um das Ende von Listen zuzugreifen (a.k.a. Syntaxzucker)
 
   ```python
 	x[-1] # letzte Element
@@ -1497,9 +1594,7 @@ In beiden Fällen gibt die `get()` Funktion `None` zurück und können nicht meh
 - In vielen Programmiersprachen gibt es auch einen Wert um einen undefinierten Wert darzustellen, z.B. wenn etwas nicht da ist.
 
 - Dieser undefinierte Wert wird häufig als `Null`-Wert bezeichnet.
-%%warning
-Die Notwendigkeit für einen Null-Wert ist heutzutage sehr umstritten, da Null-Werte schnell Fehler erzeugen. Deshalb haben einige moderne Sprachen keinen Null-Wert.
-%%/warning
+- Die Notwendigkeit für einen Null-Wert ist heutzutage umstritten und einige moderne Sprachen haben ihn abgeschafft.
 
 %%sep
 
@@ -1549,7 +1644,7 @@ Modifizierbarkeit beschreibt die Veränderbarkeit von Datenstrukturen.
 
 %%book
 
-Um Programmierfehler zu verhindern und Zugriffssicherheit (Datenschutz) zu gewährleisten, unterscheiden einige Programmiersprachen sehr strikt zwischen mutable und  immutable Datentypen.
+Um Programmierfehler zu verhindern und Zugriffssicherheit (Datenschutz) zu gewährleisten, unterscheiden einige Programmiersprachen sehr strikt zwischen mutable und immutable Datentypen. KI-Tools entscheiden auch hier automatisch: z.B. `list` statt `tuple` für eine Messreihe, die nach der Erfassung unveränderlich sein sollte. Die Wahl zwischen mutable und immutable ist damit dieselbe Art von Modellierungsentscheidung wie die Wahl zwischen `int` und `float` im Einstiegsbeispiel.
 
 | Mutabel (änderbar) | Immutabel (nicht änderbar) |
 |--------------------|----------------------------|
@@ -1577,70 +1672,6 @@ Modifizierbarkeit beschreibt die Veränderbarkeit von Datenstrukturen.
 | `bytearray`        | `bytes`                    |
 
 - Um Programmierfehler zu verhindern und Zugriffssicherheit (Datenschutz) zu gewährleisten, unterscheiden einige Programmiersprachen sehr strikt zwischen mutable und  immutable Datentypen.
-
-%%/slides
-
-%%book
-
-## Übung: Typfehler in KI-generiertem Code
-
-%%/book
-
-%%book
-
-Ein KI-Assistent hat folgenden Code zur Berechnung einer Wandfläche generiert:
-
-```{python}
-#| echo: true
-# KI-generierter Code zur Berechnung der Wandfläche
-hoehe = 3    # Meter
-breite = 5   # Meter
-flaeche = hoehe * breite
-print(f"Wandfläche: {flaeche} m²")
-```
-
-%%/book
-
-%%book
-
-%%tip Aufgabe
-1. Welchen Typ hat `flaeche`? Prüfen Sie mit `type(flaeche)`.
-2. Ist `int` für eine Wandfläche korrekt? Warum (nicht)?
-3. Ändern Sie `hoehe = 2.85` und `breite = 4.70`. Was gibt `flaeche` jetzt aus?
-4. Fügen Sie Typannotationen hinzu: `hoehe: float = 2.85`
-5. Was hätten Sie der KI in der Aufgabe mitgeben müssen, um den richtigen Typ zu erhalten?
-%%/tip
-
-%%/book
-
-%%slides
-
-## Übung: Typfehler in KI-generiertem Code
-
-%%col 50 50
-
-```python
-# KI-generiert: Wandfläche berechnen
-hoehe = 3    # Meter
-breite = 5   # Meter
-flaeche = hoehe * breite
-print(f"Wandfläche: {flaeche} m²")
-```
-
-- Was ist `type(flaeche)`?
-- Ist `int` für eine Wandfläche korrekt?
-- Was passiert bei `hoehe = 2.85`, `breite = 4.70`?
-
-%%sep
-
-%%tip Agentic workflow
-1. KI hat ganzzahlige Literale → `int` angenommen
-2. `int` = Präzisionsverlust bei realen Baumaßen
-3. Prompt ergänzen: „Verwende `float` für alle physikalischen Größen."
-4. Typannotation: `hoehe: float = 2.85`
-%%/tip
-
-%%/col
 
 %%/slides
 
@@ -1835,6 +1866,44 @@ print(f"Wandfläche: {flaeche} m²")
     - [ ] 4 Bytes (32 Bit)
     - [x] 8 Bytes (64 Bit)
     - [ ] 16 Bytes (128 Bit)
+
+    ### Sie erhalten den Code `abstand = 3`. Der Wert soll eine Strecke in Kilometern darstellen. Was gilt?
+
+    - [x] Der Typ `int` ist falsch — Strecken können Dezimalstellen haben, daher ist `float` korrekt.
+    - [ ] Der Typ `int` ist korrekt — ganze Kilometer reichen für Strecken aus.
+    - [ ] Python wählt automatisch den richtigen Typ für physikalische Größen.
+    - [ ] Der Fehler liegt im Variablennamen, nicht im Datentyp.
+
+    ### Was passiert beim Ausführen des folgenden Codes?
+
+    ```python
+    werte = (10, 20, 30)
+    werte[1] = 99
+    ```
+
+    - [x] Ein Fehler tritt auf, weil `tuple` unveränderlich (immutable) ist.
+    - [ ] `werte` hat danach den Wert `(10, 99, 30)`.
+    - [ ] Der Code läuft fehlerlos, da Python Typen dynamisch anpasst.
+    - [ ] Ein Fehler tritt auf, weil `99` kein `str` ist.
+
+    ### Ein KI-Assistent generiert den Code `temperatur = 20`. Sie messen in °C mit Dezimalstellen. Welche Zeile korrigiert den Typ korrekt?
+
+    - [x] `temperatur: float = 20.0`
+    - [ ] `temperatur = str(20)`
+    - [ ] `temperatur = int(20.0)`
+    - [ ] `temperatur = bool(20)`
+
+    ### Welchen Typ hat `typ` nach Ausführen des folgenden Codes?
+
+    ```python
+    daten = {"sensor": "T01", "wert": 23.5}
+    typ = type(daten["wert"])
+    ```
+
+    - [x] `float`
+    - [ ] `str`
+    - [ ] `dict`
+    - [ ] `int`
 ```
 
 %%/book
