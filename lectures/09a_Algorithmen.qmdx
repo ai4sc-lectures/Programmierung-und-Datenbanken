@@ -12,6 +12,7 @@ format:
     output-file: 09a_Algorithmen.page.pdf
 resources:
   - data/09a_Algorithmen
+bibliography: references.bib
 ---
 
 %%book
@@ -27,7 +28,7 @@ resources:
 %%slides
 
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Du musst Messstationen nach Entfernung sortieren und prüfen, ob eine davon in einem Schutzgebiet liegt — womit fängst du an?" capR="Google Maps" imgR="images/09a_Algorithmen/polymap.png"}
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Messstationen nach Entfernung sortieren und danach pruefen, ob eine davon in einem Schutzgebiet liegt: Was ist der erste Schritt?" capR="Google Maps" imgR="images/09a_Algorithmen/polymap.png"}
 
 %%/slides
 
@@ -36,7 +37,7 @@ resources:
 %%slides
 
 
-## {{< ai4sc-icon workflow >}} Algorithmen — erst die Klasse, dann das Verfahren
+## Algorithmen — erst die Klasse, dann das Verfahren
 
 %%def Algorithmen
 Algorithmen sind wohldefinierte, eindeutige Handlungsanweisungen.
@@ -55,7 +56,7 @@ Die Problemklasse bestimmt die Algorithmenfamilie. Erst identifizieren, dann wä
 %%slides
 
 
-## {{< ai4sc-icon workflow >}} Vier Problemklassen erkennen
+## Vier Problemklassen erkennen
 
 %%col 50 50
 
@@ -88,7 +89,7 @@ Die Problemklasse bestimmt die Algorithmenfamilie. Erst identifizieren, dann wä
 %%slides
 
 
-## {{< ai4sc-icon workflow >}} Algorithmen-Erkennung: Szenarien 1 & 2
+## Algorithmen-Erkennung: Szenarien 1 & 2
 
 %%col 50 50
 
@@ -121,7 +122,7 @@ Verfahren: `sorted()`, Quick Sort, Insertion Sort
 %%slides
 
 
-## {{< ai4sc-icon workflow >}} Algorithmen-Erkennung: Szenarien 3 & 4
+## Algorithmen-Erkennung: Szenarien 3 & 4
 
 %%col 50 50
 
@@ -156,34 +157,34 @@ Verfahren: Ray Casting, Polygon-Enthaltungstest
 %%slides
 
 
-## Heuristiken
+## Heuristiken liefern schnelle Naeherungen
 
-- Basieren nicht auf wohldefinierten oder eindeutigen Schritten, sondern auf praktischen Erfahrungen
-
-- Versuchen schnell ein hinreichend korrektes Ergebnis zu erreichen. *KEINE* Garantie die optimale Lösung zu finden.
-
-- Beispiel:
-  - Die Schätzung eines Experten
-  - Schrittweises Annähern
+- Keine vollstaendig festgelegten Rechenschritte
+- Beruhen auf Erfahrung oder schaetzenden Regeln
+- Liefern oft schnell ein brauchbares Ergebnis
+- Keine Garantie fuer die optimale Loesung
+- Beispiele: Expertenschaetzung, schrittweises Annaehern
 
 %%/slides
 
 %%slides
 
 
-## Exkurs – Beispiel für eine Heuristik: A*Star Suchalgorithmus
+## Exkurs – A*-Suchalgorithmus als Heuristik
 
 %%col 50 50
 
-- Die Wegsuche gehört zu den komplexesten Problemen in der Informatik (NP-Komplex: Aufgrund des kombinatorischen Problems)
+- Wegsuche als kombinatorisch anspruchsvolles Problem
+- A* kombiniert bekannte Kosten und heuristische Schaetzung
+- Ziel: kuerzesten Weg in einem Feld mit Hindernissen effizient finden
 
-- A* ist eine Heuristik um den kürzesten Weg zwischen zwei Punkten in einem Feld mit Hindernissen zu finden
-
-  ![](images/09a_Algorithmen/astar.svg){class="midjourney"}
+  ![](images/09a_Algorithmen/astar.svg)
+  Midjourney: Schematische Wegsuche auf einem Raster mit Hindernissen
 
 %%sep
 
-![](images/09a_Algorithmen/astar.gif){class="midjourney"}
+![](images/09a_Algorithmen/astar.gif)
+Midjourney: Animierte Suche eines Pfads durch ein Hindernisfeld
 
 %%/col
 
@@ -192,11 +193,11 @@ Verfahren: Ray Casting, Polygon-Enthaltungstest
 %%slides
 
 
-## Beispielproblem – Liegt ein Punkt in einem Polygon?
+## Punkt-in-Polygon als typische Raumfrage
 
-- Ein Polygon ist ein beliebiges Vieleck
-
-- Die Lösung dieses Problems ist ein häufiger Teil von Berechnungen in den Bau- und Umweltwissenschaften, z. B. um zu testen, ob ein geplantes Objekt in einem Naturschutzgebiet liegt.
+- Polygon = beliebiges Vieleck
+- Typische Frage in Bau- und Umweltanwendungen
+- Beispiel: Liegt ein geplantes Objekt in einem Naturschutzgebiet?
 
 ![Polygon Beispiel](https://upload.wikimedia.org/wikipedia/commons/1/1f/Assorted_polygons.svg)
 
@@ -205,30 +206,31 @@ Verfahren: Ray Casting, Polygon-Enthaltungstest
 %%slides
 
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Wie kann ich bestimmen ob ein Punkt in einem Polygon liegt?" capR="Google Maps" imgR="images/09a_Algorithmen/polymap.png"}
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Wie laesst sich bestimmen, ob ein Punkt in einem Polygon liegt?" capR="Google Maps" imgR="images/09a_Algorithmen/polymap.png"}
 
 %%/slides
 
 %%slides
 
 
-## Beispielproblem – Aus- und Eingaben
+## Ein Punkt-in-Polygon-Test braucht klare Ein- und Ausgaben
 
 %%col 50 50
 
-Eingaben:
+**Eingaben**
 
-- Die Position des Punktes `x`
-- Ein Linienzug der den Rand des Polygons beschreibt
-  - Eine Liste von verbundenen, aufeinanderfolgenden Linien
+- Position des Punktes `x`
+- Linienzug, der den Polygonrand beschreibt
+- Liste verbundener, aufeinanderfolgender Linien
 
-Ausgaben:
+**Ausgabe**
 
-- Ein Boolean
+- Boolescher Wert: innerhalb oder ausserhalb
 
 %%sep
 
-![Google Maps](images/09a_Algorithmen/polymap2.png){class="midjourneyXX"}
+![Google Maps](images/09a_Algorithmen/polymap2.png)
+Midjourney: Punktlage in einer stilisierten Kartenansicht
 
 %%/col
 
@@ -237,14 +239,13 @@ Ausgaben:
 %%slides
 
 
-## Beispielproblem – Entwerfen eines Algorithmus
+## Ein Punkt-in-Polygon-Test nutzt lokale Geometrie
 
-- Was sind Berechnungen, die man auf Punkten und Linien ausführen kann?
-
-- Wir können prüfen ob der Punkt genau auf einer Linie liegt.
-- Wir können prüfen auf welcher Seite einer Linie ein Punkt liegt.
-
-- Reicht Punkt 2 aus? Für konvexe Flächen — ja. Für konkave Flächen — nein ⇒ Heuristik!
+- Punkt-Linie-Beziehungen als Bausteine
+- Pruefen, ob der Punkt genau auf einer Linie liegt
+- Pruefen, auf welcher Seite einer Linie der Punkt liegt
+- Fuer konvexe Flaechen oft ausreichend
+- Fuer konkave Flaechen allein nicht ausreichend
 
 %%/slides
 
@@ -253,7 +254,7 @@ Ausgaben:
 %%book
 
 
-## {{< ai4sc-icon list-tree >}} Komplexe Datenstruktur – Bäume
+## Komplexe Datenstruktur – Bäume
 
 %%/book
 
@@ -306,7 +307,7 @@ baum = {
 
 %%book
 
-Wenn wir den Baum durchlaufen (traversen) wollen, brauchen wir eine rekursive Funktion. Sie lassen sich nicht in Loops umwandeln. Die rekursiven Funktionen arbeiten dabei auf dem angegebenen Knoten und rufen sich dann selbst mit dem entsprechenden Teilbaum der Kinder auf.
+Wenn wir den Baum durchlaufen wollen, ist eine rekursive Funktion oft besonders naheliegend. Alternativ ist auch eine iterative Umsetzung mit einem expliziten Stack oder einer Queue moeglich. Die rekursive Funktion arbeitet auf dem aktuellen Knoten und ruft sich dann mit den Teilbaeumen der Kinder auf.
 
 %%/book
 
@@ -336,20 +337,20 @@ traverse(baum)
 
 %%book
 
-Wenn wir den Baum rekursiv durchlaufen (traversen), dann sehen wir, dass wir den Baum von oben nach unten, links vor rechts durchlaufen. Wir fangen also beim Wurzelknoten 12 an, und gehen dann links tiefer zur 6, von dort links tiefer zur 3, dann rechts zur 9, u.s.w.
+Wenn wir den Baum rekursiv durchlaufen, sehen wir die Reihenfolge von oben nach unten und von links nach rechts. Wir beginnen beim Wurzelknoten 12, gehen dann links zur 6, weiter zur 3 und danach zur 9.
 
 %%/book
 
 %%slides
 
 
-## {{< ai4sc-icon list-tree >}} Datenstruktur: Baum
+## Ein Baum organisiert Elemente hierarchisch
 
 %%div eyebrow
-{{< ai4sc-icon list-tree >}} Datenstruktur
+Datenstruktur
 %%/div
 
-*Baum:* Datenstruktur, in der jedes Element auf weitere Unterelemente verweisen kann.
+*Baum:* Hierarchische Datenstruktur mit Knoten und Unterknoten
 
 %%col 50 50
 
@@ -361,9 +362,9 @@ Wenn wir den Baum rekursiv durchlaufen (traversen), dann sehen wir, dass wir den
    3   9 15  21
 ```
 
-- Jedes Element: *Knoten*
-- Verbindungen: *Kanten*
-- Oberstes Element: *Wurzel*
+- Jedes Element: Knoten
+- Verbindung zwischen Knoten: Kante
+- Oberstes Element: Wurzel
 
 %%sep
 
@@ -388,9 +389,10 @@ baumN = (12, [
 %%slides
 
 
-## {{< ai4sc-icon list-tree >}} Rekursion – Tree Traversal
+## Rekursion durchlaeuft den Baum schrittweise
 
-Traversals sind Funktionen welche den Baum durchlaufen, z.B. um Elemente zu suchen.
+- Traversierung = Baum systematisch durchlaufen
+- Typischer Einsatz: Elemente ausgeben oder suchen
 
 ```{python}
 #| echo: true
@@ -418,10 +420,10 @@ traverse(baumN)
 %%slides
 
 
-## {{< ai4sc-icon workflow >}} Problemklasse: Sortieren
+## Problemklasse: Sortieren
 
 %%div eyebrow
-{{< ai4sc-icon workflow >}} Problemklasse: Sortieren
+Problemklasse: Sortieren
 %%/div
 
 - Speziell das Sortieren von Listen, unabhängig vom Datentyp
@@ -480,11 +482,11 @@ Es ist zu beachten, dass Bubble Sort die Liste direkt modifiziert, also die vorh
 %%slides
 
 
-## {{< ai4sc-icon workflow >}} Sortieren – Algorithmus 1: Bubble Sort
+## Sortieren – Algorithmus 1: Bubble Sort
 
-- Jedes Element der Liste wird durchlaufen und mit dem nächsten Element verglichen.
-- Ist das zweite Element kleiner als das erste wird die Position getauscht.
-- Die Liste wird immer wieder durchlaufen bis dieser Fall nicht mehr auftritt.
+- Benachbarte Elemente vergleichen
+- Kleineres Element nach links tauschen
+- Wiederholen, bis kein Tausch mehr noetig ist
 
 ```python
 def bubbleSort(numbers):
@@ -504,7 +506,7 @@ def bubbleSort(numbers):
 
 %%book
 
-QuickSort ist ein Divide-and-Conquer-Algorithmus. Er wählt ein Element aus der Liste als zentrales Element und erzeugt dann jeweils eine Liste der Elemente die Kleiner sind als das zentrale Element und eine die Größer sind. Diese zwei Teillisten werden dann wieder mit QuickSort sortiert, bis die Teillisten die Größe 1 erreichen. So wird das Sortierproblem sukzessive immer kleiner.
+QuickSort ist ein Divide-and-Conquer-Algorithmus. Er waehlt ein Element aus der Liste als zentrales Element und erzeugt dann jeweils eine Liste der Elemente, die kleiner als das zentrale Element sind, eine Liste mit gleichen Elementen und eine Liste mit groesseren Elementen. Diese Teillisten werden dann wieder mit QuickSort sortiert, bis ihre Groesse 1 erreicht. So wird das Sortierproblem sukzessive immer kleiner.
 
 %%/book
 
@@ -555,15 +557,15 @@ zahlenfolge
 %%slides
 
 
-## {{< ai4sc-icon workflow >}} Sortieren – Algorithmus 2: Quick Sort
+## Quick Sort teilt die Liste rekursiv auf
 
-Das Grundprinzip ist das Aufteilen der Liste:
+Grundprinzip: Liste in kleinere Teilprobleme zerlegen
 
-1. Das erste Element der Liste als „Pivot"-Element abspeichern.
+1. Ein mittleres Element als Pivot waehlen.
 2. Dann wird die Liste durchlaufen und jedes Element mit dem Pivot verglichen.
-3. Einsortiert in eine von drei Listen: Kleiner, Gleich und Größer.
-4. Dann wird Quick Sort rekursiv auf die Listen Kleiner und Größer ausgeführt.
-5. Am Ende werden alle Listen rekursiv wieder zusammengeführt.
+3. Einsortieren in drei Listen: kleiner, gleich, groesser.
+4. Quick Sort rekursiv auf die Listen kleiner und groesser anwenden.
+5. Am Ende alle Teillisten wieder zusammenfuehren.
 
 %%/slides
 
@@ -575,7 +577,7 @@ Das Grundprinzip ist das Aufteilen der Liste:
 
 %%book
 
-Ein weiterer Algorithmus zum Sortieren ist Insertion-Sort. Er basiert auf der menschlichen Strategie Karten zu sortieren, indem wir die Werte dort einfügen, wo sie am besten passen.
+Ein weiterer Algorithmus zum Sortieren ist Insertion Sort. Er basiert auf der menschlichen Strategie, Karten zu sortieren, indem Werte an der passenden Stelle eingefuegt werden.
 
 %%/book
 
@@ -641,7 +643,7 @@ zahlenfolge
 
 %%book
 
-Im Performancevergleich der Funktionen schneidet Bubble-Sort schlechter ab als Insertion-Sort. Die eingebaute Funktion `sorted()` ist deutlich schneller als beide. Sie nutzt den Timsort-Algorithmus (eine Variante von insertion_sort) und ist in C implementiert.
+Im Performancevergleich der Funktionen schneidet Bubble Sort schlechter ab als Insertion Sort. Die eingebaute Funktion `sorted()` ist deutlich schneller als beide. Sie nutzt mit Timsort einen hybriden Algorithmus, der Ideen aus Merge Sort und Insertion Sort kombiniert, und ist in C implementiert.
 
 %%/book
 
@@ -696,7 +698,7 @@ zahlenfolge_gross.reverse()
 
 ```{python}
 #| echo: true
-timeit.timeit(lambda: bubbleSort(zahlenfolge_gross), number=30)
+timeit.timeit(lambda: bubbleSort(zahlenfolge_gross.copy()), number=30)
 ```
 
 %%/book
@@ -705,7 +707,7 @@ timeit.timeit(lambda: bubbleSort(zahlenfolge_gross), number=30)
 
 ```{python}
 #| echo: true
-timeit.timeit(lambda: quickSort(zahlenfolge_gross), number=30)
+timeit.timeit(lambda: quickSort(zahlenfolge_gross.copy()), number=30)
 ```
 
 %%/book
@@ -714,7 +716,7 @@ timeit.timeit(lambda: quickSort(zahlenfolge_gross), number=30)
 
 ```{python}
 #| echo: true
-timeit.timeit(lambda: insertion_sort(zahlenfolge_gross), number=30)
+timeit.timeit(lambda: insertion_sort(zahlenfolge_gross.copy()), number=30)
 ```
 
 %%/book
@@ -723,7 +725,7 @@ timeit.timeit(lambda: insertion_sort(zahlenfolge_gross), number=30)
 
 ```{python}
 #| echo: true
-timeit.timeit(lambda: sorted(zahlenfolge_gross), number=30)
+timeit.timeit(lambda: sorted(zahlenfolge_gross.copy()), number=30)
 ```
 
 %%/book
@@ -746,10 +748,10 @@ Hier zeigt sich erneut, dass BubbleSort am schlechtesten abscheidet aufgrund der
 %%slides
 
 
-## {{< ai4sc-icon workflow >}} Problemklasse: Suchen
+## Problemklasse: Suchen
 
 %%div eyebrow
-{{< ai4sc-icon workflow >}} Problemklasse: Suchen
+Problemklasse: Suchen
 %%/div
 
 - Speziell das Suchen auf sortierten Listen und Bäumen
@@ -806,7 +808,7 @@ contains(zahlenfolge, 1)
 %%slides
 
 
-## {{< ai4sc-icon workflow >}} Suchen – Suche in Listen
+## Suchen – Suche in Listen
 
 Die einfachste Methode: *lineare Suche*
 
@@ -822,13 +824,13 @@ def contains(list, x):
 
 %%book
 
-### Suchen mit Binary-Search
+### Suchen mit binaerer Suche
 
 %%/book
 
 %%book
 
-Binary-Search ist ein Divide-and-Conquer-Algorithmus zum Suchen in einer *sortierten* Liste. Er greift aus der Liste immer das mittlere Element heraus und entscheidet, ob das gesuchte Element kleiner oder größer ist und fährt dann mit der Teilliste rechts oder links fort.
+Die binaere Suche ist ein Divide-and-Conquer-Algorithmus zum Suchen in einer *sortierten* Liste. Sie betrachtet immer das mittlere Element und entscheidet dann, ob das gesuchte Element links oder rechts weitergesucht werden muss.
 
 %%/book
 
@@ -836,20 +838,19 @@ Binary-Search ist ein Divide-and-Conquer-Algorithmus zum Suchen in einer *sortie
 
 ```{python}
 #| echo: true
-def binarySearch_sub(arr, suchwert, low, high):
+def binary_search_sub(arr, suchwert, low, high):
     while low <= high:
         mid = low + (high - low)//2
         if arr[mid] == suchwert:
             return mid
         elif arr[mid] > suchwert:
-            return binarySearch_sub(arr, suchwert, low, mid - 1)
+            return binary_search_sub(arr, suchwert, low, mid - 1)
         else:
-            return binarySearch_sub(arr,  suchwert, mid + 1, high)
+            return binary_search_sub(arr,  suchwert, mid + 1, high)
     return -1
 
-def binarySearch(arr, suchwert):
-    arr_sorted = sorted(arr)
-    return binarySearch_sub(arr_sorted, suchwert, 0, len(arr_sorted))
+def binary_search(arr_sorted, suchwert):
+    return binary_search_sub(arr_sorted, suchwert, 0, len(arr_sorted) - 1)
 ```
 
 %%/book
@@ -858,7 +859,7 @@ def binarySearch(arr, suchwert):
 
 ```{python}
 #| echo: true
-binarySearch(zahlenfolge, 15)
+binary_search(zahlenfolge, 15)
 ```
 
 %%/book
@@ -867,7 +868,7 @@ binarySearch(zahlenfolge, 15)
 
 ```{python}
 #| echo: true
-binarySearch(zahlenfolge, 1)
+binary_search(zahlenfolge, 1)
 ```
 
 %%/book
@@ -875,19 +876,24 @@ binarySearch(zahlenfolge, 1)
 %%slides
 
 
-## {{< ai4sc-icon workflow >}} Teile und Herrsche – Binäre Suche
+## Binaere Suche halbiert den Suchraum
 
 %%col 50 50
 
-- Finde den Index einer Zahl in einer Liste (z. B. um zu prüfen ob die Zahl in einer Menge (set) vorkommt)
+- Ziel: Index einer Zahl in einer sortierten Liste finden
 
-- Anstatt die ganze Liste zu durchsuchen, teilt man die Liste rekursiv in zwei Teile und schaut ob die gesuchte Zahl gleich (gefunden), größer (rechts) oder kleiner (links) in der Liste ist
+- Mittleres Element mit dem Suchwert vergleichen
+- Gleich: gefunden
+- Kleiner: in der linken Haelfte weitersuchen
+- Groesser: in der rechten Haelfte weitersuchen
 
-    ![](images/09a_Algorithmen/bin_suche.svg){class="midjourney"}
+    ![](images/09a_Algorithmen/bin_suche.svg)
+    Midjourney: Schema einer halbierten Suchliste mit markierter Mitte
 
 %%sep
 
-![](images/09a_Algorithmen/bin_suche.png){class="midjourney"}
+![](images/09a_Algorithmen/bin_suche.png)
+Midjourney: Visualisierung einer Zahlensuche in einer geordneten Liste
 
 %%/col
 
@@ -896,15 +902,13 @@ binarySearch(zahlenfolge, 1)
 %%slides
 
 
-## {{< ai4sc-icon workflow >}} Suchen – Binäre Suche
+## Suchen – Binäre Suche
 
-Das optimale Verfahren: *Binäre Suche*
-
-- Deutlich komplexerer Code
-- *Idee:* Mittleres Element der Liste finden, dann mit dem gesuchten Wert vergleichen
-- Wert kleiner: Selbes Verfahren für die erste Hälfte der Liste
-- Wert größer: Selbes Verfahren für die zweite Hälfte der Liste
-- Implementation meistens über Rekursion
+- Voraussetzung: Liste ist bereits sortiert
+- Mittleres Element mit dem Suchwert vergleichen
+- Kleinerer Suchwert: linke Haelfte
+- Groesserer Suchwert: rechte Haelfte
+- Umsetzung haeufig rekursiv oder iterativ
 
 %%/slides
 
@@ -959,7 +963,7 @@ suchBaum(baum, 1)
 %%slides
 
 
-## {{< ai4sc-icon list-tree >}} Suchen – Strategien im Baum
+## Suchen – Strategien im Baum
 
 Strategien um einen unsortierten Baum zu durchsuchen:
 
@@ -971,7 +975,7 @@ Strategien um einen unsortierten Baum zu durchsuchen:
 %%slides
 
 
-## {{< ai4sc-icon list-tree >}} Suchen – Suchbäume
+## Suchen – Suchbäume
 
 - In sortierten Bäumen (Suchbäumen) kann das Ergebnis extrem effizient gefunden werden, da nur ein Pfad durchlaufen werden muss.
 
@@ -1045,7 +1049,7 @@ print(baum2)
 %%slides
 
 
-## {{< ai4sc-icon list-tree >}} Erstellen eines binären Suchbaums
+## Ein binaerer Suchbaum entsteht schrittweise
 
 *Ausgangsliste:* 12 6 18 15 3 21 9
 
@@ -1056,20 +1060,7 @@ print(baum2)
 12
 ```
 
-%%sep
-
-*Schritt 3:* 18 > 12, rechts einfügen
-```
-   12
-  /  \
- 6    18
-```
-
-%%/col
-
-%%col 50 50
-
-*Schritt 2:* 6 < 12, links einfügen
+*Schritt 2:* 6 < 12, links einfuegen
 ```
    12
   /
@@ -1077,6 +1068,13 @@ print(baum2)
 ```
 
 %%sep
+
+*Schritt 3:* 18 > 12, rechts einfuegen
+```
+   12
+  /  \
+ 6    18
+```
 
 *Schritt 4:* 15 > 12, aber 15 < 18
 ```
@@ -1094,7 +1092,7 @@ print(baum2)
 %%slides
 
 
-## {{< ai4sc-icon list-tree >}} Suchbaum – Fortsetzung
+## Der Suchbaum waechst schrittweise
 
 %%col 50 50
 
@@ -1107,9 +1105,18 @@ print(baum2)
 3   15
 ```
 
+*Schritt 6:* 21 > 12 und 21 > 18
+```
+   12
+  /  \
+  6    18
+/    /  \
+3   15   21
+```
+
 %%sep
 
-*Schritt 7:* 9 < 12 aber 9 > 6
+*Schritt 7:* 9 < 12, aber 9 > 6
 ```
    12
   /  \
@@ -1118,22 +1125,7 @@ print(baum2)
 3  9 15  21
 ```
 
-%%/col
-
-%%col 50 50
-
-*Schritt 6:* 21 > 12 und 21 > 18
-```
-   12
-  /  \
- 6    18
-/    /  \
-3   15   21
-```
-
-%%sep
-
-*Fertiger Suchbaum!*
+*Fertiger Suchbaum*
 
 %%/col
 
@@ -1147,7 +1139,7 @@ print(baum2)
 
 %%book
 
-Im Alltag kann die in Python eingebaute Suche mit `15 in zahlenfolge` genutzt werden. Insbesondere bei großen Listen (>> 100) lohnt sich die Umwandlung in ein Set. Diese sind optimiert für die Abfrage, ob ein Element bereits enthalten ist. Hierfür werden Hashing-Algorithmen und meist Sortierbäume verwendet.
+Im Alltag kann die in Python eingebaute Suche mit `15 in zahlenfolge` genutzt werden. Insbesondere bei grossen Datenmengen lohnt sich fuer reine Enthaltensein-Abfragen haeufig die Umwandlung in ein Set. Python-Sets sind hashbasiert und fuer die schnelle Mitgliedschaftspruefung optimiert.
 
 %%/book
 
@@ -1296,14 +1288,14 @@ timeit.timeit(lambda: 15 in zahlenset_gross, number=30)
 
 %%book
 
-Das Ergebnis sieht hier ganz anders aus. Jetzt scheidet `contains()` deutlich schlechter ab und Binary-Search ist jetzt um Größenordnungen besser. Am besten schneidet allerdings der Suchbaum ab, da er ja immer sortiert ist und somit den Binary-Search-Algorithmus ohne Sortieren ausführen kann. Nur die Suche im Set ist noch einmal um eine Größenordnung besser.
+Das Ergebnis sieht hier deutlich anders aus. Die lineare Listenabfrage schneidet nun wesentlich schlechter ab, waehrend die binaere Suche auf der sortierten Liste deutlich besser skaliert. Der Suchbaum bleibt ebenfalls effizient, weil die Ordnung der Werte bei der Suche direkt genutzt wird. Fuer reine Mitgliedschaftspruefungen ist das Set hier am schnellsten.
 
 %%/book
 
 %%slides
 
 
-## {{< ai4sc-icon workflow >}} Exkurs: Komplexität und effiziente Algorithmen
+## Exkurs: Komplexität und effiziente Algorithmen
 
 - Die eigentliche Berechnungszeit ergibt sich erst durch die genauen Eingabedaten und den genutzten Prozessor.
 
@@ -1318,7 +1310,7 @@ Das Ergebnis sieht hier ganz anders aus. Jetzt scheidet `contains()` deutlich sc
 %%slides
 
 
-## {{< ai4sc-icon workflow >}} Komplexität – Vergleich der Algorithmen
+## Komplexität – Vergleich der Algorithmen
 
 %%col 50 50
 
@@ -1349,27 +1341,28 @@ Das Ergebnis sieht hier ganz anders aus. Jetzt scheidet `contains()` deutlich sc
 %%slides
 
 
-## {{< ai4sc-icon workflow >}} KI und Algorithmenauswahl – das Problem
+## KI und Algorithmenauswahl – das Problem
 
 %%col 50 50
 
 %%div eyebrow
-{{< ai4sc-icon workflow >}} KI und Algorithmen
+KI und Algorithmen
 %%/div
 
-KI wählt oft den naheliegendsten Algorithmus — *nicht* den optimalen:
+KI waehlt oft einen naheliegenden Algorithmus, nicht unbedingt den geeigneten:
 
 - Suchen → lineare Suche $O(n)$
 - Sortieren → Bubble Sort $O(n^2)$
 - Weg finden → Brute Force
 
-Das reicht für kleine Datenmengen — *versagt* bei großen.
+Fuer kleine Datenmengen kann das ausreichen.
+Bei grossen Datenmengen entstehen schnell deutliche Laufzeitnachteile.
 
 %%sep
 
 *Warum?*
 
-KI generiert Code der funktioniert und lesbar ist. Performanz-Optimierung erfordert, dass du die Problemklasse kennst.
+KI generiert oft funktionierenden und lesbaren Code. Eine gute Algorithmuswahl setzt voraus, dass die Problemklasse vorher bestimmt wird.
 
 %%div lead
 Erkenne die Klasse → formuliere den Prompt → verifiziere den Code.
@@ -1382,17 +1375,17 @@ Erkenne die Klasse → formuliere den Prompt → verifiziere den Code.
 %%slides
 
 
-## {{< ai4sc-icon workflow >}} KI und Algorithmenauswahl – Prompting-Strategie
+## KI und Algorithmenauswahl – Prompting-Strategie
 
 %%col 50 50
 
-*Ohne Klasse im Prompt:*
+*Ohne Problemklasse im Prompt:*
 
-> „Schreibe eine Funktion die prüft ob 15 in der Liste ist."
+> „Schreibe eine Funktion, die prueft, ob 15 in der Liste ist."
 
 → KI gibt oft lineare Suche
 
-*Mit Klasse im Prompt:*
+*Mit Problemklasse im Prompt:*
 
 > „Die Liste ist sortiert. Implementiere eine **binäre Suche** für diesen Anwendungsfall."
 
@@ -1405,7 +1398,7 @@ Erkenne die Klasse → formuliere den Prompt → verifiziere den Code.
 1. Gibt die Funktion den Index zurück?
 2. Wird `mid = low + (high - low)//2` berechnet?
 3. Terminiert die Rekursion bei leerer Teilliste?
-4. Teste mit bekanntem Ergebnis: `binarySearch([3,6,9,12], 9)` → Index 2
+4. Teste mit bekanntem Ergebnis: `binary_search([3,6,9,12], 9)` → Index 2
 
 %%/col
 
@@ -1414,7 +1407,7 @@ Erkenne die Klasse → formuliere den Prompt → verifiziere den Code.
 %%slides
 
 
-## {{< ai4sc-icon workflow >}} Agentischer Arbeitsablauf: Algorithmen
+## Agentischer Arbeitsablauf: Algorithmen
 
 %%tip Vor dem Prompting
 **1. Problemklasse identifizieren:** Suchen, Sortieren, Pfad oder Partition?

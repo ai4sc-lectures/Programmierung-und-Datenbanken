@@ -39,7 +39,7 @@ Ein Computer muss oft entscheiden wie Informationen verarbeitet werden sollen. D
 
 %%book
 
-Die Einfachste Form der Verzweigung sind bedingte Verzweigungen, welche einen Code-Block nur bei Zutreffen einer logischen Bedingung ausführen. In Python ist dafür die `if`-Anweisung (Wenn-Dann) vorgesehen, welche einem Statement vorsteht, welches nur bei Zutreffen einer Bedingung ausgeführt wird. Es ist üblich die Statements auf eine neue Zeile zu schreiben. Dann *müssen* sie eingerückt werden.
+Die einfachste Form der Verzweigung sind bedingte Verzweigungen, welche einen Code-Block nur bei Zutreffen einer logischen Bedingung ausführen. In Python ist dafür die `if`-Anweisung (Wenn-Dann) vorgesehen, welche einem Statement vorsteht, das nur bei Zutreffen einer Bedingung ausgeführt wird. Es ist üblich, die Statements auf eine neue Zeile zu schreiben. Dann *müssen* sie eingerückt werden.
 
 %%/book
 
@@ -68,7 +68,7 @@ if bedingung:
 
 %%book
 
-Mit dem logischen Operator `not` kann man die Bedingungen negieren und mit `and`, `or` und Klammern kombinieren.
+Mit dem logischen Operator `not` kann man Bedingungen negieren und mit `and`, `or` und Klammern kombinieren.
 
 %%/book
 
@@ -90,6 +90,27 @@ if bedingung:
 
 if not bedingung:
     print(f"Der Block mit 'bedingung={bedingung}' wurde ausgeführt.")
+```
+
+%%/book
+
+%%book
+
+Eine typische Frage im Code lautet: "Ist diese Liste leer?" Dafür braucht man keinen Vergleich wie `len(meine_liste) == 0`. In Python kann man den Wahrheitswert direkt verwenden.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+bauteile = []
+if not bauteile:
+    print("Die Liste ist leer.")
+
+bauteile = ["Traeger", "Stuetze"]
+if bauteile:
+    print("Die Liste enthält Elemente.")
 ```
 
 %%/book
@@ -146,6 +167,17 @@ Bei komplexeren Datentypen, wie Objekten, die den Wert `None` annehmen können, 
 
 %%book
 
+Eine häufige Umformung kombinierter Bedingungen sind die De-Morgan-Regeln:
+
+- `not (A and B)` ist gleichbedeutend zu `not A or not B`
+- `not (A or B)` ist gleichbedeutend zu `not A and not B`
+
+Solche Umformungen helfen, KI-generierten Code mit komplexen Bedingungen besser zu lesen oder in eine verständlichere Form zu bringen.
+
+%%/book
+
+%%book
+
 ```{python}
 #| echo: true
 bedingung=None # nicht belegt
@@ -172,9 +204,9 @@ if bedingung is not None:
 
 ## Bedingtes Verzweigen {{< ai4sc-icon variable >}}
 
-- Steueranweisungen, die basierend auf einer Bedingung ein Statement „ansteuern"
+- Eine Verzweigung führt Code nur dann aus, wenn eine Bedingung erfüllt ist
 
-- Bedingungen sind Statements mit Boolean-Ausgabe {{< ai4sc-icon variable >}}:
+- Bedingungen sind Ausdrücke mit Boolean-Ausgabe {{< ai4sc-icon variable >}}:
     - `True` — logische Werte
     - `a` — Variablenwerte (Bool-Äquivalent)
     - `2 < 5` — alle Vergleichsoperatoren
@@ -200,12 +232,28 @@ if bedingung is not None:
 
 %%/slides
 
+%%book
+
+## Wenn … Dann …
+
+Die Grundidee einer Verzweigung lautet: Wenn eine Bedingung zutrifft, dann führe einen bestimmten Code-Block aus. Optional kann man zusätzlich festlegen, was im anderen Fall geschehen soll.
+
+%%/book
+
+%%book
+
+## Die `if`-Anweisung
+
+Die `if`-Anweisung startet in Python eine Verzweigung. Hinter `if` steht eine Bedingung, danach folgt ein Doppelpunkt. Der zugehörige Code-Block steht eingerückt in den folgenden Zeilen.
+
+%%/book
+
 %%slides
 
 
-## IF-Statement
+## if-Anweisung
 
-- Die If-Anweisung startet eine Verzweigung; bedingte Blöcke müssen eingerückt werden
+- Die `if`-Anweisung startet eine Verzweigung; bedingte Blöcke müssen eingerückt werden
 
 ```python
 if Bedingung:
@@ -221,20 +269,107 @@ Ist die Bedingung `True`, werden die eingerückten Statements ausgeführt.
 %%slides
 
 
-## Beispiel: IF-Statement
+## Beispiel: if-Anweisung
 
 ```python
-activateOutput = True
+ausgabe_aktiv = True
 a = 10
 b = 13
 c = math.sqrt(a**2 + b**2) # Pythagoras
 
-if activateOutput:
+if ausgabe_aktiv:
     print("Seitenlänge:" + str(c))
     umfang = a + b + c
 ```
 
 %%/slides
+
+%%book
+
+## Beispiel: `if`-Anweisung
+
+Im folgenden Beispiel wird die Ausgabe nur dann aktiviert, wenn `ausgabe_aktiv` den Wahrheitswert `True` hat. So kann man Berechnungen durchführen, aber die Ausgabe nur bei Bedarf anzeigen.
+
+%%/book
+
+%%book
+
+```{python}
+#| echo: true
+ausgabe_aktiv = True
+a = 10
+b = 13
+c = (a**2 + b**2) ** 0.5
+
+if ausgabe_aktiv:
+    print("Seitenlänge:" + str(c))
+    umfang = a + b + c
+    print("Umfang:" + str(umfang))
+```
+
+%%/book
+
+%%slides
+
+
+## Wahrheitswerte im Alltag
+
+- Praktische Frage: "Ist eine Liste leer?"
+- Python nutzt dafür oft direkt den Wahrheitswert eines Objekts
+
+```python
+bauteile = []
+if not bauteile:
+    print("Die Liste ist leer")
+```
+
+%%/slides
+
+%%slides
+
+
+## De-Morgan-Regeln
+
+- `not (A and B)` entspricht `not A or not B`
+- `not (A or B)` entspricht `not A and not B`
+- Hilft dabei, komplexe KI-Bedingungen umzuschreiben und zu prüfen (Wird z.B. in der Logik und beim Reasoning verwendet)
+
+%%/slides
+
+%%slides
+
+
+## Branch-Lesestrategie: Beispiel {{< ai4sc-icon test-tube >}}
+
+%%div eyebrow
+{{< ai4sc-icon test-tube >}} Erst Beispiel, dann Methode
+%%/div
+
+```python
+# KI-generiert: Wert einschätzen
+if wert > 100:
+    status = "hoch"
+elif wert > 50:
+    status = "mittel"
+else:
+    status = "niedrig"
+```
+
+Welche Eingabe führt zu welchem Zweig? Welche Fälle fehlen?
+
+%%/slides
+
+%%book
+
+Wenn KI-Tools Verzweigungen generieren, ist das Ziel nicht, den Code zu schreiben, sondern ihn zu verstehen und zu überprüfen. Bei diesem Beispiel können wir konkrete Eingaben durchgehen und so jeden Zweig sichtbar machen.
+
+%%/book
+
+%%book
+
+Beim Lesen dieses KI-generierten Codes: (1) Bedingungen — `> 100` und `> 50`; (2) drei Zweige — "hoch", "mittel", "niedrig"; (3) Eingaben: `wert=150` → "hoch", `wert=75` → "mittel", `wert=30` → "niedrig"; (4) fehlende Fälle — `wert=None`? Negative Werte? `wert=50` exakt (nicht `> 50`, sondern `== 50`)?
+
+%%/book
 
 %%slides
 
@@ -256,32 +391,7 @@ Für jeden `if`-Block in KI-generiertem Code:
 
 %%book
 
-Wenn KI-Tools Verzweigungen generieren, ist das Ziel nicht, den Code zu schreiben — sondern ihn zu verstehen und zu überprüfen. Die Lesestrategie für `if`-Blöcke hilft dabei, schnell zu erkennen ob die Logik korrekt ist.
-
-%%/book
-
-%%slides
-
-
-## Branch-Lesestrategie: Beispiel {{< ai4sc-icon test-tube >}}
-
-```python
-# KI-generiert: Wert einschätzen
-if wert > 100:
-    status = "hoch"
-elif wert > 50:
-    status = "mittel"
-else:
-    status = "niedrig"
-```
-
-Welche Eingabe führt zu welchem Zweig? Welche Fälle fehlen?
-
-%%/slides
-
-%%book
-
-Beim Lesen dieses KI-generierten Codes: (1) Bedingungen — `> 100` und `> 50`; (2) drei Zweige — "hoch", "mittel", "niedrig"; (3) Eingaben: `wert=150` → "hoch", `wert=75` → "mittel", `wert=30` → "niedrig"; (4) fehlende Fälle — `wert=None`? Negative Werte? `wert=50` exakt (nicht `> 50`, sondern `== 50`)?
+Aus dem Beispiel können wir nun eine allgemeine Lesestrategie ableiten. Sie hilft dabei, Verzweigungen systematisch zu lesen, statt dem ersten Eindruck des Codes zu vertrauen.
 
 %%/book
 
@@ -294,7 +404,7 @@ Beim Lesen dieses KI-generierten Codes: (1) Bedingungen — `> 100` und `> 50`; 
 
 %%book
 
-Oft kommt es vor, dass nicht nur etwas ausgeführt werden soll, wenn die Bedingung wahr ist, sondern im anderen Fall auch etwas ausgeführt werden soll. Dafür gibt es die `else`-Anweisung, welche ausschließlich nach einem `if` folgen darf und bei mehreren Zeilen auf gleicher Höhe eingerückt werden muss, wie das `if` welches es beschließt.
+Oft kommt es vor, dass nicht nur etwas ausgeführt werden soll, wenn die Bedingung wahr ist. Der `else`-Block wird ausgeführt, wenn die Bedingung falsch ist. Dafür gibt es die `else`-Anweisung, welche ausschließlich nach einem `if` folgen darf und bei mehreren Zeilen auf gleicher Höhe eingerückt werden muss wie das `if`, das sie ergänzt.
 
 %%/book
 
@@ -326,7 +436,7 @@ else:
 
 %%book
 
-Ein typisches Beispiel ist das Abfangen von Divisionen durch 0. Da man bei Berechnungen nicht immer garantieren kann, dass der Nenner 0 sein kann. Da diese nicht definiert ist, führt sie zu einem Programmfehler und ggf. zu einem Programmabsturz.
+Ein typisches Beispiel ist das Abfangen von Divisionen durch 0. Bei Berechnungen kann man nicht immer garantieren, dass der Nenner ungleich 0 ist. Da eine Division durch 0 nicht definiert ist, führt sie zu einem Programmfehler und ggf. zu einem Programmabsturz.
 
 %%/book
 
@@ -395,7 +505,7 @@ b = 0
 if b:  # false bei 0, wahr für != 0
     c = a / b
 else:
-    print("Division by Zero")
+    print("Teilung durch 0")
     c = None
 ```
 
@@ -412,7 +522,7 @@ b = 0
 if b != 0:
     c = a / b
 else:
-    print("Division by Zero")
+    print("Teilung durch 0")
     c = None
 ```
 
@@ -420,7 +530,7 @@ else:
 
 %%book
 
-Da man ferner bei Python durch die dynamische Typisierung gar nicht garantieren kann, dass `zaehler` und `nenner` vom richtigen Datentyp `int` sind, ist es sinnvoll eine Typprüfung hinzuzufügen. Hierfür prüfen wir zuerst den Datentyp mit der bekannten Funktion `type()` bevor wir die Prüfung auf 0-Teilung machen. Dafür verschachteln wir die `if-else` Bedingungen.
+Da Python dynamisch typisiert ist, kann man nicht ohne Weiteres garantieren, dass `zaehler` und `nenner` wirklich vom Datentyp `int` sind. Für eine verschachtelte Verzweigung kann man deshalb zunächst die Datentypen prüfen und erst innerhalb dieses gültigen Falls die Division durch 0 behandeln.
 
 %%/book
 
@@ -430,18 +540,14 @@ Da man ferner bei Python durch die dynamische Typisierung gar nicht garantieren 
 #| echo: true
 zaehler = 'keine_zahl'
 nenner = 1
-if type(zaehler) == int:
-    if type(nenner) == int:
-        if nenner:
-            ergebnis = zaehler / nenner
-        else:
-            print("Teilung durch 0")
-            ergebnis = None
+if isinstance(zaehler, int) and isinstance(nenner, int):
+    if nenner != 0:
+        ergebnis = zaehler / nenner
     else:
-        print(f"Nenner nicht vom Datentyp `int`, sondern vom Typ {type(nenner)}")
+        print("Teilung durch 0")
         ergebnis = None
 else:
-    print(f"Zaehler nicht vom Datentyp `int`, sondern vom Typ {type(zaehler)}")
+    print("Zähler oder Nenner haben nicht den Datentyp `int`.")
     ergebnis = None
 
 print(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
@@ -474,15 +580,21 @@ else:
 
 ```python
 if a < 0:
-    print("Number is negative")
+    print("Die Zahl ist negativ")
 else:
     if a > 0:
-        print("Number is positive")
+        print("Die Zahl ist positiv")
     else:
-        print("Number is zero")
+        print("Die Zahl ist null")
 ```
 
 %%/slides
+
+%%book
+
+Auch dieses Beispiel lässt sich Zweig für Zweig lesen: Zuerst wird auf negative Werte geprüft. Nur wenn das nicht zutrifft, wird im `else`-Zweig weiter unterschieden, ob die Zahl positiv oder genau 0 ist.
+
+%%/book
 
 %%book
 
@@ -493,7 +605,7 @@ else:
 
 %%book
 
-Gibt es wie im letzten Beispiel mehrere verschachtelte Alternativen, so wird der Code sehr schnell unübersichtlich und man braucht eine kompaktere Schreibweise. Hierfür gibt es in Python die `elif`-Anweisung, welche einfach nur eine Kurzform von `else if` ist und keines weiteren Einrückens bedarf. So, kann man den vorherigen Code leserlicher schreiben als:
+Gibt es wie im letzten Beispiel mehrere verschachtelte Alternativen, so wird der Code sehr schnell unübersichtlich und man braucht eine kompaktere Schreibweise. Hierfür gibt es in Python die `elif`-Anweisung, welche eine Kurzform von `else if` ist und keines weiteren Einrückens bedarf. So kann man den vorherigen Code leserlicher schreiben:
 
 %%/book
 
@@ -522,11 +634,11 @@ print(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
 
 Hierbei haben wir:
 
--  als erstes die Bedingung `type(zaehler) == int` ersetzt durch die Standardfunktion `isinstance(zaehler, int)` welche identisch ist und einfacher zu lesen.
+-  als erstes die Bedingung `type(zaehler) == int` ersetzt durch die Standardfunktion `isinstance(zaehler, int)`, welche ähnlich ist und in Python meist besser lesbar.
 -  wir haben alle Fehlerfälle zuerst bearbeitet, um sicher zu stellen, dass sie vor Ausführung der Berechnung abgefragt werden
 -  so prüfen wir erst ob der `zaehler` nicht vom Datentyp `int` ist und geben in diesem Fall eine Fehlermeldung aus
 -  Ist das nicht der Fall, so könnte `nenner` nicht vom Datentyp `int` sein und würden in diesem Fall eine andere Fehlermeldung ausgeben
--  dann muss muss der `nenner` vom Datentyp `int` sein und wir prüfen ob er 0 ist mit einer entsprechenden Fehlermeldung
+-  dann muss der `nenner` vom Datentyp `int` sein und wir prüfen, ob er 0 ist, mit einer entsprechenden Fehlermeldung
 -  da in allen drei Fällen das `ergebnis` den Wert `None` hat, haben wir diese Zuweisung vor den `if`-Block gesetzt
 -  der letzte `else` Block wird nur erreicht, wenn all dies nicht zutrifft, also `zaehler` und `nenner` vom Datentypen `int` und `nenner` nicht 0 ist. Nur in diesem Fall wird `ergebnis` mit dem Wert der Teilung belegt
 
@@ -534,8 +646,8 @@ Hierbei haben wir:
 
 %%book
 
-%%note Info
-Hierbei ist zu beachten, dass wir absichtlich die Fehlermeldung "Teilung durch 0" nach hinten bewegt haben. Es wäre auch möglich mit der Bedingung `if not nenner` in der originalen Reihenfolge zu starten. Hier gäbe es allerdings die Gefahr, dass Aufgrund der Wahrheitswerte anderer Datentypen auch z.B. eine leere Liste diese Bedingung korrekt erfüllen wurde. Wir bekommen in diesem Fall eine falsche Fehlermeldung angezeigt ("Teilung durch 0" statt "Nenner vom Datentyp `int`"), wie folgendes Beispiel zeigt. Das ist eine der typischen Gefahren von dynamisch typisierten Sprachen. Grundsätzlich sind deshalb Datentyp-Prüfungen immer zuerst zu machen.
+%%note
+Hierbei ist zu beachten, dass wir absichtlich die Fehlermeldung "Teilung durch 0" nach hinten bewegt haben. Es wäre auch möglich, mit der Bedingung `if not nenner` in der originalen Reihenfolge zu starten. Hier gäbe es allerdings die Gefahr, dass aufgrund der Wahrheitswerte anderer Datentypen auch z.B. eine leere Liste diese Bedingung erfüllen würde. Wir bekommen in diesem Fall eine falsche Fehlermeldung angezeigt ("Teilung durch 0" statt "Nenner vom Datentyp `int`"), wie folgendes Beispiel zeigt. Das ist eine der typischen Gefahren von dynamisch typisierten Sprachen. Grundsätzlich sind deshalb Datentyp-Prüfungen immer zuerst zu machen.
 %%/note
 
 %%/book
@@ -564,7 +676,7 @@ print(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
 %%slides
 
 
-## Mehrfachverzweigung: ELIF-Statement
+## Mehrfachverzweigung: `elif`-Anweisung
 
 - Anstatt einer `else`-Anweisung können wir die `elif`-Anweisung verwenden, welche wie `if` eine Bedingung hat.
 
@@ -581,16 +693,24 @@ print(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
 
 ```python
 if a < 0:
-    print("Number is negative")
+    print("Die Zahl ist negativ")
 elif a > 0:
-    print("Number is positive")
+    print("Die Zahl ist positiv")
 else:
-    print("Number is zero")
+    print("Die Zahl ist null")
 ```
 
 Viel sauberer und lesbarer als verschachtelte if-else Statements!
 
 %%/slides
+
+%%book
+
+Mit `elif` bleibt dieselbe Logik erhalten, aber die Alternativen stehen auf einer Ebene. Das macht besonders bei KI-generiertem Code schneller sichtbar, welche Fälle nacheinander geprüft werden.
+
+%%/book
+
+%%slides
 
 
 ## Viele Alternativen
@@ -623,6 +743,8 @@ match Variable:
 ```
 
 %%/col
+
+%%/slides
 
 %%slides
 
@@ -689,6 +811,12 @@ print(classify_stress(300))
 Fehlende Fälle? `None`, Strings, Grenzwerte `150` und `250` exakt?
 
 %%/slides
+
+%%book
+
+Eine einfache Tabelle hilft beim Nachverfolgen von Zweigen. Für jede Beispiel-Eingabe wird notiert, welche Bedingung zuerst zutrifft und welche Rückgabe daraus folgt. So erkennt man auch leichter fehlende Grenzfälle.
+
+%%/book
 
 %%slides
 
@@ -777,6 +905,14 @@ Welche Lerntypen gibt es?
 
 %%/slides
 
+%%book
+
+## Lesson Learned
+
+Notizen helfen dabei, Verzweigungen aktiv zu verarbeiten. Sinnvoll sind keine kompletten Abschriften der Folien, sondern Schlüsselbegriffe, eigene Beispiele und offene Fragen, die später nachbearbeitet werden.
+
+%%/book
+
 %%slides
 
 
@@ -799,6 +935,14 @@ Welche Lerntypen gibt es?
 %%/col
 
 %%/slides
+
+%%book
+
+## Nacharbeit
+
+Gerade bei Verzweigungen lohnt sich strukturierte Nacharbeit nach dem SQ3R-Prinzip: erst den Überblick gewinnen, dann Fragen notieren, die Notizen erneut lesen, Inhalte in eigenen Worten wiedergeben und schließlich die wichtigsten Punkte wiederholen.
+
+%%/book
 
 %%book
 

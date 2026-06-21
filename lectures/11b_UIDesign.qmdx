@@ -30,7 +30,7 @@ bibliography: references.bib
 
 %%slides
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Du hast die Schadstoffbelastung für 500 Standorte berechnet — wer sieht das Ergebnis, und wie?" capR="Midjourney: An environmental engineer presenting contamination risk maps to city planners in a meeting room" imgR="images/11b_UIDesign/mj_engineer_presentation.png"}
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Du hast die Schadstoffbelastung für 500 Standorte berechnet — wer sieht das Ergebnis, und wie?" capR="Illustration: Umweltingenieur zeigt Risikoergebnisse in einer Besprechung" imgR="images/11b_UIDesign/engineer_presentation.svg"}
 
 %%/slides
 
@@ -136,7 +136,55 @@ Design Thinking ist ein strukturierter Ansatz zur nutzerorientierten Gestaltung 
 **Test:** Beobachte, wie die Zielgruppe das Interface nutzt. Stellt sie Fragen, die das Interface beantworten sollte? Dann fehlt Information. Ignoriert sie Elemente? Dann sind es zu viele.
 %%/book
 
-## Grundsätze: Klarheit — Präzision — Bedeutung
+## Gute und schlechte Dashboards vergleichen {{< ai4sc-icon dashboard >}}
+
+%%scol 50 50
+**Schlechtes Dashboard**
+
+![](images/11b_UIDesign/dashboard_bad.svg)
+
+- kryptische Labels wie `value_1`
+- keine Einheiten, keine Legende
+- zu viele gleichzeitige Signale
+%%sep
+**Besseres Dashboard**
+
+![](images/11b_UIDesign/dashboard_good.svg)
+
+- klare Priorisierung der Kernfrage
+- sichtbarer Grenzwert und Einheiten
+- wenige, semantisch geordnete Elemente
+%%/scol
+
+%%book
+Der Vergleich schult den Blick: Beide Dashboards könnten dieselben Daten enthalten, aber nur das rechte unterstützt eine belastbare Entscheidung. Das schlechte Beispiel verletzt mehrere Grundsätze gleichzeitig: fehlende Einheiten, unklare Benennung, keine Informationshierarchie und visuelle Überladung. Das bessere Beispiel beantwortet zuerst die operative Frage: *Wo muss ich handeln?*
+%%/book
+
+## Gute und schlechte Diagramme vergleichen {{< ai4sc-icon chart-line >}}
+
+%%scol 50 50
+**Schlechtes Diagramm**
+
+![](images/11b_UIDesign/chart_bad.svg)
+
+- Achsen ohne fachliche Bedeutung
+- viel Deko, wenig Orientierung
+- Referenzwert fehlt
+%%sep
+**Besseres Diagramm**
+
+![](images/11b_UIDesign/chart_good.svg)
+
+- Achsen mit Größe und Einheit
+- Grenzwert sichtbar markiert
+- eine erkennbare Kernaussage
+%%/scol
+
+%%book
+Gerade bei Messdaten entscheidet oft nicht der Plot selbst, sondern der Kontext im Plot. Ein Grenzwert, eine Einheit und ein sprechender Titel verwandeln eine Kurve in eine fachlich interpretierbare Aussage.
+%%/book
+
+## Grundsätze I: Klarheit und Präzision
 
 %%scol 50 50
 **Klarheit**
@@ -151,12 +199,29 @@ Design Thinking ist ein strukturierter Ansatz zur nutzerorientierten Gestaltung 
 - Signifikante Stellen: 2,34 mg/l — nicht 2,3400000
 - Achsengrenzen: physikalisch sinnvoll, kein Auto-Scale
 %%sep
+**Informationshierarchie**
+
+- wichtigste Kennzahl nach oben links
+- hoher Kontrast für kritische Werte
+- Details erst nachrangig sichtbar machen
+
+**Affordances**
+
+- ein Slider sollte wie ein Slider aussehen
+- Buttons eindeutig beschriften
+- Interaktion muss erwartbar wirken
+%%/scol
+
+## Grundsätze II: Wahrnehmung und Reduktion
+
+%%scol 50 50
 **Gestalt-Prinzipien**
 
 - *Proximity:* Zusammengehörige Werte beieinander
 - *Similarity:* Gleiche Farbe = gleiche Bedeutung
 - *Figure/Ground:* Daten vom Hintergrund abheben
-
+- *Continuity:* Linien als zusammenhängende Verläufe nutzen
+%%sep
 **Data-Ink-Ratio** *(Tufte)*
 
 - Minimaler dekorativer Aufwand
@@ -164,18 +229,32 @@ Design Thinking ist ein strukturierter Ansatz zur nutzerorientierten Gestaltung 
 - Jedes Element muss eine Funktion erfüllen
 %%/scol
 
+## Nielsen-Heuristiken: Anschluss an HCI-Grundlagen
+
+| Unser Fokus in dieser Vorlesung | Nielsen-Heuristik |
+|---|---|
+| klare Labels, Einheiten, Rückmeldung | 1. Sichtbarkeit des Systemstatus |
+| bekannte Begriffe wie "PM2.5 [µg/m³]" statt `value_1` | 2. Übereinstimmung mit der realen Welt |
+| vertraute Widgets und klare Bedienung | 4. Konsistenz und Standards |
+| wenig Deko, klare Fehlerhinweise, sinnvolle Defaults | 8. Ästhetisches und minimalistisches Design |
+| verständliche Fehlermeldungen bei falschen CSVs | 9. Fehler erkennen, diagnostizieren, beheben |
+
 %%aside
+Unsere Regeln sind also keine Geschmackssache, sondern lassen sich auf etablierte HCI-Heuristiken abbilden.
+
 Ref.: Tufte, E. R.: The Visual Display of Quantitative Information, Graphics Press, 1983
 %%/aside
 
 %%book
+Die Nielsen-Heuristiken sind ein klassischer Referenzrahmen aus der Human-Computer-Interaction. Für diese Vorlesung reichen wenige direkte Zuordnungen: Wenn du Einheiten sichtbar machst, den Systemzustand rückmeldest und sprechende Begriffe verwendest, arbeitest du nicht nur "schön", sondern heuristisch fundiert.
+
 Edward Tuftes Konzept der *Data-Ink-Ratio* besagt, dass jeder Tropfen Tinte auf einem Diagramm entweder Datenwert trägt oder entfernt werden sollte. Gitternetzlinien, überflüssige Rahmen, übermäßige Legenden — alles Rauschen, das die eigentliche Information überlagert.
 
 Die Gestalt-Psychologie liefert Erklärungen, warum Menschen visuelle Muster erkennen. **Proximity:** Elemente, die räumlich beieinander liegen, werden als zusammengehörig wahrgenommen — nutze das für Gruppierungen im Dashboard. **Similarity:** Gleiche Farbe signalisiert die gleiche Kategorie. Wenn Rot auf einem Slide "Grenzwert überschritten" bedeutet, muss Rot auf allen Slides dasselbe bedeuten. **Continuity:** Linien und Kurven werden als zusammenhängende Einheit wahrgenommen — daher sind Zeitreihendaten als Liniendiagramm intuitiver als als Balken.
 
 Informationshierarchie bedeutet: Die wichtigste Information bekommt den prominentesten Platz, die größte Schrift, den höchsten Kontrast. Sekundäre Details sind sichtbar, aber nicht dominant.
 
-*Affordances* — ein weiteres zentrales UI-Konzept — beschreiben, ob Interaktionselemente intuitiv nutzbar sind: Ein Slider sollte wie ein Slider aussehen, ein Button wie ein Button. Streamlit und Gradio erzeugen korrekte Affordances automatisch; der Ingenieur muss nur die Beschriftung liefern.
+*Affordances* (Handlungsaufforderungen) — ein weiteres zentrales UI-Konzept — beschreiben, ob Interaktionselemente intuitiv nutzbar sind: Ein Slider sollte wie ein Slider aussehen, ein Button wie ein Button. Streamlit und Gradio erzeugen korrekte Affordances automatisch; der Ingenieur muss nur die Beschriftung liefern.
 %%/book
 
 %%# Streamlit Demo
@@ -215,7 +294,33 @@ Der agentische Zyklus beim UI-Design folgt demselben Muster wie bei jeder andere
 Gute Prompts für UI-Generierung benennen: Datenformat (CSV, DataFrame), relevante Spalten, gewünschte Interaktionselemente (Slider, Dropdown, Upload), und Ausgabeformat (Plotly-Chart, Tabelle, Download-Button).
 %%/book
 
-## KI-generierter Code: Sensor-Dashboard {{< ai4sc-icon list-tree >}}
+## Vom Prompt zum ersten Dashboard {{< ai4sc-icon workflow >}}
+
+%%scol 34 33 33
+**1. Daten laden**
+
+- CSV auswählen
+- Spalten prüfen
+- Standort auswählen
+%%sep
+**2. Messreihe zeigen**
+
+- Zeit auf X-Achse
+- Messwert auf Y-Achse
+- Titel pro Standort
+%%sep
+**3. Schwellenwert prüfen**
+
+- Slider für Grenzwert
+- rote Referenzlinie
+- Plot gegen Fachfrage lesen
+%%/scol
+
+%%book
+Als worked example lesen wir das Dashboard in drei Schritten: erst Daten laden, dann die Messreihe darstellen, dann einen Schwellenwert zur Entscheidung einblenden. Diese Zerlegung hilft dabei, den generierten Code nicht als monolithischen Block, sondern als Folge fachlicher UI-Bausteine zu verstehen.
+%%/book
+
+## KI-generierter Code: erster Prototyp {{< ai4sc-icon list-tree >}}
 
 ```{python}
 #| echo: true
@@ -246,7 +351,7 @@ Welche Einheit hat der Schwellenwert? Steht sie im Label oder Diagramm?
 %%/tip
 
 %%book
-Dieser Code zeigt ein typisches KI-generiertes Streamlit-Grundgerüst. Er funktioniert — unter der Annahme, dass die CSV-Datei Spalten namens `location`, `timestamp` und `value` enthält. In der Praxis heißen diese Spalten oft anders.
+Dieser Code zeigt ein typisches KI-generiertes Streamlit-Grundgerüst. Lies ihn in drei Blöcken: Datei laden, Standort filtern, Grenzwert visualisieren. Er funktioniert — unter der Annahme, dass die CSV-Datei Spalten namens `location`, `timestamp` und `value` enthält. In der Praxis heißen diese Spalten oft anders.
 
 **Pattern C — AI-Code Reading:** Bevor du den Code ausführst:
 

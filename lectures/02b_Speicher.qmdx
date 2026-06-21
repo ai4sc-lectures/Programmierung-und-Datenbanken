@@ -228,14 +228,29 @@ Nach b.append(4):
   b ──▶ [1, 2, 3, 4]   (immer noch dasselbe!)
 ```
 %%sep
-Echte Kopie erzeugen:
+- [Zwei Namen, ein Objekt]{.contra}
+- [Mutation über `b` verändert auch `a`]{.contra}
+- [`a is b` zeigt: beide Namen teilen dieselbe Identität]{.contra}
+- [Aliasing ist bei veränderlichen Typen riskant]{.contra}
+%%/scol
 
+## Alias vermeiden: echte Kopien erzeugen
+
+%%scol 50 50
 ```python
 b = a.copy()          # flache Kopie
 b = a[:]              # flache Kopie (Slice)
+
 import copy
-b = copy.deepcopy(a)  # tiefe Kopie (verschachtelte Objekte)
+b = copy.deepcopy(a)  # tiefe Kopie
 ```
+%%sep
+Welche Kopie?
+
+- `a.copy()` und `a[:]`: neues Listenobjekt
+- Innere Objekte bleiben geteilt
+- `deepcopy(...)`: kopiert auch verschachtelte Objekte
+- Faustregel: erst flach kopieren, nur bei Bedarf tief
 %%/scol
 
 
@@ -279,7 +294,7 @@ Stack und Heap sind keine Python-Feature — sie sind fundamentale Bereiche im R
 %%/book
 
 
-## Stack und Heap – Zwei Speicherbereiche im RAM
+## Stack und Heap — Zwei Speicherbereiche im RAM
 
 %%scol 50 50
 
@@ -322,7 +337,7 @@ RAM
 %%/scol
 
 
-## Stack und Heap – Lebensdauer von Variablen
+## Stack und Heap — Lebensdauer von Variablen
 
 %%scol 50 50
 
@@ -335,15 +350,15 @@ RAM
 
 ```python
 def berechne(x):
-    y = x * 2      # y auf Stack
-    return y       # y verschwindet hier
+    y = x * 2       # lokale Referenz im Frame, Objekt auf dem Heap
+    return y        # die lokale Referenz verschwindet hier
 
 ergebnis = berechne(5)
-# ergebnis-Objekt lebt auf dem Heap
+# das Objekt lebt weiter, solange eine Referenz darauf zeigt
 ```
 
 %%warning Agentic Workflow
-Wenn KI tiefen Rekursionscode generiert, kennt das Modell Ihre System-Stack-Größe nicht.
+Wenn KI tiefen Rekursionscode generiert, kennt das Modell die verfügbare System-Stack-Größe nicht.
 
 1. **Prüfen**: Wie tief geht die Rekursion maximal? `sys.getrecursionlimit()` (Standard: 1000)
 2. **Verifizieren**: Erzeugt der Code bei großen Eingaben einen `RecursionError`?

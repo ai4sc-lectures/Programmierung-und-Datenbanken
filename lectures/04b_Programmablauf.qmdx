@@ -89,7 +89,7 @@ graph LR
 
 %%book
 
-Eingaben und Ausgaben werden durch Rhomben dargestellt.
+Eingaben und Ausgaben werden durch Parallelogramme dargestellt.
 
 ```{mermaid}
 graph LR
@@ -103,7 +103,7 @@ graph LR
 
 %%book
 
-`if`-Anweisungen werden durch Drachenviereck dargestellt. Sie haben mindestens zwei Ausgänge. Die Bedingung wird in das Viereck geschrieben, die alternativen Werte der Bedingung (meist Ja/Nein) werden an die ausgehenden Pfeile geschrieben.
+`if`-Anweisungen werden durch einen Entscheidungsdiamanten dargestellt. Sie haben mindestens zwei Ausgänge. Die Bedingung wird in den Diamanten geschrieben, die alternativen Werte der Bedingung (meist Ja/Nein) werden an die ausgehenden Pfeile geschrieben.
 
 ```{mermaid}
 graph LR
@@ -164,7 +164,7 @@ Ref.: → S04 04a_Anforderungen: Anforderungen erzeugen das Flussdiagramm
 
 %%col 50 50
 
-- Statements müssen dabei nicht in der Syntax einer Programmiersprache geschrieben sein – es kann sich um „Pseudocodes" handeln.
+- Statements müssen dabei nicht in der Syntax einer Programmiersprache geschrieben sein. Es kann sich auch um Pseudocode handeln.
 
 ```{mermaid}
 graph LR
@@ -176,7 +176,7 @@ graph LR
 
 %%sep
 
-- Von einer Verzweigung gehen Pfeile aus, welche repräsentieren ob die Bedingung True oder False zurückgegeben hat (if/else).
+- Von einer Verzweigung gehen Pfeile aus, die repräsentieren, ob die Bedingung `true` oder `false` zurückgegeben hat (`if`/`else`).
 
 ```{mermaid}
 graph LR
@@ -262,7 +262,7 @@ x = 3; print("Zeile 1")
 y = 4; print("Zeile 2")
 
 def pythagoras(a, b):
-  res = math.sqrt((a*2)+(b*2));  print("Zeile 5")
+  res = math.sqrt((a**2) + (b**2));  print("Zeile 5")
   return res;  print("Zeile 6");
 
 p_xy = pythagoras(x, y);  print("Zeile 8")
@@ -273,7 +273,7 @@ print("Zeile 10")
 
 %%book
 
-Nach Ausführung des Programms erkennen wir, dass die Zeilen 1 bis 3 in sequentieller Reihenfolge ausgeführt werden. Dann überspringt die Ausführung die Zeilen 5 und 6, weil diese die Funktion `pythagoras` definiert, diese aber bisher noch nicht aufgerufen worden ist. Die Funktion wird erst am Anfang von Zeile 8 aufgerufen, weshalb als nächstes Zeile 5 vor Zeile 8 ausgeführt wird. Es fehlt dann die Ausgabe der 'Zeile 6', weil die Funktion bereits mit dem `return` beendet worden ist.
+Nach Ausführung des Programms erkennen wir, dass zunächst die Zeilen 1 und 2 in sequentieller Reihenfolge ausgeführt werden. Dann überspringt die Ausführung die Zeilen 5 und 6, weil diese zur Definition der Funktion `pythagoras` gehören, die bisher noch nicht aufgerufen worden ist. Die Funktion wird erst am Anfang von Zeile 8 aufgerufen, weshalb als Nächstes Zeile 5 vor Zeile 8 ausgeführt wird. Es fehlt dann die Ausgabe von `Zeile 6`, weil die Funktion bereits mit dem `return` beendet worden ist.
 
 %%/book
 
@@ -292,11 +292,12 @@ Nach Ausführung des Programms erkennen wir, dass die Zeilen 1 bis 3 in sequenti
 
 ```{python}
 #| echo: true
+import math
 x = 3                    # Zuweisung
 y = 4                    # Zuweisung
 
 def pythagoras(a, b):    # Abspeichern der Funktion
-    return math.sqrt((a*2)+(b*2))  # Berechnung
+    return math.sqrt((a**2) + (b**2))  # Berechnung
 
 z = pythagoras(x, y)     # Funktionsaufruf, Zuweisung zu z
 print(z)                 # Variablenausgabe
@@ -307,9 +308,9 @@ print(z)                 # Variablenausgabe
 %%slides
 
 
-## Problem Definieren
+## Eingaben und Ausgaben zu identifizieren ist der erste Schritt
 
-- Die wichtigste Fähigkeit beim Programmieren ist es, ein Problem der echten Welt in einzelne Programmanweisungen zu übersetzen.
+- Die zentrale Fähigkeit beim Programmieren ist es, ein Problem der echten Welt in einzelne Programmanweisungen zu übersetzen, weil erst dadurch eine Lösung systematisch ausführbar wird.
 
 - *Erster Schritt:* Was sind Eingaben, was sind Ausgaben des aktuellen Problems?
 
@@ -324,6 +325,8 @@ print(z)                 # Variablenausgabe
 
 ## Hörsaalfrage
 %%col 40 60
+
+Nach dem alltagsnahen Einkaufsbeispiel wechseln wir nun zu einem technischen Beispiel aus dem Baukontext.
 
 Welche Ein- und Ausgaben gibt es bei der Volumenberechnung eines Quaders (Haus)?
 
@@ -354,7 +357,7 @@ Welche Ein- und Ausgaben gibt es bei der Volumenberechnung eines Quaders (Haus)?
 %%slides
 
 
-## Problem in Schritte Aufteilen
+## Ein Problem in ausführbare Schritte zerlegen
 
 - *Die Kernfrage:*
 >  „Wie gelangen wir von der gegebenen Eingabe zu der gewünschten Ausgabe?"
@@ -524,12 +527,12 @@ Die Funktion gibt einen String mit der empfohlenen Maßnahme zurück.
     ### Welche Form haben Start- und End-Elemente in Flussdiagrammen?
     - [x] Elemente mit runden Ecken
     - [ ] Rechteckige Elemente
-    - [ ] Rhomben
+    - [ ] Parallelogramme
     - [ ] Kreise
 
     ### Welche Form haben Anweisungen (Statements) in Flussdiagrammen?
     - [x] Rechteckige Elemente
-    - [ ] Rhomben
+    - [ ] Parallelogramme
     - [ ] Kreise
     - [ ] Elemente mit runden Ecken
 
@@ -539,12 +542,11 @@ Die Funktion gibt einen String mit der empfohlenen Maßnahme zurück.
     - [ ] Einem Rückgabewert
     - [ ] Einer Schleife
 
-    ### Sortiere die folgenden Elemente eines Flussdiagramms nach ihrer typischen Reihenfolge:
-    1. `Start (abgerundetes Rechteck)`
-    2. `Eingabe (Rhombus)`
-    3. `Verarbeitung (Rechteck)`
-    4. `Entscheidung (Drachenviereck)`
-    5. `Ende (abgerundetes Rechteck)`
+    ### Welche Reihenfolge beschreibt einen typischen einfachen Ablauf im Flussdiagramm am besten?
+    - [x] `Start -> Eingabe -> Verarbeitung -> Entscheidung -> Ende`
+    - [ ] `Eingabe -> Start -> Entscheidung -> Verarbeitung -> Ende`
+    - [ ] `Start -> Entscheidung -> Ende -> Verarbeitung -> Eingabe`
+    - [ ] `Verarbeitung -> Eingabe -> Start -> Entscheidung -> Ende`
 
     ### Welche Aussage trifft auf die „Flussdiagramm als Prompt"-Methode zu?
     - [x] Ein vollständiges Flussdiagramm reduziert die Verify-Iterate-Zyklen
@@ -553,9 +555,9 @@ Die Funktion gibt einen String mit der empfohlenen Maßnahme zurück.
     - [ ] Entscheidungsknoten im Flussdiagramm können im Prompt weggelassen werden
 
     ### Welche Form wird für if-Anweisungen verwendet?
-    - [x] Drachenviereck
+    - [x] Entscheidungsdiamant
     - [ ] Rechteck
-    - [ ] Rhombus
+    - [ ] Parallelogramm
     - [ ] Kreis
 
     ### Was charakterisiert Unterprogramm-Elemente in Flussdiagrammen?

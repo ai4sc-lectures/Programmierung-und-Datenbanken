@@ -1,6 +1,6 @@
 ---
 title: "Datenbanktypen"
-image-credit: "Midjourney: Database Tree, ref. Gustav Klimt"
+image-credit: "Midjourney: tree-like branching diagram showing major database families, inspired by Gustav Klimt"
 format:
   ai4sc-style-html:
     output-file: 12b_Datenbanktypen.page.html
@@ -30,6 +30,8 @@ format:
 
 %%book
 
+## Hörsaalfrage: Wann reichen Dateien nicht?
+
 Diese Sitzung baut auf `12a_Datenhaltung` auf: Dort wurde sichtbar, warum
 dateibasierte Speicherung bei wachsenden Datenmengen, mehreren Nutzern und
 komplexen Abfragen an Grenzen stößt. Hier folgt nun der nächste Schritt:
@@ -44,6 +46,18 @@ für dokumentenorientierte Systeme und Netzwerkprobleme für Graphdatenbanken.
 
 %%slides
 
+## Ein kurzes Szenario
+
+- Ein Team pflegt dieselbe Bauteilliste als Datei
+- Person A korrigiert Bezeichnungen, Person B ergänzt Messwerte
+- Parallel entsteht schon die nächste Auswertung auf einer alten Kopie
+- Plötzlich gibt es Dubletten, Konflikte und unklare Versionen
+- Genau für solche Situationen brauchen wir jetzt präzise Begriffe
+
+%%/slides
+
+%%slides
+
 ## Dateien kippen irgendwann um
 
 - Wenige Daten, ein Nutzer, lineare Ablage: Datei reicht oft
@@ -55,13 +69,28 @@ für dokumentenorientierte Systeme und Netzwerkprobleme für Graphdatenbanken.
 
 %%book
 
+## Dateien kippen irgendwann um
+
+Eine Datei kann lange genügen, solange ein einzelnes Programm oder eine Person
+damit arbeitet. Kritisch wird es, sobald mehrere Beteiligte gleichzeitig
+schreiben, verschiedene Kopien im Umlauf sind oder gezielte Auswertungen über
+große Datenmengen nötig werden. Dann entstehen genau die Probleme, die
+Dateisysteme nicht von sich aus lösen: Versionskonflikte, Redundanz,
+fehlende Integritätsregeln und umständliche Abfragen.
+
+%%/book
+
+%%book
+
 ## Warum Datenbanken?
 
-Dateien sind einfach und oft der richtige Startpunkt. Sobald aber mehrere
-Anwendungen dieselben Daten nutzen, Inkonsistenzen vermieden werden müssen oder
-gezielte Abfragen auf großen Datenbeständen nötig sind, reicht eine reine
-Dateiablage nicht mehr aus. Dann trennt man die Datenhaltung von den Programmen
-und übergibt Verwaltung, Zugriffskontrolle und Konsistenz einem
+Stellt euch eine gemeinsame Tabelle mit Sensoren, Messpunkten und Prüfberichten
+vor. Solange nur eine Person ergänzt und niemand quer über mehrere Listen
+suchen muss, ist das praktikabel. Sobald aber verschiedene Anwendungen dieselben
+Daten lesen, Beziehungen zwischen Objekten geprüft werden sollen oder
+gleichzeitige Änderungen sicher bleiben müssen, reicht Dateiablage nicht mehr
+aus. Dann trennt man die Datenhaltung von den Programmen und übergibt
+Verwaltung, Zugriffskontrolle und Konsistenz einem
 Datenbankmanagementsystem.
 
 %%/book
@@ -84,6 +113,18 @@ Konsistenz.
 %%/def
 
 %%/slides
+
+%%book
+
+## Datenbank und Datenbanksystem
+
+Die Begriffe werden oft vermischt, bezeichnen aber unterschiedliche Ebenen.
+Die *Datenbank* sind die logisch zusammengehörenden Daten selbst. Das *DBMS*
+ist die Software, die diese Daten organisiert, schützt und zugreifbar macht.
+Erst beides zusammen bildet das *Datenbanksystem*, also die fachliche Datenbasis
+plus die technische Verwaltungsinstanz.
+
+%%/book
 
 %%slides
 
@@ -111,12 +152,13 @@ Konsistenz.
 
 ## Dateien versus Datenbanken
 
-Der zentrale Unterschied ist nicht nur der Speicherort, sondern das
-Informationsmodell. Bei Dateien modelliert jede Anwendung ihre Daten
-implizit selbst. Bei Datenbanken wird das Modell explizit festgelegt und vom
-DBMS durchgesetzt. Dadurch werden Integrität, Synchronisation und
-leistungsfähige Abfragen zu Eigenschaften des Systems und nicht zu
-Einzellösungen in jedem Programm.
+Eine Datei mit Bauteillisten, eine zweite mit Messwerten und eine dritte mit
+Prüfberichten kann funktionieren. Aber schon die einfache Frage "Welche
+Messwerte gehören zu Bauteilen mit überfälliger Prüfung?" wird dann mühsam,
+weil jede Anwendung ihre eigene Struktur stillschweigend voraussetzt. Bei einer
+Datenbank wird dieses Informationsmodell explizit beschrieben und vom DBMS
+durchgesetzt. Integrität, Synchronisation und leistungsfähige Abfragen werden
+so zu Eigenschaften des Systems und nicht zu Einzellösungen in jedem Programm.
 
 %%/book
 
@@ -133,9 +175,43 @@ Einzellösungen in jedem Programm.
 
 %%/slides
 
+%%book
+
+## Codd: Was eine Datenbank leisten soll
+
+Diese Punkte machen deutlich, dass eine Datenbank mehr ist als ein größerer
+Dateiordner. Sie soll Daten integrieren statt vervielfachen, mehrere Sichten
+auf denselben Bestand erlauben, Widersprüche verhindern und parallele
+Änderungen beherrschbar machen. Erst durch solche Eigenschaften wird
+Datenhaltung für reale Anwendungen robust.
+
+%%/book
+
 %%slides
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Wenn das Problem schon wie ein Netzwerk aussieht: Warum sollten wir es in Tabellen pressen?" capR="Database families as a landscape" imgR="images/12b_Datenbanktypen/databases.svg"}
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Wenn das Problem schon wie ein Netzwerk aussieht: Warum sollten wir es in Tabellen pressen?" capR="Interne Lehrgrafik: grobe Verteilung wichtiger Datenbankfamilien" imgR="images/12b_Datenbanktypen/databases.svg"}
+
+%%/slides
+
+%%book
+
+## Hörsaalfrage: Netzwerkproblem in Tabellen?
+
+Diese Frage zielt auf eine typische Modellierungsfalle. Wenn das Problem selbst
+schon aus Verbindungen, Nachbarschaften und Pfaden besteht, ist es oft
+ungünstig, diese Struktur nur indirekt in Tabellen nachzubauen. Dann sollte
+zuerst geprüft werden, ob ein Graphmodell die natürlichere Beschreibung ist.
+
+%%/book
+
+%%slides
+
+## Die eigentliche Auswahlfrage
+
+- Nicht: "Welche Datenbank ist gerade modern?"
+- Sondern: "Welche Struktur haben unsere Daten?"
+- Dann: "Welche Operationen brauchen wir darauf?"
+- Erst daraus folgt die Technologieauswahl
 
 %%/slides
 
@@ -158,7 +234,10 @@ Datenbankwahl mit den Problemklassen aus Block 5.
 - *Dokumentartig, verschachtelt, variabel* → dokumentenorientierte Datenbank
 - *Netzwerk aus Knoten und Kanten* → Graphdatenbank
 - *Einzelwerte zu Schlüsseln, extrem schnell* → Key-Value-Store
+- *Viele Zeilen mit sparsamen Spaltenfamilien* → Wide-Column-Store
+- *Zeitlich geordnete Messreihen* → Time-Series-Datenbank
 - *Suche in vielen Texten* → Suchmaschinen-Datenbank
+- *Ähnlichkeit in Einbettungsvektoren* → Vector-Datenbank
 
 %%/slides
 
@@ -188,6 +267,29 @@ Datenbankwahl mit den Problemklassen aus Block 5.
 
 %%/slides
 
+%%book
+
+## Das Informationsmodell führt
+
+Der wichtigste Auswahlgrundsatz lautet: Erst die Struktur des Problems
+bestimmen, dann die Technologie benennen. Das spart Umwege, weil nicht versucht
+wird, jede Aufgabe in dasselbe Werkzeug zu pressen. Datenbanktypen sind also
+keine Moden, sondern Antworten auf verschiedene Informationsmodelle.
+
+%%/book
+
+%%book
+
+## Vom Problem zur Datenbank
+
+Für ein Rohrnetz oder Verkehrsnetz ist nicht die spätere Software zuerst
+entscheidend, sondern die Form der Information: Knoten, Kanten und Pfade. Wenn
+genau diese Beziehungen fachlich im Mittelpunkt stehen, ist eine Graphdatenbank
+oft die stimmigere Wahl als eine tabellarische Abbildung mit vielen
+Hilfskonstruktionen.
+
+%%/book
+
 %%slides
 
 ## Noch zwei typische Zuordnungen
@@ -210,6 +312,19 @@ Datenbankwahl mit den Problemklassen aus Block 5.
 
 %%/slides
 
+%%book
+
+## Noch zwei typische Zuordnungen
+
+Auch außerhalb klassischer Netzprobleme hilft die Zuordnung über das
+Informationsmodell. BIM-nahe Objekte oder Projektdokumente sind oft
+verschachtelt und nicht völlig gleichförmig aufgebaut; dafür passen Document
+Stores gut. Verwaltungsdaten mit klaren Feldern, stabilen Beziehungen und dem
+Bedarf nach Konsistenzregeln bleiben dagegen ein typisches Feld relationaler
+Systeme.
+
+%%/book
+
 %%slides
 
 ## {{< ai4sc-icon database >}} Datenbanktypen im Überblick
@@ -226,7 +341,10 @@ Datenbankwahl mit den Problemklassen aus Block 5.
 unterscheiden sich nicht primär durch Marketing oder Popularität, sondern durch
 das zugrunde liegende Datenmodell. Im Folgenden wird jede Familie mit ihrem
 typischen Informationsmodell und einem passenden Anwendungsfall aus dem
-Ingenieurkontext verknüpft.
+Ingenieurkontext verknüpft. Die eingeblendete SVG-Grafik dient dabei nur als
+Orientierung: Sie ist eine interne Lehrgrafik und soll vor allem sichtbar
+machen, dass relationale Systeme weiterhin stark sind, während mehrere
+NoSQL-Familien daneben spezialisierte Rollen einnehmen.
 
 %%/book
 
@@ -301,6 +419,52 @@ meist nicht die erste Wahl.
 
 %%slides
 
+## {{< ai4sc-icon database >}} Wide-Column-Datenbanken
+
+- Daten zeilenorientiert, aber mit flexiblen *Spaltenfamilien*
+- Gut bei sehr großen, verteilten Schreib- und Lesevolumina
+- Nützlich für Telemetrie, Ereignisströme und große Plattformdaten
+- Weniger natürlich für komplexe *JOIN*-Fragen
+- Beispiele: Cassandra, HBase, ScyllaDB
+
+%%/slides
+
+%%book
+
+### Wide-Column-Datenbanken
+
+Wide-Column-Systeme liegen zwischen einfachem Key-Value-Zugriff und stärker
+strukturierter Tabellenwelt. Sie eignen sich, wenn extrem viele Datensätze
+verteilt gespeichert werden und sich Attribute gruppenweise organisieren
+lassen, etwa bei Telemetrie- oder Plattformdaten in großem Maßstab.
+
+%%/book
+
+%%slides
+
+## {{< ai4sc-icon database >}} Time-Series-Datenbanken
+
+- Optimiert für Messwerte mit *Zeitstempel*
+- Stark bei Aggregation über Intervalle, Trends und Downsampling
+- Gute Wahl für Sensorik, Monitoring und IoT-Daten
+- Fokus liegt auf Zeitreihen, nicht auf allgemeiner Anwendungslogik
+- Beispiele: InfluxDB, TimescaleDB, QuestDB
+
+%%/slides
+
+%%book
+
+### Time-Series-Datenbanken
+
+Zeitreihendatenbanken sind spezialisiert auf fortlaufende Messwerte mit
+zeitlicher Ordnung. Typische Operationen sind Fensterbildung, Verdichtung,
+Grenzwertüberwachung und Trendanalyse. Für Labor-, Umwelt- oder
+Maschinendaten ist dieses Modell oft viel natürlicher als allgemeine Tabellen.
+
+%%/book
+
+%%slides
+
 ## {{< ai4sc-icon database >}} Suchmaschinen-Datenbanken
 
 - Optimiert auf *Textsuche* statt auf Tabellenlogik
@@ -346,6 +510,30 @@ Graphproblem und Graphdatenbank passen strukturell zusammen.
 
 %%slides
 
+## {{< ai4sc-icon database >}} Vector-Datenbanken
+
+- Speichern *Vektoren* statt klassischer Zeilen oder Dokumentfelder
+- Optimiert für Ähnlichkeitssuche: "Was ist diesem Objekt am ähnlichsten?"
+- Wichtig für Embeddings aus Text, Bild oder CAD-nahen Beschreibungen
+- Nützlich in RAG-Systemen, semantischer Suche und Beispielsuche
+- Beispiele: Milvus, Weaviate, pgvector
+
+%%/slides
+
+%%book
+
+### Vector-Datenbanken
+
+Vektordatenbanken werden interessant, wenn Objekte als numerische Einbettungen
+vorliegen und nicht exakte Gleichheit, sondern Ähnlichkeit gesucht wird. Das
+ist vor allem bei KI-Anwendungen relevant, etwa für semantische Suche,
+Retrieval-Augmented Generation oder das Auffinden ähnlicher Dokumente und
+Bauteilbeschreibungen.
+
+%%/book
+
+%%slides
+
 ## Agentischer Prüfpunkt
 
 > **Agentic workflow:** Wenn KI eine Datenbanktechnologie vorschlägt:
@@ -355,9 +543,22 @@ Graphproblem und Graphdatenbank passen strukturell zusammen.
 
 - Eine Graphaufgabe in Tabellen kann funktionieren, aber mit Reibung
 - Eine Dokumentstruktur in starren Tabellen kann unnötig kompliziert werden
+- Häufig ist die beste Antwort nicht *eine* DB, sondern eine Kombination mehrerer Systeme
 - Technologie folgt Problemklasse, nicht Mode
 
 %%/slides
+
+%%book
+
+## Agentischer Prüfpunkt
+
+Wenn KI ein Werkzeug empfiehlt, sollte nicht sofort die Produktfrage im
+Vordergrund stehen. Zuerst wird das Informationsmodell explizit gemacht, dann
+wird die Passung zwischen Problemstruktur und Datenbanktyp geprüft, und erst
+zum Schluss lohnt sich die Frage nach einem konkreten Produkt. So wird aus
+einer schnellen Empfehlung eine nachvollziehbare Entscheidung.
+
+%%/book
 
 %%book
 
@@ -367,9 +568,32 @@ Gerade bei KI-gestützten Technologieentscheidungen ist Skepsis wichtig. Ein
 Modell kann eine populäre Technologie nennen, ohne zu prüfen, ob sie zur
 Problemstruktur passt. Deshalb sollte die erste Rückfrage immer lauten:
 "Welches Informationsmodell nehmen wir eigentlich an?" Erst dann ist eine
-fundierte Datenbankwahl möglich.
+fundierte Datenbankwahl möglich. Ebenso wichtig ist der Hinweis, dass
+polyglotte Persistenz kein Sonderfall ist: Ein System kann völlig sinnvoll
+eine relationale Datenbank für Stammdaten, eine Suchmaschine für Dokumente und
+eine Zeitreihendatenbank für Messwerte kombinieren.
+
+Beispiel für die Verifikation in fünf Zeilen:
+
+- Problem: Sensornetz mit Stammdaten, Messreihen und Wartungsberichten
+- KI-Vorschlag: "Nehmt einfach PostgreSQL für alles."
+- Passung: Stammdaten passen gut in relationale Tabellen.
+- Mismatch: Zeitreihen und Volltextsuche werden dadurch unnötig schwergewichtig.
+- Bessere Antwort: Relationale DB + Time-Series- oder Suchsystem mit klarer Aufgabentrennung.
 
 %%/book
+
+%%slides
+
+## Agentische Verifikation
+
+- Problem: Sensornetz mit Stammdaten, Messreihen und Wartungsberichten
+- KI-Vorschlag: "Nehmt einfach PostgreSQL fuer alles."
+- Passung: Stammdaten passen gut in relationale Tabellen
+- Mismatch: Zeitreihen und Volltextsuche werden unnötig verbogen
+- Bessere Antwort: relationale DB + spezialisierte Systeme, wenn die Problemteile verschieden sind
+
+%%/slides
 
 %%slides
 
@@ -382,6 +606,18 @@ fundierte Datenbankwahl möglich.
 
 %%/slides
 
+%%book
+
+## Auswahlkriterien für diese Vorlesung
+
+In dieser Vorlesung steht deshalb nicht das Auswendiglernen von Produktnamen im
+Mittelpunkt. Wichtiger ist, Entwurf und Modellierung vor die Implementierung zu
+stellen. Wer versteht, welche Struktur ein Problem hat, kann später auch neue
+Technologien besser einordnen und bei Bedarf mehrere Systeme sinnvoll
+kombinieren.
+
+%%/book
+
 %%slides
 
 ## Merksätze
@@ -391,5 +627,17 @@ fundierte Datenbankwahl möglich.
 - *Relational* für tabellarisch, *Document Store* für BIM-artig, *Graph DB* für Netzwerke
 
 %%/slides
+
+%%book
+
+## Merksätze
+
+Dateien sind ein sinnvoller Start, aber kein Ersatz für systematische
+Datenhaltung unter Last, Parallelität und Integritätsanforderungen. Die
+zentrale Auswahlfrage lautet immer, welches Informationsmodell das Problem
+trägt. Daraus folgt der passende Datenbanktyp und erst danach die konkrete
+Technologie.
+
+%%/book
 
 %%final

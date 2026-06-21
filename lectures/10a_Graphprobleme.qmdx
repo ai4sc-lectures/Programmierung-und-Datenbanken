@@ -171,6 +171,40 @@ Formal ist ein Graph G = (V, E), wobei V die Menge der Knoten (*Vertices*) und E
 
 %%# Traversierung und kürzeste Wege
 
+## Mini-Beispiel: Drei Räume, drei Wege
+
+%%col 55 45
+Statt direkt mit einem großen Netz zu starten, schauen wir zuerst auf ein minimales Beispiel:
+
+- Knoten: `Eingang`, `Labor`, `Buero`
+- Kanten: Tueren zwischen den Raeumen
+- Gewicht: Gehzeit in Minuten
+
+**Fragen dazu:**
+
+1. Welche Raeume sind vom `Eingang` aus erreichbar?
+2. Welcher Weg hat die wenigsten **Schritte**?
+3. Welcher Weg ist mit Zeiten der **schnellste**?
+
+%%sep
+```text
+Eingang --1-- Labor --1-- Buero
+   \
+    4
+     \
+      Buero
+```
+
+- Direkt: `Eingang -> Buero` = 4 min
+- Ueber `Labor`: `Eingang -> Labor -> Buero` = 2 min
+
+Damit sehen wir sofort den Unterschied:
+
+- **BFS** achtet auf wenige Schritte
+- **Dijkstra** achtet auf kleines Gesamtgewicht
+- **DFS** prueft gut, was ueberhaupt erreichbar ist
+%%/col
+
 ## {{< ai4sc-icon workflow >}} Breitensuche (BFS): Schicht für Schicht
 
 %%col 55 45
@@ -266,24 +300,61 @@ dist = nx.shortest_path_length(
 %%sep
 **Beispiel: Evakuierungsrouting**
 
-```
-  A —5— B
-  |     |
-  3     1
-  |     |
-  C —4— D
-
-BFS:      A→B→D = 2 Sprünge
-Dijkstra: A→C = 3 min
-          C→B = 2 min  (gesamt 5)
-          B→D = 1 min  (gesamt 6)
-
-Kürzester Weg: A→C→B→D = 6 min
+```text
+Kantenzeiten:
+S --7--> P
+S --2--> Q
+Q --2--> P
+P --1--> Z
+Q --6--> Z
 ```
 
-BFS hätte A→B→D = 2 Sprünge gefunden,\
-aber 5+1 = **6 min** (gleich hier!)
+```text
+Schritt 0:
+dist(S)=0, dist(P)=inf, dist(Q)=inf, dist(Z)=inf
+
+Schritt 1: waehle S
+P = 7, Q = 2
+
+Schritt 2: waehle Q
+P = min(7, 2+2) = 4
+Z = min(inf, 2+6) = 8
+
+Schritt 3: waehle P
+Z = min(8, 4+1) = 5
+
+Ergebnis:
+S -> Q -> P -> Z = 5 min
+```
+
+**Vergleich mit BFS:**
+
+- BFS bevorzugt `S -> P -> Z` mit nur 2 Schritten
+- Dijkstra findet `S -> Q -> P -> Z` mit **5 min**
+- Der kuerzeste Weg nach Schritten ist nicht automatisch der schnellste Weg
 %%/col
+
+%%book
+
+**Dijkstra** berechnet den kuerzesten Weg in einem **gewichteten** Graphen mit **nicht-negativen** Kantengewichten. Die Grundidee ist gierig:
+
+1. Der Startknoten erhaelt Distanz `0`, alle anderen `inf`.
+2. Danach wird immer der noch nicht fest verarbeitete Knoten mit der kleinsten bekannten Distanz gewaehlt.
+3. Fuer alle Nachbarn wird geprueft, ob ein Weg ueber diesen Knoten kuerzer ist.
+4. Sobald ein Knoten mit minimaler Distanz ausgewaehlt wurde, ist diese Distanz endgueltig.
+
+Warum funktioniert das? Weil bei **nicht-negativen** Gewichten kein spaeterer Umweg einen bereits kuerzesten bekannten Weg noch verbessern kann. Genau deshalb ist Dijkstra fuer negative Gewichte nicht geeignet.
+
+In `networkx` wird der kuerzeste Weg typischerweise mit:
+
+```python
+nx.shortest_path(G, start, ziel, weight="time")
+nx.shortest_path_length(G, start, ziel, weight="time")
+```
+
+berechnet. Die Laufzeit haengt von der Implementierung der Prioritaetswarteschlange ab; fuer praktische Anwendungen ist wichtig: Dijkstra ist deutlich effizienter als ein Ausprobieren aller moeglichen Wege.
+
+%%/book
 
 %%# Mit KI Graphprobleme lösen
 
@@ -292,6 +363,12 @@ aber 5+1 = **6 min** (gleich hier!)
 %%div eyebrow
 {{< ai4sc-icon workflow >}} KI-generierter Code — vor dem Ausführen lesen
 %%/div
+
+> **Vorhersage vor dem Lesen des Codes:**
+> 1. Warum `DiGraph` — was waere anders mit `Graph`?
+> 2. Was gibt `shortest_path` zurueck — eine Liste oder eine Zahl?
+> 3. Welchen Weg erwartest du von `"A"` nach `"D"`?
+> 4. Was passiert, wenn `"A"` und `"D"` nicht verbunden sind?
 
 ```python
 #| echo: true
@@ -310,11 +387,6 @@ path = nx.shortest_path(G, "A", "D", weight="time")
 dist = nx.shortest_path_length(G, "A", "D", weight="time")
 print(f"Weg: {' → '.join(path)}, Zeit: {dist} min")
 ```
-
-> **Vor dem Ausführen lesen:**
-> 1. Warum `DiGraph` — was wäre anders mit `Graph`?
-> 2. Was gibt `shortest_path` zurück — eine Liste oder eine Zahl?
-> 3. Was passiert, wenn `"A"` und `"D"` nicht verbunden sind?
 
 ## networkx: Ergebnis und Visualisierung
 

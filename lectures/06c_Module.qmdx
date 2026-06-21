@@ -97,7 +97,7 @@ Die Summe aller Module formt dann ein *Package*. In diesem Fall das Package `geo
 
 ## Projektstruktur so aufbauen, dass KI-Output landet
 
-%%col 50 50
+%%scol 50 50
 
 %%div eyebrow
 {{< ai4sc-icon list-tree >}} Modulstruktur
@@ -124,7 +124,7 @@ geometry/
     └── Triangle.py
 ```
 
-%%/col
+%%/scol
 
 %%/slides
 
@@ -133,7 +133,7 @@ geometry/
 
 ## Grundlagen der Projektstruktur
 
-%%col 50 50
+%%scol 50 50
 
 **Allgemeine Struktur**
 
@@ -169,7 +169,7 @@ import streets
 import geometry
 ```
 
-%%/col
+%%/scol
 
 %%/slides
 
@@ -182,7 +182,7 @@ import geometry
 {{< ai4sc-icon list-tree >}} KI und Modulgranularität
 %%/div
 
-%%col 50 50
+%%scol 50 50
 
 KI generiert Code auf Modulebene:
 
@@ -199,7 +199,7 @@ Beispiel-Prompt:
 
 Erwartetes Ergebnis: `.py`-Datei mit klar benannten öffentlichen Funktionen und privatem Hilfs-Code.
 
-%%/col
+%%/scol
 
 %%/slides
 
@@ -212,7 +212,7 @@ Erwartetes Ergebnis: `.py`-Datei mit klar benannten öffentlichen Funktionen und
 {{< ai4sc-icon list-tree >}} Modulstruktur
 %%/div
 
-%%col 50 50
+%%scol 50 50
 
 Modulgrenze = Architekturgrenze:
 
@@ -232,7 +232,7 @@ sensor_project/
 
 Verifikationsfrage: Passt das generierte Modul an diese Stelle im Projekt?
 
-%%/col
+%%/scol
 
 %%/slides
 
@@ -249,6 +249,8 @@ Verifikationsfrage: Passt das generierte Modul an diese Stelle im Projekt?
 
 > „Schreibe `sensor_processing.py` mit einer Funktion `clean_readings(values: list[float]) -> list[float]`, die Ausreißer entfernt (Werte außerhalb 2σ)."
 
+`list[float]` ist eine Typangabe: Die Funktion erwartet eine Liste aus Fließkommazahlen und liefert wieder eine solche Liste zurück.
+
 **Schritt 2 — KI generiert:**
 
 ```python
@@ -256,6 +258,8 @@ Verifikationsfrage: Passt das generierte Modul an diese Stelle im Projekt?
 import statistics
 
 def clean_readings(values: list[float]) -> list[float]:
+    if len(values) < 2:
+        return values
     mean = statistics.mean(values)
     std  = statistics.stdev(values)
     return [v for v in values if abs(v - mean) <= 2 * std]
@@ -275,7 +279,7 @@ def _is_outlier(value: float, mean: float, std: float) -> bool:
 {{< ai4sc-icon square-function >}} Verifikation
 %%/div
 
-%%col 50 50
+%%scol 50 50
 
 Prüffragen zum generierten Modul:
 
@@ -292,7 +296,7 @@ Prüffragen zum generierten Modul:
 > 2. Sind interne Helfer mit `_` als privat markiert?
 > 3. Importiert das Modul nur was es wirklich braucht?
 
-%%/col
+%%/scol
 
 %%/slides
 
@@ -305,9 +309,9 @@ Prüffragen zum generierten Modul:
 
 %%book
 
-Wenn Code über mehrere Dateien verteilt ist, braucht Python einen Hinweis welcher Code ausgeführt werden soll. Hierfür definiert man die spezielle Einstiegsfunktion `main()`. Sie gibt es in fast allen Programmiersprachen und gibt immer den Startpunkt eines Programms an.
+Wenn Code über mehrere Dateien verteilt ist, braucht Python einen Hinweis, welcher Code ausgeführt werden soll. Hierfür definiert man die spezielle Einstiegsfunktion `main()`. Sie gibt es in fast allen Programmiersprachen und gibt immer den Startpunkt eines Programms an.
 
-In Python hat sie entweder keine Argumente oder sie erhält diese dynamisch, wenn sie vom Nutzer / von einem anderen Programm aufgerufen wird (a.k.a. Kommandozeilenargumente).
+In Python hat sie entweder keine Argumente oder sie erhält diese dynamisch, wenn sie von anderen Prozessen aufgerufen wird, etwa über Kommandozeilenargumente.
 
 %%/book
 
@@ -339,7 +343,7 @@ if __name__ == "__main__":
 
 %%book
 
-Sie nutzt aus, dass der Wert der Standardvariable `__name__` in der Hauptdatei immer `'__main__'` lautet. Während sie in einer importierten Datei den Namen der Hauptdatei angibt.
+Sie nutzt aus, dass der Wert der Standardvariable `__name__` in der Hauptdatei immer `'__main__'` lautet. In einer importierten Datei ist `__name__` dagegen der Modulname und eben nicht `'__main__'`.
 
 %%/book
 
@@ -363,7 +367,7 @@ Woher weiß Python was ausgeführt werden soll?
 
 ## Die main()-Funktion in Python
 
-%%col 50 50
+%%scol 50 50
 
 Verschiedene Ausführungsmöglichkeiten:
 
@@ -373,7 +377,7 @@ Verschiedene Ausführungsmöglichkeiten:
 
 Problem: In Fall 1 wollen wir das gesamte Skript, in Fall 2+3 nur Teile nutzen
 
-Die Lösung - Variable `__name__`:
+Die Lösung: die Variable `__name__`
 
 %%sep
 
@@ -385,7 +389,7 @@ if __name__ == "__main__":
     main()  # nur bei direktem Aufruf
 ```
 
-%%/col
+%%/scol
 
 %%/slides
 
@@ -396,7 +400,7 @@ if __name__ == "__main__":
 
 Was gehört VOR die main()-Definition:
 
-%%col 50 50
+%%scol 50 50
 
 ✅ Nur erlaubt:
 
@@ -410,7 +414,7 @@ Was gehört VOR die main()-Definition:
 - Variablenbelegungen (globale Variablen)
 - Funktionsaufrufe (Nebeneffekte)
 
-%%/col
+%%/scol
 
 Vorteile dieser Struktur:
 
@@ -429,9 +433,9 @@ Vorteile dieser Struktur:
 
 %%book
 
-Um zu vermeiden, dass ständig unnötiger Code geladen wird lädt Python diesen Code nicht automatisch. Wollen wir also den Code in unseren Dateien, Modulen und Packages nutzen so müssen wir vorher Python anweisen diesen zu laden. Dieses *Importieren* weist man mit dem Befehl `import` an.
+Um zu vermeiden, dass ständig unnötiger Code geladen wird, lädt Python diesen Code nicht automatisch. Wollen wir also den Code in unseren Dateien, Modulen und Packages nutzen, so müssen wir Python vorher anweisen, diesen zu laden. Dieses *Importieren* weist man mit dem Befehl `import` an.
 
-Ein einfacher Import ist der import ganzer Pakete. Dies geschieht, indem wir `import` und dem Paketnamen schreiben.
+Ein einfacher Import ist der Import ganzer Module oder Packages. Dies geschieht, indem wir `import` und danach den Namen schreiben.
 
 %%/book
 
@@ -456,13 +460,13 @@ if __name__ == "__main__":
 
 %%book
 
-Der Nachteil des Imports ganzer Pakete ist, dass wenn wir hieraus einzelne Klassen referenzieren wollen, die sich in Untermodulen befinden, so müssen wir den kompletten Pfad der Klasse angeben. In dem Beispiel oben zum Beispiel `geometry.points.ImmutablePoint.ImmutablePoint`.
+Der Nachteil dieses Imports ist, dass wir für Klassen in Untermodulen den kompletten Pfad angeben müssen. In dem Beispiel oben also `geometry.points.ImmutablePoint.ImmutablePoint`.
 
 %%/book
 
 %%book
 
-Deshalb importiert man meist einzelne Module indem man den Pfad eines Moduls angibt, wie zum Beispiel `geometry.points.ImmutablePoint.ImmutablePoint`. Hierbei kann man den importierten Modulen auch neue Namen geben wie `point` oder `line` in dem Beispiel unten.
+Deshalb importiert man meist einzelne Module, indem man den Pfad eines Moduls angibt, wie zum Beispiel `geometry.points.ImmutablePoint`. Hierbei kann man den importierten Modulen auch neue Namen geben, wie `point` oder `line` im Beispiel unten.
 
 %%/book
 
@@ -493,6 +497,26 @@ Alternativ lassen sich auch Teile eines Moduls mit dem Platzhalter `*` und dem B
 
 %%book
 
+Python sucht Module nicht "magisch", sondern entlang seiner Importpfade. Diese stehen zur Laufzeit in `sys.path`. Dazu gehören typischerweise
+
+- das aktuelle Projektverzeichnis
+- die installierten Pakete der Python-Umgebung
+- weitere Pfade, die z.B. durch Tools oder Umgebungsvariablen ergänzt wurden
+
+Damit aus einem Verzeichnis wie `geometry/points/` ein importierbares Package wird, muss Python die Struktur als Package erkennen. In modernen Python-Versionen geht das oft schon über die Verzeichnisstruktur; häufig wird zusätzlich eine Datei `__init__.py` genutzt, um ein Package explizit zu markieren und zu konfigurieren.
+
+Wichtig ist die Unterscheidung:
+
+- *Verzeichnis:* nur eine Ordnerstruktur auf der Festplatte
+- *Package:* ein Verzeichnis, das Python als importierbaren Namensraum behandelt
+- *Modul:* eine konkrete Python-Datei wie `ImmutablePoint.py`
+
+Wenn also `geometry` im Suchpfad liegt, kann Python ein Modul wie `geometry.points.ImmutablePoint` finden. Liegt das Projekt nicht im Suchpfad oder ist die Package-Struktur unklar, schlägt der Import fehl.
+
+%%/book
+
+%%book
+
 ```{python}
 #| echo: true
 from geometry.points.ImmutablePoint import *
@@ -516,12 +540,10 @@ if __name__ == "__main__":
 ## Programmfluss über mehrere Dateien
 
 - Jetzt haben wir einen zentralen Startpunkt.
-
 - Wie rufen wir Code aus anderen Dateien auf?
-
 - Jede Programmiersprache hat Befehle zum Laden externen Codes:
-    - `import` und `include` (Python)
-    - Spezielle "Header-Dateien" die Zusammenhänge zwischen Dateien definieren
+    - in Python: `import`
+    - in anderen Sprachen z.B. `#include` (C/C++) oder `require` (JavaScript)
 
 %%/slides
 
@@ -530,14 +552,13 @@ if __name__ == "__main__":
 
 ## Programmfluss in Python - import Statement
 
-%%col 50 50
+%%scol 50 50
 
 Strategie:
 
 - Eine .py-Datei enthält `main()` (Fall 1)
 - Alle anderen ohne `main()` oder mit `__name__` ignoriert (Fall 3)
 - `import`-Statement lädt externe Dateien
-
 - *Achtung:* Kompletter Code wird ausgeführt, auch Variablen und Funktionsaufrufe!
 
 %%sep
@@ -550,7 +571,7 @@ def main():
 ```
 Variablen/Funktionen/Klassen aus `external_file.py` werden in Objekt `external_file` abgelegt
 
-%%/col
+%%/scol
 
 %%/slides
 
@@ -572,10 +593,10 @@ Variablen/Funktionen/Klassen aus `external_file.py` werden in Objekt `external_f
 
 ## Das import-Statement: Erweiterte Nutzungen
 
-- Die Import-Funktionen von Python sind komplex und vielschichtig.
+- Die Import-Funktionen von Python sind komplex und vielschichtig
 - Im Alltag trifft man aber meistens nur auf folgende zusätzliche Konstrukte:
-    - `from-import`-Statement: Importiert ein Submodul oder ein Teil eines Moduls direkt, ohne den übergeordneten Namespace
-    - `from-import-as`-Statement: Arbeitet genauso, benennt aber das importierte Objekt um
+    - `from ... import ...`: Importiert ein Submodul oder ein Teil eines Moduls direkt, ohne den übergeordneten Namespace
+    - `from ... import ... as ...`: Arbeitet genauso, benennt aber das importierte Objekt um
 
 ```python
 from external_file import external_function as ext_func
@@ -598,7 +619,7 @@ Python beinhaltet viele [Standardpakete](https://python.readthedocs.io/en/latest
 
 %%book
 
-| packet |   description |
+| package | description |
 | ------ | ------------- |
 | collections | Mehr komplexe Datentypen zum zählen, sortieren     |
 | http   | Funktionen des HTTP-Internetprotokolls wie Web-Server   |
@@ -614,7 +635,7 @@ Python beinhaltet viele [Standardpakete](https://python.readthedocs.io/en/latest
 | time   | Funktionen für Zeit und Datumsangaben                   |
 | timeit | Funktionen um die Performance von Funktionen zu testen  |
 |traceback| Funktionen um den Stack aufzulisten                    |
-| urllib | Funktionen um ULRs im Internet zu laden und verarbeiten |
+| urllib | Funktionen, um URLs im Internet zu laden und zu verarbeiten |
 
 %%/book
 
@@ -645,7 +666,7 @@ for count, filename in enumerate(os.listdir(folder)):
 
 Viele Webseiten bieten Programmierschnittstellen an, so genannte APIs, da diese APIs auch von den eigenen Webseiten genutzt werden, um Daten nachzuladen, die auf der Webseite angezeigt werden. Die APIs nutzen meist das JSON-Format um Daten auszutauschen. Dies ist ein Text-basiertes Dateiformat, das in Python sehr stark dem `dict`-Datentyp ähnelt, aber auch alle anderen primitiven und zusammengesetzten Datentypen von Python unterstützt.
 
-Wir möchten zum Beispiel die Wetterdaten einer Wetterstation in Deutschland analysieren. Diese Daten bekommen wir beim [Deutschen Wetterdiest](https://www.dwd.de). Diese Daten kann man sich auch von der [API](https://dwd.api.bund.dev/) herunterladen. Hierfür braucht man die ID (Identifikationsnummer) einer Wetterstation welche [hier](https://www.dwd.de/DE/leistungen/klimadatendeutschland/statliste/statlex_html.html?view=nasPublication&nn=16102) zu finden ist. Wir nehmen als Beispiel eine Station im Hansaviertel in Rostock mit der ID `12495`.
+Wir möchten zum Beispiel die Wetterdaten einer Wetterstation in Deutschland analysieren. Diese Daten bekommen wir beim [Deutschen Wetterdienst](https://www.dwd.de). Diese Daten kann man sich auch von der [API](https://dwd.api.bund.dev/) herunterladen. Hierfür braucht man die ID (Identifikationsnummer) einer Wetterstation, welche [hier](https://www.dwd.de/DE/leistungen/klimadatendeutschland/statliste/statlex_html.html?view=nasPublication&nn=16102) zu finden ist. Wir nehmen als Beispiel eine Station im Hansaviertel in Rostock mit der ID `12495`.
 
 Dann kann man die Wetterdaten mit Python mit Hilfe des Paketes `urllib` von der API laden. Das JSON-Format können wir mit dem `json` Paket verarbeiten. Wir laden dazu zuerst vom Deutschen Wetterdienst ein binäres Datenpaket vom Datentype `bytes`. Dieses konvertieren wir mit der Funktion `loads` aus dem `json` Paket in ein Python `dict`. Um das schöner lesbar auszugeben, nutzen wir die Funktion `pprint` aus dem Paket `pprint` (pretty-print).
 
@@ -671,14 +692,13 @@ with urllib.request.urlopen(f'https://app-prod-ws.warnwetter.de/v30/stationOverv
 %%slides
 
 
-## Import-Statements – Das Tor zur Welt
+## Pakete aus Standardbibliothek und PyPI
 
-- Wir können nicht nur unsere eigenen Pakete importieren – sondern auch Pakete die von anderen Personen/Organisationen öffentlich gemacht wurden!
-
-- Es gibt mehrere Möglichkeiten auf Pakete zuzugreifen:
+- Wir können nicht nur unsere eigenen Pakete importieren, sondern auch veröffentlichte Pakete anderer Personen oder Organisationen
+- Es gibt mehrere Wege, auf Pakete zuzugreifen:
 - Paket ist in Python mitgeliefert
-- Direkt als .py-Dateien / Ordner mit .py Dateien herunterladen
-- Einen Package-Manager (pip, uv) benutzen (Besser!)
+- Direkt als `.py`-Dateien oder Ordner herunterladen
+- Einen Package-Manager wie `pip` oder `uv` benutzen
 
 %%/slides
 
@@ -691,19 +711,21 @@ with urllib.request.urlopen(f'https://app-prod-ws.warnwetter.de/v30/stationOverv
 
 %%book
 
-Die Stärke von Python ist allerdings die riesige Auswahl an vorhandenen Paketen. Für die meisten Anwendungszwecke gibt es entsprechende Python Packages. Ein solches Verzeichnis is [PyPi](https://pypi.org/) das über 400.000 Pakete listet.
+Die Stärke von Python ist die riesige Auswahl an vorhandenen Paketen. Für die meisten Anwendungszwecke gibt es passende Python-Packages. Die wichtigste öffentliche Quelle dafür ist [PyPI](https://pypi.org/), der Python Package Index.
+
+Die Standardbibliothek gehört bereits zu Python und ist sofort verfügbar. Pakete aus PyPI werden zusätzlich in die aktive Python-Umgebung installiert. Genau diese Trennung sollte man im Projekt immer im Blick behalten: "mit Python mitgeliefert" ist nicht dasselbe wie "erst nachinstalliert".
 
 %%/book
 
 %%book
 
-Die Installation neuer Pakete für Python ist einfach. Hierfür öffnet man ein Terminal (Kommandozeile) und gibt den Befehl `pip install <packetname>` ein.
+Die Installation neuer Pakete erfolgt im Terminal, nicht innerhalb eines Python-Skripts. Dafür nutzt man typischerweise einen Befehl wie `pip install <paketname>`.
 
-Zum Beispiel wollen wir die eben geladenen Wetterdaten anzeigen. Hierfür nutzen wir:
+Zum Beispiel wollen wir die eben geladenen Wetterdaten anzeigen. Das Beispiel soll vor allem zeigen, wie externe Pakete zusammenspielen. Hierfür nutzen wir:
 
-- zuerst das Paket `pandas` zum Erzeugen einer Tabelle aus den Wetterdaten.
-- dann nutzen wir das Paket `plotly` zum Zeichnen eines Diagramms.
-- zuletzt erzeugen wir uns einen Webserver mit `dash` der uns das Diagramm immer anzeigt
+- zuerst das Paket `pandas` zum Erzeugen einer Tabelle aus den Wetterdaten
+- dann nutzen wir das Paket `plotly` zum Zeichnen eines Diagramms
+- zuletzt erzeugen wir mit `dash` optional einen kleinen Webserver, der das Diagramm anzeigt
 
 Alles drei installieren wir mit `pip`. Wir können das in einem Aufruf machen. Wir nutzen den `--quiet` Switch, um die Ausgabe zu reduzieren.
 
@@ -711,17 +733,16 @@ Alles drei installieren wir mit `pip`. Wir können das in einem Aufruf machen. W
 
 %%book
 
-```{python}
+```{bash}
 #| echo: true
-import subprocess
-subprocess.run(["pip", "install", "pandas", "plotly", "dash", "--quiet"])
+pip install pandas plotly dash --quiet
 ```
 
 %%/book
 
 %%book
 
-Jetzt laden wir beide Pakete, wobei man üblicher Weise `pandas` die Abkürzung `pd` zuweist und Plotly Express, welches einfach zu bedienen ist, die Abkürzung `px`.
+Jetzt laden wir die installierten Pakete, wobei man üblicherweise `pandas` die Abkürzung `pd` zuweist und Plotly Express die Abkürzung `px`.
 
 %%/book
 
@@ -737,7 +758,7 @@ import plotly.express as px
 
 %%book
 
-Nun wandeln wir die tageweise Wettervorhersage `days` der Daten von der Wetterstation mit der `stationID` zuerst in eine Tabelle um, da diese von Plotly express verarbeitet werden kann. Tabellen heißen in Pandas DataFrames (allgemein werden so Tabellen in der Data Science genannt). Wir erzeugen also aus der Wettervorhersage ein neue Objektinstanz vom Typ `DataFrame` via
+Nun wandeln wir die tageweise Wettervorhersage `days` der Daten von der Wetterstation mit der `stationID` zuerst in eine Tabelle um, da diese von Plotly Express verarbeitet werden kann. Tabellen heißen in Pandas DataFrames. Wir erzeugen also aus der Wettervorhersage eine neue Objektinstanz vom Typ `DataFrame` via
 
 %%/book
 
@@ -753,7 +774,7 @@ df
 
 %%book
 
-Nun plotten wir die Daten `df` als LinienDiagramm mit Hilfe von Plotly wobei wir als `x`-Axe das Datum wählen (`dayDate`) und als `y`-Axe die minimale Temperatur `temperatureMin` und maximale Temperatur `temperatureMax`.
+Nun plotten wir die Daten `df` als Liniendiagramm mit Hilfe von Plotly, wobei wir als `x`-Achse das Datum wählen (`dayDate`) und als `y`-Achse die minimale Temperatur `temperatureMin` und maximale Temperatur `temperatureMax`.
 
 %%/book
 
@@ -769,7 +790,7 @@ fig.show(renderer="svg")
 
 %%book
 
-Zuletzt wollen wir dieses Diagramm in einer Webseite auf einem Webserver anzeigen. Hier nutzen wir das Paket `dash` welches erlaubt eine Webseite mit Python-Befehlen zu erzeugen und darin interaktive Diagramme von Plotly mit anzuzeigen.
+Optional können wir dieses Diagramm anschließend in einer Webseite auf einem Webserver anzeigen. Hier nutzen wir das Paket `dash`, das erlaubt, eine Webseite mit Python-Befehlen zu erzeugen und darin interaktive Diagramme von Plotly anzuzeigen.
 
 %%/book
 
@@ -818,7 +839,7 @@ app.run_server()
 
 %%book
 
-Dies startet einen Webserver auf den wir in einem Browser unter `http://127.0.0.1:8083/` zugreifen können. Er zeigt uns eine Webseite mit einem interaktiven Diagramm welches die Wetterdaten anzeigt.
+Dies startet einen Webserver, auf den wir in einem Browser unter `http://127.0.0.1:8083/` zugreifen können. Er zeigt eine Webseite mit einem interaktiven Diagramm der Wetterdaten.
 
 %%/book
 
@@ -828,14 +849,55 @@ Dies startet einen Webserver auf den wir in einem Browser unter `http://127.0.0.
 
 %%/book
 
+%%book
+
+Ein Package kann außerdem festlegen, welche Namen beim Import nach außen sichtbar sein sollen. Dazu kann in `__init__.py` oder in einem Modul die Variable `__all__` definiert werden. Sie ist besonders dann hilfreich, wenn ein Package ein bewusst kleines öffentliches Interface anbieten soll.
+
+```{python}
+#| echo: true
+__all__ = ["Line", "Triangle", "Polygon"]
+```
+
+Die Konvention mit führendem Unterstrich (`_helper`) sagt also: "intern gedacht". `__all__` macht dieses öffentliche Interface zusätzlich explizit.
+
+%%/book
+
+%%slides
+
+
+## Externe Pakete installieren
+
+- Standardbibliothek ist sofort verfügbar
+- PyPI-Pakete müssen erst in die aktive Umgebung installiert werden
+- Installation erfolgt im Terminal, z.B. mit `pip install pandas plotly dash`
+- Danach können die Pakete wie gewohnt per `import` geladen werden
+
+%%/slides
+
+%%book
+
+
+## Python-Ökosystem: Standardbibliothek und PyPI
+
+Ein großer Teil der Stärke von Python liegt im Zusammenspiel aus Standardbibliothek und externer Paketwelt. Die Standardbibliothek deckt viele grundlegende Aufgaben ab, etwa Dateizugriffe, JSON-Verarbeitung oder mathematische Funktionen. PyPI erweitert dieses Fundament um spezialisierte Bibliotheken für Datenanalyse, Visualisierung, Webentwicklung, Geometrie, Machine Learning und vieles mehr.
+
+Für die Projektarbeit ist diese Unterscheidung wichtig:
+
+- *Standardbibliothek:* sofort nach der Python-Installation nutzbar
+- *PyPI-Pakete:* müssen pro Umgebung installiert und versioniert werden
+
+Gerade in Teamprojekten und bei KI-generiertem Code sollte man deshalb immer prüfen, ob ein Import schon durch Python verfügbar ist oder ob die Abhängigkeit erst dokumentiert und installiert werden muss.
+
+%%/book
+
 %%slides
 
 
 ## Packages - Die eigentliche Macht von Python
 
-- Pythons Platzierung als populärste Programmiersprache der Welt basiert vor allem darauf, dass es sich zu einer Interface- und Pipeline-Sprache entwickelt hat.
-- Fast jedes durch einen Computer lösbares Problem kann durch das geschickte Verschalten der richtigen Python-Packages gelöst werden.
-- Die offizielle Anlaufstelle für Packages, der Python Package Index (PyPI), führt derzeit über 418.000 frei verfügbare Pakete.
+- Pythons Stärke liegt auch in seiner Rolle als Interface- und Pipeline-Sprache
+- Viele Probleme lassen sich durch das geschickte Kombinieren vorhandener Packages lösen
+- Die offizielle Anlaufstelle für Packages ist der Python Package Index (PyPI)
 - Diese können in den meisten Fällen mit einem einzigen Befehl/Klick installiert werden
 
 <a href="https://pypi.org">![](images/06c_Module/pip.png)</a>
@@ -845,7 +907,7 @@ Dies startet einen Webserver auf den wir in einem Browser unter `http://127.0.0.
 %%slides
 
 
-## Lesson Learned {background="#66ccffff" cols40x60 txtL="Wie priotisiert man richtig?" capR=""I have two kinds of problems, the urgent and the important. The urgent are not important, and the important are never urgent.", Eisenhower" imgR="images/06c_Module/eisenhower.jpg"}
+## Lesson Learned {background="#66ccffff" cols40x60 txtL="Wie priorisiert man richtig?" capR=""I have two kinds of problems, the urgent and the important. The urgent are not important, and the important are never urgent.", Eisenhower" imgR="images/06c_Module/eisenhower.jpg"}
 
 %%/slides
 
@@ -854,16 +916,16 @@ Dies startet einen Webserver auf den wir in einem Browser unter `http://127.0.0.
 
 ## Lesson Learned - Priorisierung
 
-%%col 50 50
+%%scol 50 50
 
-- Beim Eisenhauer-Schreibtisch unterteilt man in dringend und wichtig
+- Beim Eisenhower-Schema unterteilt man in dringend und wichtig
 - Man bearbeitet zuerst die dringenden, wichtigen
 
 %%sep
 
 ![](images/06c_Module/priotisierung.svg){class="midjourney"}
 
-%%/col
+%%/scol
 
 %%/slides
 

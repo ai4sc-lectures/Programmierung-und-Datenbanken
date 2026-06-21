@@ -14,7 +14,6 @@ format:
     output-file: 11a_Raster_Simulation.page.pdf
 resources:
   - data/11a_Raster_Simulation
-bibliography: references.bib
 image-credit: "Midjourney: Aerial view of a river catchment with terrain elevation gradients"
 ---
 
@@ -42,6 +41,14 @@ image-credit: "Midjourney: Aerial view of a river catchment with terrain elevati
 Viele Umweltphänomene sind *kontinuierliche Felder*:
 Höhe, Temperatur, Bodenfeuchte existieren überall im Raum.
 
+Konkrete Frage: Wie würdet ihr die Temperatur in Berlin speichern,
+wenn ihr nicht nur einzelne Messstationen, sondern die ganze Stadt
+beschreiben wollt?
+
+Wie in der vorherigen Sitzung zu Geometrieproblemen gezeigt:
+Vektordaten beschreiben Grenzen und Objekte, Raster beschreiben
+flächige Felder mit einem Wert pro Zelle.
+
 Um sie zu berechnen, *diskretisiert* man das Feld zu einem Gitter —
 einem **Raster**.
 
@@ -66,6 +73,11 @@ in gleichgroße rechteckige Zellen eingeteilt wird. Die Wahl der Auflösung
 erfassen mehr räumliches Detail, erfordern aber mehr Speicher und Rechenzeit.
 Für globale Klimamodelle werden Zellgrößen von 1–25 km verwendet;
 für Hochwassermodelle in Städten reichen 1–5 m.
+
+Die Verbindung zur vorherigen Sitzung ist zentral: Während Vektordaten
+Punkte, Linien und Polygone für klar abgegrenzte Objekte speichern,
+beschreiben Raster flächige Größen wie Höhe oder Temperatur.
+Beide Datenmodelle lösen also unterschiedliche Problemklassen.
 %%/book
 
 ## Auflösung: Modellentscheidung
@@ -410,9 +422,16 @@ In der Praxis liefert `rasterstats` oder `zonal_stats()` diese Funktion.
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Synthetisches 20×20-Geländeraster
+# Synthetisches Höhenprofil von Nord nach Süd
 np.random.seed(42)
-base = np.linspace(50, 200, 20).reshape(20, 1) * np.ones((1, 20))
+height_profile = np.linspace(50, 200, 20)
+print("Profil (erste 5 Werte):", height_profile[:5])
+
+# Profil auf alle 20 Spalten ausbreiten
+base = height_profile.reshape(20, 1) * np.ones((1, 20))
+print("Basisraster-Form:", base.shape)
+
+# Zufällige lokale Abweichungen hinzufügen
 noise = np.random.normal(0, 8, (20, 20))
 terrain20 = (base + noise).astype(int)
 
@@ -530,8 +549,8 @@ def fraction_above(grid, threshold):
 
 # Problem: Mit nodata = -9999 und threshold = 0.5
 # ist -9999 < 0.5 → False → scheinbar korrekt.
-# Aber: Zähler und Nenner sind falsch, wenn
-# threshold < nodata möglich ist!
+# Aber: NoData-Zellen gehen trotzdem in den Nenner ein.
+# Bei Mittelwerten dominiert -9999 sogar als extremer Ausreißer.
 ```
 
 Testet **immer** mit einem Gitter,
@@ -561,7 +580,7 @@ def fraction_above_bad(grid, t):
 bad = fraction_above_bad(moisture, 0.5)
 print(f"Falsch:  {bad:.2f}")
 # -9999 > 0.5 → False → zählt als 0,
-# aber verzerrt den Nenner!
+# und vergrößert damit den Nenner trotz ungültiger Zellen.
 
 # ✅ Mit NoData-Filterung
 valid = moisture[moisture != nodata]
@@ -701,6 +720,8 @@ bevor ihr echte Geodaten verwendet.
 %%div eyebrow
 {{< ai4sc-icon workflow >}} Agentic Cycle
 %%/div
+
+Agentischer Workflow: 6-schrittiger Prozess zur KI-generierten Rasteranalyse.
 
 1. **Erkennen** — ist es ein Rasterproblem?
    Kontinuierliches Feld? Grid-Darstellung geeignet?

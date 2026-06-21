@@ -74,7 +74,7 @@ Jedes Element des UML-Klassendiagramms hat eine direkte Python-Entsprechung. Die
 
 ## Klassenname und Attribute {{< ai4sc-icon box >}}
 
-%%col 50 50
+%%scol 50 50
 
 **UML-Diagramm:**
 
@@ -103,7 +103,7 @@ class Raum:
         self.höhe   = höhe
 ```
 
-%%/col
+%%/scol
 
 %%/slides
 
@@ -111,7 +111,7 @@ class Raum:
 
 ### Klassenname und Attribute
 
-Das `class`-Schlüsselwort leitet die Klassendefinition ein; der Name entspricht direkt dem UML-Klassenname. Die Attribute des UML-Diagramms werden im Konstruktor `__init__` als `self.attributname` definiert. `self` ist eine Selbst-Referenz auf die aktuelle Instanz — sie muss immer der erste Parameter einer Methode sein.
+Das `class`-Schlüsselwort leitet die Klassendefinition ein; der Name entspricht direkt dem UML-Klassenname. Die Attribute des UML-Diagramms werden im Konstruktor `__init__` als `self.attributname` definiert. `self` ist eine Selbstreferenz auf die aktuelle Instanz — sie muss immer der erste Parameter einer Methode sein.
 
 %%/book
 
@@ -123,7 +123,7 @@ Das `class`-Schlüsselwort leitet die Klassendefinition ein; der Name entspricht
 {{< ai4sc-icon square-function >}} Methode · {{< ai4sc-icon arrow-left-right >}} Assoziation
 %%/div
 
-%%col 50 50
+%%scol 50 50
 
 **UML-Diagramm:**
 
@@ -155,7 +155,7 @@ class Raum:
         return self.fenster
 ```
 
-%%/col
+%%/scol
 
 %%/slides
 
@@ -172,6 +172,9 @@ Methoden aus dem UML-Diagramm werden als Funktionen mit `self` als erstem Parame
 %%slides
 
 ## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Welche Python-Klasse entspricht dem UML-Diagramm der Raum-Klasse aus S04?" capR="Midjourney: Bauhaus architectural line drawing" imgR="images/04c_Objects/mj_title_band.jpg"}
+
+- Erinnerung aus S04: `Raum` hatte die Attribute `name`, `fläche`, `höhe`
+- Außerdem gehörten die Methode `berechne_volumen()` und eine `0..*`-Assoziation zu `Fenster` dazu
 
 %%/slides
 
@@ -259,7 +262,7 @@ Dieser Abschnitt behandelt die vollständige Syntax für Python-Klassen: Konstru
 - `__init__()` ist die spezielle Methode zum Erzeugen einer Instanz
 - Wird implizit aufgerufen wenn der Klassenname wie eine Funktion genutzt wird
 - Weist Instanzattribute zu und führt Initialisierungsschritte aus
-- `self` = Selbst-Referenz auf die neue Instanz (immer erster Parameter)
+- `self` = Selbstreferenz auf die neue Instanz (immer erster Parameter)
 
 ```python
 class Punkt:
@@ -274,7 +277,7 @@ class Punkt:
 
 ## Konstruktor `__init__`
 
-Der Konstruktor `__init__()` ist eine spezielle Methode, die festlegt, wie eine neue Instanz der Klasse erzeugt wird. Er wird genutzt, um Attribute initial zuzuweisen und Initialisierungsschritte durchzuführen. `self` ist dabei eine Selbst-Referenz auf die neue Instanz. Die Zuweisung `self.x = x` bedeutet, dass wir dem neuen Instanzattribut `x` der Instanz `self` den Wert des Parameters `x` zuweisen — obwohl beide gleich heißen, sind sie nicht dieselbe Variable.
+Der Konstruktor `__init__()` ist eine spezielle Methode, die festlegt, wie eine neue Instanz der Klasse erzeugt wird. Er wird genutzt, um Attribute initial zuzuweisen und Initialisierungsschritte durchzuführen. `self` ist dabei eine Selbstreferenz auf die neue Instanz. Die Zuweisung `self.x = x` bedeutet, dass wir dem neuen Instanzattribut `x` der Instanz `self` den Wert des Parameters `x` zuweisen — obwohl beide gleich heißen, sind sie nicht dieselbe Variable.
 
 Da `__init__()` eine Funktion ist, kann man auch Defaultwerte definieren: `def __init__(self, x=0.0, y=0.0)`.
 
@@ -284,7 +287,7 @@ Da `__init__()` eine Funktion ist, kann man auch Defaultwerte definieren: `def _
 
 ## Instanz- vs. Klassenattribute {{< ai4sc-icon box >}}
 
-%%col 50 50
+%%scol 50 50
 
 **Instanzattribute** (Wert je Instanz):
 
@@ -306,7 +309,7 @@ class Raum:
         self.fläche = fläche
 ```
 
-%%/col
+%%/scol
 
 %%warning Achtung
 Veränderliche Klassenattribute (Listen, Dicts) gelten für **alle** Instanzen — eine Änderung durch eine Instanz wirkt sich auf alle aus.
@@ -442,6 +445,7 @@ Die Beziehungsrichtung im UML-Diagramm bestimmt, in welcher Klasse das Attribut 
 - Protected Attribute: `_attributname` — für Klasse und Unterklassen
 - Public Attribute: `attributname` — überall sichtbar (Standard)
 - Getter-Methoden stellen kontrollierten Lesezugriff bereit
+- Python nutzt bei `__name` Name Mangling: technisch bleibt Zugriff möglich, aber nicht unter dem ursprünglichen Namen
 
 ```python
 class Raum:
@@ -458,7 +462,7 @@ class Raum:
 
 ## Kapselung
 
-Kapselung schützt Attribute vor unerwünschtem Zugriff. Private Attribute (`__name`) sind nur innerhalb der Klasse über `self` zugänglich; der direkte Zugriff von außen schlägt fehl. Um Lesezugriff zu ermöglichen, definiert man Getter-Methoden. Kapselung ist im UML-Diagramm durch die Sichtbarkeitsmarker `+` (public), `#` (protected) und `-` (private) ausgedrückt.
+Kapselung schützt Attribute vor unerwünschtem Zugriff. Private Attribute (`__name`) sind nur innerhalb der Klasse über `self` zugänglich; der direkte Zugriff von außen schlägt fehl. Python setzt hier allerdings kein echtes Zugriffsverbot um, sondern verwendet sogenanntes Name Mangling: Intern wird der Name umgeschrieben, sodass versehentlicher Zugriff erschwert wird. Um Lesezugriff zu ermöglichen, definiert man Getter-Methoden. Kapselung ist im UML-Diagramm durch die Sichtbarkeitsmarker `+` (public), `#` (protected) und `-` (private) ausgedrückt.
 
 %%/book
 
@@ -497,7 +501,7 @@ class Serverraum(Raum):
 
 Vererbung ist eine der wichtigsten Eigenschaften der Objektorientierung. Unterklassen erben alle Attribute und Methoden der Oberklasse. Beim Deklarieren gibt man die Oberklasse in Klammern an: `class Kind(Eltern):`. Der Konstruktor der Oberklasse muss explizit mit `super().__init__(...)` aufgerufen werden; sonst werden die Attribute der Oberklasse nicht initialisiert.
 
-Kinderklassen können Methoden der Elternklasse überschreiben (*Polymorphismus*) — und so dasselbe Interface unterschiedlich implementieren.
+Unterklassen können Methoden der Elternklasse überschreiben (*Polymorphismus*) — und so dasselbe Interface unterschiedlich implementieren.
 
 %%/book
 
@@ -511,7 +515,7 @@ Kinderklassen können Methoden der Elternklasse überschreiben (*Polymorphismus*
 {{< ai4sc-icon square-function >}} Typischer KI-Fehler
 %%/div
 
-%%col 50 50
+%%scol 50 50
 
 **Fehlerhaft (KI macht das oft):**
 
@@ -539,7 +543,11 @@ class Raum:
 
 Jede Instanz bekommt ihre **eigene Liste**.
 
-%%/col
+%%/scol
+
+%%note Merke
+Das Problem gilt nicht nur in `__init__`, sondern bei **jeder** Python-Funktion mit veränderlichem Defaultwert.
+%%/note
 
 %%/slides
 
@@ -547,7 +555,7 @@ Jede Instanz bekommt ihre **eigene Liste**.
 
 ### KI-Fehler 1: Mutable Default
 
-Ein häufiger KI-Fehler ist die Verwendung von veränderlichen Objekten (Listen, Dictionaries) als Defaultwerte in `__init__`. Der Defaultwert wird nur **einmal** beim Laden der Klasse ausgewertet — alle Instanzen teilen dann dieselbe Liste. Die korrekte Lösung ist der Defaultwert `None` mit expliziter Initialisierung im Konstruktorrumpf.
+Ein häufiger KI-Fehler ist die Verwendung von veränderlichen Objekten (Listen, Dictionaries) als Defaultwerte in `__init__`. Dieses Problem ist nicht auf Klassen beschränkt, sondern gilt allgemein für jede Python-Funktion mit veränderlichem Defaultwert. Der Defaultwert wird nur **einmal** beim Definieren der Funktion ausgewertet — alle späteren Aufrufe oder Instanzen teilen dann dieselbe Liste. Die korrekte Lösung ist der Defaultwert `None` mit expliziter Initialisierung im Konstruktor.
 
 %%/book
 
@@ -559,7 +567,7 @@ Ein häufiger KI-Fehler ist die Verwendung von veränderlichen Objekten (Listen,
 {{< ai4sc-icon square-function >}} Typischer KI-Fehler
 %%/div
 
-%%col 50 50
+%%scol 50 50
 
 **Fehlerhaft:**
 
@@ -583,7 +591,7 @@ class Raum:
 
 `self` macht den Instanzkontext explizit.
 
-%%/col
+%%/scol
 
 %%/slides
 
@@ -603,7 +611,7 @@ Methoden müssen immer `self` als ersten Parameter haben. Ohne `self` hat die Me
 {{< ai4sc-icon square-function >}} Typischer KI-Fehler
 %%/div
 
-%%col 50 50
+%%scol 50 50
 
 **Fehlerhaft:**
 
@@ -627,7 +635,7 @@ class Raum:
 
 Instanzmethode → immer `self`.
 
-%%/col
+%%/scol
 
 %%tip Merksatz
 `self` = Instanzmethode · `cls` = `@classmethod` · kein Parameter = `@staticmethod`
@@ -653,7 +661,7 @@ In Python ist `cls` die Konvention für den ersten Parameter von Klassenmethoden
 {{< ai4sc-icon clipboard-list >}} Anforderung · Verifikation
 %%/div
 
-%%col 33v 33 33
+%%scol 33v 33 33
 
 **1. Was modelliert diese Klasse?**
 
@@ -675,7 +683,7 @@ In Python ist `cls` die Konvention für den ersten Parameter von Klassenmethoden
 - Fehlt `self` bei einer Methode?
 - Sind Assoziationen als Instanzattribute implementiert?
 
-%%/col
+%%/scol
 
 %%/slides
 
@@ -717,8 +725,6 @@ Kapselung, Vererbung, Methodensignaturen
 %%/slides
 
 %%book
-
-## Quiz
 
 ```{quizdown}
 

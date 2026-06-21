@@ -51,7 +51,7 @@ else:
 %%slides
 
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Welche Loop Typen gibt es?" capR="Midjourney: Loop" imgR="images/06a_Funktionen/mj_loop.png"}
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Welche Schleifentypen gibt es?" capR="Midjourney: Loop" imgR="images/06a_Funktionen/mj_loop.png"}
 
 %%/slides
 
@@ -63,26 +63,26 @@ Schleifen sind ein wichtiger Ansatz in der Programmierung, um wiederholende oder
 
 In Python sind verfügbar:
 
-- `for` (Entspricht For-Each-Loop)
-- `while` (Entspricht While-Loop)
+- `for` (entspricht einer Zählschleife bzw. For-Each-Schleife)
+- `while` (entspricht einer While-Schleife)
 
 Wichtige Eigenschaften:
 
 - Funktionieren genau wie alle anderen Steueranweisungen durch Einrückungen nach einer einzeiligen Definition
 - Anders als in Funktionen sind Variablen aus Schleifen auch außerhalb der Schleife verfügbar!
-- Die anderen Loop-Varianten sind zwar nicht explizit vorhanden, aber funktionell nachbildbar
+- Andere Schleifenvarianten sind zwar nicht explizit vorhanden, aber funktionell nachbildbar
 
 %%/slides
 
 %%slides
 
 
-## Wiederholung: While-Loops
+## Wiederholung: While-Schleifen
 %%col 33 33 33
 
-**While-Loop**
+**While-Schleife**
 
-Im While-Loop kann die Bedingung schon am Anfang falsch sein. Die Schleife muss also nicht ausgeführt werden.
+Bei der While-Schleife kann die Bedingung schon am Anfang falsch sein. Die Schleife muss also nicht ausgeführt werden.
 
 ```python
 Bedingung = True/False
@@ -93,9 +93,9 @@ while Bedingung:
 
 %%sep
 
-**Do-While-Loop**
+**Do-While-Schleife**
 
-Im Do-While-Loop wird die Bedingung erst am Ende geprüft. Die Schleife wird also immer mindestens einmal durchlaufen.
+Bei der Do-While-Schleife wird die Bedingung erst am Ende geprüft. Die Schleife wird also immer mindestens einmal durchlaufen.
 
 ```python
 Bedingung = True
@@ -106,9 +106,9 @@ while Bedingung:
 
 %%sep
 
-**Repeat-Until-Loop**
+**Repeat-Until-Schleife**
 
-Beim Repeat-Until-Loop wird die Bedingung auch erst am Ende geprüft. Die Schleife wird wiederholt bis die Bedingung wahr wird.
+Bei der Repeat-Until-Schleife wird die Bedingung auch erst am Ende geprüft. Die Schleife wird wiederholt bis die Bedingung wahr wird.
 
 ```python
 Bedingung = False
@@ -124,9 +124,21 @@ while not Bedingung:
 %%book
 
 
-# Funktionen
+## Funktionen
 
 %%/book
+
+%%slides
+
+
+## Warum brauchen wir Funktionen? {{< ai4sc-icon square-function >}}
+
+- Wiederkehrende Schritte nur einmal schreiben
+- Komplexe Aufgaben in kleine, verständliche Bausteine zerlegen
+- Namen geben dem Code Bedeutung und machen Programme lesbarer
+- Änderungen müssen nur an einer Stelle gemacht werden
+
+%%/slides
 
 %%slides
 
@@ -294,7 +306,7 @@ def flow_velocity(flow_rate: float, pipe_diameter: float) -> float:
 
 - Formel $v = Q / A$ korrekt
 - Rückgabetyp `float` korrekt
-- Import im Funktionskörper — ungewöhnlich, funktioniert aber
+- Import im Funktionskörper — ungewöhnlich, funktioniert aber; meist steht `import` aus Effizienz- und Stilgründen am Modulanfang
 
 %%sep
 
@@ -333,8 +345,8 @@ Funktionen werden in Python mit dem Schlüsselwort `def` definiert. Sie haben ei
 #| echo: true
 def funktionsname(argument1, argument2):
     # Funktionskörper
-    print("Der Datentyp von Argument 1 ist "+str(type(argument1)))
-    print("Der Datentyp von Argument 2 ist "+str(type(argument2)))
+    print("Der Typ von Argument 1 ist "+str(type(argument1)))
+    print("Der Typ von Argument 2 ist "+str(type(argument2)))
 ```
 
 %%/book
@@ -352,15 +364,15 @@ Hierbei müssen alle Teile der Funktion gleich eingerückt werden. Der folgende 
 #| error: true
 def funktionsname(argument1, argument):
     # Funktionskörper
-    print("Der Datentyp von Argument 1 ist "+str(type(argument1)))
-        print("Der Datentyp von Argument 2 ist "+str(type(argument2)))
+    print("Der Typ von Argument 1 ist "+str(type(argument1)))
+        print("Der Typ von Argument 2 ist "+str(type(argument2)))
 ```
 
 %%/book
 
 %%book
 
-Beim Aufruf der Funktion durch den `funktionsname(wert1, wert2)` müssen die Argumente mit Eingabewerten belegt werden. Die Argumente in Python werden wie andere Variablen dynamisch typisiert (Wir wissen also nicht unbedingt welchen Datentyp sie später haben werden. Das ist eine typische Fehlerquelle).
+Beim Aufruf der Funktion durch den `funktionsname(wert1, wert2)` müssen die Argumente mit Eingabewerten belegt werden. Die Argumente in Python werden wie andere Variablen dynamisch typisiert (wir wissen also nicht unbedingt, welchen Typ sie später haben werden. Das ist eine typische Fehlerquelle).
 
 %%/book
 
@@ -416,25 +428,23 @@ def funktionsname(arg1, arg2): # <- funktionsname ist wählbar, arg1 und arg2 si
 
 %%col 50 50
 
-Multiplikation
+Direkte Berechnung
 
 ```python
-x = arg1 * 2   # 4
-x = arg1 * 4   # 16
-x = arg1 * 8   # 128
+zahl = 4
+ergebnis = zahl * 2   # 8
 ```
 
 %%sep
 
-Bitshift (schneller)
+Als Funktion gekapselt
 
 ```python
-def mal2(arg1):
-    return arg1 << 1
+def verdopple(zahl):
+    return zahl * 2
 
-x = arg1 << 1   # $2^1$
-x = arg1 << 2   # $2^2$
-x = arg1 << 3   # $2^3$
+ergebnis = verdopple(4)   # 8
+ergebnis = verdopple(7)   # 14
 ```
 
 %%/col
@@ -687,14 +697,14 @@ Variablen innerhalb von Funktionen sind nicht global gültig. So sind die Variab
 def meine_funktion(argument):
     interne_variable = "geheim"
     print("Der Wert von argument innerhalb der Funktion ist "+str(argument))
-    print("Der Wert von intern innerhalb der Funktion ist "+str(interne_variable))
+    print("Der Wert von interne_variable innerhalb der Funktion ist "+str(interne_variable))
 ```
 
 %%/book
 
 %%book
 
-die Werte von `argument` und `intern` innerhalb der Funktion definiert und werden im ´print()´ Statement ausgegeben.
+die Werte von `argument` und `interne_variable` innerhalb der Funktion definiert und werden im `print()`-Statement ausgegeben.
 
 %%/book
 
@@ -743,7 +753,7 @@ Die erlaubt es auch Variablennamen außerhalb der Funktion zu definieren, welche
 
 ```{python}
 #| echo: true
-argument = 6 # orginalwert
+argument = 6 # Originalwert
 print("Der Wert von argument vor der Funktion ist "+str(argument))
 meine_funktion(4)
 print("Der Wert von argument nach der Funktion ist immer noch "+str(argument))
@@ -760,7 +770,7 @@ print("Der Wert von argument nach der Funktion ist immer noch "+str(argument))
 
 %%book
 
-Grundsätzlich werden Modifikationen an Argumenten primitiver Datentypen innerhalb der Funktion nicht übernommen (pass-by-value). So, lässt sich innerhalb der Funktion auch Argumenten neue Werte zuweisen.
+Wird innerhalb einer Funktion ein neuer Wert an einen Parameternamen gebunden, bleibt die Variable außerhalb der Funktion unverändert. Das gilt auch bei unveränderlichen Typen wie `int`, `float`, `str` oder `tuple`.
 
 %%/book
 
@@ -773,7 +783,7 @@ def meine_funktion(argument):
     argument = 3
     print("Der Wert von argument am Ende der Funktion ist "+str(argument))
 
-argument = 6 # orginalwert
+argument = 6 # Originalwert
 print("Der Wert von argument vor der Funktion ist "+str(argument))
 meine_funktion(argument)
 print("Der Wert von argument nach der Funktion ist immer noch "+str(argument))
@@ -783,7 +793,7 @@ print("Der Wert von argument nach der Funktion ist immer noch "+str(argument))
 
 %%book
 
-Das funktioniert auch bei komplexen Datentypen, wie `list`, `set`, `dict`, sofern sie komplett neu zugewiesen werden.
+Das funktioniert auch bei veränderlichen Typen wie `list`, `set` oder `dict`, sofern innerhalb der Funktion nur eine **Neubindung** des Parameternamens erfolgt.
 
 %%/book
 
@@ -796,7 +806,7 @@ def meine_funktion(argument):
     argument = [3]
     print("Der Wert von argument am Ende der Funktion ist "+str(argument))
 
-argument = [6] # orginalwert
+argument = [6] # Originalwert
 print("Der Wert von argument vor der Funktion ist "+str(argument))
 meine_funktion(argument)
 print("Der Wert von argument nach der Funktion ist immer noch "+str(argument))
@@ -806,7 +816,7 @@ print("Der Wert von argument nach der Funktion ist immer noch "+str(argument))
 
 %%book
 
-Werden sie allerdings nur modifiziert (pass-by-reference), so sind diese Änderungen auch global.
+Werden die übergebenen Objekte allerdings direkt modifiziert, so sind diese Änderungen auch außerhalb der Funktion sichtbar.
 
 %%/book
 
@@ -816,10 +826,10 @@ Werden sie allerdings nur modifiziert (pass-by-reference), so sind diese Änderu
 #| echo: true
 def meine_funktion(argument):
     print("Der Wert von argument am Anfang der Funktion ist "+str(argument))
-    argument.append(3) # Wir fügen 3 der liste hinzu
+    argument.append(3) # Wir fügen 3 der Liste hinzu
     print("Der Wert von argument am Ende der Funktion ist "+str(argument))
 
-argument = [6] # orginalwert
+argument = [6] # Originalwert
 print("Der Wert von argument vor der Funktion ist "+str(argument))
 meine_funktion(argument)
 print("Der Wert von argument nach der Funktion ist auf einmal "+str(argument))
@@ -844,16 +854,16 @@ Das kann sehr schnell zu Fehlern führen, wenn man unbeabsichtigt globale Datens
 
 **Pass-by-value**
 
-- Nur **Werte** werden kopiert
-- Übergabe-Variablen sind in der Funktion nicht zugreifbar
-- „Sicherer", da keine unerwartete Neubindung
+- Die Funktion arbeitet mit einer **Kopie des übergebenen Werts**
+- Änderungen an dieser lokalen Kopie bleiben innerhalb der Funktion
+- Oft einfacher zu verstehen und sicherer als unbedachtes Referenz-Überschreiben
 
 %%sep
 
 **Pass-by-reference**
 
-- Referenz auf die **gleichen Daten**
-- Werte in der Funktion veränderbar
+- Die Funktion arbeitet mit einer Referenz auf **dieselben Daten**
+- Veränderungen am Objekt sind auch außerhalb der Funktion sichtbar
 - Spart Zeit und Speicher
 
 %%/col
@@ -865,10 +875,11 @@ Das kann sehr schnell zu Fehlern führen, wenn man unbeabsichtigt globale Datens
 
 ## Übergabe von Argumentwerten in Python
 
-- Mischvariante, oft „**Pass-by-assignment**" genannt
-- **Mutable** Datentypen: verhalten sich wie *pass-by-reference*
-- **Immutable** Datentypen: verhalten sich wie *pass-by-value*
-- Wird eine *mutable* Variable **neu gebunden**, wirkt das **nicht** außerhalb
+- Python übergibt immer eine Referenz auf ein Objekt an den Parameternamen
+- Dieses Modell wird oft „**Pass-by-assignment**" oder „call by sharing" genannt
+- Bei **immutable** Typen wirkt eine Neubindung lokal, deshalb sieht es oft wie *pass-by-value* aus
+- Bei **mutable** Typen sind Objektänderungen sichtbar, deshalb wirkt es oft wie *pass-by-reference*
+- Wird eine *mutable* Variable nur **neu gebunden**, wirkt das **nicht** außerhalb
 
 %%/slides
 
@@ -882,10 +893,10 @@ Python hat eine umfangreiche Liste eingebauter Funktionen.
 | Funktion                               | Zweck                          |
 |:---------------------------------------|:-------------------------------|
 | `print()`, `input()`                   | Ausgabe, Eingabe               |
-| `id()`, `type()`                       | Variablen ID, Datentyp         |
-| `int()`, `str()`, `float()`            | Datentyp-Konvertierung         |
-| `list()`, `tuple()`, `set()`, `dict()` | Komplexe Datentypen            |
-| `len()`                                | Länge eines komplexen Datentyps|
+| `id()`, `type()`                       | Variablen-ID, Typ              |
+| `int()`, `str()`, `float()`            | Typ-Konvertierung              |
+| `list()`, `tuple()`, `set()`, `dict()` | Komplexe Typen                 |
+| `len()`                                | Länge eines komplexen Typs     |
 | `abs()`, `max()`, `min()`              | Mathematische Grundfunktionen  |
 | `exit()`                               | Programm beenden               |
 | `sorted()`                             | Sortieren                      |
@@ -977,7 +988,7 @@ Python hat eine umfangreiche Liste eingebauter Funktionen.
     - [ ] Sie wird zu einer globalen Konstante
     - [ ] Sie bleibt im Speicher bis das Programm beendet ist
 
-    ### Was passiert mit primitiven Datentypen, wenn sie einer Funktion übergeben und dort verändert werden?
+    ### Was passiert mit primitiven Typen, wenn sie einer Funktion übergeben und dort verändert werden?
     - [x] Die Änderung bleibt lokal innerhalb der Funktion
     - [ ] Die ursprüngliche Variable wird immer überschrieben
     - [ ] Python speichert die Änderung automatisch global
@@ -1012,33 +1023,6 @@ Python hat eine umfangreiche Liste eingebauter Funktionen.
     - [ ] Nur die Rückgabe wird berechnet
     - [ ] Nur die letzte Zeile der Funktion wird ausgeführt
     - [ ] Python pausiert das Hauptprogramm
-
-    ### Was ist eine rekursive Funktion?
-    - [x] Eine Funktion, die sich selbst aufruft
-    - [ ] Eine Funktion, die nur einmal aufgerufen werden darf
-    - [ ] Eine Funktion ohne Parameter
-    - [ ] Eine spezielle Schleifenfunktion in Python
-
-    ### Welcher Fehler steckt in diesem Beispiel?
-    ```python
-    def rekursive_funktion():
-        rekursive_funktion()
-    ```
-    - [x] Es fehlt die Abbruchbedingung, dadurch entsteht eine Endlosschleife
-    - [ ] Der Funktionsname ist ungültig
-    - [ ] Python erlaubt keine Selbstaufrufe
-    - [ ] Die Funktion muss einen Parameter haben
-
-    ### Sortiere die folgenden Zeilen, um eine einfache rekursive Funktion korrekt zu implementieren:
-    ```python
-    n = 3
-    ```
-    1. `def count_down(n):`
-    2. `  if n <= 0:`
-    3. `    print("Fertig!")`
-    4. `  else:`
-    5. `    print(n)`
-    6. `    count_down(n - 1)`
 
     ### Welches Problem entsteht bei `def f(items=[])` als Standardwert?
     - [x] Die Liste wird einmalig erstellt und zwischen allen Aufrufen geteilt

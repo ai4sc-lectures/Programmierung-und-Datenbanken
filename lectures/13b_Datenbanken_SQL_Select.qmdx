@@ -46,6 +46,11 @@ Das Lernziel ist heute nicht, möglichst viel SQL-Syntax auswendig zu lernen.
 Das Lernziel ist: Anforderungen in eine Abfrage übersetzen lassen und dann
 systematisch prüfen, ob das Ergebnis stimmt.
 
+Der Uebergang ist wichtig: Ein gutes Schema ist die Voraussetzung dafuer, dass
+`JOIN`-Bedingungen spaeter eindeutig formuliert werden koennen. Heute wechseln
+wir also von der Strukturfrage zur Nutzungsfrage: Welche fachliche Antwort soll
+aus den Tabellen wieder herauskommen?
+
 %%/book
 
 ## Von S12 zu S13
@@ -238,7 +243,6 @@ ist der Testgegenstand, sondern das Ergebnis.
 - besonders riskant: falscher `JOIN`, falscher Zeitraum, falsche Sortierung
 - deshalb: bekannte Testdaten vor unbekannten Echtdaten
 
-> **Merksatz:** Don't trust SQL by reading it.
 
 ## 🔍 Mini-Datensatz mit bekannter Lösung
 
@@ -286,6 +290,10 @@ ist der Testgegenstand, sondern das Ergebnis.
 
 > **Verbindung zu S08:** Das ist fachlich ein Testfall mit erwarteter Ausgabe.
 
+- fuer den Testfall ersetzen wir `datetime('now', '-30 days')` durch einen
+  festen Stichtag
+- so bleibt die erwartete Ausgabe reproduzierbar
+
 ## 🔍 Verifikation in Python
 
 ```python
@@ -317,7 +325,24 @@ Heute reicht ein Überblick über einfache Aggregation. Für viele technische
 Anfragen genügen `COUNT`, `SUM`, `AVG`, `MIN`, `MAX`. Komplexere SQL-Konstrukte
 sind wichtig, aber nicht unser Schwerpunkt in diesem Kurs.
 
+Wichtig ist vor allem die Idee hinter `GROUP BY`: Mehrere Zeilen werden zu
+fachlich sinnvollen Gruppen zusammengefasst, und pro Gruppe berechnen wir
+Kennwerte. Dazu kommen zwei alltagstaugliche Erweiterungen: Ergebnisse bewusst
+sortieren und die Ausgabe auf wenige Zeilen begrenzen.
+
 %%/book
+
+## 🗄 Gruppen bilden mit `GROUP BY`
+
+```sql
+SELECT station_id
+FROM measurements
+GROUP BY station_id
+```
+
+- bildet eine Gruppe pro `station_id`
+- erst die Gruppen, dann die Kennwerte
+- fachlich fragen: Nach welchem Merkmal soll zusammengefasst werden?
 
 ## 🗄 Aggregation leichtgewichtig
 
@@ -345,6 +370,15 @@ LIMIT 5
 - heute nur als Nachschlagewissen
 
 %%# Zusammenfassung
+
+%%book
+
+SQL ist in diesem Kurs kein Selbstzweck, sondern ein Werkzeug fuer fachliche
+Fragen an tabellarische Daten. Entscheidend ist nicht, ob eine Abfrage elegant
+aussieht, sondern ob sie mit bekanntem Schema, sauberem Prompting und einer
+kleinen Verifikation nachvollziehbar zum richtigen Ergebnis fuehrt.
+
+%%/book
 
 ## SQL in diesem Kurs
 

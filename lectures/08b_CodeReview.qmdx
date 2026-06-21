@@ -20,9 +20,7 @@ bibliography: references.bib
 
 ![](images/08b_CodeReview/mj_title_band.jpg)
 
-> If everyone is thinking alike, then somebody isn’t thinking.
->
-> — George S. Patton
+> Code, der plausibel aussieht, ist noch nicht automatisch korrekt.
 
 %%/book
 
@@ -226,7 +224,7 @@ und fehlende return-Anweisungen.
 
 ```python
 def neigung(h, l):
-    return h / l  # ZeroDivisionError!
+    return h / l  # Fehler: Division durch Null!
 
 # Fix:
 def neigung(h, l):
@@ -279,13 +277,18 @@ Diese vier Muster sind besonders häufig in KI-generiertem Code. KI-Modelle
 reproduzieren Muster aus Trainingsdaten — inklusive veralteter oder schlechter Praktiken.
 %%/book
 
-## Implementierungs-Scan: Checkliste {{< ai4sc-icon test-tube >}}
+## Implementierungs-Scan: Kernchecks 
 
 Was bei jedem Code-Block zu prüfen ist:
 
 - [ ] Division: Nullprüfung vorhanden?
 - [ ] Standardargumente: kein `list=[]` oder `dict={}`?
 - [ ] Typ-Annotationen: alle Parameter annotiert?
+
+## Implementierungs-Scan: Ergänzungen
+
+Danach die zweite Prüfrunde:
+
 - [ ] `return`-Anweisung: in jeder Funktion vorhanden?
 - [ ] Hartcodierte Werte: durch Konstanten ersetzt?
 - [ ] Fehlerbehandlung: sinnvolle Exceptions definiert?
@@ -294,6 +297,33 @@ Was bei jedem Code-Block zu prüfen ist:
 Dieser Scan ist deterministisch — er kann nach jedem KI-generierten Code-Block
 systematisch durchgeführt werden, ohne Kreativität oder Ermessen zu erfordern.
 %%/book
+%%slides
+## Hörsaalfrage  {background="#FFD966"}
+
+Findet in 2 Minuten mindestens drei Probleme:
+
+```python
+def mittelwert(werte=[]):
+    summe = 0
+    for wert in werte:
+        summe += wert
+    return summe / len(werte)
+```
+
+%%col 50 50
+**Nutzt die Checkliste:**
+
+- Anforderungen vollständig?
+- Randfälle berücksichtigt?
+- Implementierungsprobleme sichtbar?
+%%sep
+**Mögliche Treffer:**
+
+- Mutable Default-Argument
+- Division durch Null bei leerer Liste
+- Keine Typ-Annotationen
+%%/col
+%%/slides
 
 
 %%# KI-Halluzinationen
@@ -360,7 +390,6 @@ Sie deckt alle drei Review-Dimensionen in sieben Punkten ab.
 
 ## KI-Evaluierungscheckliste {{< ai4sc-icon clipboard-list >}}
 
-%%col 50 50
 **Anforderungen & Design**
 
 - [ ] Anforderungsabdeckung: alle Anforderungen implementiert?
@@ -376,7 +405,9 @@ Sie deckt alle drei Review-Dimensionen in sieben Punkten ab.
 
 - [ ] Keine halluzierten Aufrufe: alle Funktionen verifiziert?
 - [ ] Test-Suite: alle Tests laufen durch?
-%%sep
+
+## Agentic Workflow nach der Generierung
+
 > **Agentic workflow:** Nach jeder KI-Generierung:
 > 1. Anforderungen → Checkliste durchgehen
 > 2. Design → UML vergleichen
@@ -384,7 +415,6 @@ Sie deckt alle drei Review-Dimensionen in sieben Punkten ab.
 > 4. Halluzinationen → Importe und Aufrufe testen
 > 5. Tests → alle grün?
 > 6. Nein → Prompt präzisieren und neu generieren
-%%/col
 
 %%aside
 → `08a_UnitTest` (S08): Tests als automatisierter Teil des Reviews

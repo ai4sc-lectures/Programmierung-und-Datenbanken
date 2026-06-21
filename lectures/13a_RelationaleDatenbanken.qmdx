@@ -29,11 +29,13 @@ resources:
 
 ## Einführung in relationale Datenbanken
 
-Relationale Datenbanken bilden das Fundament moderner Informationssysteme und sind aus der heutigen Ingenieurspraxis nicht mehr wegzudenken. In dieser Sitzung betrachten wir Tabellen nicht isoliert, sondern als direkte *Implementierung* des ER-Entwurfs aus S12. Eine relationale Datenbank ist ein Datenbanksystem, das Informationen in Tabellen speichert, wobei die Daten als Tupel organisiert sind und jede Spalte einen definierten Datentyp besitzt.
+Relationale Datenbanken bilden das Fundament moderner Informationssysteme und sind aus der heutigen Ingenieurspraxis nicht mehr wegzudenken. In dieser Sitzung betrachten wir Tabellen nicht isoliert, sondern als direkte *Implementierung* des ER-Entwurfs aus S12. Die Leitfrage lautet deshalb: Wie wird aus Entitäten, Attributen und Beziehungen ein belastbares Datenbankschema, das später mit SQL abgefragt werden kann?
+
+Aus Sicht der Informatik ist eine Relation nicht einfach nur "eine Tabelle", sondern formal eine Teilmenge des kartesischen Produkts mehrerer Wertebereiche. Die Tabelle ist die technische Darstellung dieser Relation. So verbinden wir die mathematische Idee mit einer praktischen Struktur, die in Datenbanksystemen gespeichert und verarbeitet werden kann.
 %%def Relationale Datenbank
 Eine relationale Datenbank ist ein *Datenbanksystem*, das Informationen in *Tabellen* (Relationen) speichert, wobei die Daten als *Tupel* (Zeilen) organisiert sind und jede Spalte (Attribut) einen definierten Datentyp besitzt.
 %%/def
-Der Begriff "Relation" stammt aus der Mathematik und bezeichnet eine Tabelle mit all ihren Datenzeilen. Für uns ist wichtig: Die Tabelle ist die technische Umsetzung einer Entität oder Beziehung aus dem ER-Modell. Für Ingenieure bedeutet dies beispielsweise, dass Projektdaten, Materiallisten und Kostenkalkulationen in separaten, aber verknüpften Tabellen gespeichert werden können.
+Wichtig ist außerdem die Unterscheidung zwischen *Relationenschema* und *Relation*: Das Schema beschreibt Struktur und Attribute einer Tabelle, die Relation ist die aktuelle Menge der Tupel. Für uns ist zentral: Tabellen setzen Entitäten und Beziehungen aus dem ER-Modell technisch um. Für Ingenieure bedeutet dies beispielsweise, dass Projektdaten, Materiallisten und Kostenkalkulationen in separaten, aber verknüpften Tabellen gespeichert werden können.
 
 %%/book
 
@@ -48,13 +50,16 @@ Der Begriff "Relation" stammt aus der Mathematik und bezeichnet eine Tabelle mit
 
 
 ## 🗄 Relationale Datenbanken - Grundkonzepte
+Aus S12 kennen wir bereits Entitäten, Attribute und Beziehungen. Jetzt geht es darum, daraus eine Datenbankstruktur zu machen, die sowohl fachlich korrekt als auch technisch überprüfbar ist.
+
 %%def Relationale Datenbank
 Eine relationale Datenbank ist ein *Datenbanksystem*, das Informationen in *Tabellen* (Relationen) speichert, wobei die Daten als *Tupel* (Zeilen) organisiert sind und jede Spalte (Attribut) einen definierten Datentyp besitzt.
 %%/def
 %%col 50 50
 
-- Daten sind in Tabellenstrukturen (Schemata) organisiert
-- *Relation* ist hierbei der Begriff für eine Tabelle
+- Daten sind in Tabellenstrukturen (*Relationenschemata*) organisiert
+- Formal ist eine *Relation* eine Teilmenge eines kartesischen Produkts von Wertebereichen
+- Die Tabelle ist die technische Darstellung dieser Relation
 - Eine *relationale Datenbank* ist eine Menge von Tabellen
 - Jede Tabelle setzt einen Teil des ER-Entwurfs aus S12 um
 
@@ -67,7 +72,7 @@ Eine relationale Datenbank ist ein *Datenbanksystem*, das Informationen in *Tabe
 
 %%/col
 
-> **Agentic workflow:** Wenn AI eine Datenbankstruktur erzeugt, prüfe zuerst, ob jede geplante Entität wirklich als Tabelle auftaucht.
+> **Agentischer Workflow:** Wenn AI eine Datenbankstruktur erzeugt, prüfe zuerst, ob jede geplante Entität wirklich als Tabelle auftaucht.
 
 %%/slides
 
@@ -96,7 +101,7 @@ Eine relationale Datenbank ist ein *Datenbanksystem*, das Informationen in *Tabe
 
 %%/col
 
-Die Tabelle ist die *Implementierung* der Entität.
+Entitätsmengen werden meist zu Tabellen. Beziehungen erscheinen je nach Kardinalität als Fremdschlüssel oder als eigene Tabelle.
 
 %%/slides
 
@@ -123,7 +128,7 @@ Die Tabelle ist die *Implementierung* der Entität.
 
 %%/col
 
-> **Agentic workflow:** Prüfe bei AI-generierten Tabellen immer, ob jede Beziehung aus dem ER-Modell als Fremdschlüssel vorhanden ist.
+> **Agentischer Workflow:** Prüfe bei AI-generierten Tabellen immer, ob jede Beziehung aus dem ER-Modell als Fremdschlüssel vorhanden ist.
 
 %%/slides
 
@@ -134,17 +139,9 @@ Die Tabelle ist die *Implementierung* der Entität.
 
 Jede Tabelle in einer relationalen Datenbank besitzt einen eindeutigen Namen (*Relationennamen*), der ihren Inhalt beschreibt. Die *Relation* selbst steht für die Gesamtheit aller Datentupel in dieser Tabelle. Ein *Tupel* entspricht einer einzelnen Zeile und besteht aus einer Abfolge von Attributwerten. Die Bedeutung dieser Werte wird durch das *Relationenschema* festgelegt, welches die Spaltennamen und deren Anordnung definiert.
 
-Die zentrale Brücke zu S12 lautet: Entitäten und Beziehungen aus dem ER-Modell werden jetzt in Tabellen, Spalten und Schlüssel übersetzt. Die Frage ist daher nicht nur, wie eine Tabelle aussieht, sondern ob die konkrete Tabelle das geplante Fachmodell korrekt *implementiert*.
+Die zentrale Brücke zu S12 lautet: Entitäten und Beziehungen aus dem ER-Modell werden jetzt in Tabellen, Spalten und Schlüssel übersetzt. Die Frage ist daher nicht nur, wie eine Tabelle aussieht, sondern ob die konkrete Tabelle das geplante Fachmodell korrekt *implementiert*. Einfache Entitätsmengen führen oft direkt zu Tabellen. Beziehungen, schwache Entitäten oder mehrwertige Attribute benötigen dagegen häufig zusätzliche Tabellen oder explizite Verweise.
 
-%%col 25 25 50 50
-
-:::
-
-%%sep
-
-:::
-
-%%sep
+%%col 50 50
 
 **Gemeinden Tabelle**
 
@@ -153,9 +150,7 @@ Die zentrale Brücke zu S12 lautet: Entitäten und Beziehungen aus dem ER-Modell
 | 1 | Dummerstorf  | 7.329 |
 | 2 | Graal-Müritz | 4.278 |
 | 3 | Sanitz       | 5.831 |
-
-
- Primärschlüssel: GemeindeID
+Primärschlüssel: GemeindeID
 
 %%sep
 
@@ -167,8 +162,7 @@ Die zentrale Brücke zu S12 lautet: Entitäten und Beziehungen aus dem ER-Modell
 | 5001       | Hotel       | 1 |
 | 5002       | Kirche      | 2 |
 
-
- Fremdschlüssel: GemeindeID
+Fremdschlüssel: GemeindeID
 
 %%/col
 
@@ -182,9 +176,10 @@ Die zentrale Brücke zu S12 lautet: Entitäten und Beziehungen aus dem ER-Modell
 %%col 50 50
 
 - Jede Tabelle hat einen *Relationennamen* (Tabellennamen)
-- *Relation* steht für die Gesamtheit der Datentupel (Alle Zeilen)
+- *Relationenschema* beschreibt Spaltennamen und Struktur
+- *Relation* steht für die aktuelle Menge der Datentupel
 - Jedes *Tupel* an Daten besteht aus einer Abfolge von Attributwerten (Einzelne Zeile)
-- Reihenfolge festgelegt durch *Relationenschema* (Spaltennamen)
+- Reihenfolge und Bedeutung festgelegt durch *Relationenschema*
 - Die Spalten müssen den Attributen aus dem ER-Modell entsprechen
 
 %%sep
@@ -221,9 +216,13 @@ Informationen sind meist über verschiedene Tabellen verteilt und müssen oft zu
 
 Schlüssel definieren wichtige Integritätsbedingungen, die die Qualität und Konsistenz der Daten sicherstellen. Primärschlüssel gewährleisten die *lokale Integrität* der einzelnen Tabelle, indem sie verhindern, dass identische Datensätze mehrfach gespeichert werden. Fremdschlüssel hingegen sichern die *globale Integrität* des gesamten Datenbanksystems, indem sie gewährleisten, dass alle Verweise zwischen Tabellen gültig bleiben.
 
+Theoretisch knüpft dies an grundlegende Regeln des relationalen Modells nach Codd an: Informationen werden in Tabellen dargestellt, jedes Tupel muss gezielt adressierbar sein und fehlende Werte dürfen nicht mit echten Fachwerten verwechselt werden. Diese Regeln sind kein Selbstzweck, sondern helfen uns später dabei, SQL-Schemata systematisch auf Vollständigkeit und Konsistenz zu prüfen.
+
 Für Ingenieure ist diese Integrität von entscheidender Bedeutung. In einer Baudatenbank muss beispielsweise sichergestellt sein, dass jeder Verweis auf ein Baumaterial tatsächlich zu einem existierenden Material führt. Ein ungültiger Verweis könnte zu Fehlern in der Kostenberechnung oder Materialbeschaffung führen. Ebenso kritisch ist in der Umwelttechnik die korrekte Zuordnung von Messdaten zu ihren Herkunftsstationen, um falsche Schlüsse über Umweltbedingungen zu vermeiden.
 
 Die Tabellen werden somit über Schlüssel in Beziehung gesetzt, wodurch ein zusammenhängendes und konsistentes Datenmodell entsteht, das die Grundlage für zuverlässige ingenieurtechnische Entscheidungen bildet. Gerade bei AI-generiertem SQL ist das ein typischer Prüfpunkt: Die Syntax stimmt oft, aber `NOT NULL`, `UNIQUE`, `CHECK` oder passende Fremdschlüssel fehlen überraschend oft.
+
+Besondere Aufmerksamkeit verlangt `NULL`: Ein `NULL` bedeutet nicht "leer", sondern "Wert unbekannt" oder "hier nicht anwendbar". Dadurch arbeitet SQL mit einer dreiwertigen Logik, in der Vergleiche auch "unbekannt" ergeben können. Integritätsbedingungen reduzieren solche Unklarheiten, beseitigen sie aber nicht automatisch.
 
 Darum gehört zur agentischen Arbeitsweise bei Datenbanken immer eine Verifikationsrunde: Stimmen alle Tabellen mit dem ER-Modell überein? Sind die Attribute vollständig? Sind Beziehungen und Kardinalitäten als Integritätsbedingungen ausgedrückt? Erst wenn diese Fragen mit Ja beantwortet sind, ist das Schema belastbar genug für spätere SQL-Abfragen in S13b.
 
@@ -248,9 +247,9 @@ Darum gehört zur agentischen Arbeitsweise bei Datenbanken immer eine Verifikati
 Schlüsseltypen:
 
 - *Einzelnes Attribut* oder *Menge von Attributen*
-- *Unique ID (UID)* - einzelnes Attribut
+- *Unique ID (UID)* - häufig einzelnes Attribut
 - *Globally Unique IDs (GUID)* - global eindeutig
-- *UUID* (universally unique identifier) - ISO Standard
+- *UUID* (universally unique identifier)
 
 %%/col
 
@@ -269,8 +268,7 @@ Schlüsseltypen:
 | 2 | Graal-Müritz | 4.278 |
 | 3 | Sanitz | 5.831 |
 
-
- Schlüssel: GemeindeID
+Kandidatenschlüssel hier: `GemeindeID`
 
 %%/slides
 
@@ -290,7 +288,7 @@ Schlüsseltypen:
 | 3 | Sanitz       | 5.831 |
 
 
- Primärschlüssel: GemeindeID
+Primärschlüssel: GemeindeID
 
 %%sep
 
@@ -301,10 +299,7 @@ Schlüsseltypen:
 | 5000       | Tankstelle  | 2 |
 | 5001       | Hotel       | 1 |
 | 5002       | Kirche      | 2 |
-
-
-
- Fremdschlüssel: GemeindeID
+Fremdschlüssel: GemeindeID
 
 %%/col
 
@@ -315,8 +310,7 @@ Schlüsseltypen:
 
 ## 🗄 Schlüsselkonzepte
 
-- Die *Schlüssel anderer Tabellen* kann man nutzen um auf Tupel in diesen zu verweisen
-- Die *eigenen Schlüssel* einer Tabelle heißen *Primärschlüssel* (Primary Key)
+- Die *Schlüssel anderer Tabellen* kann man nutzen, um auf Tupel in diesen zu verweisen
 - Die *Schlüssel anderer Tabellen* heißen *Fremdschlüssel* (Foreign Key)
 - Die *Tabellen werden über Schlüssel in Beziehung gesetzt*
 - So wird der Entwurf aus S12 in Tabellenkonsistenz übersetzt
@@ -348,7 +342,9 @@ Schlüssel definieren sogenannte Integritätsbedingungen:
 
 %%/col
 
-> **Agentic workflow:** Lies bei AI-SQL nicht nur die Tabellennamen. Prüfe, welche Integritätsbedingungen wirklich im `CREATE TABLE` stehen.
+Außerdem gilt: `NULL` ist kein normaler Fachwert. Wenn ein Attribut zwingend bekannt sein muss, braucht es zusätzlich `NOT NULL`.
+
+> **Agentischer Workflow:** Lies bei AI-SQL nicht nur die Tabellennamen. Prüfe, welche Integritätsbedingungen wirklich im `CREATE TABLE` stehen.
 
 %%/slides
 
@@ -358,6 +354,23 @@ Schlüssel definieren sogenannte Integritätsbedingungen:
 ## 🗄 AI erzeugt oft gültiges SQL
 
 AI erzeugt häufig `CREATE TABLE`-Code, der *syntaktisch korrekt* ist, aber fachlich unvollständig bleibt.
+
+Zum Vergleich zuerst ein bewusst einfaches, aber fachlich sauberes Beispiel:
+
+```sql
+CREATE TABLE gemeinden (
+    gemeinde_id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    einwohner INTEGER CHECK (einwohner >= 0)
+);
+
+CREATE TABLE bauwerke (
+    bauwerks_id INTEGER PRIMARY KEY,
+    bauwerkstyp TEXT NOT NULL,
+    gemeinde_id INTEGER NOT NULL,
+    FOREIGN KEY (gemeinde_id) REFERENCES gemeinden(gemeinde_id)
+);
+```
 
 Typische Lücken:
 
@@ -375,14 +388,14 @@ Die SQL-Datei sieht dann plausibel aus, setzt den ER-Entwurf aber nur teilweise 
 
 ## 🗄 Review von AI-generiertem CREATE TABLE
 
-> **Agentic workflow:** Verifiziere systematisch:
+> **Agentischer Workflow:** Verifiziere systematisch:
 >
 > 1. Alle *Entitäten* aus S12 werden zu Tabellen
 > 2. Alle *Attribute* werden zu passenden Spalten mit sinnvollen Datentypen
 > 3. Alle *Beziehungen* erscheinen als Fremdschlüssel
 > 4. Alle *Kardinalitäten* erscheinen als `NOT NULL` oder `UNIQUE`
 
-Nach dieser Prüfung kann in S13b mit `SELECT` auf einer belastbaren Struktur gearbeitet werden.
+Nach dieser Prüfung kann in S13b mit `SELECT` auf einer belastbaren Struktur gearbeitet werden. Genau diese Verifikation ist auch ein Beispiel dafür, warum Zeitmanagement in wissensintensiven Aufgaben wichtig bleibt: Prüfen kostet Zeit, spart aber spätere Fehler.
 
 %%/slides
 
@@ -399,8 +412,8 @@ Nach dieser Prüfung kann in S13b mit `SELECT` auf einer belastbaren Struktur ge
 ## Lessons Learned - Prokrastination
 ![](images/13a_RelationaleDatenbanken/timing0.svg)
 
-- Etwas Prokrastination ist normal und oft Teil des Arbeitslebens (folgt aus Priotisierung)
-- Prokrastination ist sehr gefährlich, wenn wir den Aufwand falsch einschätzen und sich als grösser herausstellt als die verfügbare Zeit ist
+- Etwas Prokrastination ist normal und oft Teil des Arbeitslebens (folgt aus Priorisierung)
+- Prokrastination ist sehr gefährlich, wenn wir den Aufwand falsch einschätzen und sich als größer herausstellt als die verfügbare Zeit
 
 %%/slides
 

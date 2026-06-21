@@ -22,6 +22,8 @@ resources:
 >
 > — Alan Kay
 
+(*Encapsulate* = Daten und zulässige Operationen in einem Objekt bündeln.)
+
 %%/book
 
 %%slides
@@ -83,7 +85,7 @@ Die Objektorientierung löst grundlegende Probleme im Umgang mit sich wiederhole
     - zum Abspeichern von Zuständen
 - Die zugrundeliegenden Elemente basieren oft auf denselben Strukturen
 - Z.B. Punkt-Koordinaten: als Tupel oder als Liste? — ohne Festlegung sind beide möglich
-- Objekte legen den **Syntax** einer Datenstruktur verbindlich fest
+- Objekte legen die **Syntax** einer Datenstruktur verbindlich fest
 
 %%/slides
 
@@ -91,7 +93,7 @@ Die Objektorientierung löst grundlegende Probleme im Umgang mit sich wiederhole
 
 ### Das syntaktische Problem
 
-Wächst das Programm an, so wächst auch die Menge der Variablen und Datenstrukturen. Dabei basieren die zugrundeliegenden Elemente meist auf sich wiederholenden Datenstrukturen. Analysiert man z.B. Baupläne oder Karten, so verwaltet man viele Punkt-Koordinaten — aber ohne Festlegung kann eine Koordinate unterschiedlich ausgedrückt werden. Das ist das syntaktische Problem. Objekte lösen es, indem sie den Syntax der Datenstruktur eindeutig definieren.
+Wächst das Programm an, so wächst auch die Menge der Variablen und Datenstrukturen. Dabei basieren die zugrundeliegenden Elemente meist auf sich wiederholenden Datenstrukturen. Analysiert man z.B. Baupläne oder Karten, so verwaltet man viele Punkt-Koordinaten — aber ohne Festlegung kann eine Koordinate unterschiedlich ausgedrückt werden. Das ist das syntaktische Problem. Objekte lösen es, indem sie die Syntax der Datenstruktur eindeutig definieren.
 
 %%/book
 
@@ -268,7 +270,7 @@ Z.B. `Ingenieur` verwendet `Werkzeug`
 Ein Objekt *enthält* andere (lose).
 
 Z.B. `Polygon` enthält `Punkte`\
-(Punkte können auch allein existieren)
+(können auch allein existieren)
 
 %%sep
 
@@ -277,7 +279,7 @@ Z.B. `Polygon` enthält `Punkte`\
 Ein Objekt *besteht aus* anderen (strikt).
 
 Z.B. `Gebäude` besteht aus `Etagen`\
-(Etage ohne Gebäude nicht sinnvoll)
+(ohne Gebäude nicht sinnvoll)
 
 %%/col
 
@@ -331,6 +333,75 @@ Das UML-Klassendiagramm ist die standardisierte Notation für Objektbeziehungen.
 
 %%/book
 
+%%# Weitere OOP-Konzepte
+
+%%slides
+
+## Kapselung, Vererbung, Polymorphismus {{< ai4sc-icon box >}}
+
+%%col 33 33 33
+
+**Kapselung**
+
+- Daten und zulässige Operationen gehören zusammen
+- Nicht jedes Attribut soll von außen beliebig änderbar sein
+- UML markiert Sichtbarkeit mit `+`, `#`, `-`
+
+%%sep
+
+**Vererbung**
+
+- Eine Unterklasse spezialisiert eine allgemeinere Oberklasse
+- Beispiel: `Serverraum` ist ein spezieller `Raum`
+- In UML: Generalisierung mit weißem Dreieck
+
+%%sep
+
+**Polymorphismus**
+
+- Gleiche Methode, unterschiedliches Verhalten
+- Beispiel: `fläche()` bei `Rechteck` und `Kreis`
+- Wichtig für austauschbare Objekte mit gleichem Interface
+
+%%/col
+
+%%/slides
+
+%%book
+
+## Weitere OOP-Konzepte
+
+Zur Objektorientierung gehören nicht nur Klassen und Beziehungen, sondern auch **Kapselung**, **Vererbung** und **Polymorphismus**. Kapselung bedeutet, dass Daten und die für sie sinnvollen Operationen gemeinsam entworfen werden und der Zugriff bewusst geregelt wird. Vererbung beschreibt, dass eine speziellere Klasse Eigenschaften und Verantwortlichkeiten einer allgemeineren Klasse übernimmt. Polymorphismus bedeutet, dass verschiedene Klassen dieselbe Verantwortlichkeit anbieten können, aber jeweils unterschiedlich umsetzen.
+
+%%/book
+
+%%slides
+
+## Von UML zur Python-Klasse {{< ai4sc-icon square-function >}}
+
+%%div eyebrow
+{{< ai4sc-icon square-function >}} Brücke zur Implementierung
+%%/div
+
+- In UML entwerfen wir **Attribute**, **Methoden** und **Beziehungen**
+- In Python gehören Attribute und Methoden immer zu einer **konkreten Instanz**
+- Diese Instanz wird in Methoden über `self` referenziert
+- `self` ist also die Python-Übersetzung von: "dieses Objekt hier"
+
+%%tip Merksatz
+`self` ist kein neues Konzept aus Python, sondern die explizite Referenz auf die Instanz des entworfenen Objekts.
+%%/tip
+
+%%/slides
+
+%%book
+
+### Brücke zu Python: `self`
+
+Im UML-Diagramm sprechen wir abstrakt über eine Klasse und ihre Verantwortlichkeiten. In Python muss eine Methode jedoch auf **eine konkrete Instanz** zugreifen können. Dafür gibt es `self`: Die Selbst-Referenz auf genau das Objekt, dessen Methode gerade ausgeführt wird. In `06b_Objects` wird daraus dann die konkrete Syntax mit `class`, `__init__` und `self.attributname`.
+
+%%/book
+
 %%# Design before you prompt
 
 %%slides
@@ -365,7 +436,7 @@ Der Code ist das Ergebnis.
 
 ## Design before you prompt
 
-Der agentische Ansatz für Objektorientierung bedeutet: **zuerst entwerfen, dann prompten**. Das UML-Klassendiagramm ist die Spezifikation, die wir der KI übergeben. Die KI generiert daraus Python-Code. Der Ingenieur verifiziert, ob der generierte Code dem Entwurf entspricht.
+Der agentische Ansatz für Objektorientierung bedeutet: **zuerst entwerfen, dann prompten**. Das UML-Klassendiagramm ist die Spezifikation, die wir der KI übergeben. Ein minimales Beispiel wäre die Klasse `Raum` mit den Attributen `name: str`, `fläche: float` und der Methode `berechne_volumen() -> float`. Aus diesem Diagramm kann ein Prompt wie *„Implementiere die Klasse `Raum` genau mit diesen Attributen und dieser Methode"* erzeugt werden. Danach vergleichen wir den generierten Code systematisch wieder mit dem Diagramm.
 
 Dieser Zyklus — Entwerfen → Prompten → Generieren → Verifizieren — ist die Kernkompetenz des agentischen Programmierens für Objekte.
 
@@ -392,11 +463,43 @@ Was nicht im Diagramm steht, wird die KI erfinden — oft falsch.
 
 %%/slides
 
+%%slides
+
+## Mini-Beispiel: Diagramm als Prompt {{< ai4sc-icon clipboard-list >}}
+
+%%col 50 50
+
+**UML-Fragment**
+
+```text
+Raum
+---
+name: str
+fläche: float
+---
+berechne_volumen() -> float
+```
+
+%%sep
+
+**Prompt-Fragment**
+
+```text
+Implementiere die Klasse Raum.
+Attribute: name: str, fläche: float
+Methode: berechne_volumen() -> float
+Erfinde keine weiteren Attribute.
+```
+
+%%/col
+
+%%/slides
+
 %%book
 
 ### UML als Prompt-Vorlage
 
-Ein UML-Klassendiagramm, das einer KI als Prompt übergeben wird, muss vollständig sein: Klassennamen, Attribute mit Typen, Methoden mit Parametern und Rückgabetypen, Beziehungen mit Richtung und Multiplizität. Was nicht im Diagramm steht, wird die KI erfinden — und das oft falsch.
+Ein UML-Klassendiagramm, das einer KI als Prompt übergeben wird, muss vollständig sein: Klassennamen, Attribute mit Typen, Methoden mit Parametern und Rückgabetypen, Beziehungen mit Richtung und Multiplizität. Für unser `Raum`-Beispiel heißt das: Nicht nur der Klassenname, sondern auch `name: str`, `fläche: float` und `berechne_volumen() -> float` müssen explizit genannt sein. Aus dem Diagramm formulieren wir dann einen präzisen Prompt, der die KI anweist, genau diese Spezifikation umzusetzen. Was nicht im Diagramm steht, wird die KI erfinden — und das oft falsch.
 
 %%/book
 
@@ -417,11 +520,39 @@ Ein UML-Klassendiagramm, das einer KI als Prompt übergeben wird, muss vollstän
 
 %%/slides
 
+%%slides
+
+## Mini-Beispiel: Verifikation {{< ai4sc-icon clipboard-list >}}
+
+%%col 50 50
+
+**Generierter Code**
+
+```python
+class Raum:
+    def __init__(self, name, fläche):
+        self.name = name
+```
+
+%%sep
+
+**Prüfung gegen das Diagramm**
+
+- `name` vorhanden
+- `fläche` vorhanden
+- `berechne_volumen()` fehlt
+- Typen fehlen
+- Ergebnis: Prompt oder Diagramm nachschärfen
+
+%%/col
+
+%%/slides
+
 %%book
 
 ### Verifizieren gegen das Diagramm
 
-Die Verifikation ist der entscheidende Schritt im agentischen Workflow. Wer nur den generierten Code liest, ohne gegen das Diagramm zu prüfen, übersieht fehlende Attribute, falsche Beziehungstypen oder falsch typisierte Rückgabewerte. Das Diagramm ist das Kriterium — nicht das eigene Bauchgefühl.
+Die Verifikation ist der entscheidende Schritt im agentischen Workflow. Wer nur den generierten Code liest, ohne gegen das Diagramm zu prüfen, übersieht fehlende Attribute, falsche Beziehungstypen oder falsch typisierte Rückgabewerte. Wenn die KI z.B. eine Klasse `Raum` ohne `berechne_volumen()` oder ohne die Beziehung zu `Fenster` erzeugt, ist nicht "fast richtig", sondern unvollständig. Das Diagramm ist das Kriterium — nicht das eigene Bauchgefühl. Erst wenn Code und Diagramm übereinstimmen, ist der Entwurf korrekt umgesetzt.
 
 %%/book
 
@@ -454,11 +585,12 @@ Wie zerlegen wir ein Gebäude in Objekte?
 
 %%sep
 
-**Attribute — z.B. Raum:**
+**Attribute — z.B. Raum und Fenster:**
 
 - `name: str`
 - `fläche: float`
 - `höhe: float`
+- `u_wert: float` für `Fenster`
 
 **Verantwortlichkeiten:**
 
@@ -475,6 +607,8 @@ Wie zerlegen wir ein Gebäude in Objekte?
 
 Ein typisches BIM-Modell lässt sich als Objekthierarchie ausdrücken: `Gebäude → Etage → Raum → Fenster`. Jede Klasse hat eigene Attribute (z.B. `Raum.fläche`, `Fenster.u_wert`) und eigene Verantwortlichkeiten (z.B. `Etage.berechne_gesamtfläche()`). Die Beziehungen — Komposition, Aggregation — müssen im Entwurf mit Multiplizitäten explizit festgehalten werden.
 
+Für das Fenster könnten z.B. die Attribute `breite: float`, `höhe: float` und `u_wert: float` modelliert werden. So wird klar, warum `Fenster.u_wert` im späteren Code oder in Berechnungen überhaupt vorkommt. Der Entwurf benennt also nicht nur die Objekte, sondern auch die fachlich relevanten Eigenschaften jeder Klasse.
+
 %%/book
 
 %%slides
@@ -489,10 +623,10 @@ UML-Klassendiagramm-Notation als Entwurfswerkzeug
 
 %%sep
 
-**S06** — `04c_Objects` (Implementierung)
+**S06** — `06b_Objects` (Implementierung)
 
 Python-Syntax für dieselben Konzepte:\
-`class`, `__init__`, Attribute, Methoden
+`class`, `__init__`, `self`, Attribute, Methoden
 
 %%sep
 
@@ -556,12 +690,12 @@ Tests verifizieren, ob die Python-Implementierung dem UML-Entwurf entspricht
     - [ ] Nur den Python-Code
     - [ ] Nur die Attributnamen
 
-    ### Was sind objektorientierte Programmierparadigmen?
+    ### Welche zentralen Konzepte der Objektorientierung wurden in dieser Einheit behandelt?
     - [x] Kapselung
     - [x] Vererbung
     - [x] Polymorphismus
     - [ ] Spezialisierung allein
-    - [x] Generalisierung
+    - [ ] Generalisierung
     - [ ] Redundanz
 
 ```

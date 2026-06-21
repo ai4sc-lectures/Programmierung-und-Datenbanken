@@ -10,6 +10,8 @@ format:
     output-file: 13c_Datenbanken_SQL_Create.slide.html
   typst:
     output-file: 13c_Datenbanken_SQL_Create.page.pdf
+resources:
+  - data/13c_Datenbanken_SQL_Create
 ---
 
 %%book
@@ -44,11 +46,11 @@ implementiert.
 ## Ziel der Sitzung
 
 - ER-Modell als Spezifikation lesen
-- 🗄 `CREATE TABLE` und `INSERT` als Implementierung einordnen
+- `CREATE TABLE` und `INSERT` als Implementierung einordnen
 - KI-generierte DDL systematisch verifizieren
-- Fehlende Constraints als Datenqualitaetsrisiko erkennen
+- Fehlende Constraints als Datenqualitätsrisiko erkennen
 
-**Rueckbezug:** `12c_Datenbanken_Entwurf` liefert die Struktur, `08b_CodeReview`
+**Rückbezug:** `12c_Datenbanken_Entwurf` liefert die Struktur, `08b_CodeReview`
 liefert das Checklisten-Denken.
 
 %%/slides
@@ -56,30 +58,44 @@ liefert das Checklisten-Denken.
 %%book
 
 Das fachliche Ziel ist daher: Nicht "Wie tippe ich SQL von Hand?", sondern "Wie
-pruefe ich, ob ein Modell korrekt in ein Schema uebersetzt wurde?". Dieselbe
+prüfe ich, ob ein Modell korrekt in ein Schema übersetzt wurde?". Dieselbe
 Haltung kennen wir bereits aus `08b_CodeReview`: Anforderungen lesen, Artefakt
-danach pruefen, fehlende Bedingungen sichtbar machen.
+danach prüfen, fehlende Bedingungen sichtbar machen.
 
 %%/book
 
 %%slides
 
-## 🗄 DDL: Was wird hier festgelegt?
+## [DDL] Was wird hier festgelegt?
 
 `DDL = Data Definition Language`
 
 - `CREATE TABLE`: Struktur anlegen
 - Spaltenname + Datentyp festlegen
 - `PRIMARY KEY`, `FOREIGN KEY`, `NOT NULL`, `UNIQUE` definieren
-- Integritaetsregeln in die Datenbank einbauen
+- Integritätsregeln in die Datenbank einbauen
 
 *Die DDL ist die technische Umsetzung des ER-Entwurfs.*
 
 %%/slides
 
+%%book
+
+## DDL: Was wird hier festgelegt?
+
+`DDL` steht für *Data Definition Language*. Mit ihr beschreiben wir nicht die
+einzelnen Datensätze, sondern die Struktur der Datenbank selbst: Welche Tabellen
+es gibt, welche Spalten darin vorkommen und welche Regeln beim Speichern gelten.
+
+Aus dem ER-Modell wird hier also ein technisches Schema. Genau deshalb ist DDL
+keine reine Syntaxübung, sondern die Implementierung einer fachlichen
+Spezifikation.
+
+%%/book
+
 %%slides
 
-## 🗄 Minimale Form von `CREATE TABLE`
+## [DDL] Minimale Form von `CREATE TABLE`
 
 ```sql
 CREATE TABLE table_name (
@@ -89,32 +105,65 @@ CREATE TABLE table_name (
 );
 ```
 
-- Jede Entitaet aus dem ER-Modell braucht eine Tabelle
+- Jede Entität aus dem ER-Modell braucht eine Tabelle
 - Jedes Attribut braucht eine passende Spalte
-- Beziehungen erscheinen spaeter als Fremdschluessel
+- Beziehungen erscheinen später als Fremdschlüssel
 
 %%/slides
 
+%%book
+
+## Minimale Form von `CREATE TABLE`
+
+Die Grundidee von `CREATE TABLE` ist einfach: Eine Tabelle bekommt einen Namen,
+darin werden Spalten mit Datentypen aufgelistet, und zusätzlich können
+Constraints ergänzt werden. Das ist die minimale technische Form, mit der aus
+einer fachlichen Entität eine reale Datenbanktabelle wird.
+
+Beim Übertragen aus dem ER-Modell helfen drei Leitfragen:
+
+- Welche Entität wird zur Tabelle?
+- Welche Attribute werden zu Spalten?
+- Welche Beziehungen müssen später über Fremdschlüssel sichtbar werden?
+
+%%/book
+
 %%slides
 
-## 🗄 Datentypen in SQLite
+## [DDL] Datentypen in SQLite
 
 | SQLite | Typische Bedeutung |
 |---|---|
-| `INTEGER` | Ganzzahl, oft Schluessel |
+| `INTEGER` | Ganzzahl, oft Schlüssel |
 | `REAL` | Gleitkommazahl |
 | `TEXT` | Text |
 | `BLOB` | Binärdaten |
 | `NULL` | fehlender Wert |
 
-*KI kann passende Typen vorschlagen. Sie pruefen, ob sie zur fachlichen
+*KI kann passende Typen vorschlagen. Sie prüfen, ob sie zur fachlichen
 Bedeutung des Attributs passen.*
 
 %%/slides
 
+%%book
+
+## Datentypen in SQLite
+
+SQLite kennt nur wenige Grundtypen wie `INTEGER`, `REAL`, `TEXT` und `BLOB`.
+Für Lehrbeispiele ist das ein Vorteil: Wir müssen uns nicht in vielen
+produktspezifischen Details verlieren, sondern können die fachliche Passung
+diskutieren.
+
+Wichtig ist dabei: Ein Datentyp ist keine bloße Formalität. Er drückt aus, ob
+ein Attribut als Zahl, Text oder Binärwert gedacht ist. Wenn ein KI-Werkzeug
+hier einen unpassenden Typ vorschlägt, ist das kein Stilproblem, sondern ein
+fachlicher Fehler im Schema.
+
+%%/book
+
 %%slides
 
-## 🗄 Beispiel: KI-generierte DDL fuer Geometrie
+## [DDL] Beispiel: KI-generierte DDL für Geometrie
 
 ```sql
 CREATE TABLE Points (
@@ -132,32 +181,77 @@ CREATE TABLE Lines (
 );
 ```
 
-**Frage vor dem Ausfuehren:** Entspricht das wirklich dem ER-Modell?
+**Frage vor dem Ausführen:** Entspricht das wirklich dem ER-Modell?
+
+%%/slides
+
+%%book
+
+## Beispiel: KI-generierte DDL
+
+Gerade einfache Geometriebeispiele zeigen gut, warum Verifikation nötig ist.
+Eine KI kann für Punkte und Linien schnell formal korrektes SQL erzeugen. Das
+heißt aber noch nicht, dass wirklich alle Regeln des Modells umgesetzt wurden.
+
+Man sollte deshalb nicht mit der Frage starten, ob das SQL "schön" aussieht,
+sondern ob jede fachliche Aussage aus dem ER-Modell in der DDL wiederzufinden
+ist. Schon bei kleinen Beispielen können Pflichtattribute, Eindeutigkeit oder
+Beziehungsregeln fehlen.
+
+%%/book
+
+%%slides
+
+## Hörsaalfrage {background="#FFD966"}
+
+Die KI hat die Tabellen `Points` und `Lines` erzeugt. Arbeiten Sie zu zweit:
+
+- Nennen Sie einen Aspekt, der sicher korrekt wirkt.
+- Nennen Sie einen Aspekt, den Sie gegen das ER-Modell prüfen müssten.
+- Welche Constraint könnte fehlen, obwohl das SQL formal gültig ist?
 
 %%/slides
 
 %%slides
 
-## 🔍 DDL-Verifikationscheckliste I
+## [Prüfen] DDL-Verifikationscheckliste I
 
-Pruefen Sie jede KI-generierte Tabelle gegen das ER-Diagramm:
+Prüfen Sie jede KI-generierte Tabelle gegen das ER-Diagramm:
 
-- `□` Jede Entitaet -> eigene `CREATE TABLE`
+- `□` Jede Entität -> eigene `CREATE TABLE`
 - `□` Jedes Attribut -> passende Spalte
 - `□` Datentyp fachlich plausibel
-- `□` Primärschluessel vorhanden
+- `□` Primärschlüssel vorhanden
 
-*Wenn eine Entitaet oder ein Attribut fehlt, ist das kein Syntaxfehler, sondern
+*Wenn eine Entität oder ein Attribut fehlt, ist das kein Syntaxfehler, sondern
 ein Modellfehler.*
 
 %%/slides
 
+%%book
+
+## DDL-Verifikationscheckliste I
+
+Der erste Teil der Checkliste prüft, ob die Grundstruktur des Modells überhaupt
+vollständig übernommen wurde. Dazu gehört:
+
+- jede Entität als eigene Tabelle,
+- jedes Attribut als passende Spalte,
+- fachlich plausible Datentypen,
+- und ein definierter Primärschlüssel.
+
+Wenn hier etwas fehlt, ist die DDL zwar oft noch ausführbar, aber sie bildet das
+Modell nicht mehr korrekt ab. Genau das macht KI-generierte SQL-Texte
+tückisch: Sie können technisch gültig und inhaltlich trotzdem falsch sein.
+
+%%/book
+
 %%slides
 
-## 🔍 DDL-Verifikationscheckliste II
+## [Prüfen] DDL-Verifikationscheckliste II
 
 - `□` Jede Beziehung -> `FOREIGN KEY`
-- `□` Pflichtattribute / Kardinalitaeten -> `NOT NULL`
+- `□` Pflichtattribute / Kardinalitäten -> `NOT NULL`
 - `□` Eindeutigkeit -> `UNIQUE`
 - `□` Mehrdeutige KI-Annahmen dokumentieren oder nachprompten
 
@@ -168,10 +262,10 @@ durchgesetzt.
 
 %%book
 
-Gerade diese zweite Haelfte der Checkliste ist in der Praxis entscheidend:
-KI-Systeme erzeugen haeufig "fast richtige" Tabellen, lassen aber
-Zwangsbedingungen weg. Das Ergebnis funktioniert technisch, schuetzt aber die
-Datenqualitaet nicht. Deshalb ist das ER-Diagramm hier die Referenz.
+Gerade diese zweite Hälfte der Checkliste ist in der Praxis entscheidend:
+KI-Systeme erzeugen häufig "fast richtige" Tabellen, lassen aber
+Zwangsbedingungen weg. Das Ergebnis funktioniert technisch, schützt aber die
+Datenqualität nicht. Deshalb ist das ER-Diagramm hier die Referenz.
 
 %%/book
 
@@ -181,91 +275,151 @@ Datenqualitaet nicht. Deshalb ist das ER-Diagramm hier die Referenz.
 
 > **Wenn KI `CREATE TABLE` erzeugt:**
 > 1. Lesen Sie zuerst das ER-Diagramm, nicht den SQL-Text.
-> 2. Gehen Sie die Checkliste Punkt fuer Punkt durch.
+> 2. Gehen Sie die Checkliste Punkt für Punkt durch.
 > 3. Markieren Sie fehlende `NOT NULL`-, `UNIQUE`- oder `FOREIGN KEY`-Regeln.
-> 4. Ergaenzen Sie den Prompt: "Erzeuge die DDL erneut und uebernimm alle
+> 4. Ergänzen Sie den Prompt: "Erzeuge die DDL erneut und übernimm alle
 > Pflichtattribute und Eindeutigkeitsbedingungen aus dem ER-Modell."
 
 *Das ist dieselbe Arbeitsweise wie in `08b_CodeReview`: Spezifikation gegen
-Artefakt pruefen, nicht der KI vertrauen.*
+Artefakt prüfen, nicht der KI vertrauen.*
 
 %%/slides
 
+%%book
+
+## Agentischer Workflow: ER → SQL → Review
+
+Der sinnvolle Arbeitsablauf besteht aus drei Schritten. Zuerst steht das
+ER-Modell als Spezifikation. Danach kann ein KI-System daraus SQL erzeugen.
+Der entscheidende dritte Schritt ist aber die Review-Phase: Das erzeugte Schema
+wird Punkt für Punkt gegen das Modell geprüft.
+
+Damit wird aus "Prompten" eine kontrollierte Ingenieurarbeit. Die KI liefert
+einen Vorschlag, wir übernehmen die Verantwortung für die Verifikation. Wenn
+Constraints fehlen oder Beziehungen falsch übersetzt wurden, muss nachgebessert
+oder nachgepromptet werden.
+
+%%/book
+
 %%slides
 
-## 🗄 Daten einfuegen mit `INSERT`
+## [DDL] Daten einfügen mit `INSERT`
 
 ```sql
 INSERT INTO Points(x, y) VALUES(54.083336, 12.108811);
 INSERT INTO Lines(start_point, end_point) VALUES(1, 2);
 ```
 
-- `INSERT` fuellt nur Tabellen, es definiert sie nicht
-- Fremdschluesselwerte muessen auf existierende Datensaetze zeigen
-- Fehler beim Einfuegen sind oft ein Hinweis auf fehlende oder korrekte
+- `INSERT` füllt nur Tabellen, es definiert sie nicht
+- Fremdschlüsselwerte müssen auf existierende Datensätze zeigen
+- Fehler beim Einfügen sind oft ein Hinweis auf fehlende oder korrekte
   Constraints
 
 %%/slides
 
 %%book
 
-Auch beim Einfuegen bleibt die Verifikationsperspektive wichtig: Wenn ein
+Auch beim Einfügen bleibt die Verifikationsperspektive wichtig: Wenn ein
 `INSERT` unerwartet akzeptiert wird, obwohl fachlich ein Fehler vorliegt, fehlt
-haeufig ein Constraint in der DDL. Wenn ein `INSERT` abgelehnt wird, lohnt sich
-die Rueckfrage: Ist das Modell verletzt oder ist die DDL falsch formuliert?
+häufig ein Constraint in der DDL. Wenn ein `INSERT` abgelehnt wird, lohnt sich
+die Rückfrage: Ist das Modell verletzt oder ist die DDL falsch formuliert?
 
 %%/book
 
 %%slides
 
-## 🗄 Tabelle aus vorhandenen Daten erzeugen
+## [DDL] Tabelle aus vorhandenen Daten erzeugen
 
 ```sql
 CREATE TABLE PointsCopy AS
 SELECT * FROM Points;
 ```
 
-- praktisch fuer Zwischenergebnisse oder Materialisierung
-- aber: Primärschluessel und weitere Constraints werden nicht automatisch
-  vollstaendig uebernommen
+- praktisch für Zwischenergebnisse oder Materialisierung
+- aber: Primärschlüssel und weitere Constraints werden nicht automatisch
+  vollständig übernommen
 
-**Auch hier gilt:** Nach dem Erzeugen wieder gegen die Checkliste pruefen.
+**Auch hier gilt:** Nach dem Erzeugen wieder gegen die Checkliste prüfen.
 
 %%/slides
+
+%%book
+
+## Tabelle aus vorhandenen Daten erzeugen
+
+Mit `CREATE TABLE ... AS SELECT ...` kann man schnell eine neue Tabelle aus
+bestehenden Daten ableiten. Das ist praktisch für Zwischenergebnisse,
+Materialisierung oder Kopien für weitere Analysen.
+
+Didaktisch wichtig ist aber die Einschränkung: Solche Tabellen übernehmen die
+fachliche Absicherung oft nicht vollständig. Primärschlüssel, Fremdschlüssel,
+`NOT NULL` oder `UNIQUE` müssen deshalb erneut geprüft und gegebenenfalls
+explizit ergänzt werden.
+
+%%/book
 
 %%slides
 
 ## SQL ist nicht universell: Netzwerke
 
-Fuer manche Informationsmodelle passt ein relationales Schema nur schlecht:
+Für manche Informationsmodelle passt ein relationales Schema nur schlecht:
 
-- Strassennetze oder Leitungsnetze sind vor allem **Knoten + Kanten**
-- typische Fragen: Nachbarn, Wege, Erreichbarkeit, kuerzeste Route
-- dafuer sind **Graphdatenbanken** oft das passendere Modell
+- Straßennetze oder Leitungsnetze sind vor allem **Knoten + Kanten**
+- typische Fragen: Nachbarn, Wege, Erreichbarkeit, kürzeste Route
+- dafür sind **Graphdatenbanken** oft das passendere Modell
 
 *Nicht jede Struktur sollte in Tabellen gepresst werden.*
 
 %%/slides
+
+%%book
+
+## SQL ist nicht universell: Netzwerke
+
+Relationale Tabellen sind stark, wenn Daten klar in Zeilen, Spalten und
+Beziehungen organisiert werden können. Für Netzwerke wie Straßennetze,
+Leitungsnetze oder Erreichbarkeitsprobleme ist das jedoch nicht immer die
+natürlichste Form.
+
+Solche Modelle bestehen oft primär aus Knoten und Kanten. Fragen wie Nachbarn,
+Wege oder kürzeste Routen lassen sich deshalb in Graphdatenbanken häufig
+direkter ausdrücken als in rein relationalen Tabellen.
+
+%%/book
 
 %%slides
 
 ## SQL ist nicht universell: BIM und Dokumente
 
 - BIM-Elemente besitzen oft viele optionale, verschachtelte Eigenschaften
-- Dokumente und JSON-aehnliche Strukturen aendern sich haeufig
-- dafuer sind **Dokumentdatenbanken** oft flexibler als starre Tabellenschemata
+- Dokumente und JSON-ähnliche Strukturen ändern sich häufig
+- dafür sind **Dokumentdatenbanken** oft flexibler als starre Tabellenschemata
 
 **Ingenieurprinzip:** Erst Informationsmodell verstehen, dann Datenbanktyp
-waehlen.
+wählen.
 
 %%/slides
 
+%%book
+
+## SQL ist nicht universell: BIM und Dokumente
+
+Auch BIM-Daten, semi-strukturierte Dokumente oder JSON-ähnliche Daten passen
+nicht immer gut in starre relationale Schemata. Viele Eigenschaften sind dort
+optional, verschachtelt oder ändern sich im Projektverlauf.
+
+Dann kann eine Dokumentdatenbank flexibler sein als ein enges Tabellenschema.
+Die Grundregel lautet deshalb nicht "SQL immer zuerst", sondern: Zuerst das
+Informationsmodell verstehen, dann den passenden Datenbanktyp auswählen.
+
+%%/book
+
 %%slides
 
-## 🗄 `ALTER TABLE` und `DROP TABLE` nur als Referenz
+## [DDL] `ALTER TABLE` und `DROP TABLE` nur als Referenz
 
-- `ALTER TABLE`: bestehende Tabellen spaeter aendern
-- `DROP TABLE`: Tabellen loeschen
+- `ALTER TABLE`: bestehende Tabellen später ändern
+- `DROP TABLE`: Tabellen löschen
 - Schema-Evolution ist wichtig, aber heute nicht unser Fokus
 
 ```sql
@@ -273,7 +427,7 @@ ALTER TABLE Points RENAME TO Punkte;
 DROP TABLE IF EXISTS Points;
 ```
 
-*Fuer diese Sitzung reicht: Begriffe kennen, nicht im Detail beherrschen.*
+*Für diese Sitzung reicht: Begriffe kennen, nicht im Detail beherrschen.*
 
 %%/slides
 
@@ -282,11 +436,27 @@ DROP TABLE IF EXISTS Points;
 ## Was Sie mitnehmen sollten
 
 - Das ER-Modell ist die Spezifikation, die DDL ist die Implementierung
-- 🗄 KI darf `CREATE TABLE` formulieren, Sie pruefen es gegen das Modell
-- 🔍 Fehlende Constraints sind echte Datenqualitaetsrisiken
-- SQL ist stark fuer relationale Daten, aber nicht fuer jedes Informationsmodell
+- KI darf `CREATE TABLE` formulieren, Sie prüfen es gegen das Modell
+- Fehlende Constraints sind echte Datenqualitätsrisiken
+- SQL ist stark für relationale Daten, aber nicht für jedes Informationsmodell
 
 %%/slides
+
+%%book
+
+## Was Sie mitnehmen sollten
+
+Das ER-Modell bleibt die Spezifikation, die DDL ist ihre technische Umsetzung.
+KI darf `CREATE TABLE` formulieren, aber die fachliche Verantwortung bleibt bei
+uns: Tabellen, Attribute, Datentypen und Constraints müssen systematisch gegen
+das Modell geprüft werden.
+
+Wenn Constraints fehlen, entsteht nicht nur ein Schönheitsfehler, sondern ein
+echtes Datenqualitätsrisiko. Und schließlich gilt auch hier ein grundlegendes
+Ingenieurprinzip: Nicht jedes Informationsmodell gehört automatisch in eine
+relationale Datenbank.
+
+%%/book
 
 %%references
 %%final

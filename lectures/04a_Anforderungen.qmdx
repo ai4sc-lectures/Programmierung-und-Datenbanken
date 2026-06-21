@@ -84,7 +84,7 @@ Der agentische Zyklus:
 5. **Iterate** → Prompt verfeinern
 
 %%sep
-**Anforderung** ist Grundlage für Schritt 1 *und* Schritt 4.
+**Anforderung** ist Grundlage für Schritt 1 und Schritt 4.
 
 Ohne klare Anforderung:
 
@@ -97,6 +97,8 @@ Ohne klare Anforderung:
 %%book
 Die Anforderung hat im agentischen Entwicklungszyklus eine doppelte Rolle: Sie ist die Quelle des Prompts (Schritt 1) und die Grundlage des Tests (Schritt 4). Ohne sie lässt sich weder sinnvoll prompten noch verifizieren.
 
+Verifikation besteht dabei nicht nur aus Tests. Je nach Anforderung kommen auch Inspektion, Analyse oder Demonstration zum Einsatz, etwa wenn Wartbarkeit über Code-Review oder Benutzbarkeit über Beobachtung geprüft wird.
+
 → Verweis: `01c_AgentischesProgrammieren` (S01) — Prompt-Struktur
 %%/book
 
@@ -108,6 +110,8 @@ Die Anforderung hat im agentischen Entwicklungszyklus eine doppelte Rolle: Sie i
 ### TL;DR
 
 Anforderungen lassen sich in drei Kategorien unterteilen: funktionale Anforderungen (was das System tun muss), nichtfunktionale Anforderungen (wie gut es das tun muss) und Randbedingungen (was den Lösungsraum einschränkt). Alle drei sind relevant für Prompt und Test.
+
+Für das Prompting heißt das: Funktionale Anforderungen werden oft zu konkreten Aufgaben, nichtfunktionale Anforderungen zu Qualitätszielen und Randbedingungen zu festen Leitplanken. Für die Verifikation heißt es entsprechend: Manche Anforderungen werden getestet, andere durch Analyse, Inspektion oder Demonstration überprüft.
 
 %%/book
 
@@ -144,10 +148,6 @@ Anforderungen lassen sich in drei Kategorien unterteilen: funktionale Anforderun
 - DSGVO
 - DIN EN ISO 9001
 %%/col
-
-%%note Definition: Anforderung
-Eine Anforderung ist eine **messbare Aussage** darüber, was ein System tun oder sein soll — nicht, wie es das erreicht.
-%%/note
 
 %%/slides+book
 
@@ -196,11 +196,11 @@ Dieses Beispiel begleitet die gesamte Vorlesung. Das Sensorüberwachungssystem f
 - [Nicht testbar: „Benutzerfreundliche Oberfläche"]{.con}
 - [Lösungsorientiert: „Nutze SQLite als Datenbank"]{.con}
 - [Messbar: „Antwortzeit < 2 s bei 95 % der Anfragen"]{.pro}
-- [Testbar: „Nutzer findet Alarmfunktion ohne Anleitung in < 30 s"]{.pro}
+- [Testbar: „Nutzende finden die Alarmfunktion ohne Anleitung in < 30 s"]{.pro}
 - [Problemorientiert: „Messdaten bleiben nach Stromausfall abrufbar"]{.pro}
 
 %%book
-Eine gute Anforderung ist messbar, überprüfbar und beschreibt das *Was*, nicht das *Wie*. Vage oder lösungsorientierte Anforderungen führen zu schlechten Prompts und untestbaren Ergebnissen.
+Eine gute Anforderung ist messbar, überprüfbar und beschreibt das Was, nicht das Wie. Vage oder lösungsorientierte Anforderungen führen zu schlechten Prompts und untestbaren Ergebnissen. Viele dieser Fehler entstehen, weil nur aus einer Perspektive formuliert wird. Deshalb folgt als nächster Schritt die Stakeholder-Sicht.
 %%/book
 
 
@@ -250,7 +250,7 @@ Braucht:
 
 %%/slides+book
 
-Stakeholder-Analyse deckt auf, dass verschiedene Nutzergruppen aus denselben Rohdaten völlig unterschiedliche Anforderungen ableiten. Wer diese Unterschiede nicht kennt, baut Systeme, die nur einer Gruppe dienen.
+Stakeholder-Analyse deckt auf, dass verschiedene Gruppen von Nutzenden aus denselben Rohdaten völlig unterschiedliche Anforderungen ableiten. Wer diese Unterschiede nicht kennt, baut Systeme, die nur einer Gruppe dienen.
 
 | Stakeholder | Kernbedarf | Schlüssel-Anforderung |
 |-------------|------------|----------------------|
@@ -261,7 +261,7 @@ Stakeholder-Analyse deckt auf, dass verschiedene Nutzergruppen aus denselben Roh
 %%/book
 
 
-## Stakeholder → Anforderungen ableiten
+## Stakeholder-Bedarf in Anforderungen überführen
 
 %%scol 50 50
 **Vorgehen:**
@@ -282,6 +282,8 @@ Stakeholder-Analyse deckt auf, dass verschiedene Nutzergruppen aus denselben Roh
 
 %%book
 Konflikte zwischen Stakeholderanforderungen sind normal und müssen explizit verhandelt werden — nicht implizit aufgelöst. Ohne Stakeholder-Analyse entstehen Systeme, die einem Stakeholder gerecht werden und allen anderen nicht.
+
+Sobald mehrere Perspektiven sichtbar sind, reicht ein allgemeiner Wunsch wie "zuverlässig" oder "skalierbar" nicht mehr aus. Für Entscheidungen zwischen Konflikten braucht es deshalb präzise Qualitätskriterien.
 %%/book
 
 
@@ -291,7 +293,7 @@ Konflikte zwischen Stakeholderanforderungen sind normal und müssen explizit ver
 
 ### TL;DR
 
-Qualitätskriterien überführen nichtfunktionale Anforderungen in messbare Abnahmekriterien. Ohne quantitatives Kriterium ist eine Anforderung nicht testbar und damit für Prompt und Test wertlos.
+Qualitätskriterien überführen nichtfunktionale Anforderungen möglichst in messbare Abnahmekriterien. Wo Quantifizierung nicht sinnvoll oder nicht vollständig möglich ist, müssen stattdessen qualitative Prüfkriterien für Analyse, Inspektion oder Demonstration formuliert werden.
 
 %%/book
 
@@ -317,26 +319,26 @@ Qualitätskriterien überführen nichtfunktionale Anforderungen in messbare Abna
 %%/scol
 
 %%note Merksatz
-Jede nichtfunktionale Anforderung braucht ein **quantitatives Akzeptanzkriterium** — sonst ist sie nicht testbar.
+Sofern möglich braucht jede nichtfunktionale Anforderung ein **quantitatives Akzeptanzkriterium**. Falls das nicht sinnvoll ist, braucht sie wenigstens ein klares Prüfkriterium.
 %%/note
 
 %%book
-Messbare Abnahmekriterien sind der Übergang von der Anforderungsanalyse zur Testspezifikation. Ohne sie gibt es keinen objektiven Maßstab dafür, ob ein System die Anforderung erfüllt.
+Messbare Abnahmekriterien sind der Übergang von der Anforderungsanalyse zur Testspezifikation. Ohne sie gibt es keinen objektiven Maßstab dafür, ob ein System die Anforderung erfüllt. Für Eigenschaften wie Wartbarkeit, Benutzbarkeit oder Ästhetik reichen Zahlen allein oft nicht aus; dort müssen ergänzende Review- oder Beobachtungskriterien definiert werden.
 %%/book
 
 
 ## Domänenbeispiele
 
-| Kategorie | Vage | Messbar |
-|-----------|------|---------|
-| Performance | „schnell" | Antwortzeit < 2 s (P95) |
-| Kapazität | „viele Daten" | 1 Mio. Datensätze in < 10 s |
-| Interoperabilität | „kompatibel" | Ausgabe konform zu IFC 4.0 |
-| Zuverlässigkeit | „stabil" | Verfügbarkeit ≥ 99,5 % p.a. |
-| Datenschutz | „sicher" | DSGVO-konform, Audit-Log |
+| Domäne | Vage | Messbar |
+|--------|------|---------|
+| E-Commerce | „Checkout soll schnell sein" | Bezahlvorgang in < 3 min bei 95 % der Sitzungen |
+| Medizintechnik | „Alarm soll zuverlässig sein" | Kritische Alarme werden in < 2 s ausgelöst und protokolliert |
+| CAD/BIM | „Export muss kompatibel sein" | Ausgabe validiert gegen IFC 4.0 ohne Schemafehler |
+| Öffentliche Verwaltung | „Antragstellung soll barrierearm sein" | Zentrale Schritte sind per Tastatur bedienbar und im Test beobachtbar |
+| Mobilität | „App soll stabil laufen" | Crash-freie Sitzungen ≥ 99,8 % pro Release |
 
 %%book
-Dieses Muster zieht sich durch alle Domänen: vage Wünsche müssen in messbare Kriterien übersetzt werden. Erst dann können sie als Prompt-Bedingung und als Testfall verwendet werden.
+Dieses Muster zieht sich durch alle Domänen: vage Wünsche müssen in überprüfbare Kriterien übersetzt werden. Erst dann können sie als Prompt-Bedingung und als Testfall oder Review-Kriterium verwendet werden.
 %%/book
 
 
@@ -381,7 +383,7 @@ Die User-Story-Schablone stammt aus dem agilen Softwaremanagement. Sie ist beson
 %%/book
 
 
-%%# Anforderung → Prompt
+%%# Anforderung und Prompt
 
 %%book
 
@@ -412,7 +414,7 @@ Eine gut formulierte User Story lässt sich schrittweise in einen strukturierten
 ```
 Du bist ein Python-Entwickler.
 Aufgabe: Sensor-Alarm-Dashboard.
-Nutzer: Facility Manager
+Rolle: Facility Manager
 Ziel: SLA-Überwachung in Echtzeit
 ```
 
@@ -422,7 +424,7 @@ Rolle und Nutzen aus der User Story\
 %%/scol
 
 %%book
-Der erste Schritt überführt Rolle und Nutzen der User Story in den Kontext-Abschnitt des Prompts. Das Kontextrahmen teilt dem KI-Werkzeug mit, aus welcher Perspektive und mit welchem Ziel es arbeitet.
+Der erste Schritt überführt Rolle und Nutzen der User Story in den Kontext-Abschnitt des Prompts. Der Kontextrahmen teilt dem KI-Werkzeug mit, aus welcher Perspektive und mit welchem Ziel es arbeitet.
 
 → Verweis: Prompt-Struktur aus `01c_AgentischesProgrammieren` (S01)
 %%/book
@@ -463,7 +465,7 @@ Jedes Akzeptanzkriterium wird direkt in eine Prompt-Bedingung übersetzt. Der re
 %%/book
 
 
-%%# Anforderung → Test
+%%# Von Anforderungen zu Tests
 
 %%book
 
@@ -511,9 +513,10 @@ def test_alarm_acknowledgment():
 > 1. Prüfe, ob der Test das Akzeptanzkriterium testet — nicht nur die Implementierung.
 > 2. Führe den Test gegen die Anforderung aus, nicht nur gegen den Code.
 > 3. Schreibe den Test vor dem Prompt — dann siehst du sofort, was fehlt.
+> 4. Nutze bei nicht direkt testbaren Anforderungen ergänzend Inspektion, Analyse oder Demonstration.
 
 %%book
-Der Unit-Test ist die formale Repräsentation des Akzeptanzkriteriums. Wenn der Test grün ist, ist die Anforderung erfüllt. Diese direkte Traceability — Anforderung → Akzeptanzkriterium → Test — ist der Kern des testgetriebenen Promptings.
+Der Unit-Test ist die formale Repräsentation vieler Akzeptanzkriterien. Wenn der Test grün ist, ist die zugehörige testbare Anforderung erfüllt. Diese direkte *Traceability* (Rückverfolgbarkeit) von Anforderung über Akzeptanzkriterium bis Test ist der Kern des testgetriebenen Promptings. Nicht alle Anforderungen lassen sich jedoch vollständig in Unit-Tests ausdrücken; manche werden ergänzend durch Review, Analyse oder Beobachtung verifiziert.
 
 → Verweis: `08a_UnitTest` (S08) vertieft Unit-Testing mit pytest in Python.
 %%/book
@@ -594,6 +597,8 @@ Das Traceability-Dreieck ist vollständig, wenn jede Anforderung einen Prompt un
 
 %%book
 Das Traceability-Dreieck ist das zentrale Konzept dieser Vorlesung: Anforderung, Prompt und Test sind drei Seiten desselben Dreiecks. Jede Änderung an einer Seite hat Konsequenzen für die anderen beiden. Dieses Prinzip zieht sich durch den gesamten Kurs.
+
+In der Praxis ist dieses Dreieck jedoch nie automatisch stabil. Prompts, Tests und Anforderungen driften im Projektalltag auseinander; deshalb braucht Traceability regelmäßige Reviews und kurze Audits, um Lücken sichtbar zu machen.
 
 **Querverweise:**
 

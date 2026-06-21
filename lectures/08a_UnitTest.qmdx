@@ -181,7 +181,7 @@ assert ergebnis==None # Erwartet: None
 
 %%sep
 
-**Datentyptests**
+**Datentyp-Tests**
 
 Korrekter Umgang mit unerwarteten Eingaben
 
@@ -191,8 +191,8 @@ nenner = 0
 try:
     ergebnis = division(zaehler, nenner)
     assert False # We let the test fail
-except TypeError as e:
-    # Erwartet: TypeError
+except ValueError as e:
+    # Erwartet: ValueError
 ```
 
 %%/col
@@ -279,7 +279,7 @@ Tests zwingen zur Präzision — sie beantworten konkrete Fragen:
 - Welche Eingaben sind gültig?
 - Welche Ausgaben sind bei welchen Eingaben erwartet?
 - Welche Grenzfälle müssen behandelt werden?
-- Welche Fehler soll die Funktion werfen?
+- Welche Fehler soll die Funktion auslösen?
 
 Ein Test vor dem Prompt = eine Anforderung, die die KI nicht ignorieren kann.
 
@@ -298,7 +298,7 @@ Tests als Akzeptanzkriterium:
 
 - Alle Tests grün → Anforderung erfüllt
 - Test scheitert → *Erfolg:* Fehler vor Produktion gefunden
-- Ungetestetr Bereich → unsichtbares Risiko
+- Ungetesteter Bereich → unsichtbares Risiko
 
 %%sep
 
@@ -411,6 +411,23 @@ def klassifiziere_boden(wert):
 ```
 
 *Frage:* Welcher Test wird scheitern, und warum?
+
+%%/slides
+
+%%slides
+
+
+## Denkpause: Welcher Test scheitert? {{< ai4sc-icon test-tube >}}
+
+Notiere zuerst deine Vermutung:
+
+- Scheitert ein Normalfall?
+- Scheitert ein Grenzwertfall?
+- Welche Bedingung in der Funktion ist dafür verantwortlich?
+
+::: {.fragment}
+Hinweis: Schaue besonders auf die Grenze bei `150 mg/kg`.
+:::
 
 %%/slides
 
@@ -541,7 +558,7 @@ Ziel: jede Zeile mindestens einmal ausgeführt.
 
 %%sep
 
-*Beispiel — ungetestetr Zweig:*
+*Beispiel — ungetesteter Zweig:*
 
 ```python
 def klassifiziere_boden(wert):
@@ -658,13 +675,13 @@ test_grenzwert()
 %%book
 
 
-## Datentyptest
+## Datentyp-Test
 
 %%/book
 
 %%book
 
-Da Python dynamische Datentypen unterstützt ist es sehr wichtig *Datentyptest*. Hierbei wird getetstet ob die Funktion falsche Datentypen als Eingabe richtig behandelt.
+Da Python dynamische Datentypen unterstützt, ist der *Datentyp-Test* sehr wichtig. Hierbei wird getestet, ob die Funktion falsche Datentypen als Eingabe richtig behandelt.
 
 %%/book
 
@@ -673,7 +690,7 @@ Da Python dynamische Datentypen unterstützt ist es sehr wichtig *Datentyptest*.
 ```{mermaid}
 graph LR
     s([EINGABE<br>zaehler='str'<br>nenner=0]) -->  w[division]
-    w -->  e([AUSGABE<br>ValueException])
+    w -->  e([AUSGABE<br>ValueError])
     style s fill:none,stroke:none
     style e fill:none,stroke:none
 ```
@@ -690,15 +707,17 @@ Hierbei können wir nicht direkt `assert` nutzen da es ja unseren Code zum Abstu
 
 ```{python}
 #| echo: true
-#| error: true
-assert division("falscher typ", 1) is ValueError
+try:
+    division("falscher typ", 1)
+except Exception as e:
+    assert isinstance(e, ValueError)
 ```
 
 %%/book
 
 %%book
 
-Stattdessen nutzen wir im Test einen `try-except`-Block und die `else`-Anweisung. Sie wird nur dann ausgeführt, wenn im `try`-Block *keine* Exception auftritt, was im Testfall ja unerwünscht ist, also `raise` wir in diesem Fall ein AssertionError, da der Testfall scheitert. Ferner prüfen wir, ob die geworfene Exception der Funktion auch den richtigen Typen `TypeError` hat.
+Für vollständige Tests nutzen wir einen `try-except`-Block und die `else`-Anweisung. Sie wird nur dann ausgeführt, wenn im `try`-Block *keine* Exception auftritt, was im Testfall ja unerwünscht ist. In diesem Fall lösen wir selbst einen `AssertionError` aus. Ferner prüfen wir, ob die ausgelöste Exception der Funktion auch den richtigen Typ `ValueError` hat.
 
 %%/book
 
@@ -736,6 +755,18 @@ test_datentyp()
 
 %%book
 
+
+## Debugging und Fehlerbehandlung
+
+%%/book
+
+%%book
+
+Wenn Tests fehlschlagen, beginnt der nächste Schritt der Verifikation: das systematische Suchen nach der Ursache. Dabei hilft *Debugging*. Zugleich müssen Programme mit erwartbaren Laufzeitfehlern robust umgehen können. Python stellt dafür mit `try`, `except`, `raise`, `else` und `finally` einen strukturierten Exception-Mechanismus bereit.
+
+%%/book
+
+%%book
 
 ## Mit Tests bei Code-Änderungen Fehler erkennen
 
@@ -776,7 +807,7 @@ test_funktion()
 
 %%book
 
-Der Grenzwerttest wird allerdings jetzt eine Ausnahme werfen.
+Der Grenzwerttest wird allerdings jetzt eine Ausnahme auslösen.
 
 %%/book
 
@@ -792,7 +823,7 @@ test_grenzwert()
 
 %%book
 
-Auch der Datentyptest ist nicht erfolgreich, weil wir ja definiert haben, dass bei falschen Eingabedatentypen ein `ValueError` erzeugt werden soll, wir aber einen `TypeError` erhalten.
+Auch der Datentyp-Test ist nicht erfolgreich, weil wir ja definiert haben, dass bei falschen Eingabedatentypen ein `ValueError` erzeugt werden soll, wir aber einen `TypeError` erhalten.
 
 %%/book
 
@@ -957,30 +988,6 @@ Einsatzgebiete (wo Fehler wahrscheinlich sind):
 
 
 ## 4. Fehlerbehandlung - Beispiel: Division durch 0
-%%col 50 50
-
-```python
-zaehler = 12
-nenner = 0
-
-try:
-    ergebnis = zaehler / nenner
-except:
-    print("Exception")
-```
-
-%%sep
-
-*Frage:* Welche Exceptions können hier geworfen werden?
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## 4. Fehlerbehandlung - Beispiel: Division durch 0
 
 %%col 50 50
 
@@ -996,13 +1003,15 @@ except:
 
 %%sep
 
-*Frage:* Welche Exceptions können hier geworfen werden?
+*Frage:* Welche Exceptions können hier ausgelöst werden?
 
+::: {.fragment}
 Mögliche Exceptions:
 
 - `ZeroDivisionError` - Division durch 0
 - `TypeError` - Falscher Datentyp
 - `NameError` - Variable nicht definiert
+:::
 
 %%/col
 
@@ -1112,7 +1121,7 @@ except ValueError:
     ### Welche Arten von Teststrategien gibt es?
     - [x] Grenzwerttest
     - [x] Funktionstest
-    - [x] Datentyptest
+    - [x] Datentyp-Test
     - [ ] Syntaxtest
 
     ### Was deckt Branch Coverage ab?

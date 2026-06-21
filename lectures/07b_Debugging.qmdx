@@ -117,20 +117,30 @@ Strategie · Schritt 2 von 5
 Strategie · Schritt 3 von 5
 %%/div
 
-%%col 50 50
 **Stelle dir diese Fragen:**
 
 - Was *erwartest* du als Ergebnis?
 - Was gibt der Code *tatsächlich* zurück?
 - Welche Annahme des KI-Codes könnte falsch sein?
-%%sep
-**Typische falsche Annahmen:**
+
+%%tip Merksatz
+Eine gute Hypothese beschreibt die Abweichung zwischen Erwartung und Beobachtung.
+%%/tip
+
+%%/slides
+
+%%slides
+
+## Schritt 3 — Typische falsche Annahmen {{< ai4sc-icon test-tube >}}
+
+%%div eyebrow
+Strategie · Schritt 3 von 5
+%%/div
 
 - Falscher Datentyp
 - Falsche Reihenfolge der Parameter
 - Grenzfall nicht behandelt
 - Off-by-one im Index
-%%/col
 
 %%/slides
 
@@ -202,7 +212,19 @@ Debugging ist der **Verify**-Schritt auf Ausführungsebene:\
 
 %%book
 
-Die folgenden Werkzeuge setzen die 5-Schritt-Strategie in die Praxis um. Entscheidend ist nicht die Wahl des Werkzeugs, sondern die systematische Anwendung der Strategie.
+Die 5-Schritt-Strategie beschreibt das Vorgehen, die folgenden Werkzeuge machen die relevanten Beobachtungen sichtbar. Entscheidend ist nicht die Wahl des Werkzeugs, sondern die systematische Anwendung der Strategie.
+
+Die Schritte 1 bis 5 greifen dabei ineinander: Reproduktion und Isolierung schaffen einen stabilen Testfall, Hypothesen lenken den Blick, und Werkzeuge wie `print()`, `logging` oder ein Debugger liefern die Informationen zur Inspektion und anschließenden Re-Verifikation.
+
+%%/book
+
+%%book
+
+## Die 5-Schritt-Strategie in der Praxis
+
+Die Strategie dient als wiederholbarer Ablauf für logische Fehler ohne offensichtliche Exception. Zuerst wird das Fehlverhalten mit einem kleinen Beispiel reproduziert. Danach wird der Fehler auf eine Funktion oder einen klar umrissenen Teil des Programms isoliert.
+
+Auf dieser Grundlage formuliert man eine Hypothese: Welche Annahme im Code könnte falsch sein? Anschließend wird die Ausführung inspiziert, zum Beispiel mit gezielten Ausgaben oder einem Debugger. Erst wenn die Ursache identifiziert ist, wird ein minimaler Fix vorgenommen und mit denselben Tests re-verifiziert.
 
 %%/book
 
@@ -215,17 +237,25 @@ Die folgenden Werkzeuge setzen die 5-Schritt-Strategie in die Praxis um. Entsche
 
 %%slides
 
-## `print()`-Debugging — Schritt 1 und 3
+## `print()`-Debugging — Zustände sichtbar machen
 
 %%div eyebrow
-Werkzeug · Reproduzieren & Inspizieren
+Werkzeug · Inspizieren (unterstützt Schritt 1)
 %%/div
 
 ```python
 def division(zaehler, nenner):
     print(f"Debug: Eingabe Zaehler: {zaehler}")  # Schritt 3: Zustand prüfen
     print(f"Debug: Eingabe Nenner: {nenner}")
-    ...
+    if not isinstance(nenner, (int, float)):
+        print(f"Error: Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")
+        raise ValueError(f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")
+    elif not isinstance(zaehler, (int, float)):
+        print(f"Error: Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")
+        raise ValueError(f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")
+    elif not nenner:
+        print("Warning: Division durch 0")
+        return None
     ergebnis = zaehler / nenner
     print(f"Info: Ergebnis {zaehler}/{nenner} = {ergebnis}")
     return ergebnis
@@ -239,9 +269,9 @@ def division(zaehler, nenner):
 
 %%book
 
-Logische Fehler treten häufig erst dynamisch auf und lassen sich nicht durch statische Code-Analyse durch Lint-Tools finden. Hier muss man dann den aktuellen Programmfluss nachvollziehen. Dies nennt man Debugging. Die einfachste Form ist das `print`-Debugging bei der man den Code mit `print()`-Befehlen zuspammt.
+Logische Fehler treten häufig erst dynamisch auf und lassen sich nicht durch statische Code-Analyse durch Lint-Tools finden. Hier muss man den aktuellen Programmfluss nachvollziehen. Dies nennt man Debugging. Die einfachste Form ist das `print`-Debugging, bei dem der Code gezielt mit `print()`-Befehlen versehen wird.
 
-Wir erweitern mal unsere Divisionsfunktion mit schönen vielen `print()`-Statements. Üblich ist es zum Beispiel, die Eingangsparameter auszugeben, Fehler und Warnungen auszugeben, als auch dann Ergebnisse zu loggen.
+Wir ergänzen die Divisionsfunktion um mehrere `print()`-Statements. Üblich ist es zum Beispiel, die Eingangsparameter auszugeben, Fehler und Warnungen sichtbar zu machen und Ergebnisse zu protokollieren.
 
 %%/book
 
@@ -312,7 +342,7 @@ for nenner in range(-2, 8):
 ## `logging` — Gefilterte Sichtbarkeit
 
 %%div eyebrow
-Werkzeug · Reproduzieren & Inspizieren
+Werkzeug · Inspizieren mit Filtern
 %%/div
 
 ```python
@@ -333,7 +363,7 @@ Log-Level: `DEBUG` → `INFO` → `WARNING` → `ERROR` → `CRITICAL`
 
 %%book
 
-Deshalb verwendet man bei komplexeren Programmen meist ein `logging`-Paket. Diese erlauben es `print`-Statements Kategorien zuzuordnen und anhand dieser zu filtern. In der Python-Bibliothek `logging` sind die Kategorien: `debug`, `info`, `warning`, `error` und `critical`.
+Deshalb verwendet man bei komplexeren Programmen meist ein `logging`-Paket. Dieses erlaubt es, Ausgaben Kategorien zuzuordnen und anhand dieser zu filtern. In der Python-Bibliothek `logging` sind die Kategorien: `debug`, `info`, `warning`, `error` und `critical`.
 
 %%/book
 
@@ -367,7 +397,7 @@ def division(zaehler, nenner):
 
 %%book
 
-Wenn wir jetzt die Funktion aufrufen, sehen wir nur noch die Division durch 0 Warnung.
+Wenn wir jetzt die Funktion aufrufen, sehen wir nur noch die Warnung zur Division durch 0.
 
 %%/book
 
@@ -384,7 +414,7 @@ for nenner in range(-2, 8):
 
 %%book
 
-Wir können allerdings bei Bedarf, wie bei der Fehlersuche den Loglevel auch erhöhen. Zum Beispiel wollen wir alle Debug-Nachrichten erhalten.
+Wir können allerdings bei Bedarf, etwa bei der Fehlersuche, den Loglevel auch erhöhen. Zum Beispiel wollen wir alle Debug-Nachrichten erhalten.
 
 %%/book
 
@@ -401,7 +431,7 @@ for nenner in range(-2, 8):
 
 %%book
 
-Ferner erlaub das Logging auch automatisch weitere Informationen hinzuzufügen. Wir sehen im Log oben bereits, das nicht nur das Level (INFO, DEBUG, WARNING) sondern auch den Namen des Loggers (meinlog). Wir können dieses Format anpassen um z.B. auch die Zeit auszugeben, was insbesondere wichtig ist um zu verstehen wann etwas passiert ist.
+Ferner erlaubt das Logging auch, automatisch weitere Informationen hinzuzufügen. Wir sehen im Log oben bereits nicht nur das Level (INFO, DEBUG, WARNING), sondern auch den Namen des Loggers (`meinlog`). Wir können dieses Format anpassen, um z. B. auch die Zeit auszugeben. Das ist insbesondere wichtig, um zu verstehen, wann etwas passiert ist.
 
 %%/book
 
@@ -454,7 +484,7 @@ Werkzeug · Inspizieren (Schritt 4)
 - Alle Variablen im Speicher
 - Den gesamten Call Stack
 %%sep
-![](images/debug_vscode_3.png)
+![](images/07b_Debugging/debug_vscode_3.png)
 %%/col
 
 %%/slides
@@ -496,7 +526,7 @@ Dafür kann man meist in der IDE links neben eine Zeile klicken um einen Breakpo
 
 %%book
 
-Dann wird der Code in einer speziellen Debugumgebung ausgeführt, die es erlaub die Ausführung zu unterbrechen. In unserm Notebook in VSCode starten wird diese durch das Symbol ![](images/07b_Debugging/debug_vscode_2.png).
+Dann wird der Code in einer speziellen Debugumgebung ausgeführt, die es erlaubt, die Ausführung zu unterbrechen. In unserem Notebook in VSCode starten wir diese durch das Symbol ![](images/07b_Debugging/debug_vscode_2.png).
 
 %%/book
 
@@ -528,7 +558,7 @@ division(10, 0)
 
 %%book
 
-Dies startet den Debug-Modus. In diesem wird die aktuelle Zeile vorgehoben als auch die aktuellen Variablen im Speicher angezeigt.
+Dies startet den Debug-Modus. In diesem wird die aktuelle Zeile hervorgehoben, ebenso werden die aktuellen Variablen im Speicher angezeigt.
 
 %%/book
 
@@ -641,13 +671,46 @@ Der grafische Debugger ist mächtiger als `print()` für KI-Module mit mehreren 
 
 %%book
 
+## Mehrere Funktionen systematisch verfolgen
+
+KI-generierter Code besteht oft aus mehreren aufeinander aufbauenden Funktionen. Dann genügt es nicht mehr, nur einzelne Werte mit `print()` auszugeben. Stattdessen verfolgt man die Aufrufkette systematisch: zuerst am Einstiegspunkt stoppen, dann gezielt in verdächtige Funktionen hineinsteigen und nach jedem Rückgabewert prüfen, ob die Erwartung noch erfüllt ist.
+
+Die drei Debug-Schritte in diesem Walkthrough geben dafür eine einfache Heuristik vor: am Einstieg starten, passende Navigationsbefehle (`Step Into`, `Step Over`, `Step Out`) wählen und nach jeder Ebene den Zustand mit der Hypothese abgleichen. So lässt sich eingrenzen, in welcher Funktion die erste falsche Annahme wirksam wird.
+
+%%/book
+
+%%slides
+
+## Übungsaufgabe: Fehler systematisch eingrenzen {{< ai4sc-icon test-tube >}}
+
+%%div eyebrow
+Praxis · Strategie anwenden
+%%/div
+
+Eine KI liefert für `division("10", 2)` oder `division(10, 0)` unerwartete Ergebnisse.
+
+1. Formuliere einen minimalen Testfall für beide Eingaben.
+2. Notiere eine Hypothese, welche Annahme im Code verletzt ist.
+3. Entscheide: Reicht `print()`, oder würdest du direkt den Debugger verwenden?
+4. Beschreibe, woran du erkennst, dass dein Fix erfolgreich re-verifiziert wurde.
+
+%%tip Hinweis
+Arbeite die vier Punkte in der Reihenfolge der 5-Schritt-Strategie ab.
+%%/tip
+
+%%/slides
+
+%%book
+
+Die folgende Übungsaufgabe soll die 5-Schritt-Strategie explizit einüben. Ziel ist nicht nur, eine Lösung zu finden, sondern den Fehler mit Testfall, Hypothese, Beobachtung und Re-Verifikation nachvollziehbar zu dokumentieren.
+
 
 ## Quiz
 
 
 ```{quizdown}
     ---
-    shuffleQuestions: true
+    shuffleQuestions: false
     shuffleAnswers: true
     ---
 
