@@ -33,7 +33,7 @@ Ein Computer ist ein Gerät, das mittels programmierbarer Rechenvorschriften Dat
 %%/def
 
 %%sep
-![](images/02a_Computerhardware/computer.jpg)
+![Midjourney: Computer from the 80th](images/02a_Computerhardware/computer.png){class="midjourney"}
 %%/scol
 
 %%book
@@ -115,7 +115,7 @@ Sie sind über das Mainboard mit dem Kommunikationsbus verbunden.
 
 ## Computer Aufbau – Speicherdauer
 
-![](images/02a_Computerhardware/computer_hardware2.svg){height="500px" fig-align="center"}
+![](images/02a_Computerhardware/computer_hardware3.svg){height="500px" fig-align="center"}
 
 Der Computer hat ähnliche Gedächtnisarten wie der Mensch:
 
@@ -232,12 +232,75 @@ Das Mainboard ist die Hauptplatine des Computers, auf der CPU, RAM, GPU und ande
 
 %%slides
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Was passiert in der CPU, wenn Python `z = x + y` ausführt?" capR="Midjourney: A tiny robot reading a long scroll of instructions line by line" imgR="images/02a_Computerhardware/image_4.jpg"}
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Was passiert in der CPU, wenn Python Code ausführt, wie `z = x + y`?" capR="Midjourney: A tiny robot reading a long scroll of instructions line by line" imgR="images/02a_Computerhardware/image_4.jpg"}
 <!-- TODO MJ: A tiny robot reading a long scroll of instructions line by line, ref. Fritz Kahn -->
 
 %%/slides
 
-%%# Ausführungsmodell
+%%## Von Python-Code zu Maschinenbefehlen
+
+%%slides
+
+%%col 40 60
+
+- Eine Python-Zeile wird zur Laufzeit in mehrere Maschinenbefehle übersetzt (interpretiert)
+- Die Maschinenbefehle werden in Binärcode übersetzt den die CPU versteht
+- Die CPU kennt keine Variablennamen, nur Binärcode und Speicheradressen 
+- Variablennamen sind menschenlesbare Namen für Speicheradressen
+
+%%sep
+
+```python
+z = x + y
+```
+
+↓ ergibt Maschinenbefehle
+
+```
+LOAD  R1, [Adresse von x]
+LOAD  R2, [Adresse von y]
+ADD   R3, R1, R2
+STORE [Adresse von z], R3
+```
+
+↓ ergibt Binärcode
+
+```
+0001 0001 0000 1010 0001 0000   LOAD  R1, [x]
+0001 0010 0000 1010 0001 0001   LOAD  R2, [y]
+0011 0011 0001 0010 0000 0000   ADD   R3, R1, R2
+0010 0011 0000 1010 0001 0010   STORE [z], R3
+```
+
+%%/col
+
+%%/slides
+
+%%book
+
+Python-Code wird nicht direkt von der CPU ausgeführt. Der Python-Interpreter übersetzt den Quellcode zunächst in *Bytecode* (sichtbar mit `dis.dis`) und führt diesen dann schrittweise aus. Der Interpreter ist selbst ein Programm aus Maschinenbefehlen. Dabei entstehen aus einer einzigen Python-Zeile viele einzelne Maschinenbefehle. Die Auflistung zeigt sie vereinfacht für `z = x + y`:
+
+```
+LOAD  R1, [Adresse von x]
+LOAD  R2, [Adresse von y]
+ADD   R3, R1, R2
+STORE [Adresse von z], R3
+```
+
+Die CPU speichert jeden dieser Befehle als Binärzahl. In unserem vereinfachten Beispiel hat ein Befehl 24 Bit: 4 Bit für den Opcode (`LOAD` = 0001, `STORE` = 0010, `ADD` = 0011), 4 Bit für das Register und 16 Bit für die Speicheradresse. Mit den Adressen aus der Abbildung (x in 0x0A10, y in 0x0A11, z in 0x0A12) ergibt sich:
+
+```
+0001 0001 0000 1010 0001 0000   LOAD  R1, [x]
+0001 0010 0000 1010 0001 0001   LOAD  R2, [y]
+0011 0011 0001 0010 0000 0000   ADD   R3, R1, R2
+0010 0011 0000 1010 0001 0010   STORE [z], R3
+```
+
+Bei `ADD` stehen statt der Adresse zwei weitere Registernummern und der Rest bleibt 0. Dieses Format ist ein Lehrbeispiel; echte Prozessoren verwenden andere Formate, das Prinzip bleibt gleich.
+
+Die CPU sieht am Ende nur Speicheradressen und Binärwerte — keine Variablennamen, keine Python-Syntax. Variablennamen sind für den Menschen; die Hardware arbeitet ausschließlich mit Adressen.
+
+%%/book
 
 %%## Instruction Pointer – Schritt für Schritt
 
@@ -256,6 +319,7 @@ Register sind die kleinsten und schnellsten Speichereinheiten der CPU. Sie halte
 
 %%col 45 55
 
+- Die CPU arbeitet die binären Befehle hintereinander ab
 - Jeder Befehl liegt an einer *Speicheradresse* im RAM
 - Der *Instruction Pointer* (IP) zeigt stets auf den nächsten Befehl
 - Nach jeder Instruktion: IP = IP + 1
@@ -302,50 +366,6 @@ Der RAM lässt sich als eine lange Reihe von Zellen vorstellen. Jede Zelle hat e
 Register sind noch schneller: Sie sitzen direkt in der CPU und halten die Werte für die laufende Berechnung. Bevor die CPU zwei Zahlen addiert, lädt sie beide Werte aus dem RAM in Register, führt die Addition durch und schreibt das Ergebnis zurück. Die Abbildung zeigt den Zustand mitten in `z = x + y`: Der Instruction Pointer steht bei `ADD`, R1 und R2 enthalten bereits die Werte von x und y, und die Zelle von z ist noch leer.
 
 ![](images/02a_Computerhardware/memory_cells.svg){fig-align="center"}
-
-%%/book
-
-%%## Von Python-Code zu Maschinenbefehlen
-
-%%slides
-
-%%col 40 60
-
-- Eine Python-Zeile ergibt mehrere Maschinenbefehle
-- Die CPU kennt keine Variablennamen, nur Adressen und Binärwerte
-- Variablennamen sind menschenlesbare Namen für Speicheradressen
-
-%%sep
-
-```python
-z = x + y
-```
-
-```
-LOAD  R1, [Adresse von x]
-LOAD  R2, [Adresse von y]
-ADD   R3, R1, R2
-STORE [Adresse von z], R3
-```
-
-*Vereinfachte Darstellung*
-
-%%/col
-
-%%/slides
-
-%%book
-
-Python-Code wird nicht direkt von der CPU ausgeführt. Der Python-Interpreter übersetzt den Quellcode zunächst in *Bytecode* (sichtbar mit `dis.dis`) und führt diesen dann schrittweise aus. Der Interpreter ist selbst ein Programm aus Maschinenbefehlen. Dabei entstehen aus einer einzigen Python-Zeile viele einzelne Maschinenbefehle. Die Auflistung zeigt sie vereinfacht für `z = x + y`:
-
-```
-LOAD  R1, [Adresse von x]
-LOAD  R2, [Adresse von y]
-ADD   R3, R1, R2
-STORE [Adresse von z], R3
-```
-
-Die CPU sieht am Ende nur Speicheradressen und Binärwerte — keine Variablennamen, keine Python-Syntax. Variablennamen sind für den Menschen; die Hardware arbeitet ausschließlich mit Adressen.
 
 %%/book
 
@@ -888,32 +908,6 @@ Für Menschen ist es schon heute unmöglich, diese Datenmassen manuell zu sichte
 
 %%/slides
 
-
-%%slides
-
-
-## Lessons Learned {background="#66ccffff" cols40x60 txtL="„Lessons Learned“ sind kurze Off-Topic-Themen, von denen ich wünschte, jemand hätte sie mir als Student gesagt. Meist in der Mitte der Vorlesung, um diese aufzulockern." capR="DALL-E 2: Teddy bears mixing sparkling chemicals as mad scientists, steampunk" imgR="images/02a_Computerhardware/mj_teddy.png"}
-
-%%/slides
-
-%%slides
-
-
-## Lessons Learned {background="#66ccffff" cols40x60 txtL="Welche Gedächtnisarten kennen wir?" capR="DALL-E 2: 1980s illustration of a face with a visible brain that is exploding" imgR="images/02a_Computerhardware/image_1.jpg"}
-
-%%/slides
-
-%%slides
-
-
-## Lessons Learned - Gedächtnis
-![](images/02a_Computerhardware/gedaechnis.svg)
-
-- Wissen braucht Zeit sich zu verfestigen
-- Nutzen wir unser Unterbewusstsein, d. h. Informationen sammeln und reifen lassen
-- Intervalllernen ist, wie im Sport, der effektivste Weg etwas langfristig zu lernen
-
-%%/slides
 
 %%book
 
