@@ -13,7 +13,7 @@ format:
 resources:
   - data/01c_AgentischesProgrammieren
 ---
-
+ 
 %%book
 
 ![](images/01c_AgentischesProgrammieren/mj_title_band.jpg)
@@ -24,19 +24,12 @@ resources:
 
 %%/book
 
-
-%%# Das Problem: Code, der läuft, aber nicht stimmt
-
-%%book
-Vibe coding funktioniert für Wegwerf-Experimente. Für alles, was Ingenieurinnen und Ingenieure berechnen, bemessen oder weitergeben, genügt es nicht. Diese Sitzung beantwortet eine Frage: Wenn eine KI Code liefert, der fehlerfrei läuft, woher wissen wir, dass er stimmt? Am Ende der Sitzung können Sie erklären, warum ein Sprachmodell plausiblen statt korrekten Code erzeugt (Verstehen), einen Prompt als Anforderungsspezifikation formulieren und generierten Code mit einem Handrechnungs-Test prüfen (Anwenden) und beurteilen, welche Verantwortung bei Ihnen bleibt (Bewerten).
-%%/book
-
 %%slides
 
 
 ## Hörsaalfrage {background="#FFD966"}
 
-%%scol 50 50
+%%col 50 50
 
 ### Der Code läuft ohne Fehlermeldung und liefert 2,8·10⁻⁵ N/mm². Stimmt das?
 
@@ -59,7 +52,7 @@ Ergebnis des fehlerfreien Laufs:
 Ergebnis: 2,8·10⁻⁵
 ```
 
-%%/scol
+%%/col
 
 
 
@@ -100,18 +93,251 @@ Warum macht ein so leistungsfähiges System so einen Fehler?
 %%/scol
 
 %%book
-KI-Assistenten liefern Code, der ohne Fehlermeldung läuft und trotzdem falsch rechnet. Im Beispiel wird ein Moment in kNm durch ein Widerstandsmoment in mm³ geteilt; die Einheiten passen nicht zusammen, und die Spannung fällt um den Faktor 10⁶ zu klein aus. Python meldet dabei nichts, denn für den Rechner ist jede Zahl gültig. Wer den Code liest, erkennt das sofort; wer ihn nur ausführt, nicht. Dieses Beispiel begleitet uns durch die ganze Sitzung. Zunächst fragen wir, wie ein Sprachmodell zu einem solchen Ergebnis kommt.
+KI-Assistenten können Code erzeugen, der ohne Fehlermeldung läuft und trotzdem falsch rechnet. Im Beispiel wird ein Moment in kNm durch ein Widerstandsmoment in mm³ geteilt; die Einheiten passen nicht zusammen, und die Spannung fällt um den Faktor 10⁶ zu klein aus. Python meldet dabei nichts, denn für den Rechner ist jede Zahl gültig. Wer den Code liest, erkennt das sofort; wer ihn nur ausführt, nicht. Dieses Beispiel begleitet uns durch die ganze Sitzung. Zunächst fragen wir, wie ein Sprachmodell zu einem solchen Ergebnis kommt.
 %%/book
 
 
-%%# Warum es passiert: Was ein Sprachmodell ist
+
+
+
+## Gebiete der Künstlichen Intelligenz
+
+![](images/01c_AgentischesProgrammieren/ki_gebiete.svg){.nostretch fig-align="center" width="100%"}
+
+- KNN – Künstliche Neuronale Netzwerke
+- CV – Computer Vision (Bildverarbeitung) und Large Vision Models (LVM)
+- NLP – Natural Language Processing (Sprachverarbeitung) und Large Language Models (LLM)
+
+%%book
+Die Gebiete der Künstlichen Intelligenz haben sich in drei Zeitaltern verschoben. Im Semantic and Machine Learning Age (2012) stehen Semantic Reasoning (Logik), Machine Learning, Optimierung und Robotik nebeneinander. Im Neural Network Age (2018) wird Machine Learning zum dominierenden Gebiet, und Künstliche Neuronale Netzwerke (KNN) umfassen NLP, Robotik und Computer Vision (CV). Im Large Foundation Model Age (2022), auch Generative Models genannt, prägen Large Language Models (LLM) für die Sprachverarbeitung (NLP) und Large Vision Models (LVM) für die Bildverarbeitung (CV) die Neuronalen Netzwerke.
+%%/book
+
+
+## KNN – Künstliche Neuronale Netzwerke (1943)
+
+%%scol 55 45v
+
+- Mathematische Nachbildung der Neuronen im menschlichen Gehirn
+- Ein Neuronales Netzwerk setzt sich aus (sehr) vielen Neuronen zusammen
+- Jedes Neuron ist meist einfach aufgebaut
+    - Eingänge $x_1, x_2, \dots, x_n$ die multipliziert werden mit den
+    - Gewichten $w_1, w_2, \dots, w_n$ und dazu wird ein
+    - Bias $b$ addiert
+- Der Ausgang $y$ ist die Summe davon, gefiltert mit einer Aktivierungsfunktion $f(\cdot)$ (Wir gewichten also die Eingänge nach „Wichtigkeit“)
+- Die Aufgabe beim Lernen ist die Gewichte $w_1, w_2, \dots, w_n$ und das Bias $b$ zu bestimmen (Wir lernen welche Eingänge wichtig sind)
+- **Der Trick:** Neuronale Netzwerke bestehen aus einfachen Bausteinen (→ einfach hoch-parallel zu berechnen)
+
+%%sep
+
+![](images/01c_AgentischesProgrammieren/neuron.svg){.nostretch fig-align="center" width="100%"}
+
+$$
+y = f\left(b + \sum_{i=1}^{n} w_i x_i\right)
+$$
+%%/scol
 
 %%book
 Um Fehler wie den obigen vorherzusehen, müssen wir verstehen, was ein Large Language Model (LLM) tatsächlich berechnet und was es nicht berechnet. Danach ordnen wir die gängigen Werkzeuge entlang ihrer Autonomie ein.
+
+Künstliche neuronale Netzwerke (KNN, 1943) sind eine mathematische Nachbildung der Neuronen im menschlichen Gehirn. Ein Netzwerk setzt sich aus sehr vielen Neuronen zusammen, und jedes Neuron ist meist einfach aufgebaut: Die Eingänge $x_1, \dots, x_n$ werden mit den Gewichten $w_1, \dots, w_n$ multipliziert, und dazu wird ein Bias $b$ addiert. Der Ausgang $y$ ist die Summe davon, gefiltert mit einer Aktivierungsfunktion $f(\cdot)$. Wir gewichten also die Eingänge nach Wichtigkeit. Die Aufgabe beim Lernen ist, die Gewichte und das Bias zu bestimmen, wir lernen also, welche Eingänge wichtig sind. Der Trick: Neuronale Netzwerke bestehen aus einfachen Bausteinen, die gut zu rechnen sind.
 %%/book
 
 
-## Code-Vervollständigung wurde in fünf Jahren zum Agenten
+## DNN – Tiefe Neuronale Netzwerke (seit 2011 skalierbar)
+
+%%scol 45 55
+
+- Tiefe Neuronale Netzwerke enthalten sehr viele (3-150) tiefe Schichten von Neuronen
+- Mit jeder Schicht steigt die Anzahl der Parameter multiplikativ und man erhält tausende Parameter
+- Ab 2011 führten zwei Entwicklungen zur Berechenbarkeit
+    - Parallelisierung der Berechnung in Graphikkarten mit tausenden von Recheneinheiten
+    - Bessere Algorithmen, um die sehr große Anzahl an Parametern schnell zu bestimmen
+- **Der Trick:** Mit den tieferen Schichten kann das Neuronale Netzwerk Wissen besser
+    - **Abstrahieren** – da wir Eingänge immer mehr zusammen führen
+    - **Verknüpfen** – Mit jeder Schicht verknüpfen wir das abstrahierte Wissen besser und betonen das Wichtige
+
+%%sep
+
+![](images/01c_AgentischesProgrammieren/dnn.svg){.nostretch fig-align="center" width="100%"}
+%%/scol
+
+%%book
+Tiefe Neuronale Netzwerke (DNN) enthalten sehr viele (3 bis 100) tiefe Schichten von Neuronen. Mit jeder Schicht steigt die Anzahl der Parameter multiplikativ, und man erhält tausende von Parametern. Ab 2011 führten zwei Entwicklungen zur Berechenbarkeit: die Parallelisierung der Berechnung in Grafikkarten mit tausenden von Recheneinheiten und bessere Algorithmen, um die sehr große Anzahl an Parametern schnell zu bestimmen. Der Trick: Mit den tieferen Schichten kann das Netzwerk Wissen besser abstrahieren, da wir Eingänge immer mehr zusammenführen, und verknüpfen, da wir mit jeder Schicht das abstrahierte Wissen besser verknüpfen und das Wichtige betonen.
+%%/book
+
+
+## Große Sprachmodelle (Large Language Models LLM) (seit 2017)
+
+%%scol 45 55
+
+- Erhöhen die Anzahl der Parameter auf mehrere Milliarden
+- Die Netzwerke zerlegen Texte in Worte und lernen mit welcher Wahrscheinlichkeit diese Worte im Text aufeinander folgen
+- Mit der Entdeckung von Transformer Netzwerken (2017) konnte man diese Textzusammenhänge lernen
+- **Der Trick:** dass das Netzwerk lernt
+    - **Abstrahieren** – was sind die wichtigen Worte in einem Text
+    - **Verknüpfen** – welche Worte sind mit diesen wichtigen Worten über Sätze verknüpft
+- Wenn wir eine Anfrage an ChatGPT stellen, so wird das umgekehrt und ChatGPT generiert die wahrscheinliche Wortfolge für meine Anfrage
+
+%%slide_ref @vaswani2017attention Vaswani et al.: Attention Is All You Need, NeurIPS, 2017.
+
+%%sep
+
+![](images/01c_AgentischesProgrammieren/llm_words.svg){.nostretch fig-align="center" width="100%"}
+%%/scol
+
+%%book
+Große Sprachmodelle (Large Language Models, LLM, seit 2017) erhöhen die Anzahl der Parameter auf mehrere Milliarden. Die Netzwerke zerlegen Texte in Worte und lernen, mit welcher Wahrscheinlichkeit diese Worte im Text aufeinander folgen. Mit der Entdeckung der Transformer-Netzwerke [@vaswani2017attention] konnte man diese Textzusammenhänge lernen. Der Trick besteht darin, dass das Netzwerk lernt zu abstrahieren, welche Worte in einem Text wichtig sind, und zu verknüpfen, welche Worte mit diesen wichtigen Worten über Sätze verknüpft sind. Wenn wir eine Anfrage an ChatGPT stellen, wird das umgekehrt, und ChatGPT generiert die wahrscheinliche Wortfolge für die Anfrage.
+%%/book
+
+
+## Ein Sprachmodell bildet Token-Folgen auf Wahrscheinlichkeiten ab
+
+![](images/01c_AgentischesProgrammieren/llm_pipeline.svg){.nostretch fig-align="center" width="100%"}
+
+%%div lead
+Attention: Jedes Token gewichtet alle vorherigen Tokens nach Relevanz.
+%%/div
+
+%%book
+Ein LLM verarbeitet keinen Text, sondern Token, also Wortteile oder Symbole eines festen Vokabulars. Jedes Token wird in einen Vektor eingebettet. Mehrere Dutzend Transformer-Schichten berechnen daraus Zwischendarstellungen; in jeder Schicht gewichtet der Attention-Mechanismus für jedes Token, welche vorherigen Tokens für die Fortsetzung relevant sind. Am Ende steht eine Wahrscheinlichkeitsverteilung über das gesamte Vokabular. Aus ihr wird ein Token gezogen, an die Eingabe angehängt, und der Vorgang wiederholt sich. Man nennt das autoregressive Generierung. Im Beispiel steht nach `W = b * h**2 /` mit hoher Wahrscheinlichkeit eine 6, weil diese Formel im Training oft vorkam. Die Wahrscheinlichkeiten im Bild sind illustrativ. Moderne Modelle haben Milliarden bis Billionen Parameter.
+%%/book
+
+
+## Das Training belohnt Plausibilität, nicht Korrektheit
+
+%%scol 50 50
+
+### Training
+
+1. Pre-Training: Fortsetzung von Text und Code vorhersagen
+2. Instruction-Tuning: Aufgaben und Antworten nachahmen
+3. Feedback: Antworten bevorzugen, die Menschen besser bewerten
+
+$$
+\mathcal{L}(\theta) = -\sum_t \log P_\theta(x_t \mid x_{<t})
+$$
+%%sep
+**Was dieses Signal nicht enthält:**
+
+- [Keine Einheitenprüfung]{.con}
+- [Kein Ergebnis einer Ausführung]{.con}
+- [Keine Kenntnis Ihrer Anforderung]{.con}
+
+%%div lead
+Das Modell verallgemeinert Muster. Es schlägt nichts nach und rechnet nichts nach.
+%%/div
+%%/scol
+
+%%book
+Beim Pre-Training minimiert das Modell den Vorhersagefehler für das nächste Token über sehr große Text- und Code-Sammlungen. Die Verlustfunktion bewertet nur, wie gut die tatsächliche Fortsetzung vorhergesagt wurde. Instruction-Tuning und Feedback von Menschen [@ouyang2022instructgpt] richten das Modell auf hilfreiche Antworten aus. In keinem dieser Schritte kommt ein Ergebnis einer Programmausführung oder eine Einheitenprüfung vor. Das Modell erzeugt deshalb Code, der zu seinen Trainingsmustern passt. Es ist kein Nachschlagewerk: Auch Code, der so nie in den Trainingsdaten stand, kann es neu zusammensetzen. Das erklärt sowohl seine Stärke als auch den Einheitenfehler im Beispiel.
+%%/book
+
+
+## Programm code garantieren Korrektheit, ein Sprachmodell nicht
+
+%%scol 50 50
+#### Programmcode
+
+- Eingabe: Daten
+- [Gleiche Eingabe, gleiche Ausgabe]{.pro}
+- Fehler: Fehlermeldung mit Zeile
+
+%%sep
+
+#### Sprachmodell
+
+- Eingabe: Prompt
+- [Keine formale Garantie für die Ausgabe]{.con}
+- Fehler: trotzdem eine plausible Ausgabe
+%%/scol
+
+%%div lead
+{{< ai4sc-icon test-tube >}} Wer garantiert die Korrektheit? Bei einem LLM sind Sie es.
+%%/div
+
+%%book
+Programmcode verhält sich deterministisch: Dieselbe Eingabe liefert dieselbe Ausgabe, und Syntax- oder Typfehler führen zu einer Fehlermeldung mit Zeilenangabe. Ob die Formel im Code richtig ist, garantiert das nicht, wie unser Beispiel mit dem Einheitenfehler zeigt. Das Verhalten ist aber reproduzierbar und prüfbar. Ein Sprachmodell antwortet immer, auch wenn der Prompt unklar ist oder die richtige Antwort nirgends gelernt wurde, und dieselbe Eingabe kann andere Ausgaben liefern. Die Prüfung liegt hier bei den Anwenderinnen und Anwendern. Verifikation ist deshalb Pflicht und kein optionaler Zusatzschritt.
+%%/book
+
+
+## Warum nicht?
+
+%%scol 50 50
+
+#### [Wie ein Ingenieur denkt]{.pro}
+
+1. Übersetzt ein Problem in ein **mentales Modell**
+2. Analysiert darin abstrakte Zusammenhänge <br> (versteht **warum und wann** der Balken sich biegt)
+3. Kann kausale Schlussfolgerungen **ableiten**
+4. Kann prüfen, ob das Ergebnis physikalisch sinnvoll ist (**kann rechnen**)
+
+```{=html}
+<video width="450" data-autoplay muted playsinline style="display:block;margin:0 auto"><source src="images/01c_AgentischesProgrammieren/manim_thinking_human.webm" type="video/webm"><source src="images/01c_AgentischesProgrammieren/manim_thinking_human.mp4" type="video/mp4"></video>
+```
+
+%%sep
+
+::: {.fragment }
+#### [Wie ein LLM „denkt"]{.con}
+
+1. Übersetzt ein Problem in ein **sprachliches Muster**
+2. Hat **kein** mentales Modell abstrakter Zusammenhänge <br> (weiß nur, dass „Balken" und „biegen" korrelieren)
+3. Sagt **nur** statistisch wahrscheinliche Wörter voraus
+4. Kann nicht prüfen, ob der Output sinnvoll ist (**kann nicht rechnen**)
+
+```{=html}
+<video width="450" data-autoplay muted playsinline style="display:block;margin:0 auto"><source src="images/01c_AgentischesProgrammieren/manim_thinking_llm.webm" type="video/webm"><source src="images/01c_AgentischesProgrammieren/manim_thinking_llm.mp4" type="video/mp4"></video>
+```
+
+:::
+%%/scol
+
+%%slide_ref @Ploennigs25 Ploennigs et al.: _Building foundation models - potentials, challenges and research directions for using LLM and LVM in AEC_, **EC3**, 2025.
+
+%%book
+Ein Ingenieur übersetzt ein Problem in ein mentales Modell und analysiert darin abstrakte Zusammenhänge: Er versteht, warum und wann sich ein Balken biegt. Er kann kausale Schlussfolgerungen ableiten und prüfen, ob das Ergebnis physikalisch sinnvoll ist, er kann also rechnen. Ein LLM dagegen übersetzt ein Problem in ein sprachliches Muster. Es hat kein mentales Modell abstrakter Zusammenhänge und weiß nur, dass „Balken“ und „biegen“ korrelieren. Es sagt nur statistisch wahrscheinliche Wörter voraus und kann nicht prüfen, ob der Output sinnvoll ist, es kann also nicht rechnen [@Ploennigs25].
+%%/book
+
+
+## Die Gefahren neuer Grundlagen KI-Modelle
+
+%%scol 33 33 33
+#### Verstehen
+
+- [*Fehlendes räumliches und numerisches* Verständnis]{.con}
+- [*Fehlendes logisches Erschließen* komplexer Zusammenhänge obwohl einfache funktionieren]{.con}
+- *Auslassen* statistisch irrelevanter aber fachlich wichtiger Details
+- *Übersetzen* mit False-Friends, die in der Domäne andere Bedeutungen haben
+
+%%sep
+
+#### Generieren
+
+- [*Halluzination* von falschen Inhalten]{.con}
+- [*Fehlassistenz* durch fehlerhafte Ratschläge]{.con}
+- *Inkonsistenz* von generierten Inhalten (mehrere Sichten)
+- *Bias* der Vorurteile/ Falschaussagen in den Trainingsdaten überbetont
+- *Ineffizienz* durch generierte Texte, die keiner mehr liest
+- *Fehloptimierungen* durch Lernen von Korrelationen in Trainingsdaten
+
+%%sep
+
+#### Anpassen
+
+- [*Keine BIM-Unterstützung* zur Datenverarbeitung in KI-Modellen]{.con}
+- [*Fehlende große Datensätze*]{.con}
+- *Unerklärliche* Black-Box-Modelle
+- *Hohe Kosten* für regelmäßiges Training
+- *Fehlendes Wissen* zu den Modellen
+%%/scol
+
+%%book
+Die Gefahren neuer Grundlagen-KI-Modelle lassen sich nach den drei Fähigkeiten Verstehen, Generieren und Anpassen ordnen. Beim Verstehen fehlen räumliches und numerisches Verständnis sowie das logische Erschließen komplexer Zusammenhänge, obwohl einfache funktionieren. Statistisch irrelevante, aber fachlich wichtige Details werden ausgelassen, und beim Übersetzen entstehen False-Friends, die in der Domäne andere Bedeutungen haben. Beim Generieren treten Halluzinationen von falschen Inhalten und Fehlassistenz durch fehlerhafte Ratschläge auf. Generierte Inhalte können inkonsistent sein (mehrere Sichten), Vorurteile und Falschaussagen in den Trainingsdaten werden überbetont, generierte Texte werden von niemandem mehr gelesen (Ineffizienz), und durch das Lernen von Korrelationen in Trainingsdaten entstehen Fehloptimierungen. Beim Anpassen fehlt die BIM-Unterstützung zur Datenverarbeitung in KI-Modellen, es fehlen große Datensätze, die Black-Box-Modelle sind unerklärlich, das regelmäßige Training ist teuer, und das Wissen zu den Modellen fehlt.
+%%/book
+
+# Agentenische Programmierung
+
+## Code-Vervollständigung wurde in acht Jahren zum Agenten
 
 %%slides
 
@@ -190,119 +416,6 @@ LLM mit Zugriff auf Dateien und Terminal
 Die Technik hinter den heutigen Assistenten ist jung. Die Transformer-Architektur [@vaswani2017attention] ersetzte 2017 rekurrente Netze durch den Attention-Mechanismus. GPT-3 [@brown2020gpt3] zeigte 2020, dass ein ausreichend großes Modell Aufgaben aus wenigen Beispielen im Prompt lernt. Codex, das Modell hinter GitHub Copilot, wurde 2021 auf Quellcode feinjustiert [@chen2021codex]. Mit Instruction-Tuning und Feedback von Menschen [@ouyang2022instructgpt] entstanden 2022 Chat-Assistenten. Seit 2025 verbreiten sich Coding-Agenten, die Dateien lesen, Code ausführen und Tests starten. Karpathy prägte für das ungeprüfte Übernehmen solcher Ergebnisse den Begriff vibe coding [@karpathy2025vibe].
 %%/book
 
-
-## Ein Sprachmodell bildet Token-Folgen auf Wahrscheinlichkeiten ab
-
-![](images/01c_AgentischesProgrammieren/llm_pipeline.svg){.nostretch fig-align="center" width="100%"}
-
-%%div lead
-Attention: Jedes Token gewichtet alle vorherigen Tokens nach Relevanz.
-%%/div
-
-%%book
-Ein LLM verarbeitet keinen Text, sondern Token, also Wortteile oder Symbole eines festen Vokabulars. Jedes Token wird in einen Vektor eingebettet. Mehrere Dutzend Transformer-Schichten berechnen daraus Zwischendarstellungen; in jeder Schicht gewichtet der Attention-Mechanismus für jedes Token, welche vorherigen Tokens für die Fortsetzung relevant sind. Am Ende steht eine Wahrscheinlichkeitsverteilung über das gesamte Vokabular. Aus ihr wird ein Token gezogen, an die Eingabe angehängt, und der Vorgang wiederholt sich. Man nennt das autoregressive Generierung. Im Beispiel steht nach `W = b * h**2 /` mit hoher Wahrscheinlichkeit eine 6, weil diese Formel im Training oft vorkam. Die Wahrscheinlichkeiten im Bild sind illustrativ. Moderne Modelle haben Milliarden bis Billionen Parameter.
-%%/book
-
-
-## Das Training belohnt Plausibilität, nicht Korrektheit
-
-%%scol 50 50
-%%div eyebrow
-{{< ai4sc-icon brain >}} Training
-%%/div
-
-1. Pre-Training: Fortsetzung von Text und Code vorhersagen
-2. Instruction-Tuning: Aufgaben und Antworten nachahmen
-3. Feedback: Antworten bevorzugen, die Menschen besser bewerten
-
-$$
-\mathcal{L}(\theta) = -\sum_t \log P_\theta(x_t \mid x_{<t})
-$$
-%%sep
-**Was dieses Signal nicht enthält:**
-
-- [Keine Einheitenprüfung]{.con}
-- [Kein Ergebnis einer Ausführung]{.con}
-- [Keine Kenntnis Ihrer Anforderung]{.con}
-
-%%div lead
-Das Modell verallgemeinert Muster. Es schlägt nichts nach und rechnet nichts nach.
-%%/div
-%%/scol
-
-%%book
-Beim Pre-Training minimiert das Modell den Vorhersagefehler für das nächste Token über sehr große Text- und Code-Sammlungen. Die Verlustfunktion bewertet nur, wie gut die tatsächliche Fortsetzung vorhergesagt wurde. Instruction-Tuning und Feedback von Menschen [@ouyang2022instructgpt] richten das Modell auf hilfreiche Antworten aus. In keinem dieser Schritte kommt ein Ergebnis einer Programmausführung oder eine Einheitenprüfung vor. Das Modell erzeugt deshalb Code, der zu seinen Trainingsmustern passt. Es ist kein Nachschlagewerk: Auch Code, der so nie in den Trainingsdaten stand, kann es neu zusammensetzen. Das erklärt sowohl seine Stärke als auch den Einheitenfehler im Beispiel.
-%%/book
-
-
-## Die Temperatur steuert, wie zufällig das nächste Token gewählt wird
-
-```{python}
-#| echo: true
-import numpy as np
-logits = np.array([3.0, 1.2, 0.6, 0.0])      # illustrativ, kein reales Modell
-tokens = ["6", "2", "12", "3"]               # Kandidaten nach "W = b * h**2 /"
-def softmax(z, T):
-    e = np.exp(z / T)
-    return e / e.sum()
-```
-
-```{python}
-#| echo: false
-import plotly.graph_objects as go
-from ai4sc_style.plotly_loader import C, load_ai4sc_theme
-load_ai4sc_theme()
-fig = go.Figure()
-for T, col in [(0.2, C["signal-blue"]), (1.0, C["concrete"]), (2.0, C["signal-red"])]:
-    fig.add_trace(go.Bar(x=tokens, y=softmax(logits, T), name=f"T = {T}", marker_color=col))
-fig.update_layout(barmode="group", xaxis_type="category", yaxis_title="Wahrscheinlichkeit", xaxis_title="nächstes Token", height=330, margin=dict(t=10, b=40))
-fig.show()
-```
-
-%%div lead
-Niedrige Temperatur: fast deterministisch. Hohe Temperatur: gleicher Prompt, andere Antwort.
-%%/div
-
-%%book
-Das Modell liefert für jedes Token Zahlenwerte (Logits), die eine Softmax-Funktion in Wahrscheinlichkeiten umrechnet. Die Temperatur T skaliert die Logits vor der Softmax: Bei T = 0,2 fällt fast die gesamte Wahrscheinlichkeit auf das wahrscheinlichste Token, bei T = 2 verteilt sie sich breiter. Praktisch heißt das: Derselbe Prompt kann bei jedem Aufruf anderen Code liefern, bei T gegen 0 und festem Seed ist die Ausgabe dagegen reproduzierbar. Auch dann ist sie nicht automatisch korrekt, denn Reproduzierbarkeit und Korrektheit sind verschiedene Eigenschaften. Die Logits im Beispiel sind frei gewählt und stammen nicht aus einem realen Modell.
-%%/book
-
-
-## Datenbank und Compiler garantieren Korrektheit, ein Sprachmodell nicht
-
-%%scol 33 33 33
-#### Datenbankabfrage
-
-- Eingabe: Abfrage in SQL
-- [Schema und Transaktion sichern das Ergebnis]{.pro}
-- Fehler: kein Ergebnis oder Fehlermeldung
-
-%%sep
-
-#### Compiler
-
-- Eingabe: Quellcode
-- [Grammatik und Typsystem sichern die Übersetzung]{.pro}
-- Fehler: Fehlermeldung mit Zeile
-
-%%sep
-
-#### Sprachmodell
-
-- Eingabe: Prompt
-- [Keine formale Garantie für die Ausgabe]{.con}
-- Fehler: trotzdem eine plausible Ausgabe
-%%/scol
-
-%%div lead
-{{< ai4sc-icon test-tube >}} Wer garantiert die Korrektheit? Bei einem LLM sind Sie es.
-%%/div
-
-%%book
-Datenbanken und Compiler sind deterministische Systeme mit formalen Garantien: Eine Datenbank liefert das exakte Ergebnis oder nichts, ein Compiler übersetzt oder meldet einen Fehler. Ein Sprachmodell antwortet immer, auch wenn der Prompt unklar ist oder die richtige Antwort nirgends gelernt wurde. Die Prüfung, die bei anderen Systemen im System steckt, liegt hier bei den Anwenderinnen und Anwendern. Verifikation ist deshalb Pflicht und kein optionaler Zusatzschritt.
-%%/book
-
-
 ## Ein Agent ist ein Sprachmodell in einer Schleife mit Werkzeugen
 
 %%scol 55 45v
@@ -320,18 +433,8 @@ Ein Agent erweitert das Sprachmodell um eine Schleife: Das Modell plant einen Sc
 %%/book
 
 
-%%# Was Sie tun: Zyklus und Techniken
-
-%%book
-Weil der Agent nur so gut ist wie die Anforderung, die er erhält, brauchen Ingenieurinnen und Ingenieure eine eigene, äußere Schleife. Sie ist die Arbeitsmethode des ganzen Kurses.
-%%/book
-
 
 ## Der agentische Zyklus legt eine äußere Schleife um den Agenten
-
-%%div eyebrow
-{{< ai4sc-icon workflow >}} Agentischer Zyklus
-%%/div
 
 ![](images/01c_AgentischesProgrammieren/cycle.svg){.nostretch fig-align="center" width="100%"}
 
@@ -344,6 +447,8 @@ Jeder Schritt braucht eine eigene Kompetenz: Anforderungen formulieren, Code les
 %%/aside
 
 %%book
+Weil der Agent nur so gut ist wie die Anforderung, die er erhält, brauchen Ingenieurinnen und Ingenieure eine eigene, äußere Schleife. Sie ist die Arbeitsmethode des ganzen Kurses.
+
 Der Zyklus besteht aus fünf Schritten: Prompt, Generieren, Verstehen, Verifizieren und Iterieren. Nur der zweite Schritt gehört der KI, die übrigen vier gehören Ihnen. Am Beispiel heißt das: Sie legen Einheiten und Ausgabegröße fest, die KI liefert eine Funktion, Sie verfolgen die Einheiten im Datenfluss, prüfen das Ergebnis gegen die Handrechnung von 28,125 N/mm² und ergänzen bei Abweichung den fehlenden Constraint im Prompt. Der Zyklus wird wiederholt, bis die Anforderung nachweislich erfüllt ist. Er verlangt genau die Fähigkeiten, die dieser Kurs aufbaut: Python-Lesekompetenz, Anforderungsformulierung und Testdenken.
 %%/book
 
@@ -351,9 +456,6 @@ Der Zyklus besteht aus fünf Schritten: Prompt, Generieren, Verstehen, Verifizie
 ## Ein Prompt ist eine Anforderungsspezifikation
 
 %%scol 50 50
-%%div eyebrow
-{{< ai4sc-icon clipboard-list >}} Anforderung
-%%/div
 
 1. **Rolle:** Tragwerksplanerin, Python-Entwickler
 2. **Kontext:** b, h in mm, M in kNm
@@ -417,9 +519,6 @@ Beide Funktionen sind syntaktisch einwandfrei, und beide laufen ohne Fehlermeldu
 ## Lesen Sie zuerst den Vertrag der Funktion, dann die Implementierung
 
 %%scol 50 50
-%%div eyebrow
-{{< ai4sc-icon test-tube >}} Code lesen
-%%/div
 
 1. Signatur: Parameter, Einheiten, Rückgabetyp
 2. Docstring: Was verspricht die Funktion?
@@ -470,6 +569,28 @@ Eigener Test: Was passiert bei h = 0? Welches Verhalten verlangt die Anforderung
 
 %%book
 Der Test besteht aus einer einzigen Zeile: Die Handrechnung liefert 28,125 N/mm², und die Funktion muss diesen Wert bis auf eine Toleranz treffen. Gegen die erste Funktion schlägt der Test fehl, gegen die zweite besteht er. Der Test entsteht aus der Anforderung und nicht aus dem generierten Code, er kann deshalb nicht denselben Denkfehler enthalten. Bei h gleich null bricht die Funktion mit einer Division durch null ab. Ob das gewollt ist oder ob die Anforderung eine eigene Fehlermeldung verlangt, entscheidet die Anforderung, nicht die KI.
+%%/book
+
+
+## Wissenstreppe
+
+![](images/01c_AgentischesProgrammieren/wissenstreppe.svg){.nostretch fig-align="center" width="100%"}
+
+%%slide_ref @north2011wissen North, K. (2011): Wissensorientierte Unternehmensführung. Wertschöpfung durch Wissen.
+
+%%book
+Die Wissenstreppe nach North [@north2011wissen] erweitert die Wissenspyramide (Sitzung S03): Auf Zeichen folgen Daten (Syntax), Information (Semantik), Wissen (Vernetzung, Kontext, Erfahrung, Erwartung), Können (Anwendungsbezug), Handeln (Anwendung, Motivation), Kompetenz (richtiges Handeln) und Wettbewerbsfähigkeit (Einzigartigkeit, bessere Ergebnisse). Die unteren Stufen sind verfügbare Daten, die mittleren explizites, theoretisches Wissen und die oberen implizites, operatives Wissen.
+%%/book
+
+
+## Wissenstreppe und ChatGPT
+
+![](images/01c_AgentischesProgrammieren/wissenstreppe_chatgpt.svg){.nostretch fig-align="center" width="100%"}
+
+%%slide_ref @north2011wissen North, K. (2011): Wissensorientierte Unternehmensführung. Wertschöpfung durch Wissen.
+
+%%book
+ChatGPT und vergleichbare Modelle decken die Stufen von den Zeichen bis zum Wissen ab. Das implizite, operative Wissen, also Handeln, Kompetenz und Wettbewerbsfähigkeit, liegt nicht in den Modellen.
 %%/book
 
 
