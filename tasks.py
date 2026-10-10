@@ -20,7 +20,8 @@ _STAMP_DIR = HERE / "lectures" / ".stamps"
 
 # Local clone of https://github.com/AI4SC/qi4sc-quarto-template (private repo).
 # quarto's GitHub installer needs a valid GITHUB_TOKEN for private repos, so we
-# pull this local clone instead and install the extension from disk.
+# pull this local clone instead. lectures/_extensions is a symlink to its
+# _extensions folder (see link_extensions), so fixes made in the template apply directly.
 AI4SC_TEMPLATE_DIR = os.environ.get(
     "AI4SC_TEMPLATE_DIR",
     "/Users/jplonnigs/Documents/code/Presentations/2026/template",
@@ -483,9 +484,50 @@ def serve(c):
     else:
         print("not supported ", sys.platform)
 
+def _link_extensions() -> None:
+    """Make lectures/_extensions a symlink to the template clone's _extensions.
+
+    The whole folder is linked, not only ai4sc-style: quarto lists extensions with
+    readDir, where a symlink entry does not count as a directory, so a link to just
+    lectures/_extensions/ai4sc-style makes quarto miss its shortcodes
+    ("Shortcode 'ai4sc-icon' not found").
+    An existing real folder is moved to lectures/_extensions.local-backup, never deleted.
+    """
+    link = HERE / "lectures" / "_extensions"
+    target = Path(AI4SC_TEMPLATE_DIR) / "_extensions"
+    if not target.is_dir():
+        raise SystemExit(f"Template extensions not found: {target} (set AI4SC_TEMPLATE_DIR)")
+
+    if link.is_symlink():
+        if link.resolve() == target.resolve():
+            info(f"{link} already links to {target}")
+            return
+        link.unlink()  # points somewhere else: re-point it
+    elif link.exists():
+        backup = link.with_name("_extensions.local-backup")
+        n = 1
+        while backup.exists():
+            backup = link.with_name(f"_extensions.local-backup.{n}")
+            n += 1
+        info(f"Moving the existing copy {link} to {backup}")
+        link.rename(backup)
+
+    try:
+        link.symlink_to(target, target_is_directory=True)
+    except OSError as e:  # e.g. Windows without symlink privilege
+        raise SystemExit(f"Could not create symlink {link} -> {target}: {e}")
+    info(f"Linked {link} -> {target}")
+
+
+@task()
+def link_extensions(c):
+    """Link lectures/_extensions to the template clone (see AI4SC_TEMPLATE_DIR)."""
+    _link_extensions()
+
+
 @task()
 def update_ai4sc(c):
-    """Update the ai4sc-style python package and quarto extension from GitHub."""
+    """Update the ai4sc-style python package and pull the template that lectures/_extensions links to."""
     info("Update ai4sc-style python package")
     c.run("uv lock --upgrade-package ai4sc-style")
     c.run("uv sync")
@@ -494,9 +536,10 @@ def update_ai4sc(c):
     with c.cd(AI4SC_TEMPLATE_DIR):
         c.run("git pull")
 
-    info("Update ai4sc-style quarto extension")
-    with c.cd(os.path.join("lectures")):
-        c.run(f'quarto add "{AI4SC_TEMPLATE_DIR}/_extensions" --no-prompt')
+    # lectures/_extensions is a symlink to the template clone, so the pull above
+    # already updated the extension (no `quarto add` copy, which would replace the link).
+    info("Make sure lectures/_extensions links to the template")
+    _link_extensions()
 
 
 @task()
