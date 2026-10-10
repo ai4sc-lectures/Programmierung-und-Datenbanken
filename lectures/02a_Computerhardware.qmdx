@@ -302,12 +302,22 @@ Die CPU sieht am Ende nur Speicheradressen und Binärwerte — keine Variablenna
 
 %%/book
 
-%%## Instruction Pointer – Schritt für Schritt
+%%## Der Instruction Pointer führt Befehl für Befehl aus
 
 
 %%book
 
 Die CPU führt Befehle sequenziell aus: Befehl für Befehl, Adresse für Adresse. Ein spezielles Register, der *Instruction Pointer* (IP, auch Program Counter genannt), speichert die Adresse des nächsten auszuführenden Befehls. Nach jeder Instruktion erhöht sich der IP automatisch — so entsteht sequenzielle Ausführung als Grundverhalten des Prozessors.
+
+Das Beispiel zeigt den Zustand, wenn der IP bei 0x0003 steht: Die ersten beiden Befehle sind ausgeführt.
+
+| IP | Adresse | Befehl |
+|:--:|---------|--------|
+|    | 0x0001  | `LOAD  R1, [0x0A10]` |
+|    | 0x0002  | `LOAD  R2, [0x0A11]` |
+| →  | 0x0003  | `ADD   R3, R1, R2` |
+|    | 0x0004  | `STORE [0x0A12], R3` |
+|    | 0x0005  | ... |
 
 Sprungbefehle (z.B. bei Schleifen und Funktionsaufrufen) ändern den IP auf eine andere Adresse. Ohne solche Sprünge läuft ein Programm Zeile für Zeile durch den Speicher.
 
@@ -319,41 +329,40 @@ Register sind die kleinsten und schnellsten Speichereinheiten der CPU. Sie halte
 
 %%col 45 55
 
-- Die CPU arbeitet die binären Befehle hintereinander ab
 - Jeder Befehl liegt an einer *Speicheradresse* im RAM
-- Der *Instruction Pointer* (IP) zeigt stets auf den nächsten Befehl
-- Nach jeder Instruktion: IP = IP + 1
-- Sprünge (Schleifen, Funktionen) setzen den IP gezielt auf eine andere Adresse
+- Der *Instruction Pointer* (IP) zeigt auf den nächsten Befehl
+- `LOAD` kopiert einen Wert aus dem RAM in ein Register
+- `ADD` rechnet mit den Registern, `STORE` schreibt das Ergebnis zurück in den RAM
+- Nach jedem Befehl: IP = IP + 1
+- Sprünge (Schleifen, Funktionen) setzen den IP auf eine andere Adresse
 
 %%sep
 
-| IP | Adresse | Befehl |
-|:--:|---------|--------|
-|    | 0x0001  | `LOAD  R1, [0x0A10]` |
-|    | 0x0002  | `LOAD  R2, [0x0A11]` |
-| →  | 0x0003  | `ADD   R3, R1, R2` |
-|    | 0x0004  | `STORE [0x0A12], R3` |
-|    | 0x0005  | ... |
-
-Hier steht der IP bei 0x0003: Die ersten beiden Befehle sind ausgeführt.
+```{=html}
+<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_instruction_pointer.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_instruction_pointer.mp4" type="video/mp4"></video>
+```
 
 %%/col
 
 %%/slides
 
-%%## Speicherzellen und Register
+%%## Die CPU rechnet nur mit Registern
 
 %%slides
 
 %%col 35 65
 
-- *Speicherzelle* = Adresse + Binärwert im RAM
+- *Speicherzelle* = Adresse + Binärwert im RAM; `x` und `y` sind solche Zellen
 - *Register* in der CPU = Ultra-Kurzzeitgedächtnis für den aktuellen Rechenwert
-- Rechenablauf: Wert aus dem RAM → Register → ALU → Ergebnis zurück in den RAM
+- `LOAD`: x und y wandern aus dem RAM in R1 und R2
+- Die *ALU* addiert R1 + R2 und legt das Ergebnis in R3 ab
+- `STORE`: R3 wird in die Zelle von z zurückgeschrieben
 
 %%sep
 
-{{< include images/02a_Computerhardware/memory_cells.svg >}}
+```{=html}
+<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_memory_cells.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_memory_cells.mp4" type="video/mp4"></video>
+```
 
 %%/col
 
@@ -414,30 +423,6 @@ Stack und Heap sind kein Python-Feature, sondern zwei Bereiche im RAM, die das B
 %%/col
 
 %%/slides
-
-%%slides
-
-## Agentic Workflow: Tiefe Rekursion prüfen
-
-%%warning Stack Overflow
-Wenn KI tiefe Rekursion generiert, kennt sie die Stack-Größe Ihres Systems nicht.
-%%/warning
-
-1. *Tiefe abschätzen:* Wie viele Aufrufe entstehen bei der echten Eingabegröße? (Python-Limit: `sys.getrecursionlimit()`, Standard 1000)
-2. *Verifizieren:* Testen Sie den Code mit der größten erwarteten Eingabe, nicht nur mit dem Beispiel
-3. *Iterieren:* Fordern Sie bei Bedarf eine Variante ohne Rekursion an
-
-Das Ausführungsmodell erklärt den Fehler: Jeder Aufruf belegt Stack-Speicher, und der ist begrenzt.
-
-%%/slides
-
-%%book
-
-### Agentic Workflow: Tiefe Rekursion prüfen
-
-Wenn KI tiefe Rekursion generiert, kennt sie die Stack-Größe Ihres Systems nicht. Das Verständnis des Ausführungsmodells hilft, einen Stack Overflow zu erkennen und zu beheben: Jeder Funktionsaufruf belegt einen Rahmen auf dem begrenzten Stack. Prüfen Sie daher zuerst, wie viele Aufrufe bei der realen Eingabegröße entstehen (in Python begrenzt `sys.getrecursionlimit()` die Tiefe, Standard ist 1000), testen Sie mit der größten erwarteten Eingabe und fordern Sie bei Bedarf eine iterative Variante an.
-
-%%/book
 
 %%aside
 → `02b_Speicher` (S02): Stack, Heap und Python-Speichermodell im Detail | → `02c_Datentypen` (S02): Datentypen als Speicherdarstellungen | → `09b_Rekursion` (S09): Rekursion, der Call-Stack ist dann bekannt
