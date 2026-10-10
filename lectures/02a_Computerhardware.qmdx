@@ -493,12 +493,15 @@ Hierbei ist $m$ die Binärmantisse (zwischen 1 und 2), $e$ der Binärexponent.
 
 ![Zerlegung von −13,25 in Vorzeichen, Mantisse und Exponent](images/02a_Computerhardware/manim_float_example.png){fig-align="center" width="60%"}
 
-In der Praxis werden die Zahlen meist im standardisierten IEEE 754 Standard als 32-Bit-Gleitkommazahl (*float*) oder 64-Bit (*double*) gespeichert. Dabei werden die Bits zusätzlich aufgefüllt, so dass sie in die 32 oder 64 Bit passen. Dadurch ändert sich die Darstellung etwas:
+In der Praxis werden die Zahlen im standardisierten IEEE-754-Format gespeichert. Der Standard legt fest, wie viele Bits für Vorzeichen, Exponent und Mantisse zur Verfügung stehen. Üblich sind 16 Bit (*half*), 32 Bit (*float*) und 64 Bit (*double*, das Format der Python-Gleitkommazahlen). Dabei wird der Exponent mit einem festen Bias gespeichert (15, 127 bzw. 1023), damit auch negative Exponenten ohne eigenes Vorzeichen darstellbar sind. Die Mantisse wird ohne die führende 1 abgelegt und mit Nullen aufgefüllt. Für $-13{,}25$ ergibt sich:
 
-- Vorzeichenbit: $1$ (negativ)
-- Exponent mit Bias: $3 + 127 = 130_{10}$ ($10000010_2$)
-- Mantisse mit Nullen aufgefüllt: $10101000000000000000000$
-- Die Binärdarstellung im Speicher lautet also: `1 10000010 10101000000000000000000`
+| Format | Vorzeichen | Exponent | Mantisse | Bias | $-13{,}25$ im Speicher |
+|--------|:----------:|:--------:|:--------:|:----:|------------------------|
+| 16 Bit | 1 Bit | 5 Bit  | 10 Bit | 15   | `1 10010 1010100000` |
+| 32 Bit | 1 Bit | 8 Bit  | 23 Bit | 127  | `1 10000010 10101000000000000000000` |
+| 64 Bit | 1 Bit | 11 Bit | 52 Bit | 1023 | `1 10000000010 1010100…0` (47 Nullen am Ende) |
+
+![Das Bitmuster von −13,25 in den drei IEEE-754-Formaten](images/02a_Computerhardware/ieee754_formate.svg){fig-align="center" width="100%"}
 
 So werden beliebige reelle Zahlen im Computer als Gleitkommazahlen nach IEEE 754 gespeichert.
 
@@ -530,25 +533,12 @@ Begrenzte Anzahl an Stellen: Es entstehen Rundungsfehler!
 
 ## Binäre Zahlen – IEEE 754
 
-%%col 50 50
+- Der Standard legt fest, wie viele Bits Vorzeichen, Exponent und Mantisse bekommen: 16, 32 oder 64 Bit
+- Exponent mit Bias (15, 127, 1023): 3 + Bias, binär gespeichert
+- Mantisse ohne führende 1, mit Nullen aufgefüllt
+- Python `float` = 64 Bit
 
-Im IEEE 754 Standard werden die Bits zusätzlich aufgefüllt, sodass sie in 32 oder 64 Bit passen.
-
-- Vorzeichenbit: $1$ (negativ)
-- Exponent mit Bias: $3 + 127 = 130_{10}$ ($10000010_2$)
-- Mantisse mit Nullen aufgefüllt: $10101000000000000000000$
-
-%%sep
-
-Die Binärdarstellung von $-13{,}25$ im Speicher (32 Bit):
-
-`1 10000010 10101000000000000000000`
-
-| Vorzeichen | Exponent | Mantisse |
-|:----------:|:--------:|:--------:|
-| 1 Bit      | 8 Bit    | 23 Bit   |
-
-%%/col
+![](images/02a_Computerhardware/ieee754_formate.svg){.nostretch fig-align="center" width="100%"}
 
 %%/slides
 
@@ -592,11 +582,7 @@ Moderne Computer verwenden oft Unicode (z. B. UTF-8), um auch Zeichen aus andere
 - Binäre Codierung zieht sich vom niedrigsten Hardwarelevel bis hoch zur alltäglichen Anwendung
 
 %%sep
-
-| Wort   | H        | a        | l        | l        | o        |
-|--------|:--------:|:--------:|:--------:|:--------:|:--------:|
-| Dezimal | 72       | 97       | 108      | 108      | 111      |
-| Binär  | 01001000 | 01100001 | 01101100 | 01101100 | 01101111 |
+Jedem Buchstaben ist eine Zahl zugeordnet, die wiederum binär codiert wird. Zum Beispiel:
 
 | Zeichen | Dezimal | Binär    | Zeichen | Dezimal | Binär    |
 |:-------:|:-------:|:--------:|:-------:|:-------:|:--------:|
@@ -605,6 +591,13 @@ Moderne Computer verwenden oft Unicode (z. B. UTF-8), um auch Zeichen aus andere
 | C       | 67      | 01000011 | c       | 99      | 01100011 |
 | 0       | 48      | 00110000 | Leerzeichen | 32  | 00100000 |
 | 1       | 49      | 00110001 | !       | 33      | 00100001 |
+
+Damit kann man ein Wort wie „Hallo“ in Zahlen und Binärzahlen umwandeln:
+
+| Wort   | H        | a        | l        | l        | o        |
+|--------|:--------:|:--------:|:--------:|:--------:|:--------:|
+| Dezimal | 72       | 97       | 108      | 108      | 111      |
+| Binär  | 01001000 | 01100001 | 01101100 | 01101100 | 01101111 |
 
 %%/col
 
@@ -807,8 +800,6 @@ Register sind noch schneller: Sie sitzen direkt in der CPU und halten die Werte 
 ![](images/02a_Computerhardware/memory_cells.svg){fig-align="center"}
 
 %%/book
-
-%%# Stack und Heap
 
 %%## Zwei Speicherregionen im RAM
 

@@ -1,6 +1,6 @@
 """Manim scene for the slide "Binäre Zahlen – Gleitkommazahl" (02a_Computerhardware.qmdx): -13,25 as float.
 
-The 32 bit of the result stay visible at the bottom and are filled step by step.
+The 16 bit (IEEE 754 half precision) of the result stay visible at the bottom and are filled step by step.
 Palette: light "pastello" theme (_extensions/ai4sc-style/themes/color/pastello.css).
 
 Render, from the lectures/ directory:
@@ -25,9 +25,9 @@ FONT = "Helvetica Neue"
 MONO = "Menlo"
 
 SIGN = "1"
-EXP = "10000010"                    # 3 + 127 = 130
-MANT = "10101" + "0" * 18           # 1,10101 without the leading 1
-Y_REG = -2.75
+EXP = "10010"                       # 3 + 15 = 18
+MANT = "10101" + "0" * 5            # 1,10101 without the leading 1
+Y_REG = -3.0
 CW = 0.285                          # width of one bit cell
 
 
@@ -44,27 +44,24 @@ def cells(digits, y, x0=-2.75, step=0.9, fill=BUBBLE, stroke=RIM):
 
 
 def register():
-    """32 bit cells in two rows: sign + exponent (9 bit), mantissa (23 bit); all 0 at the start."""
+    """16 bit cells (1 | 5 | 10), all 0 at the start."""
     pos = []
     x = -4.6
-    for i in range(9):
-        if i == 1:
-            x += 0.12
-        pos.append([x + 0.21, Y_REG + 0.45])
-        x += 0.42
-    x = -4.6
-    for i in range(23):
-        pos.append([x + 0.2, Y_REG - 0.35])
-        x += 0.4
+    for i in range(16):
+        if i in (1, 6):
+            x += 0.15
+        pos.append([x + 0.275, Y_REG])
+        x += 0.55
     bits = []
-    for i, (x, y) in enumerate(pos):
-        size = 0.42 if i < 9 else 0.4
-        b = Square(size, color=RIM, fill_color=BUBBLE, fill_opacity=1, stroke_width=2).move_to([x, y, 0])
-        d = T("0", 20, FAINT, font=MONO).move_to(b)
+    for x, y in pos:
+        b = Square(0.55, color=RIM, fill_color=BUBBLE, fill_opacity=1, stroke_width=2).move_to([x, y, 0])
+        d = T("0", 26, FAINT, font=MONO).move_to(b)
         bits.append(VGroup(b, d))
+    ly = Y_REG - 0.55
     labels = VGroup(
-        T("Vorzeichen, Exponent (8 Bit)", 18, MUTED).move_to([pos[8][0] + 0.4, pos[8][1], 0], aligned_edge=LEFT),
-        T("Mantisse (23 Bit)", 18, MUTED).move_to([-4.6, Y_REG - 0.85, 0], aligned_edge=LEFT))
+        T("Vorzeichen", 16, MUTED).move_to([pos[0][0] - 0.275, ly, 0], aligned_edge=LEFT),
+        T("Exponent (5 Bit)", 18, MUTED).move_to([(pos[1][0] + pos[5][0]) / 2 + 0.1, ly, 0]),
+        T("Mantisse (10 Bit)", 18, MUTED).move_to([(pos[6][0] + pos[15][0]) / 2, ly, 0]))
     return VGroup(*bits), bits, labels
 
 
@@ -73,7 +70,7 @@ def set_bits(bits, start, digits, color):
     anims = []
     for k, d in enumerate(digits):
         b = bits[start + k]
-        new = T(d, 20, INK, font=MONO).move_to(b[0])
+        new = T(d, 26, INK, font=MONO).move_to(b[0])
         anims += [b[0].animate.set_fill(color, opacity=0.85 if d == "1" else 0.45), Transform(b[1], new)]
     return anims
 
@@ -161,18 +158,18 @@ class FloatExample(Scene):
         et = T("Exponent e = 3", 26, INK).next_to(ex, UP, buff=0.12).shift(LEFT * 0.4)
         self.play(GrowFromCenter(mant), FadeIn(mt), GrowFromCenter(ex), FadeIn(et), run_time=0.8)
         self.wait(0.8)
-        n_exp = T("Exponent mit Bias: 3 + 127 = 130 = 10000010₂", 26, INK).move_to([0, -0.9, 0])
+        n_exp = T("Exponent mit Bias: 3 + 15 = 18 = 10010₂", 26, INK).move_to([0, -0.9, 0])
         self.play(FadeIn(n_exp), run_time=0.5)
         self.play(*set_bits(bits, 1, EXP, BLUE), run_time=1.0)
         self.wait(1.0)
-        n_man = T("Mantisse ohne die führende 1: 10101, aufgefüllt mit Nullen", 26, INK).move_to([0, -1.6, 0])
+        n_man = T("Mantisse ohne die führende 1: 10101, aufgefüllt mit Nullen", 26, INK).move_to([0, -1.55, 0])
         self.play(FadeIn(n_man), run_time=0.5)
-        self.play(*set_bits(bits, 9, MANT, GREEN), run_time=1.0)
+        self.play(*set_bits(bits, 6, MANT, GREEN), run_time=1.0)
         self.wait(1.5)
 
         # 5 Ergebnis
         h5 = heading(5, "Ergebnis")
-        fin = T("−13,25 = 1 10000010 10101000000000000000000", 24, INK, font=MONO, weight=BOLD).move_to([0, 0.6, 0])
+        fin = T("−13,25 = 1 10010 1010100000", 24, INK, font=MONO, weight=BOLD).move_to([0, 0.6, 0])
         self.play(Transform(h, h5), FadeOut(VGroup(row, dot, times, mant, mt, ex, et, n_exp, n_man)), run_time=0.6)
         self.play(FadeIn(fin), run_time=0.7)
         self.wait(2.5)
