@@ -25,67 +25,154 @@ resources:
 %%/book
 
 
-## Programmiersprachen
+## Programmiersprachen {cols40x60 txtL="Programmiersprachen" capR="DALL·E 2: An Egyptian using a computer" imgR="images/01b_Programmiersprachen/dalle_egyptian.png"}
 
+
+## Was ist eine Programmiersprache?
+
+%%scol 45 55
 %%def Programmiersprache
-Eine Programmiersprache ist eine formale Sprache für die Erstellung von Programmen zur Datenverarbeitung an einem Computer. Sie ist durch ihren Zeichensatz, Syntax und ihre Semantik definiert.
+Eine Programmiersprache ist eine formale Sprache für die Erstellung von Programmen zur Datenverarbeitung an einem Computer. Sie ist durch ihren **Zeichensatz**, **Syntax** und ihre **Semantik** definiert.
 %%/def
 
-%%slides
-Die Programmiersprache erlaubt es dem Menschen (Programmierer), dem Computer in einer „verständlichen" Form ein Programm zu erstellen.
-%%/slides
+Die Programmiersprache erlaubt es dem Menschen (Programmierer), dem Computer in einer „verständlichen“ Form ein Programm zu erstellen.
+%%sep
+```{python}
+#| echo: false
+import pandas as pd
+import plotly.graph_objects as go
+from ai4sc_style.plotly_loader import C, load_ai4sc_theme
+
+load_ai4sc_theme()
+so = pd.read_csv("data/01b_Programmiersprachen/stackoverflow2026.csv").iloc[::-1]
+fig = go.Figure(go.Bar(
+    x=so["usage"], y=so["language"], orientation="h",
+    marker_color=[C["signal-blue"] if l == "Python" else C["concrete"] for l in so["language"]],
+    text=so["usage"].map("{:.1f} %".format), textposition="outside", cliponaxis=False))
+fig.update_layout(height=520, margin=dict(l=10, r=50, t=10, b=30), showlegend=False,
+                  xaxis=dict(range=[0, 72], title="Anteil der Entwickler (%)"),
+                  yaxis=dict(dtick=1, automargin=True))
+fig.write_image("data/01b_Programmiersprachen/stackoverflow2026.png", width=600, height=520, scale=2)
+fig.show()
+```
+
+::: {.content-visible when-format="typst"}
+![](data/01b_Programmiersprachen/stackoverflow2026.png)
+:::
+
+%%aside
+Quelle: Stack Overflow Developer Survey 2026, meistgenutzte Sprachen (Top 21)
+%%/aside
+%%/scol
 
 %%book
 Für den Ingenieur ist die Programmiersprache das Verbindungsglied zwischen menschlicher Problemformulierung und maschineller Ausführung. Die formale Natur der Sprache (mit festgelegtem Zeichensatz, Syntax und Semantik) stellt sicher, dass ein Computer eine Anweisung eindeutig interpretieren kann; Mehrdeutigkeiten, die in natürlicher Sprache selbstverständlich sind, führen in einer Programmiersprache zu Fehlern. Wir verwenden Programmiersprachen nicht nur, um Berechnungen zu automatisieren, sondern auch um Prozesse zu modellieren, Messdaten auszuwerten und Entscheidungslogik zu formalisieren — Aufgaben, die im Bauingenieurwesen zunehmend an Bedeutung gewinnen.
 %%/book
 
+## Zeichensatz einer Programmiersprache
+
+%%scol 35 65
+Der Zeichensatz legt fest, welche Zeichen in einem Programm vorkommen dürfen. Alles, was nicht zum Zeichensatz gehört, ist ein Fehler, noch bevor die Syntax geprüft wird.
+
+Python-Quelltext ist standardmäßig UTF-8-kodiert.
+%%sep
+| Zeichensatz-Beispiel | Bedeutung |
+|---|---|
+| `a–z`, `A–Z`, `ä`, `π` | Buchstaben: Namen von Variablen und Funktionen |
+| `0–9` | Ziffern: Zahlen und Teile von Namen |
+| `+  -  *  /  =` | Sonderzeichen: Operatoren |
+| `(  )  :  #  "  .` | Sonderzeichen: Klammern, Kommentare, Texte |
+| `␣` (Leerzeichen), Zeilenumbruch | Leerraum: trennt Wörter, Einrückung bildet Code-Blöcke |
+%%/scol
+
+%%book
+Der Zeichensatz ist die unterste Ebene einer Programmiersprache: Er definiert den Vorrat an Zeichen, aus denen ein Programm besteht, also Buchstaben, Ziffern, Sonderzeichen und Leerraum. Python-Quelltext ist standardmäßig UTF-8-kodiert, sodass auch Umlaute und griechische Buchstaben in Namen erlaubt sind. Welche Zeichenfolgen daraus ein gültiges Programm bilden, regelt erst die Syntax.
+%%/book
+
+
+## Syntax einer Programmiersprache
+
+%%scol 35 65
+Formaler Regelsatz, der definiert, wie der Computer die Programmiersprache interpretieren soll. Die Syntax umfasst meist Regeln zur Definition von Befehlen (Wörter), Variablen (Werte) und Code-Blöcken (Sätze).
+%%sep
+| Syntax-Beispiel | Bedeutung |
+|---|---|
+| `1234` | Zahlenwert |
+| `True` / `False` | Boolesche Werte |
+| `"Text"` | Zeichenkette |
+| `# Ignoriere` | Kommentar |
+| `+  -  /  *` | Operatoren |
+| `if True:` | Eine Bedingung wird immer mit einem Doppelpunkt abgeschlossen |
+| `····print("Hello")` | Einrückung eines Code-Blocks: Alle Zeilen eines Blocks müssen gleich eingerückt sein |
+%%/scol
+
+%%book
+Die Syntax legt fest, welche Zeichenfolgen ein gültiges Programm bilden: Zahlen, Wahrheitswerte und Zeichenketten sind einfache Datentypen, Kommentare und Operatoren folgen festen Schreibweisen. Python kennzeichnet Code-Blöcke durch Einrückung; alle Zeilen eines Blocks müssen gleich eingerückt sein, und eine if-Bedingung schließt immer mit einem Doppelpunkt ab.
+%%/book
+
+
+## Semantik einer Programmiersprache
+
+%%scol 35 65
+Definition der Bedeutung der Sprachelemente und der zulässigen Kombinationen von Elementen.
+%%sep
+| Semantik-Beispiel | Bedeutung |
+|---|---|
+| `print("Hello")` | Gibt die Zeichenkette „Hello“ aus |
+| `exit()` | Beendet ein Programm |
+| `pass` | Tut gar nichts |
+| `break` | Bricht einen Code-Block ab |
+| `while` | Wiederhole den folgenden Code-Block |
+%%/scol
+
+%%book
+Die Semantik legt fest, was ein syntaktisch korrektes Programm bedeutet: `print("Hello")` gibt eine Zeichenkette aus, `break` bricht einen Code-Block ab und `while` wiederholt den folgenden Block.
+%%/book
+
+
+%%# Die Entwicklung der Programmiersprachen
+
+
 
 ## Generationen der Programmiersprachen
 
-1. **Generation** - Zuerst wurden Computer direkt in binärem *Maschinencode* programmiert, die ein Prozessor direkt ausführen kann, aber meist nur ein Prozessortyp verstehen können.
+%%scol 58 42v
+**1. Generation** – Zuerst wurden Computer direkt in binärem *Maschinencode* programmiert, den ein Prozessor direkt ausführen kann, den aber meist nur ein Prozessortyp versteht.
+%%sep
+```
+1101 0000 0000 0111 1011
+1011 1111 1110 1000 1010
+1101 0010 0000 0111 1111
+```
+%%/scol
 
-    ```
-      1101 0000 0000 0111 1011
-      1011 1111 1110 1000 1010
-      1101 0010 0000 0111 1111
-    ```
+%%scol 58 42v
+**2. Generation** – *Assemblersprachen* nutzen Maschinenbefehle (ADD, MOV, …) eines bestimmten Prozessortyps. Eine Übersetzungssoftware (Assembler) übersetzt sie in Maschinencode.
+%%sep
+```nasm
+mov al, 2   ; kopiert 2 in Register AL
+add al, 3   ; addiert 3 zu AL
+hlt         ; stoppt den Prozessor
+```
+%%/scol
 
-%%slides
-
----
-
-%%/slides
-
-2. **Generation** – *Assemblersprachen* nutzen Maschinenbefehle (ADD, MOV, …) eines bestimmten Prozessortyps. Die Befehle werden mit Hilfe einer Übersetzungssoftware (Assembler) in Maschinencode übersetzt.
-
-    ```nasm
-      mov al, 2     ; kopiert 2 in Register AL
-      add al, 3     ; addiert 3 zu Register AL
-      hlt           ; stoppt den Prozessor
-    ```
-
-%%slides
-
----
-
-%%/slides
-
-3. **Generation** - *Höhere Programmiersprachen* sind menschenlesbar und näher an natürlicher Sprache. Ein Compiler übersetzt den Code in den Maschinencode.
-
-    ```python
-      while i < 20:      # Solange `i` kleiner 20 ist
-          x = x + i * i  # addiere `i²` zu `x`
-          if x > 100:    # wird `x` größer als 100
-              i = i + 3  # springe in Dreierschritten weiter
-    ```
+%%scol 58 42v
+**3. Generation** – *Höhere Programmiersprachen* sind menschenlesbar und näher an natürlicher Sprache. Ein Compiler oder Interpreter übersetzt den Code in Maschinencode.
+%%sep
+```python
+while i < 20:      # solange i < 20
+    x = x + i * i  # addiere i² zu x
+    if x > 100:    # wird x größer 100,
+        i = i + 3  # springe in 3er-Schritten
+```
+%%/scol
 
 %%book
 Die Entwicklung der Programmiersprachen spiegelt den wachsenden Anspruch wider, komplexe Probleme mit immer weniger Aufwand in maschinenausführbare Anweisungen zu übersetzen. Maschinencode ist zwar unmittelbar ausführbar, jedoch extrem fehleranfällig und an einen bestimmten Prozessortyp gebunden; schon ein einzelner Bit-Fehler ändert die Programmlogik grundlegend. Assemblersprachen brachten lesbare Kürzel (Mnemonics) und reduzierten damit die Fehlerquote erheblich, blieben aber weiterhin prozessorspezifisch. Mit den höheren Programmiersprachen wie Python, C oder Java löste sich die Programmierung schließlich vollständig von der Hardware ab: Ein Compiler oder Interpreter übernimmt die Übersetzung, sodass derselbe Quellcode auf unterschiedlichen Prozessoren läuft. Diese Abstraktion ist der Grund, warum wir heute in Minuten Programme schreiben können, für die früher Stunden maschinennaher Codierung nötig gewesen wären.
 %%/book
 
 
-## Die beliebtesten Programmiersprachen
-
+## Entwicklung der Programmiersprachen
 
 %%book
 
@@ -93,91 +180,208 @@ Durch die Änderungen der Anforderungen an Software entwickeln sich nicht nur di
 
 %%/book
 
-%%slides
-
-Beobachten im Video: Welche Übergänge sind sichtbar?
-
-- **~1995–2005:** C/C++/Java dominieren das Ranking
+%%scol 50 50
+- **bis ~1990:** Fortran, COBOL, Pascal und C prägen Wissenschaft und Wirtschaft
+- **~1990–2000:** C/C++ dominieren die Anwendungsentwicklung von PCs
+- **~2000–2010:** Java führt das Ranking an (Server, Enterprise)
 - **~2005–2015:** JavaScript steigt mit dem Web-Boom
 - **~2017+:** Python überholt alle — KI- und Data-Science-Boom
-- Welche Sprache ist in Ihrem Fachgebiet heute dominant?
-
-%%/slides
+%%sep
 
 ::::: {.content-visible unless-format="typst"}
-![](images/01b_Programmiersprachen/top_prog_languages.mp4)
+![](images/01b_Programmiersprachen/top_prog_languages.mp4){fig-align="center" height="480px"}
 :::::
 
+%%/scol
+
+
+## Beliebteste Sprachen bis heute
+
+```{python}
+#| echo: false
+import pandas as pd
+import plotly.graph_objects as go
+from ai4sc_style.plotly_loader import C, load_ai4sc_theme
+
+load_ai4sc_theme()
+pp = pd.read_csv("data/01b_Programmiersprachen/pypl.csv", parse_dates=["date"])
+pp = pp[pp["date"].dt.month.isin([1, 4, 7, 10])].set_index("date")
+TOP = 8
+
+def frame(t):
+    row = pp.loc[t].nlargest(TOP).iloc[::-1]
+    return go.Bar(x=row.values, y=row.index, orientation="h",
+                  marker_color=[C["signal-blue"] if l == "Python" else C["concrete"] for l in row.index],
+                  text=[f"{v:.1f} %" for v in row.values], textposition="outside", cliponaxis=False)
+
+frames = [go.Frame(data=[frame(t)], name=t.strftime("%Y-%m"),
+                   layout=dict(title_text=t.strftime("%m/%Y"))) for t in pp.index]
+fig = go.Figure(data=[frame(pp.index[0])], frames=frames)
+steps = [dict(method="animate", label=f.name[:4] if f.name.endswith("-01") else "",
+              args=[[f.name], dict(mode="immediate", frame=dict(duration=0, redraw=True),
+                                   transition=dict(duration=0))]) for f in frames]
+fig.update_layout(
+    height=500, margin=dict(l=10, r=60, t=50, b=130), showlegend=False,
+    title=dict(text=pp.index[0].strftime("%m/%Y"), x=0.98, xanchor="right"),
+    xaxis=dict(range=[0, 62], title="Anteil an Tutorial-Suchen (%), PYPL-Index"),
+    yaxis=dict(automargin=True),
+    updatemenus=[dict(type="buttons", direction="left", x=0, y=-0.28, buttons=[
+        dict(label="Start", method="animate",
+             args=[None, dict(frame=dict(duration=120, redraw=True), transition=dict(duration=0), fromcurrent=True)]),
+        dict(label="Pause", method="animate",
+             args=[[None], dict(mode="immediate", frame=dict(duration=0, redraw=False))])])],
+    sliders=[dict(steps=steps, x=0.15, y=-0.12, len=0.85, currentvalue=dict(visible=False))])
+fig.write_image("data/01b_Programmiersprachen/pypl_2026.png", width=900, height=500, scale=2)
+fig.show()
+```
+
+::: {.content-visible when-format="typst"}
+![](data/01b_Programmiersprachen/pypl_2026.png)
+:::
+
 %%aside
-Viz.: Popularität der Programmiersprachen 2004–2022, Quelle: TIOBE Index — → `01c_Programmiersprachen`
+Quelle: PYPL PopularitY of Programming Language Index, 2004–Oktober 2026 (Google-Suchen nach Tutorials), Top 8 je Quartal
+%%/aside
+
+%%book
+Die Rangfolge der Sprachen lässt sich bis heute fortschreiben. Der PYPL-Index misst, wie häufig weltweit nach Tutorials einer Sprache gesucht wird. Java und PHP führen 2004, Python überholt Java im April 2018 und erreicht im Oktober 2026 rund 54 % der Suchanfragen.
+%%/book
+
+
+## Python und Data Science
+
+%%book
+
+Python hat in den letzten Jahren zunehmend an Popularität gewonnen, ist allerdings älter als Java (1995), C# (2000) und JavaScript (1995). Die Popularität ist zum einen darauf zurückzuführen, dass die Sprache sehr auf Lesbarkeit und Einfachheit ausgelegt ist und dadurch sehr leicht zu erlernen ist. Zum anderen gibt es durch ihr Alter heutzutage sehr viele Bibliotheken und für fast jedes Problem eine existierende Lösung. Dadurch ist Python auch sehr vielseitig einsetzbar. Das Interesse an Python und an Data Science wächst seit etwa 2012 nahezu gleichlaufend (Abbildung unten). Der Begriff „Vibe Coding“, also das Programmieren per Prompt mit KI-Assistenten, taucht erst Anfang 2025 in den Suchanfragen auf.
+
+%%/book
+
+%%col 35v 65
+- Python ist die Sprache der Data Science und KI-Wissenschaften
+- Für fast jedes Anwendungsgebiet gibt es Python-Bibliotheken
+- Suchinteresse für Python und Data Science wachsen im Gleichschritt
+- „Vibe Coding“ (KI-gestütztes Programmieren per Prompt) taucht Anfang 2025 auf und steigt innerhalb weniger Monate steil an
+%%sep
+```{python}
+#| echo: false
+import pandas as pd
+import plotly.graph_objects as go
+from ai4sc_style.plotly_loader import C, load_ai4sc_theme
+
+load_ai4sc_theme()
+d = pd.read_csv("data/01b_Programmiersprachen/trends.csv", parse_dates=["date"])
+fig = go.Figure()
+fig.add_trace(go.Scatter(x=d["date"], y=d["python"], name="Python",
+                         line=dict(color=C["signal-blue"], width=3)))
+fig.add_trace(go.Scatter(x=d["date"], y=d["datascience"], name="Data Science",
+                         line=dict(color=C["signal-red"], width=3)))
+fig.add_trace(go.Scatter(x=d["date"], y=d["vibecoding"], name="Vibe Coding",
+                         line=dict(color=C["moss-700"], width=3)))
+fig.update_layout(height=420, margin=dict(l=40, r=10, t=10, b=40),
+                  yaxis_title="Suchinteresse (0–100)",
+                  legend=dict(orientation="h", y=1.08, x=0))
+fig.write_image("data/01b_Programmiersprachen/trends.png", width=900, height=420, scale=2)
+fig.show()
+```
+
+::: {.content-visible when-format="typst"}
+![](data/01b_Programmiersprachen/trends.png)
+:::
+%%/col
+
+%%aside
+Viz.: Google Trends weltweit, 2004 – September 2026, je Suchbegriff auf 100 normiert
 %%/aside
 
 
 ## Python
-%%div eyebrow
-{{< ai4sc-icon braces >}}
-%%/div
+
+%%scol 45 55
+- Entworfen 1991
+- Auf Lesbarkeit ausgelegt
+- *The Zen of Python* (PEP 20):
+    - Beautiful is better than ugly
+    - Explicit is better than implicit
+    - Simple is better than complex
+    - Complex is better than complicated
+    - Readability counts
+%%sep
+![Midjourney: A python programming a computer](images/01b_Programmiersprachen/mj_python.png){fig-align="center" height="500px"}
+%%/scol
 
 %%book
-
-Python hat in den letzten Jahren zunehmend an Popularität gewonnen, ist allerdings älter als Java (1995), C# (2000) und JavaScript (1995). Die Popularität ist zum einen darauf zurückzuführen, dass die Sprache sehr auf Lesbarkeit und Einfachheit ausgelegt ist und dadurch sehr leicht zu erlernen ist. Zum anderen gibt es durch ihr Alter heutzutage sehr viele Bibliotheken und für fast jedes Problem eine existierende Lösung. Dadurch ist Python auch sehr vielseitig einsetzbar.
-
+Python wurde 1991 von Guido van Rossum entworfen und ist auf Lesbarkeit ausgelegt. Die Leitprinzipien der Sprache sind im „Zen of Python“ (PEP 20) festgehalten: Schönes ist besser als Hässliches, Explizites besser als Implizites, Einfaches besser als Komplexes und Lesbarkeit zählt.
 %%/book
-
-%%slides
-
-- Python ist die Sprache in den Data Science und KI-Wissenschaften
-- Heutzutage gibt es Python-Bibliotheken für fast jedes Anwendungsgebiet
-- Google Trend `data science` worldwide
-
-%%/slides
-
-<script type="text/javascript" src="https://ssl.gstatic.com/trends_nrtr/4116_RC01/embed_loader.js"></script>
-<div class="flex-row">
-  <div style="flex: 1; height: 60vh;">
-    <script type="text/javascript"  style="width: 100%; height: 60vh;">
-  trends.embed.renderExploreWidget("TIMESERIES", {"comparisonItem":[{"keyword":"/m/0jt3_q3","geo":"","time":"2004-01-01 2025-08-01"}],"category":0,"property":""}, {"exploreQuery":"date=all&q=%2Fm%2F0jt3_q3&hl=de","guestPath":"https://trends.google.de:443/trends/embed/"});
-    </script>
-  </div>
-  <div style="flex: 1; height: 60vh;">
-    <script type="text/javascript" style="width: 100%; height: 60vh;">
-  trends.embed.renderExploreWidget("TIMESERIES", {"comparisonItem":[{"keyword":"/m/05z1_","geo":"","time":"2004-01-01 2025-08-01"}],"category":0,"property":""}, {"exploreQuery":"date=all&q=%2Fm%2F05z1_","guestPath":"https://trends.google.de:443/trends/embed/"});
-    </script>
-  </div>
-</div>
-
-
-%%# Python im KI-Ökosystem
-
 
 ## Python dominiert KI-Trainingsdaten
 
 %%slides
 
-%%col 55 45v
+::::::: {.stat-grid style="grid-template-columns: repeat(4, 1fr); gap: 12px;"}
 
-- **>30 %** der GitHub-Repositories nutzen Python als Hauptsprache 
-- Python bleibt die dominierende Sprache für KI- und Data-Science-Projekte auf GitHub
-- Fast die Hälfte aller neuen KI-Repositories wird in Python entwickelt
-- Python-Repositories wuchsen 2025 um rund 850.000 Mitwirkende (+48,8 %)
-- Jupyter Notebook bleibt die bevorzugte Umgebung für KI-Experimente
-
-**Was das bedeutet:**
-
-- LLMs stark auf Python-Code trainiert
-- Claude Code, GitHub Copilot, Cursor → Ausgabe fast immer Python
-- Ingenieure müssen Python *lesen*, nicht nur schreiben
-- Sprachverständnis ist die Voraussetzung für Verifikation
-
-%%sep
-
-%%div lead
-*Python ist bei KI beliebt*: Der einfache Syntax erlaubt KI es zu verstehen und zu generieren.
+%%%%div stat-card
+%%div stat-value
+17,8 %
 %%/div
+%%div stat-label
+TIOBE-Index, September 2026
+%%/div
+%%div stat-delta
+Python ist Nr. 1, vor C (10,3 %) und C++ (8,7 %)
+%%/div
+%%%%/div
 
+%%%%div stat-card
+%%div stat-value
+54 %
+%%/div
+%%div stat-label
+PYPL-Index, Oktober 2026
+%%/div
+%%div stat-delta
+der Tutorial-Suchen gelten Python (Java: 13 %)
+%%/div
+%%%%/div
+
+%%%%div stat-card
+%%div stat-value
+≈ 50 %
+%%/div
+%%div stat-label
+der neuen KI-Repositories
+%%/div
+%%div stat-delta
+entstehen in Python („fast die Hälfte“)
+%%/div
+%%%%/div
+
+%%%%div stat-card
+%%div stat-value
++48,8 %
+%%/div
+%%div stat-label
+Mitwirkende 2025
+%%/div
+%%div stat-delta
+≈ 850.000 mehr in Python-Repositories
+%%/div
+%%%%/div
+
+:::::::
+
+%%col 50 50v
+
+- [LLMs sind stark auf Python-Code trainiert]{.pro}
+- [Claude Code, Copilot, Cursor geben fast immer Python aus]{.pro}
+- [Ingenieure müssen Python *lesen*, nicht nur schreiben]{.pro}
+%%sep
+%%div lead
+*Python ist bei KI beliebt*: Die einfache Syntax erlaubt es KI, den Code zu verstehen und zu generieren.
+%%/div
 %%/col
 
-%%slide_ref @github_octoverse_2025 Github Octoverse Report
+%%slide_ref @pypl_2026 PYPL PopularitY of Programming Language, Oktober 2026
+%%slide_ref @github_octoverse_2025 GitHub Octoverse 2025
 %%slide_ref @github_ai_reshaping_2026 How AI is reshaping developer choice
 
 %%/slides
@@ -193,43 +397,20 @@ Python dominiert nicht nur die Data-Science-Welt, sondern auch die Trainingsdate
 
 %%col 50 50
 
-**Typischer KI-Workflow:**
-
-1. Ingenieur formuliert Aufgabe (Prompt)
+1. Ingenieur formuliert die Aufgabe (Prompt)
 2. KI generiert Python-Code
-3. **Ingenieur liest und versteht den Code**
-4. Ingenieur prüft: Erfüllt der Code die Anforderung?
-5. Ingenieur iteriert bei Bedarf
-
+3. **Ingenieur liest, versteht und prüft den Code**
 %%sep
-
-**Warum Python-Verständnis entscheidend ist:**
-
 - [KI kann falschen Code generieren]{.con}
 - [KI kann Anforderungen missverstehen]{.con}
-- [Nur wer Python liest, kann das erkennen]{.pro}
-- [Sprachverständnis = Verifikationswerkzeug]{.pro}
-
+- [Nur wer Python liest, erkennt das]{.pro}
+- [Sprachverständnis ist das Verifikationswerkzeug]{.pro}
 %%/col
 
 %%/slides
 
 %%book
-Der agentische Programmierzyklus (Prompt → Generieren → Verstehen → Verifizieren → Iterieren) setzt an jeder Stelle Sprachkompetenz voraus. Wer Python nicht lesen kann, kann nicht erkennen, ob der generierte Code korrekt ist. Deshalb verschiebt sich das Lernziel: nicht blindes Schreiben, sondern kompetentes Lesen und Bewerten.
-%%/book
-
-
-## Sprachverständnis als Verifikationswerkzeug
-
-> **Agentischer Workflow:** Wenn Claude Code oder Copilot Python generiert:
->
-> 1. Den Code zuerst lesen — bevor er ausgeführt wird
-> 2. Prüfen: Macht der Code was die Aufgabe verlangt?
-> 3. Annahmen des Modells identifizieren
-> 4. Den Prompt ergänzen, wenn das Ergebnis nicht stimmt
-
-%%book
-Dieses Verifikationsmuster ist der Kern des Kurses. Jede Sitzung übt einen Schritt davon. Programmiersprachen-Verständnis, insbesondere Python, ist nicht Selbstzweck, sondern das Werkzeug, mit dem wir KI-Output beurteilen.
+Beim Arbeiten mit KI-Assistenten formuliert der Ingenieur eine Aufgabe, die KI generiert Python-Code, und der Ingenieur liest, versteht und prüft ihn. Wer Python nicht lesen kann, kann nicht erkennen, ob der generierte Code korrekt ist. Deshalb verschiebt sich das Lernziel: nicht blindes Schreiben, sondern kompetentes Lesen und Bewerten. Den vollständigen agentischen Zyklus führen wir in `01c_AgentischesProgrammieren` ein.
 %%/book
 
 %%aside
