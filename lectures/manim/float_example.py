@@ -27,7 +27,7 @@ MONO = "Menlo"
 SIGN = "1"
 EXP = "10000010"                    # 3 + 127 = 130
 MANT = "10101" + "0" * 18           # 1,10101 without the leading 1
-Y_REG = -3.1
+Y_REG = -2.75
 CW = 0.285                          # width of one bit cell
 
 
@@ -44,22 +44,27 @@ def cells(digits, y, x0=-2.75, step=0.9, fill=BUBBLE, stroke=RIM):
 
 
 def register():
-    """32 bit cells (1 | 8 | 23), all 0 at the start."""
-    xs, x = [], -4.6
-    for i in range(32):
-        if i in (1, 9):
-            x += 0.14
-        xs.append(x + CW / 2)
-        x += CW
+    """32 bit cells in two rows: sign + exponent (9 bit), mantissa (23 bit); all 0 at the start."""
+    pos = []
+    x = -4.6
+    for i in range(9):
+        if i == 1:
+            x += 0.12
+        pos.append([x + 0.21, Y_REG + 0.45])
+        x += 0.42
+    x = -4.6
+    for i in range(23):
+        pos.append([x + 0.2, Y_REG - 0.35])
+        x += 0.4
     bits = []
-    for i, x in enumerate(xs):
-        b = Square(CW, color=RIM, fill_color=BUBBLE, fill_opacity=1, stroke_width=2).move_to([x, Y_REG, 0])
-        d = T("0", 15, FAINT, font=MONO).move_to(b)
+    for i, (x, y) in enumerate(pos):
+        size = 0.42 if i < 9 else 0.4
+        b = Square(size, color=RIM, fill_color=BUBBLE, fill_opacity=1, stroke_width=2).move_to([x, y, 0])
+        d = T("0", 20, FAINT, font=MONO).move_to(b)
         bits.append(VGroup(b, d))
     labels = VGroup(
-        T("Vorzeichen", 15, MUTED).move_to([xs[0] + 0.4, Y_REG - 0.45, 0]),
-        T("Exponent (8 Bit)", 17, MUTED).move_to([(xs[1] + xs[8]) / 2, Y_REG - 0.45, 0]),
-        T("Mantisse (23 Bit)", 17, MUTED).move_to([(xs[9] + xs[31]) / 2, Y_REG - 0.45, 0]))
+        T("Vorzeichen, Exponent (8 Bit)", 18, MUTED).move_to([pos[8][0] + 0.4, pos[8][1], 0], aligned_edge=LEFT),
+        T("Mantisse (23 Bit)", 18, MUTED).move_to([-4.6, Y_REG - 0.85, 0], aligned_edge=LEFT))
     return VGroup(*bits), bits, labels
 
 
@@ -68,7 +73,7 @@ def set_bits(bits, start, digits, color):
     anims = []
     for k, d in enumerate(digits):
         b = bits[start + k]
-        new = T(d, 15, INK, font=MONO).move_to(b[0])
+        new = T(d, 20, INK, font=MONO).move_to(b[0])
         anims += [b[0].animate.set_fill(color, opacity=0.85 if d == "1" else 0.45), Transform(b[1], new)]
     return anims
 
@@ -94,26 +99,49 @@ class FloatExample(Scene):
         self.play(*set_bits(bits, 0, SIGN, YELLOW), run_time=0.7)
         self.wait(1.2)
 
-        # 2 Binärform
+        # 2 Binärform: 13,25 = 13 + 0,25
         h2 = heading(2, "Dezimalzahl in Binärform")
         pos = T("13,25", 60, INK, font=MONO).move_to([0, 2.1, 0])
         self.play(Transform(h, h2), Transform(num, pos), FadeOut(box), FadeOut(sign), run_time=0.7)
-        a = T("13 = 8 + 4 + 0 + 1 = 1101₂", 28, INK).move_to([0, 1.1, 0])
-        b = T("0,25 = 0 · ½ + 1 · ¼ = 0,01₂", 28, INK).move_to([0, 0.3, 0])
-        self.play(FadeIn(a), run_time=0.6)
+        t13 = T("13", 60, INK, font=MONO).move_to([-2.4, 2.2, 0])
+        plus = T("+", 48, MUTED).move_to([0, 2.2, 0])
+        tfr = T("0,25", 60, INK, font=MONO).move_to([2.4, 2.2, 0])
+        self.play(Transform(num, VGroup(t13, plus, tfr)), run_time=1.0)
+        l1 = T("Ganzzahlteil", 22, MUTED).move_to([-2.4, 1.5, 0])
+        l2 = T("Nachkommateil", 22, MUTED).move_to([2.4, 1.5, 0])
+        self.play(FadeIn(l1), FadeIn(l2), run_time=0.5)
         self.wait(0.8)
-        self.play(FadeIn(b), run_time=0.6)
+
+        def digit_cells(xs, values, labels, y=0.35):
+            cs = VGroup()
+            for x, v, lab in zip(xs, values, labels):
+                sq = Square(0.55, color=RIM, fill_color=BUBBLE, fill_opacity=1, stroke_width=3).move_to([x, y, 0])
+                cs.add(VGroup(sq, T(v, 30, INK, font=MONO).move_to(sq), T(lab, 22, MUTED).move_to([x, y + 0.55, 0])))
+            return cs
+
+        left = digit_cells([-3.3, -2.7, -2.1, -1.5], "1101", ["8", "4", "2", "1"])
+        self.play(FadeIn(left), run_time=0.7)
+        ea = T("13 = 8 + 4 + 1", 26, INK).move_to([-2.4, -0.45, 0])
+        self.play(FadeIn(ea), run_time=0.5)
         self.wait(1.0)
-        row = cells(list("110101"), -1.3)
-        dot = Dot([(-2.75 + 0.9 * 3 + -2.75 + 0.9 * 4) / 2, -1.3 - 0.45, 0], radius=0.12, color=INK)
-        res = T("13,25 = 1101,01₂", 28, INK).move_to([0, -0.4, 0])
-        self.play(FadeIn(row), FadeIn(dot), FadeIn(res), run_time=0.8)
+        right = digit_cells([2.1, 2.7], "01", ["½", "¼"])
+        self.play(FadeIn(right), run_time=0.7)
+        eb = T("0,25 = ¼", 26, INK).move_to([2.4, -0.45, 0])
+        self.play(FadeIn(eb), run_time=0.5)
+        self.wait(1.2)
+        # merge into one row 1101,01
+        row = cells(list("110101"), -1.4)
+        dot = Dot([(-2.75 + 0.9 * 3 + -2.75 + 0.9 * 4) / 2, -1.4 - 0.45, 0], radius=0.12, color=INK)
+        res = T("13,25 = 1101,01₂", 28, INK).move_to([0, -0.7, 0])
+        self.play(FadeOut(VGroup(num, l1, l2, ea, eb)), run_time=0.5)
+        self.play(FadeOut(left), FadeOut(right), FadeIn(row), run_time=1.0)
+        self.play(FadeIn(dot), FadeIn(res), run_time=0.6)
         self.wait(1.5)
 
         # 3 Normieren
         h3 = heading(3, "Normieren")
-        self.play(Transform(h, h3), FadeOut(num), FadeOut(a), FadeOut(b), FadeOut(res),
-                  row.animate.shift(UP * 2.3), dot.animate.shift(UP * 2.3), run_time=0.8)
+        self.play(Transform(h, h3), FadeOut(res),
+                  row.animate.shift(UP * 2.4), dot.animate.shift(UP * 2.4), run_time=0.8)
         note = T("Komma nach der ersten 1: 3 Stellen nach links", 28, INK).move_to([0, 2.3, 0])
         target = [(-2.75 + -2.75 + 0.9) / 2, 1.0 - 0.45, 0]
         self.play(FadeIn(note), run_time=0.5)
