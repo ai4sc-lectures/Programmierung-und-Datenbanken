@@ -230,204 +230,6 @@ Das Mainboard ist die Hauptplatine des Computers, auf der CPU, RAM, GPU und ande
 %%/slides
 
 
-%%slides
-
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Was passiert in der CPU, wenn Python Code ausführt, wie `z = x + y`?" capR="Midjourney: A tiny robot reading a long scroll of instructions line by line" imgR="images/02a_Computerhardware/image_4.jpg"}
-<!-- TODO MJ: A tiny robot reading a long scroll of instructions line by line, ref. Fritz Kahn -->
-
-%%/slides
-
-%%## Von Python-Code zu Maschinenbefehlen
-
-%%slides
-
-%%col 40 60
-
-- Eine Python-Zeile wird zur Laufzeit in mehrere Maschinenbefehle übersetzt (interpretiert)
-- Die Maschinenbefehle werden in Binärcode übersetzt den die CPU versteht
-- Die CPU kennt keine Variablennamen, nur Binärcode und Speicheradressen 
-- Variablennamen sind menschenlesbare Namen für Speicheradressen
-
-%%sep
-
-```python
-z = x + y
-```
-
-↓ ergibt Maschinenbefehle
-
-```
-LOAD  R1, [Adresse von x]
-LOAD  R2, [Adresse von y]
-ADD   R3, R1, R2
-STORE [Adresse von z], R3
-```
-
-↓ ergibt Binärcode
-
-```
-0001 0001 0000 1010 0001 0000   LOAD  R1, [x]
-0001 0010 0000 1010 0001 0001   LOAD  R2, [y]
-0011 0011 0001 0010 0000 0000   ADD   R3, R1, R2
-0010 0011 0000 1010 0001 0010   STORE [z], R3
-```
-
-%%/col
-
-%%/slides
-
-%%book
-
-Python-Code wird nicht direkt von der CPU ausgeführt. Der Python-Interpreter übersetzt den Quellcode zunächst in *Bytecode* (sichtbar mit `dis.dis`) und führt diesen dann schrittweise aus. Der Interpreter ist selbst ein Programm aus Maschinenbefehlen. Dabei entstehen aus einer einzigen Python-Zeile viele einzelne Maschinenbefehle. Die Auflistung zeigt sie vereinfacht für `z = x + y`:
-
-```
-LOAD  R1, [Adresse von x]
-LOAD  R2, [Adresse von y]
-ADD   R3, R1, R2
-STORE [Adresse von z], R3
-```
-
-Die CPU speichert jeden dieser Befehle als Binärzahl. In unserem vereinfachten Beispiel hat ein Befehl 24 Bit: 4 Bit für den Opcode (`LOAD` = 0001, `STORE` = 0010, `ADD` = 0011), 4 Bit für das Register und 16 Bit für die Speicheradresse. Mit den Adressen aus der Abbildung (x in 0x0A10, y in 0x0A11, z in 0x0A12) ergibt sich:
-
-```
-0001 0001 0000 1010 0001 0000   LOAD  R1, [x]
-0001 0010 0000 1010 0001 0001   LOAD  R2, [y]
-0011 0011 0001 0010 0000 0000   ADD   R3, R1, R2
-0010 0011 0000 1010 0001 0010   STORE [z], R3
-```
-
-Bei `ADD` stehen statt der Adresse zwei weitere Registernummern und der Rest bleibt 0. Dieses Format ist ein Lehrbeispiel; echte Prozessoren verwenden andere Formate, das Prinzip bleibt gleich.
-
-Die CPU sieht am Ende nur Speicheradressen und Binärwerte — keine Variablennamen, keine Python-Syntax. Variablennamen sind für den Menschen; die Hardware arbeitet ausschließlich mit Adressen.
-
-%%/book
-
-%%## Der Instruction Pointer führt Befehl für Befehl aus
-
-
-%%book
-
-Die CPU führt Befehle sequenziell aus: Befehl für Befehl, Adresse für Adresse. Ein spezielles Register, der *Instruction Pointer* (IP, auch Program Counter genannt), speichert die Adresse des nächsten auszuführenden Befehls. Nach jeder Instruktion erhöht sich der IP automatisch — so entsteht sequenzielle Ausführung als Grundverhalten des Prozessors.
-
-Das Beispiel zeigt den Zustand, wenn der IP bei 0x0003 steht: Die ersten beiden Befehle sind ausgeführt.
-
-| IP | Adresse | Befehl |
-|:--:|---------|--------|
-|    | 0x0001  | `LOAD  R1, [0x0A10]` |
-|    | 0x0002  | `LOAD  R2, [0x0A11]` |
-| →  | 0x0003  | `ADD   R3, R1, R2` |
-|    | 0x0004  | `STORE [0x0A12], R3` |
-|    | 0x0005  | ... |
-
-Sprungbefehle (z.B. bei Schleifen und Funktionsaufrufen) ändern den IP auf eine andere Adresse. Ohne solche Sprünge läuft ein Programm Zeile für Zeile durch den Speicher.
-
-Register sind die kleinsten und schnellsten Speichereinheiten der CPU. Sie halten die Werte, mit denen gerade gerechnet wird — wie ein Notizblock direkt auf dem Schreibtisch. Jede Variable im Programm landet irgendwann in einem Register, bevor die CPU mit ihr rechnen kann.
-
-%%/book
-
-%%slides
-
-%%col 45 55
-
-- Jeder Befehl liegt an einer *Speicheradresse* im RAM
-- Der *Instruction Pointer* (IP) zeigt auf den nächsten Befehl
-- `LOAD` kopiert einen Wert aus dem RAM in ein Register
-- `ADD` rechnet mit den Registern, `STORE` schreibt das Ergebnis zurück in den RAM
-- Nach jedem Befehl: IP = IP + 1
-- Sprünge (Schleifen, Funktionen) setzen den IP auf eine andere Adresse
-
-%%sep
-
-```{=html}
-<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_instruction_pointer.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_instruction_pointer.mp4" type="video/mp4"></video>
-```
-
-%%/col
-
-%%/slides
-
-%%## Die CPU rechnet nur mit Registern
-
-%%slides
-
-%%col 35 65
-
-- *Speicherzelle* = Adresse + Binärwert im RAM; `x` und `y` sind solche Zellen
-- *Register* in der CPU = Ultra-Kurzzeitgedächtnis für den aktuellen Rechenwert
-- `LOAD`: x und y wandern aus dem RAM in R1 und R2
-- Die *ALU* addiert R1 + R2 und legt das Ergebnis in R3 ab
-- `STORE`: R3 wird in die Zelle von z zurückgeschrieben
-
-%%sep
-
-```{=html}
-<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_memory_cells.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_memory_cells.mp4" type="video/mp4"></video>
-```
-
-%%/col
-
-%%/slides
-
-%%book
-
-Der RAM lässt sich als eine lange Reihe von Zellen vorstellen. Jede Zelle hat eine numerische Adresse und enthält einen Binärwert. Eine Variable {{< ai4sc-icon variable >}} ist nichts anderes als eine solche benannte Zelle: Wenn Python `x = 5` ausführt, reserviert der Interpreter irgendwo im RAM eine Zelle und schreibt den Binärwert für 5 hinein.
-
-Register sind noch schneller: Sie sitzen direkt in der CPU und halten die Werte für die laufende Berechnung. Bevor die CPU zwei Zahlen addiert, lädt sie beide Werte aus dem RAM in Register, führt die Addition durch und schreibt das Ergebnis zurück. Die Abbildung zeigt den Zustand mitten in `z = x + y`: Der Instruction Pointer steht bei `ADD`, R1 und R2 enthalten bereits die Werte von x und y, und die Zelle von z ist noch leer.
-
-![](images/02a_Computerhardware/memory_cells.svg){fig-align="center"}
-
-%%/book
-
-%%# Stack und Heap
-
-%%## Zwei Speicherregionen im RAM
-
-%%book
-
-Stack und Heap sind kein Python-Feature, sondern zwei Bereiche im RAM, die das Betriebssystem jedem laufenden Programm zuweist. Der **Stack** (Stapel) arbeitet nach dem LIFO-Prinzip (*Last In, First Out*): Bei jedem Funktionsaufruf kommt ein neuer Rahmen mit den lokalen Variablen obenauf, bei der Rückkehr wird er wieder entfernt. Seine Größe ist begrenzt, typischerweise einige Megabyte. Der **Heap** ist ein größerer, dynamisch wachsender Bereich für Daten, die länger leben als ein einzelner Funktionsaufruf, etwa Listen oder Objekte. Wie Python diese Regionen nutzt, behandeln wir in `02b_Speicher`.
-
-%%/book
-
-%%slides
-
-%%col 40 60
-
-- Beide liegen im RAM, verwaltet vom Betriebssystem
-- **Stack:** Funktionsaufrufe, letzter rein, erster raus, begrenzte Größe
-- **Heap:** Variablen und Objekte, wächst bei Bedarf, deutlich größer
-- Unterschiedliche Lebensdauer: Der Stack-Rahmen verschwindet mit dem Funktionsaufruf, Heap-Daten leben weiter
-
-%%sep
-
-![](images/02a_Computerhardware/stack_heap.svg){height="460px" fig-align="center"}
-
-%%/col
-
-%%/slides
-
-%%slides
-
-## Der Stack wächst mit jedem Aufruf
-
-%%col 40 60
-
-- Jeder Funktionsaufruf legt einen neuen Rahmen auf den Stack
-- Der Stack hat eine feste Größe
-- Ist er voll, bricht das Programm ab: *Stack Overflow*
-- In Python meldet sich das als `RecursionError`
-
-%%sep
-
-![](images/02a_Computerhardware/call_stack.svg){height="520px" fig-align="center"}
-
-%%/col
-
-%%/slides
-
-%%aside
-→ `02b_Speicher` (S02): Stack, Heap und Python-Speichermodell im Detail | → `02c_Datentypen` (S02): Datentypen als Speicherdarstellungen | → `09b_Rekursion` (S09): Rekursion, der Call-Stack ist dann bekannt
-%%/aside
-
 %%book
 
 
@@ -450,13 +252,14 @@ Die SI-Einheiten KB, MB, GB sind auf Basis 1000 definiert. Betriebssysteme zeige
 
 %%slides
 
-## Binär: Variablen in der Hardware
+## Binär: Die Hardware speichert alles als Bits
 
 %%col 50 50
 
-- Jede Variable ist im Kern eine Folge von 0 und 1 im Speicher
+- Transistoren unterscheiden nur zwei Zustände: 0 und 1
+- Computer speichern, verarbeiten & kommunizieren Daten deshalb als binären Zahlen
 - *binarius*: zweifach, doppelt. Das kleinste nützliche Zahlensystem
-- Transistoren unterscheiden nur zwei Zustände
+- Alles liegt als Folge von Bits im Speicher: Code, Zahlen, Text, Bilder und Videos
 
 %%sep
 
@@ -466,7 +269,7 @@ Die SI-Einheiten KB, MB, GB sind auf Basis 1000 definiert. Betriebssysteme zeige
 | 1     | An / Wahr    |
 
 %%tip Merksatz
-Binär ist das, was die Hardware in jeder Speicherzelle ablegt.
+Binär ist die Darstellung, in der die Hardware alle Werte ablegt.
 
 Datentypen (`02c_Datentypen`) legen fest, *wie* diese Bits zu interpretieren sind: als Zahl, Text oder Farbe.
 %%/tip
@@ -622,7 +425,9 @@ Die Addition einzelner Bits kann daher durch ein XOR-Gatter für die Summe und e
 * Bitaddition: Übertrag nur bei $1+1$
 * Realisierung: XOR-Gatter (Summe) + UND-Gatter (Übertrag)
 %%sep
-{{< include images/02a_Computerhardware/binary_addition.svg >}}
+```{=html}
+<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_binary_addition.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_binary_addition.mp4" type="video/mp4"></video>
+```
 %%/col
 %%/slides
 
@@ -653,7 +458,9 @@ Das Ergebnis entspricht damit genau der Wahrheitstabelle eines logischen UND. Di
 * Multiplikation mit $2^n$ → Bitverschiebung um $n$ Stellen
 * Realisierung: UND-Gatter (Bitmultiplikation) + Addierer
 %%sep
-{{< include images/02a_Computerhardware/binary_multiply.svg >}}
+```{=html}
+<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_binary_multiply.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_binary_multiply.mp4" type="video/mp4"></video>
+```
 %%/col
 %%/slides
 
@@ -684,6 +491,8 @@ Hierbei ist $m$ die Binärmantisse (zwischen 1 und 2), $e$ der Binärexponent.
 4. *Zerlegung* in Mantisse: $1,10101_2$ und Exponent: $3$
 5. *Ergebnis:* $-13,25 = -1,10101_2 \times 2^3$
 
+![Zerlegung von −13,25 in Vorzeichen, Mantisse und Exponent](images/02a_Computerhardware/manim_float_example.png){fig-align="center" width="60%"}
+
 In der Praxis werden die Zahlen meist im standardisierten IEEE 754 Standard als 32-Bit-Gleitkommazahl (*float*) oder 64-Bit (*double*) gespeichert. Dabei werden die Bits zusätzlich aufgefüllt, so dass sie in die 32 oder 64 Bit passen. Dadurch ändert sich die Darstellung etwas:
 
 - Vorzeichenbit: $1$ (negativ)
@@ -713,13 +522,9 @@ Begrenzte Anzahl an Stellen: Es entstehen Rundungsfehler!
 
 %%sep
 
-**Beispiel:** Wir stellen $-13{,}25$ im Format $\pm m \times 2^e$ dar:
-
-1. *Vorzeichen:* Die Zahl ist negativ, also $1$.
-2. *Dezimalzahl in Binärform:* $13{,}25_{10} = 1101{,}01_2$
-3. *Normieren:* $1101{,}01_2 = 1{,}10101_2 \times 2^3$
-4. *Zerlegung:* Mantisse $1{,}10101_2$ und Exponent $3$
-5. *Ergebnis:* $-13{,}25 = -1{,}10101_2 \times 2^3$
+```{=html}
+<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_float_example.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_float_example.mp4" type="video/mp4"></video>
+```
 
 %%/col
 
@@ -811,7 +616,7 @@ Moderne Computer verwenden oft Unicode (z. B. UTF-8), um auch Zeichen aus andere
 
 Bilder werden im Computer als eine Sammlung von kleinen Bildpunkten, sogenannten Pixeln, gespeichert. Jedes Pixel stellt einen winzigen Teil des Bildes dar und besitzt eine bestimmte Farbe. Um ein Bild digital zu speichern, wird das Bild zunächst in ein Raster aus Pixeln mit einer bestimmten Auflösung (z. B. 1920 × 1080 Pixel) unterteilt.
 
-![© Mahmut Sinecen: Digital Image Processing with MATLAB, 2015](images/02a_Computerhardware/image_10.png)
+![Ein Bild aus Pixeln: Ausschnitt von 3 × 3 Pixeln mit den Zahlenwerten für Rot, Grün und Blau](images/02a_Computerhardware/manim_rgb_pixels.png){fig-align="center" width="80%"}
 
 Die Farbe jedes Pixels wird durch Zahlenwerte beschrieben. Bei Farbbildern wird häufig das RGB-Farbmodell verwendet, bei dem jede Farbe aus den drei Grundfarben Rot, Grün und Blau zusammengesetzt wird. Für jede dieser Farben wird ein Zahlenwert gespeichert, meist im Bereich von 0 bis 255 (das entspricht 1 Byte pro Farbkanal). Ein einzelnes Pixel benötigt somit 3 Byte (24 Bit), um alle Farbinformationen zu speichern.
 
@@ -844,11 +649,214 @@ Alle Pixel eines Bildes werden so als lange Folge von Binärzahlen im Speicher a
 
 %%sep
 
-![Mahmut Sinecen: Digital Image Processing with MATLAB, 2015](images/02a_Computerhardware/image_10.png)
+```{=html}
+<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_rgb_pixels.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_rgb_pixels.mp4" type="video/mp4"></video>
+```
 
 %%/col
 
 %%/slides
+
+
+%%slides
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Was passiert in der CPU, wenn Python Code ausführt, wie `z = x + y`?" capR="Midjourney: A tiny robot reading a long scroll of instructions line by line" imgR="images/02a_Computerhardware/image_4.jpg"}
+<!-- TODO MJ: A tiny robot reading a long scroll of instructions line by line, ref. Fritz Kahn -->
+
+%%/slides
+
+%%## Von Python-Code zu Maschinenbefehlen
+
+%%slides
+
+%%col 40 60
+
+- Eine Python-Zeile wird zur Laufzeit in mehrere Maschinenbefehle übersetzt (interpretiert)
+- Die Maschinenbefehle werden in Binärcode übersetzt den die CPU versteht
+- Die CPU kennt keine Variablennamen, nur Binärcode und Speicheradressen 
+- Variablennamen sind menschenlesbare Namen für Speicheradressen
+
+%%sep
+
+```python
+z = x + y
+```
+
+↓ ergibt Maschinenbefehle
+
+```
+LOAD  R1, [Adresse von x]
+LOAD  R2, [Adresse von y]
+ADD   R3, R1, R2
+STORE [Adresse von z], R3
+```
+
+↓ ergibt Binärcode
+
+```
+0001 0001 0000 1010 0001 0000   LOAD  R1, [x]
+0001 0010 0000 1010 0001 0001   LOAD  R2, [y]
+0011 0011 0001 0010 0000 0000   ADD   R3, R1, R2
+0010 0011 0000 1010 0001 0010   STORE [z], R3
+```
+
+%%/col
+
+%%/slides
+
+%%book
+
+Python-Code wird nicht direkt von der CPU ausgeführt. Der Python-Interpreter übersetzt den Quellcode zunächst in *Bytecode* (sichtbar mit `dis.dis`) und führt diesen dann schrittweise aus. Der Interpreter ist selbst ein Programm aus Maschinenbefehlen. Dabei entstehen aus einer einzigen Python-Zeile viele einzelne Maschinenbefehle. Die Auflistung zeigt sie vereinfacht für `z = x + y`:
+
+```
+LOAD  R1, [Adresse von x]
+LOAD  R2, [Adresse von y]
+ADD   R3, R1, R2
+STORE [Adresse von z], R3
+```
+
+Die CPU speichert jeden dieser Befehle als Binärzahl. In unserem vereinfachten Beispiel hat ein Befehl 24 Bit: 4 Bit für den Opcode (`LOAD` = 0001, `STORE` = 0010, `ADD` = 0011), 4 Bit für das Register und 16 Bit für die Speicheradresse. Mit den Adressen aus der Abbildung (x in 0x0A10, y in 0x0A11, z in 0x0A12) ergibt sich:
+
+```
+0001 0001 0000 1010 0001 0000   LOAD  R1, [x]
+0001 0010 0000 1010 0001 0001   LOAD  R2, [y]
+0011 0011 0001 0010 0000 0000   ADD   R3, R1, R2
+0010 0011 0000 1010 0001 0010   STORE [z], R3
+```
+
+Bei `ADD` stehen statt der Adresse zwei weitere Registernummern und der Rest bleibt 0. Dieses Format ist ein Lehrbeispiel; echte Prozessoren verwenden andere Formate, das Prinzip bleibt gleich.
+
+Die CPU sieht am Ende nur Speicheradressen und Binärwerte — keine Variablennamen, keine Python-Syntax. Variablennamen sind für den Menschen; die Hardware arbeitet ausschließlich mit Adressen.
+
+%%/book
+
+%%## Der Instruction Pointer führt Befehl für Befehl aus
+
+
+%%book
+
+Die CPU führt Befehle sequenziell aus: Befehl für Befehl, Adresse für Adresse. Ein spezielles Register, der *Instruction Pointer* (IP, auch Program Counter genannt), speichert die Adresse des nächsten auszuführenden Befehls. Nach jeder Instruktion erhöht sich der IP automatisch — so entsteht sequenzielle Ausführung als Grundverhalten des Prozessors.
+
+![Der Instruction Pointer nach dem letzten Befehl: Register und RAM-Zellen enthalten das Ergebnis von `z = x + y`](images/02a_Computerhardware/manim_instruction_pointer.png){fig-align="center" width="80%"}
+
+Das Beispiel zeigt den Zustand, wenn der IP bei 0x0003 steht: Die ersten beiden Befehle sind ausgeführt.
+
+| IP | Adresse | Befehl |
+|:--:|---------|--------|
+|    | 0x0001  | `LOAD  R1, [0x0A10]` |
+|    | 0x0002  | `LOAD  R2, [0x0A11]` |
+| →  | 0x0003  | `ADD   R3, R1, R2` |
+|    | 0x0004  | `STORE [0x0A12], R3` |
+|    | 0x0005  | ... |
+
+Sprungbefehle (z.B. bei Schleifen und Funktionsaufrufen) ändern den IP auf eine andere Adresse. Ohne solche Sprünge läuft ein Programm Zeile für Zeile durch den Speicher.
+
+Register sind die kleinsten und schnellsten Speichereinheiten der CPU. Sie halten die Werte, mit denen gerade gerechnet wird — wie ein Notizblock direkt auf dem Schreibtisch. Jede Variable im Programm landet irgendwann in einem Register, bevor die CPU mit ihr rechnen kann.
+
+%%/book
+
+%%slides
+
+%%col 45 55
+
+- Jeder Befehl liegt an einer *Speicheradresse* im RAM
+- Der *Instruction Pointer* (IP) zeigt auf den nächsten Befehl
+- `LOAD` kopiert einen Wert aus dem RAM in ein Register
+- `ADD` rechnet mit den Registern, `STORE` schreibt das Ergebnis zurück in den RAM
+- Nach jedem Befehl: IP = IP + 1
+- Sprünge (Schleifen, Funktionen) setzen den IP auf eine andere Adresse
+
+%%sep
+
+```{=html}
+<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_instruction_pointer.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_instruction_pointer.mp4" type="video/mp4"></video>
+```
+
+%%/col
+
+%%/slides
+
+%%## Die CPU rechnet nur mit Registern
+
+%%slides
+
+%%col 35 65
+
+- *Speicherzelle* = Adresse + Binärwert im RAM; `x` und `y` sind solche Zellen
+- *Register* in der CPU = Ultra-Kurzzeitgedächtnis für den aktuellen Rechenwert
+- `LOAD`: x und y wandern aus dem RAM in R1 und R2
+- Die *ALU* addiert R1 + R2 und legt das Ergebnis in R3 ab
+- `STORE`: R3 wird in die Zelle von z zurückgeschrieben
+
+%%sep
+
+```{=html}
+<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_memory_cells.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_memory_cells.mp4" type="video/mp4"></video>
+```
+
+%%/col
+
+%%/slides
+
+%%book
+
+Der RAM lässt sich als eine lange Reihe von Zellen vorstellen. Jede Zelle hat eine numerische Adresse und enthält einen Binärwert. Eine Variable {{< ai4sc-icon variable >}} ist nichts anderes als eine solche benannte Zelle: Wenn Python `x = 5` ausführt, reserviert der Interpreter irgendwo im RAM eine Zelle und schreibt den Binärwert für 5 hinein.
+
+Register sind noch schneller: Sie sitzen direkt in der CPU und halten die Werte für die laufende Berechnung. Bevor die CPU zwei Zahlen addiert, lädt sie beide Werte aus dem RAM in Register, führt die Addition durch und schreibt das Ergebnis zurück. Die Abbildung zeigt den Zustand mitten in `z = x + y`: Der Instruction Pointer steht bei `ADD`, R1 und R2 enthalten bereits die Werte von x und y, und die Zelle von z ist noch leer.
+
+![](images/02a_Computerhardware/memory_cells.svg){fig-align="center"}
+
+%%/book
+
+%%# Stack und Heap
+
+%%## Zwei Speicherregionen im RAM
+
+%%book
+
+Stack und Heap sind kein Python-Feature, sondern zwei Bereiche im RAM, die das Betriebssystem jedem laufenden Programm zuweist. Der **Stack** (Stapel) arbeitet nach dem LIFO-Prinzip (*Last In, First Out*): Bei jedem Funktionsaufruf kommt ein neuer Rahmen mit den lokalen Variablen obenauf, bei der Rückkehr wird er wieder entfernt. Seine Größe ist begrenzt, typischerweise einige Megabyte. Der **Heap** ist ein größerer, dynamisch wachsender Bereich für Daten, die länger leben als ein einzelner Funktionsaufruf, etwa Listen oder Objekte. Wie Python diese Regionen nutzt, behandeln wir in `02b_Speicher`.
+
+%%/book
+
+%%slides
+
+%%col 40 60
+
+- Beide liegen im RAM, verwaltet vom Betriebssystem
+- **Stack:** Funktionsaufrufe, letzter rein, erster raus, begrenzte Größe
+- **Heap:** Variablen und Objekte, wächst bei Bedarf, deutlich größer
+- Unterschiedliche Lebensdauer: Der Stack-Rahmen verschwindet mit dem Funktionsaufruf, Heap-Daten leben weiter
+
+%%sep
+
+![](images/02a_Computerhardware/stack_heap.svg){height="460px" fig-align="center"}
+
+%%/col
+
+%%/slides
+
+%%slides
+
+## Der Stack wächst mit jedem Aufruf
+
+%%col 40 60
+
+- Jeder Funktionsaufruf legt einen neuen Rahmen auf den Stack
+- Der Stack hat eine feste Größe
+- Ist er voll, bricht das Programm ab: *Stack Overflow*
+- In Python meldet sich das als `RecursionError`
+
+%%sep
+
+![](images/02a_Computerhardware/call_stack.svg){height="520px" fig-align="center"}
+
+%%/col
+
+%%/slides
+
+%%aside
+→ `02b_Speicher` (S02): Stack, Heap und Python-Speichermodell im Detail | → `02c_Datentypen` (S02): Datentypen als Speicherdarstellungen | → `09b_Rekursion` (S09): Rekursion, der Call-Stack ist dann bekannt
+%%/aside
 
 %%book
 
@@ -857,6 +865,8 @@ Alle Pixel eines Bildes werden so als lange Folge von Binärzahlen im Speicher a
 Die Menge der weltweit erzeugten, erfassten und verarbeiteten Daten wächst exponentiell. Laut der IDC Global DataSphere Prognose wird das globale Datenvolumen von rund 100 Zettabyte (ZB) im Jahr 2023 auf über 180 ZB bis 2025 ansteigen. Treiber dieses Wachstums sind IoT-Sensoren, soziale Medien, Video-Streaming, Unternehmensdaten und wissenschaftliche Instrumente.
 
 Für Menschen ist es schon heute unmöglich, diese Datenmassen manuell zu sichten oder auszuwerten. Hier kommt die Informatik ins Spiel: Durch Programmierung lassen sich Auswertungen automatisieren, Muster erkennen und Entscheidungen datengestützt treffen. Grundlegende Programmierkenntnisse sind daher keine rein technische Kompetenz, sondern eine Schlüsselqualifikation für nahezu alle wissenschaftlichen und beruflichen Felder.
+
+![Prognose des weltweit erzeugten Datenvolumens in Zettabyte (IDC Global DataSphere, Werte abgelesen und gerundet)](data/02a_Computerhardware/datasphere.png){fig-align="center" width="80%"}
 
 %%/book
 
@@ -869,7 +879,32 @@ Für Menschen ist es schon heute unmöglich, diese Datenmassen manuell zu sichte
 - Wir werden zunehmend mit sehr vielen Daten konfrontiert
 - Wir brauchen den Computer, um diese Daten durch Informatik zu analysieren
 
-![Worldwide IDC Global DataSphere Forecast, 2022–2026](images/02a_Computerhardware/image_13.png)
+```{python}
+#| echo: false
+from pathlib import Path
+import pandas as pd
+import plotly.graph_objects as go
+from ai4sc_style.plotly_loader import C, load_ai4sc_theme
+
+load_ai4sc_theme("pastello", themes_dir=Path("_extensions/ai4sc-style/themes"))
+d = pd.read_csv("data/02a_Computerhardware/datasphere.csv")
+fig = go.Figure(go.Bar(
+    x=d["year"], y=d["zettabyte"],
+    marker_color=[C["signal-blue"] if y == 2025 else C["concrete"] for y in d["year"]],
+    text=d["zettabyte"], textposition="outside", cliponaxis=False))
+fig.update_layout(height=400, margin=dict(l=50, r=10, t=10, b=40), showlegend=False,
+                  xaxis=dict(dtick=1), yaxis=dict(title="Datenvolumen (ZB)", range=[0, 200]))
+fig.write_image("data/02a_Computerhardware/datasphere.png", width=900, height=400, scale=2)
+fig.show()
+```
+
+::: {.content-visible when-format="typst"}
+![](data/02a_Computerhardware/datasphere.png)
+:::
+
+%%aside
+Quelle: IDC Global DataSphere (Data Age 2025), Werte aus der Originalgrafik abgelesen und gerundet
+%%/aside
 
 %%/slides
 
