@@ -36,23 +36,26 @@ Die Programmiersprache erlaubt es dem Menschen (Programmierer), dem Computer in 
 %%sep
 ```{python}
 #| echo: false
+from pathlib import Path
 import pandas as pd
 import plotly.graph_objects as go
-from ai4sc_style.plotly_loader import C, load_ai4sc_theme
+import plotly.io as pio
+from ai4sc_style.plotly_loader import load_ai4sc_theme
 
-load_ai4sc_theme()
+load_ai4sc_theme("pastello", themes_dir=Path("_extensions/ai4sc-style/themes"))
+CW = pio.templates["ai4sc"].layout.colorway
 so = pd.read_csv("data/01b_Programmiersprachen/stackoverflow2026.csv").iloc[::-1]
 fig = go.Figure(go.Bar(
     x=so["usage"], y=so["language"], orientation="h",
-    marker_color=[C["signal-blue"] if l == "Python" else C["concrete"] for l in so["language"]],
+    marker_color=[CW[0] if l == "Python" else CW[4] for l in so["language"]],
     text=so["usage"].map("{:.1f} %".format), textposition="outside", cliponaxis=False))
 fig.update_layout(height=520, margin=dict(l=10, r=50, t=10, b=30), showlegend=False,
-                  xaxis=dict(range=[0, 72], title="Anteil der Entwickler (%)"),
+                  xaxis=dict(range=[0, 72], title="Anteil der Entwickler (%)", automargin=True),
                   yaxis=dict(dtick=1, automargin=True))
-fig.write_image("data/01b_Programmiersprachen/stackoverflow2026.png", width=600, height=520, scale=2)
+fig.write_image("data/01b_Programmiersprachen/stackoverflow2026.png", width=800, height=800, scale=2)
 ```
 
-%%cache_plotly "data/01b_Programmiersprachen/stackoverflow2026.json" 600x520 write
+%%cache_plotly "data/01b_Programmiersprachen/stackoverflow2026.json" 800x800 write
 
 ::: {.content-visible when-format="typst"}
 ![](data/01b_Programmiersprachen/stackoverflow2026.png)
@@ -174,7 +177,7 @@ Die Entwicklung der Programmiersprachen spiegelt den wachsenden Anspruch wider, 
 
 %%book
 
-Durch die Änderungen der Anforderungen an Software entwickeln sich nicht nur die Softwarearchitekturen sondern auch neue Programmiersprachen die an Popularität gewinnen. Dabei verlief die Entwicklung nicht linear: Parallel zu traditionellen Anwendungssprachen wie C++ und Delphi gewannen Serversprachen wie Java und C# sowie Websprachen wie PHP, Perl und JavaScript an Bedeutung. Über die letzten 20 Jahren hat sich in diesem Bereich vor allem JavaScript durchgesetzt, da es Client- und Serverseitig eingesetzt werden kann. Seit 2017 gewinnt vor allem Python massiv an Popularität, da es insbesondere im KI-Bereich eingesetzt wird — LLMs haben deutlich mehr Python-Code im Training gesehen und zeigen daher stärkere Performance bei Python-Aufgaben, was Python zur bevorzugten Sprache für KI-Workflows macht.
+Durch die Änderungen der Anforderungen an Software entwickeln sich nicht nur die Softwarearchitekturen sondern auch neue Programmiersprachen die an Popularität gewinnen. Dabei verlief die Entwicklung nicht linear: Parallel zu traditionellen Anwendungssprachen wie C++ und Delphi gewannen Serversprachen wie Java und C# sowie Websprachen wie PHP, Perl und JavaScript an Bedeutung. Über die letzten 20 Jahren hat sich in diesem Bereich vor allem JavaScript durchgesetzt, da es Client- und Serverseitig eingesetzt werden kann. Seit 2017 gewinnt vor allem Python massiv an Popularität, da es insbesondere im KI-Bereich eingesetzt wird.
 
 
 Die Rangfolge lässt sich bis heute fortschreiben. Der PYPL-Index misst, wie häufig weltweit nach Tutorials einer Sprache gesucht wird. Java und PHP führen 2004, Python überholt Java im April 2018 und erreicht im Oktober 2026 rund 54 % der Suchanfragen.
@@ -190,11 +193,14 @@ Die Rangfolge lässt sich bis heute fortschreiben. Der PYPL-Index misst, wie hä
 
 ```{python}
 #| echo: false
+from pathlib import Path
 import pandas as pd
 import plotly.graph_objects as go
-from ai4sc_style.plotly_loader import C, load_ai4sc_theme
+import plotly.io as pio
+from ai4sc_style.plotly_loader import load_ai4sc_theme
 
-load_ai4sc_theme()
+load_ai4sc_theme("pastello", themes_dir=Path("_extensions/ai4sc-style/themes"))
+CW = pio.templates["ai4sc"].layout.colorway
 pp = pd.read_csv("data/01b_Programmiersprachen/pypl.csv", parse_dates=["date"])
 pp = pp[pp["date"].dt.month.isin([1, 4, 7, 10])].set_index("date")
 TOP = 8
@@ -202,7 +208,7 @@ TOP = 8
 def frame(t):
     row = pp.loc[t].nlargest(TOP).iloc[::-1]
     return go.Bar(x=row.values, y=row.index, orientation="h",
-                  marker_color=[C["signal-blue"] if l == "Python" else C["concrete"] for l in row.index],
+                  marker_color=[CW[0] if l == "Python" else CW[4] for l in row.index],
                   text=[f"{v:.1f} %" for v in row.values], textposition="outside", cliponaxis=False)
 
 frames = [go.Frame(data=[frame(t)], name=t.strftime("%Y-%m"),
@@ -212,16 +218,16 @@ steps = [dict(method="animate", label=f.name[:4] if f.name.endswith("-01") else 
               args=[[f.name], dict(mode="immediate", frame=dict(duration=0, redraw=True),
                                    transition=dict(duration=0))]) for f in frames]
 fig.update_layout(
-    height=500, margin=dict(l=10, r=60, t=50, b=130), showlegend=False,
+    height=500, margin=dict(l=10, r=60, t=50, b=160), showlegend=False,
     title=dict(text=pp.index[0].strftime("%m/%Y"), x=0.98, xanchor="right"),
-    xaxis=dict(range=[0, 62], title="Anteil an Tutorial-Suchen (%), PYPL-Index"),
+    xaxis=dict(range=[0, 62], title="Anteil an Tutorial-Suchen (%), PYPL-Index", automargin=True),
     yaxis=dict(automargin=True),
-    updatemenus=[dict(type="buttons", direction="left", x=0, y=-0.28, buttons=[
+    updatemenus=[dict(type="buttons", direction="left", x=0, y=-0.36, buttons=[
         dict(label="Start", method="animate",
              args=[None, dict(frame=dict(duration=120, redraw=True), transition=dict(duration=0), fromcurrent=True)]),
         dict(label="Pause", method="animate",
              args=[[None], dict(mode="immediate", frame=dict(duration=0, redraw=False))])])],
-    sliders=[dict(steps=steps, x=0.15, y=-0.12, len=0.85, currentvalue=dict(visible=False))])
+    sliders=[dict(steps=steps, x=0.15, y=-0.2, len=0.85, currentvalue=dict(visible=False))])
 fig.write_image("data/01b_Programmiersprachen/pypl_2026.png", width=900, height=500, scale=2)
 ```
 
@@ -254,21 +260,25 @@ Python hat in den letzten Jahren zunehmend an Popularität gewonnen, ist allerdi
 %%sep
 ```{python}
 #| echo: false
+from pathlib import Path
 import pandas as pd
 import plotly.graph_objects as go
-from ai4sc_style.plotly_loader import C, load_ai4sc_theme
+import plotly.io as pio
+from ai4sc_style.plotly_loader import load_ai4sc_theme
 
-load_ai4sc_theme()
+load_ai4sc_theme("pastello", themes_dir=Path("_extensions/ai4sc-style/themes"))
+CW = pio.templates["ai4sc"].layout.colorway
 d = pd.read_csv("data/01b_Programmiersprachen/trends.csv", parse_dates=["date"])
 fig = go.Figure()
 fig.add_trace(go.Scatter(x=d["date"], y=d["python"], name="Python",
-                         line=dict(color=C["signal-blue"], width=3)))
+                         line=dict(color=CW[0], width=3)))
 fig.add_trace(go.Scatter(x=d["date"], y=d["datascience"], name="Data Science",
-                         line=dict(color=C["signal-red"], width=3)))
+                         line=dict(color=CW[3], width=3)))
 fig.add_trace(go.Scatter(x=d["date"], y=d["vibecoding"], name="Vibe Coding",
-                         line=dict(color=C["moss-700"], width=3)))
+                         line=dict(color=CW[1], width=3)))
 fig.update_layout(height=420, margin=dict(l=40, r=10, t=10, b=40),
-                  yaxis_title="Suchinteresse (0–100)",
+                  xaxis=dict(automargin=True),
+                  yaxis=dict(title="Suchinteresse (0–100)", automargin=True),
                   legend=dict(orientation="h", y=1.08, x=0))
 fig.write_image("data/01b_Programmiersprachen/trends.png", width=900, height=420, scale=2)
 ```
@@ -304,7 +314,7 @@ Viz.: Google Trends weltweit, 2004 – September 2026, je Suchbegriff auf 100 no
 Python wurde 1991 von Guido van Rossum entworfen und ist auf Lesbarkeit ausgelegt. Die Leitprinzipien der Sprache sind im „Zen of Python“ (PEP 20) festgehalten: Schönes ist besser als Hässliches, Explizites besser als Implizites, Einfaches besser als Komplexes und Lesbarkeit zählt.
 %%/book
 
-## Python dominiert KI-Trainingsdaten
+## Python dominiert die KI-Entwicklung
 
 %%slides
 
@@ -362,12 +372,12 @@ Mitwirkende 2025
 
 %%col 50 50v
 
-- [LLMs sind stark auf Python-Code trainiert]{.pro}
+- [Python ist die meistgenutzte Sprache in KI-Projekten]{.pro}
 - [Claude Code, Copilot, Cursor geben fast immer Python aus]{.pro}
 - [Ingenieure müssen Python *lesen*, nicht nur schreiben]{.pro}
 %%sep
 %%div lead
-*Python ist bei KI beliebt*: Die einfache Syntax erlaubt es KI, den Code zu verstehen und zu generieren.
+*Python ist die Sprache der KI-Projekte*: In KI-Repositories auf GitHub ist sie die meistgenutzte Sprache.
 %%/div
 %%/col
 
@@ -378,7 +388,7 @@ Mitwirkende 2025
 %%/slides
 
 %%book
-Python dominiert nicht nur die Data-Science-Welt, sondern auch die Trainingsdaten der großen Sprachmodelle. Da LLMs wie GPT-4, Claude und Gemini überwiegend auf Python-Code trainiert wurden, generieren sie bei ingenieurtechnischen Aufgaben standardmäßig Python. Das macht Python-Lesekompetenz zur Schlüsselqualifikation im KI-gestützten Engineering.[@github_ai_reshaping_2026]
+Python dominiert die Data-Science-Welt und die KI-Entwicklung: Laut dem GitHub Octoverse 2025 ist Python die meistgenutzte Sprache in KI-Repositories, und fast die Hälfte der neuen KI-Repositories entsteht in Python.[@github_octoverse_2025] Auf GitHub insgesamt hat TypeScript Python bei den Mitwirkenden 2025 überholt.[@github_ai_reshaping_2026] Wer KI-Assistenten für Ingenieuraufgaben einsetzt, bekommt daher meist Python-Code; Python-Lesekompetenz ist damit eine Schlüsselqualifikation im KI-gestützten Engineering.
 %%/book
 
 
@@ -400,7 +410,7 @@ Python dominiert nicht nur die Data-Science-Welt, sondern auch die Trainingsdate
 
 
 ## Lessons Learned - Gedächtnis
-![](images/02a_Computerhardware/gedaechnis.svg)
+![](images/02a_Computerhardware/gedaechnis.svg){.nostretch fig-align="center" width="80%"}
 
 - Wissen braucht Zeit sich zu verfestigen
 - Nutzen wir unser Unterbewusstsein, d. h. Informationen sammeln und reifen lassen
@@ -484,8 +494,8 @@ Wenn Sie Claude Code oder Copilot prompten, erhalten Sie fast immer Python. Prog
     - [x] Tools und Frameworks
     - [ ] Die Farbe des Logos
 
-    ### Warum ist Python die dominierende Sprache in der KI-Ära?
-    - [x] LLMs wurden hauptsächlich auf Python-Code trainiert
+    ### Warum begegnet Ihnen in der KI-Ära so oft Python?
+    - [x] Python ist die meistgenutzte Sprache in KI- und Data-Science-Projekten
     - [ ] Python ist die älteste Programmiersprache
     - [ ] Python ist die einzige maschinenlesbare Sprache
     - [ ] Python wurde speziell für KI entwickelt

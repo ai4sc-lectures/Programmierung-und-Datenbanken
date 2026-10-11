@@ -341,18 +341,17 @@ from pathlib import Path
 import pandas as pd
 import plotly.graph_objects as go
 import plotly.express as px
-from ai4sc_style.plotly_loader import C, load_ai4sc_theme
+import plotly.io as pio
+from ai4sc_style.plotly_loader import load_ai4sc_theme
 
 load_ai4sc_theme("pastello", themes_dir=Path("_extensions/ai4sc-style/themes"))
+CW = pio.templates["ai4sc"].layout.colorway
 
 
 def get_layout(title="", height=500):
     """Einheitliches Layout für alle Diagramme dieses Decks."""
     return dict(
-        title=dict(text=title, font=dict(size=24)),
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(size=16),
+        title=dict(text=title),
         height=height,
         margin=dict(l=50, r=50, t=80, b=50),
     )
@@ -389,17 +388,18 @@ gpt4_2023 = [100, 85, 42, 35, 14, None]    # Pursnani et al., GPT-4
 o3_2025 = [100, 100, 100, 83.3, 50, 30]    # Oblitas et al., Fig. 5
 
 fig_pursnani = go.Figure()
-for name, werte, farbe in [("2023: GPT-4", gpt4_2023, C["concrete"]),
-                           ("2025: ChatGPT o3", o3_2025, C["signal-blue"])]:
+for name, werte, farbe in [("2023: GPT-4", gpt4_2023, CW[4]),
+                           ("2025: ChatGPT o3", o3_2025, CW[0])]:
     fig_pursnani.add_bar(
         x=kategorien, y=werte, name=name, marker_color=farbe,
         text=["" if v is None else f"{v:.0f}%" for v in werte],
-        textposition="outside", textfont=dict(size=16))
-fig_pursnani.add_hline(y=70, line_dash="dash", line_color=C["concrete"],
+        textposition="outside")
+fig_pursnani.add_hline(y=70, line_dash="dash", line_color=CW[4],
                        annotation_text="Gut", annotation_position="left")
 fig_pursnani.update_layout(
     **get_layout("LLMs in der Ingenieur-Grundlagenprüfung (FE)", height=450),
-    barmode="group", yaxis=dict(range=[0, 118], ticksuffix="%"),
+    barmode="group", xaxis=dict(automargin=True),
+    yaxis=dict(range=[0, 118], ticksuffix="%", automargin=True),
     legend=dict(orientation="h", y=1.02, x=0))
 fig_pursnani.write_image("data/01c_AgentischesProgrammieren/kompetenzfalle.png", width=700, height=450, scale=2)
 fig_pursnani.show()
@@ -798,15 +798,16 @@ werte = [24, 20, -19]
 fig_metr = go.Figure()
 fig_metr.add_bar(
     x=kat, y=werte,
-    marker_color=[C["signal-blue"], C["signal-blue"], C["signal-red"]],
+    marker_color=[CW[0], CW[0], CW[3]],
     text=[f"+{v}%" if v > 0 else f"{v}%" for v in werte],
-    textposition="outside", textfont=dict(size=18))
-fig_metr.add_hline(y=0, line_color=C["concrete"], line_width=2)
+    textposition="outside")
+fig_metr.add_hline(y=0, line_color=CW[4], line_width=2)
 fig_metr.add_annotation(
     x=1.5, y=-27, text="<b>39 Prozentpunkte Wahrnehmungslücke</b>",
-    showarrow=False, font=dict(size=18, color=C["ink"]))
+    showarrow=False)
 fig_metr.update_layout(
     **get_layout("Beschleunigung durch KI, laut Entwicklern und gemessen", height=430),
+    xaxis=dict(automargin=True),
     yaxis=dict(range=[-34, 36], ticksuffix="%", title="Beschleunigung (+)", automargin=True),
     showlegend=False)
 fig_metr.write_image("data/01c_AgentischesProgrammieren/kapazitaetsfalle.png", width=600, height=430, scale=2)
@@ -857,13 +858,14 @@ df = pd.DataFrame({
 
 fig_skill = px.bar(
     df, x="Studie", y="Prozent", color="Bedingung", barmode="group", text="Prozent",
-    color_discrete_map={"Ohne KI": C["signal-blue"], "Mit KI": C["signal-red"]})
+    color_discrete_map={"Ohne KI": CW[0], "Mit KI": CW[3]})
 fig_skill.update_traces(texttemplate="%{text} %", textposition="outside",
-                        textfont=dict(size=18), constraintext="none")
+                        constraintext="none")
 fig_skill.update_layout(
     **get_layout("Leistung ohne KI-Hilfe", height=430),
-    xaxis_title="", yaxis_title="Erkennungsrate (%)", legend_title="",
-    yaxis=dict(range=[0, 80]),
+    legend_title="",
+    xaxis=dict(title="", automargin=True),
+    yaxis=dict(title="Erkennungsrate (%)", range=[0, 80], automargin=True),
     legend=dict(orientation="h", yanchor="top", y=-0.2, xanchor="center", x=0.5))
 fig_skill.write_image("data/01c_AgentischesProgrammieren/faehigkeitsfalle.png", width=600, height=430, scale=2)
 fig_skill.show()

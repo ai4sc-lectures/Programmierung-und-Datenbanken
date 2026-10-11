@@ -188,18 +188,20 @@ Je näher am Prozessor, desto schneller, kleiner und teurer ist der Speicher. Pr
 from pathlib import Path
 import pandas as pd
 import plotly.graph_objects as go
-from ai4sc_style.plotly_loader import C, load_ai4sc_theme
+import plotly.io as pio
+from ai4sc_style.plotly_loader import load_ai4sc_theme
 
 load_ai4sc_theme("pastello", themes_dir=Path("_extensions/ai4sc-style/themes"))
+CW = pio.templates["ai4sc"].layout.colorway
 d = pd.read_csv("data/02a_Computerhardware/speicherhierarchie.csv")
 fig = go.Figure(go.Scatter(
     x=d["groesse_byte"], y=d["zugriff_ns"], mode="markers+text", text=d["speicher"],
-    textposition="top center", textfont=dict(size=22), marker=dict(size=26, color=C["signal-blue"], line=dict(width=2, color=C["ink"]))))
+    textposition="top center", marker=dict(size=26, color=CW[0], line=dict(width=2, color=CW[4]))))
 fig.update_layout(
-    height=420, margin=dict(l=90, r=30, t=10, b=70), showlegend=False, font=dict(size=20),
-    xaxis=dict(type="log", title="Kapazität", range=[2, 13.3],
+    height=420, margin=dict(l=90, r=30, t=10, b=70), showlegend=False,
+    xaxis=dict(type="log", title="Kapazität", range=[2, 13.3], automargin=True,
                tickvals=[1e3, 1e6, 1e9, 1e12], ticktext=["1 KB", "1 MB", "1 GB", "1 TB"]),
-    yaxis=dict(type="log", title="Zugriffszeit", range=[-1, 8],
+    yaxis=dict(type="log", title="Zugriffszeit", range=[-1, 8.6], automargin=True,
                tickvals=[1, 1e2, 1e4, 1e6], ticktext=["1 ns", "100 ns", "10 µs", "1 ms"]))
 fig.write_image("data/02a_Computerhardware/speicherhierarchie.png", width=900, height=420, scale=2)
 fig.show()
@@ -928,16 +930,19 @@ Für Menschen ist es schon heute unmöglich, diese Datenmassen manuell zu sichte
 from pathlib import Path
 import pandas as pd
 import plotly.graph_objects as go
-from ai4sc_style.plotly_loader import C, load_ai4sc_theme
+import plotly.io as pio
+from ai4sc_style.plotly_loader import load_ai4sc_theme
 
 load_ai4sc_theme("pastello", themes_dir=Path("_extensions/ai4sc-style/themes"))
+CW = pio.templates["ai4sc"].layout.colorway
 d = pd.read_csv("data/02a_Computerhardware/datasphere.csv")
 fig = go.Figure(go.Bar(
     x=d["year"], y=d["zettabyte"],
-    marker_color=[C["signal-blue"] if y == 2025 else C["concrete"] for y in d["year"]],
+    marker_color=[CW[0] if y == 2025 else CW[4] for y in d["year"]],
     text=d["zettabyte"], textposition="outside", cliponaxis=False))
 fig.update_layout(height=400, margin=dict(l=50, r=10, t=10, b=40), showlegend=False,
-                  xaxis=dict(dtick=1), yaxis=dict(title="Datenvolumen (ZB)", range=[0, 200]))
+                  xaxis=dict(dtick=1, automargin=True),
+                  yaxis=dict(title="Datenvolumen (ZB)", range=[0, 200], automargin=True))
 fig.write_image("data/02a_Computerhardware/datasphere.png", width=900, height=400, scale=2)
 fig.show()
 ```
