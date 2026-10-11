@@ -181,6 +181,38 @@ Zugriff: 10 µs bis 10 ms
 
 Je näher am Prozessor, desto schneller, kleiner und teurer ist der Speicher. Programme, die ihre Daten im Cache oder RAM halten, laufen um Größenordnungen schneller als solche, die ständig die Platte lesen.
 
+## Je schneller der Speicher, desto kleiner ist er
+
+```{python}
+#| echo: false
+from pathlib import Path
+import pandas as pd
+import plotly.graph_objects as go
+from ai4sc_style.plotly_loader import C, load_ai4sc_theme
+
+load_ai4sc_theme("pastello", themes_dir=Path("_extensions/ai4sc-style/themes"))
+d = pd.read_csv("data/02a_Computerhardware/speicherhierarchie.csv")
+fig = go.Figure(go.Scatter(
+    x=d["groesse_byte"], y=d["zugriff_ns"], mode="markers+text", text=d["speicher"],
+    textposition="top center", textfont=dict(size=22), marker=dict(size=26, color=C["signal-blue"], line=dict(width=2, color=C["ink"]))))
+fig.update_layout(
+    height=420, margin=dict(l=90, r=30, t=10, b=70), showlegend=False, font=dict(size=20),
+    xaxis=dict(type="log", title="Kapazität", range=[2, 13.3],
+               tickvals=[1e3, 1e6, 1e9, 1e12], ticktext=["1 KB", "1 MB", "1 GB", "1 TB"]),
+    yaxis=dict(type="log", title="Zugriffszeit", range=[-1, 8],
+               tickvals=[1, 1e2, 1e4, 1e6], ticktext=["1 ns", "100 ns", "10 µs", "1 ms"]))
+fig.write_image("data/02a_Computerhardware/speicherhierarchie.png", width=900, height=420, scale=2)
+fig.show()
+```
+
+::: {.content-visible when-format="typst"}
+![](data/02a_Computerhardware/speicherhierarchie.png)
+:::
+
+%%aside
+Typische Größenordnungen; beide Achsen sind logarithmisch
+%%/aside
+
 %%/slides
 
 %%book
@@ -188,6 +220,8 @@ Je näher am Prozessor, desto schneller, kleiner und teurer ist der Speicher. Pr
 ### Speicherhierarchie
 
 Die Speicherarten unterscheiden sich in Zugriffszeit und Kapazität um viele Größenordnungen: Register der CPU antworten in unter einer Nanosekunde, bieten aber nur wenige Bytes. Der Cache fasst Kilo- bis Megabytes, der RAM Gigabytes bei etwa 100 ns Zugriffszeit, SSD und HDD speichern Terabytes, brauchen aber Mikro- bis Millisekunden. Je näher ein Speicher am Prozessor liegt, desto schneller, kleiner und teurer ist er. Das erklärt Leistungsunterschiede zwischen Programmen: Wer Daten wiederholt aus dem Cache liest, rechnet deutlich schneller als jemand, der sie immer wieder von der Festplatte lädt. Die Werte sind Größenordnungen und hängen von der Hardware ab.
+
+![Zugriffszeit und Kapazität der Speicherarten (typische Größenordnungen, logarithmische Achsen)](data/02a_Computerhardware/speicherhierarchie.png){fig-align="center" width="80%"}
 
 %%/book
 
@@ -261,18 +295,18 @@ Die SI-Einheiten KB, MB, GB sind auf Basis 1000 definiert. Betriebssysteme zeige
 - *binarius*: zweifach, doppelt. Das kleinste nützliche Zahlensystem
 - Alles liegt als Folge von Bits im Speicher: Code, Zahlen, Text, Bilder und Videos
 
+%%tip Merksatz
+Alle Werte werden in der die Hardware in Bits ablegt und binär verarbeitet.
+
+Der *Datentypen* legen fest, wie diese Bits zu interpretieren sind: als Zahl, Text oder Farbe.
+%%/tip
+
 %%sep
 
 | Binär | Bedeutung    |
 |:-----:|--------------|
 | 0     | Aus / Falsch |
 | 1     | An / Wahr    |
-
-%%tip Merksatz
-Binär ist die Darstellung, in der die Hardware alle Werte ablegt.
-
-Datentypen (`02c_Datentypen`) legen fest, *wie* diese Bits zu interpretieren sind: als Zahl, Text oder Farbe.
-%%/tip
 
 %%/col
 
@@ -754,8 +788,7 @@ Register sind die kleinsten und schnellsten Speichereinheiten der CPU. Sie halte
 
 - Jeder Befehl liegt an einer *Speicheradresse* im RAM
 - Der *Instruction Pointer* (IP) zeigt auf den nächsten Befehl
-- `LOAD` kopiert einen Wert aus dem RAM in ein Register
-- `ADD` rechnet mit den Registern, `STORE` schreibt das Ergebnis zurück in den RAM
+- Gerechnet wird nur mit Registern: `LOAD` kopiert einen Wert aus dem RAM in ein Register, `ADD` addiert Register, `STORE` schreibt das Ergebnis zurück in den RAM
 - Nach jedem Befehl: IP = IP + 1
 - Sprünge (Schleifen, Funktionen) setzen den IP auf eine andere Adresse
 
@@ -769,29 +802,9 @@ Register sind die kleinsten und schnellsten Speichereinheiten der CPU. Sie halte
 
 %%/slides
 
-%%## Die CPU rechnet nur mit Registern
-
-%%slides
-
-%%col 35 65
-
-- *Speicherzelle* = Adresse + Binärwert im RAM; `x` und `y` sind solche Zellen
-- *Register* in der CPU = Ultra-Kurzzeitgedächtnis für den aktuellen Rechenwert
-- `LOAD`: x und y wandern aus dem RAM in R1 und R2
-- Die *ALU* addiert R1 + R2 und legt das Ergebnis in R3 ab
-- `STORE`: R3 wird in die Zelle von z zurückgeschrieben
-
-%%sep
-
-```{=html}
-<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_memory_cells.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_memory_cells.mp4" type="video/mp4"></video>
-```
-
-%%/col
-
-%%/slides
-
 %%book
+
+### Speicherzellen und Register
 
 Der RAM lässt sich als eine lange Reihe von Zellen vorstellen. Jede Zelle hat eine numerische Adresse und enthält einen Binärwert. Eine Variable {{< ai4sc-icon variable >}} ist nichts anderes als eine solche benannte Zelle: Wenn Python `x = 5` ausführt, reserviert der Interpreter irgendwo im RAM eine Zelle und schreibt den Binärwert für 5 hinein.
 
@@ -801,11 +814,31 @@ Register sind noch schneller: Sie sitzen direkt in der CPU und halten die Werte 
 
 %%/book
 
+%%## Der Bus transportiert Programme und Daten zwischen den Modulen
+
+%%slides
+
+```{=html}
+<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_bus_dataflow.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_bus_dataflow.mp4" type="video/mp4"></video>
+```
+
+%%/slides
+
+%%book
+
+Die Module eines Computers arbeiten nicht isoliert: Alles, was sie austauschen, läuft über den Kommunikationsbus auf dem Mainboard. Die Abbildung zeigt das am Programm `z = x + y`. Zuerst wird das Programm von der Festplatte oder SSD in den RAM geladen, weil die CPU nur auf den schnellen Arbeitsspeicher zugreift. Dann arbeitet die CPU die Befehle nacheinander ab: Der Instruction Pointer zeigt auf den nächsten Befehl, der Befehl wandert über den Bus vom RAM in die CPU, und `LOAD` kopiert die Werte von x und y in die Register R1 und R2. Die ALU addiert die beiden Register, ohne den RAM zu benutzen, und das Ergebnis landet in R3. `STORE` schreibt es schließlich über den Bus in die Speicherzelle von z. Die Abbildung ist vereinfacht: Auf einem echten Mainboard gibt es mehrere Verbindungen, die parallel arbeiten.
+
+![Das Programm z = x + y läuft über den Bus: vom Festspeicher in den RAM, dann Befehl für Befehl in die CPU und das Ergebnis zurück in den RAM](images/02a_Computerhardware/manim_bus_dataflow.png){fig-align="center" width="90%"}
+
+%%/book
+
 %%## Zwei Speicherregionen im RAM
 
 %%book
 
 Stack und Heap sind kein Python-Feature, sondern zwei Bereiche im RAM, die das Betriebssystem jedem laufenden Programm zuweist. Der **Stack** (Stapel) arbeitet nach dem LIFO-Prinzip (*Last In, First Out*): Bei jedem Funktionsaufruf kommt ein neuer Rahmen mit den lokalen Variablen obenauf, bei der Rückkehr wird er wieder entfernt. Seine Größe ist begrenzt, typischerweise einige Megabyte. Der **Heap** ist ein größerer, dynamisch wachsender Bereich für Daten, die länger leben als ein einzelner Funktionsaufruf, etwa Listen oder Objekte. Wie Python diese Regionen nutzt, behandeln wir in `02b_Speicher`.
+
+![Heap und Stack als Speicherzellen: Der Heap vergibt freie Zellen zufällig, der Stack belegt seine Zellen der Reihe nach und gibt sie in umgekehrter Reihenfolge wieder frei. Das Ergebnis s(4) = 10 bleibt im Heap (Beispiel: s(n) = n + s(n − 1))](images/02a_Computerhardware/manim_stack_heap.png){fig-align="center" width="90%"}
 
 %%/book
 
@@ -813,14 +846,23 @@ Stack und Heap sind kein Python-Feature, sondern zwei Bereiche im RAM, die das B
 
 %%col 40 60
 
-- Beide liegen im RAM, verwaltet vom Betriebssystem
-- **Stack:** Funktionsaufrufe, letzter rein, erster raus, begrenzte Größe
-- **Heap:** Variablen und Objekte, wächst bei Bedarf, deutlich größer
-- Unterschiedliche Lebensdauer: Der Stack-Rahmen verschwindet mit dem Funktionsaufruf, Heap-Daten leben weiter
+**Stack**
+
+- Für Funktionsaufrufe
+- LIFO-Prinzip (Last In, First Out)
+- Begrenzter Speicher
+
+**Heap**
+
+- Für Variablen
+- FIFO-ähnlich (First In, First Out)
+- Dynamisch groß (RAM)
 
 %%sep
 
-![](images/02a_Computerhardware/stack_heap.svg){height="460px" fig-align="center"}
+```{=html}
+<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_stack_heap.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_stack_heap.mp4" type="video/mp4"></video>
+```
 
 %%/col
 
@@ -832,18 +874,29 @@ Stack und Heap sind kein Python-Feature, sondern zwei Bereiche im RAM, die das B
 
 %%col 40 60
 
-- Jeder Funktionsaufruf legt einen neuen Rahmen auf den Stack
-- Der Stack hat eine feste Größe
-- Ist er voll, bricht das Programm ab: *Stack Overflow*
-- In Python meldet sich das als `RecursionError`
+- Der Stack ist eine Liste in der nachvollzogen wird welche Funktionen gerade aufgerufen wurden
+- Damit ist bekannt, wohin man zurückkehrt, wenn eine Funktion beendet wird
+- Bei endloser Rekursion, wird die Liste unendlich groß
+- Es kommt bei endloser Rekursion zu Stack-Overflow-Fehlern
+- Es kommt zum harten Absturz des Programmes
 
 %%sep
 
-![](images/02a_Computerhardware/call_stack.svg){height="520px" fig-align="center"}
+```{=html}
+<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_call_stack.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_call_stack.mp4" type="video/mp4"></video>
+```
 
 %%/col
 
 %%/slides
+
+%%book
+
+Jeder Funktionsaufruf belegt auf dem Stack die nächsten freien Zellen für Argumente und Rücksprungadresse. Bei der Rekursion ruft sich eine Funktion selbst auf, etwa die Summe s(n) = n + s(n − 1) mit der Abbruchbedingung s(0) = 0. Fehlt die Abbruchbedingung oder ist die Rekursionstiefe sehr groß, füllt sich der Stack Rahmen für Rahmen, bis keine Zelle mehr frei ist. Das Programm bricht dann ab (*Stack Overflow*), und Python meldet einen `RecursionError`.
+
+![Der Stack füllt sich bei jedem Aufruf ohne Abbruchbedingung, bis er voll ist](images/02a_Computerhardware/manim_call_stack.png){fig-align="center" width="90%"}
+
+%%/book
 
 %%aside
 → `02b_Speicher` (S02): Stack, Heap und Python-Speichermodell im Detail | → `02c_Datentypen` (S02): Datentypen als Speicherdarstellungen | → `09b_Rekursion` (S09): Rekursion, der Call-Stack ist dann bekannt

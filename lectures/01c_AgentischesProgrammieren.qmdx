@@ -335,6 +335,91 @@ Ein Ingenieur übersetzt ein Problem in ein mentales Modell und analysiert darin
 Die Gefahren neuer Grundlagen-KI-Modelle lassen sich nach den drei Fähigkeiten Verstehen, Generieren und Anpassen ordnen. Beim Verstehen fehlen räumliches und numerisches Verständnis sowie das logische Erschließen komplexer Zusammenhänge, obwohl einfache funktionieren. Statistisch irrelevante, aber fachlich wichtige Details werden ausgelassen, und beim Übersetzen entstehen False-Friends, die in der Domäne andere Bedeutungen haben. Beim Generieren treten Halluzinationen von falschen Inhalten und Fehlassistenz durch fehlerhafte Ratschläge auf. Generierte Inhalte können inkonsistent sein (mehrere Sichten), Vorurteile und Falschaussagen in den Trainingsdaten werden überbetont, generierte Texte werden von niemandem mehr gelesen (Ineffizienz), und durch das Lernen von Korrelationen in Trainingsdaten entstehen Fehloptimierungen. Beim Anpassen fehlt die BIM-Unterstützung zur Datenverarbeitung in KI-Modellen, es fehlen große Datensätze, die Black-Box-Modelle sind unerklärlich, das regelmäßige Training ist teuer, und das Wissen zu den Modellen fehlt.
 %%/book
 
+```{python}
+#| include: false
+from pathlib import Path
+import pandas as pd
+import plotly.graph_objects as go
+import plotly.express as px
+from ai4sc_style.plotly_loader import C, load_ai4sc_theme
+
+load_ai4sc_theme("pastello", themes_dir=Path("_extensions/ai4sc-style/themes"))
+
+
+def get_layout(title="", height=500):
+    """Einheitliches Layout für alle Diagramme dieses Decks."""
+    return dict(
+        title=dict(text=title, font=dict(size=24)),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(size=16),
+        height=height,
+        margin=dict(l=50, r=50, t=80, b=50),
+    )
+```
+
+## Kann KI das allein? → Die Kompetenzfalle
+
+%%scol 50 50
+**Verstehen**
+
+- [Zusammenfassen, Allgemeinwissen zu Bauen und Architektur]{.pro}
+- [Kein numerisches oder räumliches Verständnis]{.con}
+- [Kein Detailwissen zur Baudomäne und zu Projektinformationen]{.con}
+
+**Generieren**
+
+- [Übersetzen, Bilder erzeugen]{.pro}
+- [Halluziniert bei Unwissenheit]{.con}
+- [Erzeugt keine wiederholbar zusammenhängenden Ergebnisse]{.con}
+
+**Anpassen**
+
+- [Wissen erweiterbar (RAG), Tuning von Modellen auf Spezialwissen]{.pro}
+- [Dennoch nicht an komplexe Ingenieurprobleme anpassbar]{.con}
+
+%%sep
+
+```{python}
+#| echo: false
+
+kategorien = ["Ethik &<br>Berufsrecht", "Wirtschaft", "Boden-<br>mechanik",
+              "Hydraulik", "Statik", "Tragwerks-<br>planung"]
+gpt4_2023 = [100, 85, 42, 35, 14, None]    # Pursnani et al., GPT-4
+o3_2025 = [100, 100, 100, 83.3, 50, 30]    # Oblitas et al., Fig. 5
+
+fig_pursnani = go.Figure()
+for name, werte, farbe in [("2023: GPT-4", gpt4_2023, C["concrete"]),
+                           ("2025: ChatGPT o3", o3_2025, C["signal-blue"])]:
+    fig_pursnani.add_bar(
+        x=kategorien, y=werte, name=name, marker_color=farbe,
+        text=["" if v is None else f"{v:.0f}%" for v in werte],
+        textposition="outside", textfont=dict(size=16))
+fig_pursnani.add_hline(y=70, line_dash="dash", line_color=C["concrete"],
+                       annotation_text="Gut", annotation_position="left")
+fig_pursnani.update_layout(
+    **get_layout("LLMs in der Ingenieur-Grundlagenprüfung (FE)", height=450),
+    barmode="group", yaxis=dict(range=[0, 118], ticksuffix="%"),
+    legend=dict(orientation="h", y=1.02, x=0))
+fig_pursnani.write_image("data/01c_AgentischesProgrammieren/kompetenzfalle.png", width=700, height=450, scale=2)
+fig_pursnani.show()
+```
+
+::: {.content-visible when-format="typst"}
+![](data/01c_AgentischesProgrammieren/kompetenzfalle.png)
+:::
+
+[Daten: @PURSNANI2023100183, @fe_civil_2025. Statik und Tragwerke bleiben am schwächsten.]{style="font-size: 0.7em"}
+%%/scol
+
+%%slide_ref @PURSNANI2023100183 Pursnani et al.: _Performance of ChatGPT on the US fundamentals of engineering exam_, **Computers and Education: AI**, 2023.
+%%slide_ref @fe_civil_2025 Oblitas, Adeeb & Cruz-Noguez: _Performance of AI Chatbots on the Fundamentals of Engineering Civil Exam_, **Discover Artificial Intelligence**, 2025.
+
+%%book
+Kann KI Ingenieuraufgaben allein lösen? Das hängt davon ab, welche Fähigkeit wir betrachten. Beim Verstehen sind Zusammenfassen und Allgemeinwissen zu Bauen und Architektur Stärken, numerisches und räumliches Verständnis sowie Detailwissen zur Baudomäne fehlen. Beim Generieren gelingen Übersetzen und Bilder, bei Unwissenheit halluziniert das Modell und erzeugt keine wiederholbar zusammenhängenden Ergebnisse. Beim Anpassen lässt sich das Wissen über RAG erweitern und das Modell auf Spezialwissen abstimmen, an komplexe Ingenieurprobleme lässt es sich dennoch nicht anpassen. Die Aufgaben der US-amerikanischen Ingenieur-Grundlagenprüfung zeigen das: GPT-4 erreichte 2023 in der Statik 14 Prozent, ChatGPT o3 2025 immerhin 50 Prozent, in der Tragwerksplanung 30 Prozent. Statik und Tragwerke bleiben die schwächsten Gebiete [@PURSNANI2023100183; @fe_civil_2025].
+%%/book
+
+
 # Agentenische Programmierung
 
 ## Code-Vervollständigung wurde in acht Jahren zum Agenten
@@ -686,6 +771,166 @@ läuft ohne Meldung, rechnet das Falsche
 
 %%book
 Vier Fehlerarten sollten Sie beim Lesen gezielt suchen: erfundene Funktionen oder Bibliotheken, stillschweigend falsche Einheiten, vergessene Randfälle wie leere Listen oder Division durch null und Code, der ohne Fehlermeldung das Falsche berechnet. Hinzu kommen Fragen des Datenschutzes und der Lizenzen, wenn Projektdaten oder fremder Code an KI-Werkzeuge gelangen.
+%%/book
+
+
+## Dann prüft eben der Mensch? → Die Kapazitätsfalle
+
+%%scol 40 40 20
+Das Prüfen von KI-Output ist ermüdend ("AI Fatigue") und nicht trivial, Beispiel Softwareentwicklung:
+
+- [KI-Output skaliert schneller als menschliche Review-Kapazität (4× mehr Pull Requests auf GitHub [@coderabbit2026throttle])]{.con}
+- [Die gefühlte Produktivität steigt [@metr2025devstudy]]{.pro}
+- [Die gemessene Produktivität sinkt [@metr2025devstudy]]{.con}
+
+%%sep
+
+```{python}
+#| echo: false
+
+# METR, Early-2025 AI Experienced OSS Developer Study.
+# 16 erfahrene OSS-Entwickler, 246 echte Issues, randomisiert je Issue.
+# Hinweis: Die veröffentlichte Fassung nennt geclusterte Standardfehler, gibt aber
+# keine Konfidenzintervalle an. Deshalb hier nur die drei Punktschätzer.
+kat = ["Erwartet<br>vorher", "Wahrgenommen<br>nachher", "Tatsächlich<br>gemessen"]
+werte = [24, 20, -19]
+
+fig_metr = go.Figure()
+fig_metr.add_bar(
+    x=kat, y=werte,
+    marker_color=[C["signal-blue"], C["signal-blue"], C["signal-red"]],
+    text=[f"+{v}%" if v > 0 else f"{v}%" for v in werte],
+    textposition="outside", textfont=dict(size=18))
+fig_metr.add_hline(y=0, line_color=C["concrete"], line_width=2)
+fig_metr.add_annotation(
+    x=1.5, y=-27, text="<b>39 Prozentpunkte Wahrnehmungslücke</b>",
+    showarrow=False, font=dict(size=18, color=C["ink"]))
+fig_metr.update_layout(
+    **get_layout("Beschleunigung durch KI, laut Entwicklern und gemessen", height=430),
+    yaxis=dict(range=[-34, 36], ticksuffix="%", title="Beschleunigung (+)", automargin=True),
+    showlegend=False)
+fig_metr.write_image("data/01c_AgentischesProgrammieren/kapazitaetsfalle.png", width=600, height=430, scale=2)
+fig_metr.show()
+```
+
+::: {.content-visible when-format="typst"}
+![](data/01c_AgentischesProgrammieren/kapazitaetsfalle.png)
+:::
+
+%%sep
+
+> „Entwickler erwarteten, mit KI 24 % schneller zu sein, und selbst nachdem sie die Verlangsamung erlebt hatten, glaubten sie noch, KI habe sie um 20 % beschleunigt.“
+>
+> — @metr2025devstudy
+%%/scol
+
+%%slide_ref @metr2025devstudy METR: _Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity_, 2025.
+%%slide_ref @coderabbit2026throttle CodeRabbit: _GitHub Gives Maintainers a Throttle for the AI Pull Request_, 2026.
+
+%%book
+Auch wenn KI nicht allein arbeiten kann, bleibt das Prüfen nicht automatisch beim Menschen gut aufgehoben. Prüfen ist ermüdend ("AI Fatigue") und nicht trivial. In der Softwareentwicklung wächst der KI-Output schneller als die Review-Kapazität: Auf GitHub gibt es viermal mehr Pull Requests [@coderabbit2026throttle]. Die METR-Studie ließ 16 erfahrene Open-Source-Entwickler an 246 echten Issues arbeiten. Sie erwarteten, mit KI 24 Prozent schneller zu sein, und glaubten auch nach der Studie noch an 20 Prozent Beschleunigung. Tatsächlich waren sie 19 Prozent langsamer. Gefühlte und gemessene Produktivität liegen damit 39 Prozentpunkte auseinander [@metr2025devstudy].
+%%/book
+
+
+## Und wer kann morgen noch prüfen? → Die Fähigkeitsfalle
+
+%%scol 40 40 20
+- [Nutzer überschätzen ihre Fähigkeit, KI-Output zu prüfen [@fernandes2026ai]]{.con}
+- [KI-Nutzung führt zu Cognitive Offloading und sinkendem kritischen Denken [@gerlich2025cognitive]]{.con}
+- [→ Deskilling: Erfahrene verlieren Fähigkeiten [@budzyn2025endoscopist]]{.con}
+- [→ Never-Skilling: Einsteiger erlernen Grundlagen nicht [@ke2026neverskilling]]{.con}
+
+%%sep
+
+```{python}
+#| echo: false
+#| fig-align: center
+
+df = pd.DataFrame({
+    "Studie": [
+        "Deskilling<br>Ärzt:innen: Adenom-Erkennung",
+        "Deskilling<br>Ärzt:innen: Adenom-Erkennung",
+        "Never-Skilling<br>Entwickler:innen: Code-Verständnis",
+        "Never-Skilling<br>Entwickler:innen: Code-Verständnis"],
+    "Bedingung": ["Ohne KI", "Mit KI", "Ohne KI", "Mit KI"],
+    "Prozent": [28.4, 22.4, 67, 50]})
+
+fig_skill = px.bar(
+    df, x="Studie", y="Prozent", color="Bedingung", barmode="group", text="Prozent",
+    color_discrete_map={"Ohne KI": C["signal-blue"], "Mit KI": C["signal-red"]})
+fig_skill.update_traces(texttemplate="%{text} %", textposition="outside",
+                        textfont=dict(size=18), constraintext="none")
+fig_skill.update_layout(
+    **get_layout("Leistung ohne KI-Hilfe", height=430),
+    xaxis_title="", yaxis_title="Erkennungsrate (%)", legend_title="",
+    yaxis=dict(range=[0, 80]),
+    legend=dict(orientation="h", yanchor="top", y=-0.2, xanchor="center", x=0.5))
+fig_skill.write_image("data/01c_AgentischesProgrammieren/faehigkeitsfalle.png", width=600, height=430, scale=2)
+fig_skill.show()
+```
+
+::: {.content-visible when-format="typst"}
+![](data/01c_AgentischesProgrammieren/faehigkeitsfalle.png)
+:::
+
+[Daten: Deskilling [@budzyn2025endoscopist]; No-Skilling [@shen2026skill]]{style="font-size: 0.7em"}
+
+%%sep
+Teufelskreis **Deskilling**
+
+> ::: {style="text-align: center"}
+> | Mehr KI-Assistenz
+> | {{< ai4sc-icon chevron-down >}}
+> | Cognitive Offloading
+> | {{< ai4sc-icon chevron-down >}}
+> | Deskilling
+> | {{< ai4sc-icon chevron-down >}}
+> | Never Skilling
+> :::
+%%/scol
+
+%%slide_ref @fernandes2026ai Fernandes et al.: _AI makes you smarter but none the wiser_, **Computers in Human Behavior**, 2026.
+%%slide_ref @gerlich2025cognitive Gerlich, M.: _AI Tools in Society: Impacts on Cognitive Offloading and the Future of Critical Thinking_, **Societies**, 2025.
+%%slide_ref @budzyn2025endoscopist Budzyń et al.: _Endoscopist deskilling risk after exposure to artificial intelligence in colonoscopy_, **Lancet Gastroenterology & Hepatology**, 2025.
+%%slide_ref @ke2026neverskilling Ke et al.: _AI-induced never-skilling in medical education_, **Nature Medicine**, 2026.
+
+%%book
+Selbst wenn Menschen prüfen, müssen sie dazu in der Lage bleiben. Nutzende überschätzen ihre Fähigkeit, KI-Output zu prüfen [@fernandes2026ai], und die KI-Nutzung führt zu Cognitive Offloading und sinkendem kritischem Denken [@gerlich2025cognitive]. Erfahrene verlieren dadurch Fähigkeiten (Deskilling): In der Studie zur Koloskopie sank die Adenom-Erkennungsrate ohne KI-Hilfe von 28,4 auf 22,4 Prozent, nachdem die Ärztinnen und Ärzte KI genutzt hatten [@budzyn2025endoscopist]. Einsteiger erlernen die Grundlagen gar nicht erst (Never-Skilling): Beim Code-Verständnis erreichten Lernende, die mit KI gearbeitet hatten, 50 statt 67 Prozent [@shen2026skill; @ke2026neverskilling]. So entsteht ein Teufelskreis: Mehr KI-Assistenz führt zu Cognitive Offloading, dieses zu Deskilling und am Ende zu Never-Skilling.
+%%/book
+
+
+## Was tun? → Den Teufelskreis durchbrechen
+
+%%scol 33 33 33
+#### 1. Bildung
+
+- **Weiterbildung** für strukturierte KI-Nutzung
+- **Ausbildung** für kritische Kompetenzen
+- **Kultur** des Lernens und kritischen Denkens
+
+%%sep
+
+#### 2. Organisation
+
+- **Prozesse** zur Prüfung von KI-Ergebnissen
+- **Digitale Werkzeuge** zur Dokumentation im BIM
+- **Führung**, die KI-Resilienz etabliert
+
+%%sep
+
+#### 3. Rahmenbedingungen
+
+- **Forschung** zur Bewertung von KI-Resilienz
+- **Regulierung** der Randbedingungen
+- **Offenheit** für eine positive KI-Vision
+%%/scol
+
+%%div lead
+Es braucht Zusammenarbeit, um Erfahrungen auszutauschen und Leitlinien zu entwickeln.
+%%/div
+
+%%book
+Den Teufelskreis durchbrechen wir auf drei Ebenen. In der Bildung geht es um Weiterbildung für strukturierte KI-Nutzung, Ausbildung für kritische Kompetenzen und eine Kultur des Lernens und kritischen Denkens. In der Organisation braucht es Prozesse zur Prüfung von KI-Ergebnissen, digitale Werkzeuge zur Dokumentation im BIM und Führung, die KI-Resilienz etabliert. Bei den Rahmenbedingungen gehören Forschung zur Bewertung von KI-Resilienz, Regulierung der Randbedingungen und Offenheit für eine positive KI-Vision dazu. Dafür braucht es Zusammenarbeit, um Erfahrungen auszutauschen und Leitlinien zu entwickeln.
 %%/book
 
 
