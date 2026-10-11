@@ -1,6 +1,6 @@
 ---
-title: "Computerhardware"
-image-credit: "Midjourney: Man Computer, ref. Fritz Kahn"
+title: "Computer-hardware"
+image-credit: "cf. 'Man Computer' by Fritz Kahn"
 format:
   ai4sc-style-html:
     output-file: 02a_Computerhardware.page.html
@@ -100,6 +100,13 @@ Computer kommen heutzutage fast überall vor. Es gibt acht grundlegende Arten vo
 
 ![](images/02a_Computerhardware/computer_hardware.svg){height="500px" fig-align="center"}
 
+Die Kernmodule eines Computers sind:
+
+- die CPU (Central Processing Unit) als zentrale Recheneinheit,
+- die GPU (Graphics Processing Unit) für graphische Anwendungen,
+- der RAM (Random Access Memory) als Arbeitsspeicher und
+- eine Festplatte (HDD) oder ein Solid State Drive (SSD) als dauerhafter Speicher.
+
 %%book
 
 Die Kernmodule eines Computers sind:
@@ -125,63 +132,15 @@ Der Computer hat ähnliche Gedächtnisarten wie der Mensch:
 
 %%slides
 
-## Speicherhierarchie – schnell oder groß
-
-:::::::: {.stat-grid .large style="grid-template-columns: repeat(4, 1fr); gap: 12px;"}
-
-%%%%div stat-card
-%%div stat-value
-Register
-%%/div
-%%div stat-delta
-Bytes, direkt in der CPU
-%%/div
-%%div stat-delta
-Zugriff: unter 1 ns
-%%/div
-%%%%/div
-
-%%%%div stat-card
-%%div stat-value
-Cache
-%%/div
-%%div stat-delta
-KB bis MB, in der CPU
-%%/div
-%%div stat-delta
-Zugriff: 1–10 ns
-%%/div
-%%%%/div
-
-%%%%div stat-card
-%%div stat-value
-RAM
-%%/div
-%%div stat-delta
-GB, flüchtig
-%%/div
-%%div stat-delta
-Zugriff: ca. 100 ns
-%%/div
-%%%%/div
-
-%%%%div stat-card
-%%div stat-value
-SSD / HDD
-%%/div
-%%div stat-delta
-TB, dauerhaft
-%%/div
-%%div stat-delta
-Zugriff: 10 µs bis 10 ms
-%%/div
-%%%%/div
-
-::::::::
-
-Je näher am Prozessor, desto schneller, kleiner und teurer ist der Speicher. Programme, die ihre Daten im Cache oder RAM halten, laufen um Größenordnungen schneller als solche, die ständig die Platte lesen.
-
 ## Je schneller der Speicher, desto kleiner ist er
+
+%%col 40 60
+
+- Die Speicherarten unterscheiden sich in Zugriffszeit und Kapazität um viele Größenordnungen
+- Schnelle Speicher sind teuer > klein
+- Langsame Speicher sind billig > groß
+
+%%sep
 
 ```{python}
 #| echo: false
@@ -198,22 +157,23 @@ fig = go.Figure(go.Scatter(
     x=d["groesse_byte"], y=d["zugriff_ns"], mode="markers+text", text=d["speicher"],
     textposition="top center", marker=dict(size=26, color=CW[0], line=dict(width=2, color=CW[4]))))
 fig.update_layout(
-    height=420, margin=dict(l=90, r=30, t=10, b=70), showlegend=False,
+    height=400, margin=dict(l=90, r=30, t=10, b=70), showlegend=False,
     xaxis=dict(type="log", title="Kapazität", range=[2, 13.3], automargin=True,
+               showline=True, linecolor=CW[4], linewidth=2, ticks="outside", showgrid=True,
                tickvals=[1e3, 1e6, 1e9, 1e12], ticktext=["1 KB", "1 MB", "1 GB", "1 TB"]),
     yaxis=dict(type="log", title="Zugriffszeit", range=[-1, 8.6], automargin=True,
+               showline=True, linecolor=CW[4], linewidth=2, ticks="outside", showgrid=True,
                tickvals=[1, 1e2, 1e4, 1e6], ticktext=["1 ns", "100 ns", "10 µs", "1 ms"]))
-fig.write_image("data/02a_Computerhardware/speicherhierarchie.png", width=900, height=420, scale=2)
-fig.show()
+fig.write_image("data/02a_Computerhardware/speicherhierarchie.png", width=800, height=400, scale=2)
 ```
+
+%%cache_plotly "data/02a_Computerhardware/speicherhierarchie.json" 800x400 write
 
 ::: {.content-visible when-format="typst"}
 ![](data/02a_Computerhardware/speicherhierarchie.png)
 :::
 
-%%aside
-Typische Größenordnungen; beide Achsen sind logarithmisch
-%%/aside
+%%/col
 
 %%/slides
 
@@ -462,7 +422,7 @@ Die Addition einzelner Bits kann daher durch ein XOR-Gatter für die Summe und e
 * Realisierung: XOR-Gatter (Summe) + UND-Gatter (Übertrag)
 %%sep
 ```{=html}
-<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_binary_addition.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_binary_addition.mp4" type="video/mp4"></video>
+<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_binary_addition.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_binary_addition.mp4" type="video/mp4"></video>
 ```
 %%/col
 %%/slides
@@ -495,7 +455,7 @@ Das Ergebnis entspricht damit genau der Wahrheitstabelle eines logischen UND. Di
 * Realisierung: UND-Gatter (Bitmultiplikation) + Addierer
 %%sep
 ```{=html}
-<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_binary_multiply.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_binary_multiply.mp4" type="video/mp4"></video>
+<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_binary_multiply.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_binary_multiply.mp4" type="video/mp4"></video>
 ```
 %%/col
 %%/slides
@@ -562,7 +522,7 @@ Begrenzte Anzahl an Stellen: Es entstehen Rundungsfehler!
 %%sep
 
 ```{=html}
-<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_float_example.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_float_example.mp4" type="video/mp4"></video>
+<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_float_example.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_float_example.mp4" type="video/mp4"></video>
 ```
 
 %%/col
@@ -679,7 +639,7 @@ Alle Pixel eines Bildes werden so als lange Folge von Binärzahlen im Speicher a
 %%sep
 
 ```{=html}
-<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_rgb_pixels.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_rgb_pixels.mp4" type="video/mp4"></video>
+<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_rgb_pixels.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_rgb_pixels.mp4" type="video/mp4"></video>
 ```
 
 %%/col
@@ -797,7 +757,7 @@ Register sind die kleinsten und schnellsten Speichereinheiten der CPU. Sie halte
 %%sep
 
 ```{=html}
-<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_instruction_pointer.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_instruction_pointer.mp4" type="video/mp4"></video>
+<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_instruction_pointer.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_instruction_pointer.mp4" type="video/mp4"></video>
 ```
 
 %%/col
@@ -821,7 +781,7 @@ Register sind noch schneller: Sie sitzen direkt in der CPU und halten die Werte 
 %%slides
 
 ```{=html}
-<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_bus_dataflow.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_bus_dataflow.mp4" type="video/mp4"></video>
+<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_bus_dataflow.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_bus_dataflow.mp4" type="video/mp4"></video>
 ```
 
 %%/slides
@@ -863,7 +823,7 @@ Stack und Heap sind kein Python-Feature, sondern zwei Bereiche im RAM, die das B
 %%sep
 
 ```{=html}
-<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_stack_heap.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_stack_heap.mp4" type="video/mp4"></video>
+<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_stack_heap.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_stack_heap.mp4" type="video/mp4"></video>
 ```
 
 %%/col
@@ -885,7 +845,7 @@ Stack und Heap sind kein Python-Feature, sondern zwei Bereiche im RAM, die das B
 %%sep
 
 ```{=html}
-<video data-autoplay muted playsinline style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_call_stack.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_call_stack.mp4" type="video/mp4"></video>
+<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_call_stack.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_call_stack.mp4" type="video/mp4"></video>
 ```
 
 %%/col
@@ -921,9 +881,13 @@ Für Menschen ist es schon heute unmöglich, diese Datenmassen manuell zu sichte
 
 ## Datenwachstum
 
+%%col 50 50
+
 - Die Größe der erzeugten Daten wächst zunehmend
 - Wir werden zunehmend mit sehr vielen Daten konfrontiert
 - Wir brauchen den Computer, um diese Daten durch Informatik zu analysieren
+
+%%sep
 
 ```{python}
 #| echo: false
@@ -943,24 +907,24 @@ fig = go.Figure(go.Bar(
 fig.update_layout(height=400, margin=dict(l=50, r=10, t=10, b=40), showlegend=False,
                   xaxis=dict(dtick=1, automargin=True),
                   yaxis=dict(title="Datenvolumen (ZB)", range=[0, 200], automargin=True))
-fig.write_image("data/02a_Computerhardware/datasphere.png", width=900, height=400, scale=2)
-fig.show()
+fig.write_image("data/02a_Computerhardware/datasphere.png", width=800, height=400, scale=2)
 ```
+
+%%cache_plotly "data/02a_Computerhardware/datasphere.json" 800x400 write
 
 ::: {.content-visible when-format="typst"}
 ![](data/02a_Computerhardware/datasphere.png)
 :::
+Quelle: IDC Global DataSphere (Data Age 2025)
 
-%%aside
-Quelle: IDC Global DataSphere (Data Age 2025), Werte aus der Originalgrafik abgelesen und gerundet
-%%/aside
+%%/col
 
 %%/slides
 
 %%slides
 
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="***Wie viele Sensoren hat ein Supermarkt?***" capR="Midjourney: An alien supermarket filled with exotic food" imgR="images/02a_Computerhardware/image_15.jpg"}
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="***Wie viele Sensoren hat ein Supermarkt?***" capR="Midjourney: Sensors in an alien supermarket" imgR="images/02a_Computerhardware/mj_alien_supermarket.png"}
 
 %%/slides
 
