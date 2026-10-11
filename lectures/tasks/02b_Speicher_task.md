@@ -87,6 +87,6 @@ understanding the memory model is required to debug them.
 ⇄ on aliasing/reference diagrams.
 
 **Cross-references**:
-- → `02a_Computerhardware` (S02): execution model motivates this
-- → `02c_Datentypen` (S02): data types as memory representations connects here
+- → `01c_Computerhardware` (S02): execution model motivates this
+- → `02a_Datentypen` (S02): data types as memory representations connects here
 - → `09b_Rekursion` (S09): recursion revisited with call stack already understood

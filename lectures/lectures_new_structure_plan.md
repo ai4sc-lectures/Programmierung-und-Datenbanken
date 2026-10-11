@@ -274,7 +274,7 @@ can reference this foundation.
 
 ---
 
-### 02a_Computerhardware
+### 01c_Computerhardware
 
 **Block**: Block 1 — Computational Foundations | **Session**: S02
 **Status**: EXPANDED | **Primary symbols**: □ ≡
@@ -317,7 +317,7 @@ understanding AI-generated code that causes unexpected memory behavior.
 
 **Content to REFRAME**:
 - Binary representation → "this is what □ (a variable) looks like in hardware" —
-  motivates data types in `02c_Datentypen`.
+  motivates data types in `02a_Datentypen`.
 
 **Agentic workflow integration**:
 - Callout: "When AI generates deep recursion, it may not know your system's stack
@@ -327,8 +327,66 @@ understanding AI-generated code that causes unexpected memory behavior.
 
 **Cross-references**:
 - → `02b_Speicher` (S02): detailed memory model follows
-- → `02c_Datentypen` (S02): data types as memory representations
+- → `02a_Datentypen` (S02): data types as memory representations
 - → `09b_Rekursion` (S09): REMOVE stack/heap there — content now lives here
+
+---
+
+### 02a_Datentypen
+
+**Block**: Block 1 — Computational Foundations | **Session**: S02
+**Status**: MOVED from Block 2 + REFRAMED | **Primary symbols**: □ ≡ 📂
+**Source file**: `oldx/02c_Datentypen.qmdx` (renamed to `02a_Datentypen.qmdx`)
+
+#### Summary: Data Types
+
+Introduces Python variables and data types. Moved to S02 to sit alongside the
+hardware and memory content. Reframed: data types are not just "kinds of values"
+but memory representations — the way int, float, bool, str are stored in hardware
+as described in `02a`.
+
+#### Main topics
+
+- Variables and naming conventions
+- Numeric, boolean, textual, binary types
+- Sequences, sets, dictionaries; null values
+- Mutability vs immutability
+- **[ADDED]** Connection to binary representation from `02a`
+- **[ADDED]** AI type-inference verification callout
+
+#### Key takeaways
+
+- Data types determine how values are stored in memory and what operations are valid.
+- AI-generated code often infers types implicitly — engineers verify the inferred type
+  matches the engineering requirement.
+- Choosing the wrong type (e.g., `int` instead of `float` for distance) is a
+  modeling error, not a style issue.
+
+#### Change Notes
+
+**Content to ADD**:
+- Connection to binary representation from `02a` (~2 slides): "An integer is 4 bytes;
+  a float is 8 bytes; here is what they look like in memory."
+- AI verification callout: "When AI infers a type (e.g., distance as `int`), verify
+  the inferred type matches the engineering requirement."
+
+**Content to REMOVE or REDUCE**: None.
+
+**Content to REFRAME**:
+- "Here are Python's types" → "Here is how engineering values are stored in memory;
+  choosing the wrong type is a modeling error."
+
+**Agentic workflow integration**:
+- Exercise: given AI-generated code computing wall area as `int`, identify the
+  precision error and fix the type annotation.
+
+**Symbols to add**: □ on variable slides; ≡ on type listing slides;
+📂 on collection type slides.
+
+**Cross-references**:
+- → `01c_Computerhardware` (S02): binary representation already introduced
+- → `02b_Speicher` (S02): memory model of variables
+- → `05a_Operatoren` (S05): operators act on typed values
 
 ---
 
@@ -391,67 +449,9 @@ understanding the memory model is required to debug them.
 ⇄ on aliasing/reference diagrams.
 
 **Cross-references**:
-- → `02a_Computerhardware` (S02): execution model motivates this
-- → `02c_Datentypen` (S02): data types as memory representations connects here
+- → `01c_Computerhardware` (S02): execution model motivates this
+- → `02a_Datentypen` (S02): data types as memory representations connects here
 - → `09b_Rekursion` (S09): recursion revisited with call stack already understood
-
----
-
-### 02c_Datentypen
-
-**Block**: Block 1 — Computational Foundations | **Session**: S02
-**Status**: MOVED from Block 2 + REFRAMED | **Primary symbols**: □ ≡ 📂
-**Source file**: `oldx/02c_Datentypen.qmdx` (filename unchanged)
-
-#### Summary: Data Types
-
-Introduces Python variables and data types. Moved to S02 to sit alongside the
-hardware and memory content. Reframed: data types are not just "kinds of values"
-but memory representations — the way int, float, bool, str are stored in hardware
-as described in `02a`.
-
-#### Main topics
-
-- Variables and naming conventions
-- Numeric, boolean, textual, binary types
-- Sequences, sets, dictionaries; null values
-- Mutability vs immutability
-- **[ADDED]** Connection to binary representation from `02a`
-- **[ADDED]** AI type-inference verification callout
-
-#### Key takeaways
-
-- Data types determine how values are stored in memory and what operations are valid.
-- AI-generated code often infers types implicitly — engineers verify the inferred type
-  matches the engineering requirement.
-- Choosing the wrong type (e.g., `int` instead of `float` for distance) is a
-  modeling error, not a style issue.
-
-#### Change Notes
-
-**Content to ADD**:
-- Connection to binary representation from `02a` (~2 slides): "An integer is 4 bytes;
-  a float is 8 bytes; here is what they look like in memory."
-- AI verification callout: "When AI infers a type (e.g., distance as `int`), verify
-  the inferred type matches the engineering requirement."
-
-**Content to REMOVE or REDUCE**: None.
-
-**Content to REFRAME**:
-- "Here are Python's types" → "Here is how engineering values are stored in memory;
-  choosing the wrong type is a modeling error."
-
-**Agentic workflow integration**:
-- Exercise: given AI-generated code computing wall area as `int`, identify the
-  precision error and fix the type annotation.
-
-**Symbols to add**: □ on variable slides; ≡ on type listing slides;
-📂 on collection type slides.
-
-**Cross-references**:
-- → `02a_Computerhardware` (S02): binary representation already introduced
-- → `02b_Speicher` (S02): memory model of variables
-- → `05a_Operatoren` (S05): operators act on typed values
 
 ---
 
@@ -867,7 +867,7 @@ precedence is motivated by the need to trace AI expressions before accepting the
 **Symbols to add**: □ on variable introduction; ≡ on type-specific operator slides.
 
 **Cross-references**:
-- → `02c_Datentypen` (S02): operator behavior depends on type
+- → `02a_Datentypen` (S02): operator behavior depends on type
 - → `05b_Verzweigung` (S05): operators in conditional expressions
 
 ---
@@ -972,7 +972,7 @@ Infinite loop detection added as an explicit skill.
 **Symbols to add**: 📂 on collection-iteration slides; 🔄 on loop pattern slides.
 
 **Cross-references**:
-- → `02c_Datentypen` (S02): collection types introduced there
+- → `02a_Datentypen` (S02): collection types introduced there
 - → `09a_Algorithmen` (S09): algorithms as structured loop patterns
 
 ---
@@ -2133,7 +2133,7 @@ of AI output against the ER, not DDL syntax mastery.
 |------|-----------|---------|
 | `03c_Softwareentwurf.qmdx` | MOVED to S03; remove 6 revision slides; add agentic dev loop + UML | S03 |
 | `09b_Rekursion.qmdx` | MOVED to S09; remove stack/heap (→ S02); reframe as divide-and-conquer | S09 |
-| `02a_Computerhardware.qmdx` | EXPANDED; receive stack/heap from `09b`; add sequential execution model | S02 |
+| `01c_Computerhardware.qmdx` | EXPANDED; receive stack/heap from `09b`; add sequential execution model | S02 |
 | `12c_Datenbanken_Entwurf.qmdx` | MOVED EARLIER to S12; add environmental ER example + ER-to-prompt | S12 |
 | `04c_Objects.qmdx` | SPLIT VIEW: design concept (S04) + Python implementation (S06) | S04, S06 |
-| `02c_Datentypen.qmdx` | MOVED from Block 2 to S02; reframe as memory representations | S02 |
+| `02a_Datentypen.qmdx` | MOVED from Block 2 to S02; reframe as memory representations | S02 |

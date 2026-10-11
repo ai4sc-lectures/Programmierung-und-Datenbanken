@@ -1,4 +1,4 @@
-# Task: 02c_Datentypen
+# Task: 02a_Datentypen
 
 ## Course Context
 
@@ -13,8 +13,8 @@
 
 | Field | Value |
 |-------|-------|
-| **New file** | `../02c_Datentypen.qmdx` |
-| **Source file** | `../oldx/02c_Datentypen.qmdx` (filename unchanged) |
+| **New file** | `../02a_Datentypen.qmdx` |
+| **Source file** | `../oldx/02c_Datentypen.qmdx` (renamed to `02a_Datentypen.qmdx`) |
 | **Block** | Block 1 — Computational Foundations |
 | **Session** | S02 |
 | **Status** | MOVED from Block 2 + REFRAMED |
@@ -29,15 +29,15 @@
    - REFRAME the specified existing content with the new angle described.
    - Add the specified symbols at the indicated locations.
 4. Write the result to:
-   - `../02c_Datentypen.qmdx`
+   - `../02a_Datentypen.qmdx`
 
 ---
 
-### 02c_Datentypen
+### 02a_Datentypen
 
 **Block**: Block 1 — Computational Foundations | **Session**: S02
 **Status**: MOVED from Block 2 + REFRAMED | **Primary symbols**: □ ≡ 📂
-**Source file**: `../oldx/02c_Datentypen.qmdx` (filename unchanged)
+**Source file**: `../oldx/02c_Datentypen.qmdx` (renamed to `02a_Datentypen.qmdx`)
 
 #### Summary: Data Types
 
@@ -85,6 +85,6 @@ as described in `02a`.
 📂 on collection type slides.
 
 **Cross-references**:
-- → `02a_Computerhardware` (S02): binary representation already introduced
+- → `01c_Computerhardware` (S02): binary representation already introduced
 - → `02b_Speicher` (S02): memory model of variables
 - → `05a_Operatoren` (S05): operators act on typed values

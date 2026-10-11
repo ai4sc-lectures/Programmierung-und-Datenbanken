@@ -1,4 +1,4 @@
-"""Manim scene for the slide "Der Bus transportiert Programme und Daten" (02a_Computerhardware.qmdx).
+"""Manim scene for the slide "Der Bus transportiert Programme und Daten" (01c_Computerhardware.qmdx).
 
 Runs the program `z = x + y` through CPU, RAM and HDD/SSD: the program is loaded from the disk into
 the RAM, then the IP walks through LOAD, LOAD, ADD, STORE; instructions and data travel over the bus,
@@ -7,7 +7,7 @@ Palette: light "pastello" theme (_extensions/ai4sc-style/themes/color/pastello.c
 
 Render, from the lectures/ directory:
 
-    manim/render.sh manim/bus_dataflow.py BusDataflow 1200,740 images/02a_Computerhardware/manim_bus_dataflow.mp4
+    manim/render.sh manim/bus_dataflow.py BusDataflow 1200,740 images/01c_Computerhardware/manim_bus_dataflow.mp4
 """
 from manim import *
 

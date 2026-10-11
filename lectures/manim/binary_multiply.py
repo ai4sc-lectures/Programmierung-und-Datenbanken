@@ -1,10 +1,10 @@
-"""Manim scene for the slide "Binäre Multiplikation" (02a_Computerhardware.qmdx): 3 x 5 = 15 by shifting and adding.
+"""Manim scene for the slide "Binäre Multiplikation" (01c_Computerhardware.qmdx): 3 x 5 = 15 by shifting and adding.
 
 Palette: light "pastello" theme (_extensions/ai4sc-style/themes/color/pastello.css).
 
 Render, from the lectures/ directory:
 
-    manim/render.sh manim/binary_multiply.py BinaryMultiply 1000,800 images/02a_Computerhardware/manim_binary_multiply.mp4
+    manim/render.sh manim/binary_multiply.py BinaryMultiply 1000,800 images/01c_Computerhardware/manim_binary_multiply.mp4
 """
 from manim import *
 

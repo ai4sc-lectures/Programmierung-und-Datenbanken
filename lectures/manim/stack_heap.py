@@ -1,5 +1,5 @@
 """Manim scenes for the slides "Zwei Speicherregionen im RAM" and "Der Stack wächst mit jedem Aufruf"
-(02a_Computerhardware.qmdx).
+(01c_Computerhardware.qmdx).
 
 Heap and stack are matrices of memory cells. The heap hands out free cells at random, the stack
 is a LIFO structure whose cells are used one after the other. Example: the recursive sum
@@ -8,8 +8,8 @@ Palette: light "pastello" theme (_extensions/ai4sc-style/themes/color/pastello.c
 
 Render, from the lectures/ directory:
 
-    manim/render.sh manim/stack_heap.py StackHeap 1200,760 images/02a_Computerhardware/manim_stack_heap.mp4
-    manim/render.sh manim/stack_heap.py CallStack 1200,760 images/02a_Computerhardware/manim_call_stack.mp4
+    manim/render.sh manim/stack_heap.py StackHeap 1200,760 images/01c_Computerhardware/manim_stack_heap.mp4
+    manim/render.sh manim/stack_heap.py CallStack 1200,760 images/01c_Computerhardware/manim_call_stack.mp4
 """
 import random
 

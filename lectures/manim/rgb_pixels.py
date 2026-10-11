@@ -1,11 +1,11 @@
-"""Manim scene for the slide "Abbildung von Bildern im Computer" (02a_Computerhardware.qmdx).
+"""Manim scene for the slide "Abbildung von Bildern im Computer" (01c_Computerhardware.qmdx).
 
 Pixel mosaic -> zoom into 3x3 pixels -> three colour channels with numbers -> one pixel as 3 bytes.
 Palette: light "pastello" theme (_extensions/ai4sc-style/themes/color/pastello.css).
 
 Render, from the lectures/ directory:
 
-    manim/render.sh manim/rgb_pixels.py RGBPixels 1200,800 images/02a_Computerhardware/manim_rgb_pixels.mp4
+    manim/render.sh manim/rgb_pixels.py RGBPixels 1200,800 images/01c_Computerhardware/manim_rgb_pixels.mp4
 """
 from manim import *
 

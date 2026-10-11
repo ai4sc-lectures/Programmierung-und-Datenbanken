@@ -3,20 +3,20 @@ title: "Computer-hardware"
 image-credit: "cf. 'Man Computer' by Fritz Kahn"
 format:
   ai4sc-style-html:
-    output-file: 02a_Computerhardware.page.html
+    output-file: 01c_Computerhardware.page.html
   ai4sc-style-revealjs:
     title-slide-attributes:
-      data-background-video: images/02a_Computerhardware/mj_title.mp4
-    output-file: 02a_Computerhardware.slide.html
+      data-background-video: images/01c_Computerhardware/mj_title.mp4
+    output-file: 01c_Computerhardware.slide.html
   typst:
-    output-file: 02a_Computerhardware.page.pdf
+    output-file: 01c_Computerhardware.page.pdf
 resources:
-  - data/02a_Computerhardware
+  - data/01c_Computerhardware
 ---
 
 %%book
 
-![](images/02a_Computerhardware/mj_title_band.jpg)
+![](images/01c_Computerhardware/mj_title_band.jpg)
 
 > Never trust a computer you can't throw out a window.
 >
@@ -33,7 +33,7 @@ Ein Computer ist ein Gerät, das mittels programmierbarer Rechenvorschriften Dat
 %%/def
 
 %%sep
-![Midjourney: Computer from the 80th](images/02a_Computerhardware/computer.png){class="midjourney"}
+![Midjourney: Computer from the 80th](images/01c_Computerhardware/computer.png){class="midjourney"}
 %%/scol
 
 %%book
@@ -61,7 +61,7 @@ Computer kommen heutzutage fast überall vor. Es gibt acht grundlegende Arten vo
 
 %%slides
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Welche Computer-Arten gibt es?" capR="Midjourney: A Mona Lisa-style painting with a goat taking a photo with an iPad" imgR="images/02a_Computerhardware/image_3.png"}
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Welche Computer-Arten gibt es?" capR="Midjourney: A Mona Lisa-style painting with a goat taking a photo with an iPad" imgR="images/01c_Computerhardware/image_3.png"}
 
 ## Computerarten
 
@@ -92,13 +92,13 @@ Computer kommen heutzutage fast überall vor. Es gibt acht grundlegende Arten vo
 
 %%/col
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Aus welcher Hardware besteht ein Computer?" capR="DALL-E 2: Early designs of the iPhone by Leonardo da Vinci" imgR="images/02a_Computerhardware/image_4.jpg"}
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Aus welcher Hardware besteht ein Computer?" capR="DALL-E 2: Early designs of the iPhone by Leonardo da Vinci" imgR="images/01c_Computerhardware/image_4.jpg"}
 
 %%/slides
 
 ## Computer Aufbau
 
-![](images/02a_Computerhardware/computer_hardware.svg){height="500px" fig-align="center"}
+![](images/01c_Computerhardware/computer_hardware.svg){height="500px" fig-align="center"}
 
 Die Kernmodule eines Computers sind:
 
@@ -122,7 +122,7 @@ Sie sind über das Mainboard mit dem Kommunikationsbus verbunden.
 
 ## Computer Aufbau – Speicherdauer
 
-![](images/02a_Computerhardware/computer_hardware3.svg){height="500px" fig-align="center"}
+![](images/01c_Computerhardware/computer_hardware3.svg){height="500px" fig-align="center"}
 
 Der Computer hat ähnliche Gedächtnisarten wie der Mensch:
 
@@ -152,7 +152,7 @@ from ai4sc_style.plotly_loader import load_ai4sc_theme
 
 load_ai4sc_theme("pastello", themes_dir=Path("_extensions/ai4sc-style/themes"))
 CW = pio.templates["ai4sc"].layout.colorway
-d = pd.read_csv("data/02a_Computerhardware/speicherhierarchie.csv")
+d = pd.read_csv("data/01c_Computerhardware/speicherhierarchie.csv")
 fig = go.Figure(go.Scatter(
     x=d["groesse_byte"], y=d["zugriff_ns"], mode="markers+text", text=d["speicher"],
     textposition="top center", marker=dict(size=26, color=CW[0], line=dict(width=2, color=CW[4]))))
@@ -164,13 +164,13 @@ fig.update_layout(
     yaxis=dict(type="log", title="Zugriffszeit", range=[-1, 8.6], automargin=True,
                showline=True, linecolor=CW[4], linewidth=2, ticks="outside", showgrid=True,
                tickvals=[1, 1e2, 1e4, 1e6], ticktext=["1 ns", "100 ns", "10 µs", "1 ms"]))
-fig.write_image("data/02a_Computerhardware/speicherhierarchie.png", width=800, height=400, scale=2)
+fig.write_image("data/01c_Computerhardware/speicherhierarchie.png", width=800, height=400, scale=2)
 ```
 
-%%cache_plotly "data/02a_Computerhardware/speicherhierarchie.json" 800x400 write
+%%cache_plotly "data/01c_Computerhardware/speicherhierarchie.json" 800x400 write
 
 ::: {.content-visible when-format="typst"}
-![](data/02a_Computerhardware/speicherhierarchie.png)
+![](data/01c_Computerhardware/speicherhierarchie.png)
 :::
 
 %%/col
@@ -183,7 +183,7 @@ fig.write_image("data/02a_Computerhardware/speicherhierarchie.png", width=800, h
 
 Die Speicherarten unterscheiden sich in Zugriffszeit und Kapazität um viele Größenordnungen: Register der CPU antworten in unter einer Nanosekunde, bieten aber nur wenige Bytes. Der Cache fasst Kilo- bis Megabytes, der RAM Gigabytes bei etwa 100 ns Zugriffszeit, SSD und HDD speichern Terabytes, brauchen aber Mikro- bis Millisekunden. Je näher ein Speicher am Prozessor liegt, desto schneller, kleiner und teurer ist er. Das erklärt Leistungsunterschiede zwischen Programmen: Wer Daten wiederholt aus dem Cache liest, rechnet deutlich schneller als jemand, der sie immer wieder von der Festplatte lädt. Die Werte sind Größenordnungen und hängen von der Hardware ab.
 
-![Zugriffszeit und Kapazität der Speicherarten (typische Größenordnungen, logarithmische Achsen)](data/02a_Computerhardware/speicherhierarchie.png){fig-align="center" width="80%"}
+![Zugriffszeit und Kapazität der Speicherarten (typische Größenordnungen, logarithmische Achsen)](data/01c_Computerhardware/speicherhierarchie.png){fig-align="center" width="80%"}
 
 %%/book
 
@@ -219,7 +219,7 @@ Das Mainboard ist die Hauptplatine des Computers, auf der CPU, RAM, GPU und ande
 
 %%sep
 
-![ial-fa.com: Wafer Lot Acceptance](images/02a_Computerhardware/image_5.jpg){class="midjourney"}
+![ial-fa.com: Wafer Lot Acceptance](images/01c_Computerhardware/image_5.jpg){class="midjourney"}
 
 %%/col
 
@@ -298,7 +298,7 @@ Die SI-Einheiten kB/MB/GB sind auf Basis 1000 definiert. Betriebssysteme zeigen 
 %%slides
 
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="***Wie weit kann man mit 10 Fingern zählen?***" capR="Midjourney: Counting with two hands" imgR="images/02a_Computerhardware/image_6.png"}
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="***Wie weit kann man mit 10 Fingern zählen?***" capR="Midjourney: Counting with two hands" imgR="images/01c_Computerhardware/image_6.png"}
 
 %%/slides
 
@@ -410,7 +410,7 @@ $$
 
 Die Addition einzelner Bits kann daher durch ein XOR-Gatter für die Summe und ein UND-Gatter für den Übertrag realisiert werden.
 
-![](images/02a_Computerhardware/binary_addition.svg)
+![](images/01c_Computerhardware/binary_addition.svg)
 %%/book
 %%slides
 %%col 50 50
@@ -422,7 +422,7 @@ Die Addition einzelner Bits kann daher durch ein XOR-Gatter für die Summe und e
 * Realisierung: XOR-Gatter (Summe) + UND-Gatter (Übertrag)
 %%sep
 ```{=html}
-<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_binary_addition.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_binary_addition.mp4" type="video/mp4"></video>
+<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/01c_Computerhardware/manim_binary_addition.webm" type="video/webm"><source src="images/01c_Computerhardware/manim_binary_addition.mp4" type="video/mp4"></video>
 ```
 %%/col
 %%/slides
@@ -444,7 +444,7 @@ $$
 
 Das Ergebnis entspricht damit genau der Wahrheitstabelle eines logischen UND. Die Multiplikation von Binärzahlen kann daher durch UND-Gatter zur Berechnung der Teilprodukte und anschließende Additionen realisiert werden.
 
-![](images/02a_Computerhardware/binary_multiply.svg)
+![](images/01c_Computerhardware/binary_multiply.svg)
 %%/book+slides
 %%col 50 50
 * Zerlegung in Multiplikation der Stellen mit Addition
@@ -455,7 +455,7 @@ Das Ergebnis entspricht damit genau der Wahrheitstabelle eines logischen UND. Di
 * Realisierung: UND-Gatter (Bitmultiplikation) + Addierer
 %%sep
 ```{=html}
-<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_binary_multiply.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_binary_multiply.mp4" type="video/mp4"></video>
+<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/01c_Computerhardware/manim_binary_multiply.webm" type="video/webm"><source src="images/01c_Computerhardware/manim_binary_multiply.mp4" type="video/mp4"></video>
 ```
 %%/col
 %%/slides
@@ -487,7 +487,7 @@ Hierbei ist $m$ die Binärmantisse (zwischen 1 und 2), $e$ der Binärexponent.
 4. *Zerlegung* in Mantisse: $1,10101_2$ und Exponent: $3$
 5. *Ergebnis:* $-13,25 = -1,10101_2 \times 2^3$
 
-![Zerlegung von −13,25 in Vorzeichen, Mantisse und Exponent](images/02a_Computerhardware/manim_float_example.png){fig-align="center" width="60%"}
+![Zerlegung von −13,25 in Vorzeichen, Mantisse und Exponent](images/01c_Computerhardware/manim_float_example.png){fig-align="center" width="60%"}
 
 In der Praxis werden die Zahlen im standardisierten IEEE-754-Format gespeichert. Der Standard legt fest, wie viele Bits für Vorzeichen, Exponent und Mantisse zur Verfügung stehen. Üblich sind 16 Bit (*half*), 32 Bit (*float*) und 64 Bit (*double*, das Format der Python-Gleitkommazahlen). Dabei wird der Exponent mit einem festen Bias gespeichert (15, 127 bzw. 1023), damit auch negative Exponenten ohne eigenes Vorzeichen darstellbar sind. Die Mantisse wird ohne die führende 1 abgelegt und mit Nullen aufgefüllt. Für $-13{,}25$ ergibt sich:
 
@@ -497,7 +497,7 @@ In der Praxis werden die Zahlen im standardisierten IEEE-754-Format gespeichert.
 | 32 Bit | 1 Bit | 8 Bit  | 23 Bit | 127  | `1 10000010 10101000000000000000000` |
 | 64 Bit | 1 Bit | 11 Bit | 52 Bit | 1023 | `1 10000000010 1010100…0` (47 Nullen am Ende) |
 
-![Das Bitmuster von −13,25 in den drei IEEE-754-Formaten](images/02a_Computerhardware/ieee754_formate.svg){fig-align="center" width="100%"}
+![Das Bitmuster von −13,25 in den drei IEEE-754-Formaten](images/01c_Computerhardware/ieee754_formate.svg){fig-align="center" width="100%"}
 
 So werden beliebige reelle Zahlen im Computer als Gleitkommazahlen nach IEEE 754 gespeichert.
 
@@ -522,7 +522,7 @@ Begrenzte Anzahl an Stellen: Es entstehen Rundungsfehler!
 %%sep
 
 ```{=html}
-<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_float_example.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_float_example.mp4" type="video/mp4"></video>
+<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/01c_Computerhardware/manim_float_example.webm" type="video/webm"><source src="images/01c_Computerhardware/manim_float_example.mp4" type="video/mp4"></video>
 ```
 
 %%/col
@@ -534,7 +534,7 @@ Begrenzte Anzahl an Stellen: Es entstehen Rundungsfehler!
 - Mantisse ohne führende 1, mit Nullen aufgefüllt
 - Python `float` = 64 Bit
 
-![](images/02a_Computerhardware/ieee754_formate.svg){.nostretch fig-align="center" width="100%"}
+![](images/01c_Computerhardware/ieee754_formate.svg){.nostretch fig-align="center" width="100%"}
 
 %%/slides
 
@@ -605,7 +605,7 @@ Damit kann man ein Wort wie „Hallo“ in Zahlen und Binärzahlen umwandeln:
 
 Bilder werden im Computer als eine Sammlung von kleinen Bildpunkten, sogenannten Pixeln, gespeichert. Jedes Pixel stellt einen winzigen Teil des Bildes dar und besitzt eine bestimmte Farbe. Um ein Bild digital zu speichern, wird das Bild zunächst in ein Raster aus Pixeln mit einer bestimmten Auflösung (z. B. 1920 × 1080 Pixel) unterteilt.
 
-![Ein Bild aus Pixeln: Ausschnitt von 3 × 3 Pixeln mit den Zahlenwerten für Rot, Grün und Blau](images/02a_Computerhardware/manim_rgb_pixels.png){fig-align="center" width="80%"}
+![Ein Bild aus Pixeln: Ausschnitt von 3 × 3 Pixeln mit den Zahlenwerten für Rot, Grün und Blau](images/01c_Computerhardware/manim_rgb_pixels.png){fig-align="center" width="80%"}
 
 Die Farbe jedes Pixels wird durch Zahlenwerte beschrieben. Bei Farbbildern wird häufig das RGB-Farbmodell verwendet, bei dem jede Farbe aus den drei Grundfarben Rot, Grün und Blau zusammengesetzt wird. Für jede dieser Farben wird ein Zahlenwert gespeichert, meist im Bereich von 0 bis 255 (das entspricht 1 Byte pro Farbkanal). Ein einzelnes Pixel benötigt somit 3 Byte (24 Bit), um alle Farbinformationen zu speichern.
 
@@ -639,7 +639,7 @@ Alle Pixel eines Bildes werden so als lange Folge von Binärzahlen im Speicher a
 %%sep
 
 ```{=html}
-<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_rgb_pixels.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_rgb_pixels.mp4" type="video/mp4"></video>
+<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/01c_Computerhardware/manim_rgb_pixels.webm" type="video/webm"><source src="images/01c_Computerhardware/manim_rgb_pixels.mp4" type="video/mp4"></video>
 ```
 
 %%/col
@@ -649,7 +649,7 @@ Alle Pixel eines Bildes werden so als lange Folge von Binärzahlen im Speicher a
 
 %%slides
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Was passiert in der CPU, wenn Python Code ausführt, wie `z = x + y`?" capR="Midjourney: A tiny robot reading a long scroll of instructions line by line" imgR="images/02a_Computerhardware/image_4.jpg"}
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Was passiert in der CPU, wenn Python Code ausführt, wie `z = x + y`?" capR="Midjourney: A tiny robot reading a long scroll of instructions line by line" imgR="images/01c_Computerhardware/image_4.jpg"}
 <!-- TODO MJ: A tiny robot reading a long scroll of instructions line by line, ref. Fritz Kahn -->
 
 %%/slides
@@ -726,7 +726,7 @@ Die CPU sieht am Ende nur Speicheradressen und Binärwerte — keine Variablenna
 
 Die CPU führt Befehle sequenziell aus: Befehl für Befehl, Adresse für Adresse. Ein spezielles Register, der *Instruction Pointer* (IP, auch Program Counter genannt), speichert die Adresse des nächsten auszuführenden Befehls. Nach jeder Instruktion erhöht sich der IP automatisch — so entsteht sequenzielle Ausführung als Grundverhalten des Prozessors.
 
-![Der Instruction Pointer nach dem letzten Befehl: Register und RAM-Zellen enthalten das Ergebnis von `z = x + y`](images/02a_Computerhardware/manim_instruction_pointer.png){fig-align="center" width="80%"}
+![Der Instruction Pointer nach dem letzten Befehl: Register und RAM-Zellen enthalten das Ergebnis von `z = x + y`](images/01c_Computerhardware/manim_instruction_pointer.png){fig-align="center" width="80%"}
 
 Das Beispiel zeigt den Zustand, wenn der IP bei 0x0003 steht: Die ersten beiden Befehle sind ausgeführt.
 
@@ -757,7 +757,7 @@ Register sind die kleinsten und schnellsten Speichereinheiten der CPU. Sie halte
 %%sep
 
 ```{=html}
-<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_instruction_pointer.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_instruction_pointer.mp4" type="video/mp4"></video>
+<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/01c_Computerhardware/manim_instruction_pointer.webm" type="video/webm"><source src="images/01c_Computerhardware/manim_instruction_pointer.mp4" type="video/mp4"></video>
 ```
 
 %%/col
@@ -772,7 +772,7 @@ Der RAM lässt sich als eine lange Reihe von Zellen vorstellen. Jede Zelle hat e
 
 Register sind noch schneller: Sie sitzen direkt in der CPU und halten die Werte für die laufende Berechnung. Bevor die CPU zwei Zahlen addiert, lädt sie beide Werte aus dem RAM in Register, führt die Addition durch und schreibt das Ergebnis zurück. Die Abbildung zeigt den Zustand mitten in `z = x + y`: Der Instruction Pointer steht bei `ADD`, R1 und R2 enthalten bereits die Werte von x und y, und die Zelle von z ist noch leer.
 
-![](images/02a_Computerhardware/memory_cells.svg){fig-align="center"}
+![](images/01c_Computerhardware/memory_cells.svg){fig-align="center"}
 
 %%/book
 
@@ -781,7 +781,7 @@ Register sind noch schneller: Sie sitzen direkt in der CPU und halten die Werte 
 %%slides
 
 ```{=html}
-<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_bus_dataflow.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_bus_dataflow.mp4" type="video/mp4"></video>
+<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/01c_Computerhardware/manim_bus_dataflow.webm" type="video/webm"><source src="images/01c_Computerhardware/manim_bus_dataflow.mp4" type="video/mp4"></video>
 ```
 
 %%/slides
@@ -790,7 +790,7 @@ Register sind noch schneller: Sie sitzen direkt in der CPU und halten die Werte 
 
 Die Module eines Computers arbeiten nicht isoliert: Alles, was sie austauschen, läuft über den Kommunikationsbus auf dem Mainboard. Die Abbildung zeigt das am Programm `z = x + y`. Zuerst wird das Programm von der Festplatte oder SSD in den RAM geladen, weil die CPU nur auf den schnellen Arbeitsspeicher zugreift. Dann arbeitet die CPU die Befehle nacheinander ab: Der Instruction Pointer zeigt auf den nächsten Befehl, der Befehl wandert über den Bus vom RAM in die CPU, und `LOAD` kopiert die Werte von x und y in die Register R1 und R2. Die ALU addiert die beiden Register, ohne den RAM zu benutzen, und das Ergebnis landet in R3. `STORE` schreibt es schließlich über den Bus in die Speicherzelle von z. Die Abbildung ist vereinfacht: Auf einem echten Mainboard gibt es mehrere Verbindungen, die parallel arbeiten.
 
-![Das Programm z = x + y läuft über den Bus: vom Festspeicher in den RAM, dann Befehl für Befehl in die CPU und das Ergebnis zurück in den RAM](images/02a_Computerhardware/manim_bus_dataflow.png){fig-align="center" width="90%"}
+![Das Programm z = x + y läuft über den Bus: vom Festspeicher in den RAM, dann Befehl für Befehl in die CPU und das Ergebnis zurück in den RAM](images/01c_Computerhardware/manim_bus_dataflow.png){fig-align="center" width="90%"}
 
 %%/book
 
@@ -800,7 +800,7 @@ Die Module eines Computers arbeiten nicht isoliert: Alles, was sie austauschen, 
 
 Stack und Heap sind kein Python-Feature, sondern zwei Bereiche im RAM, die das Betriebssystem jedem laufenden Programm zuweist. Der **Stack** (Stapel) arbeitet nach dem LIFO-Prinzip (*Last In, First Out*): Bei jedem Funktionsaufruf kommt ein neuer Rahmen mit den lokalen Variablen obenauf, bei der Rückkehr wird er wieder entfernt. Seine Größe ist begrenzt, typischerweise einige Megabyte. Der **Heap** ist ein größerer, dynamisch wachsender Bereich für Daten, die länger leben als ein einzelner Funktionsaufruf, etwa Listen oder Objekte. Wie Python diese Regionen nutzt, behandeln wir in `02b_Speicher`.
 
-![Heap und Stack als Speicherzellen: Der Heap vergibt freie Zellen zufällig, der Stack belegt seine Zellen der Reihe nach und gibt sie in umgekehrter Reihenfolge wieder frei. Das Ergebnis s(4) = 10 bleibt im Heap (Beispiel: s(n) = n + s(n − 1))](images/02a_Computerhardware/manim_stack_heap.png){fig-align="center" width="90%"}
+![Heap und Stack als Speicherzellen: Der Heap vergibt freie Zellen zufällig, der Stack belegt seine Zellen der Reihe nach und gibt sie in umgekehrter Reihenfolge wieder frei. Das Ergebnis s(4) = 10 bleibt im Heap (Beispiel: s(n) = n + s(n − 1))](images/01c_Computerhardware/manim_stack_heap.png){fig-align="center" width="90%"}
 
 %%/book
 
@@ -823,7 +823,7 @@ Stack und Heap sind kein Python-Feature, sondern zwei Bereiche im RAM, die das B
 %%sep
 
 ```{=html}
-<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_stack_heap.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_stack_heap.mp4" type="video/mp4"></video>
+<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/01c_Computerhardware/manim_stack_heap.webm" type="video/webm"><source src="images/01c_Computerhardware/manim_stack_heap.mp4" type="video/mp4"></video>
 ```
 
 %%/col
@@ -845,7 +845,7 @@ Stack und Heap sind kein Python-Feature, sondern zwei Bereiche im RAM, die das B
 %%sep
 
 ```{=html}
-<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/02a_Computerhardware/manim_call_stack.webm" type="video/webm"><source src="images/02a_Computerhardware/manim_call_stack.mp4" type="video/mp4"></video>
+<video data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/01c_Computerhardware/manim_call_stack.webm" type="video/webm"><source src="images/01c_Computerhardware/manim_call_stack.mp4" type="video/mp4"></video>
 ```
 
 %%/col
@@ -856,12 +856,12 @@ Stack und Heap sind kein Python-Feature, sondern zwei Bereiche im RAM, die das B
 
 Jeder Funktionsaufruf belegt auf dem Stack die nächsten freien Zellen für Argumente und Rücksprungadresse. Bei der Rekursion ruft sich eine Funktion selbst auf, etwa die Summe s(n) = n + s(n − 1) mit der Abbruchbedingung s(0) = 0. Fehlt die Abbruchbedingung oder ist die Rekursionstiefe sehr groß, füllt sich der Stack Rahmen für Rahmen, bis keine Zelle mehr frei ist. Das Programm bricht dann ab (*Stack Overflow*), und Python meldet einen `RecursionError`.
 
-![Der Stack füllt sich bei jedem Aufruf ohne Abbruchbedingung, bis er voll ist](images/02a_Computerhardware/manim_call_stack.png){fig-align="center" width="90%"}
+![Der Stack füllt sich bei jedem Aufruf ohne Abbruchbedingung, bis er voll ist](images/01c_Computerhardware/manim_call_stack.png){fig-align="center" width="90%"}
 
 %%/book
 
 %%aside
-→ `02b_Speicher` (S02): Stack, Heap und Python-Speichermodell im Detail | → `02c_Datentypen` (S02): Datentypen als Speicherdarstellungen | → `09b_Rekursion` (S09): Rekursion, der Call-Stack ist dann bekannt
+→ `02a_Datentypen` (S02): Datentypen als Speicherdarstellungen | → `02b_Speicher` (S02): Stack, Heap und Python-Speichermodell im Detail | → `09b_Rekursion` (S09): Rekursion, der Call-Stack ist dann bekannt
 %%/aside
 
 %%book
@@ -872,7 +872,7 @@ Die Menge der weltweit erzeugten, erfassten und verarbeiteten Daten wächst expo
 
 Für Menschen ist es schon heute unmöglich, diese Datenmassen manuell zu sichten oder auszuwerten. Hier kommt die Informatik ins Spiel: Durch Programmierung lassen sich Auswertungen automatisieren, Muster erkennen und Entscheidungen datengestützt treffen. Grundlegende Programmierkenntnisse sind daher keine rein technische Kompetenz, sondern eine Schlüsselqualifikation für nahezu alle wissenschaftlichen und beruflichen Felder.
 
-![Prognose des weltweit erzeugten Datenvolumens in Zettabyte (IDC Global DataSphere, Werte abgelesen und gerundet)](data/02a_Computerhardware/datasphere.png){fig-align="center" width="80%"}
+![Prognose des weltweit erzeugten Datenvolumens in Zettabyte (IDC Global DataSphere, Werte abgelesen und gerundet)](data/01c_Computerhardware/datasphere.png){fig-align="center" width="80%"}
 
 %%/book
 
@@ -899,7 +899,7 @@ from ai4sc_style.plotly_loader import load_ai4sc_theme
 
 load_ai4sc_theme("pastello", themes_dir=Path("_extensions/ai4sc-style/themes"))
 CW = pio.templates["ai4sc"].layout.colorway
-d = pd.read_csv("data/02a_Computerhardware/datasphere.csv")
+d = pd.read_csv("data/01c_Computerhardware/datasphere.csv")
 fig = go.Figure(go.Bar(
     x=d["year"], y=d["zettabyte"],
     marker_color=[CW[0] if y == 2025 else CW[4] for y in d["year"]],
@@ -907,13 +907,13 @@ fig = go.Figure(go.Bar(
 fig.update_layout(height=400, margin=dict(l=50, r=10, t=10, b=40), showlegend=False,
                   xaxis=dict(dtick=1, automargin=True),
                   yaxis=dict(title="Datenvolumen (ZB)", range=[0, 200], automargin=True))
-fig.write_image("data/02a_Computerhardware/datasphere.png", width=800, height=400, scale=2)
+fig.write_image("data/01c_Computerhardware/datasphere.png", width=800, height=400, scale=2)
 ```
 
-%%cache_plotly "data/02a_Computerhardware/datasphere.json" 800x400 write
+%%cache_plotly "data/01c_Computerhardware/datasphere.json" 800x400 write
 
 ::: {.content-visible when-format="typst"}
-![](data/02a_Computerhardware/datasphere.png)
+![](data/01c_Computerhardware/datasphere.png)
 :::
 Quelle: IDC Global DataSphere (Data Age 2025)
 
@@ -924,7 +924,7 @@ Quelle: IDC Global DataSphere (Data Age 2025)
 %%slides
 
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="***Wie viele Sensoren hat ein Supermarkt?***" capR="Midjourney: Sensors in an alien supermarket" imgR="images/02a_Computerhardware/mj_alien_supermarket.png"}
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="***Wie viele Sensoren hat ein Supermarkt?***" capR="Midjourney: Sensors in an alien supermarket" imgR="images/01c_Computerhardware/mj_alien_supermarket.png"}
 
 %%/slides
 
@@ -937,7 +937,7 @@ Quelle: IDC Global DataSphere (Data Age 2025)
 - Die gesammelten Daten wurden so schnell so groß, dass niemand sie analysieren konnte
 - Durch maschinelle Lernmodelle konnte IBM Research die Daten analysieren und half Ihnen 20% des Kühlbedarfs einzusparen
 
-![](images/02a_Computerhardware/tesco.svg){.nostretch fig-align="center" width="80%"}
+![](images/01c_Computerhardware/tesco.svg){.nostretch fig-align="center" width="80%"}
 
 %%/slides
 

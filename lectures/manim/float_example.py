@@ -1,11 +1,11 @@
-"""Manim scene for the slide "Binäre Zahlen – Gleitkommazahl" (02a_Computerhardware.qmdx): -13,25 as float.
+"""Manim scene for the slide "Binäre Zahlen – Gleitkommazahl" (01c_Computerhardware.qmdx): -13,25 as float.
 
 The 16 bit (IEEE 754 half precision) of the result stay visible at the bottom and are filled step by step.
 Palette: light "pastello" theme (_extensions/ai4sc-style/themes/color/pastello.css).
 
 Render, from the lectures/ directory:
 
-    manim/render.sh manim/float_example.py FloatExample 1000,800 images/02a_Computerhardware/manim_float_example.mp4
+    manim/render.sh manim/float_example.py FloatExample 1000,800 images/01c_Computerhardware/manim_float_example.mp4
 """
 from manim import *
 

@@ -81,5 +81,5 @@ Infinite loop detection added as an explicit skill.
 **Symbols to add**: 📂 on collection-iteration slides; 🔄 on loop pattern slides.
 
 **Cross-references**:
-- → `02c_Datentypen` (S02): collection types introduced there
+- → `02a_Datentypen` (S02): collection types introduced there
 - → `09a_Algorithmen` (S09): algorithms as structured loop patterns

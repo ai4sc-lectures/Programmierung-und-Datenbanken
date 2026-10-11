@@ -1,10 +1,10 @@
-"""Manim scene for the slide "Binäre Addition" (02a_Computerhardware.qmdx): 13 + 7 = 20, bit by bit.
+"""Manim scene for the slide "Binäre Addition" (01c_Computerhardware.qmdx): 13 + 7 = 20, bit by bit.
 
 Palette: light "pastello" theme (_extensions/ai4sc-style/themes/color/pastello.css).
 
 Render, from the lectures/ directory:
 
-    manim/render.sh manim/binary_addition.py BinaryAddition 1000,800 images/02a_Computerhardware/manim_binary_addition.mp4
+    manim/render.sh manim/binary_addition.py BinaryAddition 1000,800 images/01c_Computerhardware/manim_binary_addition.mp4
 """
 from manim import *
 

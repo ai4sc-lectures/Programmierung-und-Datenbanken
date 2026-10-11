@@ -1,11 +1,11 @@
-"""Manim scene for the slide "Instruction Pointer – Schritt für Schritt" (02a_Computerhardware.qmdx).
+"""Manim scene for the slide "Instruction Pointer – Schritt für Schritt" (01c_Computerhardware.qmdx).
 
 The IP walks through LOAD, LOAD, ADD, STORE; registers and RAM cells change with every step.
 Palette: light "pastello" theme (_extensions/ai4sc-style/themes/color/pastello.css).
 
 Render, from the lectures/ directory:
 
-    manim/render.sh manim/instruction_pointer.py InstructionPointer 1200,800 images/02a_Computerhardware/manim_instruction_pointer.mp4
+    manim/render.sh manim/instruction_pointer.py InstructionPointer 1200,800 images/01c_Computerhardware/manim_instruction_pointer.mp4
 """
 from manim import *
 

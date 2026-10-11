@@ -1,11 +1,11 @@
-"""Manim scene for the slide "Speicherzellen und Register" (02a_Computerhardware.qmdx).
+"""Manim scene for the slide "Speicherzellen und Register" (01c_Computerhardware.qmdx).
 
 Data flow of `z = x + y`: RAM cell -> register -> ALU -> back into the RAM cell.
 Palette: light "pastello" theme (_extensions/ai4sc-style/themes/color/pastello.css).
 
 Render, from the lectures/ directory:
 
-    manim/render.sh manim/memory_cells.py MemoryCells 1200,800 images/02a_Computerhardware/manim_memory_cells.mp4
+    manim/render.sh manim/memory_cells.py MemoryCells 1200,800 images/01c_Computerhardware/manim_memory_cells.mp4
 """
 from manim import *
 

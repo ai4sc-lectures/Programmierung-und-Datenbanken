@@ -1,4 +1,4 @@
-# Task: 02a_Computerhardware
+# Task: 01c_Computerhardware
 
 ## Course Context
 
@@ -13,7 +13,7 @@
 
 | Field | Value |
 |-------|-------|
-| **New file** | `../02a_Computerhardware.qmdx` |
+| **New file** | `../01c_Computerhardware.qmdx` |
 | **Source file** | `../oldx/01c_Computerhardware.qmdx` |
 | **Block** | Block 1 — Computational Foundations |
 | **Session** | S02 |
@@ -29,11 +29,11 @@
    - REFRAME the specified existing content with the new angle described.
    - Add the specified symbols at the indicated locations.
 4. Write the result to:
-   - `../02a_Computerhardware.qmdx`
+   - `../01c_Computerhardware.qmdx`
 
 ---
 
-### 02a_Computerhardware
+### 01c_Computerhardware
 
 **Block**: Block 1 — Computational Foundations | **Session**: S02
 **Status**: EXPANDED | **Primary symbols**: □ ≡
@@ -76,7 +76,7 @@ understanding AI-generated code that causes unexpected memory behavior.
 
 **Content to REFRAME**:
 - Binary representation → "this is what □ (a variable) looks like in hardware" —
-  motivates data types in `02c_Datentypen`.
+  motivates data types in `02a_Datentypen`.
 
 **Agentic workflow integration**:
 - Callout: "When AI generates deep recursion, it may not know your system's stack
@@ -86,5 +86,5 @@ understanding AI-generated code that causes unexpected memory behavior.
 
 **Cross-references**:
 - → `02b_Speicher` (S02): detailed memory model follows
-- → `02c_Datentypen` (S02): data types as memory representations
+- → `02a_Datentypen` (S02): data types as memory representations
 - → `09b_Rekursion` (S09): REMOVE stack/heap there — content now lives here
