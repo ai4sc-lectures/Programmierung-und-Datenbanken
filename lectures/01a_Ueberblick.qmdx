@@ -13,6 +13,8 @@ format:
     pdfSeparateFragments: true
   typst:
     output-file: 01a_Ueberblick.page.pdf
+resources:
+  - data/01a_Ueberblick
 ---
 
 %%book
@@ -72,14 +74,6 @@ KI-Werkzeuge erzeugen heute in Sekunden Code, für den wir früher oft Stunden g
 
 Deshalb lernen wir trotz KI die Grundelemente des Programmierens: Variablen, Datentypen, Kontrollstrukturen, Funktionen und Algorithmen. Sie sind die Sprache, in der wir KI-Ergebnisse beurteilen. Hinzu kommen die üblichen Schritte eines Softwareprojekts und Strategien zur Problemanalyse, die uns helfen, eine Aufgabe so zu zerlegen, dass sie sich prüfen lässt. Diese Grundlagen machen uns unabhängig von einem bestimmten Werkzeug, denn KI-Werkzeuge wechseln schnell, das Verständnis bleibt.
 %%/book
-
-
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Würden Sie eine Brücke freigeben, deren Statik eine KI berechnet hat?" capR="Midjourney: Student with a deadline" imgR="images/01a_Ueberblick/mj_robot_load.png"}
-
-%%book
-Diese Frage führt direkt zum Kern des Kurses. Die wenigsten würden eine Tragwerksberechnung ungeprüft freigeben, nur weil sie von einer Software stammt; im Ingenieurwesen gilt etwa bei der Prüfung von Standsicherheitsnachweisen durch Prüfingenieurinnen und Prüfingenieure das Vier-Augen-Prinzip. Für KI-generierten Code gilt dasselbe: Er kann plausibel aussehen und trotzdem falsch sein. Die Verantwortung für das Ergebnis bleibt bei der Ingenieurin oder dem Ingenieur, und um sie tragen zu können, muss man den Code lesen und prüfen können.
-%%/book
-
 
 ## Lernziele
 
@@ -265,6 +259,213 @@ Wir benoten die Übungen nicht, sondern bewerten jede Übung mit erfüllt oder n
 
 # Motivation {background-video-loop="true" background-video-muted="true" background-video="images/01a_Ueberblick/mj_motivation.mp4" title="Python code on several screens in an engineering office" credit="Midjourney" .fragment .scramble-auto}
 
+## Programmieren war gestern?
+
+%%scol 62 38v
+```{python}
+#| echo: false
+import plotly.graph_objects as go
+import plotly.io as pio
+from plotly.subplots import make_subplots
+from ai4sc_style.plotly_loader import C, load_ai4sc_theme
+
+load_ai4sc_theme()
+CW = pio.templates["ai4sc"].layout.colorway  # Theme-Farbreihe: blau, grün, gelb, rot, ...
+fig = make_subplots(rows=1, cols=3, column_widths=[0.28, 0.36, 0.36], horizontal_spacing=0.14,
+                    subplot_titles=("Agenten-Nutzung", "Code-Anteil (Selbstschätzung)", "Genutzte Werkzeuge"))
+panels = [
+    (["täglich", "wöchentlich"], [68, 90], CW[0]),
+    (["manuell", "mit KI-Hilfe", "Agent"], [27, 38, 47], CW[1]),
+    (["Cursor", "Codex", "Copilot", "Claude Code"], [12, 16, 21, 39], CW[2]),
+]
+for i, (lab, val, col) in enumerate(panels, start=1):
+    fig.add_trace(go.Bar(x=val, y=lab, orientation="h", marker_color=col,
+                         text=[f"{v} %" for v in val], textposition="outside", cliponaxis=False), row=1, col=i)
+    fig.update_xaxes(range=[0, 125], showticklabels=False, row=1, col=i)
+    fig.update_yaxes(automargin=True, row=1, col=i)
+fig.update_layout(height=420, margin=dict(l=10, r=10, t=40, b=10), showlegend=False)
+fig.write_image("data/01a_Ueberblick/ki_nutzung.png", width=900, height=420, scale=2)
+```
+
+%%cache_plotly "data/01a_Ueberblick/ki_nutzung.json" 900x420 write
+
+::: {.content-visible when-format="typst"}
+![](data/01a_Ueberblick/ki_nutzung.png)
+:::
+%%sep
+### Schreibt in 2026 noch jemand selbst Code?
+
+90 % der befragten Profis nutzen Coding-Agenten mindestens wöchentlich.
+
+%%aside
+Umfrage unter über 15 000 Berufsentwicklern, Mai–Juli 2026. Anteile sind Selbstauskünfte, keine Messungen. Die drei Diagramme zeigen unterschiedliche Kennzahlen und lassen sich nicht addieren.
+%%/aside
+%%/scol
+
+%%slide_ref @jetbrains_agents_2026 JetBrains: AI Coding Agents, August 2026
+%%slide_ref @jetbrains_agentcode_2026 JetBrains: How much code do agents write?
+
+%%book
+Die Frage, ob heute überhaupt noch jemand selbst Programmcode schreibt, ist keine Provokation mehr, sondern beschreibt einen Trend in der Berufspraxis. Die JetBrains-Entwicklerbefragung 2026 unter mehr als 15 000 Berufsentwicklern zeigt, dass 90 Prozent Coding-Agenten mindestens wöchentlich und 68 Prozent täglich einsetzen [@jetbrains_agents_2026]. Im Mittel schätzen die Befragten, dass 47 Prozent ihres Codes vollständig von Agenten erzeugt werden [@jetbrains_agentcode_2026]. Alle diese Werte sind Selbstauskünfte aus einer Umfrage; sie belegen die Verbreitung der Werkzeuge, nicht deren Qualität oder Produktivitätswirkung.
+%%/book
+
+
+## Vibe Coding: Von neuen Anwendungen zur Disruption ganzer Softwaremärkte
+
+%%slides
+%%col 33 33 33
+
+### OpenClaw
+**Neue Kategorie:** Agent, der selbständig handelt
+
+- Nov. 2025 als Einzelprojekt gestartet
+- Steuert lokale Werkzeuge und Dateien
+
+![Quelle: openclaw.ai (Projektwebsite)](images/01a_Ueberblick/openclaw.png)
+
+[Ohne Konkurenz]{.r-fit-text .fragment .count-auto}
+Lizenz pro Jahr (MIT, kein Bezahltarif)
+
+
+%%sep
+### CAD-Klon im Browser
+**CAD-Software:** Prototyp in 72 Stunden
+
+- Sep. 2026, erstellt mit Claude Opus 5.5
+- Prototyp, kein Ersatz für SolidWorks
+
+![Quelle: Screenshot auf Reddit (i.redd.it)](images/01a_Ueberblick/cad.png)
+
+[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**2.820 $**]{.r-fit-text .fragment .count-auto}
+SolidWorks Standard pro Jahr (Listenpreis USA)
+
+%%sep
+
+### ArtCraft: Adobe-Klone
+**Ganze Suiten:** sieben Anwendungen, Alpha
+
+- Okt. 2026, Rust, Claude Opus 5.5
+- Photoshop, Illustrator, Premiere u. a.
+
+![Quelle: ArtCraft-Website, Abbildung aus VICE, Okt. 2026](images/01a_Ueberblick/artcraft_vice.jpg)
+
+[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**936 €**]{.r-fit-text .fragment .count-auto}
+Creative Cloud Pro pro Jahr (77,99 € × 12)
+
+%%/col
+
+%%/slides
+
+%%book
+Drei aktuelle Beispiele zeigen, wie schnell sich Softwareentwicklung verändert. OpenClaw ist ein Open-Source-Assistent, der auf dem eigenen Rechner läuft und über Chat-Kanäle Werkzeuge und Dateien bedient; er entstand im November 2025 als Einzelprojekt und wurde im Januar 2026 zu OpenClaw umbenannt [@openclaw_github]. Ein browserbasierter CAD-Prototyp soll laut den Angaben des Entwicklers im September 2026 mit Claude Opus 5.5 in 72 Stunden entstanden sein [@howclaude_cad_2026]. Diese Angabe konnten wir nicht unabhängig prüfen, und der Prototyp ist kein Ersatz für professionelle CAD-Software. Zum Vergleich: Der weltweite CAD-Markt wird für 2025 auf 3,87 Milliarden US-Dollar und für 2026 auf 4,74 Milliarden US-Dollar geschätzt [@fortune_cad_2026]. Schließlich hat ein einzelner Entwickler mit ArtCraft sieben freie Nachbauten von Adobe-Anwendungen mit Claude Opus 5.5 in Rust veröffentlicht; er selbst spricht von einer sehr frühen Alphaversion [@vice_artcraft_2026]. Das Segment Digital Media setzte bei Adobe im Geschäftsjahr 2025 17,65 Milliarden US-Dollar um [@adobe_10k_2025], ein Creative-Cloud-Pro-Abonnement kostet in Deutschland derzeit 77,99 Euro pro Monat, also rund 936 Euro pro Jahr [@adobe_plans_de]. Zum Vergleich kostet SolidWorks Standard laut einer Reseller-Preisliste für die USA 2.820 US-Dollar pro Jahr [@solidworks_price_2026]. Die Beispiele sind Demonstrationen und keine gleichwertigen Produkte, zeigen aber, wie stark sich der Aufwand für Software verändert.
+%%/book
+
+
+## Hörsaalfrage {background="#FFD966"}
+
+%%slides
+
+%%col 40v 60
+
+### Warum sollten wir überhaupt noch programmieren lernen?
+
+%%sep
+![Midjourney: Vibe Coding](images/01a_Ueberblick/mk_vibecoding.png){class="midjourneyXX"}
+%%/col
+%%/slides
+
+%%book
+Nach diesen Beispielen stellt sich die Frage, ob das Programmierenlernen in der Ingenieurausbildung noch notwendig ist. Vier Antworten sind denkbar: Programmieren sei nicht mehr nötig, nur Grundlagen seien nötig, wir müssten weiterhin programmieren können, oder wir benötigten sogar mehr Informatikkompetenz. Die folgenden Abschnitte liefern Argumente, anhand derer Sie Ihre Antwort prüfen können.
+%%/book
+
+
+## Der Code läuft. Aber ist er richtig?
+
+%%scol 45 55v
+- **Ausführbar:** Über 95 % der KI-Lösungen laufen fehlerfrei.
+- **Geprüft:** Nur etwa 55 % bestehen die Sicherheitstests.
+- **Fachlich korrekt:** Das misst kein Benchmark. Das prüfen Sie.
+%%sep
+```{python}
+#| echo: false
+CW = pio.templates["ai4sc"].layout.colorway
+fig = go.Figure(go.Bar(
+    x=["Syntax korrekt<br>(2023)", "Syntax korrekt<br>(2026)", "Sicherheitstests<br>bestanden (2026)"],
+    y=[50, 95, 55],
+    marker_color=[CW[0], CW[1], CW[3]],
+    text=["≈ 50 %", "> 95 %", "≈ 55 %"], textposition="outside", cliponaxis=False))
+fig.update_layout(height=420, margin=dict(l=10, r=10, t=10, b=10), showlegend=False,
+                  yaxis=dict(range=[0, 115], title="Anteil der Aufgaben (%)", automargin=True),
+                  xaxis=dict(automargin=True))
+fig.write_image("data/01a_Ueberblick/veracode.png", width=600, height=420, scale=2)
+```
+
+%%cache_plotly "data/01a_Ueberblick/veracode.json" 600x420 write
+
+::: {.content-visible when-format="typst"}
+![](data/01a_Ueberblick/veracode.png)
+:::
+
+Veracode, März 2026: 80 Aufgaben, 4 Sprachen, 4 Schwachstellenarten.
+%%/scol
+
+%%slide_ref @veracode_spring_2026 Veracode: Spring 2026 GenAI Code Security Update
+
+%%book
+Ausführbar, funktional getestet und fachlich korrekt sind drei verschiedene Qualitätsstufen. Die Veracode-Untersuchung vom März 2026 zeigt, dass KI-Modelle inzwischen in mehr als 95 Prozent der Aufgaben syntaktisch korrekten Code erzeugen, 2023 waren es etwa 50 Prozent. Der Anteil der Aufgaben, die die Sicherheitstests bestehen, liegt dagegen seit Jahren bei etwa 55 Prozent [@veracode_spring_2026]. Diese Studie misst die Sicherheit des Codes mit statischer Analyse; sie sagt nichts darüber aus, ob eine Berechnung fachlich stimmt. Ob ein Programm das ingenieurtechnische Problem richtig löst, kann nur prüfen, wer die Aufgabe fachlich versteht.
+%%/book
+
+
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Würden Sie eine Brücke freigeben, deren Statik eine KI berechnet hat?" capR="Midjourney: Student with a deadline" imgR="images/01a_Ueberblick/mj_robot_load.png"}
+
+%%book
+Diese Frage führt direkt zum Kern des Kurses. Die wenigsten würden eine Tragwerksberechnung ungeprüft freigeben, nur weil sie von einer Software stammt; im Ingenieurwesen gilt etwa bei der Prüfung von Standsicherheitsnachweisen durch Prüfingenieurinnen und Prüfingenieure das Vier-Augen-Prinzip. Für KI-generierten Code gilt dasselbe: Er kann plausibel aussehen und trotzdem falsch sein. Die Verantwortung für das Ergebnis bleibt bei der Ingenieurin oder dem Ingenieur, und um sie tragen zu können, muss man den Code lesen und prüfen können.
+%%/book
+
+
+## Warum Ingenieurinformatik?
+
+%%scol 50 50
+```{python}
+#| echo: false
+CW = pio.templates["ai4sc"].layout.colorway
+kat = ["Ethik &<br>Berufsrecht", "Wirtschaft", "Boden-<br>mechanik", "Hydraulik", "Statik", "Tragwerks-<br>planung"]
+o3 = [100, 100, 100, 83.3, 50, 30]  # Oblitas et al. 2025, ChatGPT o3, FE Civil Exam
+fig = go.Figure(go.Bar(
+    x=kat, y=o3, marker_color=[CW[1]] * 4 + [CW[3]] * 2,
+    text=[f"{v:.0f} %" for v in o3], textposition="outside", cliponaxis=False))
+fig.update_layout(height=420, margin=dict(l=10, r=10, t=10, b=10), showlegend=False,
+                  yaxis=dict(range=[0, 118], title="Richtig beantwortet (%)", automargin=True),
+                  xaxis=dict(automargin=True))
+fig.write_image("data/01a_Ueberblick/fe_civil.png", width=600, height=420, scale=2)
+```
+
+%%cache_plotly "data/01a_Ueberblick/fe_civil.json" 600x420 write
+
+::: {.content-visible when-format="typst"}
+![](data/01a_Ueberblick/fe_civil.png)
+:::
+
+%%aside
+ChatGPT o3 in der US-Ingenieurprüfung FE Civil (Oblitas et al., 2025): Ethik, Wirtschaft und Bodenmechanik fehlerfrei, Statik 50 %, Tragwerksplanung 30 %.
+%%/aside
+%%sep
+### KI kann programmieren. Aber wer weiß, ob das Ergebnis stimmt?
+
+- Algorithmen: das Problem verstehen
+- Programmierung: Code lesen und beurteilen
+- Debugging: Fehler systematisch finden
+- Datenbanken: Daten und Zusammenhänge prüfen
+- Modellierung: Annahmen und Randbedingungen kennen
+- Verifikation: Ergebnisse unabhängig kontrollieren
+%%/scol
+
+%%book
+Die Beispiele dieses Abschnitts führen zu einer Konsequenz: Informatikkompetenz verändert sich, wird aber nicht überflüssig. Eine Studie zur US-amerikanischen Ingenieurprüfung für das Bauingenieurwesen (FE Civil) zeigt, wo die Grenze liegt: ChatGPT o3 beantwortet Fragen zu Ethik, Wirtschaft und Bodenmechanik vollständig richtig, in der Statik aber nur 50 Prozent und in der Tragwerksplanung nur 30 Prozent [@fe_civil_2025]. Gerade in den Fächern, in denen Fehler Folgen für die Tragsicherheit hätten, ist das Ergebnis am schwächsten. Wer Algorithmen versteht, Code liest, Fehler systematisch sucht, Daten prüft, Annahmen modelliert und Ergebnisse unabhängig kontrolliert, kann solche Fehler erkennen. Genau diese Fähigkeiten üben wir in dieser Vorlesung.
+%%/book
+
+
 %%slides
 
 
@@ -331,7 +532,7 @@ Informatik ist heute in allen Phasen des Bauprozesses präsent, und diese drei P
 
 %%scol 60 40
 
-![https://www.autodesk.com](images/01a_Ueberblick/use_case_cad.png){fig-align="left"}
+![https://www.autodesk.com](images/01a_Ueberblick/use_case_cad.png){class="midjourney"}
 
 %%sep
 
@@ -365,7 +566,7 @@ Anwendungen, die es erlauben, Entwürfe in VR (Virtual Reality) oder AR (Augment
 
 %%sep
 
-![https://www.dabonline.de/](images/01a_Ueberblick/use_case_ar.jpg){fig-align="left"}
+![https://www.dabonline.de/](images/01a_Ueberblick/use_case_ar.jpg){class="midjourney"}
 
 %%/scol
 
@@ -378,7 +579,7 @@ Virtuelle und erweiterte Realität eröffnen neue Möglichkeiten, Entwürfe und 
 
 %%scol 60 40
 
-![https://www.die.de/all-images](images/01a_Ueberblick/use_case_static.png){fig-align="left"}
+![https://www.die.de/all-images](images/01a_Ueberblick/use_case_static.png){class="midjourney"}
 
 %%sep
 
@@ -416,7 +617,7 @@ Automatisierung verschiedener Schritte
 
 %%sep
 
-![https://www.baumgartner-baustrom.de](images/01a_Ueberblick/use_case_prozess.jpg){fig-align="left"}
+![https://www.baumgartner-baustrom.de](images/01a_Ueberblick/use_case_prozess.jpg){class="midjourney"}
 
 %%/scol
 
@@ -465,7 +666,7 @@ Geoinformationssysteme sind Informationssysteme zur Erfassung, Bearbeitung, Orga
 
 %%sep
 
-![https://www.gisworld.com](images/01a_Ueberblick/use_case_gis.png)
+![https://www.gisworld.com](images/01a_Ueberblick/use_case_gis.png){class="midjourney"}
 
 %%/scol
 
