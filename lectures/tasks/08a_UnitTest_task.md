@@ -88,5 +88,5 @@ example.
 
 **Cross-references**:
 - → `04a_Anforderungen` (S04): requirements are the source of tests
-- → `01c_AgentischesProgrammieren` (S01): "verify" step formalised here
+- → `03d_AgentischesProgrammieren` (S01): "verify" step formalised here
 - → `08b_CodeReview` (S08): code review follows testing; both are verification

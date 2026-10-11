@@ -83,5 +83,5 @@ throughout the course.
 **Symbols to add**: ≡ on data-types slide; 🔄 on agentic cycle diagram.
 
 **Cross-references**:
-- → `01c_AgentischesProgrammieren` (S01): mechanics of the workflow introduced visually here
+- → `03d_AgentischesProgrammieren` (S01): mechanics of the workflow introduced visually here
 - → `03a_Wissenspyramide` (S03): pyramid levels map to course block structure

@@ -86,7 +86,7 @@ notation is introduced here to prepare object design in S04.
   fits as a fourth model."
 
 **Agentic workflow integration**:
-- The agentic dev loop slide explicitly maps the cycle from `01c_AgentischesProgrammieren`
+- The agentic dev loop slide explicitly maps the cycle from `03d_AgentischesProgrammieren`
   onto project management rhythm.
 
 **Symbols to add**: 📋 on requirements slides; ⇄ on UML relationship diagrams;

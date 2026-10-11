@@ -1,4 +1,4 @@
-# Task: 01c_AgentischesProgrammieren
+# Task: 03d_AgentischesProgrammieren
 
 ## Course Context
 
@@ -13,8 +13,8 @@
 
 | Field | Value |
 |-------|-------|
-| **New file** | `../01c_AgentischesProgrammieren.qmdx` |
-| **Source file** | NEW — create `01c_AgentischesProgrammieren.qmdx` |
+| **New file** | `../03d_AgentischesProgrammieren.qmdx` |
+| **Source file** | NEW — create `03d_AgentischesProgrammieren.qmdx` |
 | **Block** | Block 1 — Computational Foundations |
 | **Session** | S01 |
 | **Status** | NEW (~20 min, ~15 slides) |
@@ -22,17 +22,17 @@
 ## Instructions
 
 1. Use `../lecture_skill/SKILL.md` for `.qmdx` authoring conventions. Do NOT open completed lectures in `lectures/` to check patterns — the skill has everything.
-2. Create `../01c_AgentischesProgrammieren.qmdx` from scratch as a new `.qmdx` lecture file.
+2. Create `../03d_AgentischesProgrammieren.qmdx` from scratch as a new `.qmdx` lecture file.
 3. Use the **Change Notes** below as the complete content specification — they define every section, slide group, and callout to include.
-4. Save the finished file to `../01c_AgentischesProgrammieren.qmdx`.
+4. Save the finished file to `../03d_AgentischesProgrammieren.qmdx`.
 
 ---
 
-### 01c_AgentischesProgrammieren
+### 03d_AgentischesProgrammieren
 
 **Block**: Block 1 — Computational Foundations | **Session**: S01
 **Status**: NEW (~20 min, ~15 slides) | **Primary symbols**: 🔄 📋 🔍
-**Source file**: NEW — create `01c_AgentischesProgrammieren.qmdx`
+**Source file**: NEW — create `03d_AgentischesProgrammieren.qmdx`
 
 #### Summary: Agentic Programming
 

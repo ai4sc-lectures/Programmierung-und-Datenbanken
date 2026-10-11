@@ -72,7 +72,7 @@ confidently.
 - Slide 10: User story format — as a [facility manager], I want [sensor alert
   dashboard] so that [I can respond before an SLA breach]
 - Slides 11–12: Requirement → prompt — user story converted step-by-step into a
-  Claude Code prompt using the structure from `01c_AgentischesProgrammieren`
+  Claude Code prompt using the structure from `03d_AgentischesProgrammieren`
 - Slides 13–14: Requirement → test — same user story converted into a unit test
   (motivates `08a_UnitTest` in S08)
 - Slide 15: Traceability triangle: requirement ↔ test ↔ prompt; changing one must
@@ -87,7 +87,7 @@ confidently.
 **Symbols to add**: 📋 on every requirements slide; 🔍 on test-traceability slides.
 
 **Cross-references**:
-- → `01c_AgentischesProgrammieren` (S01): prompt structure applied here
+- → `03d_AgentischesProgrammieren` (S01): prompt structure applied here
 - → `03c_Softwareentwurf` (S03): requirements precede design
 - → `04b_Programmablauf` (S04): flowcharts operationalize requirements
 - → `08a_UnitTest` (S08): test-driven prompting is the "verify" step

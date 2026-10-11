@@ -83,4 +83,4 @@ generates Python.
 
 **Cross-references**:
 - → `01c_Programmiersprachen_ani` (S01): companion notebook using Python
-- → `01c_AgentischesProgrammieren` (S01): language knowledge enables code reading
+- → `03d_AgentischesProgrammieren` (S01): language knowledge enables code reading

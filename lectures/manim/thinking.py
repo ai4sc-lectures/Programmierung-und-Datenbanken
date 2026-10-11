@@ -1,12 +1,12 @@
-"""Manim scenes for the slide "Warum nicht? → Die Modellfalle" (01c_AgentischesProgrammieren.qmdx).
+"""Manim scenes for the slide "Warum nicht? → Die Modellfalle" (03d_AgentischesProgrammieren.qmdx).
 
 Adapted from Presentations/2026/template/examples/manim/thinking.py: the palette is the light
 "pastello" theme (_extensions/ai4sc-style/themes/color/pastello.css) instead of the dark cyberpunk one.
 
 Render (portrait 9:10, matches the 450px slide columns), from the lectures/ directory:
 
-    manim/render.sh manim/thinking.py HumanThinking 900,1000 images/01c_AgentischesProgrammieren/manim_thinking_human.mp4
-    manim/render.sh manim/thinking.py LLMThinking 900,1000 images/01c_AgentischesProgrammieren/manim_thinking_llm.mp4
+    manim/render.sh manim/thinking.py HumanThinking 900,1000 images/03d_AgentischesProgrammieren/manim_thinking_human.mp4
+    manim/render.sh manim/thinking.py LLMThinking 900,1000 images/03d_AgentischesProgrammieren/manim_thinking_llm.mp4
 """
 import numpy as np
 from manim import *

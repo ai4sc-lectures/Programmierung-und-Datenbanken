@@ -82,4 +82,4 @@ write the prompt" is the key message.
 
 **Cross-references**:
 - → `04a_Anforderungen` (S04): requirements generate the flowchart
-- → `01c_AgentischesProgrammieren` (S01): prompt structure applied here
+- → `03d_AgentischesProgrammieren` (S01): prompt structure applied here
