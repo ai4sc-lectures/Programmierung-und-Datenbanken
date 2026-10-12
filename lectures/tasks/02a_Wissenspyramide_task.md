@@ -1,4 +1,4 @@
-# Task: 03a_Wissenspyramide
+# Task: 02a_Wissenspyramide
 
 ## Course Context
 
@@ -13,7 +13,7 @@
 
 | Field | Value |
 |-------|-------|
-| **New file** | `../03a_Wissenspyramide.qmdx` |
+| **New file** | `../02a_Wissenspyramide.qmdx` |
 | **Source file** | `../oldx/02b_Wissenspyramide.qmdx` |
 | **Block** | Block 2 — Computational Engineering |
 | **Session** | S03 |
@@ -29,11 +29,11 @@
    - REFRAME the specified existing content with the new angle described.
    - Add the specified symbols at the indicated locations.
 4. Write the result to:
-   - `../03a_Wissenspyramide.qmdx`
+   - `../02a_Wissenspyramide.qmdx`
 
 ---
 
-### 03a_Wissenspyramide
+### 02a_Wissenspyramide
 
 **Block**: Block 2 — Computational Engineering | **Session**: S03
 **Status**: REFRAMED | **Primary symbols**: ⇄ 🔄

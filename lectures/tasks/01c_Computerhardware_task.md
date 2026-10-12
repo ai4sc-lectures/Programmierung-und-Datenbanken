@@ -61,7 +61,7 @@ understanding AI-generated code that causes unexpected memory behavior.
   sequential by default.
 - The memory hierarchy explains performance differences across programs.
 - Stack and heap are two memory regions with different lifetimes — essential for
-  understanding recursion and object references (developed further in `02b_Speicher`).
+  understanding recursion and object references (developed further in `02c_Speicher`).
 
 #### Change Notes
 
@@ -76,7 +76,7 @@ understanding AI-generated code that causes unexpected memory behavior.
 
 **Content to REFRAME**:
 - Binary representation → "this is what □ (a variable) looks like in hardware" —
-  motivates data types in `02a_Datentypen`.
+  motivates data types in `02b_Datentypen`.
 
 **Agentic workflow integration**:
 - Callout: "When AI generates deep recursion, it may not know your system's stack
@@ -85,6 +85,6 @@ understanding AI-generated code that causes unexpected memory behavior.
 **Symbols to add**: □ on memory-cell diagram; ≡ on binary representation slide.
 
 **Cross-references**:
-- → `02b_Speicher` (S02): detailed memory model follows
-- → `02a_Datentypen` (S02): data types as memory representations
+- → `02c_Speicher` (S02): detailed memory model follows
+- → `02b_Datentypen` (S02): data types as memory representations
 - → `09b_Rekursion` (S09): REMOVE stack/heap there — content now lives here

@@ -4,20 +4,20 @@ subtitle: "Variablen, Referenzen und das Python-Speichermodell"
 image-credit: "Midjourney: Memory palace — abstract architecture of storage and reference"
 format:
   ai4sc-style-html:
-    output-file: 02b_Speicher.page.html
+    output-file: 02c_Speicher.page.html
   ai4sc-style-revealjs:
     title-slide-attributes:
-      data-background-video: images/02b_Speicher/mj_title.mp4
-    output-file: 02b_Speicher.slide.html
+      data-background-video: images/02c_Speicher/mj_title.mp4
+    output-file: 02c_Speicher.slide.html
   typst:
-    output-file: 02b_Speicher.page.pdf
+    output-file: 02c_Speicher.page.pdf
 resources:
-  - data/02b_Speicher
+  - data/02c_Speicher
 ---
 
 %%book
 
-![](images/02b_Speicher/mj_title_band.jpg)
+![](images/02c_Speicher/mj_title_band.jpg)
 
 > I never wrote things down to remember; I always wrote things down so I could forget.
 >
@@ -37,7 +37,7 @@ resources:
 %%## Eine Variable ist ein Name, keine Box
 
 %%scol 45 55
-![](images/02b_Speicher/name_vs_box.svg){fig-align="center"}
+![](images/02c_Speicher/name_vs_box.svg){fig-align="center"}
 %%sep
 ```python
 x = 42
@@ -73,7 +73,7 @@ x = [4, 5, 6]
 # → Speicher wird freigegeben
 ```
 %%sep
-![](images/02b_Speicher/rebind.svg){fig-align="center"}
+![](images/02c_Speicher/rebind.svg){fig-align="center"}
 %%/scol
 
 %%book
@@ -130,7 +130,7 @@ Neue Operationen erzeugen neue Objekte.
 
 %%book
 
-Python unterscheidet unveränderliche und veränderliche Objekte. Bei unveränderlichen Typen erzeugt jede scheinbare Änderung ein neues Objekt. Veränderliche Typen wie Listen lassen sich dagegen an Ort und Stelle ändern. Diese Unterscheidung entscheidet darüber, ob geteilte Namen Seiteneffekte haben können. Ein {{< ai4sc-icon braces >}} Datentyp legt also nicht nur die Operationen fest, sondern auch, ob ein Objekt veränderlich ist. Datentypen als Speicherdarstellungen behandelt `02a_Datentypen`.
+Python unterscheidet unveränderliche und veränderliche Objekte. Bei unveränderlichen Typen erzeugt jede scheinbare Änderung ein neues Objekt. Veränderliche Typen wie Listen lassen sich dagegen an Ort und Stelle ändern. Diese Unterscheidung entscheidet darüber, ob geteilte Namen Seiteneffekte haben können. Ein {{< ai4sc-icon braces >}} Datentyp legt also nicht nur die Operationen fest, sondern auch, ob ein Objekt veränderlich ist. Datentypen als Speicherdarstellungen behandelt `02b_Datentypen`.
 
 %%/book
 
@@ -146,7 +146,7 @@ print(a)      # 42, unverändert
 
 Ändert sich ein Name, entsteht ein neues Objekt. Der andere Name bleibt unberührt.
 %%sep
-![](images/02b_Speicher/immutable.svg){fig-align="center"}
+![](images/02c_Speicher/immutable.svg){fig-align="center"}
 %%/scol
 
 %%book
@@ -172,7 +172,7 @@ print(a is b)   # True
 
 {{< ai4sc-icon arrow-left-right >}} `b.append(4)` verändert das Objekt, auf das beide Namen zeigen.
 %%sep
-![](images/02b_Speicher/alias.svg){fig-align="center"}
+![](images/02c_Speicher/alias.svg){fig-align="center"}
 %%/scol
 
 %%book
@@ -223,7 +223,7 @@ def main():
 main()
 ```
 %%sep
-![](images/02b_Speicher/callstack.svg){fig-align="center"}
+![](images/02c_Speicher/callstack.svg){fig-align="center"}
 %%/scol
 
 %%book
@@ -234,7 +234,7 @@ Wenn Python eine Funktion aufruft, legt es einen neuen Frame auf den Call Stack.
 
 %%## Der Stack wächst und schrumpft
 
-![](images/02b_Speicher/callstack_steps.svg){.nostretch fig-align="center" width="90%"}
+![](images/02c_Speicher/callstack_steps.svg){.nostretch fig-align="center" width="90%"}
 
 - Lokale Namen entstehen beim Eintritt in die Funktion und verschwinden beim Rücksprung.
 - Jeder Aufruf hat seinen eigenen Frame, auch bei Aufrufen derselben Funktion.
@@ -274,7 +274,7 @@ Rekursion legt für jeden Aufruf einen neuen Frame an. Bei zu großer Tiefe bric
 %%## Frames halten Namen, der Heap hält Objekte
 
 %%scol 55 45
-![](images/02b_Speicher/stack_heap.svg){fig-align="center"}
+![](images/02c_Speicher/stack_heap.svg){fig-align="center"}
 %%sep
 - Jeder Frame enthält Namen, also Referenzen
 - Alle Python-Objekte liegen im Heap
@@ -303,7 +303,7 @@ result = None
 # kein Name mehr → freigegeben
 ```
 %%sep
-![](images/02b_Speicher/refcount.svg){fig-align="center"}
+![](images/02c_Speicher/refcount.svg){fig-align="center"}
 
 Zirkuläre Referenzen erkennt zusätzlich der Cycle Collector.
 %%/scol

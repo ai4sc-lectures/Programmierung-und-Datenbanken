@@ -104,7 +104,7 @@ throughout the course.
 
 **Cross-references**:
 - → `03d_AgentischesProgrammieren` (S01): mechanics of the workflow introduced visually here
-- → `03a_Wissenspyramide` (S03): pyramid levels map to course block structure
+- → `02a_Wissenspyramide` (S03): pyramid levels map to course block structure
 
 ---
 
@@ -302,7 +302,7 @@ understanding AI-generated code that causes unexpected memory behavior.
   sequential by default.
 - The memory hierarchy explains performance differences across programs.
 - Stack and heap are two memory regions with different lifetimes — essential for
-  understanding recursion and object references (developed further in `02b_Speicher`).
+  understanding recursion and object references (developed further in `02c_Speicher`).
 
 #### Change Notes
 
@@ -317,7 +317,7 @@ understanding AI-generated code that causes unexpected memory behavior.
 
 **Content to REFRAME**:
 - Binary representation → "this is what □ (a variable) looks like in hardware" —
-  motivates data types in `02a_Datentypen`.
+  motivates data types in `02b_Datentypen`.
 
 **Agentic workflow integration**:
 - Callout: "When AI generates deep recursion, it may not know your system's stack
@@ -326,17 +326,17 @@ understanding AI-generated code that causes unexpected memory behavior.
 **Symbols to add**: □ on memory-cell diagram; ≡ on binary representation slide.
 
 **Cross-references**:
-- → `02b_Speicher` (S02): detailed memory model follows
-- → `02a_Datentypen` (S02): data types as memory representations
+- → `02c_Speicher` (S02): detailed memory model follows
+- → `02b_Datentypen` (S02): data types as memory representations
 - → `09b_Rekursion` (S09): REMOVE stack/heap there — content now lives here
 
 ---
 
-### 02a_Datentypen
+### 02b_Datentypen
 
 **Block**: Block 1 — Computational Foundations | **Session**: S02
 **Status**: MOVED from Block 2 + REFRAMED | **Primary symbols**: □ ≡ 📂
-**Source file**: `oldx/02c_Datentypen.qmdx` (renamed to `02a_Datentypen.qmdx`)
+**Source file**: `oldx/02c_Datentypen.qmdx` (renamed to `02b_Datentypen.qmdx`)
 
 #### Summary: Data Types
 
@@ -385,16 +385,16 @@ as described in `02a`.
 
 **Cross-references**:
 - → `01c_Computerhardware` (S02): binary representation already introduced
-- → `02b_Speicher` (S02): memory model of variables
+- → `02c_Speicher` (S02): memory model of variables
 - → `05a_Operatoren` (S05): operators act on typed values
 
 ---
 
-### 02b_Speicher
+### 02c_Speicher
 
 **Block**: Block 1 — Computational Foundations | **Session**: S02
 **Status**: NEW (~20 min, ~15 slides) | **Primary symbols**: □ ≡ ⇄
-**Source file**: NEW — create `02b_Speicher.qmdx`
+**Source file**: NEW — create `02c_Speicher.qmdx`
 
 #### Summary: Memory Model
 
@@ -450,7 +450,7 @@ understanding the memory model is required to debug them.
 
 **Cross-references**:
 - → `01c_Computerhardware` (S02): execution model motivates this
-- → `02a_Datentypen` (S02): data types as memory representations connects here
+- → `02b_Datentypen` (S02): data types as memory representations connects here
 - → `09b_Rekursion` (S09): recursion revisited with call stack already understood
 
 ---
@@ -461,7 +461,7 @@ understanding the memory model is required to debug them.
 
 ---
 
-### 03a_Wissenspyramide
+### 02a_Wissenspyramide
 
 **Block**: Block 2 — Computational Engineering | **Session**: S03
 **Status**: REFRAMED | **Primary symbols**: ⇄ 🔄
@@ -562,7 +562,7 @@ preparing students for process models and design tools in `03c_Softwareentwurf`.
 **Symbols to add**: ⇄ on component relationship diagrams; 🔄 on agentic era slide.
 
 **Cross-references**:
-- → `03a_Wissenspyramide` (S03): information layer of the pyramid = architecture
+- → `02a_Wissenspyramide` (S03): information layer of the pyramid = architecture
 - → `03c_Softwareentwurf` (S03): process models and UML are the design tools
 
 ---
@@ -867,7 +867,7 @@ precedence is motivated by the need to trace AI expressions before accepting the
 **Symbols to add**: □ on variable introduction; ≡ on type-specific operator slides.
 
 **Cross-references**:
-- → `02a_Datentypen` (S02): operator behavior depends on type
+- → `02b_Datentypen` (S02): operator behavior depends on type
 - → `05b_Verzweigung` (S05): operators in conditional expressions
 
 ---
@@ -972,7 +972,7 @@ Infinite loop detection added as an explicit skill.
 **Symbols to add**: 📂 on collection-iteration slides; 🔄 on loop pattern slides.
 
 **Cross-references**:
-- → `02a_Datentypen` (S02): collection types introduced there
+- → `02b_Datentypen` (S02): collection types introduced there
 - → `09a_Algorithmen` (S09): algorithms as structured loop patterns
 
 ---
@@ -1455,7 +1455,7 @@ how bubble sort works" to "how do I know which algorithm to ask for?"
 #### Summary: Recursive Functions
 
 Moved to Block 5 and reframed as a divide-and-conquer strategy, not a Python
-language feature. Stack/heap content is removed — that is now in `02b_Speicher`
+language feature. Stack/heap content is removed — that is now in `02c_Speicher`
 (S02). Engineering examples from BIM hierarchy traversal and spatial subdivision
 replace the canonical factorial.
 
@@ -1470,7 +1470,7 @@ replace the canonical factorial.
 
 - Recursion is a strategy for problems that decompose into smaller same-type instances.
 - BIM models and spatial trees are natural recursive structures in civil engineering.
-- Students already understand the call stack from `02b_Speicher` (S02).
+- Students already understand the call stack from `02c_Speicher` (S02).
 
 #### Change Notes
 
@@ -1485,7 +1485,7 @@ replace the canonical factorial.
   constraints.
 
 **Content to REMOVE or REDUCE**:
-- REMOVE stack/heap content: now in `02b_Speicher` (S02). Only reference:
+- REMOVE stack/heap content: now in `02c_Speicher` (S02). Only reference:
   "You already understand the call stack from Session 02."
 - REDUCE factorial example: keep as minimal intro; engineering examples are primary.
 
@@ -1500,7 +1500,7 @@ replace the canonical factorial.
 **Symbols to add**: 🔄 on divide-and-conquer diagram.
 
 **Cross-references**:
-- → `02b_Speicher` (S02): call stack explained there — reference, don't repeat
+- → `02c_Speicher` (S02): call stack explained there — reference, don't repeat
 - → `09a_Algorithmen` (S09): recursion as a divide-and-conquer algorithm strategy
 
 ---
@@ -2118,7 +2118,7 @@ of AI output against the ER, not DDL syntax mastery.
 
 | File | Session | Purpose |
 |------|---------|---------|
-| `02b_Speicher.qmdx` | S02 | Memory model, stack/heap, references, visual diagrams |
+| `02c_Speicher.qmdx` | S02 | Memory model, stack/heap, references, visual diagrams |
 | `03d_AgentischesProgrammieren.qmdx` | S01 | LLM basics, agentic workflow, prompt structure, code reading |
 | `04a_Anforderungen.qmdx` | S04 | Requirements engineering, user stories, quality criteria |
 | `10a_Graphprobleme.qmdx` | S10 | Graph problems — transport, utility networks, routing |
@@ -2136,4 +2136,4 @@ of AI output against the ER, not DDL syntax mastery.
 | `01c_Computerhardware.qmdx` | EXPANDED; receive stack/heap from `09b`; add sequential execution model | S02 |
 | `12c_Datenbanken_Entwurf.qmdx` | MOVED EARLIER to S12; add environmental ER example + ER-to-prompt | S12 |
 | `04c_Objects.qmdx` | SPLIT VIEW: design concept (S04) + Python implementation (S06) | S04, S06 |
-| `02a_Datentypen.qmdx` | MOVED from Block 2 to S02; reframe as memory representations | S02 |
+| `02b_Datentypen.qmdx` | MOVED from Block 2 to S02; reframe as memory representations | S02 |

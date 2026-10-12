@@ -84,4 +84,4 @@ throughout the course.
 
 **Cross-references**:
 - → `03d_AgentischesProgrammieren` (S01): mechanics of the workflow introduced visually here
-- → `03a_Wissenspyramide` (S03): pyramid levels map to course block structure
+- → `02a_Wissenspyramide` (S03): pyramid levels map to course block structure

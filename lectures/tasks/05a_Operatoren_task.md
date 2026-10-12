@@ -77,5 +77,5 @@ precedence is motivated by the need to trace AI expressions before accepting the
 **Symbols to add**: □ on variable introduction; ≡ on type-specific operator slides.
 
 **Cross-references**:
-- → `02a_Datentypen` (S02): operator behavior depends on type
+- → `02b_Datentypen` (S02): operator behavior depends on type
 - → `05b_Verzweigung` (S05): operators in conditional expressions

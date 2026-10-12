@@ -238,6 +238,14 @@ async def html_to_pdf(url, output_file):
                     if (allPlots.every(el => el.querySelector('svg.main-svg'))) break;
                     await new Promise(r => setTimeout(r, 400));
                 }
+                // Videos do not print: replace each with its poster image (last frame)
+                for (const v of [...document.querySelectorAll('video')]) {
+                    if (!v.poster) continue;
+                    const img = document.createElement('img');
+                    img.src = v.poster;
+                    img.style.cssText = v.getAttribute('style') || 'width:100%;display:block;';
+                    v.replaceWith(img);
+                }
                 // Keep @media print from collapsing plot containers
                 const style = document.createElement('style');
                 style.textContent =
@@ -325,10 +333,15 @@ def _sync_site_to_build(site_dir: Path, build_dir: Path, stale: list[Path], full
             if src.is_file() and (not dst.exists() or src.stat().st_mtime > dst.stat().st_mtime):
                 shutil.copy2(str(src), str(dst))
             elif src.is_dir() and not src.name.endswith("_files"):
-                if not dst.exists() or src.stat().st_mtime > dst.stat().st_mtime:
-                    if dst.exists():
-                        shutil.rmtree(str(dst))
-                    shutil.copytree(str(src), str(dst))
+                # Merge file by file: a directory's mtime does not change when files
+                # inside a nested folder (images/<lecture>/x.png) are added or updated.
+                for f in src.rglob("*"):
+                    if not f.is_file():
+                        continue
+                    target = dst / f.relative_to(src)
+                    if not target.exists() or f.stat().st_mtime > target.stat().st_mtime:
+                        target.parent.mkdir(parents=True, exist_ok=True)
+                        shutil.copy2(str(f), str(target))
 
 
 @task()

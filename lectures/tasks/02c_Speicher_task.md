@@ -1,4 +1,4 @@
-# Task: 02b_Speicher
+# Task: 02c_Speicher
 
 ## Course Context
 
@@ -13,8 +13,8 @@
 
 | Field | Value |
 |-------|-------|
-| **New file** | `../02b_Speicher.qmdx` |
-| **Source file** | NEW — create `02b_Speicher.qmdx` |
+| **New file** | `../02c_Speicher.qmdx` |
+| **Source file** | NEW — create `02c_Speicher.qmdx` |
 | **Block** | Block 1 — Computational Foundations |
 | **Session** | S02 |
 | **Status** | NEW (~20 min, ~15 slides) |
@@ -22,17 +22,17 @@
 ## Instructions
 
 1. Use `../lecture_skill/SKILL.md` for `.qmdx` authoring conventions. Do NOT open completed lectures in `lectures/` to check patterns — the skill has everything.
-2. Create `../02b_Speicher.qmdx` from scratch as a new `.qmdx` lecture file.
+2. Create `../02c_Speicher.qmdx` from scratch as a new `.qmdx` lecture file.
 3. Use the **Change Notes** below as the complete content specification — they define every section, slide group, and callout to include.
-4. Save the finished file to `../02b_Speicher.qmdx`.
+4. Save the finished file to `../02c_Speicher.qmdx`.
 
 ---
 
-### 02b_Speicher
+### 02c_Speicher
 
 **Block**: Block 1 — Computational Foundations | **Session**: S02
 **Status**: NEW (~20 min, ~15 slides) | **Primary symbols**: □ ≡ ⇄
-**Source file**: NEW — create `02b_Speicher.qmdx`
+**Source file**: NEW — create `02c_Speicher.qmdx`
 
 #### Summary: Memory Model
 
@@ -88,5 +88,5 @@ understanding the memory model is required to debug them.
 
 **Cross-references**:
 - → `01c_Computerhardware` (S02): execution model motivates this
-- → `02a_Datentypen` (S02): data types as memory representations connects here
+- → `02b_Datentypen` (S02): data types as memory representations connects here
 - → `09b_Rekursion` (S09): recursion revisited with call stack already understood

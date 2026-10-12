@@ -77,5 +77,5 @@ preparing students for process models and design tools in `03c_Softwareentwurf`.
 **Symbols to add**: ⇄ on component relationship diagrams; 🔄 on agentic era slide.
 
 **Cross-references**:
-- → `03a_Wissenspyramide` (S03): information layer of the pyramid = architecture
+- → `02a_Wissenspyramide` (S03): information layer of the pyramid = architecture
 - → `03c_Softwareentwurf` (S03): process models and UML are the design tools

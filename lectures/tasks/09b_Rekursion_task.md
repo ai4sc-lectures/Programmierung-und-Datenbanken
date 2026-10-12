@@ -42,7 +42,7 @@
 #### Summary: Recursive Functions
 
 Moved to Block 5 and reframed as a divide-and-conquer strategy, not a Python
-language feature. Stack/heap content is removed — that is now in `02b_Speicher`
+language feature. Stack/heap content is removed — that is now in `02c_Speicher`
 (S02). Engineering examples from BIM hierarchy traversal and spatial subdivision
 replace the canonical factorial.
 
@@ -57,7 +57,7 @@ replace the canonical factorial.
 
 - Recursion is a strategy for problems that decompose into smaller same-type instances.
 - BIM models and spatial trees are natural recursive structures in civil engineering.
-- Students already understand the call stack from `02b_Speicher` (S02).
+- Students already understand the call stack from `02c_Speicher` (S02).
 
 #### Change Notes
 
@@ -72,7 +72,7 @@ replace the canonical factorial.
   constraints.
 
 **Content to REMOVE or REDUCE**:
-- REMOVE stack/heap content: now in `02b_Speicher` (S02). Only reference:
+- REMOVE stack/heap content: now in `02c_Speicher` (S02). Only reference:
   "You already understand the call stack from Session 02."
 - REDUCE factorial example: keep as minimal intro; engineering examples are primary.
 
@@ -87,5 +87,5 @@ replace the canonical factorial.
 **Symbols to add**: 🔄 on divide-and-conquer diagram.
 
 **Cross-references**:
-- → `02b_Speicher` (S02): call stack explained there — reference, don't repeat
+- → `02c_Speicher` (S02): call stack explained there — reference, don't repeat
 - → `09a_Algorithmen` (S09): recursion as a divide-and-conquer algorithm strategy
