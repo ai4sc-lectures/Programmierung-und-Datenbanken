@@ -5,15 +5,11 @@ format:
   ai4sc-style-html:
     output-file: 02a_Datentypen.page.html
   ai4sc-style-revealjs:
-    css:
-      - _extensions/ai4sc-style/themes/color/mineral.css
     title-slide-attributes:
       data-background-video: images/02a_Datentypen/mj_title.mp4
     output-file: 02a_Datentypen.slide.html
   typst:
     output-file: 02a_Datentypen.page.pdf
-resources:
-  - data/02a_Datentypen
 ---
 
 %%book
@@ -35,19 +31,21 @@ resources:
 %%book
 
 Fast alle Programmiersprachen benutzen Variablen, um Werte abzuspeichern. Eine Variable ist dabei eine Zuweisung eines Wertes zu einem Namen. Intern verweist dieser Name dann auf die Speicheradresse im Arbeitsspeicher des Programmes, wo der Wert gespeichert ist. Dadurch kann man bei der Programmierung mit dem Namen der Variable arbeiten, ohne sich um die genaue Speicheradresse kümmern zu müssen.
+
 %%def Variable
-
-    Bei der Programmierung ist eine Variable ein Wert, der bei der Ausführung eines Computerprogramms auftritt und meist verändert werden kann. Eine Variable wird normalerweise im Quelltext durch einen Namen bezeichnet, hat einen Datentypen und eine Adresse im Speicher des Computers.
+Bei der Programmierung ist eine Variable ein Wert, der bei der Ausführung eines Computerprogramms auftritt und meist verändert werden kann. Eine Variable wird normalerweise im Quelltext durch einen Namen bezeichnet, hat einen Datentypen und eine Adresse im Speicher des Computers.
 %%/def
-Neben Variablen gibt es auch Konstanten.  In den meisten compilierten Programmiersprachen gibt es spezielle Syntax, um Konstanten zu definieren, da diese direkt in den Programmcode hinterlegt werden und nicht im Arbeitsspeicher des Programmes.
+
+Neben Variablen gibt es auch Konstanten. In den meisten compilierten Programmiersprachen gibt es spezielle Syntax, um Konstanten zu definieren, da diese direkt in den Programmcode hinterlegt werden und nicht im Arbeitsspeicher des Programmes.
+
 %%def Konstante
-
-    Eine Konstante ist ein Wert, der nicht verändert werden kann, nachdem er einmal zugewiesen wurde.
+Eine Konstante ist ein Wert, der nicht verändert werden kann, nachdem er einmal zugewiesen wurde.
 %%/def
-In Python gibt es keine speziellen Konstanten, aber es ist üblich, Variablen, die als Konstanten verwendet werden sollen, in Großbuchstaben zu schreiben, um sie von normalen Variablen zu unterscheiden. Sowohl Konstanten als auch Variablen haben einen Datentyp, der angibt, welche Art von Wert sie speichern können.
-%%def Datentyp
 
-    Der Datentyp einer Variable bestimmt den Typ des Wertes, der in der Variable gespeichert ist und welche Operationen auf diesem ausgeführt werden können. Z.B. ob es sich um eine Zahl, einen Text oder eine Liste handelt.
+In Python gibt es keine speziellen Konstanten, aber es ist üblich, Variablen, die als Konstanten verwendet werden sollen, in Großbuchstaben zu schreiben, um sie von normalen Variablen zu unterscheiden. Sowohl Konstanten als auch Variablen haben einen Datentyp, der angibt, welche Art von Wert sie speichern können.
+
+%%def Datentyp
+Der Datentyp einer Variable bestimmt den Typ des Wertes, der in der Variable gespeichert ist und welche Operationen auf diesem ausgeführt werden können. Z.B. ob es sich um eine Zahl, einen Text oder eine Liste handelt.
 %%/def
 
 %%/book
@@ -185,7 +183,7 @@ Nach dieser Lektion können Sie Variablen und Konstanten in Python definieren un
 
 %%book
 
-Ein KI-Assistent hat folgenden Code zur Berechnung einer Wandfläche generiert:
+Ein KI-Assistent hat folgenden Code zur Berechnung einer Wandfläche generiert. Im Messprotokoll steht eine Wand von 2,85 m Höhe und 4,70 m Breite:
 
 ```python
 hoehe = 3    # Meter
@@ -194,7 +192,7 @@ flaeche = hoehe * breite
 print(f"Wandfläche: {flaeche} m²")
 ```
 
-Das Ergebnis ist `15` — eine ganze Zahl. Für eine reale Wand wären `2.85 m × 4.70 m` denkbar. Warum liefert der Code dann eine falsche Antwort? Die Ursache liegt im Datentyp. In dieser Lektion lernen Sie, warum die Typwahl eine Modellierungsentscheidung ist und wie Sie KI-generierten Code auf solche Fehler prüfen.
+Das Ergebnis ist `15 m²` und der Typ von `flaeche` ist `int`. Die tatsächliche Fläche beträgt aber 2,85 m × 4,70 m = 13,395 m². Der Code liegt damit rund 12 % zu hoch, und Python meldet keinen Fehler: Der Code läuft, nur das Modell stimmt nicht. Die Ursache liegt im Datentyp. In dieser Lektion lernen Sie, warum die Typwahl eine Modellierungsentscheidung ist und wie Sie KI-generierten Code auf solche Fehler prüfen.
 
 %%/book
 
@@ -215,12 +213,15 @@ print(f"Wandfläche: {flaeche} m²")
 ```
 
 - Was ist `type(flaeche)`?
-- Reale Wände: `hoehe = 2.85`, `breite = 4.70`
-- Warum liefert der Code dann eine falsche Antwort?
+- Der Code läuft ohne Fehlermeldung
+- Wie weit liegt `15 m²` von der Wirklichkeit entfernt?
 
 %%sep
 
-*Antwort nach der Einführung in Datentypen.*
+Messprotokoll:
+
+- Höhe: 2,85 m
+- Breite: 4,70 m
 
 %%/col
 
@@ -230,13 +231,13 @@ print(f"Wandfläche: {flaeche} m²")
 
 ## Variablen verknüpfen Namen mit Werten
 
-%%div eyebrow
-{{< ai4sc-icon variable >}} Variable
-%%/div
+In Programmiersprachen werden Werte in Variablen gespeichert:
 
 %%def Variablen
 Bei der Programmierung ist eine Variable ein Wert, der bei der Ausführung eines Computerprogramms auftritt und meist verändert werden kann. Eine Variable wird normalerweise im Quelltext durch einen Namen bezeichnet, hat einen Datentypen und eine Adresse im Speicher des Computers.
 %%/def
+
+Daneben gibt es auch Konstanten:
 
 %%def Konstante
 Eine Konstante ist ein Wert, der nicht verändert werden kann, nachdem er einmal zugewiesen wurde.
@@ -259,7 +260,7 @@ a = 2 # a hat nun den Wert 2
 a = "test" # a hat nun den Wert "test"
 ```
 
-Der Typ einer Variable kann mit der Funktion type(a) abgefragt werden.
+Der Typ einer Variable kann mit der Funktion `type(a)` abgefragt werden.
 
 %%/slides
 
@@ -354,16 +355,25 @@ print("Wert: ", nummer, "\nDatentyp: ", type(nummer))
 
 ### Datentypen als Speicherrepräsentation
 
-In `01c_Computerhardware` haben wir gesehen, dass Computer alle Informationen als Binärfolgen speichern. Datentypen definieren genau, wie diese Bits im Speicher interpretiert werden:
+In `01c_Computerhardware` haben wir gesehen, dass Computer alle Informationen als Binärfolgen speichern. Datentypen definieren genau, wie diese Bits im Speicher interpretiert werden. Ein ganzzahliger 32-Bit-Wert (wie `int` in C) belegt 4 Bytes im Zweierkomplement, eine Gleitkommazahl (Python `float`) belegt 8 Bytes im Format IEEE 754, Text wird in Unicode (UTF-8) mit 1 bis 4 Bytes pro Zeichen abgelegt. Die Bytes dieser beiden Zahlen lassen sich mit dem Modul `struct` ansehen:
 
-| Typ | Speicher | Repräsentation |
-|-----|----------|----------------|
-| `int` | 4 Bytes (32 Bit) | Zweierkomplement |
-| `float` | 8 Bytes (64 Bit) | IEEE 754 |
-| `bool` | 1 Byte | 0 oder 1 |
-| `str` | variabel | Unicode (UTF-8) |
+```{python}
+#| echo: true
+import struct
+print(struct.pack("<i", 3).hex())      # int32:   4 Bytes
+print(struct.pack("<d", 2.85).hex())   # float64: 8 Bytes
+```
 
-Die Wahl des Datentyps ist damit keine Stilfrage, sondern eine **Modellierungsentscheidung**. Wählen Sie `int` statt `float` für eine Distanz in Metern, verlieren Sie Nachkommastellen — das ist ein Modellfehler, kein Formatierungsproblem.
+Python-Objekte sind größer als diese reine Zahlendarstellung, weil sie zusätzlich Typ und Referenzzähler speichern. Ein Python-`int` wächst außerdem mit dem Wert mit, deshalb gibt es keinen Überlauf:
+
+```{python}
+#| echo: true
+import sys
+print(sys.getsizeof(3), sys.getsizeof(10**30))   # Bytes eines int-Objekts
+print(sys.getsizeof(2.85))                       # Bytes eines float-Objekts
+```
+
+Die Wahl des Datentyps ist damit keine Stilfrage, sondern eine *Modellierungsentscheidung*. Ein Messwert wie `2.85` Meter, der als `int` erfasst wird, verliert seine Nachkommastellen: Das ist ein Modellfehler, kein Formatierungsproblem.
 
 %%tip Agentic workflow — Typprüfung
 
@@ -375,17 +385,13 @@ Wenn KI-generierter Code einen Typ ableitet (z.B. `distanz = 5` → `int`):
 
 %%/tip
 
-Das ist genau der Fehler aus dem Einstiegsbeispiel: `hoehe = 3` erzeugt `int`, obwohl eine Wandhöhe in Metern Nachkommastellen haben kann. Mit `hoehe: float = 2.85` ist das Modell korrekt.
+Das ist genau der Fehler aus dem Einstiegsbeispiel: `hoehe = 3` stammt aus einer auf ganze Meter gerundeten Wandhöhe. Mit `hoehe: float = 2.85` ist das Modell korrekt. Beachten Sie, dass Python die Typangabe `: float` zur Laufzeit nicht prüft. Sie dokumentiert die Anforderung und kann von Werkzeugen wie `mypy` geprüft werden.
 
 %%/book
 
 %%slides
 
 ## Python weist Datentypen dynamisch zu
-
-%%div eyebrow
-{{< ai4sc-icon braces >}} Datentyp
-%%/div
 
 %%def Datentyp
 Der Datentyp bestimmt, wie ein Wert im Arbeitsspeicher abgelegt wird und welche Operationen auf ihm ausgeführt werden können.
@@ -417,18 +423,27 @@ Der Datentyp bestimmt, wie ein Wert im Arbeitsspeicher abgelegt wird und welche 
 
 %%col 50 50
 
-- Jeder Datentyp legt fest, wie Bits im Speicher interpretiert werden (→ `02a`):
+- Jeder Datentyp legt fest, wie Bits im Speicher interpretiert werden (→ `01c_Computerhardware`):
 
-| Typ | Speicher |
-|-----|----------|
-| `int` | 4 Bytes (32 Bit) |
-| `float` | 8 Bytes (64 Bit) |
-| `bool` | 1 Byte |
-| `str` | variabel (UTF-8) |
+| Typ | Darstellung | Speicher |
+|-----|-------------|----------|
+| `int32` (C) | Zweierkomplement | 4 Bytes |
+| `float` (Python) | IEEE 754 | 8 Bytes |
+| `str` | Unicode (UTF-8) | 1–4 Bytes je Zeichen |
+
+- Python-`int` wächst mit dem Wert, es gibt keinen Überlauf.
 
 %%sep
 
-![](images/02a_Datentypen/datentyp2.svg)
+```python
+import struct
+
+struct.pack("<i", 3).hex()
+# '03000000'            4 Bytes
+
+struct.pack("<d", 2.85).hex()
+# 'cdcccccccccc0640'    8 Bytes
+```
 
 %%/col
 
@@ -440,24 +455,24 @@ Der Datentyp bestimmt, wie ein Wert im Arbeitsspeicher abgelegt wird und welche 
 
 %%col 50 50
 
-- `int` für eine Distanz: Meter ohne Nachkommastellen → **Präzisionsfehler**
+- `int` für Messwerte in Metern: Nachkommastellen fehlen → **Rundungsfehler** (15 statt 13,395 m²)
 
-- `float` für eine Distanz: Meter mit Nachkommastellen → **korrekt**
+- `float` für Messwerte in Metern: Nachkommastellen bleiben erhalten → **korrekt**
 
 - Den falschen Typ zu wählen ist **kein Stilproblem** — es ist ein Modellfehler.
 
 %%sep
 
 ```python
-# Fehler: int statt float
-hoehe = 3       # Typ: int
-breite = 5      # Typ: int
-flaeche = hoehe * breite  # 15, nicht 15.0
+# KI-generiert: auf ganze Meter gerundet
+hoehe = 3                  # int
+breite = 5                 # int
+flaeche = hoehe * breite   # 15  (+12 %)
 
-# Korrekt:
+# Messwerte aus dem Protokoll
 hoehe: float = 2.85
 breite: float = 4.70
-flaeche = hoehe * breite  # 13.395
+flaeche = hoehe * breite   # 13.395
 ```
 
 %%/col
@@ -519,7 +534,7 @@ print("Wert: ", nummer, "\nDatentyp: ", type(nummer))
 - Numerische Datentypen repräsentieren Zahlen.
 
 - Ganze und Natürliche Zahlen werden als signed und unsigned Integer abgebildet. Nach Speicherkapazität unterscheidet man
-    - Short Integer (8 Bit),
+    - Short Integer (16 Bit),
     - Integer (32 Bit) und
     - Long (64 Bit).
 
@@ -557,36 +572,6 @@ print("Wert: ", nummer, "\nDatentyp: ", type(nummer))
 
 %%/slides
 
-%%slides
-
-## Agentic Workflow — Typprüfung
-
-%%col 50v 50
-
-**Wenn KI einen Typ ableitet:**
-
-1. Prüfen Sie mit `type(variable)`
-2. Stimmt er mit der Ingenieuranforderung überein?
-3. Korrigieren Sie die Anweisung falls nötig
-
-> Beispiel: `distanz = 5` → KI wählt `int`.
-> Für eine Distanz in Metern ist `float` korrekt.
-
-%%sep
-
-```python
-# KI-generiert — prüfen!
-distanz = 5
-print(type(distanz))  # <class 'int'>
-
-# Ingenieuranforderung: float
-distanz: float = 5.0
-print(type(distanz))  # <class 'float'>
-```
-
-%%/col
-
-%%/slides
 
 %%book
 
@@ -597,7 +582,6 @@ print(type(distanz))  # <class 'float'>
 %%book
 
 In allen Programmiersprachen gibt es boolesche Datentypen, um Wahrheitswerte auszudrücken und logische Operationen auszuführen.
-
 
 ![](images/02a_Datentypen/datentyp4.svg){width=450px}
 
@@ -668,7 +652,7 @@ print(richtigoderfalsch)
 
 %%sep
 
-![](images/02a_Datentypen/datentyp4.svg)
+![](images/02a_Datentypen/datentyp4.svg){style="max-height:640px"}
 
 %%/col
 
@@ -686,7 +670,7 @@ print(richtigoderfalsch)
 
 %%sep
 
-![](images/02a_Datentypen/datentyp5.svg)
+![](images/02a_Datentypen/datentyp5.svg){style="max-height:640px"}
 
 %%/col
 
@@ -824,7 +808,7 @@ print("Wert: ", zeichenkette, "\nDatentyp: ", type(zeichenkette))
 
 %%sep
 
-![](images/02a_Datentypen/datentyp6.svg)
+![](images/02a_Datentypen/datentyp6.svg){style="max-height:640px"}
 
 %%/col
 
@@ -840,7 +824,7 @@ print("Wert: ", zeichenkette, "\nDatentyp: ", type(zeichenkette))
 
 - Mehrere textuelle Zeichen werden in Python als `str` definiert.
 
-- Ein `str` in Python kann mit einem `'` oder zwei `"` Anführungszeichen angefangen und beendet werden.
+- Ein `str` in Python kann mit einfachen `'` oder doppelten `"` Anführungszeichen angefangen und beendet werden.
 
   ```python
   name = "Joern"
@@ -849,7 +833,7 @@ print("Wert: ", zeichenkette, "\nDatentyp: ", type(zeichenkette))
 
 %%sep
 
-![](images/02a_Datentypen/datentyp7.svg)
+![](images/02a_Datentypen/datentyp7.svg){style="max-height:640px"}
 
 %%/col
 
@@ -881,7 +865,7 @@ print("Wert: ", wort, "\nDatentyp: ", type(wort))
 
 %%book
 
-Der Wert eines einzelnen `Byte` in dem Bytearray ist normalerweise eine natürliche Zahl von 0 bis 255. In Python wird hierfür ein ´int´ benutzt. Das lässt sich zeigen, indem man auf den Index eines einzelnen Bytes in dem Bytearray zugreift.
+Der Wert eines einzelnen `Byte` in dem Bytearray ist normalerweise eine natürliche Zahl von 0 bis 255. In Python wird hierfür ein `int` benutzt. Das lässt sich zeigen, indem man auf den Index eines einzelnen Bytes in dem Bytearray zugreift.
 
 %%/book
 
@@ -1030,8 +1014,8 @@ print(len(liste))
 
 ```{python}
 #| echo: true
-tuple = (1,2,3,"a", True)
-print("Wert: ", tuple, "\nDatentyp: ", type(tuple))
+werte = (1,2,3,"a", True)
+print("Wert: ", werte, "\nDatentyp: ", type(werte))
 ```
 
 %%/book
@@ -1047,8 +1031,8 @@ print("Wert: ", tuple, "\nDatentyp: ", type(tuple))
 ```{python}
 #| echo: true
 #| error: true
-tuple[0]=True
-print(tuple)
+werte[0]=True
+print(werte)
 ```
 
 %%/book
@@ -1122,10 +1106,6 @@ print(liste[-10:]) # greift auf die letzten zehn Element zu
 
 ## Zusammengesetzte Datentypen – Sequenzen
 
-%%div eyebrow
-{{< ai4sc-icon list-tree >}} Datenstruktur
-%%/div
-
 %%col 50 50
 
 - Sequenzen sind eine geordnete Abfolge an Werten, meist vom selben Datentyp.
@@ -1157,16 +1137,16 @@ print(liste[-10:]) # greift auf die letzten zehn Element zu
 
 - Python unterstützt keine Arrays sondern nutzt `list` und `tuple`. Sie werden durch eckige oder runde Klammern deklariert.
 
-	```python
+  ```python
   x = [0, 1, 2, 3, 1] # Liste
-	x = (0, 1, 2, 3, 1) # Tuple
+  x = (0, 1, 2, 3, 1) # Tuple
   ```
 
 - `tuple` haben eine feste Länge in Python. Sie sind unveränderlich (immutable).
 
 - Zusätzlich gibt es den besonderen Datentyp `range` um Sequenz von ganzen Zahlen zu erzeugen.
 
-	```python
+  ```python
   x = range(0,10) # Range Funktion
   ```
 
@@ -1189,23 +1169,23 @@ print(liste[-10:]) # greift auf die letzten zehn Element zu
 - In Python wird der Index in einer Liste ab 0 gezählt (ab 1 in einigen Sprachen).
 
   ```python
-	x[0] # 1. Element
-	x[1] # 2. Element
+  x[0] # 1. Element
+  x[1] # 2. Element
   ```
 
 - Eine Besonderheit in Python ist dass auch negative Indizes erlaubt sind um das Ende von Listen zuzugreifen (a.k.a. Syntaxzucker)
 
   ```python
-	x[-1] # letzte Element
-	x[len(x)–1] # alternatives Vorgehen
+  x[-1] # letzte Element
+  x[len(x)–1] # alternatives Vorgehen
   ```
 
 - In Python kann durch Slicing auch auf Listenteile zugegriffen werden
 
   ```python
-	x[0:10] # ersten 10 Elemente (ohne 10)
-	x[:10]  # ersten 10 Elemente (ohne 10)
-	x[-10:] # letzten 10 Elemente
+  x[0:10] # ersten 10 Elemente (ohne 10)
+  x[:10]  # ersten 10 Elemente (ohne 10)
+  x[-10:] # letzten 10 Elemente
   ```
 
 %%sep
@@ -1298,10 +1278,6 @@ Das geht genauso bei der Liste ist allerdings langsamer, insbesondere wenn die L
 
 ## Zusammengesetzte Datentypen – Mengen
 
-%%div eyebrow
-{{< ai4sc-icon list-tree >}} Datenstruktur
-%%/div
-
 %%col 50 50
 
 - Mengen stellen eine Menge an Werten ohne Wiederholungen dar, so wie in der Mathematik.
@@ -1326,7 +1302,7 @@ Das geht genauso bei der Liste ist allerdings langsamer, insbesondere wenn die L
 
 - Der Datentyp für Mengen in Python heißt `set`. Sie werden durch geschweifte Klammern deklariert.
   ```python
-	x = {0, 1, 2, 3}
+  x = {0, 1, 2, 3}
   ```
 
 %%sep
@@ -1422,10 +1398,6 @@ print("Wert: ", haus, "\nDatentyp: ", type(haus))
 
 ## Zusammengesetzte Datentypen – Wörterbücher
 
-%%div eyebrow
-{{< ai4sc-icon list-tree >}} Datenstruktur
-%%/div
-
 %%col 50 50
 
 - Wörterbücher bilden eine Abbildung von einer Menge an Schlüsseln auf eine Menge an Werten (Key-Value). Die Menge der Schlüssel darf keine Wiederholung aufweisen, die Menge der Werte schon.
@@ -1489,7 +1461,7 @@ print("Wert: ", haus, "\nDatentyp: ", type(haus))
   "Baujahr" in x
   ```
 
-- Um Werte aus einem `dict` oder `set` zu entfernen, nutzt man
+- Um Werte aus einem `dict` zu entfernen, nutzt man `del`, bei einem `set` `remove()` oder `discard()`
 
   ```python
   del x["Baujahr"]
@@ -1629,8 +1601,8 @@ In beiden Fällen gibt die `get()` Funktion `None` zurück und können nicht meh
 %%book
 
 Grundsätzlich unterscheidet man in Programmiersprachen zwischen veränderlichen (*mutable*) und unveränderlichen (*immutable*) Datentypen.
-%%def Mutability
 
+%%def Mutability
 Modifizierbarkeit beschreibt die Veränderbarkeit von Datenstrukturen.
 
 - Ist ein Datentyp *mutable* können Variablen von diesem Typ direkt verändert werden.
@@ -1647,7 +1619,7 @@ Um Programmierfehler zu verhindern und Zugriffssicherheit (Datenschutz) zu gewä
 |--------------------|----------------------------|
 | `list`             | `tuple`                    |
 | `set`              | `frozenset`                |
-| `dict`             | `frozendict`               |
+| `dict`             | `str`                      |
 | `bytearray`        | `bytes`                    |
 
 %%/book
@@ -1655,17 +1627,19 @@ Um Programmierfehler zu verhindern und Zugriffssicherheit (Datenschutz) zu gewä
 %%slides
 
 ## Datentypen – Modifizierbarkeit (Mutability)
+
 %%def Mutability
 Modifizierbarkeit beschreibt die Veränderbarkeit von Datenstrukturen.
 
 - Ist ein Datentyp *mutable* können Variablen von diesem Typ direkt verändert werden.
 - Ist er *immutable* kann man diese nur durch eine komplette Neubelegung verändern.
 %%/def
+
 | Mutabel (änderbar) | Immutabel (nicht änderbar) |
 |--------------------|----------------------------|
 | `list`             | `tuple`                    |
 | `set`              | `frozenset`                |
-| `dict`             | `frozendict`               |
+| `dict`             | `str`                      |
 | `bytearray`        | `bytes`                    |
 
 - Um Programmierfehler zu verhindern und Zugriffssicherheit (Datenschutz) zu gewährleisten, unterscheiden einige Programmiersprachen sehr strikt zwischen mutable und  immutable Datentypen.
