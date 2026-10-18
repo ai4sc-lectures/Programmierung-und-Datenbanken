@@ -34,9 +34,14 @@ resources:
 
 %%# Variablen als Referenzen
 
+%%book
+Wer Messdaten aus einem Sensornetz einliest, in Funktionen weiterreicht und dort auswertet, arbeitet ständig mit Namen für Daten. Welche Beziehung zwischen einem Namen und den Daten im Arbeitsspeicher tatsächlich besteht, entscheidet darüber, ob ein Programm vorhersehbar arbeitet oder Messreihen unbemerkt verändert. Dieses Kapitel entwickelt deshalb ein tragfähiges Modell: Wir klären zunächst, was eine Variable in Python ist, untersuchen dann veränderliche und unveränderliche Objekte, beschreiben Call Stack und Heap und wenden das Modell abschließend auf typische Fehler in KI-generiertem Code und auf das Lesen von Tracebacks an.
+%%/book
+
 %%## Eine Variable ist ein Name, keine Box
 
-%%scol 45 55
+%%slides
+%%col 45 55
 ![](images/02c_Speicher/name_vs_box.svg){fig-align="center"}
 %%sep
 ```python
@@ -49,19 +54,34 @@ print(x is y)  # True
 ```
 
 {{< ai4sc-icon variable >}} `id()` liefert die Identität des Objekts, nicht seinen Wert.
-%%/scol
+%%/col
+%%/slides
 
 %%book
+Aus anderen Programmiersprachen kennen viele die Vorstellung, eine Variable sei ein beschrifteter Behälter, in den ein Wert hineingelegt wird. In Python trifft dieses Bild nicht zu. Eine Variable ist hier ein Name, der auf ein Objekt im Speicher verweist. Das Objekt besitzt eine Identität (in CPython die Speicheradresse), einen Typ und einen Wert; der Name besitzt nichts davon, er zeigt lediglich auf das Objekt. Die Abbildung stellt beide Sichtweisen gegenüber: links die Box, die einen Wert enthält, rechts der Name mit einem Pfeil auf das Objekt.
 
-In Python ist eine Variable kein Behälter, der einen Wert enthält. Sie ist ein Name, der auf ein Objekt im Speicher verweist. Jedes Objekt hat eine Identität (in CPython die Speicheradresse, abrufbar mit `id()`), einen Typ und einen Wert. Dieses Konzept der Namensbindung ist die Grundlage für Aliasing, Mutation und Garbage Collection. Die Hardware-Sicht auf den Speicher steht in `01c_Computerhardware`.
+![](images/02c_Speicher/name_vs_box.svg){fig-align="center" width="70%"}
 
-Für kleine ganze Zahlen (in CPython −5 bis 256) legt der Interpreter die Objekte vorab an und verwendet sie wieder. Deshalb gilt `x is y` im Beispiel. Das ist ein Implementierungsdetail von CPython und keine Garantie der Sprache.
+Wie sich das im Programm zeigen lässt, führt das folgende Beispiel vor. Die Funktion `id()` liefert die Identität des Objekts, auf das ein Name verweist.
 
+```python
+x = 42
+print(id(x))   # Adresse des Objekts
+
+y = 42
+print(id(y))   # gleiche Adresse
+print(x is y)  # True
+```
+
+Beide Aufrufe von `id()` geben dieselbe Zahl aus, und der Vergleich `x is y` liefert `True`. Die Namen `x` und `y` verweisen also auf ein einziges Objekt `42` und nicht auf zwei Kopien. Der konkrete Zahlenwert der Adresse ist dabei bedeutungslos; er ändert sich von Programmlauf zu Programmlauf. Aussagekräftig ist nur, ob zwei Adressen gleich sind.
+
+Dass hier tatsächlich dasselbe Objekt vorliegt, liegt an einer Optimierung: Für kleine ganze Zahlen (in CPython −5 bis 256) legt der Interpreter die Objekte vorab an und verwendet sie wieder. Das ist ein Implementierungsdetail von CPython und keine Garantie der Sprache; ein Programm darf sich darauf nicht stützen. Das Konzept der Namensbindung selbst ist dagegen die Grundlage für alles Weitere in diesem Kapitel, nämlich für Aliasing, Mutation und Garbage Collection. Wie der Arbeitsspeicher hardwareseitig aufgebaut ist, haben wir in `01c_Computerhardware` betrachtet.
 %%/book
 
 %%## Zuweisung bindet einen Namen
 
-%%scol 50 50
+%%slides
+%%col 50 50
 ```python
 x = [1, 2, 3]
 # Liste erzeugen, Namen x binden
@@ -74,15 +94,46 @@ x = [4, 5, 6]
 ```
 %%sep
 ![](images/02c_Speicher/rebind.svg){fig-align="center"}
-%%/scol
+%%/col
+%%/slides
 
 %%book
+Aus der Namensbindung folgt, was bei einer Zuweisung tatsächlich geschieht. Der Operator `=` kopiert kein Objekt, sondern bindet einen Namen an ein Objekt. Dieses Objekt wird entweder durch die rechte Seite neu erzeugt oder ist bereits vorhanden, wie bei `b = a`.
 
-Eine Zuweisung mit `=` kopiert kein Objekt. Sie bindet einen Namen an ein Objekt, entweder neu erzeugt oder bereits vorhanden. Wird ein Name neu gebunden, bleibt das alte Objekt unverändert zurück. Zeigt kein Name mehr darauf, gibt Python seinen Speicher frei.
+```python
+x = [1, 2, 3]
+# Liste erzeugen, Namen x binden
 
+x = [4, 5, 6]
+# neue Liste erzeugen,
+# Namen x neu binden
+# alte Liste: kein Name mehr
+# → Speicher wird freigegeben
+```
+
+In der ersten Zeile entsteht eine Liste mit drei Elementen, und `x` verweist auf sie. Die zweite Zeile erzeugt eine zweite, völlig getrennte Liste und bindet `x` neu. Die erste Liste wird dabei nicht verändert, sie hat nur keinen Namen mehr, der auf sie zeigt. Sobald dies der Fall ist, gibt Python ihren Speicher selbständig frei (siehe den Abschnitt zur Garbage Collection weiter unten).
+
+![](images/02c_Speicher/rebind.svg){fig-align="center" width="60%"}
+
+Die Abbildung zeigt diesen Vorgang in zwei Zuständen: Der Pfeil von `x` wandert von der ersten auf die zweite Liste. Ein Name lässt sich damit jederzeit auf ein anderes Objekt umlenken, auch auf eines anderen Typs; das Objekt selbst bleibt davon unberührt.
 %%/book
 
 %%## `==` prüft den Wert, `is` die Identität
+
+%%slides
+```python
+a = [1, 2, 3]
+b = [1, 2, 3]
+c = a
+
+print(a == b)   # True:  gleicher Inhalt
+print(a is b)   # False: zwei getrennte Objekte
+print(a is c)   # True:  c ist ein weiterer Name für dasselbe Objekt
+```
+%%/slides
+
+%%book
+Da Namen auf Objekte verweisen, gibt es in Python zwei verschiedene Fragen, die man an zwei Namen stellen kann: Haben die Objekte denselben Inhalt, und sind es überhaupt dieselben Objekte? Die erste Frage beantwortet der Operator `==`, die zweite der Operator `is`.
 
 ```python
 a = [1, 2, 3]
@@ -94,21 +145,27 @@ print(a is b)   # False: zwei getrennte Objekte
 print(a is c)   # True:  c ist ein weiterer Name für dasselbe Objekt
 ```
 
+Die Listen `a` und `b` wurden getrennt erzeugt und liegen deshalb an verschiedenen Stellen im Speicher; ihr Inhalt ist dennoch gleich. `c` hingegen wurde mit `c = a` an das Objekt von `a` gebunden, es gibt also nur eine Liste mit zwei Namen.
+%%/book
+
 %%note Merksatz
 `==` vergleicht Werte, `is` vergleicht Objektidentitäten. Für den Vergleich von Inhalten verwenden Sie `==`. `is` ist für `None` üblich (`if x is None`).
 %%/note
 
 %%book
-
-Zwei Listen mit gleichem Inhalt sind gleich (`==`), aber nicht identisch (`is`), solange sie als getrennte Objekte erzeugt wurden. Bei Strings und kleinen Zahlen kann `is` auch für getrennt erzeugte Werte `True` liefern, weil CPython manche Objekte wiederverwendet (*Interning*). Man darf sich darauf nicht verlassen.
-
+Bei Strings und kleinen Zahlen kann `is` auch für getrennt erzeugte Werte `True` liefern, weil CPython manche Objekte wiederverwendet (*Interning*). Man darf sich darauf nicht verlassen. Der Vergleich mit `None` ist die Ausnahme, denn es existiert genau ein `None`-Objekt, und `is` drückt die Absicht hier präziser aus als `==`.
 %%/book
 
 %%# Veränderlich und unveränderlich
 
+%%book
+Dass mehrere Namen dasselbe Objekt teilen können, ist harmlos, solange sich das Objekt nicht ändert. Ob es sich ändern lässt, hängt vom Typ ab. Dieser Abschnitt erläutert die Unterscheidung und zeigt, wann sie zu Fehlern führt.
+%%/book
+
 %%## Unveränderlich oder veränderlich
 
-%%scol 50 50
+%%slides
+%%col 50 50
 ### Unveränderlich (*immutable*)
 
 - `int`, `float`, `bool`
@@ -126,17 +183,25 @@ Neue Operationen erzeugen neue Objekte.
 - eigene Klassen (in der Regel)
 
 Änderungen geschehen im Objekt selbst und sind für **alle** Namen sichtbar, die es teilen.
-%%/scol
+%%/col
+%%/slides
 
 %%book
+Python unterscheidet unveränderliche (*immutable*) und veränderliche (*mutable*) Objekte. Bei unveränderlichen Objekten ist der Wert nach der Erzeugung festgelegt; jede scheinbare Änderung erzeugt ein neues Objekt. Veränderliche Objekte lassen sich dagegen an Ort und Stelle ändern, ohne dass sich ihre Identität ändert. Die folgende Tabelle ordnet die wichtigsten Typen zu.
 
-Python unterscheidet unveränderliche und veränderliche Objekte. Bei unveränderlichen Typen erzeugt jede scheinbare Änderung ein neues Objekt. Veränderliche Typen wie Listen lassen sich dagegen an Ort und Stelle ändern. Diese Unterscheidung entscheidet darüber, ob geteilte Namen Seiteneffekte haben können. Ein {{< ai4sc-icon braces >}} Datentyp legt also nicht nur die Operationen fest, sondern auch, ob ein Objekt veränderlich ist. Datentypen als Speicherdarstellungen behandelt `02b_Datentypen`.
+| Eigenschaft | unveränderlich (*immutable*) | veränderlich (*mutable*) |
+|---|---|---|
+| Typen | `int`, `float`, `bool`, `str`, `tuple`, `frozenset` | `list`, `dict`, `set`, eigene Klassen (in der Regel) |
+| Änderung | erzeugt ein neues Objekt | geschieht im Objekt selbst |
+| Wirkung auf andere Namen | keine | sichtbar für alle Namen, die das Objekt teilen |
 
+Die Unterscheidung entscheidet darüber, ob geteilte Namen Seiteneffekte haben können. Der Datentyp legt damit nicht nur die möglichen Operationen fest, sondern auch, ob ein Objekt veränderlich ist. Wie Datentypen im Speicher dargestellt werden, behandelt `02b_Datentypen`.
 %%/book
 
 %%## Bei unveränderlichen Objekten ist Aliasing harmlos
 
-%%scol 50 50
+%%slides
+%%col 50 50
 ```python
 a = 42
 b = a         # beide Namen: dasselbe int-Objekt
@@ -147,19 +212,36 @@ print(a)      # 42, unverändert
 Ändert sich ein Name, entsteht ein neues Objekt. Der andere Name bleibt unberührt.
 %%sep
 ![](images/02c_Speicher/immutable.svg){fig-align="center"}
-%%/scol
+%%/col
+%%/slides
 
 %%book
+Wir betrachten zuerst den unproblematischen Fall. Zwei Namen verweisen auf dasselbe unveränderliche Objekt; man nennt das *Aliasing*.
 
-Ein `int` lässt sich nicht verändern. `b = b + 1` berechnet ein neues Objekt und bindet `b` daran. Das Objekt, auf das `a` zeigt, bleibt unberührt. Aliasing bei unveränderlichen Typen kann deshalb keine Seiteneffekte erzeugen.
+```python
+a = 42
+b = a         # beide Namen: dasselbe int-Objekt
+b = b + 1     # neues Objekt 43, b wird neu gebunden
+print(a)      # 42, unverändert
+```
 
+Nach `b = a` zeigen beide Namen auf das Objekt `42`. Der Ausdruck `b + 1` verändert dieses Objekt aber nicht, denn ein `int` lässt sich nicht verändern. Stattdessen berechnet Python ein neues Objekt `43` und bindet `b` daran. Das Objekt, auf das `a` zeigt, bleibt unberührt, und `print(a)` gibt weiterhin `42` aus.
+
+![](images/02c_Speicher/immutable.svg){fig-align="center" width="60%"}
+
+Aliasing bei unveränderlichen Typen kann deshalb keine Seiteneffekte erzeugen: Was über einen Namen geschieht, bleibt für den anderen unsichtbar.
 %%/book
 
 %%# Aliasing und Mutation
 
+%%book
+Bei veränderlichen Objekten verhält sich dasselbe Muster grundlegend anders. Hier liegt die häufigste Fehlerquelle im Umgang mit Listen und Dictionaries, etwa wenn eine Messreihe an mehrere Auswertungen weitergegeben wird.
+%%/book
+
 %%## Aliasing: zwei Namen, ein Objekt
 
-%%scol 50 50
+%%slides
+%%col 50 50
 ```python
 a = [1, 2, 3]
 b = a           # keine Kopie!
@@ -173,17 +255,33 @@ print(a is b)   # True
 {{< ai4sc-icon arrow-left-right >}} `b.append(4)` verändert das Objekt, auf das beide Namen zeigen.
 %%sep
 ![](images/02c_Speicher/alias.svg){fig-align="center"}
-%%/scol
+%%/col
+%%/slides
 
 %%book
+Das Beispiel entspricht dem vorigen, verwendet aber eine Liste statt einer Zahl.
 
-Aliasing bedeutet, dass zwei oder mehr Namen auf dasselbe Objekt zeigen. Bei veränderlichen Typen teilen sich die Namen damit einen Zustand: Eine Änderung über `b` ist über `a` sichtbar, weil es nur ein Objekt gibt. Das ist die häufigste Ursache für schwer auffindbare Fehler beim Umgang mit Listen und Dictionaries.
+```python
+a = [1, 2, 3]
+b = a           # keine Kopie!
+b.append(4)
 
+print(a)        # [1, 2, 3, 4]
+print(b)        # [1, 2, 3, 4]
+print(a is b)   # True
+```
+
+Die Zuweisung `b = a` erzeugt keine zweite Liste, sondern einen zweiten Namen für dieselbe. Der Aufruf `b.append(4)` hängt das Element an dieses eine Objekt an, und weil `a` auf dasselbe Objekt zeigt, ist die Änderung auch über `a` sichtbar. Beide `print`-Ausgaben zeigen daher vier Elemente, und `a is b` bestätigt, dass es nur ein Objekt gibt.
+
+![](images/02c_Speicher/alias.svg){fig-align="center" width="60%"}
+
+Der Fehler ist tückisch, weil an der Stelle, an der er sichtbar wird, nichts Auffälliges steht: Die Ursache liegt in einer unscheinbaren Zuweisung, möglicherweise viele Zeilen oder Funktionsaufrufe früher. Das macht ihn zu einer der häufigsten Ursachen für schwer auffindbare Fehler.
 %%/book
 
 %%## Echte Kopien statt Alias
 
-%%scol 50 50
+%%slides
+%%col 50 50
 ```python
 b = a.copy()          # flache Kopie
 b = a[:]              # flache Kopie (Slice)
@@ -196,19 +294,35 @@ b = copy.deepcopy(a)  # tiefe Kopie
 - Verschachtelte Objekte darin bleiben geteilt
 - `deepcopy` kopiert auch die verschachtelten Objekte
 - Faustregel: flach kopieren, tief nur bei Bedarf
-%%/scol
+%%/col
+%%/slides
 
 %%book
+Soll eine Liste unabhängig verändert werden können, muss man sie explizit kopieren. Python bietet dafür zwei Stufen an.
 
-Um Aliasing zu vermeiden, legen Sie eine Kopie an. Eine flache Kopie erzeugt ein neues Listenobjekt, die darin enthaltenen Objekte bleiben aber dieselben. Enthält die Liste selbst veränderliche Objekte (etwa verschachtelte Listen), teilen sich Original und Kopie diese weiterhin. Erst `copy.deepcopy` kopiert auch die verschachtelten Objekte.
+```python
+b = a.copy()          # flache Kopie
+b = a[:]              # flache Kopie (Slice)
 
+import copy
+b = copy.deepcopy(a)  # tiefe Kopie
+```
+
+Eine flache Kopie, erzeugt mit `a.copy()` oder dem Slice `a[:]`, legt ein neues Listenobjekt an. Die darin enthaltenen Elemente sind aber weiterhin dieselben Objekte wie im Original. Das spielt keine Rolle, solange sie unveränderlich sind, etwa Zahlen. Enthält die Liste selbst veränderliche Objekte, zum Beispiel verschachtelte Listen für eine Tabelle von Messwerten, teilen sich Original und Kopie diese inneren Listen weiterhin. Erst `copy.deepcopy` kopiert auch die verschachtelten Objekte rekursiv.
+
+Als Faustregel gilt, flach zu kopieren und die tiefe Kopie nur bei verschachtelten, veränderlichen Daten einzusetzen, denn sie ist aufwendiger und benötigt mehr Speicher.
 %%/book
 
 %%# Der Call Stack
 
+%%book
+Bisher haben wir betrachtet, worauf Namen verweisen. Nun fragen wir, wo diese Namen leben. Python verwaltet dafür zwei Bereiche: den Call Stack für Funktionsaufrufe und den Heap für Objekte. Wir beginnen mit dem Stack.
+%%/book
+
 %%## Jeder Funktionsaufruf erhält einen Frame
 
-%%scol 50 50
+%%slides
+%%col 50 50
 ```python
 def berechne_fläche(breite, höhe):
     fläche = breite * höhe
@@ -224,29 +338,55 @@ main()
 ```
 %%sep
 ![](images/02c_Speicher/callstack.svg){fig-align="center"}
-%%/scol
+%%/col
+%%/slides
 
 %%book
+Wenn Python eine Funktion aufruft, legt es für diesen Aufruf einen neuen *Frame* auf den Call Stack. Der Frame enthält die lokalen Namen der Funktion, also ihre Parameter und alle Namen, die in ihr zugewiesen werden. Der oberste Frame ist der aktive; nur dessen Namen sind gerade sichtbar.
 
-Wenn Python eine Funktion aufruft, legt es einen neuen Frame auf den Call Stack. Dieser Frame enthält die lokalen Namen der Funktion, also ihre Parameter und alle Namen, die in ihr zugewiesen werden. Der oberste Frame ist der aktive. Hardwareseitig ist der Stack ein Speicherbereich im RAM, wie in `01c_Computerhardware` beschrieben.
+```python
+def berechne_fläche(breite, höhe):
+    fläche = breite * höhe
+    return fläche
 
+def main():
+    b = 5
+    h = 3
+    ergebnis = berechne_fläche(b, h)
+    print(ergebnis)
+
+main()
+```
+
+Im Beispiel ruft das Modul `main()` auf, und `main` ruft wiederum `berechne_fläche` auf. Während die innere Funktion läuft, liegen drei Frames übereinander: der des Moduls, der von `main` mit den Namen `b`, `h` und `ergebnis` und obenauf der von `berechne_fläche` mit `breite`, `höhe` und `fläche`.
+
+![](images/02c_Speicher/callstack.svg){fig-align="center" width="60%"}
+
+Hardwareseitig ist der Stack ein Speicherbereich im RAM, wie in `01c_Computerhardware` beschrieben.
 %%/book
 
 %%## Der Stack wächst und schrumpft
 
+%%slides
 ![](images/02c_Speicher/callstack_steps.svg){.nostretch fig-align="center" width="90%"}
 
 - Lokale Namen entstehen beim Eintritt in die Funktion und verschwinden beim Rücksprung.
 - Jeder Aufruf hat seinen eigenen Frame, auch bei Aufrufen derselben Funktion.
+%%/slides
 
 %%book
+Der Call Stack ist nicht statisch, sondern verändert sich mit jedem Aufruf und jedem Rücksprung. Die folgende Abbildung zeigt die Zustände des Beispiels von oben nacheinander.
 
-Beim Rücksprung wird der Frame entfernt, und mit ihm verschwinden die lokalen Namen, hier `fläche`. Von außen sind sie nie erreichbar. Der Stack arbeitet nach dem LIFO-Prinzip (*last in, first out*): Der zuletzt aufgerufene Frame wird als erster wieder entfernt.
+![](images/02c_Speicher/callstack_steps.svg){.nostretch fig-align="center" width="90%"}
 
+Mit dem Eintritt in eine Funktion entstehen ihre lokalen Namen, mit dem Rücksprung verschwinden sie wieder. Nach dem Ende von `berechne_fläche` ist der Name `fläche` daher nicht mehr erreichbar; nur der zurückgegebene Wert lebt in `ergebnis` weiter. Jeder Aufruf erhält seinen eigenen Frame, auch wenn dieselbe Funktion mehrfach aufgerufen wird. Die Aufrufe stören sich deshalb nicht gegenseitig.
+
+Der Stack arbeitet nach dem LIFO-Prinzip (*last in, first out*): Der zuletzt aufgerufene Frame wird als erster wieder entfernt.
 %%/book
 
 %%## Rekursion erzeugt einen Frame pro Aufruf
 
+%%slides
 ```python
 def fakultät(n):
     if n <= 1:
@@ -262,34 +402,58 @@ Python begrenzt die Rekursionstiefe standardmäßig auf 1000 Frames (`sys.getrec
 
 Hat KI tief rekursiven Code erzeugt, prüfen Sie die maximale Tiefe bei großen Eingaben und fordern Sie bei Bedarf eine iterative Variante an.
 %%/warning
+%%/slides
 
 %%book
+Eine Funktion kann sich selbst aufrufen; man spricht dann von Rekursion. Für den Speicher bedeutet das, dass jeder Aufruf einen eigenen Frame mit eigenem `n` erhält.
 
-Rekursion legt für jeden Aufruf einen neuen Frame an. Bei zu großer Tiefe bricht Python mit einem `RecursionError` ab, bevor der Stack des Betriebssystems erschöpft ist. Rekursion behandeln wir in `09b_Rekursion` im Detail; das Verständnis des Call Stack ist dafür die Voraussetzung.
+```python
+def fakultät(n):
+    if n <= 1:
+        return 1
+    return n * fakultät(n - 1)   # neuer Frame pro Aufruf
 
+fakultät(4)
+# Stack: [<module>, fakultät(4), fakultät(3), fakultät(2), fakultät(1)]
+```
+
+Beim Aufruf `fakultät(4)` wartet der erste Frame auf das Ergebnis von `fakultät(3)`, dieser auf `fakultät(2)` und so fort, bis `fakultät(1)` ohne weiteren Aufruf `1` zurückgibt. Erst dann werden die Frames von oben nach unten abgebaut und die Zwischenergebnisse multipliziert. Der Stack erreicht im Moment des tiefsten Aufrufs fünf Frames.
+
+%%warning RecursionError
+Python begrenzt die Rekursionstiefe standardmäßig auf 1000 Frames (`sys.getrecursionlimit()`). Darüber hinaus meldet der Interpreter `RecursionError: maximum recursion depth exceeded`.
+
+Hat KI tief rekursiven Code erzeugt, prüfen Sie die maximale Tiefe bei großen Eingaben und fordern Sie bei Bedarf eine iterative Variante an.
+%%/warning
+
+Die Grenze schützt davor, dass der Stack des Betriebssystems erschöpft wird und das Programm abstürzt. Rekursion behandeln wir in `09b_Rekursion` im Detail; das Verständnis des Call Stack ist dafür die Voraussetzung.
 %%/book
 
 %%# Der Heap
 
 %%## Frames halten Namen, der Heap hält Objekte
 
-%%scol 55 45
+%%slides
+%%col 55 45
 ![](images/02c_Speicher/stack_heap.svg){fig-align="center"}
 %%sep
 - Jeder Frame enthält Namen, also Referenzen
 - Alle Python-Objekte liegen im Heap
 - Ein Objekt lebt, solange mindestens ein Name darauf zeigt
-%%/scol
+%%/col
+%%/slides
 
 %%book
+Der Stack verwaltet die Funktionsaufrufe und ihre Namen. Die Objekte, auf die diese Namen verweisen, also Zahlen, Strings, Listen und alle anderen, liegen dagegen im *Heap*. Die Namen in einem Frame sind Referenzen auf Objekte im Heap, wie die Abbildung mit den Frames auf der einen und dem Heap auf der anderen Seite zeigt.
 
-Während der Stack die Funktionsaufrufe verwaltet, liegen alle Python-Objekte im Heap: Zahlen, Strings und Listen. Die Namen in einem Frame sind Referenzen auf diese Objekte. Das erklärt, warum eine Funktion eine lokale Liste zurückgeben kann: Mit dem Frame verschwindet nur der Name, das Objekt im Heap bleibt bestehen, solange ein anderer Name darauf zeigt.
+![](images/02c_Speicher/stack_heap.svg){fig-align="center" width="70%"}
 
+Diese Trennung erklärt, warum eine Funktion eine lokale Liste zurückgeben kann. Mit dem Frame verschwindet nur der Name, nicht das Objekt. Es bleibt im Heap bestehen, solange mindestens ein anderer Name darauf zeigt, etwa der Name, an den der Aufrufer den Rückgabewert gebunden hat.
 %%/book
 
 %%## Garbage Collection
 
-%%scol 50 50
+%%slides
+%%col 50 50
 ```python
 def erstelle_daten():
     daten = [1, 2, 3, 4, 5]
@@ -306,19 +470,42 @@ result = None
 ![](images/02c_Speicher/refcount.svg){fig-align="center"}
 
 Zirkuläre Referenzen erkennt zusätzlich der Cycle Collector.
-%%/scol
+%%/col
+%%/slides
 
 %%book
+Wer entscheidet, wann ein Objekt aus dem Heap entfernt wird? In CPython geschieht das automatisch über einen Referenzzähler: Jedes Objekt merkt sich, wie viele Namen (und andere Objekte) auf es verweisen. Fällt der Zähler auf null, gibt der Interpreter den Speicher frei. Ein manuelles `free()` wie in C ist nicht nötig.
 
-CPython gibt Speicher automatisch frei, sobald der Referenzzähler eines Objekts auf null fällt. Ein manuelles `free()` wie in C ist nicht nötig. Objekte, die sich gegenseitig referenzieren, erreichen den Zähler null nicht von selbst. Diese Zyklen findet ein zusätzlicher Cycle Collector.
+```python
+def erstelle_daten():
+    daten = [1, 2, 3, 4, 5]
+    return daten
 
+result = erstelle_daten()
+# 'daten' ist weg, das Objekt lebt:
+# result zeigt darauf
+
+result = None
+# kein Name mehr → freigegeben
+```
+
+Innerhalb der Funktion zeigt `daten` auf die Liste, der Zähler steht auf eins. Mit `return` wird die Liste an `result` übergeben; der Frame und damit der Name `daten` verschwinden, aber der Zähler bleibt eins, weil nun `result` auf das Objekt zeigt. Erst `result = None` entfernt die letzte Referenz, der Zähler fällt auf null, und die Liste wird freigegeben.
+
+![](images/02c_Speicher/refcount.svg){fig-align="center" width="60%"}
+
+Objekte, die sich gegenseitig referenzieren, erreichen den Zähler null nicht von selbst, selbst wenn kein Name im Programm sie mehr erreicht. Solche Zyklen findet ein zusätzlicher Cycle Collector, der in größeren Abständen läuft.
 %%/book
 
 %%# Engineering: KI-Fehler erkennen
 
+%%book
+Das Speichermodell ist kein Selbstzweck. KI-Werkzeuge erzeugen Code, der plausibel aussieht und korrekte Ergebnisse liefert, solange man nur einen Aufruf betrachtet. Zwei Fehlermuster treten im Zusammenhang mit Referenzen besonders häufig auf, und beide lassen sich mit dem bisherigen Wissen erkennen.
+%%/book
+
 %%## KI-Fehler: Die Eingabeliste wird verändert
 
-%%scol 55 45
+%%slides
+%%col 55 45
 ```python
 # KI-generiert: „sortiere die Messwerte“
 def sortiere(werte):
@@ -345,17 +532,50 @@ Nimmt eine KI-generierte Funktion eine Liste entgegen, prüfen Sie:
 
 Dann ist die Liste des Aufrufers nicht mehr sicher.
 %%/note
-%%/scol
+%%/col
+%%/slides
 
 %%book
+Das erste Muster ist die Mutation des Eingabe-Arguments. Eine KI soll eine Funktion schreiben, die Messwerte sortiert, und liefert Folgendes.
 
-Ein häufiger Fehler in KI-generiertem Code ist die Mutation des Eingabe-Arguments. Die Funktion `sortiere` sortiert die übergebene Liste in place und gibt sie zurück. Das Original des Aufrufers ist danach verändert. Dieser Effekt ist ohne Wissen über Aliasing leicht zu übersehen, weil der Rückgabewert korrekt aussieht. Die Prüfregeln aus dem Agentic Workflow machen ihn sichtbar: `id(messreihe) == id(sortiert)` zeigt, dass beide Namen dasselbe Objekt halten.
+```python
+# KI-generiert: „sortiere die Messwerte“
+def sortiere(werte):
+    werte.sort()          # verändert das Original
+    return werte
 
+messreihe = [3.2, 1.1, 4.5, 2.0]
+sortiert = sortiere(messreihe)
+print(messreihe)  # [1.1, 2.0, 3.2, 4.5]
+```
+
+Der Rückgabewert ist korrekt sortiert, deshalb fällt der Fehler leicht durch. Der Parameter `werte` ist jedoch ein Alias für `messreihe`, und `werte.sort()` sortiert dieses eine Objekt an Ort und Stelle. Die Originalreihe des Aufrufers ist damit unwiederbringlich umgeordnet; ihre zeitliche Reihenfolge, auf die eine Auswertung womöglich angewiesen ist, ist verloren. Dass `sortiert` und `messreihe` dasselbe Objekt sind, zeigt `id(messreihe) == id(sortiert)`.
+
+Die Korrektur liefert die eingebaute Funktion `sorted`, die eine neue Liste erzeugt.
+
+```python
+# Korrekt: neue Liste, Original bleibt
+def sortiere(werte):
+    return sorted(werte)
+```
+
+%%note Agentic Workflow
+Nimmt eine KI-generierte Funktion eine Liste entgegen, prüfen Sie:
+
+1. Ruft sie `.sort()`, `.append()`, `.remove()` oder `del` auf einem Parameter auf?
+2. Gibt sie den Parameter selbst zurück?
+3. Sind `id(eingabe)` und `id(rückgabe)` identisch?
+
+Dann ist die Liste des Aufrufers nicht mehr sicher.
+%%/note
+
+Diese drei Prüffragen lassen sich in wenigen Sekunden auf jede generierte Funktion anwenden und machen den Effekt sichtbar, bevor er in den Daten Schaden anrichtet.
 %%/book
 
 %%## KI-Fehler: Veränderlicher Default
 
-%%scol 55 45
+%%slides
+%%col 55 45
 ```python
 # KI-generiert, fehlerhaft
 def füge_hinzu(wert, liste=[]):
@@ -380,19 +600,54 @@ Python wertet den Default genau einmal aus, beim Definieren der Funktion. Alle A
 
 Verwenden Sie `None` als Default und legen Sie das Objekt in der Funktion an.
 %%/tip
-%%/scol
+%%/col
+%%/slides
 
 %%book
+Das zweite Muster ist ein veränderliches Objekt als Standardwert eines Parameters.
 
-Standardwerte von Parametern werden einmal beim Definieren der Funktion ausgewertet und danach wiederverwendet. Ist der Default ein veränderliches Objekt, ist das ein verstecktes Aliasing zwischen allen Aufrufen. Die Lösung ist `None` als Default und das Anlegen des Objekts im Funktionskörper.
+```python
+# KI-generiert, fehlerhaft
+def füge_hinzu(wert, liste=[]):
+    liste.append(wert)
+    return liste
 
+print(füge_hinzu(1))   # [1]
+print(füge_hinzu(2))   # [1, 2], erwartet: [2]
+```
+
+Der zweite Aufruf liefert nicht `[2]`, sondern `[1, 2]`. Die Ursache liegt in der Definition: Die Liste `[]` wird einmal ausgewertet, wenn Python die Funktion definiert, und anschließend bei jedem Aufruf ohne zweites Argument wiederverwendet. Alle diese Aufrufe teilen sich damit dasselbe Objekt, es handelt sich um verstecktes Aliasing zwischen den Aufrufen.
+
+Die Lösung besteht darin, `None` als Default zu verwenden und das Objekt erst im Funktionskörper anzulegen.
+
+```python
+# Korrekt
+def füge_hinzu(wert, liste=None):
+    if liste is None:
+        liste = []
+    liste.append(wert)
+    return liste
+```
+
+%%tip Merksatz
+Python wertet den Default genau einmal aus, beim Definieren der Funktion. Alle Aufrufe ohne zweites Argument teilen sich dieselbe Liste.
+
+Verwenden Sie `None` als Default und legen Sie das Objekt in der Funktion an.
+%%/tip
+
+Jetzt wird bei jedem Aufruf ohne Argument eine neue, leere Liste erzeugt. Der Vergleich mit `is None` ist hier genau der übliche Anwendungsfall des Identitätsoperators.
 %%/book
 
 %%# Debugging: Tracebacks lesen
 
+%%book
+Das Modell des Call Stack hilft schließlich beim Lesen von Fehlermeldungen. Wer versteht, wie Frames übereinanderliegen, kann einen Traceback als Momentaufnahme dieses Stacks deuten.
+%%/book
+
 %%## Ein Traceback ist der Call Stack beim Fehler
 
-%%scol 40 60
+%%slides
+%%col 40 60
 ```python
 def berechne(x):
     return 1 / x
@@ -413,17 +668,42 @@ Traceback (most recent call last):
     return 1 / x
 ZeroDivisionError: division by zero
 ```
-%%/scol
+%%/col
+%%/slides
 
 %%book
+Tritt in einem Programm ein Fehler auf, gibt Python einen *Traceback* aus. Er listet den Call Stack zum Zeitpunkt des Fehlers auf, und zwar in der Reihenfolge der Aufrufe: oben der Ursprung, unten die Fehlerstelle. Als Beispiel dient ein Programm, das Kehrwerte einer Messreihe berechnet, in der ein Wert `0` enthalten ist.
 
-Ein Python-Traceback ist eine Ausgabe des Call Stack zum Zeitpunkt eines Fehlers. Die Frames stehen in der Reihenfolge der Aufrufe: oben der Ursprung, unten die Fehlerstelle.
+```python
+def berechne(x):
+    return 1 / x
 
+def verarbeite(daten):
+    return [berechne(d) for d in daten]
+
+verarbeite([1, 2, 0, 4])
+```
+
+Die Ausgabe lautet:
+
+```text
+Traceback (most recent call last):
+  File "programm.py", line 7, in <module>
+    verarbeite([1, 2, 0, 4])
+  File "programm.py", line 5, in verarbeite
+    return [berechne(d) for d in daten]
+  File "programm.py", line 2, in berechne
+    return 1 / x
+ZeroDivisionError: division by zero
+```
+
+Jedes Paar aus `File`-Zeile und Codezeile entspricht einem Frame auf dem Stack: das Modul, `verarbeite` und `berechne`. Die letzte Zeile nennt den Fehlertyp und seine Meldung.
 %%/book
 
 %%## Tracebacks von unten nach oben lesen
 
-%%scol 50 50
+%%slides
+%%col 50 50
 1. `ZeroDivisionError`: **was** ist passiert?
 2. `berechne`, Zeile 2: **wo** genau?
 3. `verarbeite`, Zeile 5: **wer** hat aufgerufen?
@@ -432,12 +712,24 @@ Ein Python-Traceback ist eine Ausgabe des Call Stack zum Zeitpunkt eines Fehlers
 %%note Agentic Workflow
 KI erklärt Tracebacks oft korrekt. Klären Sie vorher selbst: Welcher Frame enthält den eigentlichen Fehler, welcher ist nur Aufrufer? Erst dann fragen Sie die KI.
 %%/note
-%%/scol
+%%/col
+%%/slides
+
+%%book
+Beim Lesen beginnt man unten. Die letzte Zeile nennt den Fehlertyp, hier `ZeroDivisionError`, und beantwortet damit, was passiert ist. Der unterste Frame, `berechne` in Zeile 2, zeigt, wo genau der Fehler auftritt. Die Frames darüber geben an, wer die Funktion aufgerufen hat: `verarbeite` in Zeile 5 und zuletzt das Modul in Zeile 7 als Ursprung des Aufrufs.
+
+%%note Agentic Workflow
+KI erklärt Tracebacks oft korrekt. Klären Sie vorher selbst: Welcher Frame enthält den eigentlichen Fehler, welcher ist nur Aufrufer? Erst dann fragen Sie die KI.
+%%/note
+
+Mit dem Wissen über den Call Stack wird aus dem Traceback eine genaue Diagnose. Ob die Fehlerstelle auch die Fehlerursache ist, muss man dennoch separat prüfen. Hier wäre die Ursache der Wert `0` in der Eingabeliste, nicht die Division selbst; die Funktion `berechne` könnte den Fall auch abfangen.
+%%/book
 
 %%book
 
-Beim Lesen beginnt man unten: Die letzte Zeile nennt den Fehlertyp, der letzte Frame die Fehlerstelle. Die Frames darüber zeigen, wer die Funktion aufgerufen hat. Mit dem Wissen über den Call Stack wird aus dem Traceback eine genaue Diagnose. Ob die Fehlerstelle auch die Fehlerursache ist, muss man separat prüfen: Hier wäre die Ursache der Wert `0` in der Eingabeliste.
+### Zusammenfassung
 
+Eine Variable ist in Python ein Name, der auf ein Objekt im Heap verweist, und eine Zuweisung bindet diesen Namen, ohne das Objekt zu kopieren. Mit `==` vergleichen wir Werte, mit `is` Identitäten. Unveränderliche Objekte erlauben Aliasing ohne Seiteneffekte, bei veränderlichen Objekten braucht es explizite Kopien (`copy`, `deepcopy`). Jeder Funktionsaufruf erzeugt einen Frame auf dem Call Stack, der mit dem Rücksprung verschwindet, während die Objekte im Heap so lange leben, wie mindestens ein Name auf sie zeigt. Für die Praxis folgt daraus, KI-generierte Funktionen auf Mutation ihrer Parameter und auf veränderliche Default-Werte zu prüfen und Tracebacks als Abbild des Call Stack von unten nach oben zu lesen.
 %%/book
 
 %%references
