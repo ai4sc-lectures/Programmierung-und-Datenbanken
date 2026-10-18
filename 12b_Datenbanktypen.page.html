@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Joern Ploennigs · AI4SC">
+
+<title>Datenbanktypen – Ingenieursinformatik</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./images/ai4sc_logo_v2.svg" rel="icon" type="image/svg+xml">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-8dd822d9b6a2bbb4b5c2dbc38ee1c6d3.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-24c5c1054373caee88a3efe0263853eb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-8dd822d9b6a2bbb4b5c2dbc38ee1c6d3.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-599c720961cf7f370b54a5914f113280.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-ecd8d5e51560d88b825d415cb7a00a37.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-599c720961cf7f370b54a5914f113280.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/quizdown-0.6.0/quizdown.js"></script>
+<script src="site_libs/quarto-contrib/quizdown-0.6.0/quizdownKatex.js"></script>
+<script src="site_libs/quarto-contrib/quizdown-0.6.0/quizdownHighlight.js"></script>
+<script src="site_libs/quarto-contrib/quizdown-0.6.0/quizdown-init.js"></script>
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Keine Treffer",
+    "search-matching-documents-text": "Treffer",
+    "search-copy-link-title": "Link in die Suche kopieren",
+    "search-hide-matches-text": "Zusätzliche Treffer verbergen",
+    "search-more-match-text": "weitere Treffer in diesem Dokument",
+    "search-more-matches-text": "weitere Treffer in diesem Dokument",
+    "search-clear-button-title": "Zurücksetzen",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Abbrechen",
+    "search-submit-button-title": "Abschicken",
+    "search-label": "Suchen"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/fonts.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/ai4sc_logo_v2.svg" alt="" class="navbar-logo light-content">
+    <img src="./images/ai4sc_logo_v2.svg" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Ingenieursinformatik</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Dunkelmodus umschalten"><i class="bi"></i></a>
+</div>
+          <div id="quarto-search" class="" title="Suchen"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Datenbanktypen</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Suchen" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Suchen"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Grundlagen</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Abschnitt umschalten">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01a_Ueberblick.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Einführung</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01b_Programmiersprachen.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Programmier<wbr>sprachen</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01c_Computerhardware.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Computer<wbr>hardware</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02a_Wissenspyramide.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Wissenspyramide</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02b_Datentypen.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datentypen</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02c_Speicher.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Speicher</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Auf dieser Seite</h2>
+   
+  <ul>
+  <li><a href="#hörsaalfrage-wann-reichen-dateien-nicht" id="toc-hörsaalfrage-wann-reichen-dateien-nicht" class="nav-link active" data-scroll-target="#hörsaalfrage-wann-reichen-dateien-nicht">Hörsaalfrage: Wann reichen Dateien nicht?</a></li>
+  <li><a href="#dateien-kippen-irgendwann-um-1" id="toc-dateien-kippen-irgendwann-um-1" class="nav-link" data-scroll-target="#dateien-kippen-irgendwann-um-1">Dateien kippen irgendwann um</a></li>
+  <li><a href="#warum-datenbanken" id="toc-warum-datenbanken" class="nav-link" data-scroll-target="#warum-datenbanken">Warum Datenbanken?</a></li>
+  <li><a href="#datenbank-und-datenbanksystem-1" id="toc-datenbank-und-datenbanksystem-1" class="nav-link" data-scroll-target="#datenbank-und-datenbanksystem-1">Datenbank und Datenbanksystem</a></li>
+  <li><a href="#dateien-versus-datenbanken" id="toc-dateien-versus-datenbanken" class="nav-link" data-scroll-target="#dateien-versus-datenbanken">Dateien versus Datenbanken</a></li>
+  <li><a href="#codd-was-eine-datenbank-leisten-soll-1" id="toc-codd-was-eine-datenbank-leisten-soll-1" class="nav-link" data-scroll-target="#codd-was-eine-datenbank-leisten-soll-1">Codd: Was eine Datenbank leisten soll</a></li>
+  <li><a href="#hörsaalfrage-netzwerkproblem-in-tabellen" id="toc-hörsaalfrage-netzwerkproblem-in-tabellen" class="nav-link" data-scroll-target="#hörsaalfrage-netzwerkproblem-in-tabellen">Hörsaalfrage: Netzwerkproblem in Tabellen?</a></li>
+  <li><a href="#die-eigentliche-auswahlfrage-1" id="toc-die-eigentliche-auswahlfrage-1" class="nav-link" data-scroll-target="#die-eigentliche-auswahlfrage-1">Die eigentliche Auswahlfrage</a></li>
+  <li><a href="#das-informationsmodell-führt-1" id="toc-das-informationsmodell-führt-1" class="nav-link" data-scroll-target="#das-informationsmodell-führt-1">Das Informationsmodell führt</a></li>
+  <li><a href="#vom-problem-zur-datenbank-1" id="toc-vom-problem-zur-datenbank-1" class="nav-link" data-scroll-target="#vom-problem-zur-datenbank-1">Vom Problem zur Datenbank</a></li>
+  <li><a href="#noch-zwei-typische-zuordnungen-1" id="toc-noch-zwei-typische-zuordnungen-1" class="nav-link" data-scroll-target="#noch-zwei-typische-zuordnungen-1">Noch zwei typische Zuordnungen</a></li>
+  <li><a href="#datenbankfamilien" id="toc-datenbankfamilien" class="nav-link" data-scroll-target="#datenbankfamilien">Datenbankfamilien</a>
+  <ul class="collapse">
+  <li><a href="#relationale-datenbanken-1" id="toc-relationale-datenbanken-1" class="nav-link" data-scroll-target="#relationale-datenbanken-1">Relationale Datenbanken</a></li>
+  <li><a href="#dokumentenorientierte-datenbanken-1" id="toc-dokumentenorientierte-datenbanken-1" class="nav-link" data-scroll-target="#dokumentenorientierte-datenbanken-1">Dokumentenorientierte Datenbanken</a></li>
+  <li><a href="#key-value-datenbanken-1" id="toc-key-value-datenbanken-1" class="nav-link" data-scroll-target="#key-value-datenbanken-1">Key-Value-Datenbanken</a></li>
+  <li><a href="#wide-column-datenbanken-1" id="toc-wide-column-datenbanken-1" class="nav-link" data-scroll-target="#wide-column-datenbanken-1">Wide-Column-Datenbanken</a></li>
+  <li><a href="#time-series-datenbanken-1" id="toc-time-series-datenbanken-1" class="nav-link" data-scroll-target="#time-series-datenbanken-1">Time-Series-Datenbanken</a></li>
+  <li><a href="#suchmaschinen-datenbanken-1" id="toc-suchmaschinen-datenbanken-1" class="nav-link" data-scroll-target="#suchmaschinen-datenbanken-1">Suchmaschinen-Datenbanken</a></li>
+  <li><a href="#graphdatenbanken-1" id="toc-graphdatenbanken-1" class="nav-link" data-scroll-target="#graphdatenbanken-1">Graphdatenbanken</a></li>
+  <li><a href="#vector-datenbanken-1" id="toc-vector-datenbanken-1" class="nav-link" data-scroll-target="#vector-datenbanken-1">Vector-Datenbanken</a></li>
+  </ul></li>
+  <li><a href="#agentischer-prüfpunkt-1" id="toc-agentischer-prüfpunkt-1" class="nav-link" data-scroll-target="#agentischer-prüfpunkt-1">Agentischer Prüfpunkt</a></li>
+  <li><a href="#agentische-verifikation" id="toc-agentische-verifikation" class="nav-link" data-scroll-target="#agentische-verifikation">Agentische Verifikation</a></li>
+  <li><a href="#auswahlkriterien-für-diese-vorlesung-1" id="toc-auswahlkriterien-für-diese-vorlesung-1" class="nav-link" data-scroll-target="#auswahlkriterien-für-diese-vorlesung-1">Auswahlkriterien für diese Vorlesung</a></li>
+  <li><a href="#merksätze-1" id="toc-merksätze-1" class="nav-link" data-scroll-target="#merksätze-1">Merksätze</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Andere Formate</h2><ul><li><a href="12b_Datenbanktypen.slide.html"><i class="bi bi-file-easel"></i>Slides</a></li><li><a href="12b_Datenbanktypen.slide.pdf"><i class="bi bi-file-earmark-easel"></i>Slides PDF</a></li><li><a href="12b_Datenbanktypen.page.pdf"><i class="bi bi-file-earmark-pdf"></i>Document PDF</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<script>
+window.__plotlyCallQueue = window.__plotlyCallQueue || [];
+
+if (!window.Plotly) {
+  window.Plotly = {
+    __ai4scPlotlyStub: true,
+    newPlot: (...args) =>
+      new Promise((resolve, reject) => {
+        window.__plotlyCallQueue.push({
+          method: "newPlot",
+          args,
+          resolve,
+          reject,
+        });
+      }),
+    addFrames: (...args) => {
+      window.__plotlyCallQueue.push({
+        method: "addFrames",
+        args,
+      });
+    },
+    Plots: {
+      resize: () => Promise.resolve(),
+    },
+    relayout: () => Promise.resolve(),
+  };
+}
+</script>
+<script>
+window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
+  const imageSelector = ".reveal .slides section > img.r-stretch, .reveal .slides section > img.stretch";
+  const SIZED_ATTR = "data-ai4sc-sized";
+
+  const stamp = (root = document) => {
+    root.querySelectorAll(imageSelector).forEach((img) => {
+      if (!(img instanceof HTMLElement)) return;
+      const style = img.getAttribute("style") || "";
+      if (
+        img.hasAttribute("width") ||
+        img.hasAttribute("height") ||
+        /(^|;)\s*(width|height)\s*:/.test(style)
+      ) {
+        img.setAttribute(SIZED_ATTR, "");
+      }
+    });
+  };
+
+  const release = (root = document) => {
+    root.querySelectorAll(imageSelector).forEach((img) => {
+      if (!(img instanceof HTMLElement) || !img.hasAttribute(SIZED_ATTR)) {
+        return;
+      }
+
+      img.classList.remove("r-stretch", "stretch");
+
+      if (img.hasAttribute("width")) {
+        img.style.removeProperty("width");
+      }
+      if (img.hasAttribute("height")) {
+        img.style.removeProperty("height");
+      }
+
+      img.style.maxWidth = "100%";
+      img.style.maxHeight = "100%";
+      img.style.objectFit = "contain";
+    });
+  };
+
+  const scheduleRelease = () => window.requestAnimationFrame(() => release());
+
+  const init = () => { stamp(); scheduleRelease(); };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
+  }
+
+  window.addEventListener("load", scheduleRelease, { once: true });
+  return release;
+})();
+</script>
+<script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/plotly-loader.js"></script>
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Datenbanktypen</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Autor:in</div>
+    <div class="quarto-title-meta-contents">
+             <p>Joern Ploennigs · AI4SC </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><img src="images/12b_Datenbanktypen/mj_title_band.jpg" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p>Eventually, you have to throw the data over a wall.</p>
+<p>— Pat Helland</p>
+</blockquote>
+<section id="hörsaalfrage-wann-reichen-dateien-nicht" class="level2">
+<h2 class="anchored" data-anchor-id="hörsaalfrage-wann-reichen-dateien-nicht">Hörsaalfrage: Wann reichen Dateien nicht?</h2>
+<p>Diese Sitzung baut auf <code>12a_Datenhaltung</code> auf: Dort wurde sichtbar, warum dateibasierte Speicherung bei wachsenden Datenmengen, mehreren Nutzern und komplexen Abfragen an Grenzen stößt. Hier folgt nun der nächste Schritt: Welche Art von Datenbank passt zu welchem Problem?</p>
+<p>Die Leitidee dieser Vorlesung lautet: Nicht “Welche Datenbank ist modern?”, sondern “Welches Informationsmodell beschreibt unser Problem am besten?”. Tabellarische Daten sprechen für relationale Datenbanken, Dokumentstrukturen für dokumentenorientierte Systeme und Netzwerkprobleme für Graphdatenbanken.</p>
+</section>
+<section id="dateien-kippen-irgendwann-um-1" class="level2">
+<h2 class="anchored" data-anchor-id="dateien-kippen-irgendwann-um-1">Dateien kippen irgendwann um</h2>
+<p>Eine Datei kann lange genügen, solange ein einzelnes Programm oder eine Person damit arbeitet. Kritisch wird es, sobald mehrere Beteiligte gleichzeitig schreiben, verschiedene Kopien im Umlauf sind oder gezielte Auswertungen über große Datenmengen nötig werden. Dann entstehen genau die Probleme, die Dateisysteme nicht von sich aus lösen: Versionskonflikte, Redundanz, fehlende Integritätsregeln und umständliche Abfragen.</p>
+</section>
+<section id="warum-datenbanken" class="level2">
+<h2 class="anchored" data-anchor-id="warum-datenbanken">Warum Datenbanken?</h2>
+<p>Stellt euch eine gemeinsame Tabelle mit Sensoren, Messpunkten und Prüfberichten vor. Solange nur eine Person ergänzt und niemand quer über mehrere Listen suchen muss, ist das praktikabel. Sobald aber verschiedene Anwendungen dieselben Daten lesen, Beziehungen zwischen Objekten geprüft werden sollen oder gleichzeitige Änderungen sicher bleiben müssen, reicht Dateiablage nicht mehr aus. Dann trennt man die Datenhaltung von den Programmen und übergibt Verwaltung, Zugriffskontrolle und Konsistenz einem Datenbankmanagementsystem.</p>
+</section>
+<section id="datenbank-und-datenbanksystem-1" class="level2">
+<h2 class="anchored" data-anchor-id="datenbank-und-datenbanksystem-1">Datenbank und Datenbanksystem</h2>
+<p>Die Begriffe werden oft vermischt, bezeichnen aber unterschiedliche Ebenen. Die <em>Datenbank</em> sind die logisch zusammengehörenden Daten selbst. Das <em>DBMS</em> ist die Software, die diese Daten organisiert, schützt und zugreifbar macht. Erst beides zusammen bildet das <em>Datenbanksystem</em>, also die fachliche Datenbasis plus die technische Verwaltungsinstanz.</p>
+</section>
+<section id="dateien-versus-datenbanken" class="level2">
+<h2 class="anchored" data-anchor-id="dateien-versus-datenbanken">Dateien versus Datenbanken</h2>
+<p>Eine Datei mit Bauteillisten, eine zweite mit Messwerten und eine dritte mit Prüfberichten kann funktionieren. Aber schon die einfache Frage “Welche Messwerte gehören zu Bauteilen mit überfälliger Prüfung?” wird dann mühsam, weil jede Anwendung ihre eigene Struktur stillschweigend voraussetzt. Bei einer Datenbank wird dieses Informationsmodell explizit beschrieben und vom DBMS durchgesetzt. Integrität, Synchronisation und leistungsfähige Abfragen werden so zu Eigenschaften des Systems und nicht zu Einzellösungen in jedem Programm.</p>
+</section>
+<section id="codd-was-eine-datenbank-leisten-soll-1" class="level2">
+<h2 class="anchored" data-anchor-id="codd-was-eine-datenbank-leisten-soll-1">Codd: Was eine Datenbank leisten soll</h2>
+<p>Diese Punkte machen deutlich, dass eine Datenbank mehr ist als ein größerer Dateiordner. Sie soll Daten integrieren statt vervielfachen, mehrere Sichten auf denselben Bestand erlauben, Widersprüche verhindern und parallele Änderungen beherrschbar machen. Erst durch solche Eigenschaften wird Datenhaltung für reale Anwendungen robust.</p>
+</section>
+<section id="hörsaalfrage-netzwerkproblem-in-tabellen" class="level2">
+<h2 class="anchored" data-anchor-id="hörsaalfrage-netzwerkproblem-in-tabellen">Hörsaalfrage: Netzwerkproblem in Tabellen?</h2>
+<p>Diese Frage zielt auf eine typische Modellierungsfalle. Wenn das Problem selbst schon aus Verbindungen, Nachbarschaften und Pfaden besteht, ist es oft ungünstig, diese Struktur nur indirekt in Tabellen nachzubauen. Dann sollte zuerst geprüft werden, ob ein Graphmodell die natürlichere Beschreibung ist.</p>
+</section>
+<section id="die-eigentliche-auswahlfrage-1" class="level2">
+<h2 class="anchored" data-anchor-id="die-eigentliche-auswahlfrage-1">Die eigentliche Auswahlfrage</h2>
+<p>Die interessante Frage lautet nicht, ob relationale oder NoSQL-Systeme “besser” sind. Die bessere Frage ist: Welche Struktur haben unsere Daten und welche Operationen brauchen wir darauf? Diese Sicht verbindet die Datenbankwahl mit den Problemklassen aus Block 5.</p>
+</section>
+<section id="das-informationsmodell-führt-1" class="level2">
+<h2 class="anchored" data-anchor-id="das-informationsmodell-führt-1">Das Informationsmodell führt</h2>
+<p>Der wichtigste Auswahlgrundsatz lautet: Erst die Struktur des Problems bestimmen, dann die Technologie benennen. Das spart Umwege, weil nicht versucht wird, jede Aufgabe in dasselbe Werkzeug zu pressen. Datenbanktypen sind also keine Moden, sondern Antworten auf verschiedene Informationsmodelle.</p>
+</section>
+<section id="vom-problem-zur-datenbank-1" class="level2">
+<h2 class="anchored" data-anchor-id="vom-problem-zur-datenbank-1">Vom Problem zur Datenbank</h2>
+<p>Für ein Rohrnetz oder Verkehrsnetz ist nicht die spätere Software zuerst entscheidend, sondern die Form der Information: Knoten, Kanten und Pfade. Wenn genau diese Beziehungen fachlich im Mittelpunkt stehen, ist eine Graphdatenbank oft die stimmigere Wahl als eine tabellarische Abbildung mit vielen Hilfskonstruktionen.</p>
+</section>
+<section id="noch-zwei-typische-zuordnungen-1" class="level2">
+<h2 class="anchored" data-anchor-id="noch-zwei-typische-zuordnungen-1">Noch zwei typische Zuordnungen</h2>
+<p>Auch außerhalb klassischer Netzprobleme hilft die Zuordnung über das Informationsmodell. BIM-nahe Objekte oder Projektdokumente sind oft verschachtelt und nicht völlig gleichförmig aufgebaut; dafür passen Document Stores gut. Verwaltungsdaten mit klaren Feldern, stabilen Beziehungen und dem Bedarf nach Konsistenzregeln bleiben dagegen ein typisches Feld relationaler Systeme.</p>
+</section>
+<section id="datenbankfamilien" class="level2">
+<h2 class="anchored" data-anchor-id="datenbankfamilien">Datenbankfamilien</h2>
+<p>Über die Jahrzehnte haben sich mehrere Datenbankfamilien herausgebildet. Sie unterscheiden sich nicht primär durch Marketing oder Popularität, sondern durch das zugrunde liegende Datenmodell. Im Folgenden wird jede Familie mit ihrem typischen Informationsmodell und einem passenden Anwendungsfall aus dem Ingenieurkontext verknüpft. Die eingeblendete SVG-Grafik dient dabei nur als Orientierung: Sie ist eine interne Lehrgrafik und soll vor allem sichtbar machen, dass relationale Systeme weiterhin stark sind, während mehrere NoSQL-Familien daneben spezialisierte Rollen einnehmen.</p>
+<section id="relationale-datenbanken-1" class="level3">
+<h3 class="anchored" data-anchor-id="relationale-datenbanken-1">Relationale Datenbanken</h3>
+<p>Relationale Systeme sind die richtige Wahl, wenn die Daten klar strukturiert und die Beziehungen zwischen Tabellen stabil modellierbar sind. Sie sind besonders stark bei Integritätsregeln, Transaktionen und deklarativen Abfragen mit SQL.</p>
+</section>
+<section id="dokumentenorientierte-datenbanken-1" class="level3">
+<h3 class="anchored" data-anchor-id="dokumentenorientierte-datenbanken-1">Dokumentenorientierte Datenbanken</h3>
+<p>Document Stores eignen sich, wenn Objekte unterschiedlich aufgebaut sein dürfen oder wenn hierarchische Strukturen natürlicher sind als Tabellen. Das ist etwa bei BIM-bezogenen Objekten, Dokumentmetadaten oder variablen Projektbeschreibungen nützlich.</p>
+</section>
+<section id="key-value-datenbanken-1" class="level3">
+<h3 class="anchored" data-anchor-id="key-value-datenbanken-1">Key-Value-Datenbanken</h3>
+<p>Key-Value-Stores reduzieren Datenhaltung auf eine sehr einfache Abbildung. Das ist leistungsfähig, wenn ein eindeutiger Schlüssel bekannt ist und komplexe Struktur keine zentrale Rolle spielt. Für analytische Fragestellungen sind sie meist nicht die erste Wahl.</p>
+</section>
+<section id="wide-column-datenbanken-1" class="level3">
+<h3 class="anchored" data-anchor-id="wide-column-datenbanken-1">Wide-Column-Datenbanken</h3>
+<p>Wide-Column-Systeme liegen zwischen einfachem Key-Value-Zugriff und stärker strukturierter Tabellenwelt. Sie eignen sich, wenn extrem viele Datensätze verteilt gespeichert werden und sich Attribute gruppenweise organisieren lassen, etwa bei Telemetrie- oder Plattformdaten in großem Maßstab.</p>
+</section>
+<section id="time-series-datenbanken-1" class="level3">
+<h3 class="anchored" data-anchor-id="time-series-datenbanken-1">Time-Series-Datenbanken</h3>
+<p>Zeitreihendatenbanken sind spezialisiert auf fortlaufende Messwerte mit zeitlicher Ordnung. Typische Operationen sind Fensterbildung, Verdichtung, Grenzwertüberwachung und Trendanalyse. Für Labor-, Umwelt- oder Maschinendaten ist dieses Modell oft viel natürlicher als allgemeine Tabellen.</p>
+</section>
+<section id="suchmaschinen-datenbanken-1" class="level3">
+<h3 class="anchored" data-anchor-id="suchmaschinen-datenbanken-1">Suchmaschinen-Datenbanken</h3>
+<p>Suchorientierte Systeme sind sinnvoll, wenn große Mengen an Textdokumenten durchsuchbar gemacht werden müssen. Für Umwelt- oder Bauprojekte kann das die Recherche in Berichten, Gutachten und Protokollen stark vereinfachen.</p>
+</section>
+<section id="graphdatenbanken-1" class="level3">
+<h3 class="anchored" data-anchor-id="graphdatenbanken-1">Graphdatenbanken</h3>
+<p>Graphdatenbanken passen dort, wo die Beziehungen selbst der Kern des Problems sind. Das gilt für Verkehrsnetze, Leitungsnetze, Abhängigkeitsgraphen oder Empfehlungsstrukturen. Die Brücke zu <code>10a_Graphprobleme</code> ist hier direkt: Graphproblem und Graphdatenbank passen strukturell zusammen.</p>
+</section>
+<section id="vector-datenbanken-1" class="level3">
+<h3 class="anchored" data-anchor-id="vector-datenbanken-1">Vector-Datenbanken</h3>
+<p>Vektordatenbanken werden interessant, wenn Objekte als numerische Einbettungen vorliegen und nicht exakte Gleichheit, sondern Ähnlichkeit gesucht wird. Das ist vor allem bei KI-Anwendungen relevant, etwa für semantische Suche, Retrieval-Augmented Generation oder das Auffinden ähnlicher Dokumente und Bauteilbeschreibungen.</p>
+</section>
+</section>
+<section id="agentischer-prüfpunkt-1" class="level2">
+<h2 class="anchored" data-anchor-id="agentischer-prüfpunkt-1">Agentischer Prüfpunkt</h2>
+<p>Wenn KI ein Werkzeug empfiehlt, sollte nicht sofort die Produktfrage im Vordergrund stehen. Zuerst wird das Informationsmodell explizit gemacht, dann wird die Passung zwischen Problemstruktur und Datenbanktyp geprüft, und erst zum Schluss lohnt sich die Frage nach einem konkreten Produkt. So wird aus einer schnellen Empfehlung eine nachvollziehbare Entscheidung.</p>
+</section>
+<section id="agentische-verifikation" class="level2">
+<h2 class="anchored" data-anchor-id="agentische-verifikation">Agentische Verifikation</h2>
+<p>Gerade bei KI-gestützten Technologieentscheidungen ist Skepsis wichtig. Ein Modell kann eine populäre Technologie nennen, ohne zu prüfen, ob sie zur Problemstruktur passt. Deshalb sollte die erste Rückfrage immer lauten: “Welches Informationsmodell nehmen wir eigentlich an?” Erst dann ist eine fundierte Datenbankwahl möglich. Ebenso wichtig ist der Hinweis, dass polyglotte Persistenz kein Sonderfall ist: Ein System kann völlig sinnvoll eine relationale Datenbank für Stammdaten, eine Suchmaschine für Dokumente und eine Zeitreihendatenbank für Messwerte kombinieren.</p>
+<p>Beispiel für die Verifikation in fünf Zeilen:</p>
+<ul>
+<li>Problem: Sensornetz mit Stammdaten, Messreihen und Wartungsberichten</li>
+<li>KI-Vorschlag: “Nehmt einfach PostgreSQL für alles.”</li>
+<li>Passung: Stammdaten passen gut in relationale Tabellen.</li>
+<li>Mismatch: Zeitreihen und Volltextsuche werden dadurch unnötig schwergewichtig.</li>
+<li>Bessere Antwort: Relationale DB + Time-Series- oder Suchsystem mit klarer Aufgabentrennung.</li>
+</ul>
+</section>
+<section id="auswahlkriterien-für-diese-vorlesung-1" class="level2">
+<h2 class="anchored" data-anchor-id="auswahlkriterien-für-diese-vorlesung-1">Auswahlkriterien für diese Vorlesung</h2>
+<p>In dieser Vorlesung steht deshalb nicht das Auswendiglernen von Produktnamen im Mittelpunkt. Wichtiger ist, Entwurf und Modellierung vor die Implementierung zu stellen. Wer versteht, welche Struktur ein Problem hat, kann später auch neue Technologien besser einordnen und bei Bedarf mehrere Systeme sinnvoll kombinieren.</p>
+</section>
+<section id="merksätze-1" class="level2">
+<h2 class="anchored" data-anchor-id="merksätze-1">Merksätze</h2>
+<p>Dateien sind ein sinnvoller Start, aber kein Ersatz für systematische Datenhaltung unter Last, Parallelität und Integritätsanforderungen. Die zentrale Auswahlfrage lautet immer, welches Informationsmodell das Problem trägt. Daraus folgt der passende Datenbanktyp und erst danach die konkrete Technologie.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Kopiert");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Kopiert");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

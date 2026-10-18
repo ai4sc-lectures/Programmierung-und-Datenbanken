@@ -1,0 +1,103 @@
+/* Critical reveal.js overrides loaded after the compiled theme bundle.
+   These keep the theme from suppressing reveal chrome or overriding the
+   slide/background stacking reveal relies on for transitions. */
+
+.reveal .controls {
+  color: var(--concrete);
+}
+
+.reveal .controls:hover,
+.reveal .controls:focus-within {
+  color: var(--ink);
+}
+
+.reveal .progress {
+  display: block !important;
+  height: 4px;
+  background: rgba(11, 13, 16, 0.1);
+  color: var(--signal-blue);
+}
+
+.reveal .progress span {
+  background: currentColor;
+}
+
+/* Let reveal manage slide and background stacking during transitions. */
+.reveal .slide-background,
+.reveal .backgrounds,
+.reveal .slide-particles-layer,
+.reveal .slides section {
+  z-index: auto !important;
+}
+
+/* PDF export lays slides out in fixed pages; flow the per-slide references
+   instead of pinning them to the live footer position so they remain printable. */
+@media print {
+  html.print-pdf .reveal .slides section#title-slide,
+  html.reveal-print .reveal .slides section#title-slide {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+  }
+
+  html.print-pdf .reveal .slides section .slide-refs,
+  html.reveal-print .reveal .slides section .slide-refs {
+    position: static !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    padding: 0 !important;
+    padding-top: var(--sp-2, 0.5rem) !important;
+    background-color: transparent !important;
+    margin-top: var(--sp-4, 1rem) !important;
+    display: block !important;
+  }
+
+  /* Title slide content relies on the live deck's dark video background.
+     Give PDF export a solid fallback so the card remains visible. */
+  html.print-pdf .reveal .slides section#title-slide,
+  html.reveal-print .reveal .slides section#title-slide {
+    background: transparent !important;
+    color: #fff !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: var(--sp-9, 4rem) var(--sp-8, 3rem) var(--sp-7, 2.5rem) !important;
+  }
+
+  html.print-pdf .reveal .slides section#title-slide .vslide-title,
+  html.reveal-print .reveal .slides section#title-slide .vslide-title {
+    display: block !important;
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    align-self: flex-start !important;
+    background: rgba(11, 13, 16, 0.6) !important;
+    color: #fff !important;
+    max-width: min(48rem, calc(100% - 2 * var(--sp-8, 3rem))) !important;
+    padding: var(--sp-6, 2rem) var(--sp-6, 2rem) var(--sp-8, 3rem) !important;
+  }
+
+  html.print-pdf .reveal .slides section#title-slide h1.title,
+  html.print-pdf .reveal .slides section#title-slide p.subtitle,
+  html.print-pdf .reveal .slides section#title-slide p.author,
+  html.print-pdf .reveal .slides section#title-slide p.date,
+  html.print-pdf .reveal .slides section#title-slide .image-credit,
+  html.reveal-print .reveal .slides section#title-slide h1.title,
+  html.reveal-print .reveal .slides section#title-slide p.subtitle,
+  html.reveal-print .reveal .slides section#title-slide p.author,
+  html.reveal-print .reveal .slides section#title-slide p.date,
+  html.reveal-print .reveal .slides section#title-slide .image-credit {
+    color: #fff !important;
+    visibility: visible !important;
+  }
+}

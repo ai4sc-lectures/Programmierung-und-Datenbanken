@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="de"><head>
+<link href="./images/ai4sc_logo_v2.svg" rel="icon" type="image/svg+xml">
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-html/tabby.min.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/quarto-contrib/quizdown-0.6.0/quizdown.js"></script>
+<script src="site_libs/quarto-contrib/quizdown-0.6.0/quizdownKatex.js"></script>
+<script src="site_libs/quarto-contrib/quizdown-0.6.0/quizdownHighlight.js"></script>
+<script src="site_libs/quarto-contrib/quizdown-0.6.0/quizdown-init.js"></script><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
+
+  <meta name="author" content="Joern Ploennigs · AI4SC">
+  <title>Ingenieursinformatik – Softwareentwurf</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-c6d6628e7e574435f2d21401e0a6d85b.css">
+  <link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/fonts.css">
+  <link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/reveal-fixes.css">
+  <link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/color/warm-bone.css">
+  <link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/color/pastello.css">
+  <link href="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/verticator/verticator.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+  <script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+  <link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+</head>
+<body class="quarto-light">
+<script>
+window.__plotlyCallQueue = window.__plotlyCallQueue || [];
+
+if (!window.Plotly) {
+  window.Plotly = {
+    __ai4scPlotlyStub: true,
+    newPlot: (...args) =>
+      new Promise((resolve, reject) => {
+        window.__plotlyCallQueue.push({
+          method: "newPlot",
+          args,
+          resolve,
+          reject,
+        });
+      }),
+    addFrames: (...args) => {
+      window.__plotlyCallQueue.push({
+        method: "addFrames",
+        args,
+      });
+    },
+    Plots: {
+      resize: () => Promise.resolve(),
+    },
+    relayout: () => Promise.resolve(),
+  };
+}
+</script>
+<script>
+window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
+  const imageSelector = ".reveal .slides section > img.r-stretch, .reveal .slides section > img.stretch";
+  const SIZED_ATTR = "data-ai4sc-sized";
+
+  const stamp = (root = document) => {
+    root.querySelectorAll(imageSelector).forEach((img) => {
+      if (!(img instanceof HTMLElement)) return;
+      const style = img.getAttribute("style") || "";
+      if (
+        img.hasAttribute("width") ||
+        img.hasAttribute("height") ||
+        /(^|;)\s*(width|height)\s*:/.test(style)
+      ) {
+        img.setAttribute(SIZED_ATTR, "");
+      }
+    });
+  };
+
+  const release = (root = document) => {
+    root.querySelectorAll(imageSelector).forEach((img) => {
+      if (!(img instanceof HTMLElement) || !img.hasAttribute(SIZED_ATTR)) {
+        return;
+      }
+
+      img.classList.remove("r-stretch", "stretch");
+
+      if (img.hasAttribute("width")) {
+        img.style.removeProperty("width");
+      }
+      if (img.hasAttribute("height")) {
+        img.style.removeProperty("height");
+      }
+
+      img.style.maxWidth = "100%";
+      img.style.maxHeight = "100%";
+      img.style.objectFit = "contain";
+    });
+  };
+
+  const scheduleRelease = () => window.requestAnimationFrame(() => release());
+
+  const init = () => { stamp(); scheduleRelease(); };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
+  }
+
+  window.addEventListener("load", scheduleRelease, { once: true });
+  return release;
+})();
+</script>
+<script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/plotly-loader.js"></script>
+<script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/scramble-fragments.js"></script>
+<script>window.slideParticlesConfig = {"particleCount": 500, "particleTheme": "binary-minimal", "particleRandomRespawnRatio": 0.24};</script>
+<script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/slide-particles.js"></script>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-background-color="black" data-background-video="images/03c_Softwareentwurf/mj_title.mp4" data-background-video-loop="true" data-background-video-muted="true" class="center">
+  <div class="vslide-title">
+        <br><img class="logo" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/assets/logos/uni_logo2.svg" alt="Uni Rostock" style="width: 400px"><br><br>
+     
+    <h1 class="title">Softwareentwurf</h1>
+            <p class="author">Joern Ploennigs · AI4SC</p>
+                        <p class="image-credit">
+      Midjourney: Waterfall in chinese mountain range
+    </p>
+      </div>
+</section>
+<section id="hörsaalfrage" class="slide level2" data-background="#FFD966">
+<h2>Hörsaalfrage</h2>
+<div class="columns">
+<div class="column vcent" style="width:40%;">
+<p>Was entsteht zuerst — Code oder Plan?</p>
+</div><div class="column" style="width:60%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/03c_Softwareentwurf/waterfall.png" class="midjourney"></p>
+<figcaption>Midjourney: Software Waterfall</figcaption>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="die-lücke-anforderung-code" class="slide level2">
+<h2>Die Lücke: Anforderung → Code</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Auftraggeber sagt:</strong></p>
+<blockquote>
+<p>„Ich brauche ein Programm, das den Wasserverbrauch eines Gebäudes pro Raum berechnet.”</p>
+</blockquote>
+</div><div class="column" style="width:50%;">
+<p><strong>Entwickler braucht:</strong></p>
+<ul>
+<li>Welche <em>Klassen</em> gibt es?</li>
+<li>Welche <em>Attribute</em> (mit Typen)?</li>
+<li>Welche <em>Methoden</em> (Signaturen)?</li>
+<li>Wie hängen die <em>Teile zusammen</em>?</li>
+</ul>
+</div></div>
+</section>
+<section id="entwurf-schließt-die-lücke" class="slide level2">
+<h2>Entwurf schließt die Lücke</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Der Entwurf übersetzt eine Anforderung in eine strukturierte Programmbeschreibung <em>bevor</em> Code geschrieben wird.</p>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/03c_Softwareentwurf/design_flow.svg" class="quarto-figure quarto-figure-center" style="width:70.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="softwareentwurf-als-projektplan" class="slide level2">
+<h2>Softwareentwurf als Projektplan</h2>
+<ul>
+<li>Software wird selten allein entwickelt, sondern oft im Team über einen längeren Zeitraum.</li>
+<li>Dafür wird ein Projektplan benötigt, der beschreibt, wie die Software arbeitsteilig entwickelt werden soll.</li>
+<li>Das Erstellen dieses Projektplans nennt man <em>Softwareentwurf</em>.</li>
+<li>Der Ablauf ähnelt stark dem <em>Entwurfsvorgehen im Umwelt- und Bauingenieurwesen</em>.</li>
+<li>Der Projektplan umfasst:
+<ul>
+<li>den <em>Klassenentwurf</em> (Bauplan)</li>
+<li>die <em>Programmiervorgehen</em> (Bauablaufplanung)</li>
+</ul></li>
+</ul>
+</section>
+<section id="softwareentwurf-phasen" class="slide level2">
+<h2>Softwareentwurf — Phasen</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><p><em>Anforderungsdefinition</em> – Definition welche Funktionen und Randbedingungen realisiert werden</p></li>
+<li><p><em>Entwurf</em></p>
+<ul>
+<li>Klassenentwurf der Software</li>
+<li>Ausführungsplanung – Was wird wann, durch wen, und wie implementiert</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><em>Ausführung</em>
+<ul>
+<li>Implementation – Programmieren der einzelnen Klassen &amp; Module</li>
+<li>Integration – Zusammenführen der Module zur fertigen Lösung</li>
+</ul></li>
+<li><em>Abnahme</em> – Test des fertigen Softwareprogramms
+<ul>
+<li>Modultest – Unit-Test von Modulen</li>
+<li>Integrationstest – Kombination von Modulen testen</li>
+<li>Systemtest – Gesamtheit der Module testen</li>
+</ul></li>
+</ul>
+</div></div>
+</section>
+<section id="vergleich-software--vs.-bauingenieurwesen" class="slide level2">
+<h2>Vergleich: Software- vs.&nbsp;Bauingenieurwesen</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Softwareentwurf</strong></p>
+<ul>
+<li><em>Anforderungsdefinition:</em> Definition welche Funktionen und Randbedingungen realisiert werden</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><strong>Bauingenieurwesen</strong></p>
+<ul>
+<li><em>Ausschreibung:</em> Dokumentieren welche Funktionen und Randbedingungen das Bauwerk erfüllen</li>
+</ul>
+</div></div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><em>Entwurf</em>
+<ul>
+<li>Modulentwurf – Definition welche Teile die Software hat</li>
+<li>Klassenentwurf – Definition in welche Klassen die Software strukturiert ist</li>
+<li>Ausführungsplanung – Was wird wann, durch wen, und wie implementiert</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><em>Entwurf</em>
+<ul>
+<li>Architektur und Grobentwurf – Definition wie das Bauwerk grob strukturiert ist</li>
+<li>Fein- und Gewerkplanung – Definition wie Teile und die Gewerke umgesetzt werden</li>
+<li>Ausführungsplanung – Was wird wann, durch wen, und wie gebaut</li>
+</ul></li>
+</ul>
+</div></div>
+</section>
+<section id="vergleich-software--vs.-bauingenieurwesen-fortsetzung" class="slide level2">
+<h2>Vergleich: Software- vs.&nbsp;Bauingenieurwesen (Fortsetzung)</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Softwareentwurf</strong></p>
+<ul>
+<li><em>Ausführung</em>
+<ul>
+<li>Implementation – Programmieren der einzelnen Klassen &amp; Module</li>
+<li>Integration – Zusammenführen der Module zur fertigen Lösung</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><strong>Bauingenieurwesen</strong></p>
+<ul>
+<li><em>Ausführung</em>
+<ul>
+<li>Einzelne Gewerke werden umgesetzt</li>
+<li>Gewerke im Bau integrieren, wie Energie und Wasser mit Klima integrieren</li>
+</ul></li>
+</ul>
+</div></div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><em>Abnahme</em>
+<ul>
+<li>Modultest – Unit-Test von Modulen</li>
+<li>Integrationstest – Kombination von Modulen testen</li>
+<li>Systemtest – Gesamtheit der Module testen</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><em>Abnahme</em>
+<ul>
+<li>Abnahme einzelner Gewerke</li>
+<li>Test mehrerer Gewerke gemeinsam</li>
+<li>Gesamtbauwerk abnehmen</li>
+</ul></li>
+</ul>
+</div></div>
+</section>
+<section id="welches-vorgehensmodell-passt" class="slide level2">
+<h2>Welches Vorgehensmodell passt?</h2>
+<p>Vier Modelle, verglichen nach drei Kriterien: Wann passt es, wann wird geprüft, welches Risiko bleibt?</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 30%">
+<col style="width: 25%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Modell</th>
+<th>Passt bei</th>
+<th>Geprüft</th>
+<th>Risiko</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>Wasserfall</em></td>
+<td>stabilen Anforderungen, Ausschreibung großer Systeme</td>
+<td>nach jeder Phase, Abnahme am Ende</td>
+<td>Fehler früher Phasen fallen spät auf</td>
+</tr>
+<tr class="even">
+<td><em>V-Modell</em></td>
+<td>sicherheitskritischer Software (Auto, Flugzeug)</td>
+<td>Tests schon im Entwicklungsarm definiert</td>
+<td>aufwendiger als andere Modelle</td>
+</tr>
+<tr class="odd">
+<td><em>Agil</em></td>
+<td>sich ständig ändernden Anforderungen</td>
+<td>pro Iteration, mit Feedback zur lauffähigen Version</td>
+<td>Entwurfsfehler können Neuentwurf erzwingen</td>
+</tr>
+<tr class="even">
+<td><em>Agentisch</em></td>
+<td>KI-Coding-Assistent verfügbar</td>
+<td>Mensch verifiziert nach jeder Generierung</td>
+<td>Verstehen und Prüfen liegen beim Ingenieur</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="wasserfallmethode" class="slide level2">
+<h2>Wasserfallmethode</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><p>Traditionelles Modell das häufig noch in der Ausschreibung großer Systeme gefordert wird</p></li>
+<li><p>Entwicklung ist in mehrere sequenzielle Schritte aufgeteilt und jeder Schritt muss vor dem nächsten beendet werden</p></li>
+<li><p>Benutzerbeteiligung nur in der Anforderungsdefinition</p></li>
+<li><p>Jeder Aktivität wird dokumentiert → Gut geeignet für Ausschreibungen (nach der Anforderungsdefinition oder dem Entwurf, ISO 9000)</p></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><img data-src="images/03c_Softwareentwurf/waterflow.svg"></p>
+</div></div>
+</section>
+<section id="v-methode" class="slide level2">
+<h2>V-Methode</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><p>Primär verwendet bei der Entwicklung sicherheitskritischer Software (Auto, Flugzeug, etc.)</p></li>
+<li><p>Separiert Entwicklungs- (linke Seite) und Testaktivitäten (rechte Seite)</p></li>
+<li><p>Tests werden schon im Entwicklungsarm definiert</p></li>
+<li><p>Ziel einer hohen Testabdeckung</p></li>
+<li><p>Benutzerbeteiligung in der Anforderungsdefinition und im Abnahmetest</p></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><img data-src="images/03c_Softwareentwurf/vmodel.svg"></p>
+</div></div>
+</section>
+<section id="agile-methode" class="slide level2">
+<h2>Agile Methode</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><p>Moderne Methode um mit sich an ständig ändernden Anforderungen anpassen</p></li>
+<li><p>Ziel der schrittweisen Entwicklung der Lösung, um Aufwand und Komplexität einzelner Schritte in Grenzen zu halten</p></li>
+<li><p>Startet mit einer einfachen und ausbaufähigen Implementierung (MVP – Minimal Viable Produkt)</p></li>
+<li><p>Schrittweise Erweiterung und Verbesserung des Produktes mit regelmäßigen Releases (meist alle 3 Monate)</p></li>
+<li><p>Entwurfsfehler der ersten Iterationen können zu kompletten Neuentwurf führen</p></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><img data-src="images/03c_Softwareentwurf/agile.svg"></p>
+</div></div>
+</section>
+<section id="agentischer-entwicklungs-loop" class="slide level2">
+<h2>Agentischer Entwicklungs-Loop</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>KI übernimmt die Implementierungsphase — der Ingenieur steuert und verifiziert:</p>
+<ul>
+<li><em>Prompt</em> = Anforderungsspezifikation</li>
+<li><em>Generate</em> = Implementierungssprint (KI)</li>
+<li><em>Verify</em> = Verstehen &amp; Testen (Mensch)</li>
+<li><em>Iterate</em> = Prompt verfeinern</li>
+</ul>
+<p><strong>Kernkompetenz:</strong> Verstehen und Verifizieren</p>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/03c_Softwareentwurf/agentic_loop.svg" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="vier-vorgehensmodelle-im-vergleich" class="slide level2">
+<h2>Vier Vorgehensmodelle im Vergleich</h2>
+<div class="columns">
+<div class="column" style="width:25%;">
+<p><strong>Wasserfall</strong></p>
+<ul>
+<li>Sequenziell</li>
+<li>Dokumentiert</li>
+<li>Stabile Anf.</li>
+</ul>
+</div><div class="column" style="width:25%;">
+<p><strong>V-Modell</strong></p>
+<ul>
+<li>Testbasiert</li>
+<li>Sicherheit</li>
+<li>Hohe Qualität</li>
+</ul>
+</div><div class="column" style="width:25%;">
+<p><strong>Agil</strong></p>
+<ul>
+<li>Iterativ</li>
+<li>Flexibel</li>
+<li>Schnell</li>
+</ul>
+</div><div class="column" style="width:25%;">
+<p><strong>Agentisch</strong></p>
+<ul>
+<li>KI generiert</li>
+<li>Prompt = Spec</li>
+<li>Verify = Kern</li>
+</ul>
+</div></div>
+</section>
+<section id="modellierung-mit-objekten" class="slide level2">
+<h2>Modellierung mit Objekten</h2>
+<ul>
+<li>Unsere Wahrnehmung und unser Denken besteht darauf Objekte zu erkennen. Das setzt voraus, dass wir das Objekt von anderen Objekten trennen können (z.B. Stuhl und Tisch)</li>
+<li>Das Nachbilden dieser Wahrnehmung und dieses Weltverständnisses im Computer, nennt man <em>Modellierung</em>.</li>
+<li>Da unsere Wahrnehmung auf Objekten basiert, ist es naheliegend für die Modellierung auch Objekte zu nutzen.</li>
+<li>Die Objekte in der Welt interagieren, dieses Verhalten müssen wir auch modellieren.</li>
+</ul>
+<div class="definition">
+<div class="definition-term">
+<p>Modell</p>
+</div>
+<p>Ein Modell ist eine abstrakte, vereinfachte Abbildung eines Systems (meist aus der Realität).</p>
+</div>
+</section>
+<section id="hörsaalfrage-1" class="slide level2">
+<h2>Hörsaalfrage</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p><em>Was haben diese Elemente gemein?</em></p>
+</div><div class="column" style="width:60%;">
+<p><img data-src="images/03c_Softwareentwurf/elemente.svg" class="midjourney"></p>
+</div></div>
+</section>
+<section id="hörsaalfrage-2" class="slide level2">
+<h2>Hörsaalfrage</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<ul>
+<li>Das sind alles <em>geometrische Objekte</em></li>
+<li>Sie bestehen alle aus <em>Punkten</em>, die mit <em>Linien</em> verbunden sind</li>
+<li>Das können wir bei der Modellierung ausnutzen und Klassen so definieren, dass sie die <em>Gemeinsamkeit</em> ausnutzen</li>
+</ul>
+</div><div class="column" style="width:60%;">
+<p><img data-src="images/03c_Softwareentwurf/elemente.svg" class="midjourney"></p>
+</div></div>
+</section>
+<section id="objektorientierter-softwareentwurf" class="slide level2">
+<h2>Objektorientierter Softwareentwurf</h2>
+<div class="definition">
+<div class="definition-term">
+<p>Objektorientierten Softwareentwurf</p>
+</div>
+<p>Im objektorientierten Softwareentwurf wird ein Programm so entworfen, dass es nur aus <em>Objekten</em> besteht.</p>
+</div>
+<ul>
+<li>Der Softwareentwurf gleicht dabei stark dem Vorgehen von Ingenieuren beim Entwurf von Plänen</li>
+<li>Die übliche Modellierungssprache sind <em>UML Diagramme</em>.</li>
+<li>Man modelliert im Entwurf:
+<ul>
+<li>wie Objekte in Form von <em>Klassen</em> definiert sind,</li>
+<li>welche <em>Attribute und Methoden</em> sie besitzen,</li>
+<li>wie diese Klassen aufeinander aufbauen (<em>Vererbung</em>),</li>
+<li>wie sie miteinander in statischer Beziehung stehen (<em>Referenzen</em>)</li>
+<li>und wie sie dynamisch interagieren (<em>Verhalten</em>)</li>
+</ul></li>
+</ul>
+</section>
+<section id="uml-entwurfssprache-für-software" class="slide level2">
+<h2>UML — Entwurfssprache für Software</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><em>UML (Unified Modelling Language)</em> ist ein ISO-Standard zur Beschreibung von Softwareentwürfen</li>
+<li>Er wird genutzt für den Entwurf, Ausschreibung, Implementation und Dokumentation von:
+<ul>
+<li>Funktionalitäten</li>
+<li>Strukturen</li>
+<li>Businessprozessen</li>
+<li>Nutzerinteraktionen</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p>Der Standard umfasst 13 Diagrammtypen, die typischsten:</p>
+<ul>
+<li><em>Klassendiagramme</em> (Für die Klassen- und Datenstruktur)</li>
+<li><em>Programmablaufplan</em> (Für allgemeine Abläufe und Algorithmen)</li>
+<li><em>Sequenzdiagramme</em> (Für Interaktionen)</li>
+<li><em>Use-Case Diagramme</em> (Für Nutzer und Nutzfälle)</li>
+</ul>
+</div></div>
+</section>
+<section id="uml-klasse-aufbau" class="slide level2">
+<h2>UML Klasse — Aufbau</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Eine Klasse besteht aus drei Ebenen:</p>
+<ol type="1">
+<li><em>Klassenname</em> (oben)</li>
+<li><em>Attribute</em> mit Datentyp (mitte)</li>
+<li><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
+  <path d="M9 17c2 0 2.8-1 2.8-2.8V10c0-2 1-3.3 3.2-3"></path>
+  <path d="M9 11.2h5.7"></path>
+</svg>
+</span> <em>Methoden</em> mit Signatur (unten)</li>
+</ol>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-reveal="true" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">classDiagram
+    class Point{
+      +float x
+      +float y
+      +float distance(Point p)
+    }
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="attribut--und-methoden-notation" class="slide level2">
+<h2>Attribut- und Methoden-Notation</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Attribute:</strong></p>
+<pre class="text"><code>attributname: Typ</code></pre>
+<p><em>Beispiele:</em></p>
+<pre class="text"><code>name: str
+area: float
+rooms: list[Room]</code></pre>
+</div><div class="column" style="width:50%;">
+<p><strong>Methoden:</strong></p>
+<pre class="text"><code>method(param: Typ) Rückgabetyp</code></pre>
+<p><em>Beispiele:</em></p>
+<pre class="text"><code>calculate_area() float
+get_rooms() list[Room]
+add_room(r: Room)</code></pre>
+</div></div>
+</section>
+<section id="uml-klassendiagramm" class="slide level2">
+<h2>UML Klassendiagramm</h2>
+<ul>
+<li><p>Das am <em>häufigsten verwendete Diagramm</em> im objektorientierten Modellieren</p></li>
+<li><p>Im Klassendiagramm modelliert werden:</p>
+<ul>
+<li>Klassen mit: Attributen, Methoden</li>
+<li>Beziehungen</li>
+<li>Hierarchien &amp; Vererbungen</li>
+</ul></li>
+</ul>
+</section>
+<section id="referenzen-1" class="slide level2">
+<h2>Referenzen</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>In Programmen stehen Objekte meist im Zusammenhang. z.B. besteht eine Linie aus zwei Punkten.</li>
+<li>Diesen Zusammenhang zweier Objekt-Klassen bezeichnet man als <span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <path d="M8 3 4 7l4 4"></path>
+  <path d="M4 7h16"></path>
+  <path d="m16 21 4-4-4-4"></path>
+  <path d="M20 17H4"></path>
+</svg>
+</span> <em>Referenz</em>.</li>
+<li>Referenzen in Python erstellt man als Attribut vom Datentyp des anderen Objektes.</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Line:</span>
+<span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, start, end):</span>
+<span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.start <span class="op">=</span> start</span>
+<span id="cb5-4"><a aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.end <span class="op">=</span> end</span>
+<span id="cb5-5"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> length(<span class="va">self</span>):</span>
+<span id="cb5-7"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.start.distance(<span class="va">self</span>.end)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+</section>
+<section id="klassendiagramm---referenzen" class="slide level2">
+<h2>Klassendiagramm - Referenzen</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><p><em>Referenzen</em> werden in UML mit Linien zwischen Objekten gekennzeichnet. Die Art der Linie und des Pfeils geben den Typ der Referenz an.</p></li>
+<li><p>Man unterscheidet in UML die Referenzen in der Art der <em>Besitzverhältnisse</em>:</p>
+<ul>
+<li><em>Aggregation</em> - ein Objekt ist Teil eines anderen und kann ohne ihn existieren</li>
+<li><em>Komposition</em> - kann nicht ohne diesen existieren</li>
+<li><em>Assoziation</em> - komplett unabhängig</li>
+</ul></li>
+<li><p><em>Zahlen</em> an den Referenzen geben die <em>Multiplizität</em> an, also wie viele Objekte in dieser Relation im Zusammenhang stehen.</p></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-reveal="true" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">classDiagram
+    direction LR
+    class A1
+    class B1
+    class A2
+    class B2
+    class A3
+    class B3
+    A1 "1" o-- "1..*" B1 : Aggregation
+    A2 "1" *-- "1..*" B2 : Komposition
+    A3 "1" --&gt; "1..*" B3 : Assoziation
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="multiplizität" class="slide level2">
+<h2>Multiplizität</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><em>Zahlen</em> an Pfeilen geben die <em>Multiplizität</em> an — wie viele Objekte in Relation stehen:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Notation</th>
+<th>Bedeutung</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>1</code></td>
+<td>Genau eins</td>
+</tr>
+<tr class="even">
+<td><code>0..*</code></td>
+<td>Null oder mehr</td>
+</tr>
+<tr class="odd">
+<td><code>1..*</code></td>
+<td>Ein oder mehr</td>
+</tr>
+<tr class="even">
+<td><code>0..1</code></td>
+<td>Keins oder eins</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-reveal="true" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">classDiagram
+    class Point{
+      +float x
+      +float y
+      +distance(Point)
+    }
+    class Line {
+        +length()
+    }
+    Line "1" o-- "2" Point : start, end
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="vererbung-1" class="slide level2">
+<h2>Vererbung</h2>
+<ul>
+<li>Gleiche Objekte teilen oft auch ähnliche Eigenschaften und Methoden. z.B. bestehen alle geometrischen Elemente aus Punkten die mit Linien verbunden sind</li>
+<li>Um diese Attribute und Methoden nicht jedes mal neu definieren zu müssen dabei ggf. Fehler zu machen, gibt es die <em>Vererbung</em> in der OOP</li>
+<li>OOP erlaubt das Definieren von spezialisierten <em>Unterklassen</em>, bzw. von generalisierten <em>Oberklassen</em>.</li>
+<li>Die Unterklasse (Spezialklasse) besitzt die Methoden und Attribute der generalisierten Oberklasse (Basisklasse).</li>
+<li>Angelehnt an die Genetik auch <em>„Vererbung”</em> genannt</li>
+</ul>
+</section>
+<section id="klassendiagramm-vererbung" class="slide level2">
+<h2>Klassendiagramm – Vererbung</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><p><em>Vererbung</em> wird in UML durch eine Referenz mit einem <em>gefüllten Dreieck</em> bei der Oberklasse gezeichnet.</p></li>
+<li><p>Um zum Beispiel auszudrücken, dass <code>Triangle</code>, <code>Tetragon</code> und <code>Pentagon</code> Unterklassen des Polygons sind, können wir zeichnen.</p></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-reveal="true" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">classDiagram
+    direction BT
+    class Polygon
+    Polygon: +area()
+    Polygon: +\_\_str\_\_()
+    class Triangle
+    class Tetragon
+    class Pentagon
+    Triangle --|&gt; Polygon
+    Tetragon --|&gt; Polygon
+    Pentagon --|&gt; Polygon
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="klassendiagramm---gesamtbeispiel" class="slide level2">
+<h2>Klassendiagramm - Gesamtbeispiel</h2>
+<div class="columns">
+<div class="column" style="width:17%;">
+<ul>
+<li><p><em>Klassendiagramme</em> können recht schnell groß werden</p></li>
+<li><p>Sie eignen sich sehr gut um das <em>(Daten-) Modell</em> darzustellen</p></li>
+</ul>
+</div><div class="column" style="width:83%;">
+<div class="cell" data-reveal="true" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">classDiagram
+    %% Base geometry classes
+    class Point {
+        +float x
+        +float y
+        +distance(Point)
+    }
+
+    class Line {
+        +length()
+    }
+
+    class Polygon {
+        +area()
+        +__str__()
+    }
+
+    %% Composition relationships
+    Polygon "1" o-- "3" Point : points
+    Line "1" *-- "2" Point : start, end
+
+    %% Inheritance hierarchy from Polygon
+    Polygon &lt;|-- Triangle
+    Polygon &lt;|-- Tetragon
+    Polygon &lt;|-- Pentagon
+
+    Triangle &lt;|-- Scalene_Right
+    Triangle &lt;|-- Scalene_Obtuse
+    Triangle &lt;|-- Scalene_Acute
+
+    Scalene_Right &lt;|-- Isosceles_Right
+    Scalene_Obtuse &lt;|-- Isosceles_Obtuse
+    Scalene_Acute &lt;|-- Isosceles_Acute
+    Isosceles_Acute &lt;|-- Equilateral
+
+    Tetragon &lt;|-- Trapez
+    Tetragon &lt;|-- Parallelogram
+
+    Parallelogram &lt;|-- Rectangle
+    Rectangle &lt;|-- Square
+
+    Tetragon &lt;|-- Kite
+    Kite &lt;|-- Rhombus
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="bim-beispiel-schritt-1-anforderung-formulieren" class="slide level2">
+<h2>BIM Beispiel — Schritt 1: Anforderung formulieren</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Auftraggeber formuliert:</strong></p>
+<blockquote>
+<p>„Ein Gebäude hat mehrere Räume. Jeder Raum hat einen Namen, eine Fläche und eine Liste von Fenstern. Ein Fenster hat eine Breite und Höhe. Das Programm soll die Gesamtfensterfläche eines Raumes berechnen.”</p>
+</blockquote>
+</div><div class="column" style="width:50%;">
+<p><strong>Ingenieursfragen für den Entwurf:</strong></p>
+<ul>
+<li>Welche <em>Klassen</em> brauchen wir?</li>
+<li>Welche <em>Attribute</em> mit welchen Typen?</li>
+<li>Welche <em>Methoden</em> mit Signaturen?</li>
+<li>Welche <em>Beziehungen</em> zwischen Klassen?</li>
+</ul>
+<p>→ Diese Fragen beantwortet das UML-Diagramm</p>
+</div></div>
+</section>
+<section id="bim-beispiel-schritt-2-anforderung-uml" class="slide level2">
+<h2>BIM Beispiel — Schritt 2: Anforderung → UML</h2>
+<pre class="mermaid"><code>classDiagram
+    class Building {
+        name: str
+        address: str
+        get_rooms() list[Room]
+    }
+    class Room {
+        name: str
+        area: float
+        get_window_area() float
+    }
+    class Window {
+        width: float
+        height: float
+        get_area() float
+    }
+    Building "1" --&gt; "1..*" Room : enthält
+    Room "1" --&gt; "0..*" Window : hat</code></pre>
+</section>
+<section id="bim-beispiel-schritt-3-uml-ki-prompt-verifizieren" class="slide level2">
+<h2>BIM Beispiel — Schritt 3: UML → KI-Prompt → Verifizieren</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>KI-Prompt (aus UML abgeleitet):</strong></p>
+<blockquote>
+<p>Erstelle Python-Klassen für <code>Building</code>, <code>Room</code> und <code>Window</code>. Building enthält eine Liste von <code>Room</code>-Objekten. <code>Room</code> hat <code>name: str</code>, <code>area: float</code> und eine Liste von Fenstern. <code>Window</code> hat <code>width: float</code>, <code>height: float</code> und <code>get_area() -&gt; float</code>. <code>Room</code> hat <code>get_window_area() -&gt; float</code>.</p>
+</blockquote>
+</div><div class="column" style="width:50%;">
+<p><strong>Verifikation gegen UML:</strong></p>
+<ul>
+<li>✓ Alle drei Klassen vorhanden?</li>
+<li>✓ Attribute mit korrekten Typen?</li>
+<li>✓ Methoden-Signaturen korrekt?</li>
+<li>✓ Beziehungen implementiert?</li>
+<li>✓ Multiplizität berücksichtigt?</li>
+</ul>
+</div></div>
+</section>
+<section id="anwendungsbeispiel-bim-building-information-models" class="slide level2">
+<h2>Anwendungsbeispiel — BIM (Building Information Models)</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<ul>
+<li>Bauzeichnungen werden heutzutage als <em>IFC (Industry Foundation Classes)</em> gespeichert</li>
+<li><em>IFC</em> ist ein objektorientiertes Modell mit Vererbung, Spezialisierung und Generalisierung</li>
+<li>Es wird u.a. in <em>UML</em> dokumentiert</li>
+</ul>
+</div><div class="column" style="width:40%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/03c_Softwareentwurf/ifc_classes.jpg"></p>
+<figcaption>Polygon Klassen</figcaption>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="questions" class="title-slide slide level1 center" data-background-color="#000000" data-background-video="images/mj_questions3.mp4" data-background-video-loop="true" data-background-video-muted="true">
+<h1>Questions</h1>
+
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<p><img src="site_libs/quarto-contrib/quarto-project/ai4sc-style/assets/logos/ai4sc-logo-gray.svg" class="slide-logo"></p>
+<div class="footer footer-default">
+<p><span style="letter-spacing: .03em;">Artificial</span><br><span style="letter-spacing: -.03em;">Intelligence</span></p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="site_libs/revealjs/plugin/verticator/verticator.js"></script>
+  <script src="site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': true,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: true,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1920,
+
+        height: 1080,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, Verticator, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Kopiert");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Kopiert");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

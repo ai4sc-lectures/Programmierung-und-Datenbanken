@@ -1,0 +1,96 @@
+/* Pastello: canonical palette for Python and browser Plotly templates. */
+.reveal {
+  --ai4sc-pastello: 1;
+  --slide-particles-enabled: 0;
+  --pastello-sage: #8B9E87;
+  --pastello-violet: #A398BC;
+  --pastello-blue: #91B5CB;
+  --pastello-amber: #D6B65E;
+  --pastello-rose: #C58E89;
+  --pastello-gray: #99958C;
+  --ink: #302F2B;
+  --ink-2: #45443E;
+  --carbon: #68665E;
+  --concrete: #807D73;
+  --rebar: #DAD7CB;
+  --plaster: #ECEADF;
+  --paper: #F8F7F2;
+  --bone: #F3F1E8;
+  --pure: #FFFFFF;
+  --signal-blue: #91B5CB;
+  --signal-blue-50: #D3E2EB;
+  --signal-green: #8B9E87;
+  --signal-green-50: #DCE4D8;
+  --signal-yellow: #D6B65E;
+  --signal-yellow-50: #EEE2B9;
+  --signal-red: #C58E89;
+  --signal-red-50: #EBD6D2;
+  --moss-700: #52664D;
+  --moss-500: #8B9E87;
+  --moss-300: #B8C6B1;
+  --moss-100: #DCE4D8;
+  --moss-50: #EDF0E8;
+  --accent: #52664D;
+  --r-link-color: #52664D;
+  --r-link-color-hover: #302F2B;
+  --link: #52664D;
+  --focus-ring: 0 0 0 2px var(--paper), 0 0 0 4px var(--accent);
+  --shadow-1: none;
+  --shadow-2: none;
+  --shadow-3: none;
+  --bp-grid-color: rgba(82, 102, 77, 0.04);
+  /* Graph paper tuning; disabled unless explicitly selected. */
+  --pastello-grid-opacity: 0.04;
+  --pastello-grid-size: 24px;
+}
+.reveal-viewport { background: #F8F7F2; }
+.reveal .pastello-grid {
+  background-image:
+    linear-gradient(rgba(82,102,77,var(--pastello-grid-opacity)) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(82,102,77,var(--pastello-grid-opacity)) 1px, transparent 1px);
+  background-size: var(--pastello-grid-size) var(--pastello-grid-size);
+}
+.reveal .slides section .stat-card { box-shadow: none; border: 1px solid var(--rebar); }
+.reveal .slides section blockquote { border-left: 3px solid var(--pastello-sage); }
+.reveal .slides section table th { border-bottom-color: var(--rebar); }
+.reveal .slides section pre { box-shadow: none; }
+/* Use with the documented paper title background; media stays visible. */
+.reveal #title-slide:not([data-background-image]):not([data-background-video]) .vslide-title { background-color: transparent !important; color: var(--ink); }
+.reveal #title-slide:not([data-background-image]):not([data-background-video]) h1.title,
+.reveal #title-slide:not([data-background-image]):not([data-background-video]) p.subtitle,
+.reveal #title-slide:not([data-background-image]):not([data-background-video]) .quarto-title-author-name,
+.reveal #title-slide:not([data-background-image]):not([data-background-video]) p.date { color: var(--ink) !important; }
+
+.reveal #title-slide:not([data-background-image]):not([data-background-video]) { --fg-inv: var(--ink); }
+
+.reveal .slide-menu-button a { color: var(--accent); }
+
+/* Menu is mounted outside .reveal by the Reveal menu plugin. */
+.reveal-viewport .slide-menu-button a { color: #52664D; }
+.reveal .slides section blockquote { box-sizing: border-box; width: 100%; margin-inline: 0; }
+.reveal .pastello-control {
+  font: inherit;
+  font-size: 0.65em;
+  color: var(--ink);
+  background: var(--bone);
+  border: 1px solid var(--rebar);
+  border-radius: 2px;
+  padding: 0.35em 0.7em;
+  cursor: pointer;
+}
+.reveal .pastello-control:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* Text contrast: the pastel signal colours are only ~2.6:1 (green, rose) and 1.8:1 (amber) on the
+   paper background. Coloured text uses darker shades of the same hues (>= 5:1, WCAG AA is 4.5:1).
+   The --signal-* variables stay untouched: Plotly templates, bars, markers and fills still use them. */
+.reveal {
+  --text-pro:     #52664D;  /* moss-700, 5.8:1 */
+  --text-con:     #8E524C;  /* darkened signal-red, 5.7:1 */
+  --text-neutral: #7F6310;  /* darkened signal-yellow, 5.3:1 */
+}
+.reveal .slides section .pro     { color: var(--text-pro); }
+.reveal .slides section .con     { color: var(--text-con); }
+.reveal .slides section .neutral { color: var(--text-neutral); }
+.reveal .slides section .alert   { color: var(--text-con); }
+.reveal .slides section ul > li:has(.con)::before     { color: var(--text-con); }
+.reveal .slides section ul > li:has(.neutral)::before { color: var(--text-neutral); }
