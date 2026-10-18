@@ -41,6 +41,8 @@ Wer Messdaten aus einem Sensornetz einliest, in Funktionen weiterreicht und dort
 %%## Eine Variable ist ein Name, keine Box
 
 %%slides
+Ein Name verweist auf ein Objekt, er enthält keinen Wert.
+
 %%col 45 55
 Variable sind keine Boxen, die einen Wert enthalten, sondern Namen, die auf Objekte im Speicher verweisen.
 ```{python}
@@ -81,6 +83,8 @@ Dass hier tatsächlich dasselbe Objekt vorliegt, liegt an einer Optimierung: Fü
 %%## Zuweisung bindet einen Namen
 
 %%slides
+`=` kopiert nichts, es bindet den Namen neu.
+
 %%col 50 50
 ```python
 x = [1, 2, 3]
@@ -121,6 +125,8 @@ Die Abbildung zeigt diesen Vorgang in zwei Zuständen: Der Pfeil von `x` wandert
 %%## `==` prüft den Wert, `is` die Identität
 
 %%slides
+Zwei Fragen an zwei Namen: gleicher Inhalt oder dasselbe Objekt?
+
 ```python
 a = [1, 2, 3]
 b = [1, 2, 3]
@@ -165,6 +171,8 @@ Dass mehrere Namen dasselbe Objekt teilen können, ist harmlos, solange sich das
 %%## Unveränderlich oder veränderlich
 
 %%slides
+Der Typ legt fest, ob sich ein Objekt an Ort und Stelle ändern lässt.
+
 %%col 50 50
 ### Unveränderlich (*immutable*)
 
@@ -201,6 +209,8 @@ Die Unterscheidung entscheidet darüber, ob geteilte Namen Seiteneffekte haben k
 %%## Bei unveränderlichen Objekten ist Aliasing harmlos
 
 %%slides
+Teilen zwei Namen ein `int`, bleibt der eine von Änderungen am anderen unberührt.
+
 %%col 50 50
 ```python
 a = 42
@@ -241,6 +251,8 @@ Bei veränderlichen Objekten verhält sich dasselbe Muster grundlegend anders. H
 %%## Aliasing: zwei Namen, ein Objekt
 
 %%slides
+Bei einer Liste ist `b = a` dagegen kein Schutz: Beide Namen teilen sich den Zustand.
+
 %%col 50 50
 ```python
 a = [1, 2, 3]
@@ -281,6 +293,8 @@ Der Fehler ist tückisch, weil an der Stelle, an der er sichtbar wird, nichts Au
 %%## Echte Kopien statt Alias
 
 %%slides
+Soll `b` unabhängig von `a` sein, brauchen wir eine explizite Kopie.
+
 %%col 50 50
 ```python
 b = a.copy()          # flache Kopie
@@ -322,6 +336,8 @@ Bisher haben wir betrachtet, worauf Namen verweisen. Nun fragen wir, wo diese Na
 %%## Jeder Funktionsaufruf erhält einen Frame
 
 %%slides
+Jeder Aufruf legt einen Frame mit den lokalen Namen auf den Call Stack.
+
 %%col 50 50
 ```python
 def berechne_fläche(breite, höhe):
@@ -368,6 +384,8 @@ Hardwareseitig ist der Stack ein Speicherbereich im RAM, wie in `01c_Computerhar
 %%## Der Stack wächst und schrumpft
 
 %%slides
+Frames entstehen beim Aufruf und verschwinden beim Rücksprung.
+
 ![](images/02c_Speicher/callstack_steps.svg){.nostretch fig-align="center" width="90%"}
 
 - Lokale Namen entstehen beim Eintritt in die Funktion und verschwinden beim Rücksprung.
@@ -387,6 +405,8 @@ Der Stack arbeitet nach dem LIFO-Prinzip (*last in, first out*): Der zuletzt auf
 %%## Rekursion erzeugt einen Frame pro Aufruf
 
 %%slides
+Ruft sich eine Funktion selbst auf, wächst der Stack mit jedem Aufruf.
+
 ```python
 def fakultät(n):
     if n <= 1:
@@ -433,6 +453,8 @@ Die Grenze schützt davor, dass der Stack des Betriebssystems erschöpft wird un
 %%## Frames halten Namen, der Heap hält Objekte
 
 %%slides
+Namen liegen im Stack, die Objekte dahinter im Heap.
+
 %%col 55 45
 ![](images/02c_Speicher/stack_heap.svg){fig-align="center"}
 %%sep
@@ -453,6 +475,8 @@ Diese Trennung erklärt, warum eine Funktion eine lokale Liste zurückgeben kann
 %%## Garbage Collection
 
 %%slides
+Python gibt ein Objekt frei, sobald kein Name mehr darauf zeigt.
+
 %%col 50 50
 ```python
 def erstelle_daten():
@@ -505,6 +529,8 @@ Das Speichermodell ist kein Selbstzweck. KI-Werkzeuge erzeugen Code, der plausib
 %%## KI-Fehler: Die Eingabeliste wird verändert
 
 %%slides
+Eine KI-Funktion sortiert die Liste des Aufrufers mit, ohne dass es auffällt.
+
 %%col 55 45
 ```python
 # KI-generiert: „sortiere die Messwerte“
@@ -575,6 +601,8 @@ Diese drei Prüffragen lassen sich in wenigen Sekunden auf jede generierte Funkt
 %%## KI-Fehler: Veränderlicher Default
 
 %%slides
+Ein Standardwert `[]` wird nur einmal angelegt und von allen Aufrufen geteilt.
+
 %%col 55 45
 ```python
 # KI-generiert, fehlerhaft
@@ -647,6 +675,8 @@ Das Modell des Call Stack hilft schließlich beim Lesen von Fehlermeldungen. Wer
 %%## Ein Traceback ist der Call Stack beim Fehler
 
 %%slides
+Bei einem Fehler gibt Python den Call Stack als Traceback aus.
+
 %%col 40 60
 ```python
 def berechne(x):
@@ -703,6 +733,8 @@ Jedes Paar aus `File`-Zeile und Codezeile entspricht einem Frame auf dem Stack: 
 %%## Tracebacks von unten nach oben lesen
 
 %%slides
+Vier Fragen führen von der Fehlermeldung zum Ursprung.
+
 %%col 50 50
 1. `ZeroDivisionError`: **was** ist passiert?
 2. `berechne`, Zeile 2: **wo** genau?
