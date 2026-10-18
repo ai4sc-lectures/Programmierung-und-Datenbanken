@@ -114,7 +114,7 @@ Jede Ära zeigt dasselbe Muster: Anforderungen wachsen über die bestehende Arch
 
 Über die Jahre haben sich die Softwarearchitekturen den modernen Anforderungen angepasst. Dadurch haben sich auch neue Programmiersprachen und Softwarearchitekturen entwickelt. Die ersten Programme wurden direkt in binären Maschinencode geschrieben. Dieser wurde mit speziellen Maschinen programmiert, die direkt mit der Hardware kommunizierten. Die Software war monolithisch, d.h. es gab keine Trennung von Funktionalitäten. Alle Funktionen waren in einem einzigen Programm vereint. Diese Software war eng an die Hardware gebunden, was bedeutete, dass sie nur auf einer bestimmten Hardwareplattform lief.
 
-**Architekturlektion:** Programm — Hardware (direkte Kopplung, keine Abstraktionsschicht): jede Hardwareänderung erfordert eine komplette Neuprogrammierung. Keine Schicht = keine Flexibilität.
+Problem: Dabei entstand das Problem, dass Programme für neue Hardware meist komplett neu geschrieben oder stark angepasst werden mussten.
 
 %%sep
 
@@ -155,10 +155,6 @@ Jede Ära zeigt dasselbe Muster: Anforderungen wachsen über die bestehende Arch
 
 Wenn sich die Hardware änderte und eine neue Maschinensprache gesprochen wurde, mussten Programme angepasst oder neu geschrieben werden.
 
-%%note Architekturlektion
-{{< ai4sc-icon arrow-left-right >}} Programm — Hardware: direkte Kopplung ohne Abstraktionsschicht.
-%%/note
-
 %%/col
 
 %%/slides
@@ -172,7 +168,7 @@ Wenn sich die Hardware änderte und eine neue Maschinensprache gesprochen wurde,
 
 Betriebssysteme wurden eingeführt, um Standardaufgaben zu erfüllen (Dateiverwaltung, Speichermanagement, Anzeige, etc.) und die Hardware zu abstrahieren. Dies geschieht durch hardwarespezifische Treiber. Dadurch muss bei neuer Hardware nur der Treiber ausgewechselt werden, welcher die gleichen Funktionen wie der alte Treiber bietet. Das Programm muss nicht angepasst werden.
 
-**Architekturlektion:** Programm — Betriebssystem — Treiber — Hardware: die neue Schicht entkoppelt Programm und Hardware. Eine Abstraktionsschicht schützt die darüber liegenden Komponenten. Problem: Die Schichten müssen genau verstanden werden — low-level Programmierung bleibt schwierig.
+Problem: Die Programme sind sehr schwer zu schreiben, weil sie sehr gutes Verständnis der Hardware, der Treiber und der Betriebssystemfunktionen erfordern. Sie sind sehr low-level und bieten wenig Abstraktion.
 
 %%sep
 
@@ -213,10 +209,6 @@ Betriebssysteme wurden eingeführt, um Standardaufgaben zu erfüllen (Dateiverwa
 
 Neue Hardware wird über einen neuen Treiber unterstützt, das Programm muss nicht angepasst werden. Die Programme bleiben aber schwer zu schreiben, weil sie ein gutes Verständnis der Hardware erfordern.
 
-%%note Architekturlektion
-{{< ai4sc-icon arrow-left-right >}} Programm — Betriebssystem — Treiber — Hardware: die Schicht entkoppelt Programm und Hardware.
-%%/note
-
 %%/col
 
 %%/slides
@@ -230,7 +222,7 @@ Neue Hardware wird über einen neuen Treiber unterstützt, das Programm muss nic
 
 Um die Programmierung zu vereinfachen, wurden höhere Programmiersprachen eingeführt, die 'natürlichsprachlichere' Befehle benutzen. Sie müssen mit Compilern oder Interpretern in Maschinensprache übersetzt werden. Diese ist allerdings spezifisch für das Betriebssystem und die genutzten Treiber, um deren spezifische Funktionen anzusprechen. Das bedeutet, dass Programme, die für ein bestimmtes Betriebssystem und Treiber geschrieben wurden, nicht ohne Weiteres auf einem anderen Betriebssystem laufen können.
 
-**Architekturlektion:** Quellcode — Compiler — Betriebssystem — Hardware: höhere Sprachen entkoppeln den Entwickler von der Hardware, aber der Compiler ist betriebssystemspezifisch. Wechselt das OS, muss neu kompiliert oder umgeschrieben werden.
+Problem: Wenn sich die Betriebssysteme ändern, so funktionieren Programme nicht und müssen entweder neu Kompiliert werden oder umgeschrieben werden.
 
 %%sep
 
@@ -271,10 +263,6 @@ Um die Programmierung zu vereinfachen, wurden höhere Programmiersprachen eingef
 
 Wenn sich das Betriebssystem ändert, funktionieren Programme nicht mehr und müssen neu kompiliert oder umgeschrieben werden.
 
-%%note Architekturlektion
-{{< ai4sc-icon arrow-left-right >}} Quellcode — Compiler — Betriebssystem: der Compiler ist betriebssystemspezifisch.
-%%/note
-
 %%/col
 
 %%/slides
@@ -290,7 +278,7 @@ Um die Abhängigkeit von Betriebssystemen zu verringern, wurden virtuelle Laufze
 
 Dadurch wurde es auch einfacher, neue Betriebssysteme zu entwickeln, weshalb auch Android und iOS für mobile Geräte entstanden sind, die Virtualisierung stark nutzen.
 
-**Architekturlektion:** Programm — Laufzeitumgebung — Betriebssystem — Hardware: eine weitere Entkopplungsschicht schafft Portabilität. Mehr Schichten bedeuten mehr Freiheit, aber auch mehr Laufzeit-Overhead.
+Problem: Mit dem Internet entwickelte sich der Bedarf nicht nur Text und Bilder zu teilen, sondern auch Inhalte auf Webseiten dynamisch anzupassen und kleinere (bis größere) Programme auszuführen. Um von verschiedenen Geräten auf die Daten zuzugreifen, braucht man einen zentralen Punkt um die Daten zu speichern und komplexere Berechnungen auszuführen.
 
 %%sep
 
@@ -313,10 +301,7 @@ Dadurch wurde es auch einfacher, neue Betriebssysteme zu entwickeln, weshalb auc
 
 - Virtuelle Laufzeitumgebungen abstrahieren die Betriebssysteme.
 - Sie kompilieren den Code in Echtzeit (Java) oder interpretieren ihn (Python).
-
-%%note Architekturlektion
-{{< ai4sc-icon arrow-left-right >}} Programm — Laufzeitumgebung — Betriebssystem: eine weitere Schicht schafft Portabilität.
-%%/note
+- Mit dem Internet entstand der Bedarf, auf Inhalte mobil zuzugreifen.
 
 %%/col
 
@@ -333,7 +318,7 @@ Im Internet funktionierten traditionelle monolithische Softwareanwendungen, die 
 
 Diese Architektur trennt die Frontend-Anwendungen von den Backend-Servern. Die Frontend-Anwendungen sind für die Darstellung der Inhalte und die Interaktion mit den Nutzern zuständig, während die Backend-Server die Webseiten bereitstellen und die Langzeitdaten in Datenbanken verwalten. Diese Trennung ermöglicht es, dass Frontend-Anwendungen (Webseiten oder Apps) die Inhalte visualisieren und mit den Nutzern interagieren können, ohne dass sie direkt auf die Datenbanken zugreifen müssen.
 
-**Architekturlektion:** Frontend — Backend — Datenbank: diese explizite Komponentengrenze muss vor dem ersten Code-Commit entschieden werden. Die Trennung erlaubt unabhängige Skalierung, aber sie kann nicht nachträglich hinzugefügt werden.
+Problem: Im Internet greifen oft sehr viele Nutzer gleichzeitig auf die gleichen Server (Seiten) zu. Um diese nicht zu überlasten, brauchte man Wege diese bei Bedarf schnell zu duplizieren. Mit der Entwicklung von mobilen Geräten (Smart Phones, Tablets, etc.) gab es immer mehr relativ kleine spezialisierte Anwendungen (Apps)  Hier kann der Bedarf an Rechenkapazitäten dynamisch schnell wachsen und man benötigte auch dynamisch skallierbare Server.
 
 %%sep
 
@@ -374,10 +359,6 @@ Diese Architektur trennt die Frontend-Anwendungen von den Backend-Servern. Die F
 
 Im Internet greifen sehr viele Nutzer gleichzeitig auf dieselben Server zu. Um diese nicht zu überlasten, braucht man Wege, sie bei Bedarf schnell zu duplizieren.
 
-%%note Architekturlektion
-{{< ai4sc-icon arrow-left-right >}} Frontend — Backend — Datenbank: die Komponentengrenze muss vor dem ersten Code entschieden werden.
-%%/note
-
 %%/col
 
 %%/slides
@@ -391,7 +372,7 @@ Im Internet greifen sehr viele Nutzer gleichzeitig auf dieselben Server zu. Um d
 
 Apps und Websites lösen traditionelle monolithische Programme weitgehend ab. Sie laufen nicht mehr vollständig auf einem einzigen Computer, sondern haben Benutzeroberflächen auf mobilen Geräten und Daten in der Cloud. Das erfordert, die Skalierbarkeit und Flexibilität von Internetanwendungen zu verbessern, damit auf hohes Nutzeraufkommen schnell reagiert werden kann. Um Webserver und Berechnungen in der Cloud besser zu skalieren, bündelt man Programme mit dem Betriebssystem in Images und virtualisiert Hardware. Dadurch lassen sich Programme mit dem kompletten Betriebssystem sehr schnell auf viele Rechner verteilen.
 
-**Architekturlektion:** Service — Container — Cloud-Infrastruktur: Skalierbarkeit ist keine Code-Eigenschaft, sondern eine Architekturentscheidung. Ein falsch dimensioniertes System kann nicht durch besseren Code gerettet werden.
+Problem: Die resultierenden modernen verteilten Anwendungen weisen eine sehr hohe Komplexität auf. Es gibt viele spezialisierte Programmiersprachen und Teilarchitekturen, um einzelne Probleme darin zu lösen.
 
 %%sep
 
@@ -414,10 +395,7 @@ Apps und Websites lösen traditionelle monolithische Programme weitgehend ab. Si
 
 - Programme werden mit dem Betriebssystem in Images gebündelt.
 - Images lassen sich auf virtueller Hardware schnell auf viele Rechner verteilen.
-
-%%note Architekturlektion
-{{< ai4sc-icon arrow-left-right >}} Service — Container — Cloud-Infrastruktur: Skalierbarkeit ist eine Architekturentscheidung, kein Code-Problem.
-%%/note
+- Die resultierenden modernen verteilten Anwendungen weisen eine sehr hohe Komplexität auf.
 
 %%/col
 

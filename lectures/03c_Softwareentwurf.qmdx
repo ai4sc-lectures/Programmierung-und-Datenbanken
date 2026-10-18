@@ -277,37 +277,38 @@ Software wird heute fast ausschließlich im Team über längere Zeiträume entwi
 
 ## Welches Vorgehensmodell passt?
 
-%%col 50 50
+Vier Modelle, verglichen nach drei Kriterien: Wann passt es, wann wird geprüft, welches Risiko bleibt?
 
-Vier Modelle — je nach Projekttyp:
-
-1. *Wasserfall* — sequenziell, dokumentiert
-2. *V-Modell* — sicherheitskritisch, testbasiert
-3. *Agil* — iterativ, änderungsbereit
-4. *Agentisch* — KI implementiert, Mensch verifiziert
-
-%%sep
-
-Entscheidungskriterien:
-
-- Wie *stabil* sind die Anforderungen?
-- Wie *sicherheitskritisch* ist die Software?
-- Wie *groß* ist das Team?
-- Stehen *KI-Tools* zur Verfügung?
-
-%%/col
+| Modell | Passt bei | Geprüft | Risiko |
+|--------|-----------|---------|--------|
+| *Wasserfall* | stabilen Anforderungen, Ausschreibung großer Systeme | nach jeder Phase, Abnahme am Ende | Fehler früher Phasen fallen spät auf |
+| *V-Modell* | sicherheitskritischer Software (Auto, Flugzeug) | Tests schon im Entwicklungsarm definiert | aufwendiger als andere Modelle |
+| *Agil* | sich ständig ändernden Anforderungen | pro Iteration, mit Feedback zur lauffähigen Version | Entwurfsfehler können Neuentwurf erzwingen |
+| *Agentisch* | KI-Coding-Assistent verfügbar | Mensch verifiziert nach jeder Generierung | Verstehen und Prüfen liegen beim Ingenieur |
 
 %%/slides
 
 %%book
 
-## Wasserfallmethode — Das traditionelle Entwicklungsmodell
+## Welches Vorgehensmodell passt?
+
+Die Wahl des Vorgehensmodells hängt vom Projekt ab. Wasserfall passt zu stabilen Anforderungen und formalen Ausschreibungen, prüft aber erst am Ende und entdeckt Fehler früher Phasen spät. Das V-Modell definiert die Tests schon im Entwicklungsarm und eignet sich für sicherheitskritische Software, ist dafür aufwendiger. Agile Entwicklung reagiert auf sich ändernde Anforderungen, prüft in jeder Iteration, riskiert aber einen Neuentwurf bei frühen Entwurfsfehlern. Beim agentischen Loop erzeugt eine KI den Code, und der Mensch verifiziert ihn nach jeder Generierung.
+
+%%/book
+
+%%book
+
+## Wasserfallmethode - Das traditionelle Entwicklungsmodell
 
 Die Wasserfallmethode repräsentiert den traditionellen Ansatz der Softwareentwicklung und wird noch heute häufig in Ausschreibungen großer Systeme gefordert. Ihr charakteristisches Merkmal ist die streng sequenzielle Abarbeitung der Entwicklungsphasen, wobei jede Phase vollständig abgeschlossen werden muss, bevor die nächste beginnt.
 
+Diese Methode zeichnet sich durch eine begrenzte Nutzerbeteiligung aus, die hauptsächlich auf die Anforderungsdefinition beschränkt ist. Jede Aktivität wird umfassend dokumentiert, was die Methode besonders für Ausschreibungen und ISO-9000-konforme Entwicklungen geeignet macht.
+
 ![](images/03c_Softwareentwurf/waterflow.svg)
 
-Der große Vorteil liegt in der Planbarkeit und dem strukturierten Vorgehen. Allerdings führt die sequenzielle Natur dazu, dass Fehler aus frühen Phasen erst sehr spät entdeckt werden.
+Der große Vorteil dieser Methode liegt in ihrer Planbarkeit und dem strukturierten Vorgehen. Kosten und Termine lassen sich präzise schätzen, und die umfassende Dokumentation erfüllt alle formalen Anforderungen. Allerdings führt die sequenzielle Natur dazu, dass Fehler aus frühen Phasen erst sehr spät entdeckt werden, was teure Nachbesserungen zur Folge haben kann.
+
+Die Wasserfallmethode entspricht dem traditionellen Bauvorgehen. Bei einer Autobahnbrücke werden zunächst alle Anforderungen in der Ausschreibung definiert, dann erfolgt die komplette Planung von der Statik bis zur Ausführungsplanung, bevor mit dem eigentlichen Bau begonnen wird. Erst nach Fertigstellung des gesamten Bauwerks erfolgen die Belastungstests und die Abnahme.
 
 %%/book
 
@@ -317,14 +318,13 @@ Der große Vorteil liegt in der Planbarkeit und dem strukturierten Vorgehen. All
 
 %%col 50 50
 
-- Traditionelles Modell, oft in Ausschreibungen gefordert
+- Traditionelles Modell das häufig noch in der Ausschreibung großer Systeme gefordert wird
 
-- *Sequenzielle Phasen* — jede Phase vollständig vor der nächsten
+- Entwicklung ist in mehrere sequenzielle Schritte aufgeteilt und jeder Schritt muss vor dem nächsten beendet werden
 
-- [Planbar, gut dokumentierbar, ISO-9000-konform]{.pro}
-- [Fehler werden spät entdeckt]{.con}
+- Benutzerbeteiligung nur in der Anforderungsdefinition
 
-*Geeignet wenn:* Anforderungen stabil, formale Ausschreibung
+- Jeder Aktivität wird dokumentiert → Gut geeignet für Ausschreibungen (nach der Anforderungsdefinition oder dem Entwurf, ISO 9000)
 
 %%sep
 
@@ -336,13 +336,17 @@ Der große Vorteil liegt in der Planbarkeit und dem strukturierten Vorgehen. All
 
 %%book
 
-## V-Methode — Entwicklung mit systematischer Testplanung
+## V-Methode - Entwicklung mit systematischer Testplanung
 
-Die V-Methode wurde speziell für die Entwicklung sicherheitskritischer Software konzipiert. Das charakteristische V-förmige Modell trennt Entwicklungs- und Testaktivitäten klar voneinander, wobei Tests bereits im Entwicklungsarm definiert werden.
+Die V-Methode wurde speziell für die Entwicklung sicherheitskritischer Software konzipiert und findet hauptsächlich in der Automobil- und Luftfahrtindustrie Anwendung. Sie erweitert das Wasserfallmodell um eine systematische Testplanung, die bereits während der Entwicklungsphase beginnt.
+
+Das charakteristische V-förmige Modell trennt Entwicklungs- und Testaktivitäten klar voneinander. Während auf der linken Seite die eigentliche Entwicklung stattfindet, werden auf der rechten Seite die entsprechenden Tests definiert und durchgeführt. Jede Entwicklungsphase hat ihre korrespondierende Testphase, wodurch eine hohe Testabdeckung erreicht wird.
 
 ![](images/03c_Softwareentwurf/vmodel.svg)
 
-Besonders wichtig ist dabei die *Rückverfolgbarkeit* (Traceability): Anforderungen werden mit Entwurfsartefakten, Testfällen und Code verknüpft. So kann man später systematisch nachweisen, welche Anforderung durch welchen Test und welche Implementierung abgesichert wird.
+Die V-Methode bietet den Vorteil einer systematischen Qualitätssicherung mit hoher Rückverfolgbarkeit. Allerdings ist sie aufwendiger als andere Methoden und eignet sich daher primär für Bereiche, in denen Sicherheit und Zuverlässigkeit oberste Priorität haben.
+
+Im Tunnelbau, einem sicherheitskritischen Bereich des Bauingenieurwesens, wird ähnlich vorgegangen. Bereits während der Planung der Sicherheitssysteme werden die entsprechenden Testverfahren definiert. Für jeden Brandmelder wird festgelegt, wie er getestet wird, für das Zusammenspiel von Brandmeldung und Lüftungssteuerung werden Integrationstests geplant, und für das Gesamtsystem wird eine komplette Evakuierungsübung mit der Feuerwehr konzipiert.
 
 %%/book
 
@@ -350,18 +354,18 @@ Besonders wichtig ist dabei die *Rückverfolgbarkeit* (Traceability): Anforderun
 
 ## V-Methode
 
+
 %%col 50 50
 
-- Primär für *sicherheitskritische Software* (Auto, Flugzeug, Tunnel)
+- Primär verwendet bei der Entwicklung sicherheitskritischer Software (Auto, Flugzeug, etc.)
 
-- Separiert *Entwicklung* (links) und *Testaktivitäten* (rechts)
+- Separiert Entwicklungs- (linke Seite) und Testaktivitäten (rechte Seite)
 
-- Tests werden schon *im Entwicklungsarm* definiert
+- Tests werden schon im Entwicklungsarm definiert
 
-- [Systematische Qualitätssicherung, hohe Testabdeckung]{.pro}
-- [Aufwendiger als andere Modelle]{.con}
+- Ziel einer hohen Testabdeckung
 
-*Geeignet wenn:* Tunnelsteuerung, Kläranlagen-SCADA
+- Benutzerbeteiligung in der Anforderungsdefinition und im Abnahmetest
 
 %%sep
 
@@ -373,13 +377,19 @@ Besonders wichtig ist dabei die *Rückverfolgbarkeit* (Traceability): Anforderun
 
 %%book
 
-## Agile Methode — Flexibilität durch iterative Entwicklung
+## Agile Methode - Flexibilität durch iterative Entwicklung
 
 Die agile Methode stellt eine moderne Antwort auf die Herausforderungen sich schnell ändernder Anforderungen dar. Anstatt ein komplettes System von Anfang bis Ende zu planen, wird schrittweise entwickelt und kontinuierlich verbessert.
 
+Der agile Ansatz beginnt mit einem Minimal Viable Product, einer einfachsten funktionsfähigen Version der Software. Diese wird dann in regelmäßigen Zyklen erweitert und verbessert, wobei jede Iteration neue Funktionen hinzufügt oder bestehende optimiert. Die Entwicklungszyklen sind typischerweise kurz und dauern meist nur wenige Monate.
+
 ![](images/03c_Softwareentwurf/agile.svg)
 
-Der agile Ansatz beginnt mit einem Minimal Viable Product — einer einfachsten funktionsfähigen Version. Diese wird in regelmäßigen Zyklen (typischerweise releasecycles alle 3 Monate) erweitert und verbessert.
+Der große Vorteil der agilen Methode liegt in ihrer Flexibilität und der Möglichkeit, frühzeitig Feedback zu erhalten. Benutzer können bereits funktionsfähige Versionen testen und Verbesserungsvorschläge einbringen. Dies reduziert das Risiko, an den tatsächlichen Bedürfnissen vorbei zu entwickeln.
+
+Allerdings birgt die agile Methode auch Risiken. Entwurfsfehler in frühen Iterationen können dazu führen, dass die gesamte Architektur überarbeitet werden muss. Zudem ist die Kosten- und Zeitplanung schwieriger, da das Endprodukt zu Projektbeginn nicht vollständig spezifiziert ist.
+
+Ein Beispiel aus dem Bauwesen ist das modulare Bauen, was insbesondere im Holzbau zunehmend beliebter wird. Anstatt eine Bauwerk komplett zu planen und zu bauen, werden dort zuerst einzelne Module geplant, die man immer wieder miteinander kombinieren kann. Die Module kann man einzeln aufbauen und testen, bevor man sie im finalen Bauwerk zusammen setzt.
 
 %%/book
 
@@ -389,14 +399,15 @@ Der agile Ansatz beginnt mit einem Minimal Viable Product — einer einfachsten 
 
 %%col 50 50
 
-- *Iterative Entwicklung* mit regelmäßigen Releases (~alle 3 Monate)
+- Moderne Methode um mit sich an ständig ändernden Anforderungen anpassen
 
-- Startet mit *MVP* (Minimal Viable Product)
+- Ziel der schrittweisen Entwicklung der Lösung, um Aufwand und Komplexität einzelner Schritte in Grenzen zu halten
 
-- [Flexibel, frühes Feedback, änderungsbereit]{.pro}
-- [Frühe Entwurfsfehler können Neuentwurf erzwingen]{.con}
+- Startet mit einer einfachen und ausbaufähigen Implementierung (MVP – Minimal Viable Produkt)
 
-*Geeignet wenn:* Anforderungen unklar oder sich ändernd
+- Schrittweise Erweiterung und Verbesserung des Produktes mit regelmäßigen Releases (meist alle 3 Monate)
+
+- Entwurfsfehler der ersten Iterationen können zu kompletten Neuentwurf führen
 
 %%sep
 
@@ -499,13 +510,95 @@ Anders wäre es bei einem jungen Start-up, das eine neue Gebäudeverwaltungs-App
 
 # UML Klassendiagramme
 
-Im objektorientierten Softwareentwurf wird ein Programm so entworfen, dass es aus interagierenden Objekten besteht. Hierbei verwendet man die Modellierungssprache [UML](https://de.wikipedia.org/wiki/Unified_Modeling_Language) um Klassen visuell zu entwerfen.
+Im objektorientierten Softwareentwurf wird ein Programm so entworfen, dass es nur aus Objekten besteht. Hierbei verwendet man meist die Modellierungssprache [UML](https://de.wikipedia.org/wiki/Unified_Modeling_Language), mit der Klassen auch visuell entworfen werden können.
 
-In diesem Kurs nutzen wir UML-Klassendiagramme als Brücke zwischen Anforderung und KI-Prompt: Wer sein Klassenmodell als UML zeichnen kann, kann es auch in einen präzisen Prompt übersetzen.
+Man modelliert im Entwurf,
 
-*Hinweis: In `04c_Objects` (S04) wird das hier eingeführte UML auf konkrete Python-Klassen angewendet.*
+- wie diese Objekte in Form von Klassen definiert sind,
+- welche Attribute und Methoden sie besitzen,
+- wie diese Klassen aufeinander aufbauen (Vererbung),
+- wie sie miteinander in statischer Beziehung stehen (Referenzen)
+- und wie sie dynamisch interagieren (Verhalten).
+
+In diesem Kurs nutzen wir UML-Klassendiagramme als Brücke zwischen Anforderung und KI-Prompt: Wer sein Klassenmodell als UML zeichnen kann, kann es auch in einen präzisen Prompt übersetzen. In `04c_Objects` (S04) wird das hier eingeführte UML auf konkrete Python-Klassen angewendet.
 
 %%/book
+
+%%slides
+
+## Modellierung mit Objekten
+
+- Unsere Wahrnehmung und unser Denken besteht darauf Objekte zu erkennen. Das setzt voraus, dass wir das Objekt von anderen Objekten trennen können (z.B. Stuhl und Tisch)
+- Das Nachbilden dieser Wahrnehmung und dieses Weltverständnisses im Computer, nennt man *Modellierung*.
+- Da unsere Wahrnehmung auf Objekten basiert, ist es naheliegend für die Modellierung auch Objekte zu nutzen.
+- Die Objekte in der Welt interagieren, dieses Verhalten müssen wir auch modellieren.
+
+%%def Modell
+Ein Modell ist eine abstrakte, vereinfachte Abbildung eines Systems (meist aus der Realität).
+%%/def
+
+%%/slides
+
+%%book
+
+## Modellierung mit Objekten
+
+Unsere Wahrnehmung und unser Denken beruhen darauf, Objekte zu erkennen, also etwa einen Stuhl von einem Tisch zu trennen. Das Nachbilden dieser Wahrnehmung im Computer nennt man Modellierung. Weil unsere Wahrnehmung auf Objekten basiert, ist es naheliegend, auch für die Modellierung Objekte zu nutzen. Da die Objekte in der Welt miteinander interagieren, muss auch dieses Verhalten modelliert werden. Ein Modell ist eine abstrakte, vereinfachte Abbildung eines Systems, meist aus der Realität.
+
+%%/book
+
+%%slides
+
+## Hörsaalfrage
+
+%%col 40 60
+
+*Was haben diese Elemente gemein?*
+
+%%sep
+
+![](images/03c_Softwareentwurf/elemente.svg){class="midjourney"}
+
+%%/col
+
+%%/slides
+
+%%slides
+
+## Hörsaalfrage
+
+%%col 40 60
+
+- Das sind alles *geometrische Objekte*
+- Sie bestehen alle aus *Punkten*, die mit *Linien* verbunden sind
+- Das können wir bei der Modellierung ausnutzen und Klassen so definieren, dass sie die *Gemeinsamkeit* ausnutzen
+
+%%sep
+
+![](images/03c_Softwareentwurf/elemente.svg){class="midjourney"}
+
+%%/col
+
+%%/slides
+
+%%slides
+
+## Objektorientierter Softwareentwurf
+
+%%def Objektorientierten Softwareentwurf
+Im objektorientierten Softwareentwurf wird ein Programm so entworfen, dass es nur aus *Objekten* besteht.
+%%/def
+
+- Der Softwareentwurf gleicht dabei stark dem Vorgehen von Ingenieuren beim Entwurf von Plänen
+- Die übliche Modellierungssprache sind *UML Diagramme*.
+- Man modelliert im Entwurf:
+    - wie Objekte in Form von *Klassen* definiert sind,
+    - welche *Attribute und Methoden* sie besitzen,
+    - wie diese Klassen aufeinander aufbauen (*Vererbung*),
+    - wie sie miteinander in statischer Beziehung stehen (*Referenzen*)
+    - und wie sie dynamisch interagieren (*Verhalten*)
+
+%%/slides
 
 %%slides
 
@@ -513,22 +606,21 @@ In diesem Kurs nutzen wir UML-Klassendiagramme als Brücke zwischen Anforderung 
 
 %%col 50 50
 
-*UML (Unified Modelling Language)* ist ein ISO-Standard zur Beschreibung von Softwareentwürfen.
-
-Wird genutzt für:
-
-- Entwurf und Ausschreibung
-- Implementation und Dokumentation
-- Kommunikation im Team
+- *UML (Unified Modelling Language)* ist ein ISO-Standard zur Beschreibung von Softwareentwürfen
+- Er wird genutzt für den Entwurf, Ausschreibung, Implementation und Dokumentation von:
+    - Funktionalitäten
+    - Strukturen
+    - Businessprozessen
+    - Nutzerinteraktionen
 
 %%sep
 
-Wichtigste Diagrammtypen:
+Der Standard umfasst 13 Diagrammtypen, die typischsten:
 
-- *Klassendiagramm* — Klassen- und Datenstruktur
-- *Programmablaufplan* — Algorithmen
-- *Sequenzdiagramm* — Interaktionen
-- *Use-Case-Diagramm* — Nutzfälle
+- *Klassendiagramme* (Für die Klassen- und Datenstruktur)
+- *Programmablaufplan* (Für allgemeine Abläufe und Algorithmen)
+- *Sequenzdiagramme* (Für Interaktionen)
+- *Use-Case Diagramme* (Für Nutzer und Nutzfälle)
 
 %%/col
 
@@ -536,11 +628,26 @@ Wichtigste Diagrammtypen:
 
 %%book
 
+## UML — Entwurfssprache für Software
+
+Die Unified Modelling Language (UML) ist ein ISO-Standard zur Beschreibung von Softwareentwürfen. Sie wird für Entwurf, Ausschreibung, Implementation und Dokumentation von Funktionalitäten, Strukturen, Businessprozessen und Nutzerinteraktionen genutzt. Der Standard umfasst 13 Diagrammtypen. Die typischsten sind Klassendiagramme für die Klassen- und Datenstruktur, Programmablaufpläne für Abläufe und Algorithmen, Sequenzdiagramme für Interaktionen und Use-Case-Diagramme für Nutzer und Nutzfälle.
+
+%%/book
+
+%%book
+
 ## Klassen, Attribute und Methoden
 
-Eine Klasse wird als Rechteck mit drei Ebenen dargestellt. In der ersten Ebene steht der Klassenname. In der zweiten Ebene werden alle Attribute mit ihrem Datentyp aufgelistet. Die dritte Ebene enthält alle Methoden mit ihrer vollständigen Signatur.
+Eine Klasse ist in UML ein Viereck mit drei Ebenen. In der ersten Ebene steht der Klassenname. In der zweiten Ebene werden alle primitiven Attribute der Klasse aufgelistet (die keine Referenzen darstellen). Die dritte Ebene enthält alle Methoden der Klasse. Für eine Klasse `Point` mit den Attributen `x` und `y` und der Methode `distance()` zur Berechnung des Abstands zu einem anderen Punkt sieht die Klasse in UML so aus:
 
-Für die zuvor definierte Klasse `Point` mit den Attributen `x` und `y` und der Methode `distance()` sieht die Klasse in UML so aus:
+```{mermaid}
+classDiagram
+    class Point{
+      +float x
+      +float y
+      +float distance(Point p)
+    }
+```
 
 %%/book
 
@@ -618,7 +725,7 @@ add_room(r: Room)
 
 Die abstrakte Schreibweise ist bewusst kompakt. Ein Attribut wird als `name: Typ` notiert, also zum Beispiel `x: float`. Eine Methode wird mit Parametern und Rückgabetyp angegeben, etwa `distance(p: Point) float`.
 
-Bezogen auf die Klasse `Point` vom vorherigen Abschnitt bedeutet das: `x: float` und `y: float` beschreiben die gespeicherten Koordinaten, während `distance(p: Point) float` sagt, dass die Methode einen weiteren Punkt als Eingabe erwartet und eine Distanz als Zahl zurückgibt. Genau diese Verdichtung macht UML nützlich: Man sieht die Schnittstelle einer Klasse, ohne schon den Python-Code lesen zu müssen.
+Bezogen auf die Klasse `Point` oben bedeutet das: `x: float` und `y: float` beschreiben die gespeicherten Koordinaten, während `distance(p: Point) float` sagt, dass die Methode einen weiteren Punkt als Eingabe erwartet und eine Distanz als Zahl zurückgibt. Genau diese Verdichtung macht UML nützlich: Man sieht die Schnittstelle einer Klasse, ohne schon den Python-Code lesen zu müssen.
 
 %%/book
 
@@ -628,30 +735,20 @@ Bezogen auf die Klasse `Point` vom vorherigen Abschnitt bedeutet das: `x: float`
 
 - Das am *häufigsten verwendete Diagramm* im objektorientierten Modellieren
 
-- Im Klassendiagramm werden modelliert:
+- Im Klassendiagramm modelliert werden:
   - Klassen mit: Attributen, Methoden
-  - Beziehungen zwischen Klassen
-  - Hierarchien und Vererbungen
+  - Beziehungen
+  - Hierarchien & Vererbungen
 
 %%/slides
 
 %%book
 
-## UML Klassendiagramm
-
-Das UML-Klassendiagramm ist das wichtigste Diagramm im objektorientierten Entwurf, weil es die statische Struktur eines Programms zeigt. Es beantwortet die zentralen Entwurfsfragen: Welche Klassen gibt es, welche Daten speichern sie, welche Operationen bieten sie an und wie sind sie miteinander verbunden?
-
-Für viele Projekte reicht ein gutes Klassendiagramm bereits aus, um die wesentlichen Architekturentscheidungen zu diskutieren. Deshalb ist es oft der erste gemeinsame Bezugsrahmen zwischen Fachseite, Entwicklern und heute auch KI-Assistenzsystemen.
-
-%%/book
-
-%%book
-
 ## Referenzen
 
-Eine sehr wichtige Arbeit mit UML ist die Visualisierung von Abhängigkeiten zwischen Klassen in Form von Referenzen. Man unterscheidet in UML die Referenzen in der Art der Besitzverhältnisse: ob ein Objekt Teil eines anderen ist und ohne ihn existieren kann (Aggregation) oder nicht ohne diesen existieren kann (Komposition) oder komplett unabhängig ist (Assoziation).
+Eine sehr wichtige Arbeit mit UML ist die Visualisierung von Abhängigkeiten zwischen Klassen in Form von Referenzen. Man unterscheidet in UML die Referenzen in der Art der Besitzverhältnisse, also ob ein Objekt Teil eines anderen ist und ohne ihn existieren kann (Aggregation) oder nicht ohne diesen existieren kann (Komposition) oder komplett unabhängig ist (Assoziation). Hierfür definiert UML unterschiedliche Pfeiltypen. Hierbei kann man an den Linien die Häufigkeit (Multiplizität) der Ursprungs- und Zielklasse angeben.
 
-Bei der *Komposition* gibt es zusätzlich eine Lebenszyklus-Abhängigkeit: Wird das übergeordnete Objekt gelöscht, verschwinden auch seine Teile. Ein `Room`, der nur als Teil eines bestimmten `Building` existiert, ist ein typisches Beispiel. Bei einer *Aggregation* kann das Teilobjekt auch unabhängig weiterbestehen.
+Bei der Komposition gibt es zusätzlich eine Lebenszyklus-Abhängigkeit: Wird das übergeordnete Objekt gelöscht, verschwinden auch seine Teile. Ein `Room`, der nur als Teil eines bestimmten `Building` existiert, ist ein typisches Beispiel. Bei einer Aggregation kann das Teilobjekt auch unabhängig weiterbestehen.
 
 ```{mermaid}
 classDiagram
@@ -667,20 +764,63 @@ classDiagram
     A3 "1" --> "1..*" B3 : Assoziation
 ```
 
+Die Klasse `Line` beinhaltet den `start`- und `end`-Punkt. Das stellt in UML eine *Aggregation* dar, weil die Punkte zur Linie gehören, allerdings durchaus auch separat existieren können (wir brauchen ja keine Linie, um einen Punkt zu definieren). Die Multiplizität ist hierbei, dass je `1` Instanz einer `Line` je `2` Instanzen der Klasse `Point` besitzt.
+
+```{mermaid}
+classDiagram
+    class Point{
+      +float x
+      +float y
+      +distance(Point)
+    }
+    class Line {
+        +length()
+    }
+    Line "1" o-- "2" Point : start, end
+```
+
 %%/book
 
 %%slides
 
-## Referenzen — Beziehungen zwischen Klassen
+## Referenzen
 
 %%col 50 50
 
-- Objekte stehen meist im Zusammenhang: eine *Linie* besteht aus zwei *Punkten*
-- Diesen Zusammenhang bezeichnet man als {{< ai4sc-icon arrow-left-right >}} *Referenz*
-- UML unterscheidet nach *Besitzverhältnis*:
-  - *Assoziation* — unabhängig voneinander
-  - *Aggregation* — Teil kann ohne Ganzes existieren
-  - *Komposition* — Teil kann *nicht* ohne Ganzes existieren
+- In Programmen stehen Objekte meist im Zusammenhang. z.B. besteht eine Linie aus zwei Punkten.
+- Diesen Zusammenhang zweier Objekt-Klassen bezeichnet man als {{< ai4sc-icon arrow-left-right >}} *Referenz*.
+- Referenzen in Python erstellt man als Attribut vom Datentyp des anderen Objektes.
+
+%%sep
+
+```python
+class Line:
+    def __init__(self, start, end):
+        self.start = start
+        self.end = end
+
+    def length(self):
+        return self.start.distance(self.end)
+```
+
+%%/col
+
+%%/slides
+
+%%slides
+
+## Klassendiagramm - Referenzen
+
+%%col 50 50
+
+- *Referenzen* werden in UML mit Linien zwischen Objekten gekennzeichnet. Die Art der Linie und des Pfeils geben den Typ der Referenz an.
+
+- Man unterscheidet in UML die Referenzen in der Art der *Besitzverhältnisse*:
+  - *Aggregation* - ein Objekt ist Teil eines anderen und kann ohne ihn existieren
+  - *Komposition* - kann nicht ohne diesen existieren
+  - *Assoziation* - komplett unabhängig
+
+- *Zahlen* an den Referenzen geben die *Multiplizität* an, also wie viele Objekte in dieser Relation im Zusammenhang stehen.
 
 %%sep
 
@@ -750,27 +890,98 @@ Im Beispiel `Line "1" o-- "2" Point` liest man von links nach rechts: Eine Linie
 
 ## Vererbung
 
-Ein wichtiger Aspekt in der Arbeit mit UML ist die Vererbung. Die Vererbung wird in UML durch eine Referenz mit einem gefüllten Dreieck "▲" bei der Oberklasse gezeichnet.
+Ein wichtiger Aspekt in der Arbeit mit UML ist die Vererbung. Die Vererbung wird in UML durch eine Referenz mit einem gefüllten Dreieck bei der Oberklasse (es ist kein Pfeil) gezeichnet. Um zum Beispiel auszudrücken, dass `Triangle`, `Tetragon` und `Pentagon` Unterklassen des Polygons sind, können wir zeichnen:
 
 ```{mermaid}
 classDiagram
+    direction BT
+    class Polygon
+    Polygon: +area()
+    Polygon: +\_\_str\_\_()
+    class Triangle
+    class Tetragon
+    class Pentagon
+    Triangle --|> Polygon
+    Tetragon --|> Polygon
+    Pentagon --|> Polygon
+```
+
+Fügen wir die einzelnen Elemente zusammen, so sieht das UML-Diagramm unseres Klassen-Modells wie folgt aus:
+
+```{mermaid}
+classDiagram
+    class Point {
+        +float x
+        +float y
+        +distance(Point)
+    }
+    class Line {
+        +length()
+    }
     class Polygon {
         +area()
         +__str__()
     }
+    Polygon "1" o-- "3" Point : points
+    Line "1" o-- "2" Point : start, end
     Polygon <|-- Triangle
-    Polygon <|-- Tetragon 
+    Polygon <|-- Tetragon
     Polygon <|-- Pentagon
 ```
 
-Vererbung ist mehr als eine grafische Verbindung: Sie bestimmt, welche Methoden auf Objekten verfügbar sind. Wenn `Triangle` von `Polygon` erbt und `Polygon` eine Methode `area()` besitzt, dann darf man auf einer `Triangle`-Instanz ebenfalls `area()` aufrufen.
+Auf Basis dieses UML-Diagramms würde ein Programmierer die Zusammenhänge der Klassen verstehen und könnte diese entsprechend implementieren. Sie eignen sich besonders gut, um solche Datenstrukturen zu definieren und zu kommunizieren.
 
-```python
-triangle = Triangle()
-triangle.area()   # erlaubt, weil Triangle von Polygon erbt
+Dieses Modell können wir weiter verfeinern und weitere spezifischere Klassen für Dreiecke einführen wie rechtwinklige (Right), spitzwinklige (Acute) und stumpfwinklige (Obtuse) Dreiecke, die unregelmäßig (Scalene), gleichschenklig (Isosceles) oder gleichseitig (Equilateral) sein können. Genauso können wir Vierecke klassifizieren in Trapeze, Parallelogramme und Drachen (Kite) mit den Spezialisierungen Rhombus, Rechteck und Quadrat (Square).
+
+```{mermaid}
+classDiagram
+    %% Base geometry classes
+    class Point {
+        +float x
+        +float y
+        +distance(Point)
+    }
+
+    class Line {
+        +length()
+    }
+
+    class Polygon {
+        +area()
+        +__str__()
+    }
+
+    %% Composition relationships
+    Polygon "1" o-- "3" Point : points
+    Line "1" *-- "2" Point : start, end
+
+    %% Inheritance hierarchy from Polygon
+    Polygon <|-- Triangle
+    Polygon <|-- Tetragon
+    Polygon <|-- Pentagon
+
+    Triangle <|-- Scalene_Right
+    Triangle <|-- Scalene_Obtuse
+    Triangle <|-- Scalene_Acute
+
+    Scalene_Right <|-- Isosceles_Right
+    Scalene_Obtuse <|-- Isosceles_Obtuse
+    Scalene_Acute <|-- Isosceles_Acute
+    Isosceles_Acute <|-- Equilateral
+
+    Tetragon <|-- Trapez
+    Tetragon <|-- Parallelogram
+
+    Parallelogram <|-- Rectangle
+    Rectangle <|-- Square
+
+    Tetragon <|-- Kite
+    Kite <|-- Rhombus
 ```
 
-Die Unterklasse kann geerbte Methoden unverändert nutzen oder spezialisieren. Damit spart man Wiederholung und formuliert gleichzeitig fachliche Hierarchien explizit.
+Jede Instanz dieser speziellen Klassen erbt dabei die Funktionen `area()` und `__str__()`. Wir haben also mit der einen generischen Implementation von `area()` zur Flächenberechnung eines Polygons nur eine einzige Methode implementieren müssen, die die Flächenberechnung aller geometrischen Grundelemente abdeckt, ohne eine weitere Zeile Code für diese schreiben zu müssen.
+
+Entlang der Vererbungshierarchie könnte man jetzt weitere Attribute und Methoden definieren, welche spezifische Berechnungen durchführen können oder z.B. testen, ob die Punkte, Linien und Winkel den entsprechenden Bedingungen entsprechen. Dies ist jedoch außerhalb des Rahmens dieses Beispiels.
 
 %%/book
 
@@ -778,12 +989,23 @@ Die Unterklasse kann geerbte Methoden unverändert nutzen oder spezialisieren. D
 
 ## Vererbung
 
+- Gleiche Objekte teilen oft auch ähnliche Eigenschaften und Methoden. z.B. bestehen alle geometrischen Elemente aus Punkten die mit Linien verbunden sind
+- Um diese Attribute und Methoden nicht jedes mal neu definieren zu müssen dabei ggf. Fehler zu machen, gibt es die *Vererbung* in der OOP
+- OOP erlaubt das Definieren von spezialisierten *Unterklassen*, bzw. von generalisierten *Oberklassen*.
+- Die Unterklasse (Spezialklasse) besitzt die Methoden und Attribute der generalisierten Oberklasse (Basisklasse).
+- Angelehnt an die Genetik auch *„Vererbung"* genannt
+
+%%/slides
+
+%%slides
+
+## Klassendiagramm – Vererbung
+
 %%col 50 50
 
-- Gleiche Objekte teilen oft ähnliche Eigenschaften und Methoden
-- *Vererbung* erlaubt Definieren von *Unterklassen* und *Oberklassen*
-- Unterklasse erbt alle Attribute und Methoden der Oberklasse
-- In UML: Referenz mit *gefülltem Dreieck "▲"* bei der Oberklasse
+- *Vererbung* wird in UML durch eine Referenz mit einem *gefüllten Dreieck* bei der Oberklasse gezeichnet.
+
+- Um zum Beispiel auszudrücken, dass `Triangle`, `Tetragon` und `Pentagon` Unterklassen des Polygons sind, können wir zeichnen.
 
 %%sep
 
@@ -793,11 +1015,9 @@ classDiagram
     class Polygon
     Polygon: +area()
     Polygon: +\_\_str\_\_()
-
     class Triangle
     class Tetragon
     class Pentagon
-
     Triangle --|> Polygon
     Tetragon --|> Polygon
     Pentagon --|> Polygon
@@ -809,13 +1029,13 @@ classDiagram
 
 %%slides
 
-## Klassendiagramm — Gesamtbeispiel
+## Klassendiagramm - Gesamtbeispiel
 
-%%col 30 70
+%%col 17 83
 
-- Klassendiagramme können groß werden
+- *Klassendiagramme* können recht schnell groß werden
 
-- Sie stellen das *(Daten-)Modell* dar
+- Sie eignen sich sehr gut um das *(Daten-) Modell* darzustellen
 
 %%sep
 
@@ -868,20 +1088,6 @@ classDiagram
 %%/col
 
 %%/slides
-
-%%book
-
-## Klassendiagramm — Gesamtbeispiel
-
-Große Klassendiagramme sollte man nie "auf einmal" lesen. Sinnvoll ist ein schrittweises Vorgehen:
-
-1. Zuerst die *Basisklassen* identifizieren. Hier sind das `Point`, `Line` und `Polygon`. Sie bilden das Fundament des Modells.
-2. Danach die *Beziehungen* lesen. `Line` besteht aus zwei Punkten, `Polygon` referenziert mehrere Punkte. So erkennt man, welche Klassen zusammenspielen.
-3. Erst dann die *Vererbungshierarchie* verfolgen. Von `Polygon` aus verzweigen sich Dreiecke, Vierecke und Fünfecke; darunter folgen weitere Spezialisierungen wie `Rectangle`, `Square` oder `Equilateral`.
-
-Wichtig ist also nicht, jeden Namen sofort zu merken, sondern die Struktur zu sehen: Basisklassen, Beziehungen und Spezialisierungen. Genau dieses Muster taucht später auch in realen Fachmodellen wie BIM oder IFC wieder auf.
-
-%%/book
 
 %%book
 
