@@ -7,11 +7,12 @@ format:
   ai4sc-style-revealjs:
     title-slide-attributes:
       data-background-video: images/06c_Module/mj_title.mp4
+      data-background-video-poster: images/06c_Module/mj_title_poster.jpg
     output-file: 06c_Module.slide.html
   typst:
     output-file: 06c_Module.page.pdf
 resources:
-  - data/06c_Module
+  - images/06c_Module/mj_title_poster.jpg
 ---
 
 %%book
@@ -41,13 +42,13 @@ Um dies organisiert und übersichtlich zu halten, wird Code in mehrere Dateien m
 -  pro Thema, wenn Hilfsfunktionen definiert werden (z.B. Mathematik-Funktionen, …)
 -  pro Aufgabenbereich, wenn (z.B. Laden von Daten getrennt von deren Verarbeitung. So kann man z.B. später andere Verarbeitungsschritte definieren und das Laden wiederverwenden)
 
-Modulegrenzen sind Architekturentscheidungen: wo ein Modul endet und das nächste beginnt, legt fest, wie KI-generierter Code in das Projekt eingebettet wird.
+Modulgrenzen sind Architekturentscheidungen: wo ein Modul endet und das nächste beginnt, legt fest, wie KI-generierter Code in das Projekt eingebettet wird.
 
 %%/book
 
 %%book
 
-Speichern wir jede Klasse der Geometrieelemente aus dem Teil der [Klassendefinition](04c_Objects.ipynb) aus der letzten Vorlesung so hätten wir dann z.B. eine Projektstruktur entsprechend:
+Speichern wir jede Klasse der Geometrieelemente aus dem Teil der [Klassendefinition](06b_Objects.ipynb) aus der letzten Vorlesung so hätten wir dann z.B. eine Projektstruktur entsprechend:
 
 %%/book
 
@@ -94,34 +95,21 @@ Die Summe aller Module formt dann ein *Package*. In diesem Fall das Package `geo
 
 ## Projektstruktur so aufbauen, dass KI-Output landet
 
-%%scol 50 50
+%%col 50 50
 
-%%div eyebrow
-{{< ai4sc-icon list-tree >}} Modulstruktur
-%%/div
+Ein *Modul* ist eine `.py`-Datei, ein *Package* ein Verzeichnis aus Modulen. Eine Datei pro
 
-Struktur des Projekts so aufbauen, dass KI-Output am richtigen Ort landet:
+- *Klasse* (bei Klassendefinitionen)
+- *Thema* (z.B. Mathematik-Funktionen)
+- *Aufgabenbereich* (z.B. Laden vs. Verarbeitung)
 
-- *Pro Klasse* eine Datei (bei Klassendefinitionen)
-- *Pro Thema* eine Datei (z.B. Mathematik-Funktionen)
-- *Pro Aufgabenbereich* eine Datei (z.B. Laden vs. Verarbeitung)
-
-Modulegrenzen sind Architekturentscheidungen.
+Modulgrenzen sind Architekturentscheidungen. Klassen in Modulen: → `06b_Objects`
 
 %%sep
 
-```
-geometry/
-├── points/
-│   ├── ImmutablePoint.py
-│   └── Point.py
-└── shapes/
-    ├── Line.py
-    ├── Polygon.py
-    └── Triangle.py
-```
+![](images/06c_Module/tree_geometry.svg){.nostretch fig-align="center" width="100%"}
 
-%%/scol
+%%/col
 
 %%/slides
 
@@ -130,18 +118,14 @@ geometry/
 
 ## Grundlagen der Projektstruktur
 
-%%scol 50 50
+%%col 50 50
 
-**Allgemeine Struktur**
+*Allgemeine Struktur*
 
-```
-main.py [enthält main()]
-├── module1.py
-├── module2.py
-└── helpers.py
-```
+![](images/06c_Module/tree_main_import.svg){.nostretch fig-align="center" width="100%"}
 
-Code in `main.py`
+Code in `main.py`:
+
 ```python
 import module1
 import module2
@@ -150,23 +134,19 @@ import helpers
 
 %%sep
 
-**Beispiel - Stadtprojekt**
+*Beispiel Stadtprojekt*
 
-```
-city.py
-├── buildings.py
-├── streets.py
-└── geometry.py
-```
+![](images/06c_Module/tree_city.svg){.nostretch fig-align="center" width="100%"}
 
-Code in `main.py`
+Code in `city.py`:
+
 ```python
 import buildings
 import streets
 import geometry
 ```
 
-%%/scol
+%%/col
 
 %%/slides
 
@@ -175,80 +155,53 @@ import geometry
 
 ## Module als KI-Generierungseinheiten
 
-%%div eyebrow
-{{< ai4sc-icon list-tree >}} KI und Modulgranularität
-%%/div
+%%col 55 45
 
-%%scol 50 50
-
-KI generiert Code auf Modulebene:
+KI liefert Code auf Modulebene:
 
 - Ein Prompt → eine `.py`-Datei
-- Klares *öffentliches Interface* (Funktionen, Klassen)
+- Klares *öffentliches Interface*: die Funktionen und Klassen, die andere Module nutzen
 - *Interne Helfer* bleiben privat (`_name`)
-- Imports nur das, was das Modul braucht
+- Imports nur, was das Modul braucht
+
+%%note Modulgrenze = Architekturgrenze
+Was gehört in das Modul? Was wird zwischen Modulen ausgetauscht? Passt die generierte Datei an diese Stelle im Projekt?
+%%/note
 
 %%sep
 
-Beispiel-Prompt:
+![](images/06c_Module/tree_sensor_project.svg){.nostretch fig-align="center" width="100%"}
 
-> „Schreibe ein Modul `sensor_processing.py`, das Messwerte einliest, bereinigt und als Liste zurückgibt."
-
-Erwartetes Ergebnis: `.py`-Datei mit klar benannten öffentlichen Funktionen und privatem Hilfs-Code.
-
-%%/scol
+%%/col
 
 %%/slides
 
-%%slides
+%%book
+
+Wenn eine KI Code für ein Projekt erzeugt, entsteht er in der Regel auf Modulebene: Ein Prompt wie „ein Modul, das Sensordaten verarbeitet“ liefert eine `.py`-Datei. Entscheidend ist, dass diese Datei ein klares öffentliches Interface hat, also die Funktionen und Klassen, die andere Module aufrufen dürfen. Interne Helfer werden mit führendem Unterstrich als privat markiert, und das Modul importiert nur, was es tatsächlich braucht.
+
+Damit ist die Modulgrenze eine Architekturgrenze. Vor dem Übernehmen eines generierten Moduls stellen Sie drei Fragen: Was gehört in dieses Modul? Was wird zwischen den Modulen ausgetauscht? Und passt die Datei an die Stelle im Projekt, an der sie liegen soll?
+
+%%/book
 
 
-## Modulegrenzen sind Architekturentscheidungen
-
-%%div eyebrow
-{{< ai4sc-icon list-tree >}} Modulstruktur
-%%/div
-
-%%scol 50 50
-
-Modulgrenze = Architekturgrenze:
-
-- Was *in* ein Modul gehört
-- Was *zwischen* Modulen ausgetauscht wird (Interface)
-- Wo KI-generierter Code im Projekt platziert wird
-
-%%sep
-
-```
-sensor_project/
-├── main.py
-├── sensor_processing.py  ← KI-generiert
-├── data_loader.py
-└── visualization.py
-```
-
-Verifikationsfrage: Passt das generierte Modul an diese Stelle im Projekt?
-
-%%/scol
-
-%%/slides
 
 %%slides
 
 
 ## Demo: Prompt für ein Modul
 
-%%div eyebrow
-{{< ai4sc-icon square-function >}} KI-generiertes Modul
-%%/div
+%%col 45 55
 
-**Schritt 1 — Anforderung formulieren:**
+*Schritt 1: Anforderung formulieren*
 
-> „Schreibe `sensor_processing.py` mit einer Funktion `clean_readings(values: list[float]) -> list[float]`, die Ausreißer entfernt (Werte außerhalb 2σ)."
+> „Schreibe `sensor_processing.py` mit einer Funktion `clean_readings(values: list[float]) -> list[float]`, die Ausreißer entfernt (Werte außerhalb 2σ).“
 
-`list[float]` ist eine Typangabe: Die Funktion erwartet eine Liste aus Fließkommazahlen und liefert wieder eine solche Liste zurück.
+`list[float]` ist eine Typangabe: Die Funktion erwartet eine Liste aus Fließkommazahlen und liefert wieder eine solche Liste.
 
-**Schritt 2 — KI generiert:**
+%%sep
+
+*Schritt 2: KI generiert*
 
 ```python
 # sensor_processing.py  [KI-generiert]
@@ -265,37 +218,67 @@ def _is_outlier(value: float, mean: float, std: float) -> bool:
     return abs(value - mean) > 2 * std
 ```
 
+%%/col
+
 %%/slides
+
+%%book
+
+Als Demo formulieren wir die Anforderung als Prompt: Das Modul `sensor_processing.py` soll eine Funktion `clean_readings` enthalten, die Werte außerhalb von 2σ entfernt. Die Typangabe `list[float]` legt fest, dass die Funktion eine Liste aus Fließkommazahlen erwartet und wieder eine solche Liste zurückgibt. Die KI erzeugt daraufhin die folgende Datei.
+
+```python
+# sensor_processing.py  [KI-generiert]
+import statistics
+
+def clean_readings(values: list[float]) -> list[float]:
+    if len(values) < 2:
+        return values
+    mean = statistics.mean(values)
+    std  = statistics.stdev(values)
+    return [v for v in values if abs(v - mean) <= 2 * std]
+
+def _is_outlier(value: float, mean: float, std: float) -> bool:
+    return abs(value - mean) > 2 * std
+```
+
+%%/book
+
 
 %%slides
 
 
-## Demo: Interface des generierten Moduls prüfen
+## Demo: Generiertes Modul prüfen
 
-%%div eyebrow
-{{< ai4sc-icon square-function >}} Verifikation
-%%/div
+%%col 50 50
 
-%%scol 50 50
+*Interface und Struktur*
 
-Prüffragen zum generierten Modul:
-
-1. Stimmt der Funktionsname mit dem Prompt überein?
-2. Stimmt der Rückgabetyp (`list[float]`)?
-3. Ist `_is_outlier` korrekt als privat markiert?
-4. Importiert das Modul nur was es braucht?
+1. Stimmen Funktionsname und Typen mit dem Prompt überein? Ja.
+2. Ist `_is_outlier` privat markiert? Ja, wird aber von `clean_readings` nie aufgerufen.
+3. Importiert das Modul nur, was es braucht? Ja, nur `statistics`.
 
 %%sep
 
-> **Agentic workflow:** Wenn KI ein Modul generiert, prüfe:
->
-> 1. Ist das öffentliche Interface das, was du spezifiziert hast?
-> 2. Sind interne Helfer mit `_` als privat markiert?
-> 3. Importiert das Modul nur was es wirklich braucht?
+*Verhalten*
 
-%%/scol
+Mit der Stichproben-Standardabweichung kann bei n ≤ 5 kein Wert weiter als 2σ vom Mittelwert entfernt sein (höchstens 1,79σ bei n = 5).
+
+`clean_readings([20.0, 20.1, 19.9, 20.0, 99.0])` gibt alle fünf Werte zurück, auch den Ausreißer 99.0.
+
+%%/col
+
+%%note Prüffragen für ein KI-Modul
+Ist das öffentliche Interface das, was Sie spezifiziert haben? Sind interne Helfer mit `_` privat? Importiert das Modul nur, was es braucht? Die Modulstruktur gehört auch zur Checkliste in `08b_CodeReview`.
+%%/note
 
 %%/slides
+
+%%book
+
+Beim Prüfen des generierten Moduls vergleichen wir zuerst das Interface mit dem Prompt: Funktionsname und Typangaben stimmen, `_is_outlier` ist privat markiert und es wird nur `statistics` importiert. Das Modul besteht den Interface-Check, hat aber zwei Schwächen. Erstens wird der Helfer `_is_outlier` von `clean_readings` nie aufgerufen, er ist toter Code. Zweitens liegt bei n ≤ 5 Werten mit der Stichproben-Standardabweichung kein Wert außerhalb von 2σ (der größtmögliche Abstand beträgt (n−1)/√n σ, bei n = 5 also rund 1,79σ). Der Aufruf `clean_readings([20.0, 20.1, 19.9, 20.0, 99.0])` liefert deshalb alle fünf Werte zurück. Beides fällt nur auf, wenn wir den Code lesen und mit eigenen Testwerten ausführen. Die Modulstruktur ist außerdem Teil der Review-Checkliste in `08b_CodeReview`.
+
+%%/book
+
 
 %%book
 
@@ -347,34 +330,16 @@ Sie nutzt aus, dass der Wert der Standardvariable `__name__` in der Hauptdatei i
 %%slides
 
 
-## Die main()-Funktion als Standardfunktion
+## Die main()-Funktion als Startpunkt
 
-Woher weiß Python was ausgeführt werden soll?
+%%col 50 50
 
-- Eine bestimmte Datei als *Zentrum des Projektes* deklarieren
-- Diese enthält eine spezielle Funktion namens `main()` {{< ai4sc-icon square-function >}}
-- Existiert in fast jeder Programmiersprache
-- Gibt den *Startpunkt des Programms* an
-- Kann keine oder dynamische Argumente erhalten (Kommandozeilenargumente)
+Woher weiß Python, was ausgeführt werden soll?
 
-%%/slides
-
-%%slides
-
-
-## Die main()-Funktion in Python
-
-%%scol 50 50
-
-Verschiedene Ausführungsmöglichkeiten:
-
-1. Als Skript in Kommandozeile/Gesamtprogramm
-2. Importiert in interaktive Python-Konsole
-3. Importiert in andere Python-Datei
-
-Problem: In Fall 1 wollen wir das gesamte Skript, in Fall 2+3 nur Teile nutzen
-
-Die Lösung: die Variable `__name__`
+- Eine Datei ist das *Zentrum des Projekts* und enthält `main()`
+- `main()` gibt den *Startpunkt* an und existiert in fast jeder Programmiersprache
+- Drei Ausführungsarten: als Skript, importiert in die Konsole, importiert in eine Datei
+- Nur beim Skriptstart soll `main()` laufen: die Variable `__name__` entscheidet
 
 %%sep
 
@@ -386,38 +351,35 @@ if __name__ == "__main__":
     main()  # nur bei direktem Aufruf
 ```
 
-%%/scol
+%%/col
 
 %%/slides
+
 
 %%slides
 
 
 ## Best Practice für main()-Funktion
 
-Was gehört VOR die main()-Definition:
+%%col 50 50
 
-%%scol 50 50
-
-✅ Nur erlaubt:
+*Vor `main()` erlaubt*
 
 - Funktionsdefinitionen
 - Klassendefinitionen
 
 %%sep
 
-❌ Vermeiden:
+*Vor `main()` vermeiden*
 
-- Variablenbelegungen (globale Variablen)
+- Globale Variablen
 - Funktionsaufrufe (Nebeneffekte)
 
-%%/scol
+%%/col
 
-Vorteile dieser Struktur:
-
-- Programmfluss wird übersichtlicher
-- Programm einfach modifizierbar
-- Programm besser weiterverwendbar
+%%note Vorteil dieser Struktur
+Der Programmfluss bleibt übersichtlich, das Programm ist einfach zu ändern und lässt sich besser wiederverwenden.
+%%/note
 
 %%/slides
 
@@ -534,29 +496,14 @@ if __name__ == "__main__":
 %%slides
 
 
-## Programmfluss über mehrere Dateien
+## Programmfluss über mehrere Dateien: import
 
-- Jetzt haben wir einen zentralen Startpunkt.
-- Wie rufen wir Code aus anderen Dateien auf?
-- Jede Programmiersprache hat Befehle zum Laden externen Codes:
-    - in Python: `import`
-    - in anderen Sprachen z.B. `#include` (C/C++) oder `require` (JavaScript)
+%%col 50 50
 
-%%/slides
-
-%%slides
-
-
-## Programmfluss in Python - import Statement
-
-%%scol 50 50
-
-Strategie:
-
-- Eine .py-Datei enthält `main()` (Fall 1)
-- Alle anderen ohne `main()` oder mit `__name__` ignoriert (Fall 3)
-- `import`-Statement lädt externe Dateien
-- *Achtung:* Kompletter Code wird ausgeführt, auch Variablen und Funktionsaufrufe!
+- Jede Sprache lädt externen Code: in Python `import`, in C/C++ `#include`, in JavaScript `require`
+- Eine `.py`-Datei enthält `main()`, alle anderen nicht (oder sie schützen es mit `__name__`)
+- `import` führt den *kompletten* Code der Datei aus, auch Variablen und Funktionsaufrufe
+- Variablen, Funktionen und Klassen landen im Objekt `external_file`
 
 %%sep
 
@@ -566,40 +513,39 @@ import external_file
 def main():
     print("This is the main function")
 ```
-Variablen/Funktionen/Klassen aus `external_file.py` werden in Objekt `external_file` abgelegt
 
-%%/scol
-
-%%/slides
-
-%%slides
-
-
-## Import externer Bibliotheken (Packages)
-
-*Terminologie:*
-
-- *Module:* Importierte Skripte
-- *Namespace:* Das entstehende Objekt (Typ: module)
-- *Package:* Modul mit weiteren Untermodulen
-
-%%/slides
-
-%%slides
-
-
-## Das import-Statement: Erweiterte Nutzungen
-
-- Die Import-Funktionen von Python sind komplex und vielschichtig
-- Im Alltag trifft man aber meistens nur auf folgende zusätzliche Konstrukte:
-    - `from ... import ...`: Importiert ein Submodul oder ein Teil eines Moduls direkt, ohne den übergeordneten Namespace
-    - `from ... import ... as ...`: Arbeitet genauso, benennt aber das importierte Objekt um
+Teile direkt laden oder umbenennen:
 
 ```python
 from external_file import external_function as ext_func
 ```
 
+%%/col
+
 %%/slides
+
+
+%%slides
+
+
+## Modul, Namespace, Package
+
+%%col 50 50
+
+- *Modul:* eine importierte `.py`-Datei, z.B. `ImmutablePoint.py`
+- *Namespace:* das entstehende Objekt (Typ `module`)
+- *Package:* ein Verzeichnis mit Modulen und Untermodulen, z.B. `geometry`
+
+Python sucht Module in `sys.path`: im Projektverzeichnis und in den installierten Paketen.
+
+%%sep
+
+![](images/06c_Module/tree_geometry.svg){.nostretch fig-align="center" width="100%"}
+
+%%/col
+
+%%/slides
+
 
 %%book
 
@@ -689,13 +635,29 @@ with urllib.request.urlopen(f'https://app-prod-ws.warnwetter.de/v30/stationOverv
 %%slides
 
 
-## Pakete aus Standardbibliothek und PyPI
+## Standardbibliothek und PyPI
 
-- Wir können nicht nur unsere eigenen Pakete importieren, sondern auch veröffentlichte Pakete anderer Personen oder Organisationen
-- Es gibt mehrere Wege, auf Pakete zuzugreifen:
-- Paket ist in Python mitgeliefert
-- Direkt als `.py`-Dateien oder Ordner herunterladen
-- Einen Package-Manager wie `pip` oder `uv` benutzen
+%%col 50 50
+
+*Standardbibliothek*
+
+Mit Python mitgeliefert, sofort per `import` nutzbar: `os`, `json`, `math`, `urllib`, `logging`
+
+%%sep
+
+*PyPI*
+
+Von anderen veröffentlicht, muss erst in die aktive Umgebung installiert werden:
+
+```bash
+pip install pandas plotly dash
+```
+
+%%/col
+
+%%note Bei KI-generiertem Code prüfen
+Ist jeder Import in Python enthalten oder eine Abhängigkeit, die erst installiert und dokumentiert werden muss?
+%%/note
 
 %%/slides
 
@@ -814,7 +776,7 @@ Dann erzeugen wir eine Webseite mit einer Überschrift (`H1`), welche den Plot a
 #| echo: true
 app.layout = dash.html.Div(children = [
     dash.html.H1(children='Wetter in Rostock'),
-    dash.dcc.Graph(id="fare_vs_age", figure=fig)
+    dash.dcc.Graph(id="wetter", figure=fig)
 ])
 ```
 
@@ -859,17 +821,6 @@ Die Konvention mit führendem Unterstrich (`_helper`) sagt also: "intern gedacht
 
 %%/book
 
-%%slides
-
-
-## Externe Pakete installieren
-
-- Standardbibliothek ist sofort verfügbar
-- PyPI-Pakete müssen erst in die aktive Umgebung installiert werden
-- Installation erfolgt im Terminal, z.B. mit `pip install pandas plotly dash`
-- Danach können die Pakete wie gewohnt per `import` geladen werden
-
-%%/slides
 
 %%book
 
@@ -890,21 +841,26 @@ Gerade in Teamprojekten und bei KI-generiertem Code sollte man deshalb immer pr�
 %%slides
 
 
-## Packages - Die eigentliche Macht von Python
+## Packages auf PyPI
 
-- Pythons Stärke liegt auch in seiner Rolle als Interface- und Pipeline-Sprache
-- Viele Probleme lassen sich durch das geschickte Kombinieren vorhandener Packages lösen
-- Die offizielle Anlaufstelle für Packages ist der Python Package Index (PyPI)
-- Diese können in den meisten Fällen mit einem einzigen Befehl/Klick installiert werden
+%%col 45 55
+
+- Viele Probleme lösen sich durch das Kombinieren vorhandener Packages
+- Die offizielle Anlaufstelle ist der Python Package Index (PyPI)
+- Installation meist mit einem Befehl: `pip install` oder `uv add`
+
+%%sep
 
 <a href="https://pypi.org">![](images/06c_Module/pip.png)</a>
+
+%%/col
 
 %%/slides
 
 %%slides
 
 
-## Lesson Learned {background="#66ccffff" cols40x60 txtL="Wie priorisiert man richtig?" capR=""I have two kinds of problems, the urgent and the important. The urgent are not important, and the important are never urgent.", Eisenhower" imgR="images/06c_Module/eisenhower.jpg"}
+## Lesson Learned {background="#66ccffff" cols40x60 txtL="Wie priorisiert man richtig?" capR="„I have two kinds of problems, the urgent and the important. The urgent are not important, and the important are never urgent.“, Eisenhower" imgR="images/06c_Module/eisenhower.jpg"}
 
 %%/slides
 
@@ -913,7 +869,7 @@ Gerade in Teamprojekten und bei KI-generiertem Code sollte man deshalb immer pr�
 
 ## Lesson Learned - Priorisierung
 
-%%scol 50 50
+%%col 50 50
 
 - Beim Eisenhower-Schema unterteilt man in dringend und wichtig
 - Man bearbeitet zuerst die dringenden, wichtigen
@@ -922,7 +878,7 @@ Gerade in Teamprojekten und bei KI-generiertem Code sollte man deshalb immer pr�
 
 ![](images/06c_Module/priotisierung.svg){class="midjourney"}
 
-%%/scol
+%%/col
 
 %%/slides
 

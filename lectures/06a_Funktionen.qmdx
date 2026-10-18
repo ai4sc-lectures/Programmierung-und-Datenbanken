@@ -7,11 +7,12 @@ format:
   ai4sc-style-revealjs:
     title-slide-attributes:
       data-background-video: images/06a_Funktionen/mj_title.mp4
+      data-background-video-poster: images/06a_Funktionen/mj_title_poster.jpg
     output-file: 06a_Funktionen.slide.html
   typst:
     output-file: 06a_Funktionen.page.pdf
 resources:
-  - data/06a_Funktionen
+  - images/06a_Funktionen/mj_title_poster.jpg
 ---
 
 %%book
@@ -34,10 +35,11 @@ resources:
 %%slides
 
 
-## Wiederholung: IF, ELIF, ELSE
-```python
-if, elif, else sind Befehle zum Verzweigen von Programmen in Python
+## Wiederholung: IF, ELIF, ELSE {background="#FFD966"}
 
+`if`, `elif`, `else` sind Befehle zum Verzweigen von Programmen in Python.
+
+```python
 if Bedingung1:
     print("Wird ausgeführt wenn Bedingung1 wahr ist")
 elif Bedingung2:
@@ -58,7 +60,8 @@ else:
 %%slides
 
 
-## Wiederholung: Schleifen
+## Wiederholung: Schleifen {background="#FFD966"}
+
 Schleifen sind ein wichtiger Ansatz in der Programmierung, um wiederholende oder inkrementelle Lösungen zu realisieren.
 
 In Python sind verfügbar:
@@ -77,7 +80,8 @@ Wichtige Eigenschaften:
 %%slides
 
 
-## Wiederholung: While-Schleifen
+## Wiederholung: While-Schleifen {background="#FFD966"}
+
 %%col 33 33 33
 
 **While-Schleife**
@@ -98,10 +102,10 @@ while Bedingung:
 Bei der Do-While-Schleife wird die Bedingung erst am Ende geprüft. Die Schleife wird also immer mindestens einmal durchlaufen.
 
 ```python
-Bedingung = True
-while Bedingung:
-    # Statement
-    Bedingung = False
+while True:
+    # Statement (läuft mindestens einmal)
+    if not Bedingung:
+        break
 ```
 
 %%sep
@@ -132,10 +136,6 @@ while not Bedingung:
 
 
 ## Warum brauchen wir Funktionen?
-%%div eyebrow
-{{< ai4sc-icon square-function >}}
-%%/div
-
 - Wiederkehrende Schritte nur einmal schreiben
 - Komplexe Aufgaben in kleine, verständliche Bausteine zerlegen
 - Namen geben dem Code Bedeutung und machen Programme lesbarer
@@ -161,183 +161,15 @@ $$ f : D \to Z, \quad x \mapsto y $$
 
 
 ## Funktionen – Programmierung
-%%div eyebrow
-{{< ai4sc-icon square-function >}}
-%%/div
 %%def Funktion
-Wiederverwendbarer Programmcode, der eine bestimmte Aufgabe ausführt.
+{{< ai4sc-icon square-function >}} Wiederverwendbarer Programmcode, der eine bestimmte Aufgabe ausführt.
 %%/def
 
 - Nehmen ein Tupel an Eingabewerten (*Argumente*)
 - Führen eine festgelegte Folge von Ausdrücken und Zuweisungen aus
 - Geben ein Tupel an Ausgabewerten zurück (*Rückgabewerte*)
 - Werden nur ausgeführt, wenn sie in einem Ausdruck **aufgerufen** werden
-
-%%/slides
-
-%%slides
-
-
-## Die Signatur als Vertrag
-%%div eyebrow
-{{< ai4sc-icon clipboard-list >}}
-%%/div
-
-%%div eyebrow
-{{< ai4sc-icon clipboard-list >}} Signatur als Vertrag
-%%/div
-
-```python
-def calculate_area(length: float, width: float) -> float:
-    """Berechnet die Fläche eines Rechtecks in m²."""
-    ...
-```
-
-- `calculate_area` → Name beschreibt die Aufgabe
-- `length: float, width: float` → Eingabetypen sind festgelegt
-- `-> float` → Rückgabetyp ist bekannt
-- Die Signatur ist eine **vollständige Spezifikation** — ohne Implementierung
-
-%%/slides
-
-%%slides
-
-
-## Was prüft man an der Signatur?
-%%div eyebrow
-{{< ai4sc-icon clipboard-list >}}
-%%/div
-
-%%col 50 50
-
-**Vor dem Lesen der Implementierung**
-
-1. Name: Passt er zur Anforderung?
-2. Parameter: Richtige Typen und Reihenfolge?
-3. Rückgabetyp: Stimmt er mit dem erwarteten Ergebnis überein?
-4. Docstring: Beschreibt er Grenzfälle?
-
-%%sep
-
-```python
-# ✓ Klare Signatur
-def hydraulic_gradient(
-    head_loss: float,
-    pipe_length: float
-) -> float:
-    """Hydraulisches Gefälle i = Δh / L"""
-    ...
-
-# ✗ Unklare Signatur
-def calc(x, y):
-    ...
-```
-
-%%/col
-
-> **Agentic workflow:** Wenn KI eine Funktion generiert: Signatur zuerst lesen. Stimmen Eingabetypen und Rückgabetyp mit der Anforderung überein? Wenn nicht — Signatur korrigieren und neu prompten.
-
-%%/slides
-
-%%slides
-
-
-## Übung: KI-Code lesen – Schritt 1
-%%div eyebrow
-{{< ai4sc-icon clipboard-list >}}
-%%/div
-
-%%div eyebrow
-{{< ai4sc-icon workflow >}} Agentic Cycle · Lesen
-%%/div
-
-Eine KI hat diese Funktion generiert. **Lest erst nur Signatur und Docstring:**
-
-```python
-def flow_velocity(
-    flow_rate: float,
-    pipe_diameter: float
-) -> float:
-    """
-    Berechnet die mittlere Fließgeschwindigkeit in einem Rohr.
-
-    Args:
-        flow_rate: Volumenstrom in m³/s
-        pipe_diameter: Rohrdurchmesser in m
-    Returns:
-        Fließgeschwindigkeit in m/s
-    """
-    ...
-```
-
-**Frage:** Was sind zwei Tests, die ihr schreiben würdet — *bevor* ihr die Implementierung lest?
-
-%%/slides
-
-%%slides
-
-
-## Übung: KI-Code lesen – Schritt 2
-%%div eyebrow
-{{< ai4sc-icon test-tube >}}
-%%/div
-
-%%div eyebrow
-{{< ai4sc-icon test-tube >}} Tests vor der Implementierung
-%%/div
-
-```python
-# Test 1: Bekanntes Ergebnis prüfen
-# Rohr ∅ 0.1 m, Volumenstrom 0.001 m³/s
-# Fläche A = π·(0.05)² ≈ 0.00785 m²  →  v = Q/A ≈ 0.127 m/s
-assert abs(flow_velocity(0.001, 0.1) - 0.127) < 0.01
-
-# Test 2: Grenzfall — Was passiert bei Durchmesser 0?
-# Erwartet: Division durch 0 → Fehler oder None
-result = flow_velocity(0.001, 0.0)
-```
-
-**Dann:** Lest die Implementierung. Stimmt sie mit euren Erwartungen überein?
-
-%%/slides
-
-%%slides
-
-
-## Übung: KI-Code lesen – Schritt 3
-%%div eyebrow
-{{< ai4sc-icon square-function >}}
-%%/div
-
-%%div eyebrow
-{{< ai4sc-icon square-function >}} Implementierung lesen und prüfen
-%%/div
-
-```python
-def flow_velocity(flow_rate: float, pipe_diameter: float) -> float:
-    """..."""
-    from math import pi
-    area = pi * (pipe_diameter / 2) ** 2
-    return flow_rate / area
-```
-
-%%col 50 50
-
-**Was stimmt?**
-
-- Formel $v = Q / A$ korrekt
-- Rückgabetyp `float` korrekt
-- Import im Funktionskörper — ungewöhnlich, funktioniert aber; meist steht `import` aus Effizienz- und Stilgründen am Modulanfang
-
-%%sep
-
-**Was fehlt?**
-
-- Kein Guard für `pipe_diameter == 0`
-- Keine Einheitenprüfung
-- Kein Hinweis auf negative Eingabewerte
-
-%%/col
+- Die Signatur (Name, Parameter, Rückgabe) legt fest, was eine Funktion verspricht – dazu später mehr
 
 %%/slides
 
@@ -383,7 +215,7 @@ Hierbei müssen alle Teile der Funktion gleich eingerückt werden. Der folgende 
 ```{python}
 #| echo: true
 #| error: true
-def funktionsname(argument1, argument):
+def funktionsname(argument1, argument2):
     # Funktionskörper
     print("Der Typ von Argument 1 ist "+str(type(argument1)))
         print("Der Typ von Argument 2 ist "+str(type(argument2)))
@@ -425,10 +257,6 @@ funktionsname("anderer wert ", "noch ein anderer")
 
 
 ## Funktionen in Python
-%%div eyebrow
-{{< ai4sc-icon square-function >}}
-%%/div
-
 ```python
 
 
@@ -469,6 +297,10 @@ def verdopple(zahl):
 
 ergebnis = verdopple(4)   # 8
 ergebnis = verdopple(7)   # 14
+
+# Alternative: Bit-Shift nach links
+def verdopple_shift(zahl):
+    return zahl << 1
 ```
 
 %%/col
@@ -621,7 +453,7 @@ def funktionsname(arg1):
 ```
 
 - `return` beendet die Ausführung und liefert Ausgabewerte zurück
-- „Zurückgeben" heißt: Der Rückgabewert ersetzt den Funktionsaufruf im ursprünglichen Ausdruck
+- „Zurückgeben“ heißt: Der Rückgabewert ersetzt den Funktionsaufruf im ursprünglichen Ausdruck
 - Ist kein `return` definiert, gibt die Funktion `None` zurück
 
 %%/slides
@@ -630,10 +462,6 @@ def funktionsname(arg1):
 
 
 ## Standardwerte bei Parametern
-%%div eyebrow
-{{< ai4sc-icon square-function >}}
-%%/div
-
 ```python
 def funktionsname(arg1, arg2="default"):
     return statement1
@@ -663,14 +491,6 @@ x = measurement(5.5, "kg") # "5.5 kg"
 
 
 ## Vorsicht: Veränderliche Standardwerte
-%%div eyebrow
-{{< ai4sc-icon square-function >}}
-%%/div
-
-%%div eyebrow
-{{< ai4sc-icon square-function >}} Typischer KI-Fehler
-%%/div
-
 ```python
 # ✗ Häufiger Fehler in KI-generiertem Code
 def sammle_messwerte(wert, liste=[]):
@@ -702,10 +522,29 @@ def sammle_messwerte(wert, liste=None):
 %%/col
 
 %%warning Achtung
-KI generiert diesen Fehler häufig. Prüft Standardwerte auf veränderliche Typen (`list`, `dict`, `set`).
+KI generiert diesen Fehler häufig. Prüfen Sie Standardwerte auf veränderliche Typen (`list`, `dict`, `set`).
 %%/warning
 
 %%/slides
+
+%%book
+
+
+## Standardwerte und veränderliche Standardwerte
+
+%%/book
+
+%%book
+
+Parameter können einen Standardwert besitzen, etwa `def measurement(number, unit="meters")`. Beim Aufruf ist das Argument dann optional; ein übergebener Wert überschreibt den Standard.
+
+%%/book
+
+%%book
+
+Ein veränderlicher Standardwert wie `liste=[]` wird nur einmal beim Definieren der Funktion erzeugt, nicht bei jedem Aufruf. Alle Aufrufe teilen sich dieselbe Liste, und der zweite Aufruf von `sammle_messwerte(2)` liefert `[1, 2]`. Üblich ist deshalb `liste=None` mit einer Prüfung `if liste is None: liste = []` im Funktionskörper. KI-generierter Code enthält dieses Muster gelegentlich; prüfen Sie Standardwerte vom Typ `list`, `dict` und `set`.
+
+%%/book
 
 %%book
 
@@ -775,7 +614,7 @@ print(interne_variable)
 
 %%book
 
-Die erlaubt es auch Variablennamen außerhalb der Funktion zu definieren, welche innerhalb der Funktion einen anderen Wert haben können. So bleibt der Wert von `argument` unverändert.
+Das erlaubt es auch Variablennamen außerhalb der Funktion zu definieren, welche innerhalb der Funktion einen anderen Wert haben können. So bleibt der Wert von `argument` unverändert.
 
 %%/book
 
@@ -898,6 +737,8 @@ Das kann sehr schnell zu Fehlern führen, wenn man unbeabsichtigt globale Datens
 
 %%/col
 
+Was Objekte und Referenzen sind, steht in `04c_Objects`.
+
 %%/slides
 
 %%slides
@@ -906,7 +747,7 @@ Das kann sehr schnell zu Fehlern führen, wenn man unbeabsichtigt globale Datens
 ## Übergabe von Argumentwerten in Python
 
 - Python übergibt immer eine Referenz auf ein Objekt an den Parameternamen
-- Dieses Modell wird oft „**Pass-by-assignment**" oder „call by sharing" genannt
+- Dieses Modell wird oft „**Pass-by-assignment**“ oder „call by sharing" genannt
 - Bei **immutable** Typen wirkt eine Neubindung lokal, deshalb sieht es oft wie *pass-by-value* aus
 - Bei **mutable** Typen sind Objektänderungen sichtbar, deshalb wirkt es oft wie *pass-by-reference*
 - Wird eine *mutable* Variable nur **neu gebunden**, wirkt das **nicht** außerhalb
@@ -940,7 +781,7 @@ Python hat eine umfangreiche Liste eingebauter Funktionen.
 ## Wozu werden Funktionen genutzt?
 
 - Übersichtlichkeit, Modularität, Wiederverwendbarkeit
-  *„Write once, use anywhere"*
+  *„Write once, use anywhere“*
 
 - Moderner Stil: Programme so weit wie möglich in **grundlegende Funktionen** aufteilen
 
@@ -949,16 +790,140 @@ Python hat eine umfangreiche Liste eingebauter Funktionen.
 %%slides
 
 
+## Die Signatur als Vertrag
+```python
+def calculate_area(length: float, width: float) -> float:
+    """Berechnet die Fläche eines Rechtecks in m²."""
+    ...
+```
+
+- `calculate_area` → Name beschreibt die Aufgabe
+- `length: float, width: float` → Eingabetypen sind festgelegt
+- `-> float` → Rückgabetyp ist bekannt
+- Die {{< ai4sc-icon clipboard-list >}} Signatur ist eine **vollständige Spezifikation** — ohne Implementierung
+
+%%/slides
+
+%%slides
+
+
+## Was prüft man an der Signatur?
+%%col 50 50
+
+**Vor dem Lesen der Implementierung**
+
+1. Name: Passt er zur Anforderung?
+2. Parameter: Richtige Typen und Reihenfolge?
+3. Rückgabetyp: Stimmt er mit dem erwarteten Ergebnis überein?
+4. Docstring: Beschreibt er Grenzfälle?
+
+%%sep
+
+```python
+# ✓ Klare Signatur
+def hydraulic_gradient(
+    head_loss: float,
+    pipe_length: float
+) -> float:
+    """Hydraulisches Gefälle i = Δh / L"""
+    ...
+
+# ✗ Unklare Signatur
+def calc(x, y):
+    ...
+```
+
+%%/col
+
+> **Agentic workflow:** Wenn KI eine Funktion generiert: Signatur zuerst lesen. Stimmen Eingabetypen und Rückgabetyp mit der Anforderung überein? Wenn nicht — Signatur korrigieren und neu prompten.
+
+%%/slides
+
+%%slides
+
+
+## Übung: KI-Code lesen – Schritt 1
+Eine KI hat diese Funktion generiert. **Lesen Sie erst nur Signatur und Docstring:**
+
+```python
+def flow_velocity(
+    flow_rate: float,
+    pipe_diameter: float
+) -> float:
+    """
+    Berechnet die mittlere Fließgeschwindigkeit in einem Rohr.
+
+    Args:
+        flow_rate: Volumenstrom in m³/s
+        pipe_diameter: Rohrdurchmesser in m
+    Returns:
+        Fließgeschwindigkeit in m/s
+    """
+    ...
+```
+
+**Frage:** Welche zwei Tests würden Sie schreiben — *bevor* Sie die Implementierung lesen?
+
+%%/slides
+
+%%slides
+
+
+## Übung: KI-Code lesen – Schritt 2
+```python
+# Test 1: Bekanntes Ergebnis prüfen
+# Rohr ∅ 0.1 m, Volumenstrom 0.001 m³/s
+# Fläche A = π·(0.05)² ≈ 0.00785 m²  →  v = Q/A ≈ 0.127 m/s
+assert abs(flow_velocity(0.001, 0.1) - 0.127) < 0.01
+
+# Test 2: Grenzfall — Was passiert bei Durchmesser 0?
+# Erwartet: Division durch 0 → Python wirft einen ZeroDivisionError
+# (Umgang mit Fehlern: S07)
+result = flow_velocity(0.001, 0.0)
+```
+
+**Dann:** Lesen Sie die Implementierung. Stimmt sie mit Ihren Erwartungen überein? Wie solche Tests systematisch aufgebaut werden, behandelt `08a_UnitTest`.
+
+%%/slides
+
+%%slides
+
+
+## Übung: KI-Code lesen – Schritt 3
+```python
+def flow_velocity(flow_rate: float, pipe_diameter: float) -> float:
+    """..."""
+    from math import pi
+    area = pi * (pipe_diameter / 2) ** 2
+    return flow_rate / area
+```
+
+%%col 50 50
+
+**Was stimmt?**
+
+- Formel $v = Q / A$ korrekt
+- Rückgabetyp `float` korrekt
+- Import im Funktionskörper — ungewöhnlich, funktioniert aber; meist steht `import` aus Effizienz- und Stilgründen am Modulanfang
+
+%%sep
+
+**Was fehlt?**
+
+- Kein Guard für `pipe_diameter == 0`
+- Keine Einheitenprüfung
+- Kein Hinweis auf negative Eingabewerte
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
 ## Agentisches Arbeiten mit Funktionen
-%%div eyebrow
-{{< ai4sc-icon workflow >}}
-%%/div
-
-%%div eyebrow
-{{< ai4sc-icon workflow >}} Agentic Cycle
-%%/div
-
-> **Wenn KI eine Funktion generiert:**
+> {{< ai4sc-icon workflow >}} **Wenn KI eine Funktion generiert:**
+>
 > 1. **Signatur lesen:** Stimmen Eingabetypen und Rückgabetyp mit der Anforderung überein?
 > 2. **Test schreiben:** Einen bekannten Testfall formulieren — *bevor* die Implementierung gelesen wird
 > 3. **Docstring prüfen:** Beschreibt er Grenzfälle (None, 0, leere Liste)?
@@ -966,6 +931,43 @@ Python hat eine umfangreiche Liste eingebauter Funktionen.
 > 5. **Wenn nicht:** Signatur korrigieren und neu prompten
 
 %%/slides
+
+%%book
+
+Bei Pass-by-value arbeitet die Funktion mit einer Kopie des Werts, bei Pass-by-reference mit einer Referenz auf dieselben Daten. Python übergibt immer eine Referenz auf ein Objekt, man spricht von „call by sharing“ oder Pass-by-assignment. Bei unveränderlichen Typen wirkt eine Neubindung nur lokal, bei veränderlichen Typen sind direkte Änderungen am Objekt auch außerhalb sichtbar. Objekte und Referenzen behandelt `04c_Objects`.
+
+%%/book
+
+%%book
+
+Python bringt eine Reihe eingebauter Funktionen mit, etwa `print()`, `len()`, `abs()`, `max()`, `min()` und `sorted()`. Funktionen strukturieren Programme in überschaubare, wiederverwendbare Bausteine: einmal schreiben, überall nutzen.
+
+%%/book
+
+%%book
+
+
+## Signatur als Vertrag
+
+%%/book
+
+%%book
+
+Die Signatur einer Funktion besteht aus Name, Parametern (mit Typangaben) und Rückgabetyp, ergänzt durch den Docstring. Sie beschreibt, was die Funktion verspricht, ohne die Implementierung zu zeigen. Typangaben und `assert` werden in `08a_UnitTest` vertieft. Vor dem Lesen der Implementierung prüft man Name, Parametertypen und Reihenfolge, Rückgabetyp und die im Docstring genannten Grenzfälle.
+
+%%/book
+
+%%book
+
+Im Beispiel `flow_velocity(flow_rate, pipe_diameter)` lassen sich allein aus Signatur und Docstring zwei Tests ableiten: ein bekanntes Ergebnis (Rohr mit 0,1 m Durchmesser und 0,001 m³/s ergibt etwa 0,127 m/s) und der Grenzfall Durchmesser 0, bei dem Python einen `ZeroDivisionError` auslöst. Erst danach liest man die Implementierung und prüft, ob sie zur Signatur passt und welche Fälle fehlen, hier die Prüfung auf Durchmesser 0, Einheiten und negative Eingaben.
+
+%%/book
+
+%%book
+
+Wenn eine KI eine Funktion generiert, lesen Sie zuerst die Signatur und schreiben einen Test, bevor Sie die Implementierung lesen. Prüfen Sie den Docstring auf Grenzfälle und die Implementierung auf Übereinstimmung mit der Signatur. Weicht sie ab, korrigieren Sie die Signatur und formulieren den Prompt neu.
+
+%%/book
 
 %%book
 

@@ -6,7 +6,7 @@ format:
     output-file: 06b_Objects.page.html
   ai4sc-style-revealjs:
     title-slide-attributes:
-      data-background-video: images/04c_Objects/mj_title.mp4
+      data-background-video: images/06b_Objects/mj_title.mp4
     output-file: 06b_Objects.slide.html
   typst:
     output-file: 06b_Objects.page.pdf
@@ -37,35 +37,24 @@ resources:
 
 %%# Von UML zu Python
 
-%%book
-
-# Von UML zu Python
-
-In S04 haben wir Klassen als Entwurfseinheiten kennen gelernt und das UML-Klassendiagramm als Notation für den Entwurf verwendet. In dieser Einheit übersetzen wir diesen Entwurf in Python-Code — und lernen, wie wir KI-generierten Code gegen den Entwurf verifizieren.
-
-%%/book
+%%## Das Mapping
 
 %%slides
-
-## Das Mapping
-%%div eyebrow
-{{< ai4sc-icon box >}}
-%%/div
-
-%%div eyebrow
-{{< ai4sc-icon box >}} UML → Python
-%%/div
 
 | UML-Element | Python-Syntax |
 |---|---|
 | Klassenname `Raum` | `class Raum:` |
-| Attribut `name: str` | `self.name: str` in `__init__` |
+| Attribut `name: str` | `self.name = name` in `__init__` |
 | Methode `f() → float` | `def f(self) -> float:` |
 | Assoziation `→ Fenster (0..*)` | `self.fenster = []` als Instanzattribut |
 
 %%/slides
 
 %%book
+
+# Von UML zu Python
+
+In S04 haben wir Klassen als Entwurfseinheiten kennen gelernt und das UML-Klassendiagramm als Notation für den Entwurf verwendet. In dieser Einheit übersetzen wir diesen Entwurf in Python-Code — und lernen, wie wir KI-generierten Code gegen den Entwurf verifizieren.
 
 ## Von UML zu Python — das Mapping
 
@@ -76,27 +65,12 @@ Jedes Element des UML-Klassendiagramms hat eine direkte Python-Entsprechung. Die
 %%slides
 
 ## Klassenname und Attribute
-%%div eyebrow
-{{< ai4sc-icon box >}}
-%%/div
 
-%%scol 50 50
+%%col 40 60
 
-**UML-Diagramm:**
-
-```
-┌─────────────────────┐
-│ Raum                │
-├─────────────────────┤
-│ name: str           │
-│ fläche: float       │
-│ höhe: float         │
-└─────────────────────┘
-```
+![](images/06b_Objects/uml_raum_attribute.svg){.nostretch fig-align="center" width="100%"}
 
 %%sep
-
-**Python:**
 
 ```python
 class Raum:
@@ -109,13 +83,17 @@ class Raum:
         self.höhe   = höhe
 ```
 
-%%/scol
+%%/col
+
+Eine {{< ai4sc-icon box >}} Klasse wird zu `class Raum:`, jedes Attribut zu `self.attribut` in `__init__`.
 
 %%/slides
 
 %%book
 
 ### Klassenname und Attribute
+
+![](images/06b_Objects/uml_raum_attribute.svg)
 
 Das `class`-Schlüsselwort leitet die Klassendefinition ein; der Name entspricht direkt dem UML-Klassenname. Die Attribute des UML-Diagramms werden im Konstruktor `__init__` als `self.attributname` definiert. `self` ist eine Selbstreferenz auf die aktuelle Instanz — sie muss immer der erste Parameter einer Methode sein.
 
@@ -124,38 +102,16 @@ Das `class`-Schlüsselwort leitet die Klassendefinition ein; der Name entspricht
 %%slides
 
 ## Methode und Assoziation
-%%div eyebrow
-{{< ai4sc-icon square-function >}} {{< ai4sc-icon arrow-left-right >}}
-%%/div
 
-%%div eyebrow
-{{< ai4sc-icon square-function >}} Methode · {{< ai4sc-icon arrow-left-right >}} Assoziation
-%%/div
+![](images/06b_Objects/uml_raum_methoden.svg){.nostretch fig-align="center" width="70%"}
 
-%%scol 50 50
-
-**UML-Diagramm:**
-
-```
-┌──────────────────────────────┐
-│ Raum                         │
-├──────────────────────────────┤
-│ berechne_volumen(): float    │
-│ get_fenster(): List[Fenster] │
-├──────────────────────────────┤
-│ → Fenster (0..*)             │
-└──────────────────────────────┘
-```
-
-%%sep
-
-**Python:**
+%%col 50 50
 
 ```python
 class Raum:
     def __init__(self, ...):
         ...
-        self.fenster = []  # ⇄ Assoziation
+        self.fenster = []
 
     def berechne_volumen(self) -> float:
         return self.fläche * self.höhe
@@ -164,7 +120,13 @@ class Raum:
         return self.fenster
 ```
 
-%%/scol
+%%sep
+
+- {{< ai4sc-icon square-function >}} Methode → `def … (self)`
+- {{< ai4sc-icon arrow-left-right >}} Assoziation → Instanzattribut
+- `0..*` → leere Liste in `__init__`
+
+%%/col
 
 %%/slides
 
@@ -172,33 +134,27 @@ class Raum:
 
 ### Methoden und Assoziationen
 
+![](images/06b_Objects/uml_raum_methoden.svg)
+
 Methoden aus dem UML-Diagramm werden als Funktionen mit `self` als erstem Parameter definiert. Assoziationen — Beziehungen zu anderen Klassen — werden als Instanzattribute implementiert. Eine `0..*`-Assoziation zu `Fenster` wird als leere Liste `self.fenster = []` initialisiert.
 
 %%/book
 
-%%# BIM-Beispiel: Raum-Klasse
-
 %%slides
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Welche Python-Klasse entspricht dem UML-Diagramm der Raum-Klasse aus S04?" capR="Midjourney: Bauhaus architectural line drawing" imgR="images/04c_Objects/mj_title_band.jpg"}
-
-- Erinnerung aus S04: `Raum` hatte die Attribute `name`, `fläche`, `höhe`
-- Außerdem gehörten die Methode `berechne_volumen()` und eine `0..*`-Assoziation zu `Fenster` dazu
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Welche Python-Klasse entspricht dem UML-Diagramm der Raum-Klasse aus S04?" capR="Midjourney: Bauhaus architectural line drawing" imgR="images/06b_Objects/mj_title_band.jpg"}
 
 %%/slides
 
+%%# BIM-Beispiel: Raum-Klasse
+
+%%## KI generiert die Raum-Klasse
+
 %%slides
 
-## KI generiert die Raum-Klasse
-%%div eyebrow
-{{< ai4sc-icon box >}}
-%%/div
-
-%%div eyebrow
-{{< ai4sc-icon workflow >}} Pattern C — KI-Code lesen
-%%/div
-
 Prompt: *„Implementiere die Klasse `Raum` aus diesem UML-Diagramm."*
+
+![](images/06b_Objects/uml_raum_voll.svg){.nostretch fig-align="center" width="60%"}
 
 ```python
 # KI-generiert
@@ -231,13 +187,6 @@ Die KI übernimmt die Übersetzung des UML-Diagramms in Python-Code. Bevor wir d
 %%slides
 
 ## Verifizieren gegen das Diagramm
-%%div eyebrow
-{{< ai4sc-icon clipboard-list >}}
-%%/div
-
-%%div eyebrow
-{{< ai4sc-icon workflow >}} Agentic Workflow
-%%/div
 
 > **Agentic Workflow — Klasse verifizieren:**
 >
@@ -258,26 +207,11 @@ Die Verifikation läuft systematisch gegen das UML-Diagramm. Der Code muss das D
 
 %%# Python-Klassen — Syntax im Detail
 
-%%book
-
-# Python-Klassen — Syntax im Detail
-
-Dieser Abschnitt behandelt die vollständige Syntax für Python-Klassen: Konstruktor, Instanz- und Klassenattribute, Methoden, Instanzerzeugung und Methodenaufruf.
-
-%%/book
+%%## Konstruktor `__init__`
 
 %%slides
 
-## Konstruktor `__init__`
-%%div eyebrow
-{{< ai4sc-icon square-function >}}
-%%/div
-
-%%div eyebrow
-{{< ai4sc-icon square-function >}} Methode
-%%/div
-
-- `__init__()` ist die spezielle Methode zum Erzeugen einer Instanz
+- `__init__()` ist die spezielle {{< ai4sc-icon square-function >}} Methode zum Erzeugen einer Instanz
 - Wird implizit aufgerufen wenn der Klassenname wie eine Funktion genutzt wird
 - Weist Instanzattribute zu und führt Initialisierungsschritte aus
 - `self` = Selbstreferenz auf die neue Instanz (immer erster Parameter)
@@ -293,6 +227,10 @@ class Punkt:
 
 %%book
 
+# Python-Klassen — Syntax im Detail
+
+Dieser Abschnitt behandelt die vollständige Syntax für Python-Klassen: Konstruktor, Instanz- und Klassenattribute, Methoden, Instanzerzeugung und Methodenaufruf.
+
 ## Konstruktor `__init__`
 
 Der Konstruktor `__init__()` ist eine spezielle Methode, die festlegt, wie eine neue Instanz der Klasse erzeugt wird. Er wird genutzt, um Attribute initial zuzuweisen und Initialisierungsschritte durchzuführen. `self` ist dabei eine Selbstreferenz auf die neue Instanz. Die Zuweisung `self.x = x` bedeutet, dass wir dem neuen Instanzattribut `x` der Instanz `self` den Wert des Parameters `x` zuweisen — obwohl beide gleich heißen, sind sie nicht dieselbe Variable.
@@ -304,11 +242,8 @@ Da `__init__()` eine Funktion ist, kann man auch Defaultwerte definieren: `def _
 %%slides
 
 ## Instanz- vs. Klassenattribute
-%%div eyebrow
-{{< ai4sc-icon box >}}
-%%/div
 
-%%scol 50 50
+%%col 50 50
 
 **Instanzattribute** (Wert je Instanz):
 
@@ -330,7 +265,7 @@ class Raum:
         self.fläche = fläche
 ```
 
-%%/scol
+%%/col
 
 %%warning Achtung
 Veränderliche Klassenattribute (Listen, Dicts) gelten für **alle** Instanzen — eine Änderung durch eine Instanz wirkt sich auf alle aus.
@@ -349,15 +284,8 @@ Instanzattribute werden in `__init__` mit `self.attributname` definiert und kön
 %%slides
 
 ## Methoden
-%%div eyebrow
-{{< ai4sc-icon square-function >}}
-%%/div
 
-%%div eyebrow
-{{< ai4sc-icon square-function >}} Methode
-%%/div
-
-- Methoden werden wie Funktionen mit `def` definiert — auf Klassenebene eingerückt
+- {{< ai4sc-icon square-function >}} Methoden werden wie Funktionen mit `def` definiert — auf Klassenebene eingerückt
 - Erster Parameter ist immer `self` (Referenz auf die aktuelle Instanz)
 - Zugriff auf Attribute der Instanz über `self.attributname`
 - Man kann Parametern auch Defaults zuweisen
@@ -385,15 +313,8 @@ Klassen definieren eigene Methoden, die speziell für Instanzen dieser Klasse an
 %%slides
 
 ## Instanzen erzeugen und nutzen
-%%div eyebrow
-{{< ai4sc-icon box >}}
-%%/div
 
-%%div eyebrow
-{{< ai4sc-icon box >}} Objekt
-%%/div
-
-- Instanzen werden erzeugt indem der Klassenname als Funktion aufgerufen wird
+- {{< ai4sc-icon box >}} Instanzen werden erzeugt indem der Klassenname als Funktion aufgerufen wird
 - `self` wird dabei von Python automatisch übergeben
 - Benannte Parameter empfohlen — vermeiden semantische Unklarheiten
 - Attributzugriff und Methodenaufruf über den Punkt-Syntax
@@ -416,18 +337,11 @@ Objekte selbst sind immer Instanzen einer Klasse. Eine Klasse kann beliebig viel
 
 %%# Assoziationen implementieren
 
+%%## Assoziationen als Instanzattribute
+
 %%slides
 
-## Assoziationen als Instanzattribute
-%%div eyebrow
-{{< ai4sc-icon arrow-left-right >}}
-%%/div
-
-%%div eyebrow
-{{< ai4sc-icon arrow-left-right >}} Assoziation
-%%/div
-
-Beziehungen zwischen Klassen werden als Instanzattribute implementiert:
+Eine {{< ai4sc-icon arrow-left-right >}} Assoziation zwischen Klassen wird als Instanzattribut implementiert:
 
 ```python
 class Raum:
@@ -463,16 +377,9 @@ Die Beziehungsrichtung im UML-Diagramm bestimmt, in welcher Klasse das Attribut 
 
 %%# Kapselung
 
+%%## Kapselung: Attribute schützen
+
 %%slides
-
-## Kapselung: Attribute schützen
-%%div eyebrow
-{{< ai4sc-icon box >}}
-%%/div
-
-%%div eyebrow
-{{< ai4sc-icon box >}} Kapselung
-%%/div
 
 - Private Attribute: `__attributname` — nur innerhalb der Klasse sichtbar
 - Protected Attribute: `_attributname` — für Klasse und Unterklassen
@@ -501,21 +408,20 @@ Kapselung schützt Attribute vor unerwünschtem Zugriff. Private Attribute (`__n
 
 %%# Vererbung
 
+%%## Vererbung
+
 %%slides
-
-## Vererbung
-%%div eyebrow
-{{< ai4sc-icon box >}}
-%%/div
-
-%%div eyebrow
-{{< ai4sc-icon box >}} Vererbung · Generalisierung
-%%/div
 
 - Unterklassen erben alle Attribute und Methoden der Oberklasse
 - In UML: Generalisierungspfeil (weißer Dreieckspfeil)
 - In Python: Oberklasse in Klammern beim `class`-Schlüsselwort
 - `super().__init__(...)` ruft den Konstruktor der Oberklasse auf
+
+%%col 35 65
+
+![](images/06b_Objects/uml_vererbung.svg){.nostretch fig-align="center" width="100%"}
+
+%%sep
 
 ```python
 class Raum:
@@ -529,11 +435,15 @@ class Serverraum(Raum):
         self.kühlleistung = kühlleistung
 ```
 
+%%/col
+
 %%/slides
 
 %%book
 
 ## Vererbung
+
+![](images/06b_Objects/uml_vererbung.svg)
 
 Vererbung ist eine der wichtigsten Eigenschaften der Objektorientierung. Unterklassen erben alle Attribute und Methoden der Oberklasse. Beim Deklarieren gibt man die Oberklasse in Klammern an: `class Kind(Eltern):`. Der Konstruktor der Oberklasse muss explizit mit `super().__init__(...)` aufgerufen werden; sonst werden die Attribute der Oberklasse nicht initialisiert.
 
@@ -543,18 +453,11 @@ Unterklassen können Methoden der Elternklasse überschreiben (*Polymorphismus*)
 
 %%# Typische KI-Fehler bei Klassen
 
+%%## KI-Fehler 1 — Mutable Default in `__init__`
+
 %%slides
 
-## KI-Fehler 1 — Mutable Default in `__init__`
-%%div eyebrow
-{{< ai4sc-icon square-function >}}
-%%/div
-
-%%div eyebrow
-{{< ai4sc-icon square-function >}} Typischer KI-Fehler
-%%/div
-
-%%scol 50 50
+%%col 50 50
 
 **Fehlerhaft (KI macht das oft):**
 
@@ -582,7 +485,7 @@ class Raum:
 
 Jede Instanz bekommt ihre **eigene Liste**.
 
-%%/scol
+%%/col
 
 %%note Merke
 Das Problem gilt nicht nur in `__init__`, sondern bei **jeder** Python-Funktion mit veränderlichem Defaultwert.
@@ -601,15 +504,8 @@ Ein häufiger KI-Fehler ist die Verwendung von veränderlichen Objekten (Listen,
 %%slides
 
 ## KI-Fehler 2 — Fehlendes `self`
-%%div eyebrow
-{{< ai4sc-icon square-function >}}
-%%/div
 
-%%div eyebrow
-{{< ai4sc-icon square-function >}} Typischer KI-Fehler
-%%/div
-
-%%scol 50 50
+%%col 50 50
 
 **Fehlerhaft:**
 
@@ -633,7 +529,7 @@ class Raum:
 
 `self` macht den Instanzkontext explizit.
 
-%%/scol
+%%/col
 
 %%/slides
 
@@ -648,25 +544,19 @@ Methoden müssen immer `self` als ersten Parameter haben. Ohne `self` hat die Me
 %%slides
 
 ## KI-Fehler 3 — `cls` statt `self`
-%%div eyebrow
-{{< ai4sc-icon square-function >}}
-%%/div
 
-%%div eyebrow
-{{< ai4sc-icon square-function >}} Typischer KI-Fehler
-%%/div
-
-%%scol 50 50
+%%col 50 50
 
 **Fehlerhaft:**
 
 ```python
 class Raum:
+    @classmethod
     def berechne_volumen(cls):  # BUG
         return cls.fläche * cls.höhe
 ```
 
-`cls` ist für **Klassenmethoden** (`@classmethod`) — greift auf die Klasse zu, nicht die Instanz.
+`cls` ist die **Klasse**, nicht die Instanz: `Raum().berechne_volumen()` löst einen `AttributeError` aus, denn `fläche` und `höhe` gehören zur Instanz.
 
 %%sep
 
@@ -678,9 +568,9 @@ class Raum:
         return self.fläche * self.höhe
 ```
 
-Instanzmethode → immer `self`.
+Instanzmethode → immer `self`, ohne Dekorator.
 
-%%/scol
+%%/col
 
 %%tip Merksatz
 `self` = Instanzmethode · `cls` = `@classmethod` · kein Parameter = `@staticmethod`
@@ -692,24 +582,17 @@ Instanzmethode → immer `self`.
 
 ### KI-Fehler 3: `cls` statt `self`
 
-In Python ist `cls` die Konvention für den ersten Parameter von Klassenmethoden (dekoriert mit `@classmethod`). KI-Systeme verwechseln `cls` und `self` gelegentlich, insbesondere wenn sie zwischen verschiedenen Methodentypen wechseln. Das Ergebnis: der Code lässt sich zwar ausführen, greift aber auf die Klasse statt auf die Instanz zu, was zu falschen Ergebnissen führt.
+In Python ist `cls` die Konvention für den ersten Parameter von Klassenmethoden (dekoriert mit `@classmethod`). KI-Systeme verwechseln `cls` und `self` gelegentlich, insbesondere wenn sie zwischen verschiedenen Methodentypen wechseln. Bei einer mit `@classmethod` dekorierten Methode ist `cls` die Klasse selbst, nicht die Instanz. Der Zugriff auf Instanzattribute wie `cls.fläche` schlägt dann mit einem `AttributeError` fehl, weil `fläche` erst in `__init__` an der Instanz entsteht.
 
 %%/book
 
 %%# Code-Verständnis-Checkliste
 
+%%## Drei Fragen für KI-generierten Klassencode
+
 %%slides
 
-## Drei Fragen für KI-generierten Klassencode
-%%div eyebrow
-{{< ai4sc-icon clipboard-list >}}
-%%/div
-
-%%div eyebrow
-{{< ai4sc-icon clipboard-list >}} Anforderung · Verifikation
-%%/div
-
-%%scol 33v 33 33
+%%col 33 33 33
 
 **1. Was modelliert diese Klasse?**
 
@@ -731,7 +614,7 @@ In Python ist `cls` die Konvention für den ersten Parameter von Klassenmethoden
 - Fehlt `self` bei einer Methode?
 - Sind Assoziationen als Instanzattribute implementiert?
 
-%%/scol
+%%/col
 
 %%/slides
 
@@ -746,9 +629,6 @@ Diese drei Fragen bilden den Kern der Verifikation von KI-generiertem Klassencod
 %%slides
 
 ## Querverbindungen
-%%div eyebrow
-{{< ai4sc-icon arrow-left-right >}}
-%%/div
 
 %%col 33 33 33
 
