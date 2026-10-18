@@ -43,44 +43,97 @@ In Python sind zwei Schleifen verfügbar:
 
 %%slides
 
+## Warum Schleifen? {{< ai4sc-icon list-tree >}}
 
-## Warum Schleifen? — Ingenieursskala
+Manuelle Berechnung scheitert an der Datenmenge. Schleifen sind das Werkzeug für diese Skala.
 
-%%div eyebrow
-{{< ai4sc-icon list-tree >}} Ingenieursdaten
+:::::: {.stat-grid .large style="grid-template-columns: repeat(3, 1fr); gap: 12px;"}
+
+%%%%div stat-card
+%%div stat-value
+Bodenproben
 %%/div
+%%div stat-label
+Baustelle
+%%/div
+%%div stat-delta
+10.000 Proben auswerten
+%%/div
+%%%%/div
 
-Manuelle Berechnung scheitert an der **Datenmenge:**
+%%%%div stat-card
+%%div stat-value
+Sensormessungen
+%%/div
+%%div stat-label
+Monitoring
+%%/div
+%%div stat-delta
+1 Million Messwerte pro Tag verarbeiten
+%%/div
+%%%%/div
 
-- 10.000 Bodenproben aus einer Baustelle auswerten
-- 1 Million Sensormessungen pro Tag verarbeiten
-- 50.000 Bauelemente in einem BIM-Modell prüfen
+%%%%div stat-card
+%%div stat-value
+Bauelemente
+%%/div
+%%div stat-label
+BIM-Modell
+%%/div
+%%div stat-delta
+50.000 Elemente prüfen
+%%/div
+%%%%/div
 
-Schleifen sind **das** Werkzeug für diese Skala.
+::::::
 
 %%/slides
 
 %%slides
 
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Wie oft müssten Sie print() von Hand aufschreiben, um 10.000 Bodenproben auszuwerten?" capR="DALL·E 2: A psychedelic robot with a question mark for a head" imgR="images/05c_Schleifen/orig_hoersaalfrage.png"}
 
-## Schleifen lesen — nicht nur schreiben
+%%/slides
 
-%%div eyebrow
-{{< ai4sc-icon workflow >}} Lesekompetenz
-%%/div
+%%slides
 
-Wenn KI eine Schleife generiert, müssen Sie:
+## Schleifen lesen — nicht nur schreiben {{< ai4sc-icon workflow >}}
 
-- **Erkennen**, worüber iteriert wird *(Liste, Dict, Zahlenfolge?)*
-- **Verfolgen**, wie Variablen sich verändern *(Spur-Tabelle)*
-- **Prüfen**, ob die Schleife terminiert *(Abbruchbedingung)*
+Wenn KI eine Schleife generiert, stellen Sie drei Fragen:
 
-In Python sind verfügbar:
+%%col 33 33 33
 
-- `for` (for-each-Schleife)
-- `while` (while-Schleife)
+#### 1. Worüber?
 
-Variablen aus Schleifen sind auch außerhalb der Schleife verfügbar.
+Liste, Dict, Zahlenfolge oder Bedingung?
+
+*Erkennen*
+
+%%sep
+
+#### 2. Was ändert sich?
+
+Welche Variablen ändern sich pro Iteration wie?
+
+*Verfolgen (Spur-Tabelle)*
+
+%%sep
+
+#### 3. Terminiert sie?
+
+Gibt es eine klare Abbruchbedingung?
+
+*Prüfen*
+
+%%/col
+
+Variablen aus Schleifen sind auch außerhalb der Schleife verfügbar. Python kennt zwei Schleifen: `for` und `while`.
+
+%%/slides
+
+%%slides
+
+# Wiederholungen mit bekannter Anzahl {colR capR="DALL·E 2: Infinite loop of intricate swirling mandala patterns" imgR="images/05c_Schleifen/orig_mandala.png" background="#333"}
 
 %%/slides
 
@@ -133,33 +186,16 @@ for e in seq:
 
 %%slides
 
+## for-Schleife über eine Sequenz {{< ai4sc-icon list-tree >}}
 
-## Schleifen — for-Schleife
-%%div eyebrow
-{{< ai4sc-icon list-tree >}}
-%%/div
+Die for-Schleife wiederholt einen Block für alle Elemente einer Sequenz. `e` wird dabei immer mit dem aktuellen Element belegt.
 
-Die for-Schleife wiederholt einen Block an Statements für alle Elemente in einer Sequenz. `Element` ist dabei eine Variable, die immer mit dem aktuellen Element aus der Sequenz belegt wird.
+%%col 50 50
 
 ```python
 for Element in Sequenz:
     # Statement
 ```
-
-%%/slides
-
-%%slides
-
-
-## Schleifen — for-each-Schleife Beispiel
-
-%%div eyebrow
-{{< ai4sc-icon list-tree >}} Kollektionsiteration
-%%/div
-
-Der `for`-Loop in Python ist eine for-each-Schleife. Er iteriert immer durch eine Sequenz an Werten, wie z.B. eine Liste. Die Variable des Iterators `e` enthält dabei den aktuellen Wert der Liste `seq`.
-
-%%col 50 50
 
 ```python
 seq = ['a','b','c']
@@ -241,13 +277,9 @@ for i, wert in enumerate(seq):
 
 %%slides
 
+## for-Schleife mit Zähler
 
-## Schleifen — for-Schleife mit Zähler
-%%div eyebrow
-{{< ai4sc-icon list-tree >}}
-%%/div
-
-Der `for`-Loop kann auch als klassische for-Schleife verwendet werden, bei der man n-mal etwas wiederholt. Dazu erzeugt man mit der `range(n)`-Funktion eine Folge an Zahlen.
+Klassisch n-mal wiederholen: `range(n)` erzeugt die Folge 0 bis n−1.
 
 %%col 50 50
 
@@ -356,12 +388,11 @@ print(measurements_meter)
 
 %%slides
 
-
-## Schleifen — Dictionaries iterieren
-
-Beim einfachen `for key in seq:` liefert ein Dictionary nur seine Schlüssel.
+## Dictionaries iterieren {{< ai4sc-icon list-tree >}}
 
 %%col 50 50
+
+Einfaches `for key in seq:` liefert nur die Schlüssel.
 
 ```python
 seq = {"key1": "wert1", "key2": "wert2"}
@@ -369,13 +400,25 @@ for key in seq:
     print(key)
 ```
 
+Ausgabe:
+```
+key1
+key2
+```
+
 %%sep
 
-Mit `items()` bekommt man Schlüssel und Wert gemeinsam:
+Mit `items()` kommen Schlüssel und Wert gemeinsam.
 
 ```python
 for key, wert in seq.items():
     print(key, wert)
+```
+
+Ausgabe:
+```
+key1 wert1
+key2 wert2
 ```
 
 %%/col
@@ -384,14 +427,15 @@ for key, wert in seq.items():
 
 %%slides
 
-
-## Schleifen — for-Schleife Praxisbeispiel
+## for-Schleife Praxisbeispiel {{< ai4sc-icon workflow >}}
 
 Umrechnung einer Liste an Messwerten von imperialen Fuß in metrische Meter.
 
+%%col 55 45
+
 ```python
-measurements_feet = [4.2, 2.3, 6.2, 10.5]  # Eingabe
-measurements_meter = []  # Ergebnisse
+measurements_feet = [4.2, 2.3, 6.2, 10.5]
+measurements_meter = []
 
 for feets in measurements_feet:
     measurements_meter.append(0.3048 * feets)
@@ -399,25 +443,30 @@ for feets in measurements_feet:
 print(measurements_meter)
 ```
 
+%%sep
+
 Ausgabe:
 ```
 [1.2801600000000002, 0.70104, 1.88976, 3.2004]
 ```
 
+Kurzschreibweise (List Comprehension):
+
+```python
+[0.3048 * f for f in measurements_feet]
+```
+
+%%/col
+
 %%/slides
 
 %%slides
 
-
-## Spur-Tabelle: KI-Loop lesen
-
-%%div eyebrow
-{{< ai4sc-icon workflow >}} Pattern C — KI-Code lesen
-%%/div
-
-%%col 55 45
+## Spur-Tabelle: KI-Loop lesen {background-color="#D9FF66"}
 
 **KI-generierter Code** — *erst lesen, dann ausführen!*
+
+%%col 55 45
 
 ```python
 # AI generated
@@ -429,14 +478,11 @@ durchschnitt = summe / len(temperaturen)
 print(durchschnitt)
 ```
 
-**Fragen vor dem Ausführen:**
-
-- Worüber iteriert die Schleife?
-- Wie verändert sich `summe` pro Iteration?
+Worüber iteriert die Schleife? Wie verändert sich `summe` pro Iteration?
 
 %%sep
 
-**Spur-Tabelle ausfüllen:**
+Spur-Tabelle auf Papier ausfüllen:
 
 | Iter. | `t` | `summe` |
 |-------|-----|---------|
@@ -446,9 +492,31 @@ print(durchschnitt)
 | 4 | ? | ? |
 | Ende | — | ? |
 
-<div class="fragment">
+%%/col
 
-**Lösung:**
+%%/slides
+
+%%slides
+
+## Spur-Tabelle: Lösung
+
+%%col 55 45
+
+```python
+temperaturen = [18.5, 21.3, 19.8, 22.1]
+summe = 0
+for t in temperaturen:
+    summe = summe + t
+durchschnitt = summe / len(temperaturen)
+print(durchschnitt)
+```
+
+Ausgabe:
+```
+20.425
+```
+
+%%sep
 
 | Iter. | `t` | `summe` |
 |-------|-----|---------|
@@ -458,7 +526,7 @@ print(durchschnitt)
 | 4 | 22.1 | 81.7 |
 | Ende | — | 81.7 |
 
-</div>
+81,7 / 4 = 20,425
 
 %%/col
 
@@ -466,22 +534,39 @@ print(durchschnitt)
 
 %%slides
 
+## KI-Loop verifizieren {{< ai4sc-icon workflow >}}
 
-## KI-Loop verifizieren
+Drei Schritte, wenn KI eine Schleife generiert:
 
-%%div eyebrow
-{{< ai4sc-icon workflow >}} Agentic Cycle — Verifizieren
-%%/div
+%%col 33 33 33
 
-**Drei Schritte beim Lesen eines KI-generierten Loops:**
+#### 1. Identifizieren
 
-1. **Identifizieren** — worüber iteriert die Schleife? *(Liste, Dict, Zahlenfolge?)*
-2. **Verfolgen** — die ersten zwei und die letzte Iteration in Gedanken durchlaufen
-3. **Prüfen** — terminiert die Schleife? Gibt es eine klare Abbruchbedingung?
+Worüber iteriert die Schleife? *(Liste, Dict, Zahlenfolge?)*
+
+%%sep
+
+#### 2. Verfolgen
+
+Die ersten zwei und die letzte Iteration durchlaufen.
+
+%%sep
+
+#### 3. Prüfen
+
+Terminiert die Schleife? Gibt es eine klare Abbruchbedingung?
+
+%%/col
 
 %%tip Merksatz
-**Agentic workflow:** Wenn KI eine Schleife generiert: (1) Identifiziert, worüber sie iteriert. (2) Verfolgt die ersten zwei und die letzte Iteration. (3) Prüft, ob sie terminiert.
+Nicht sofort ausführen: erst lesen, die ersten zwei und die letzte Iteration verfolgen, dann Terminierung prüfen.
 %%/tip
+
+%%/slides
+
+%%slides
+
+# Wiederholungen mit unbekannter Anzahl
 
 %%/slides
 
@@ -506,42 +591,37 @@ In Python gibt es nur die `while`-Schleife. Do-While- und Repeat-Until-Muster si
 
 %%slides
 
+## while-Schleife {{< ai4sc-icon workflow >}}
 
-## Schleifen — while-Schleife
+Die Bedingung wird vor jedem Durchlauf geprüft. Ist sie von Anfang an falsch, läuft der Block nie.
 
-%%div eyebrow
-{{< ai4sc-icon workflow >}} Bedingungsschleife
-%%/div
-
-Die while-Schleife wird so lange ausgeführt, solange eine Bedingung wahr ist. Da diese am Anfang geprüft wird und von Anfang an falsch sein kann, muss der Inhalt nicht ausgeführt werden.
+%%col 50 50
 
 ```python
 while Bedingung:
     # Statement
 ```
 
-Wie beim if wird die Bedingung auf seinen Wahrheitswert geprüft:
+%%sep
 
-- Ist dieser `True` läuft die Schleife einmal durch, woraufhin wieder geprüft wird
-- Ist dieser `False` endet die Schleife und der Code wird nicht (noch einmal) ausgeführt
+- `True`: Block läuft einmal, danach wird wieder geprüft
+- `False`: Schleife endet, der Code läuft nicht (noch einmal)
+
+%%/col
 
 %%/slides
 
 %%slides
 
+## while vs. Do-While vs. Repeat-Until {{< ai4sc-icon workflow >}}
 
-## while-Schleife vs. Do-While vs. Repeat-Until
-%%div eyebrow
-{{< ai4sc-icon workflow >}}
-%%/div
-
-Do-While und Repeat-Until sind hier konzeptionelle Muster. In Python werden beide mit einer passenden `while`-Schleife umgesetzt.
+Do-While und Repeat-Until sind in Python konzeptionelle Muster, die mit `while` nachgebildet werden.
 
 %%col 33 33 33
 
-**while-Schleife**
+#### while
 
-In der while-Schleife kann die Bedingung schon am Anfang falsch sein. Die Schleife muss also nicht ausgeführt werden.
+Bedingung kann von Anfang an falsch sein: null Durchläufe.
 
 ```python
 Bedingung = True/False
@@ -552,9 +632,9 @@ while Bedingung:
 
 %%sep
 
-**Do-While-Muster**
+#### Do-While
 
-Beim Do-While-Muster wird die Bedingung erst am Ende geprüft. Die Schleife wird also immer mindestens einmal durchlaufen.
+Bedingung wird am Ende geprüft: mindestens ein Durchlauf.
 
 ```python
 Bedingung = True
@@ -565,9 +645,9 @@ while Bedingung:
 
 %%sep
 
-**Repeat-Until-Muster**
+#### Repeat-Until
 
-Beim Repeat-Until-Muster wird die Bedingung auch erst am Ende geprüft. Die Schleife wird wiederholt bis die Bedingung wahr wird.
+Wiederholt, bis die Bedingung wahr wird: mindestens ein Durchlauf.
 
 ```python
 Bedingung = False
@@ -822,51 +902,53 @@ while_loop_mit_abbruch(math.inf)
 
 %%slides
 
-
 ## Endlosschleifen erkennen
 
-%%div eyebrow
-{{< ai4sc-icon workflow >}} Warnsignale
-%%/div
+KI generiert gelegentlich Endlosschleifen. Diese Zeichen verraten sie:
 
-**KI generiert gelegentlich Endlosschleifen. Diese Zeichen verraten sie:**
+%%col 50 50
 
-- Loop-Variable wird im Schleifenblock **nicht verändert**
-- Bedingung kann logisch **nie `False` werden**
+- Loop-Variable wird im Schleifenblock nicht verändert
+- Bedingung kann logisch nie `False` werden
 - Kein `break` und kein Zähler als Sicherheitsnetz
+
+%%warning Achtung
+While-Schleifen ohne sichtbare Abbruchbedingung sind ein Risiko, besonders in KI-generiertem Code. Immer die Terminierung prüfen.
+%%/warning
+
+%%sep
 
 ```python
 x = 10
-while x > 0:       # ← Bedingung scheinbar sinnvoll
-    print(x)       # ← ABER: x wird nie verändert!
+while x > 0:       # Bedingung scheinbar sinnvoll
+    print(x)       # ABER: x wird nie verändert
                    # → ENDLOSSCHLEIFE
 ```
 
-%%warning Achtung
-While-Schleifen ohne sichtbare Abbruchbedingung sind ein Risiko — besonders in KI-generiertem Code. Immer Terminierung prüfen.
-%%/warning
+%%/col
 
 %%/slides
 
 %%slides
 
-
 ## Endlosschleifen absichern
 
-%%div eyebrow
-{{< ai4sc-icon workflow >}} Absicherungsstrategie
-%%/div
+While-Schleifen haben keine maximale Wiederholungsanzahl. Sicherheitsbedingung immer hinzufügen:
 
-While-Schleifen haben keine maximale Wiederholungsanzahl — **Sicherheitsbedingung immer hinzufügen:**
+%%col 50 50
+
+Endlosschleife: Bedingung ändert sich nie
 
 ```python
 Bedingung = True
-while Bedingung:  # DAS IST EINE ENDLOSSCHLEIFE
+while Bedingung:
     # Statement
-    Bedingung = True  # Bedingung ändert sich nie!
+    Bedingung = True
 ```
 
-**Standardabsicherung mit maximaler Iterationsanzahl:**
+%%sep
+
+Absicherung mit maximaler Iterationsanzahl
 
 ```python
 max_iter = 1000
@@ -878,6 +960,8 @@ while bedingung and iterations < max_iter:
 
 - [Schützt vor hängendem Programm]{.pro}
 - [Pflicht bei KI-generierten `while`-Schleifen ohne klare Terminierung]{.con}
+
+%%/col
 
 %%/slides
 
@@ -931,42 +1015,40 @@ Beides sind typische Befehle, um die Performance von Loops zu verbessern.
 
 %%slides
 
+## Schleife abbrechen und Elemente überspringen
 
-## Schleife verfrüht abbrechen — break
-
-`break` beendet die Schleife sofort an der aktuellen Position.
+Gesucht: das erste essbare Ding im Rucksack.
 
 ```python
 dinge_in_meinem_rucksack = ["Papier", "Stift", "Apfel", "Brot", "Messer"]
 essbares = {"Apfel", "Brot"}
-essbar = None
+```
 
+%%col 50 50
+
+`break` beendet die Schleife sofort:
+
+```python
+essbar = None
 for ding in dinge_in_meinem_rucksack:
     if ding in essbares:
         essbar = ding
         break
-
-print(essbar)
+print(essbar)   # Apfel
 ```
 
-%%/slides
+%%sep
 
-%%slides
-
-
-## Elemente überspringen — continue
-
-`continue` überspringt nur den Rest der aktuellen Iteration und springt direkt zur nächsten.
+`continue` springt zur nächsten Iteration:
 
 ```python
-dinge_in_meinem_rucksack = ["Papier", "Stift", "Apfel", "Brot", "Messer"]
-essbares = {"Apfel", "Brot"}
-
 for ding in dinge_in_meinem_rucksack:
     if ding not in essbares:
         continue
     print(f"Essbar: {ding}")
 ```
+
+%%/col
 
 %%/slides
 
@@ -1021,7 +1103,6 @@ print(f"Sleeped for {time.time() - start}s")  # wir geben die Zeitdifferenz aus
 
 %%slides
 
-
 ## Endlosschleife mit Timeout-Abbruch
 
 Mit `break` lassen sich zusätzliche Abbruchbedingungen realisieren, wie z.B. eine maximale Ausführzeit:
@@ -1045,20 +1126,19 @@ while True:  # DAS IST EINE ENDLOSSCHLEIFE
 
 %%slides
 
-
 ## Programmflusskontrolle
 
 Wir kennen nun zwei Werkzeuge:
 
 %%col 50 50
 
-Bedingte Ausführung:
+#### Bedingte Ausführung
 
 - `if`, `else`, `elif`
 
 %%sep
 
-Mehrfachausführung:
+#### Mehrfachausführung
 
 - `while`, `for`
 

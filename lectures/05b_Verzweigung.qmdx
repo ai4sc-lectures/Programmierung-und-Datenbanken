@@ -7,11 +7,13 @@ format:
   ai4sc-style-revealjs:
     title-slide-attributes:
       data-background-video: images/05b_Verzweigung/mj_title.mp4
+      data-background-video-poster: images/05b_Verzweigung/mj_title_poster.jpg
     output-file: 05b_Verzweigung.slide.html
   typst:
     output-file: 05b_Verzweigung.page.pdf
 resources:
   - data/05b_Verzweigung
+  - images/05b_Verzweigung/mj_title_poster.jpg
 ---
 
 %%book
@@ -62,7 +64,9 @@ if bedingung:
 
 %%book
 
-:::{info} In englischen Veröffentlichungen in der Informatik wird häufig auch im Schreiben das Wort `iff` verwendet, was für "if-and-only-if" steht und explizit aussagt, dass eine strikte logische Aussage gemacht wird und keine Natürlichsprachliches weiches `if` verwendet wird. :::
+%%note
+In englischen Veröffentlichungen in der Informatik wird häufig auch im Schreiben das Wort `iff` verwendet, was für „if-and-only-if“ steht und explizit aussagt, dass eine strikte logische Aussage gemacht wird und kein natürlichsprachliches, weiches `if` gemeint ist.
+%%/note
 
 %%/book
 
@@ -203,13 +207,10 @@ if bedingung is not None:
 
 
 ## Bedingtes Verzweigen
-%%div eyebrow
-{{< ai4sc-icon variable >}}
-%%/div
 
 - Eine Verzweigung führt Code nur dann aus, wenn eine Bedingung erfüllt ist
 
-- Bedingungen sind Ausdrücke mit Boolean-Ausgabe {{< ai4sc-icon variable >}}:
+- Bedingungen sind Ausdrücke mit Boolean-Ausgabe {{< ai4sc-icon variable >}} (Operatoren: `05a_Operatoren`):
     - `True` — logische Werte
     - `a` — Variablenwerte (Bool-Äquivalent)
     - `2 < 5` — alle Vergleichsoperatoren
@@ -278,11 +279,12 @@ Ist die Bedingung `True`, werden die eingerückten Statements ausgeführt.
 ausgabe_aktiv = True
 a = 10
 b = 13
-c = math.sqrt(a**2 + b**2) # Pythagoras
+c = (a**2 + b**2) ** 0.5  # Pythagoras
 
 if ausgabe_aktiv:
     print("Seitenlänge:" + str(c))
     umfang = a + b + c
+    print("Umfang:" + str(umfang))
 ```
 
 %%/slides
@@ -338,71 +340,6 @@ if not bauteile:
 - Hilft dabei, komplexe KI-Bedingungen umzuschreiben und zu prüfen (Wird z.B. in der Logik und beim Reasoning verwendet)
 
 %%/slides
-
-%%slides
-
-
-## Branch-Lesestrategie: Beispiel
-%%div eyebrow
-{{< ai4sc-icon test-tube >}}
-%%/div
-
-%%div eyebrow
-{{< ai4sc-icon test-tube >}} Erst Beispiel, dann Methode
-%%/div
-
-```python
-# KI-generiert: Wert einschätzen
-if wert > 100:
-    status = "hoch"
-elif wert > 50:
-    status = "mittel"
-else:
-    status = "niedrig"
-```
-
-Welche Eingabe führt zu welchem Zweig? Welche Fälle fehlen?
-
-%%/slides
-
-%%book
-
-Wenn KI-Tools Verzweigungen generieren, ist das Ziel nicht, den Code zu schreiben, sondern ihn zu verstehen und zu überprüfen. Bei diesem Beispiel können wir konkrete Eingaben durchgehen und so jeden Zweig sichtbar machen.
-
-%%/book
-
-%%book
-
-Beim Lesen dieses KI-generierten Codes: (1) Bedingungen — `> 100` und `> 50`; (2) drei Zweige — "hoch", "mittel", "niedrig"; (3) Eingaben: `wert=150` → "hoch", `wert=75` → "mittel", `wert=30` → "niedrig"; (4) fehlende Fälle — `wert=None`? Negative Werte? `wert=50` exakt (nicht `> 50`, sondern `== 50`)?
-
-%%/book
-
-%%slides
-
-
-## KI-Code lesen: Verzweigungen
-%%div eyebrow
-{{< ai4sc-icon test-tube >}}
-%%/div
-
-%%div eyebrow
-{{< ai4sc-icon test-tube >}} Lesestrategie
-%%/div
-
-Für jeden `if`-Block in KI-generiertem Code:
-
-1. **Bedingung identifizieren** — was wird geprüft?
-2. **Zweige bestimmen** — wie viele Pfade gibt es?
-3. **Eingaben zuordnen** — welche Werte führen zu welchem Zweig?
-4. **Fehlende Fälle prüfen** — `None`, negative Werte, leere Listen?
-
-%%/slides
-
-%%book
-
-Aus dem Beispiel können wir nun eine allgemeine Lesestrategie ableiten. Sie hilft dabei, Verzweigungen systematisch zu lesen, statt dem ersten Eindruck des Codes zu vertrauen.
-
-%%/book
 
 %%book
 
@@ -505,9 +442,9 @@ else:
 
 %%slides
 
-### Beispiel: Division durch 0 abfangen (Einfache Verzweigung)
+## Beispiel: Division durch 0 (implizit)
 
-Implizite Version
+Einfache Verzweigung, Wahrheitswert von `b`
 ```python
 a = 5
 b = 0
@@ -522,9 +459,9 @@ else:
 
 %%slides
 
-### Beispiel: Division durch 0 abfangen (Einfache Verzweigung)
+## Beispiel: Division durch 0 (explizit)
 
-Explizite Version
+Einfache Verzweigung, expliziter Vergleich
 ```python
 a = 5
 b = 0
@@ -585,7 +522,7 @@ else:
 
 %%slides
 
-### Beispiel: Vorzeichen testen (Verschachtelte Verzweigung)
+## Beispiel: Vorzeichen testen (Verschachtelte Verzweigung)
 
 ```python
 if a < 0:
@@ -698,7 +635,7 @@ print(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
 
 %%slides
 
-### Beispiel: Vorzeichen testen (Mehrfachverzweigung)
+## Beispiel: Vorzeichen testen (Mehrfachverzweigung)
 
 ```python
 if a < 0:
@@ -716,6 +653,61 @@ Viel sauberer und lesbarer als verschachtelte if-else Statements!
 %%book
 
 Mit `elif` bleibt dieselbe Logik erhalten, aber die Alternativen stehen auf einer Ebene. Das macht besonders bei KI-generiertem Code schneller sichtbar, welche Fälle nacheinander geprüft werden.
+
+%%/book
+
+%%slides
+
+
+## Branch-Lesestrategie: Beispiel
+
+{{< ai4sc-icon test-tube >}} Erst Beispiel, dann Methode
+
+```python
+# KI-generiert: Wert einschätzen
+if wert > 100:
+    status = "hoch"
+elif wert > 50:
+    status = "mittel"
+else:
+    status = "niedrig"
+```
+
+Welche Eingabe führt zu welchem Zweig? Welche Fälle fehlen?
+
+%%/slides
+
+%%book
+
+Wenn KI-Tools Verzweigungen generieren, ist das Ziel nicht, den Code zu schreiben, sondern ihn zu verstehen und zu überprüfen. Bei diesem Beispiel können wir konkrete Eingaben durchgehen und so jeden Zweig sichtbar machen.
+
+%%/book
+
+%%book
+
+Beim Lesen dieses KI-generierten Codes: (1) Bedingungen — `> 100` und `> 50`; (2) drei Zweige — "hoch", "mittel", "niedrig"; (3) Eingaben: `wert=150` → "hoch", `wert=75` → "mittel", `wert=30` → "niedrig"; (4) fehlende Fälle — `wert=None`? Negative Werte? `wert=50` exakt (nicht `> 50`, sondern `== 50`)?
+
+%%/book
+
+%%slides
+
+
+## KI-Code lesen: Verzweigungen
+
+{{< ai4sc-icon test-tube >}} Lesestrategie
+
+Für jeden `if`-Block in KI-generiertem Code:
+
+1. **Bedingung identifizieren** — was wird geprüft?
+2. **Zweige bestimmen** — wie viele Pfade gibt es?
+3. **Eingaben zuordnen** — welche Werte führen zu welchem Zweig?
+4. **Fehlende Fälle prüfen** — `None`, negative Werte, leere Listen?
+
+%%/slides
+
+%%book
+
+Aus dem Beispiel können wir nun eine allgemeine Lesestrategie ableiten. Sie hilft dabei, Verzweigungen systematisch zu lesen, statt dem ersten Eindruck des Codes zu vertrauen.
 
 %%/book
 
@@ -759,13 +751,8 @@ match Variable:
 
 
 ## KI-generierter Code: Schwellenwert-Klassifizierer
-%%div eyebrow
-{{< ai4sc-icon test-tube >}}
-%%/div
 
-%%div eyebrow
-{{< ai4sc-icon test-tube >}} Pattern C — KI-Code lesen
-%%/div
+{{< ai4sc-icon test-tube >}} KI-Code lesen
 
 ```python
 # KI-generiert: Strukturspannung klassifizieren
@@ -812,9 +799,6 @@ print(classify_stress(300))
 
 
 ## Zweige verfolgen: classify_stress()
-%%div eyebrow
-{{< ai4sc-icon test-tube >}}
-%%/div
 
 | Eingabe `stress_MPa` | Bedingung erfüllt | Rückgabe |
 |---|---|---|
@@ -837,13 +821,8 @@ Eine einfache Tabelle hilft beim Nachverfolgen von Zweigen. Für jede Beispiel-E
 
 
 ## Ein Test pro Zweig
-%%div eyebrow
-{{< ai4sc-icon test-tube >}}
-%%/div
 
-%%div eyebrow
 {{< ai4sc-icon test-tube >}} Verifikation
-%%/div
 
 ```python
 # Minimum: ein Test pro Zweig
@@ -883,15 +862,11 @@ print("Alle Tests bestanden.")
 
 
 ## Agentic Workflow: Verzweigungen prüfen
-%%div eyebrow
-{{< ai4sc-icon test-tube >}}
-%%/div
 
-%%div eyebrow
 {{< ai4sc-icon workflow >}} Agentic Cycle
-%%/div
 
 > **Vor dem Akzeptieren von KI-generiertem Branching-Code:**
+>
 > 1. Jeden Zweig manuell verfolgen
 > 2. Fehlende Fälle identifizieren (`None`, negative Werte, Grenzwerte)
 > 3. Einen Test pro Zweig schreiben
@@ -916,8 +891,7 @@ Welche Lerntypen gibt es?
 
 %%slides
 
-
-## Lesson Learned - Notizen
+## Lesson Learned - Notizen {background="#66ccffff"}
 ![](images/05b_Verzweigung/process.svg)
 
 - Sie sollten sich immer Notizen machen (weil wir uns geschriebenes taktil und visuell besser merken)
