@@ -10,8 +10,6 @@ format:
     output-file: 04b_Programmablauf.slide.html
   typst:
     output-file: 04b_Programmablauf.page.pdf
-resources:
-  - data/04b_Programmablauf
 ---
 
 %%book
@@ -135,37 +133,25 @@ graph LR
 
 %%slides
 
-
 ## Entwurfsartefakt: Flussdiagramm
 
-%%div eyebrow
-{{< ai4sc-icon clipboard-list >}} Anforderung → Entwurf
-%%/div
+- {{< ai4sc-icon clipboard-list >}} Anforderungen erzeugen das Flussdiagramm (→ 04a_Anforderungen)
+- Auch *„Flussdiagramme"* genannt, sie beschreiben Abfolgen von Operationen
+- Das Flussdiagramm **entsteht vor dem Prompt**, nicht danach
 
-- Auch *„Flussdiagramme"* genannt
-- Beschreiben Abfolgen von Operationen
-- **Entstehen vor dem Prompt** — nicht danach
-
-![Oval](images/04b_Programmablauf/elements.svg)
-
-%%aside
-Ref.: → S04 04a_Anforderungen: Anforderungen erzeugen das Flussdiagramm
-%%/aside
+![](images/04b_Programmablauf/elements.svg){.nostretch}
 
 %%/slides
 
 %%slides
 
-
 ## Programmablaufpläne - Grundlagen
-
-- Die wichtigsten Blöcke:
-
 
 %%col 50 50
 
-- Statements müssen dabei nicht in der Syntax einer Programmiersprache geschrieben sein. Es kann sich auch um Pseudocode handeln.
+- Statements müssen nicht in der Syntax einer Programmiersprache geschrieben sein. Es kann auch Pseudocode sein.
 
+::: {style="zoom:1.7"}
 ```{mermaid}
 graph LR
     s([ ]) -->  w[Warte auf Weihnachten]
@@ -173,11 +159,13 @@ graph LR
     style s fill:none,stroke:none
     style e fill:none,stroke:none
 ```
+:::
 
 %%sep
 
-- Von einer Verzweigung gehen Pfeile aus, die repräsentieren, ob die Bedingung `true` oder `false` zurückgegeben hat (`if`/`else`).
+- Von einer Verzweigung gehen Pfeile aus, die angeben, ob die Bedingung `true` oder `false` zurückgegeben hat (`if`/`else`).
 
+::: {style="zoom:1.7"}
 ```{mermaid}
 graph LR
     s([ ]) -->  C{Bestes<br>Geschenk?}
@@ -189,6 +177,7 @@ graph LR
     style E fill:none,stroke:none
     style F fill:none,stroke:none
 ```
+:::
 
 %%/col
 
@@ -196,8 +185,9 @@ graph LR
 
 %%slides
 
-### Beispiel: Weihnachtseinkauf
+## Beispiel: Weihnachtseinkauf
 
+::: {style="zoom:1.7"}
 ```{mermaid}
 graph LR
     s([Start]) --> A
@@ -210,14 +200,37 @@ graph LR
     E --> e
     F --> e
 ```
+:::
+
+%%/slides
+
+%%book
+
+Ein weiteres Beispiel mit nur einer Verzweigung: Vor einer Division muss geprüft werden, ob der Divisor null ist. Je nach Ergebnis der Prüfung wird entweder eine Fehlermeldung ausgegeben oder die Division ausgeführt.
+
+%%/book
+
+%%slides
+
+## Beispiel: Division durch 0 abfangen
+
+::: {style="zoom:1.7"}
+```{mermaid}
+graph LR
+    s([Start]) --> A[Dividend und<br>Divisor definieren]
+    A --> C{Ist Divisor 0?}
+    C -- Ja --> F[/Fehlermeldung/]
+    C -- Nein --> D[Division ausführen]
+    F --> e([Ende])
+    D --> e
+```
+:::
 
 %%/slides
 
 %%slides
 
-
 ## Wofür braucht man das im normalen Leben?
-
 
 %%col 50 50
 
@@ -279,17 +292,9 @@ Nach Ausführung des Programms erkennen wir, dass zunächst die Zeilen 1 und 2 i
 
 %%slides
 
+## Programmablauf — Funktionsfluss
 
-## Programmablauf — Beispiel
-
-%%div eyebrow
-{{< ai4sc-icon square-function >}} Funktionsfluss
-%%/div
-
-%%/slides
-
-%%slides
-
+::: {style="zoom:1.5"}
 ```{python}
 #| echo: true
 import math
@@ -302,11 +307,11 @@ def pythagoras(a, b):    # Abspeichern der Funktion
 z = pythagoras(x, y)     # Funktionsaufruf, Zuweisung zu z
 print(z)                 # Variablenausgabe
 ```
+:::
 
 %%/slides
 
 %%slides
-
 
 ## Eingaben und Ausgaben zu identifizieren ist der erste Schritt
 
@@ -322,25 +327,19 @@ print(z)                 # Variablenausgabe
 
 %%slides
 
-
-## Hörsaalfrage
-%%col 40 60
-
-Nach dem alltagsnahen Einkaufsbeispiel wechseln wir nun zu einem technischen Beispiel aus dem Baukontext.
-
-Welche Ein- und Ausgaben gibt es bei der Volumenberechnung eines Quaders (Haus)?
-
-%%sep
-
-![](images/04b_Programmablauf/rectangle.png){class="midjourney"}
-
-%%/col
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Welche Ein- und Ausgaben gibt es bei der Volumenberechnung eines Quaders (Haus)?" capR="Midjourney: Quader als Haus" imgR="images/04b_Programmablauf/rectangle.png"}
 
 %%/slides
 
+%%book
+
+Nach dem alltagsnahen Einkaufsbeispiel wechseln wir zu einem technischen Beispiel aus dem Baukontext: Welche Ein- und Ausgaben gibt es bei der Volumenberechnung eines Quaders, der ein Haus darstellt?
+
+%%/book
+
 %%slides
 
-### Beispiel: Volumenberechnung eines Quaders (Haus)
+## Beispiel: Volumenberechnung eines Quaders (Haus)
 
 - *Vereinfachung:* Das Haus ist rechteckig und hat ein Flachdach.
 
@@ -356,7 +355,6 @@ Welche Ein- und Ausgaben gibt es bei der Volumenberechnung eines Quaders (Haus)?
 
 %%slides
 
-
 ## Ein Problem in ausführbare Schritte zerlegen
 
 - *Die Kernfrage:*
@@ -369,28 +367,22 @@ Welche Ein- und Ausgaben gibt es bei der Volumenberechnung eines Quaders (Haus)?
 %%/slides
 
 %%# Flussdiagramm als Prompt
+%%## Vom Flussdiagramm zum Prompt
 
 %%book
 
 Das Flussdiagramm ist nicht nur ein Dokumentationswerkzeug — es ist die direkte Vorlage für einen KI-Prompt. Jedes Entwurfselement hat ein direktes Äquivalent im Prompt:
 
-- **Prozesskasten** → eine Handlungsanweisung im Prompt
-- **Entscheidungsdiamant** → eine Wenn/Dann-Bedingung im Prompt
-- **Unterprogramm** → ein Funktionsaufruf im Prompt
-- **Sequenz** → die Reihenfolge der Anweisungen im Prompt
+- Prozesskasten → eine Handlungsanweisung im Prompt
+- Entscheidungsdiamant → eine Wenn/Dann-Bedingung im Prompt
+- Unterprogramm → ein Funktionsaufruf im Prompt
+- Sequenz → die Reihenfolge der Anweisungen im Prompt
 
-Wer lernt, ein Flussdiagramm systematisch in einen Prompt zu übersetzen, spart in der Verify-Iterate-Phase erheblich Zeit: Je weniger Entscheidungsknoten im Prompt fehlen, desto weniger Korrekturzyklen sind nötig.
+Wer lernt, ein Flussdiagramm systematisch in einen Prompt zu übersetzen, spart in der Verify-Iterate-Phase erheblich Zeit: Je weniger Entscheidungsknoten im Prompt fehlen, desto weniger Korrekturzyklen sind nötig. Die Prompt-Struktur selbst wurde in `03d_AgentischesProgrammieren` eingeführt.
 
 %%/book
 
 %%slides
-
-
-## Vom Flussdiagramm zum Prompt
-
-%%div eyebrow
-{{< ai4sc-icon workflow >}} Agentic Cycle
-%%/div
 
 %%col 50 50
 
@@ -407,18 +399,46 @@ Ein vollständiges Flussdiagramm eliminiert Mehrdeutigkeit im Prompt und reduzie
 
 %%/col
 
-%%aside
-Ref.: → S01 03d_AgentischesProgrammieren: Prompt-Struktur
-%%/aside
+Prompt-Struktur: siehe 03d_AgentischesProgrammieren (S01)
+
+%%/slides
+
+%%book
+
+Als durchgehendes Beispiel dient eine Inspektionsentscheidung für Risse in einem Bauteil. Die Anforderungen aus `04a_Anforderungen` legen fest, welche Messgrößen vorliegen (Rissbreite in mm, Feuchtigkeit ja/nein) und welche Maßnahme je nach Fall zu empfehlen ist. Daraus entstehen drei Entscheidungsdiamanten und vier Unterprogramme im Flussdiagramm.
+
+%%/book
+
+%%slides
+
+## Von der Anforderung zum Flussdiagramm
+
+%%col 50 50
+
+*Anforderung*
+
+- Gemessen wird die Rissgröße in mm.
+- Große Risse verlangen eine Maßnahme, kleine nur bei Feuchtigkeit.
+- Die Maßnahme wird als Text ausgegeben.
+
+%%sep
+
+*Flussdiagramm*
+
+- Eingabe: Rissgröße messen
+- Diamanten: Riss > 0.3 mm? Riss > 1.0 mm? Feuchtigkeit?
+- Unterprogramme: vier mögliche Maßnahmen
+
+%%/col
 
 %%/slides
 
 %%slides
 
-### Beispiel: Inspektionsentscheidung
+## Beispiel: Inspektionsentscheidung
 
+::: {style="zoom:1.3"}
 ```{mermaid}
-%%| fig-align: center
 graph TD
     A([Start]) --> B[/Rissgröße messen/]
     B --> C{Riss > 0.3 mm?}
@@ -433,77 +453,116 @@ graph TD
     H --> J
     I --> J
 ```
+:::
 
 %%/slides
 
 %%slides
-
 
 ## Entscheidungsdiamanten als Anforderungen
 
-%%col 50 50
-
-**Im Flussdiagramm:**
-
-- ◇ Riss > 0.3 mm?
-- ◇ Riss > 1.0 mm?
-- ◇ Feuchtigkeit?
-
-%%sep
-
-**Im Prompt:**
-
-- „Wenn die gemessene Rissgröße ≤ 0.3 mm …"
-- „Wenn der Riss > 1.0 mm ist, leite sofort eine Maßnahme ein …"
-- „Wenn keine Feuchtigkeit vorliegt, empfehle regelmäßige Beobachtung …"
-
-%%/col
+| Im Flussdiagramm | Im Prompt |
+|---|---|
+| Riss > 0.3 mm? | „Wenn die gemessene Rissgröße ≤ 0.3 mm …" |
+| Riss > 1.0 mm? | „Wenn der Riss > 1.0 mm ist, leite sofort eine Maßnahme ein …" |
+| Feuchtigkeit? | „Wenn keine Feuchtigkeit vorliegt, empfehle regelmäßige Beobachtung …" |
 
 %%/slides
 
 %%slides
-
 
 ## Der abgeleitete Prompt
 
-%%div eyebrow
-{{< ai4sc-icon workflow >}} Prompt-Vorlage
-%%/div
-
+::: {style="zoom:1.6"}
 ```text
-Schreibe eine Python-Funktion `beurteile_riss(rissgroesse_mm, feuchtigkeit)`,
+Schreibe eine Python-Funktion
+`beurteile_riss(rissgroesse_mm, feuchtigkeit)`,
 die folgende Entscheidungslogik umsetzt:
-1. Wenn rissgroesse_mm <= 0.3 und feuchtigkeit: prüfe Abdichtung.
-2. Wenn rissgroesse_mm <= 0.3 und keine Feuchtigkeit: empfehle
-   regelmäßige Beobachtung.
-3. Wenn 0.3 < rissgroesse_mm <= 1.0: informiere einen Sachverständigen.
-4. Wenn rissgroesse_mm > 1.0: leite sofort Maßnahmen ein.
-Die Funktion gibt einen String mit der empfohlenen Maßnahme zurück.
+1. Wenn rissgroesse_mm <= 0.3 und feuchtigkeit:
+   prüfe Abdichtung.
+2. Wenn rissgroesse_mm <= 0.3 und keine Feuchtigkeit:
+   empfehle regelmäßige Beobachtung.
+3. Wenn 0.3 < rissgroesse_mm <= 1.0:
+   informiere einen Sachverständigen.
+4. Wenn rissgroesse_mm > 1.0:
+   leite sofort Maßnahmen ein.
+Die Funktion gibt einen String mit der empfohlenen
+Maßnahme zurück.
 ```
+:::
+
+%%/slides
+
+%%book
+
+Die Gruppenübung orientiert sich an der Aufgabe „Flussdiagramm" (S3E1, Zulassung eines Bauprojekts). Zunächst zeichnet die Gruppe das Flussdiagramm, danach formuliert sie daraus den Prompt. Die Rollen sind: eine Person zeichnet, eine Person prüft, ob jeder Entscheidungsdiamant alle Ausgänge hat, und eine Person schreibt den Prompt.
+
+%%/book
+
+%%slides
+
+## Übung: Flussdiagramm zum Prompt {background-color="#D9FF66"}
+
+Gruppenarbeit in drei Rollen: Zeichnen, Prüfen, Prompt schreiben.
+
+*Zulassung eines Bauprojekts:* Ein Konzept wird eingereicht und geprüft, ob es erlaubt ist. Wenn nicht, wird es abgelehnt. Wenn ja, werden Kosten berechnet und ein Zeitplan erstellt, danach wird die Machbarkeit geprüft. Ist es nicht machbar, wird es abgelehnt, sonst angenommen und ein Plan ausgegeben.
+
+1. Zeichnen Sie das Flussdiagramm (zwei Entscheidungen).
+2. Leiten Sie daraus einen Prompt ab, eine Bedingung je Diamant.
 
 %%/slides
 
 %%slides
 
+## Lösung: Zulassung eines Bauprojekts
 
-## Lesson Learned {colR capR="Midjourney: Dorian Gray" imgR="images/04b_Programmablauf/mj_dorian.mp4" background="#66ccffff"}
-%%col 40 60
-%%sep
-%%/col
+::: {style="zoom:1.7"}
+```{mermaid}
+graph LR
+    s([Start]) --> K[/Konzept einreichen/]
+    K --> C{Erlaubt?}
+    C -- Nein --> R1[Konzept ablehnen]
+    C -- Ja --> B[Kosten berechnen]
+    B --> Z[Zeitplan erstellen]
+    Z --> M{Machbar?}
+    M -- Nein --> R2[Projekt ablehnen]
+    M -- Ja --> P[Projekt annehmen]
+    P --> O[/Plan ausgeben/]
+    R1 --> e([Ende])
+    R2 --> e
+    O --> e
+```
+:::
 
 %%/slides
 
 %%slides
 
+## Lessons Learned
+
+%%note Flussdiagramm vor Prompt
+Jeder Entscheidungsdiamant, der im Diagramm fehlt, fehlt auch im Prompt und damit im generierten Code.
+%%/note
+
+%%/slides
+
+%%slides
 
 ## Lessons Learned - Lernkarten
+
+%%col 50 50
+
 ![](images/04b_Programmablauf/wiederholung.svg)
 
+%%sep
+
 - Die Frage kommt vorne auf die Karteikarte, die Antwort hinten
-- Die Karten im Fach 1 werden **täglich** abgefragt
-- die Karten im Fach 2 jeden **zweiten**
-- die Karten im Fach 3 **einmal** die Woche
-- und die Karten im Fach 4 **alle 30 Tage**
+- Fach 1: täglich abfragen
+- Fach 2: jeden zweiten Tag
+- Fach 3: einmal die Woche
+- Fach 4: alle 30 Tage
+
+%%/col
 
 %%/slides
 
@@ -547,6 +606,12 @@ Die Funktion gibt einen String mit der empfohlenen Maßnahme zurück.
     - [ ] `Eingabe -> Start -> Entscheidung -> Verarbeitung -> Ende`
     - [ ] `Start -> Entscheidung -> Ende -> Verarbeitung -> Eingabe`
     - [ ] `Verarbeitung -> Eingabe -> Start -> Entscheidung -> Ende`
+
+    ### Was geschieht im Beispiel „Division durch 0 abfangen", wenn der Divisor 0 ist?
+    - [x] Es wird eine Fehlermeldung ausgegeben und die Division nicht ausgeführt
+    - [ ] Die Division wird trotzdem ausgeführt
+    - [ ] Der Divisor wird automatisch auf 1 gesetzt
+    - [ ] Das Programm endet ohne Ausgabe
 
     ### Welche Aussage trifft auf die „Flussdiagramm als Prompt"-Methode zu?
     - [x] Ein vollständiges Flussdiagramm reduziert die Verify-Iterate-Zyklen
