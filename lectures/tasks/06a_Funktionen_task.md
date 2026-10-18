@@ -37,7 +37,7 @@
 
 **Block**: Block 3 — Programming Foundations | **Session**: S06
 **Status**: REFRAMED | **Primary symbols**: ⚙ 📋
-**Source file**: `../oldx/04a_Funktionen.qmdx`
+**Source file**: `oldx/04a_Funktionen.qmdx`
 
 #### Summary: Functions
 
@@ -51,11 +51,17 @@ the signature and docstring before reading the implementation" is the primary ha
 - **[ADDED]** Function signature as a contract to verify
 - **[ADDED]** "Read docstring → write tests → read implementation" exercise
 - **[ADDED]** Mutable default argument callout (common AI error)
+- **[RECEIVED from 02c_Speicher]** Each call gets its own area for local names on the
+  stack (frame); local names disappear on return (explains "Variablengültigkeit")
+- Argument passing binds the parameter name to the same address (→ `02c` Alias)
 
 #### Key takeaways
 
 - A function signature specifies a promise that can be tested before the
   implementation is read.
+- Local names live only as long as the call; the stack holds one frame per call.
+- A parameter shares the caller's address: changing a list's content inside the
+  function is visible outside.
 - Default mutable arguments in AI-generated functions often hide dangerous aliasing.
 
 #### Change Notes
@@ -68,6 +74,11 @@ the signature and docstring before reading the implementation" is the primary ha
   to check predictions.
 - Mutable default callout (~1 slide): `def __init__(self, items=[]):` is a classic
   AI error — explain why.
+- Call stack (~2 slides, RECEIVED from `02c_Speicher`): "Jeder Funktionsaufruf erhält
+  einen Frame" and "Der Stack wächst und schrumpft" (`callstack.svg`,
+  `callstack_steps.svg`, example `berechne_fläche`), placed at "Variablengültigkeit".
+- One sentence in "Veränderte und unveränderte Argumente": the parameter is a new name
+  for the same address (→ `02c_Speicher`).
 
 **Content to REMOVE or REDUCE**: None.
 
@@ -82,5 +93,8 @@ the signature and docstring before reading the implementation" is the primary ha
 **Symbols to add**: ⚙ on function definition slides; 📋 on signature-as-contract.
 
 **Cross-references**:
+- → `02c_Speicher` (S02): names, addresses, shared addresses
 - → `04c_Objects` design view (S04): methods are functions on objects
+- → `07a_Exceptions` (S07): traceback = the stack at the moment of failure
 - → `08a_UnitTest` (S08): "read signature → write test" is the TDP workflow
+- → `09b_Rekursion` (S09): the stack grows with every recursive call

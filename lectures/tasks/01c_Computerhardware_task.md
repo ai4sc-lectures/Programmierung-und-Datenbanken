@@ -37,14 +37,15 @@
 
 **Block**: Block 1 — Computational Foundations | **Session**: S02
 **Status**: EXPANDED | **Primary symbols**: □ ≡
-**Source file**: `../oldx/01c_Computerhardware.qmdx`
+**Source file**: `oldx/01c_Computerhardware.qmdx`
 
 #### Summary: Computer Hardware
 
 Structure of computers and how hardware components support data processing.
-In the redesign, receives stack/heap content migrated from `09b_Rekursion` and adds
-a sequential execution model connecting hardware to Python's runtime — essential for
-understanding AI-generated code that causes unexpected memory behavior.
+In the redesign, adds a sequential execution model connecting hardware to Python's
+runtime: memory consists of cells with addresses, and the CPU only knows addresses.
+Stack/heap is NOT taught here (it needs functions and recursion); it lives in
+`06a_Funktionen` and `09b_Rekursion`.
 
 #### Main topics
 
@@ -53,15 +54,16 @@ understanding AI-generated code that causes unexpected memory behavior.
 - Storage hierarchy: registers, cache, RAM, SSD/HDD
 - Binary representation of integers and floats
 - **[ADDED]** Sequential execution model: instruction pointer advancing through memory
-- **[RECEIVED from 04b_Rekursion]** Stack and heap memory concepts
+- **[MOVED to 09b_Rekursion]** Stack and heap slides with the Manim videos
+  (`manim_stack_heap`, `manim_call_stack`; both use the recursion s(n))
 
 #### Key takeaways
 
 - Every instruction the CPU executes comes from a memory address; execution is
   sequential by default.
 - The memory hierarchy explains performance differences across programs.
-- Stack and heap are two memory regions with different lifetimes — essential for
-  understanding recursion and object references (developed further in `02c_Speicher`).
+- Memory is a sequence of cells with addresses; a variable name in the code stands for
+  an address in the running program (developed further in `02c_Speicher`).
 
 #### Change Notes
 
@@ -69,22 +71,21 @@ understanding AI-generated code that causes unexpected memory behavior.
 - Sequential execution model (~3 slides): instruction pointer advancing, registers
   holding intermediate values, memory-cell diagram annotated with □ symbols for
   variables. Connect to "how Python code becomes machine instructions."
-- Stack and heap content (RECEIVED from `09b_Rekursion`): keep the visual from that
-  file; reframe here as "two memory regions, not a Python feature."
 
-**Content to REMOVE or REDUCE**: None. Stack/heap joins existing hardware content here.
+**Content to REMOVE or REDUCE**:
+- MOVE "Zwei Speicherregionen im RAM" and "Der Stack wächst mit jedem Aufruf" (slides,
+  `%%book`, Manim videos) to `09b_Rekursion`. Leave one sentence: "→ `02c_Speicher`".
 
 **Content to REFRAME**:
 - Binary representation → "this is what □ (a variable) looks like in hardware" —
   motivates data types in `02b_Datentypen`.
 
-**Agentic workflow integration**:
-- Callout: "When AI generates deep recursion, it may not know your system's stack
-  size. Understanding the execution model helps you recognize and fix stack overflows."
+**Agentic workflow integration**: none specific (the stack-overflow callout moves to
+`09b_Rekursion` together with the stack slides).
 
 **Symbols to add**: □ on memory-cell diagram; ≡ on binary representation slide.
 
 **Cross-references**:
-- → `02c_Speicher` (S02): detailed memory model follows
+- → `02c_Speicher` (S02): name in the code → address in memory
 - → `02b_Datentypen` (S02): data types as memory representations
-- → `09b_Rekursion` (S09): REMOVE stack/heap there — content now lives here
+- → `09b_Rekursion` (S09): stack/heap slides and videos moved there

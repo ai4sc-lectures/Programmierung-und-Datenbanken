@@ -37,27 +37,29 @@
 
 **Block**: Block 5 — Problem Classes | **Session**: S09
 **Status**: MOVED from Block 3 + REFRAMED | **Primary symbols**: 🔄
-**Source file**: `../oldx/04b_Rekursion.qmdx`
+**Source file**: `oldx/04b_Rekursion.qmdx`
 
 #### Summary: Recursive Functions
 
 Moved to Block 5 and reframed as a divide-and-conquer strategy, not a Python
-language feature. Stack/heap content is removed — that is now in `02c_Speicher`
-(S02). Engineering examples from BIM hierarchy traversal and spatial subdivision
-replace the canonical factorial.
+language feature. Receives the stack/heap slides with the Manim videos from
+`01c_Computerhardware` (both use the recursion s(n)); the call stack itself is known
+from `06a_Funktionen` (S06). Engineering examples from BIM hierarchy traversal and
+spatial subdivision replace the canonical factorial.
 
 #### Main topics
 
 - Recursion as divide-and-conquer; recursive functions; base case and recursive case
 - Preventing infinite recursion
-- **[REMOVED]** Stack/heap content → moved to S02
+- **[RECEIVED from 01c_Computerhardware]** Stack grows with every recursive call; stack
+  overflow and `RecursionError` (Manim videos `manim_stack_heap`, `manim_call_stack`)
 - **[ADDED]** BIM hierarchy traversal; spatial subdivision; recursion vs iteration
 
 #### Key takeaways
 
 - Recursion is a strategy for problems that decompose into smaller same-type instances.
 - BIM models and spatial trees are natural recursive structures in civil engineering.
-- Students already understand the call stack from `02c_Speicher` (S02).
+- Every recursive call adds a frame; without a base case the stack overflows.
 
 #### Change Notes
 
@@ -72,8 +74,9 @@ replace the canonical factorial.
   constraints.
 
 **Content to REMOVE or REDUCE**:
-- REMOVE stack/heap content: now in `02c_Speicher` (S02). Only reference:
-  "You already understand the call stack from Session 02."
+- REPLACE the notes "Aus S02: Call-Stack … in Session 02 erklärt" with the two stack
+  slides received from `01c` (at "Rekursion in Python" / "Achtung: Endlosrekursion");
+  the call stack itself is recalled from `06a` (S06).
 - REDUCE factorial example: keep as minimal intro; engineering examples are primary.
 
 **Content to REFRAME**:
@@ -83,9 +86,11 @@ replace the canonical factorial.
 **Agentic workflow integration**:
 - "When AI generates a recursive function: verify base case, trace first two recursive
   calls, check stack depth for expected input size."
+- Callout (from `01c`): "When AI generates deep recursion, it may not know your
+  system's stack size."
 
 **Symbols to add**: 🔄 on divide-and-conquer diagram.
 
 **Cross-references**:
-- → `02c_Speicher` (S02): call stack explained there — reference, don't repeat
+- → `06a_Funktionen` (S06): call stack and frames — reference, don't repeat
 - → `09a_Algorithmen` (S09): recursion as a divide-and-conquer algorithm strategy

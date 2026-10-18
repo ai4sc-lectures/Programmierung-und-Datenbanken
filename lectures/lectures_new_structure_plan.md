@@ -283,9 +283,10 @@ can reference this foundation.
 #### Summary: Computer Hardware
 
 Structure of computers and how hardware components support data processing.
-In the redesign, receives stack/heap content migrated from `09b_Rekursion` and adds
-a sequential execution model connecting hardware to Python's runtime — essential for
-understanding AI-generated code that causes unexpected memory behavior.
+In the redesign, adds a sequential execution model connecting hardware to Python's
+runtime: memory consists of cells with addresses, and the CPU only knows addresses.
+Stack/heap is NOT taught here (it needs functions and recursion); it lives in
+`06a_Funktionen` and `09b_Rekursion`.
 
 #### Main topics
 
@@ -294,15 +295,16 @@ understanding AI-generated code that causes unexpected memory behavior.
 - Storage hierarchy: registers, cache, RAM, SSD/HDD
 - Binary representation of integers and floats
 - **[ADDED]** Sequential execution model: instruction pointer advancing through memory
-- **[RECEIVED from 04b_Rekursion]** Stack and heap memory concepts
+- **[MOVED to 09b_Rekursion]** Stack and heap slides with the Manim videos
+  (`manim_stack_heap`, `manim_call_stack`; both use the recursion s(n))
 
 #### Key takeaways
 
 - Every instruction the CPU executes comes from a memory address; execution is
   sequential by default.
 - The memory hierarchy explains performance differences across programs.
-- Stack and heap are two memory regions with different lifetimes — essential for
-  understanding recursion and object references (developed further in `02c_Speicher`).
+- Memory is a sequence of cells with addresses; a variable name in the code stands for
+  an address in the running program (developed further in `02c_Speicher`).
 
 #### Change Notes
 
@@ -310,25 +312,24 @@ understanding AI-generated code that causes unexpected memory behavior.
 - Sequential execution model (~3 slides): instruction pointer advancing, registers
   holding intermediate values, memory-cell diagram annotated with □ symbols for
   variables. Connect to "how Python code becomes machine instructions."
-- Stack and heap content (RECEIVED from `09b_Rekursion`): keep the visual from that
-  file; reframe here as "two memory regions, not a Python feature."
 
-**Content to REMOVE or REDUCE**: None. Stack/heap joins existing hardware content here.
+**Content to REMOVE or REDUCE**:
+- MOVE "Zwei Speicherregionen im RAM" and "Der Stack wächst mit jedem Aufruf" (slides,
+  `%%book`, Manim videos) to `09b_Rekursion`. Leave one sentence: "→ `02c_Speicher`".
 
 **Content to REFRAME**:
 - Binary representation → "this is what □ (a variable) looks like in hardware" —
   motivates data types in `02b_Datentypen`.
 
-**Agentic workflow integration**:
-- Callout: "When AI generates deep recursion, it may not know your system's stack
-  size. Understanding the execution model helps you recognize and fix stack overflows."
+**Agentic workflow integration**: none specific (the stack-overflow callout moves to
+`09b_Rekursion` together with the stack slides).
 
 **Symbols to add**: □ on memory-cell diagram; ≡ on binary representation slide.
 
 **Cross-references**:
-- → `02c_Speicher` (S02): detailed memory model follows
+- → `02c_Speicher` (S02): name in the code → address in memory
 - → `02b_Datentypen` (S02): data types as memory representations
-- → `09b_Rekursion` (S09): REMOVE stack/heap there — content now lives here
+- → `09b_Rekursion` (S09): stack/heap slides and videos moved there
 
 ---
 
@@ -350,7 +351,7 @@ as described in `02a`.
 - Variables and naming conventions
 - Numeric, boolean, textual, binary types
 - Sequences, sets, dictionaries; null values
-- Mutability vs immutability
+- **[MOVED to 02c_Speicher]** Mutability vs immutability
 - **[ADDED]** Connection to binary representation from `02a`
 - **[ADDED]** AI type-inference verification callout
 
@@ -370,7 +371,10 @@ as described in `02a`.
 - AI verification callout: "When AI infers a type (e.g., distance as `int`), verify
   the inferred type matches the engineering requirement."
 
-**Content to REMOVE or REDUCE**: None.
+**Content to REMOVE or REDUCE**:
+- MOVE "Modifizierbarkeit (Mutability)" (slide, `%%def`, table, `%%book`) to
+  `02c_Speicher`. It only has a visible consequence once two names can share an
+  address. Leave one sentence: "→ `02c_Speicher`".
 
 **Content to REFRAME**:
 - "Here are Python's types" → "Here is how engineering values are stored in memory;
@@ -385,7 +389,7 @@ as described in `02a`.
 
 **Cross-references**:
 - → `01c_Computerhardware` (S02): binary representation already introduced
-- → `02c_Speicher` (S02): memory model of variables
+- → `02c_Speicher` (S02): memory model of variables; mutability
 - → `05a_Operatoren` (S05): operators act on typed values
 
 ---
@@ -393,65 +397,73 @@ as described in `02a`.
 ### 02c_Speicher
 
 **Block**: Block 1 — Computational Foundations | **Session**: S02
-**Status**: NEW (~20 min, ~15 slides) | **Primary symbols**: □ ≡ ⇄
-**Source file**: NEW — create `02c_Speicher.qmdx`
+**Status**: NEW (~20 min, 6 slides) | **Primary symbols**: □ ⇄
+**Source file**: NEW — `02c_Speicher.qmdx`
 
-#### Summary: Memory Model
+#### Summary: Memory Model of Variables
 
-New lecture covering the Python memory model at the level relevant for engineering
-programmers. Variables are named references to memory cells, not boxes containing
-values. The stack/heap distinction is covered visually. Engineering motivation: AI
-code often makes incorrect assumptions about object identity and mutability —
-understanding the memory model is required to debug them.
+The single place where the course explains what a variable is in memory. Builds on
+`01c` (memory cells with addresses) and `02b` (variables, types, lists). Students
+need no functions and no operators besides `=`. One question carries the deck: after
+`auswertung = messwerte` and sorting `auswertung`, is `messwerte` sorted too?
+
+#### Learning goal
+
+Students can explain what happens in memory when Python executes an assignment, and
+predict whether a change through one variable affects another.
 
 #### Main topics
 
-- Variables as names bound to memory addresses
-- Value types vs reference types in Python
-- Aliasing and mutation: when two names point to the same object
-- Stack memory: function call frames, local variable lifetime
-- Heap memory: object lifetime, garbage collection
-- Visual diagrams of each concept
-- Why the memory model matters for debugging AI-generated code
+- A name exists only in the source code; in the running program it stands for an
+  address in memory where the value lies (`id()` shows it)
+- Assignment gives the name an address; a new assignment gives it a new address
+- `b = a` copies the address, not the value: two names, one address (*Alias*)
+- Two kinds of change: new assignment vs. changing the content in place;
+  mutable/immutable types (**[RECEIVED from 02b_Datentypen]**)
+- Copies (`.copy()`) give independent data
 
 #### Key takeaways
 
-- In Python, assignment binds a name to an object; it does not copy the object.
-- Mutable objects shared via references cause surprising side effects in AI-generated
-  code.
-- Understanding the stack prevents confusion when reading exception tracebacks.
+- A variable name stands for an address; the value lives at that address.
+- `b = a` shares the address. Changing the content through `b` is visible through `a`.
+- Only mutable types (`list`, `dict`, `set`) can change their content; immutable types
+  only get new assignments.
+- Independent data needs an explicit copy.
 
 #### Change Notes
 
-**Content to ADD** (new file — full content outline):
-- Slides 1–3: Variables as references — `id()`, assignment binds a name, diagram of
-  name → object → value
-- Slides 4–5: Value vs reference semantics — immutable (int, str, tuple) vs mutable
-  (list, dict, object)
-- Slides 6–7: Aliasing example: `a = [1,2,3]; b = a; b.append(4)` — why `a` is now
-  `[1,2,3,4]`; diagram
-- Slides 8–10: Call stack — each function call creates a frame; local variables live
-  in the frame; frame destroyed on return; visual stack growing and shrinking
-- Slides 11–12: Heap — objects live in heap; references from stack point into heap;
-  garbage collection reclaims unreachable objects
-- Slides 13–14: Engineering implications — common AI mistakes: mutation of input
-  lists, returning mutable defaults, unintended aliasing in object graphs
-- Slide 15: Connection to debugging — reading a traceback = reading the call stack
+**Slide sequence** (one running example: `messwerte = [3.2, 1.1, 4.5]`):
+1. Hörsaalfrage: `auswertung = messwerte`, then sort `auswertung` — is `messwerte`
+   sorted too? (resolved on slide 6)
+2. The name in the code is not the memory: `a` exists only in the source code; in the
+   running program `a` stands for an address; `id(a)` shows it. Manim animation
+   (`manim/variablen.py`, style of `manim/stack_heap.py`): code line → value in a
+   memory cell → name table row `a | 0x…` → arrow; `print(a)` follows the address.
+3. Assignment: `temperatur = 21.5`, then `temperatur = 23.0` — the name gets a new
+   address; the old value is not overwritten. `id()` before and after.
+4. `b = a` copies the address, not the value. Define *Alias* here (two names for the
+   same address) and why it matters.
+5. Two kinds of "change": new assignment (`b = …`) vs. changing the content
+   (`b.append(…)`, `b.sort()`); the mutable/immutable table from `02b`.
+6. Resolution and copy: yes, `messwerte` is sorted too; `auswertung = messwerte.copy()`
+   gets a new address.
 
-**Content to REMOVE or REDUCE**: CREATE NEW FILE — nothing to remove.
+**Rules**: every term is defined on the slide where it first appears (Adresse,
+Zuweisung, Alias, veränderlich/unveränderlich, Kopie). No interpreter internals
+(small-int cache, constants, bytecode). One visual language: name table left, memory
+cells with addresses right, as in the cell diagrams of `01c`.
 
-**Agentic workflow integration**:
-- "When AI generates a function taking a list as input, check: does it modify the
-  list in place or return a new list? The answer determines whether the caller's data
-  is safe."
+**NOT in this deck** (lives elsewhere): `==`/`is` (`05a`), call stack and frames
+(`06a`), mutated arguments and mutable defaults (`06a`), tracebacks (`07a`), stack
+overflow and recursion (`09b`).
 
-**Symbols to add**: □ on every variable diagram; ≡ on type annotation slides;
-⇄ on aliasing/reference diagrams.
+**Symbols to add**: □ on variable diagrams; ⇄ on shared-address diagrams.
 
 **Cross-references**:
-- → `01c_Computerhardware` (S02): execution model motivates this
-- → `02b_Datentypen` (S02): data types as memory representations connects here
-- → `09b_Rekursion` (S09): recursion revisited with call stack already understood
+- → `01c_Computerhardware` (S02): memory cells and addresses
+- → `02b_Datentypen` (S02): variables, types, lists
+- → `05a_Operatoren` (S05): `is` checks for the same address
+- → `06a_Funktionen` (S06): arguments share the address (builds on slide 4–5)
 
 ---
 
@@ -995,11 +1007,17 @@ the signature and docstring before reading the implementation" is the primary ha
 - **[ADDED]** Function signature as a contract to verify
 - **[ADDED]** "Read docstring → write tests → read implementation" exercise
 - **[ADDED]** Mutable default argument callout (common AI error)
+- **[RECEIVED from 02c_Speicher]** Each call gets its own area for local names on the
+  stack (frame); local names disappear on return (explains "Variablengültigkeit")
+- Argument passing binds the parameter name to the same address (→ `02c` Alias)
 
 #### Key takeaways
 
 - A function signature specifies a promise that can be tested before the
   implementation is read.
+- Local names live only as long as the call; the stack holds one frame per call.
+- A parameter shares the caller's address: changing a list's content inside the
+  function is visible outside.
 - Default mutable arguments in AI-generated functions often hide dangerous aliasing.
 
 #### Change Notes
@@ -1012,6 +1030,11 @@ the signature and docstring before reading the implementation" is the primary ha
   to check predictions.
 - Mutable default callout (~1 slide): `def __init__(self, items=[]):` is a classic
   AI error — explain why.
+- Call stack (~2 slides, RECEIVED from `02c_Speicher`): "Jeder Funktionsaufruf erhält
+  einen Frame" and "Der Stack wächst und schrumpft" (`callstack.svg`,
+  `callstack_steps.svg`, example `berechne_fläche`), placed at "Variablengültigkeit".
+- One sentence in "Veränderte und unveränderte Argumente": the parameter is a new name
+  for the same address (→ `02c_Speicher`).
 
 **Content to REMOVE or REDUCE**: None.
 
@@ -1026,8 +1049,11 @@ the signature and docstring before reading the implementation" is the primary ha
 **Symbols to add**: ⚙ on function definition slides; 📋 on signature-as-contract.
 
 **Cross-references**:
+- → `02c_Speicher` (S02): names, addresses, shared addresses
 - → `04c_Objects` design view (S04): methods are functions on objects
+- → `07a_Exceptions` (S07): traceback = the stack at the moment of failure
 - → `08a_UnitTest` (S08): "read signature → write test" is the TDP workflow
+- → `09b_Rekursion` (S09): the stack grows with every recursive call
 
 ---
 
@@ -1203,6 +1229,7 @@ AI-generated code. The call stack trace becomes a diagnostic tool.
 **Symbols to add**: 🔍 on traceback analysis slides.
 
 **Cross-references**:
+- → `06a_Funktionen` (S06): call stack and frames introduced there
 - → `07b_Debugging` (S07): debugging tools for the same error
 - → `08a_UnitTest` (S08): tests catch exception cases before production
 
@@ -1455,22 +1482,24 @@ how bubble sort works" to "how do I know which algorithm to ask for?"
 #### Summary: Recursive Functions
 
 Moved to Block 5 and reframed as a divide-and-conquer strategy, not a Python
-language feature. Stack/heap content is removed — that is now in `02c_Speicher`
-(S02). Engineering examples from BIM hierarchy traversal and spatial subdivision
-replace the canonical factorial.
+language feature. Receives the stack/heap slides with the Manim videos from
+`01c_Computerhardware` (both use the recursion s(n)); the call stack itself is known
+from `06a_Funktionen` (S06). Engineering examples from BIM hierarchy traversal and
+spatial subdivision replace the canonical factorial.
 
 #### Main topics
 
 - Recursion as divide-and-conquer; recursive functions; base case and recursive case
 - Preventing infinite recursion
-- **[REMOVED]** Stack/heap content → moved to S02
+- **[RECEIVED from 01c_Computerhardware]** Stack grows with every recursive call; stack
+  overflow and `RecursionError` (Manim videos `manim_stack_heap`, `manim_call_stack`)
 - **[ADDED]** BIM hierarchy traversal; spatial subdivision; recursion vs iteration
 
 #### Key takeaways
 
 - Recursion is a strategy for problems that decompose into smaller same-type instances.
 - BIM models and spatial trees are natural recursive structures in civil engineering.
-- Students already understand the call stack from `02c_Speicher` (S02).
+- Every recursive call adds a frame; without a base case the stack overflows.
 
 #### Change Notes
 
@@ -1485,8 +1514,9 @@ replace the canonical factorial.
   constraints.
 
 **Content to REMOVE or REDUCE**:
-- REMOVE stack/heap content: now in `02c_Speicher` (S02). Only reference:
-  "You already understand the call stack from Session 02."
+- REPLACE the notes "Aus S02: Call-Stack … in Session 02 erklärt" with the two stack
+  slides received from `01c` (at "Rekursion in Python" / "Achtung: Endlosrekursion");
+  the call stack itself is recalled from `06a` (S06).
 - REDUCE factorial example: keep as minimal intro; engineering examples are primary.
 
 **Content to REFRAME**:
@@ -1496,11 +1526,13 @@ replace the canonical factorial.
 **Agentic workflow integration**:
 - "When AI generates a recursive function: verify base case, trace first two recursive
   calls, check stack depth for expected input size."
+- Callout (from `01c`): "When AI generates deep recursion, it may not know your
+  system's stack size."
 
 **Symbols to add**: 🔄 on divide-and-conquer diagram.
 
 **Cross-references**:
-- → `02c_Speicher` (S02): call stack explained there — reference, don't repeat
+- → `06a_Funktionen` (S06): call stack and frames — reference, don't repeat
 - → `09a_Algorithmen` (S09): recursion as a divide-and-conquer algorithm strategy
 
 ---
@@ -2118,7 +2150,7 @@ of AI output against the ER, not DDL syntax mastery.
 
 | File | Session | Purpose |
 |------|---------|---------|
-| `02c_Speicher.qmdx` | S02 | Memory model, stack/heap, references, visual diagrams |
+| `02c_Speicher.qmdx` | S02 | Memory model of variables: name → address, assignment, shared addresses, mutability, copies |
 | `03d_AgentischesProgrammieren.qmdx` | S01 | LLM basics, agentic workflow, prompt structure, code reading |
 | `04a_Anforderungen.qmdx` | S04 | Requirements engineering, user stories, quality criteria |
 | `10a_Graphprobleme.qmdx` | S10 | Graph problems — transport, utility networks, routing |
@@ -2132,8 +2164,8 @@ of AI output against the ER, not DDL syntax mastery.
 | File | Key Change | Session |
 |------|-----------|---------|
 | `03c_Softwareentwurf.qmdx` | MOVED to S03; remove 6 revision slides; add agentic dev loop + UML | S03 |
-| `09b_Rekursion.qmdx` | MOVED to S09; remove stack/heap (→ S02); reframe as divide-and-conquer | S09 |
-| `01c_Computerhardware.qmdx` | EXPANDED; receive stack/heap from `09b`; add sequential execution model | S02 |
+| `09b_Rekursion.qmdx` | MOVED to S09; receive stack/heap videos from `01c`; reframe as divide-and-conquer | S09 |
+| `01c_Computerhardware.qmdx` | EXPANDED; add sequential execution model; stack/heap moved to `09b` | S02 |
 | `12c_Datenbanken_Entwurf.qmdx` | MOVED EARLIER to S12; add environmental ER example + ER-to-prompt | S12 |
 | `04c_Objects.qmdx` | SPLIT VIEW: design concept (S04) + Python implementation (S06) | S04, S06 |
 | `02b_Datentypen.qmdx` | MOVED from Block 2 to S02; reframe as memory representations | S02 |

@@ -17,7 +17,7 @@
 | **Source file** | NEW — create `02c_Speicher.qmdx` |
 | **Block** | Block 1 — Computational Foundations |
 | **Session** | S02 |
-| **Status** | NEW (~20 min, ~15 slides) |
+| **Status** | NEW (~20 min, 6 slides) |
 
 ## Instructions
 
@@ -31,62 +31,70 @@
 ### 02c_Speicher
 
 **Block**: Block 1 — Computational Foundations | **Session**: S02
-**Status**: NEW (~20 min, ~15 slides) | **Primary symbols**: □ ≡ ⇄
-**Source file**: NEW — create `02c_Speicher.qmdx`
+**Status**: NEW (~20 min, 6 slides) | **Primary symbols**: □ ⇄
+**Source file**: NEW — `02c_Speicher.qmdx`
 
-#### Summary: Memory Model
+#### Summary: Memory Model of Variables
 
-New lecture covering the Python memory model at the level relevant for engineering
-programmers. Variables are named references to memory cells, not boxes containing
-values. The stack/heap distinction is covered visually. Engineering motivation: AI
-code often makes incorrect assumptions about object identity and mutability —
-understanding the memory model is required to debug them.
+The single place where the course explains what a variable is in memory. Builds on
+`01c` (memory cells with addresses) and `02b` (variables, types, lists). Students
+need no functions and no operators besides `=`. One question carries the deck: after
+`auswertung = messwerte` and sorting `auswertung`, is `messwerte` sorted too?
+
+#### Learning goal
+
+Students can explain what happens in memory when Python executes an assignment, and
+predict whether a change through one variable affects another.
 
 #### Main topics
 
-- Variables as names bound to memory addresses
-- Value types vs reference types in Python
-- Aliasing and mutation: when two names point to the same object
-- Stack memory: function call frames, local variable lifetime
-- Heap memory: object lifetime, garbage collection
-- Visual diagrams of each concept
-- Why the memory model matters for debugging AI-generated code
+- A name exists only in the source code; in the running program it stands for an
+  address in memory where the value lies (`id()` shows it)
+- Assignment gives the name an address; a new assignment gives it a new address
+- `b = a` copies the address, not the value: two names, one address (*Alias*)
+- Two kinds of change: new assignment vs. changing the content in place;
+  mutable/immutable types (**[RECEIVED from 02b_Datentypen]**)
+- Copies (`.copy()`) give independent data
 
 #### Key takeaways
 
-- In Python, assignment binds a name to an object; it does not copy the object.
-- Mutable objects shared via references cause surprising side effects in AI-generated
-  code.
-- Understanding the stack prevents confusion when reading exception tracebacks.
+- A variable name stands for an address; the value lives at that address.
+- `b = a` shares the address. Changing the content through `b` is visible through `a`.
+- Only mutable types (`list`, `dict`, `set`) can change their content; immutable types
+  only get new assignments.
+- Independent data needs an explicit copy.
 
 #### Change Notes
 
-**Content to ADD** (new file — full content outline):
-- Slides 1–3: Variables as references — `id()`, assignment binds a name, diagram of
-  name → object → value
-- Slides 4–5: Value vs reference semantics — immutable (int, str, tuple) vs mutable
-  (list, dict, object)
-- Slides 6–7: Aliasing example: `a = [1,2,3]; b = a; b.append(4)` — why `a` is now
-  `[1,2,3,4]`; diagram
-- Slides 8–10: Call stack — each function call creates a frame; local variables live
-  in the frame; frame destroyed on return; visual stack growing and shrinking
-- Slides 11–12: Heap — objects live in heap; references from stack point into heap;
-  garbage collection reclaims unreachable objects
-- Slides 13–14: Engineering implications — common AI mistakes: mutation of input
-  lists, returning mutable defaults, unintended aliasing in object graphs
-- Slide 15: Connection to debugging — reading a traceback = reading the call stack
+**Slide sequence** (one running example: `messwerte = [3.2, 1.1, 4.5]`):
+1. Hörsaalfrage: `auswertung = messwerte`, then sort `auswertung` — is `messwerte`
+   sorted too? (resolved on slide 6)
+2. The name in the code is not the memory: `a` exists only in the source code; in the
+   running program `a` stands for an address; `id(a)` shows it. Manim animation
+   (`manim/variablen.py`, style of `manim/stack_heap.py`): code line → value in a
+   memory cell → name table row `a | 0x…` → arrow; `print(a)` follows the address.
+3. Assignment: `temperatur = 21.5`, then `temperatur = 23.0` — the name gets a new
+   address; the old value is not overwritten. `id()` before and after.
+4. `b = a` copies the address, not the value. Define *Alias* here (two names for the
+   same address) and why it matters.
+5. Two kinds of "change": new assignment (`b = …`) vs. changing the content
+   (`b.append(…)`, `b.sort()`); the mutable/immutable table from `02b`.
+6. Resolution and copy: yes, `messwerte` is sorted too; `auswertung = messwerte.copy()`
+   gets a new address.
 
-**Content to REMOVE or REDUCE**: CREATE NEW FILE — nothing to remove.
+**Rules**: every term is defined on the slide where it first appears (Adresse,
+Zuweisung, Alias, veränderlich/unveränderlich, Kopie). No interpreter internals
+(small-int cache, constants, bytecode). One visual language: name table left, memory
+cells with addresses right, as in the cell diagrams of `01c`.
 
-**Agentic workflow integration**:
-- "When AI generates a function taking a list as input, check: does it modify the
-  list in place or return a new list? The answer determines whether the caller's data
-  is safe."
+**NOT in this deck** (lives elsewhere): `==`/`is` (`05a`), call stack and frames
+(`06a`), mutated arguments and mutable defaults (`06a`), tracebacks (`07a`), stack
+overflow and recursion (`09b`).
 
-**Symbols to add**: □ on every variable diagram; ≡ on type annotation slides;
-⇄ on aliasing/reference diagrams.
+**Symbols to add**: □ on variable diagrams; ⇄ on shared-address diagrams.
 
 **Cross-references**:
-- → `01c_Computerhardware` (S02): execution model motivates this
-- → `02b_Datentypen` (S02): data types as memory representations connects here
-- → `09b_Rekursion` (S09): recursion revisited with call stack already understood
+- → `01c_Computerhardware` (S02): memory cells and addresses
+- → `02b_Datentypen` (S02): variables, types, lists
+- → `05a_Operatoren` (S05): `is` checks for the same address
+- → `06a_Funktionen` (S06): arguments share the address (builds on slide 4–5)
