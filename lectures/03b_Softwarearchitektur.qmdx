@@ -27,7 +27,7 @@ resources:
 %%slides
 
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Was ist „Informatik"?" capR=""Computer science is no more about computers than astronomy is about telescopes.", Edsger W. Dijkstra" imgR="images/01a_Ueberblick/dijkstra.jpg"}
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Was ist „Informatik“?" capR="„Computer science is no more about computers than astronomy is about telescopes.“, Edsger W. Dijkstra" imgR="images/01a_Ueberblick/dijkstra.jpg"}
 
 %%/slides
 
@@ -54,7 +54,7 @@ Ursprung: Mathematik (Logik, Algorithmen) + Elektrotechnik (Hardware)
 
 
 ## Wiederholung: Computer Aufbau
-![](images/01c_Computerhardware/computer_hardware2.svg)
+![](images/01c_Computerhardware/computer_hardware2.svg){.nostretch}
 
 %%/slides
 
@@ -88,18 +88,20 @@ Ursprung: Mathematik (Logik, Algorithmen) + Elektrotechnik (Hardware)
 
 Die Geschichte der Softwarearchitektur ist keine neutrale Chronologie von Erfindungen. Sie ist eine Abfolge von Systemen, die an den Grenzen ihrer eigenen Architektur gescheitert sind — und von Antworten, die immer architektonisch, nie nur algorithmisch waren.
 
-Jede Ära zeigt dasselbe Muster: Anforderungen wachsen über die bestehende Architektur hinaus. Die Lösung war nie „besserer Code innerhalb des alten Systems". Die Lösung war eine neue Architektursicht, die neue Komponentenbeziehungen {{< ai4sc-icon arrow-left-right >}} schafft.
+Jede Ära zeigt dasselbe Muster: Anforderungen wachsen über die bestehende Architektur hinaus. Die Lösung war nie „besserer Code innerhalb des alten Systems". Die Lösung war eine neue Architektursicht, die neue Komponentenbeziehungen {{< ai4sc-icon arrow-left-right >}} schafft. Die Informationsschicht der Wissenspyramide (→ `02a_Wissenspyramide`) entspricht dieser Architekturebene.
 
 **Konsequenz für heute:** Auch KI-generierter Code kann nur so gut sein wie die Architektur, die ihn rahmt. Die Grenze, die im Prompt gesetzt wird, ist bereits eine Architekturentscheidung.
 
 %%/book
 
+%%slides
+
+
 ## Architektur entscheidet, was Code kann
 
-- Software scheitert nicht am schlechten Code — sondern an der falschen Architektur
-- Jede Ära zeigt dasselbe Muster: Anforderungen überwachsen die Architektur
-- Die Antwort war immer eine neue Architektursicht mit neuen Komponentenbeziehungen {{< ai4sc-icon arrow-left-right >}}
-- *KI generiert Code innerhalb der Architekturgrenze — die Grenze wird von Ingenieuren festgelegt*
+- Jede Ära zeigt dasselbe Muster: Anforderungen überwachsen die bestehende Architektur.
+- Die Antwort war eine neue Architektursicht mit neuen Komponentenbeziehungen {{< ai4sc-icon arrow-left-right >}}, nicht besserer Code im alten System.
+- Die Informationsschicht der Wissenspyramide (→ `02a_Wissenspyramide`) ist die Architektur.
 
 %%/slides
 
@@ -127,16 +129,35 @@ Jede Ära zeigt dasselbe Muster: Anforderungen wachsen über die bestehende Arch
 
 ## Monolithische, maschinennahe Software vor 1950
 
-%%col 50 50
+%%col 60 40
 
-- Die ersten Programme wurden direkt in binärem Maschinencode geschrieben.
-- Die Software war monolithisch, d.h. es gab keine Trennung von Funktionalitäten.
-- Programm — Hardware (direkte Kopplung, keine Abstraktionsschicht)
-- *Architekturlektion: Enge Kopplung = komplette Neuprogrammierung bei Hardwarewechsel.*
+![](images/03b_Softwarearchitektur/archi_1.svg)
 
 %%sep
 
-![](images/03b_Softwarearchitektur/archi_1.svg)
+- Die ersten Programme wurden direkt im Maschinencode geschrieben (binär oder Assembler).
+- Die Software war monolithisch: keine Trennung von Funktionalitäten.
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Probleme monolithischer, maschinennaher Software vor 1950
+
+%%col 60 40
+
+![](images/03b_Softwarearchitektur/archi_1_problem.svg)
+
+%%sep
+
+Wenn sich die Hardware änderte und eine neue Maschinensprache gesprochen wurde, mussten Programme angepasst oder neu geschrieben werden.
+
+%%note Architekturlektion
+{{< ai4sc-icon arrow-left-right >}} Programm — Hardware: direkte Kopplung ohne Abstraktionsschicht.
+%%/note
 
 %%/col
 
@@ -166,17 +187,35 @@ Betriebssysteme wurden eingeführt, um Standardaufgaben zu erfüllen (Dateiverwa
 
 ## Aufteilung in Betriebssysteme und monolithische Software ab ca. 1960
 
-%%col 50 50
+%%col 60 40
 
-- Betriebssysteme wurden eingeführt, um die Hardware zu abstrahieren.
-- Betriebssysteme abstrahieren Standardaufgaben (z.B. Dateiverwaltung)
-- Programm — Betriebssystem — Treiber — Hardware
-- Hardware wird durch Treiber abstrahiert — Austausch ohne Neuprogrammierung
-- *Architekturlektion: Abstraktionsschichten schützen — aber erzeugen neue Komplexität.*
+![](images/03b_Softwarearchitektur/archi_3.svg)
 
 %%sep
 
-![](images/03b_Softwarearchitektur/archi_3.svg)
+- Betriebssysteme übernehmen Standardaufgaben (z. B. Dateiverwaltung) und abstrahieren die Hardware.
+- Die Abstraktion erfolgt über Treiber.
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Probleme der Aufteilung in Betriebssysteme und Software ab ca. 1960
+
+%%col 60 40
+
+![](images/03b_Softwarearchitektur/archi_3_problem.svg)
+
+%%sep
+
+Neue Hardware wird über einen neuen Treiber unterstützt, das Programm muss nicht angepasst werden. Die Programme bleiben aber schwer zu schreiben, weil sie ein gutes Verständnis der Hardware erfordern.
+
+%%note Architekturlektion
+{{< ai4sc-icon arrow-left-right >}} Programm — Betriebssystem — Treiber — Hardware: die Schicht entkoppelt Programm und Hardware.
+%%/note
 
 %%/col
 
@@ -206,16 +245,35 @@ Um die Programmierung zu vereinfachen, wurden höhere Programmiersprachen eingef
 
 ## Einführung höherer Programmiersprachen ab ca. 1970
 
-%%col 50 50
+%%col 60 40
 
-- Um die Programmierung zu vereinfachen, wurden höhere Programmiersprachen eingeführt.
-- Höhere Programmiersprachen müssen mit Compilern in Maschinensprache übersetzt werden.
-- Quellcode — Compiler — Betriebssystem — Hardware
-- *Architekturlektion: Wechsel des Betriebssystems erfordert mindestens neue Compilierung, meist Umschreiben.*
+![](images/03b_Softwarearchitektur/archi_5.svg)
 
 %%sep
 
-![](images/03b_Softwarearchitektur/archi_5.svg)
+- Höhere Programmiersprachen (Fortran, C, Basic) vereinfachen die Programmierung.
+- Ein Compiler übersetzt den Quellcode in Maschinensprache des Betriebssystems.
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Probleme mit höheren Programmiersprachen
+
+%%col 60 40
+
+![](images/03b_Softwarearchitektur/archi_5_problem.svg)
+
+%%sep
+
+Wenn sich das Betriebssystem ändert, funktionieren Programme nicht mehr und müssen neu kompiliert oder umgeschrieben werden.
+
+%%note Architekturlektion
+{{< ai4sc-icon arrow-left-right >}} Quellcode — Compiler — Betriebssystem: der Compiler ist betriebssystemspezifisch.
+%%/note
 
 %%/col
 
@@ -247,16 +305,18 @@ Dadurch wurde es auch einfacher, neue Betriebssysteme zu entwickeln, weshalb auc
 
 ## Virtualisierung monolithischer Software ab ca. 1995
 
-%%col 50 50
+%%col 60 40
 
-- Virtuelle Laufzeitumgebungen abstrahieren die Betriebssysteme.
-- Virtuelle Laufzeitumgebungen kompilieren Code in Echtzeit (Java) oder interpretieren ihn (Python)
-- Programm — Laufzeitumgebung — Betriebssystem — Hardware
-- *Architekturlektion: Portabilität durch Virtualisierung — eine Schicht mehr bedeutet mehr Freiheit.*
+![](images/03b_Softwarearchitektur/archi_7.svg)
 
 %%sep
 
-![](images/03b_Softwarearchitektur/archi_7.svg)
+- Virtuelle Laufzeitumgebungen abstrahieren die Betriebssysteme.
+- Sie kompilieren den Code in Echtzeit (Java) oder interpretieren ihn (Python).
+
+%%note Architekturlektion
+{{< ai4sc-icon arrow-left-right >}} Programm — Laufzeitumgebung — Betriebssystem: eine weitere Schicht schafft Portabilität.
+%%/note
 
 %%/col
 
@@ -288,17 +348,35 @@ Diese Architektur trennt die Frontend-Anwendungen von den Backend-Servern. Die F
 
 ## Verteilte, virtualisierte Software im Internet ab ca. 2000
 
-%%col 50 50
+%%col 60 40
 
-- Backend Webserver stellen die Webseiten zur Verfügung
-- Separate Datenbankserver verwalten die Langzeitdaten
-- Frontend — Backend — Datenbank (explizite Architekturgrenze)
-- Frontend Apps interagieren mit den Nutzern und machen nur leichte Berechnungen
-- *Architekturlektion: Klare Komponentengrenzen ermöglichen unabhängige Skalierung — müssen aber vor dem Code entschieden werden.*
+![](images/03b_Softwarearchitektur/archi_8.svg)
 
 %%sep
 
-![](images/03b_Softwarearchitektur/archi_8.svg)
+- Frontend-Webseiten visualisieren die Inhalte und interagieren mit den Nutzern.
+- Backend-Webserver stellen die Webseiten bereit und verwalten die Langzeitdaten in Datenbanken.
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Probleme mit verteilter, virtualisierter Software
+
+%%col 60 40
+
+![](images/03b_Softwarearchitektur/archi_8_problem.svg)
+
+%%sep
+
+Im Internet greifen sehr viele Nutzer gleichzeitig auf dieselben Server zu. Um diese nicht zu überlasten, braucht man Wege, sie bei Bedarf schnell zu duplizieren.
+
+%%note Architekturlektion
+{{< ai4sc-icon arrow-left-right >}} Frontend — Backend — Datenbank: die Komponentengrenze muss vor dem ersten Code entschieden werden.
+%%/note
 
 %%/col
 
@@ -328,17 +406,18 @@ Apps und Websites lösen traditionelle monolithische Programme weitgehend ab. Si
 
 ## Verteilte, virtualisierte Apps und Cloud-Software ab ca. 2010
 
-%%col 50 50
+%%col 60 40
 
-- Betriebssystem und Programme werden in Images gebündelt
-- Images können auf Servern schnell verteilt werden — bei Bedarf skalierbar
-- Service — Container — Cloud-Infrastruktur — Nutzer
-- Apps und Websites lösen vollständig traditionelle monolithische Programme ab
-- *Architekturlektion: Skalierbarkeit ist eine Architekturentscheidung, kein Code-Problem.*
+![](images/03b_Softwarearchitektur/archi_10.svg)
 
 %%sep
 
-![](images/03b_Softwarearchitektur/archi_10.svg)
+- Programme werden mit dem Betriebssystem in Images gebündelt.
+- Images lassen sich auf virtueller Hardware schnell auf viele Rechner verteilen.
+
+%%note Architekturlektion
+{{< ai4sc-icon arrow-left-right >}} Service — Container — Cloud-Infrastruktur: Skalierbarkeit ist eine Architekturentscheidung, kein Code-Problem.
+%%/note
 
 %%/col
 
@@ -359,18 +438,13 @@ Die Programmiersprachen haben sich entsprechend den Architekturen auch mit der Z
 
 %%# Architektur im agentischen Zeitalter
 
+%%## KI generiert Komponenten — Ingenieure entscheiden Architektur
+
 %%book
-
-
-## KI generiert Komponenten — Ingenieure entscheiden Architektur
-
-%%div eyebrow
-{{< ai4sc-icon workflow >}} Agentisches Zeitalter
-%%/div
 
 %%col 50 50
 
-KI kann eine Funktion, eine Klasse oder ein Modul generieren. Was sie nicht generieren kann, sind die **Beziehungen zwischen Komponenten** {{< ai4sc-icon arrow-left-right >}}. Das ist die Aufgabe der Ingenieure.
+{{< ai4sc-icon workflow >}} KI kann eine Funktion, eine Klasse oder ein Modul generieren. Was sie nicht generieren kann, sind die **Beziehungen zwischen Komponenten** {{< ai4sc-icon arrow-left-right >}}. Das ist die Aufgabe der Ingenieure.
 
 Die Geschichte der Softwarearchitektur zeigt: Architekturentscheidungen überdauern den individuellen Code. Programme werden neu geschrieben — Architekturen bleiben. Genau deshalb ist die Entscheidung, welche Komponenten ein System hat und wie sie zusammenarbeiten, nicht delegierbar.
 
@@ -378,16 +452,7 @@ Die Geschichte der Softwarearchitektur zeigt: Architekturentscheidungen überdau
 
 %%sep
 
-%%scol 50 50
-
-**Was KI generiert:**
-
-- Funktionen ✓
-- Klassen ✓
-- Module ✓
-- Algorithmen ✓
-
-%%sep
+**Was KI generiert:** Funktionen, Klassen, Module, Algorithmen.
 
 **Was der Ingenieur entscheidet:**
 
@@ -396,43 +461,24 @@ Die Geschichte der Softwarearchitektur zeigt: Architekturentscheidungen überdau
 - Wie kommunizieren sie miteinander?
 - Wer trägt welche Verantwortung?
 
-%%/scol
-
 %%/col
 
 %%/book
 
 %%slides
 
-
-## KI generiert Komponenten — Ingenieure entscheiden Architektur
-
-%%div eyebrow
-{{< ai4sc-icon workflow >}} Agentisches Zeitalter
-%%/div
-
 %%col 50 50
 
-- KI generiert: Funktionen · Klassen · Module · Algorithmen ✓
+- {{< ai4sc-icon workflow >}} KI generiert: Funktionen · Klassen · Module · Algorithmen
 - KI entscheidet **nicht**: Beziehungen zwischen Komponenten {{< ai4sc-icon arrow-left-right >}}
 - Architekturentscheidungen überdauern den individuellen Code
 - *Die Modulgrenze im Prompt ist eine Architekturentscheidung — sie wird von Ingenieuren festgelegt.*
 
 %%sep
 
-%%scol 50 50
+**KI generiert:** Funktion, Klasse, Modul.
 
-**KI generiert:**
-
-Funktion ✓ · Klasse ✓ · Modul ✓
-
-%%sep
-
-**Ingenieur entscheidet:**
-
-Grenzen · Beziehungen · Verantwortung
-
-%%/scol
+**Ingenieur entscheidet:** Grenzen, Beziehungen, Verantwortung.
 
 %%/col
 
