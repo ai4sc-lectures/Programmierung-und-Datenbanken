@@ -792,69 +792,9 @@ Die Module eines Computers arbeiten nicht isoliert: Alles, was sie austauschen, 
 
 %%/book
 
-%%## Zwei Speicherregionen im RAM
-
 %%book
 
-Stack und Heap sind kein Python-Feature, sondern zwei Bereiche im RAM, die das Betriebssystem jedem laufenden Programm zuweist. Der **Stack** (Stapel) arbeitet nach dem LIFO-Prinzip (*Last In, First Out*): Bei jedem Funktionsaufruf kommt ein neuer Rahmen mit den lokalen Variablen obenauf, bei der Rückkehr wird er wieder entfernt. Seine Größe ist begrenzt, typischerweise einige Megabyte. Der **Heap** ist ein größerer, dynamisch wachsender Bereich für Daten, die länger leben als ein einzelner Funktionsaufruf, etwa Listen oder Objekte. Wie Python diese Regionen nutzt, behandeln wir in `02c_Speicher`.
-
-![Heap und Stack als Speicherzellen: Der Heap vergibt freie Zellen zufällig, der Stack belegt seine Zellen der Reihe nach und gibt sie in umgekehrter Reihenfolge wieder frei. Das Ergebnis s(4) = 10 bleibt im Heap (Beispiel: s(n) = n + s(n − 1))](images/01c_Computerhardware/manim_stack_heap.png){fig-align="center" width="90%"}
-
-%%/book
-
-%%slides
-
-%%col 40 60
-
-**Stack**
-
-- Für Funktionsaufrufe
-- LIFO-Prinzip (Last In, First Out)
-- Begrenzter Speicher
-
-**Heap**
-
-- Für Variablen
-- FIFO-ähnlich (First In, First Out)
-- Dynamisch groß (RAM)
-
-%%sep
-
-```{=html}
-<video poster="images/01c_Computerhardware/manim_stack_heap_last.png" data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/01c_Computerhardware/manim_stack_heap.webm" type="video/webm"><source src="images/01c_Computerhardware/manim_stack_heap.mp4" type="video/mp4"></video>
-```
-
-%%/col
-
-%%/slides
-
-%%slides
-
-## Der Stack wächst mit jedem Aufruf
-
-%%col 40 60
-
-- Der Stack ist eine Liste in der nachvollzogen wird welche Funktionen gerade aufgerufen wurden
-- Damit ist bekannt, wohin man zurückkehrt, wenn eine Funktion beendet wird
-- Bei endloser Rekursion, wird die Liste unendlich groß
-- Es kommt bei endloser Rekursion zu Stack-Overflow-Fehlern
-- Es kommt zum harten Absturz des Programmes
-
-%%sep
-
-```{=html}
-<video poster="images/01c_Computerhardware/manim_call_stack_last.png" data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/01c_Computerhardware/manim_call_stack.webm" type="video/webm"><source src="images/01c_Computerhardware/manim_call_stack.mp4" type="video/mp4"></video>
-```
-
-%%/col
-
-%%/slides
-
-%%book
-
-Jeder Funktionsaufruf belegt auf dem Stack die nächsten freien Zellen für Argumente und Rücksprungadresse. Bei der Rekursion ruft sich eine Funktion selbst auf, etwa die Summe s(n) = n + s(n − 1) mit der Abbruchbedingung s(0) = 0. Fehlt die Abbruchbedingung oder ist die Rekursionstiefe sehr groß, füllt sich der Stack Rahmen für Rahmen, bis keine Zelle mehr frei ist. Das Programm bricht dann ab (*Stack Overflow*), und Python meldet einen `RecursionError`.
-
-![Der Stack füllt sich bei jedem Aufruf ohne Abbruchbedingung, bis er voll ist](images/01c_Computerhardware/manim_call_stack.png){fig-align="center" width="90%"}
+Wie Python die Werte von Variablen in diesen Speicherzellen ablegt, behandeln wir in `02c_Speicher`.
 
 %%/book
 
@@ -1043,17 +983,6 @@ Quelle: IDC Global DataSphere (Data Age 2025)
     - [ ] Eine Methode zur Speicherung von Bildern
     - [ ] Ein Internetprotokoll
 
-    ### Wo landen Python-Objekte (z.B. Listen) im Speicher?
-    - [x] Auf dem Heap
-    - [ ] Im Stack
-    - [ ] Im CPU-Register
-    - [ ] Auf der SSD
-
-    ### Was prüft man zuerst, wenn KI-generierter Code einen RecursionError verursacht?
-    - [x] Wie tief die Rekursion maximal geht und ob eine iterative Variante möglich ist
-    - [ ] Ob der Heap zu klein ist
-    - [ ] Ob die GPU korrekt angesteuert wird
-    - [ ] Ob die Binärcodierung stimmt
 ```
 
 %%/book

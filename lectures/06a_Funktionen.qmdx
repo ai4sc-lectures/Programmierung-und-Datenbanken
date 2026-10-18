@@ -630,6 +630,81 @@ print("Der Wert von argument nach der Funktion ist immer noch "+str(argument))
 
 %%/book
 
+%%slides
+
+## Jeder Funktionsaufruf erhält einen Frame
+
+%%col 50 50
+
+```python
+def berechne_fläche(breite, höhe):
+    fläche = breite * höhe
+    return fläche
+
+def main():
+    b = 5
+    h = 3
+    ergebnis = berechne_fläche(b, h)
+    print(ergebnis)
+
+main()
+```
+
+%%sep
+
+![](images/06a_Funktionen/callstack.svg){fig-align="center"}
+
+%%/col
+
+%%/slides
+
+%%book
+
+### Jeder Funktionsaufruf erhält einen Frame
+
+Warum sind die Variablen einer Funktion nach dem Aufruf verschwunden? Wenn Python eine Funktion aufruft, legt es einen neuen *Frame* auf den *Call Stack*. Dieser Frame enthält die lokalen Namen der Funktion, also ihre Parameter und alle Namen, die in ihr zugewiesen werden. Der oberste Frame ist der aktive.
+
+```python
+def berechne_fläche(breite, höhe):
+    fläche = breite * höhe
+    return fläche
+
+def main():
+    b = 5
+    h = 3
+    ergebnis = berechne_fläche(b, h)
+    print(ergebnis)
+
+main()
+```
+
+Während `berechne_fläche` läuft, liegen drei Frames übereinander: der des Hauptprogramms, der von `main` mit `b`, `h` und `ergebnis` und obenauf der von `berechne_fläche` mit `breite`, `höhe` und `fläche`.
+
+![Der Call Stack, während `berechne_fläche` läuft](images/06a_Funktionen/callstack.svg){fig-align="center" width="60%"}
+
+%%/book
+
+%%slides
+
+## Der Stack wächst und schrumpft
+
+![](images/06a_Funktionen/callstack_steps.svg){.nostretch fig-align="center" width="90%"}
+
+- Lokale Namen entstehen beim Eintritt in die Funktion und verschwinden beim Rücksprung.
+- Jeder Aufruf hat seinen eigenen Frame, auch bei Aufrufen derselben Funktion.
+
+%%/slides
+
+%%book
+
+### Der Stack wächst und schrumpft
+
+![Der Call Stack beim Aufruf und Rücksprung von `berechne_fläche`](images/06a_Funktionen/callstack_steps.svg){.nostretch fig-align="center" width="90%"}
+
+Beim Rücksprung wird der Frame entfernt, und mit ihm verschwinden die lokalen Namen, hier `fläche`. Von außen sind sie nie erreichbar; das ist der Grund für die Variablengültigkeit oben. Der Stack arbeitet nach dem LIFO-Prinzip (*last in, first out*): Der zuletzt aufgerufene Frame wird als erster wieder entfernt. Wie der Stack bei vielen verschachtelten Aufrufen wächst, sehen wir bei der Rekursion in `09b_Rekursion`.
+
+%%/book
+
 %%book
 
 
@@ -639,7 +714,7 @@ print("Der Wert von argument nach der Funktion ist immer noch "+str(argument))
 
 %%book
 
-Wird innerhalb einer Funktion ein neuer Wert an einen Parameternamen gebunden, bleibt die Variable außerhalb der Funktion unverändert. Das gilt auch bei unveränderlichen Typen wie `int`, `float`, `str` oder `tuple`.
+Ein Parameter ist ein neuer Name für dieselbe Adresse wie das übergebene Argument, genau wie ein Alias in `02c_Speicher`. Wird innerhalb einer Funktion ein neuer Wert an einen Parameternamen gebunden, bleibt die Variable außerhalb der Funktion unverändert. Das gilt auch bei unveränderlichen Typen wie `int`, `float`, `str` oder `tuple`.
 
 %%/book
 
