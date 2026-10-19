@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Joern Ploennigs · AI4SC">
+
+<title>Graphprobleme – Ingenieursinformatik</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./images/ai4sc_logo_v2.svg" rel="icon" type="image/svg+xml">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-8dd822d9b6a2bbb4b5c2dbc38ee1c6d3.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-24c5c1054373caee88a3efe0263853eb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-8dd822d9b6a2bbb4b5c2dbc38ee1c6d3.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-599c720961cf7f370b54a5914f113280.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-ecd8d5e51560d88b825d415cb7a00a37.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-599c720961cf7f370b54a5914f113280.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/quizdown-0.6.0/quizdown.js"></script>
+<script src="site_libs/quarto-contrib/quizdown-0.6.0/quizdownKatex.js"></script>
+<script src="site_libs/quarto-contrib/quizdown-0.6.0/quizdownHighlight.js"></script>
+<script src="site_libs/quarto-contrib/quizdown-0.6.0/quizdown-init.js"></script>
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Keine Treffer",
+    "search-matching-documents-text": "Treffer",
+    "search-copy-link-title": "Link in die Suche kopieren",
+    "search-hide-matches-text": "Zusätzliche Treffer verbergen",
+    "search-more-match-text": "weitere Treffer in diesem Dokument",
+    "search-more-matches-text": "weitere Treffer in diesem Dokument",
+    "search-clear-button-title": "Zurücksetzen",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Abbrechen",
+    "search-submit-button-title": "Abschicken",
+    "search-label": "Suchen"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/fonts.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/ai4sc_logo_v2.svg" alt="" class="navbar-logo light-content">
+    <img src="./images/ai4sc_logo_v2.svg" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Ingenieursinformatik</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Dunkelmodus umschalten"><i class="bi"></i></a>
+</div>
+          <div id="quarto-search" class="" title="Suchen"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Graphprobleme</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Suchen" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Suchen"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Grundlagen</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Abschnitt umschalten">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01a_Ueberblick.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Einführung</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01b_Programmiersprachen.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Programmier<wbr>sprachen</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01c_Computerhardware.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Computer<wbr>hardware</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02a_Wissenspyramide.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Wissenspyramide</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02b_Datentypen.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datentypen</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02c_Speicher.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Speicher</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Auf dieser Seite</h2>
+   
+  <ul>
+  <li><a href="#graphprobleme-erkennen" id="toc-graphprobleme-erkennen" class="nav-link active" data-scroll-target="#graphprobleme-erkennen">Graphprobleme erkennen</a></li>
+  <li><a href="#was-ist-ein-graphproblem" id="toc-was-ist-ein-graphproblem" class="nav-link" data-scroll-target="#was-ist-ein-graphproblem">Was ist ein Graphproblem?</a></li>
+  <li><a href="#graphprobleme-im-bauingenieurwesen" id="toc-graphprobleme-im-bauingenieurwesen" class="nav-link" data-scroll-target="#graphprobleme-im-bauingenieurwesen">Graphprobleme im Bauingenieurwesen</a></li>
+  <li><a href="#der-graph-als-datenstruktur" id="toc-der-graph-als-datenstruktur" class="nav-link" data-scroll-target="#der-graph-als-datenstruktur">Der Graph als Datenstruktur</a></li>
+  <li><a href="#knoten-kanten-gewichte-richtung" id="toc-knoten-kanten-gewichte-richtung" class="nav-link" data-scroll-target="#knoten-kanten-gewichte-richtung">Knoten, Kanten, Gewichte, Richtung</a></li>
+  <li><a href="#gerichtet-oder-ungerichtet" id="toc-gerichtet-oder-ungerichtet" class="nav-link" data-scroll-target="#gerichtet-oder-ungerichtet">Gerichtet oder ungerichtet?</a></li>
+  <li><a href="#traversierung-und-kürzeste-wege" id="toc-traversierung-und-kürzeste-wege" class="nav-link" data-scroll-target="#traversierung-und-kürzeste-wege">Traversierung und kürzeste Wege</a></li>
+  <li><a href="#mini-beispiel-drei-räume-drei-wege" id="toc-mini-beispiel-drei-räume-drei-wege" class="nav-link" data-scroll-target="#mini-beispiel-drei-räume-drei-wege">Mini-Beispiel: Drei Räume, drei Wege</a></li>
+  <li><a href="#breitensuche-bfs-schicht-für-schicht" id="toc-breitensuche-bfs-schicht-für-schicht" class="nav-link" data-scroll-target="#breitensuche-bfs-schicht-für-schicht">Breitensuche (BFS): Schicht für Schicht</a></li>
+  <li><a href="#tiefensuche-dfs-pfad-bis-zum-ende" id="toc-tiefensuche-dfs-pfad-bis-zum-ende" class="nav-link" data-scroll-target="#tiefensuche-dfs-pfad-bis-zum-ende">Tiefensuche (DFS): Pfad bis zum Ende</a></li>
+  <li><a href="#dijkstra-kürzester-gewichteter-weg" id="toc-dijkstra-kürzester-gewichteter-weg" class="nav-link" data-scroll-target="#dijkstra-kürzester-gewichteter-weg">Dijkstra: Kürzester gewichteter Weg</a></li>
+  <li><a href="#mit-ki-graphprobleme-lösen" id="toc-mit-ki-graphprobleme-lösen" class="nav-link" data-scroll-target="#mit-ki-graphprobleme-lösen">Mit KI Graphprobleme lösen</a></li>
+  <li><a href="#networkx-straßennetz-modellieren-und-analysieren" id="toc-networkx-straßennetz-modellieren-und-analysieren" class="nav-link" data-scroll-target="#networkx-straßennetz-modellieren-und-analysieren">networkx: Straßennetz modellieren und analysieren</a></li>
+  <li><a href="#networkx-ergebnis-und-visualisierung" id="toc-networkx-ergebnis-und-visualisierung" class="nav-link" data-scroll-target="#networkx-ergebnis-und-visualisierung">networkx: Ergebnis und Visualisierung</a></li>
+  <li><a href="#ki-prompt-muster-graphproblem-spezifizieren" id="toc-ki-prompt-muster-graphproblem-spezifizieren" class="nav-link" data-scroll-target="#ki-prompt-muster-graphproblem-spezifizieren">KI-Prompt-Muster: Graphproblem spezifizieren</a></li>
+  <li><a href="#verifikations-checkliste" id="toc-verifikations-checkliste" class="nav-link" data-scroll-target="#verifikations-checkliste">Verifikations-Checkliste</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Andere Formate</h2><ul><li><a href="10a_Graphprobleme.slide.html"><i class="bi bi-file-easel"></i>Slides</a></li><li><a href="10a_Graphprobleme.page 2.html"><i class="bi bi-file-earmark-easel"></i>Slides PDF</a></li><li><a href="10a_Graphprobleme.page.pdf"><i class="bi bi-file-earmark-pdf"></i>Document PDF</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<script>
+window.__plotlyCallQueue = window.__plotlyCallQueue || [];
+
+if (!window.Plotly) {
+  window.Plotly = {
+    __ai4scPlotlyStub: true,
+    newPlot: (...args) =>
+      new Promise((resolve, reject) => {
+        window.__plotlyCallQueue.push({
+          method: "newPlot",
+          args,
+          resolve,
+          reject,
+        });
+      }),
+    addFrames: (...args) => {
+      window.__plotlyCallQueue.push({
+        method: "addFrames",
+        args,
+      });
+    },
+    Plots: {
+      resize: () => Promise.resolve(),
+    },
+    relayout: () => Promise.resolve(),
+  };
+}
+</script>
+<script>
+window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
+  const imageSelector = ".reveal .slides section > img.r-stretch, .reveal .slides section > img.stretch";
+  const SIZED_ATTR = "data-ai4sc-sized";
+
+  const stamp = (root = document) => {
+    root.querySelectorAll(imageSelector).forEach((img) => {
+      if (!(img instanceof HTMLElement)) return;
+      const style = img.getAttribute("style") || "";
+      if (
+        img.hasAttribute("width") ||
+        img.hasAttribute("height") ||
+        /(^|;)\s*(width|height)\s*:/.test(style)
+      ) {
+        img.setAttribute(SIZED_ATTR, "");
+      }
+    });
+  };
+
+  const release = (root = document) => {
+    root.querySelectorAll(imageSelector).forEach((img) => {
+      if (!(img instanceof HTMLElement) || !img.hasAttribute(SIZED_ATTR)) {
+        return;
+      }
+
+      img.classList.remove("r-stretch", "stretch");
+
+      if (img.hasAttribute("width")) {
+        img.style.removeProperty("width");
+      }
+      if (img.hasAttribute("height")) {
+        img.style.removeProperty("height");
+      }
+
+      img.style.maxWidth = "100%";
+      img.style.maxHeight = "100%";
+      img.style.objectFit = "contain";
+    });
+  };
+
+  const scheduleRelease = () => window.requestAnimationFrame(() => release());
+
+  const init = () => { stamp(); scheduleRelease(); };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
+  }
+
+  window.addEventListener("load", scheduleRelease, { once: true });
+  return release;
+})();
+</script>
+<script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/plotly-loader.js"></script>
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Graphprobleme</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Autor:in</div>
+    <div class="quarto-title-meta-contents">
+             <p>Joern Ploennigs · AI4SC </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><img src="images/10a_Graphprobleme/mj_title_band.jpg" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p>Everything is connected to everything else</p>
+<p>— Leonardo da Vinci</p>
+</blockquote>
+<section id="graphprobleme-erkennen" class="level2">
+<h2 class="anchored" data-anchor-id="graphprobleme-erkennen">Graphprobleme erkennen</h2>
+</section>
+<section id="was-ist-ein-graphproblem" class="level2">
+<h2 class="anchored" data-anchor-id="was-ist-ein-graphproblem">Was ist ein Graphproblem?</h2>
+<div class="columns">
+<div class="column vcent" style="width:40%;">
+
+</div><div class="column" style="width:60%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/10a_Graphprobleme/mj_graph_abstract.png" class="midjourney img-fluid figure-img"></p>
+<figcaption>Midjourney: Abstract connected nodes and edges on a dark background</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <path d="M8 3 4 7l4 4"></path>
+  <path d="M4 7h16"></path>
+  <path d="m16 21 4-4-4-4"></path>
+  <path d="M20 17H4"></path>
+</svg>
+</span> Beziehungsstruktur</p>
+</div>
+<p>Ein Problem ist ein <em>Graphproblem</em>, wenn:</p>
+<ul>
+<li>Es <strong>Entitäten</strong> gibt (Knoten: Kreuzungen, Anschlüsse, Räume)</li>
+<li>Diese durch <strong>Verbindungen</strong> verknüpft sind (Kanten: Straßen, Rohre, Türen)</li>
+<li>Fragen nach <strong>Wegen</strong>, <strong>Erreichbarkeit</strong> oder <strong>Fluss</strong> entstehen</li>
+</ul>
+<p>Wenn man das Problem als Netzwerk zeichnen kann — es ist ein Graphproblem.</p>
+<p>Das Schlüsselmerkmal eines Graphproblems ist die Beziehungsstruktur. Typische Fragen, die auf ein Graphproblem hindeuten:</p>
+<ul>
+<li>“Welcher Weg von A nach B ist am kürzesten?”</li>
+<li>“Sind alle Teile des Netzes verbunden?”</li>
+<li>“Wie viel kann durch das Netz fließen?”</li>
+<li>“Von welchem Knoten aus ist welcher Bereich erreichbar?”</li>
+</ul>
+</section>
+<section id="graphprobleme-im-bauingenieurwesen" class="level2">
+<h2 class="anchored" data-anchor-id="graphprobleme-im-bauingenieurwesen">Graphprobleme im Bauingenieurwesen</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Straßennetz</strong> — Routing</p>
+<p>Knoten: Kreuzungen<br>
+Kanten: Straßenabschnitte<br>
+Gewicht: Reisezeit oder Distanz<br>
+<em>Frage: Kürzeste Route A → B?</em></p>
+<hr>
+<p><strong>Rohrnetz</strong> — Fluss</p>
+<p>Knoten: Anschlüsse / Ventile<br>
+Kanten: Rohrleitungen<br>
+Gewicht: Durchmesser, Länge<br>
+<em>Frage: Druckverlust minimal?</em></p>
+</div><div class="column" style="width:50%;">
+<p><strong>Grundriss</strong> — Konnektivität</p>
+<p>Knoten: Räume<br>
+Kanten: Türöffnungen<br>
+<em>Frage: Alle Räume erreichbar?</em></p>
+<hr>
+<p><strong>Entwässerungsnetz</strong> — Gerichteter Fluss</p>
+<p>Knoten: Einzugsgebiete<br>
+Kanten: Abflussrichtungen<br>
+Gewicht: Gefälle, Kapazität<br>
+<em>Frage: Wohin fließt das Wasser?</em></p>
+</div>
+</div>
+</section>
+<section id="der-graph-als-datenstruktur" class="level2">
+<h2 class="anchored" data-anchor-id="der-graph-als-datenstruktur">Der Graph als Datenstruktur</h2>
+</section>
+<section id="knoten-kanten-gewichte-richtung" class="level2">
+<h2 class="anchored" data-anchor-id="knoten-kanten-gewichte-richtung">Knoten, Kanten, Gewichte, Richtung</h2>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <path d="M8 5h13"></path>
+  <path d="M13 12h8"></path>
+  <path d="M13 19h8"></path>
+  <path d="M3 10a2 2 0 0 0 2 2h3"></path>
+  <path d="M3 5v12a2 2 0 0 0 2 2h3"></path>
+</svg>
+</span></p>
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Knoten</strong> <em>(Vertices)</em></p>
+<ul>
+<li>Entitäten im Netzwerk</li>
+<li>Bezeichner: <code>A</code>, <code>B</code>, <code>1</code>, <code>2</code></li>
+<li>Optional: Attribute (Bedarf, Koordinaten)</li>
+</ul>
+<p><strong>Kanten</strong> <em>(Edges)</em></p>
+<ul>
+<li>Verbindungen zwischen Knoten</li>
+<li><strong>Gewicht</strong>: Länge, Zeit, Kapazität</li>
+<li><strong>Richtung</strong>: gerichtet oder ungerichtet</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<pre><code>Ungerichtet:
+  A ——— B ——— C
+  |           |
+  D ————————— E
+
+Gerichtet (Digraph):
+  A ——→ B ——→ C
+  ↓           ↑
+  D ——→ ——→ ——→</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> nx.Graph()    <span class="co"># ungerichtet</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> nx.DiGraph()  <span class="co"># gerichtet</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<p>Formal ist ein Graph G = (V, E), wobei V die Menge der Knoten (<em>Vertices</em>) und E die Menge der Kanten (<em>Edges</em>) ist.</p>
+<p><strong>Gewichte</strong> werden als Kantenattribute gespeichert — sie repräsentieren physikalische Größen wie Längen, Reisezeiten oder Kapazitäten.</p>
+<p><strong>Richtung</strong> bestimmt die Modellwahl: Entwässerungsnetze oder Einbahnstraßen erfordern <code>DiGraph</code>, symmetrische Verbindungen (z.B. Rohre mit Druckausgleich) verwenden <code>Graph</code>.</p>
+</section>
+<section id="gerichtet-oder-ungerichtet" class="level2">
+<h2 class="anchored" data-anchor-id="gerichtet-oder-ungerichtet">Gerichtet oder ungerichtet?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<section id="ungerichtet-nx.graph" class="level3">
+<h3 class="anchored" data-anchor-id="ungerichtet-nx.graph">Ungerichtet (<code>nx.Graph</code>)</h3>
+<ul>
+<li>Straßennetz (beide Fahrtrichtungen)</li>
+<li>Rohrnetz mit Druckausgleich</li>
+<li>Gebäudeverbindungen (Türen)</li>
+</ul>
+<p><span class="pro">Einfachere Algorithmen</span> <span class="pro">Symmetrische Beziehungen</span> <span class="con">Nicht für alle Realfälle geeignet</span></p>
+</section>
+</div><div class="column" style="width:50%;">
+<section id="gerichtet-nx.digraph" class="level3">
+<h3 class="anchored" data-anchor-id="gerichtet-nx.digraph">Gerichtet (<code>nx.DiGraph</code>)</h3>
+<ul>
+<li>Entwässerung (nur bergab)</li>
+<li>Einbahnstraßen</li>
+<li>Abhängigkeitsgraphen</li>
+</ul>
+<p><span class="pro">Realistische Modellierung</span> <span class="pro">Einbahnbeziehungen möglich</span> <span class="neutral">Komplexere Traversierung</span></p>
+</section>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled" title="Definition: Graph">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Hinweis</span>Definition: Graph
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Graph</strong> G = (V, E): Menge von Knoten V und Kanten E. Jede Kante verbindet zwei Knoten. Optional mit Gewichten und Richtungen.</p>
+</div>
+</div>
+</section>
+<section id="traversierung-und-kürzeste-wege" class="level2">
+<h2 class="anchored" data-anchor-id="traversierung-und-kürzeste-wege">Traversierung und kürzeste Wege</h2>
+</section>
+<section id="mini-beispiel-drei-räume-drei-wege" class="level2">
+<h2 class="anchored" data-anchor-id="mini-beispiel-drei-räume-drei-wege">Mini-Beispiel: Drei Räume, drei Wege</h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p>Statt direkt mit einem großen Netz zu starten, schauen wir zuerst auf ein minimales Beispiel:</p>
+<ul>
+<li>Knoten: <code>Eingang</code>, <code>Labor</code>, <code>Buero</code></li>
+<li>Kanten: Tueren zwischen den Raeumen</li>
+<li>Gewicht: Gehzeit in Minuten</li>
+</ul>
+<p><strong>Fragen dazu:</strong></p>
+<ol type="1">
+<li>Welche Raeume sind vom <code>Eingang</code> aus erreichbar?</li>
+<li>Welcher Weg hat die wenigsten <strong>Schritte</strong>?</li>
+<li>Welcher Weg ist mit Zeiten der <strong>schnellste</strong>?</li>
+</ol>
+</div><div class="column" style="width:45%;">
+<pre class="text"><code>Eingang --1-- Labor --1-- Buero
+   \
+    4
+     \
+      Buero</code></pre>
+<ul>
+<li>Direkt: <code>Eingang -&gt; Buero</code> = 4 min</li>
+<li>Ueber <code>Labor</code>: <code>Eingang -&gt; Labor -&gt; Buero</code> = 2 min</li>
+</ul>
+<p>Damit sehen wir sofort den Unterschied:</p>
+<ul>
+<li><strong>BFS</strong> achtet auf wenige Schritte</li>
+<li><strong>Dijkstra</strong> achtet auf kleines Gesamtgewicht</li>
+<li><strong>DFS</strong> prueft gut, was ueberhaupt erreichbar ist</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="breitensuche-bfs-schicht-für-schicht" class="level2">
+<h2 class="anchored" data-anchor-id="breitensuche-bfs-schicht-für-schicht">Breitensuche (BFS): Schicht für Schicht</h2>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <rect width="8" height="8" x="3" y="3" rx="2"></rect>
+  <path d="M7 11v4a2 2 0 0 0 2 2h4"></path>
+  <rect width="8" height="8" x="13" y="13" rx="2"></rect>
+</svg>
+</span></p>
+</div>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p><strong>Breitensuche</strong> besucht Knoten <strong>schichtweise</strong> — zuerst alle direkten Nachbarn, dann deren Nachbarn.</p>
+<ol type="1">
+<li>Starte am Quellknoten (Schicht 0)</li>
+<li>Besuche alle direkten Nachbarn (Schicht 1)</li>
+<li>Dann deren Nachbarn (Schicht 2) usw.</li>
+</ol>
+<p><strong>Findet</strong>: Kürzester Weg in Sprüngen (ohne Gewichte)</p>
+<p><strong>Anwendung</strong>: Ausbreitung eines Hochwasserereignisses — welche Gebiete sind in wie vielen Schritten betroffen?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>nx.bfs_tree(G, source<span class="op">=</span><span class="st">"Quelle"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:45%;">
+<pre><code>Schicht 0:   [Quelle]
+Schicht 1:   [A, B, C]
+Schicht 2:   [D, E, F]
+Schicht 3:   [Ziel]</code></pre>
+<p>BFS garantiert: Weg zur <strong>kleinsten Sprungzahl</strong></p>
+<p>Nicht geeignet, wenn Gewichte wichtig sind!</p>
+</div>
+</div>
+</section>
+<section id="tiefensuche-dfs-pfad-bis-zum-ende" class="level2">
+<h2 class="anchored" data-anchor-id="tiefensuche-dfs-pfad-bis-zum-ende">Tiefensuche (DFS): Pfad bis zum Ende</h2>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <rect width="8" height="8" x="3" y="3" rx="2"></rect>
+  <path d="M7 11v4a2 2 0 0 0 2 2h4"></path>
+  <rect width="8" height="8" x="13" y="13" rx="2"></rect>
+</svg>
+</span></p>
+</div>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p><strong>Tiefensuche</strong> folgt einem Pfad <strong>so tief wie möglich</strong> vor dem Zurückkehren.</p>
+<ol type="1">
+<li>Starte an einem Knoten</li>
+<li>Folge einem Pfad bis zum letzten Knoten</li>
+<li>Kehre zurück, wähle nächsten unerkundeten Zweig</li>
+<li>Wiederhole bis alle erreichbaren Knoten besucht</li>
+</ol>
+<p><strong>Findet</strong>: Erreichbarkeit, zusammenhängende Komponenten</p>
+<p><strong>Anwendung</strong>: Ist das Rohrnetz vollständig verbunden — gibt es isolierte Leitungsabschnitte?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>nx.dfs_tree(G, source<span class="op">=</span><span class="st">"Eingang"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>nx.connected_components(G)  <span class="co"># alle Gruppen</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:45%;">
+<pre><code>Pfad 1:  A → B → E → H
+         ← zurück zu E
+         ← zurück zu B
+         B → F
+         ← zurück ...
+Pfad 2:  A → C → ...</code></pre>
+<p>DFS findet <strong>alle erreichbaren Knoten</strong><br>
+Reihenfolge variiert je nach Startknoten</p>
+</div>
+</div>
+<p><strong>Wann BFS, wann DFS?</strong></p>
+<ul>
+<li>Kürzester Weg in Sprüngen (ungewichtet) → BFS</li>
+<li>Zusammenhang prüfen → DFS oder <code>nx.is_connected(G)</code></li>
+<li>Alle Pfade finden → DFS</li>
+<li>Gewichteter kürzester Weg → Dijkstra (nächste Folie)</li>
+</ul>
+</section>
+<section id="dijkstra-kürzester-gewichteter-weg" class="level2">
+<h2 class="anchored" data-anchor-id="dijkstra-kürzester-gewichteter-weg">Dijkstra: Kürzester gewichteter Weg</h2>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <rect width="8" height="8" x="3" y="3" rx="2"></rect>
+  <path d="M7 11v4a2 2 0 0 0 2 2h4"></path>
+  <rect width="8" height="8" x="13" y="13" rx="2"></rect>
+</svg>
+</span></p>
+</div>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p><strong>Dijkstra-Algorithmus</strong> (E. Dijkstra, 1956)</p>
+<ol type="1">
+<li>Alle Knoten erhalten Distanz ∞ — Start: 0</li>
+<li>Wähle immer den Knoten mit kleinster bekannter Distanz</li>
+<li>Aktualisiere Distanzen aller Nachbarn</li>
+<li>Wiederhole bis Zielknoten erreicht</li>
+</ol>
+<p><strong>Bedingung</strong>: Alle Kantengewichte ≥ 0</p>
+<p><strong>Anwendung</strong>: Kürzeste Evakuierungsroute mit Reisezeiten je Abschnitt</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> nx.shortest_path(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    G, <span class="st">"A"</span>, <span class="st">"D"</span>, weight<span class="op">=</span><span class="st">"time"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> nx.shortest_path_length(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    G, <span class="st">"A"</span>, <span class="st">"D"</span>, weight<span class="op">=</span><span class="st">"time"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:45%;">
+<p><strong>Beispiel: Evakuierungsrouting</strong></p>
+<pre class="text"><code>Kantenzeiten:
+S --7--&gt; P
+S --2--&gt; Q
+Q --2--&gt; P
+P --1--&gt; Z
+Q --6--&gt; Z</code></pre>
+<pre class="text"><code>Schritt 0:
+dist(S)=0, dist(P)=inf, dist(Q)=inf, dist(Z)=inf
+
+Schritt 1: waehle S
+P = 7, Q = 2
+
+Schritt 2: waehle Q
+P = min(7, 2+2) = 4
+Z = min(inf, 2+6) = 8
+
+Schritt 3: waehle P
+Z = min(8, 4+1) = 5
+
+Ergebnis:
+S -&gt; Q -&gt; P -&gt; Z = 5 min</code></pre>
+<p><strong>Vergleich mit BFS:</strong></p>
+<ul>
+<li>BFS bevorzugt <code>S -&gt; P -&gt; Z</code> mit nur 2 Schritten</li>
+<li>Dijkstra findet <code>S -&gt; Q -&gt; P -&gt; Z</code> mit <strong>5 min</strong></li>
+<li>Der kuerzeste Weg nach Schritten ist nicht automatisch der schnellste Weg</li>
+</ul>
+</div>
+</div>
+<p><strong>Dijkstra</strong> berechnet den kuerzesten Weg in einem <strong>gewichteten</strong> Graphen mit <strong>nicht-negativen</strong> Kantengewichten. Die Grundidee ist gierig:</p>
+<ol type="1">
+<li>Der Startknoten erhaelt Distanz <code>0</code>, alle anderen <code>inf</code>.</li>
+<li>Danach wird immer der noch nicht fest verarbeitete Knoten mit der kleinsten bekannten Distanz gewaehlt.</li>
+<li>Fuer alle Nachbarn wird geprueft, ob ein Weg ueber diesen Knoten kuerzer ist.</li>
+<li>Sobald ein Knoten mit minimaler Distanz ausgewaehlt wurde, ist diese Distanz endgueltig.</li>
+</ol>
+<p>Warum funktioniert das? Weil bei <strong>nicht-negativen</strong> Gewichten kein spaeterer Umweg einen bereits kuerzesten bekannten Weg noch verbessern kann. Genau deshalb ist Dijkstra fuer negative Gewichte nicht geeignet.</p>
+<p>In <code>networkx</code> wird der kuerzeste Weg typischerweise mit:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>nx.shortest_path(G, start, ziel, weight<span class="op">=</span><span class="st">"time"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>nx.shortest_path_length(G, start, ziel, weight<span class="op">=</span><span class="st">"time"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p>berechnet. Die Laufzeit haengt von der Implementierung der Prioritaetswarteschlange ab; fuer praktische Anwendungen ist wichtig: Dijkstra ist deutlich effizienter als ein Ausprobieren aller moeglichen Wege.</p>
+</section>
+<section id="mit-ki-graphprobleme-lösen" class="level2">
+<h2 class="anchored" data-anchor-id="mit-ki-graphprobleme-lösen">Mit KI Graphprobleme lösen</h2>
+</section>
+<section id="networkx-straßennetz-modellieren-und-analysieren" class="level2">
+<h2 class="anchored" data-anchor-id="networkx-straßennetz-modellieren-und-analysieren">networkx: Straßennetz modellieren und analysieren</h2>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <rect width="8" height="8" x="3" y="3" rx="2"></rect>
+  <path d="M7 11v4a2 2 0 0 0 2 2h4"></path>
+  <rect width="8" height="8" x="13" y="13" rx="2"></rect>
+</svg>
+</span> KI-generierter Code — vor dem Ausführen lesen</p>
+</div>
+<blockquote class="blockquote">
+<p><strong>Vorhersage vor dem Lesen des Codes:</strong> 1. Warum <code>DiGraph</code> — was waere anders mit <code>Graph</code>? 2. Was gibt <code>shortest_path</code> zurueck — eine Liste oder eine Zahl? 3. Welchen Weg erwartest du von <code>"A"</code> nach <code>"D"</code>? 4. Was passiert, wenn <code>"A"</code> und <code>"D"</code> nicht verbunden sind?</p>
+</blockquote>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Straßennetz als gerichteter Graph</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>G <span class="op">=</span> nx.DiGraph()</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>G.add_edge(<span class="st">"A"</span>, <span class="st">"B"</span>, time<span class="op">=</span><span class="dv">5</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>G.add_edge(<span class="st">"A"</span>, <span class="st">"C"</span>, time<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>G.add_edge(<span class="st">"C"</span>, <span class="st">"B"</span>, time<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>G.add_edge(<span class="st">"B"</span>, <span class="st">"D"</span>, time<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>G.add_edge(<span class="st">"C"</span>, <span class="st">"D"</span>, time<span class="op">=</span><span class="dv">4</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Kürzester Weg nach Reisezeit</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> nx.shortest_path(G, <span class="st">"A"</span>, <span class="st">"D"</span>, weight<span class="op">=</span><span class="st">"time"</span>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> nx.shortest_path_length(G, <span class="st">"A"</span>, <span class="st">"D"</span>, weight<span class="op">=</span><span class="st">"time"</span>)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Weg: </span><span class="sc">{</span><span class="st">' → '</span><span class="sc">.</span>join(path)<span class="sc">}</span><span class="ss">, Zeit: </span><span class="sc">{</span>dist<span class="sc">}</span><span class="ss"> min"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="networkx-ergebnis-und-visualisierung" class="level2">
+<h2 class="anchored" data-anchor-id="networkx-ergebnis-und-visualisierung">networkx: Ergebnis und Visualisierung</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Ausgabe</strong></p>
+<pre><code>Weg: A → C → B → D, Zeit: 6 min</code></pre>
+<p>Dijkstra wählt:</p>
+<ul>
+<li>A→C (3 min) statt A→B (5 min)</li>
+<li>C→B (2 min) statt C→D (4 min)</li>
+<li>B→D (1 min)</li>
+</ul>
+<p>Gesamtzeit: 3 + 2 + 1 = <strong>6 min</strong></p>
+</div><div class="column" style="width:50%;">
+<p><strong>Netz visualisieren</strong> <em>(optional)</em></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: true</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>pos <span class="op">=</span> {<span class="st">"A"</span>: (<span class="dv">0</span>,<span class="dv">1</span>), <span class="st">"B"</span>: (<span class="dv">2</span>,<span class="dv">2</span>),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>       <span class="st">"C"</span>: (<span class="dv">2</span>,<span class="dv">0</span>), <span class="st">"D"</span>: (<span class="dv">4</span>,<span class="dv">1</span>)}</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> nx.get_edge_attributes(G, <span class="st">"time"</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>nx.draw(G, pos, with_labels<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        node_size<span class="op">=</span><span class="dv">700</span>, arrows<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>nx.draw_networkx_edge_labels(</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    G, pos, edge_labels<span class="op">=</span>labels)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</section>
+<section id="ki-prompt-muster-graphproblem-spezifizieren" class="level2">
+<h2 class="anchored" data-anchor-id="ki-prompt-muster-graphproblem-spezifizieren">KI-Prompt-Muster: Graphproblem spezifizieren</h2>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <rect width="8" height="8" x="3" y="3" rx="2"></rect>
+  <path d="M7 11v4a2 2 0 0 0 2 2h4"></path>
+  <rect width="8" height="8" x="13" y="13" rx="2"></rect>
+</svg>
+</span> Agentic Cycle</p>
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Prompt-Vorlage</strong></p>
+<pre><code>Gegeben ein gewichteter [gerichteter /
+ungerichteter] Graph, der [Rohrnetz /
+Straßennetz / Grundriss] darstellt:
+- Knoten haben: [Bezeichner, Attribut]
+- Kanten haben: [Gewicht, Einheit]
+
+Implementiere [Dijkstra / BFS / DFS]
+mit networkx.
+Gib zurück: [Weg-Liste / Länge / bool].
+Testfall: [Knoten + erwartetes Ergebnis]</code></pre>
+<p><strong>Erkenne → Spezifiziere → Verifiziere</strong></p>
+</div><div class="column" style="width:50%;">
+<p><strong>Beispiel: Entwässerungsnetz</strong></p>
+<pre><code>Gegeben ein gerichteter gewichteter
+Graph, der ein Entwässerungsnetz
+darstellt:
+- Knoten: Einzugsgebiete
+  (ID, Fläche [ha])
+- Kanten: Abflussrichtungen
+  mit Gefälle [%] und Länge [m]
+
+Finde den Abflusspfad von
+"EZG_07" zum Vorfluter "Kanal_A"
+mit nx.shortest_path().
+Testfall: EZG_07 → Kanal_A = 3 Schritte.</code></pre>
+</div>
+</div>
+</section>
+<section id="verifikations-checkliste" class="level2">
+<h2 class="anchored" data-anchor-id="verifikations-checkliste">Verifikations-Checkliste</h2>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5c-1.4 0-2.5-1.1-2.5-2.5V2"></path>
+  <path d="M8.5 2h7"></path>
+  <path d="M14.5 16h-5"></path>
+</svg>
+</span> Verifikation</p>
+</div>
+<div class="columns">
+<div class="column" style="width:33%;">
+<section id="graphtyp-prüfen" class="level3">
+<h3 class="anchored" data-anchor-id="graphtyp-prüfen">1. Graphtyp prüfen</h3>
+<ul class="task-list">
+<li><label><input type="checkbox"><code>DiGraph</code> oder <code>Graph</code>?</label></li>
+<li><label><input type="checkbox">Entspricht der Problemstellung?</label></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>G.is_directed()</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># True oder False?</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p><span class="pro">Entwässerung → DiGraph</span> <span class="pro">Rohrnetz beidseitig → Graph</span> <span class="con">Falscher Typ → falsches Ergebnis</span></p>
+</section>
+</div><div class="column" style="width:33%;">
+<section id="gewichte-prüfen" class="level3">
+<h3 class="anchored" data-anchor-id="gewichte-prüfen">2. Gewichte prüfen</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">Kantenattribut vorhanden?</label></li>
+<li><label><input type="checkbox">Richtige Einheit (Zeit, Länge)?</label></li>
+<li><label><input type="checkbox">Alle Gewichte ≥ 0?</label></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>nx.get_edge_attributes(G, <span class="st">"time"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># {} bedeutet: keine Gewichte!</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p><span class="neutral">Dijkstra braucht Gewichte</span> <span class="pro">BFS/DFS funktionieren auch ohne</span></p>
+</section>
+</div><div class="column" style="width:33%;">
+<section id="algorithmus-prüfen" class="level3">
+<h3 class="anchored" data-anchor-id="algorithmus-prüfen">3. Algorithmus prüfen</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">BFS → Schritte minimal?</label></li>
+<li><label><input type="checkbox">Dijkstra → Gewicht minimal?</label></li>
+<li><label><input type="checkbox">DFS → Erreichbarkeit?</label></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Auf bekanntem Testfall prüfen:</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>nx.shortest_path(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    G, <span class="st">"A"</span>, <span class="st">"D"</span>, weight<span class="op">=</span><span class="st">"time"</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Stimmt das Ergebnis manuell?</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Kopiert");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Kopiert");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Joern Ploennigs · AI4SC">
+
+<title>Debugging – Ingenieursinformatik</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./images/ai4sc_logo_v2.svg" rel="icon" type="image/svg+xml">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-8dd822d9b6a2bbb4b5c2dbc38ee1c6d3.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-24c5c1054373caee88a3efe0263853eb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-8dd822d9b6a2bbb4b5c2dbc38ee1c6d3.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-599c720961cf7f370b54a5914f113280.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-ecd8d5e51560d88b825d415cb7a00a37.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-599c720961cf7f370b54a5914f113280.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/quizdown-0.6.0/quizdown.js"></script>
+<script src="site_libs/quarto-contrib/quizdown-0.6.0/quizdownKatex.js"></script>
+<script src="site_libs/quarto-contrib/quizdown-0.6.0/quizdownHighlight.js"></script>
+<script src="site_libs/quarto-contrib/quizdown-0.6.0/quizdown-init.js"></script>
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Keine Treffer",
+    "search-matching-documents-text": "Treffer",
+    "search-copy-link-title": "Link in die Suche kopieren",
+    "search-hide-matches-text": "Zusätzliche Treffer verbergen",
+    "search-more-match-text": "weitere Treffer in diesem Dokument",
+    "search-more-matches-text": "weitere Treffer in diesem Dokument",
+    "search-clear-button-title": "Zurücksetzen",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Abbrechen",
+    "search-submit-button-title": "Abschicken",
+    "search-label": "Suchen"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/fonts.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/ai4sc_logo_v2.svg" alt="" class="navbar-logo light-content">
+    <img src="./images/ai4sc_logo_v2.svg" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Ingenieursinformatik</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Dunkelmodus umschalten"><i class="bi"></i></a>
+</div>
+          <div id="quarto-search" class="" title="Suchen"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Debugging</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Suchen" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Suchen"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Grundlagen</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Abschnitt umschalten">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01a_Ueberblick.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Einführung</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01b_Programmiersprachen.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Programmier<wbr>sprachen</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01c_Computerhardware.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Computer<wbr>hardware</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02a_Wissenspyramide.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Wissenspyramide</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02b_Datentypen.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datentypen</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02c_Speicher.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Speicher</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Auf dieser Seite</h2>
+   
+  <ul>
+  <li><a href="#ausgangslage" id="toc-ausgangslage" class="nav-link active" data-scroll-target="#ausgangslage">Ausgangslage</a></li>
+  <li><a href="#die-5-schritt-ki-debugging-strategie" id="toc-die-5-schritt-ki-debugging-strategie" class="nav-link" data-scroll-target="#die-5-schritt-ki-debugging-strategie">Die 5-Schritt-KI-Debugging-Strategie</a></li>
+  <li><a href="#werkzeuge-implementieren-die-strategie" id="toc-werkzeuge-implementieren-die-strategie" class="nav-link" data-scroll-target="#werkzeuge-implementieren-die-strategie">Werkzeuge implementieren die Strategie</a></li>
+  <li><a href="#die-5-schritt-strategie-in-der-praxis" id="toc-die-5-schritt-strategie-in-der-praxis" class="nav-link" data-scroll-target="#die-5-schritt-strategie-in-der-praxis">Die 5-Schritt-Strategie in der Praxis</a></li>
+  <li><a href="#debugging-mit-print" id="toc-debugging-mit-print" class="nav-link" data-scroll-target="#debugging-mit-print">Debugging mit <code>print()</code></a></li>
+  <li><a href="#debugging-mit-logging" id="toc-debugging-mit-logging" class="nav-link" data-scroll-target="#debugging-mit-logging">Debugging mit <code>logging</code></a></li>
+  <li><a href="#debugging-durch-debug-oberflächen" id="toc-debugging-durch-debug-oberflächen" class="nav-link" data-scroll-target="#debugging-durch-debug-oberflächen">Debugging durch Debug-Oberflächen</a>
+  <ul class="collapse">
+  <li><a href="#debugging-in-jupyter-notebooks-in-vscode" id="toc-debugging-in-jupyter-notebooks-in-vscode" class="nav-link" data-scroll-target="#debugging-in-jupyter-notebooks-in-vscode">Debugging in Jupyter-Notebooks in VSCode</a></li>
+  </ul></li>
+  <li><a href="#multi-funktions-modul-walkthrough" id="toc-multi-funktions-modul-walkthrough" class="nav-link" data-scroll-target="#multi-funktions-modul-walkthrough">Multi-Funktions-Modul Walkthrough</a></li>
+  <li><a href="#mehrere-funktionen-systematisch-verfolgen" id="toc-mehrere-funktionen-systematisch-verfolgen" class="nav-link" data-scroll-target="#mehrere-funktionen-systematisch-verfolgen">Mehrere Funktionen systematisch verfolgen</a></li>
+  <li><a href="#quiz" id="toc-quiz" class="nav-link" data-scroll-target="#quiz">Quiz</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Andere Formate</h2><ul><li><a href="07b_Debugging.slide.html"><i class="bi bi-file-easel"></i>Slides</a></li><li><a href="07b_Debugging.page 2.html"><i class="bi bi-file-earmark-easel"></i>Slides PDF</a></li><li><a href="07b_Debugging.page.pdf"><i class="bi bi-file-earmark-pdf"></i>Document PDF</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<script>
+window.__plotlyCallQueue = window.__plotlyCallQueue || [];
+
+if (!window.Plotly) {
+  window.Plotly = {
+    __ai4scPlotlyStub: true,
+    newPlot: (...args) =>
+      new Promise((resolve, reject) => {
+        window.__plotlyCallQueue.push({
+          method: "newPlot",
+          args,
+          resolve,
+          reject,
+        });
+      }),
+    addFrames: (...args) => {
+      window.__plotlyCallQueue.push({
+        method: "addFrames",
+        args,
+      });
+    },
+    Plots: {
+      resize: () => Promise.resolve(),
+    },
+    relayout: () => Promise.resolve(),
+  };
+}
+</script>
+<script>
+window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
+  const imageSelector = ".reveal .slides section > img.r-stretch, .reveal .slides section > img.stretch";
+  const SIZED_ATTR = "data-ai4sc-sized";
+
+  const stamp = (root = document) => {
+    root.querySelectorAll(imageSelector).forEach((img) => {
+      if (!(img instanceof HTMLElement)) return;
+      const style = img.getAttribute("style") || "";
+      if (
+        img.hasAttribute("width") ||
+        img.hasAttribute("height") ||
+        /(^|;)\s*(width|height)\s*:/.test(style)
+      ) {
+        img.setAttribute(SIZED_ATTR, "");
+      }
+    });
+  };
+
+  const release = (root = document) => {
+    root.querySelectorAll(imageSelector).forEach((img) => {
+      if (!(img instanceof HTMLElement) || !img.hasAttribute(SIZED_ATTR)) {
+        return;
+      }
+
+      img.classList.remove("r-stretch", "stretch");
+
+      if (img.hasAttribute("width")) {
+        img.style.removeProperty("width");
+      }
+      if (img.hasAttribute("height")) {
+        img.style.removeProperty("height");
+      }
+
+      img.style.maxWidth = "100%";
+      img.style.maxHeight = "100%";
+      img.style.objectFit = "contain";
+    });
+  };
+
+  const scheduleRelease = () => window.requestAnimationFrame(() => release());
+
+  const init = () => { stamp(); scheduleRelease(); };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
+  }
+
+  window.addEventListener("load", scheduleRelease, { once: true });
+  return release;
+})();
+</script>
+<script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/plotly-loader.js"></script>
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Debugging</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Autor:in</div>
+    <div class="quarto-title-meta-contents">
+             <p>Joern Ploennigs · AI4SC </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><img src="images/07b_Debugging/mj_title_band.jpg" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p>Everyone knows that debugging is twice as hard as writing a program in the first place.</p>
+<p>— Brian Kernighan</p>
+</blockquote>
+<section id="ausgangslage" class="level2">
+<h2 class="anchored" data-anchor-id="ausgangslage">Ausgangslage</h2>
+</section>
+<section id="die-5-schritt-ki-debugging-strategie" class="level2">
+<h2 class="anchored" data-anchor-id="die-5-schritt-ki-debugging-strategie">Die 5-Schritt-KI-Debugging-Strategie</h2>
+</section>
+<section id="werkzeuge-implementieren-die-strategie" class="level2">
+<h2 class="anchored" data-anchor-id="werkzeuge-implementieren-die-strategie">Werkzeuge implementieren die Strategie</h2>
+<p>Die 5-Schritt-Strategie beschreibt das Vorgehen, die folgenden Werkzeuge machen die relevanten Beobachtungen sichtbar. Entscheidend ist nicht die Wahl des Werkzeugs, sondern die systematische Anwendung der Strategie.</p>
+<p>Die Schritte 1 bis 5 greifen dabei ineinander: Reproduktion und Isolierung schaffen einen stabilen Testfall, Hypothesen lenken den Blick, und Werkzeuge wie <code>print()</code>, <code>logging</code> oder ein Debugger liefern die Informationen zur Inspektion und anschließenden Re-Verifikation.</p>
+</section>
+<section id="die-5-schritt-strategie-in-der-praxis" class="level2">
+<h2 class="anchored" data-anchor-id="die-5-schritt-strategie-in-der-praxis">Die 5-Schritt-Strategie in der Praxis</h2>
+<p>Die Strategie dient als wiederholbarer Ablauf für logische Fehler ohne offensichtliche Exception. Zuerst wird das Fehlverhalten mit einem kleinen Beispiel reproduziert. Danach wird der Fehler auf eine Funktion oder einen klar umrissenen Teil des Programms isoliert.</p>
+<p>Auf dieser Grundlage formuliert man eine Hypothese: Welche Annahme im Code könnte falsch sein? Anschließend wird die Ausführung inspiziert, zum Beispiel mit gezielten Ausgaben oder einem Debugger. Erst wenn die Ursache identifiziert ist, wird ein minimaler Fix vorgenommen und mit denselben Tests re-verifiziert.</p>
+</section>
+<section id="debugging-mit-print" class="level2">
+<h2 class="anchored" data-anchor-id="debugging-mit-print">Debugging mit <code>print()</code></h2>
+<p>Logische Fehler treten häufig erst dynamisch auf und lassen sich nicht durch statische Code-Analyse durch Lint-Tools finden. Hier muss man den aktuellen Programmfluss nachvollziehen. Dies nennt man Debugging. Die einfachste Form ist das <code>print</code>-Debugging, bei dem der Code gezielt mit <code>print()</code>-Befehlen versehen wird.</p>
+<p>Wir ergänzen die Divisionsfunktion um mehrere <code>print()</code>-Statements. Üblich ist es zum Beispiel, die Eingangsparameter auszugeben, Fehler und Warnungen sichtbar zu machen und Ergebnisse zu protokollieren.</p>
+<div id="826402de" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> division(zaehler, nenner):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Debug: Eingabe Zaehler: </span><span class="sc">{</span>zaehler<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Debug: Eingabe Nenner: </span><span class="sc">{</span>nenner<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> <span class="bu">isinstance</span>(nenner, (<span class="bu">int</span>, <span class="bu">float</span>)):</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Error: Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="sc">{</span><span class="bu">type</span>(nenner)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="sc">{</span><span class="bu">type</span>(nenner)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="kw">not</span> <span class="bu">isinstance</span>(zaehler, (<span class="bu">int</span>, <span class="bu">float</span>)):</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Error: Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="sc">{</span><span class="bu">type</span>(zaehler)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="sc">{</span><span class="bu">type</span>(zaehler)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="kw">not</span> nenner:</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Warning: Division durch 0"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        ergebnis <span class="op">=</span> zaehler <span class="op">/</span> nenner</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Info: Das Ergebnis von </span><span class="sc">{</span>zaehler<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>nenner<span class="sc">}</span><span class="ss"> = </span><span class="sc">{</span>ergebnis<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> ergebnis</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Jetzt können wir insbesondere im Fehlerfall sehr gut nachvollziehen was genau geschehen ist. Zum Beispiel bei der Division durch 0.</p>
+<div id="bb2ee97a" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>division(<span class="dv">10</span>, <span class="dv">0</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: 0
+Warning: Division durch 0</code></pre>
+</div>
+</div>
+<p>Allerdings haben wir auch im korrekten Fall sehr viele Ausgaben. Das kann sehr störend sein, weil man dann richtige Fehler sehr schnell übersieht. Zum Beispiel erzeugen wir zehn Divisionen, von der eine eine Division durch 0 war.</p>
+<div id="b9a57d38" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> nenner <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">8</span>):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    division(<span class="dv">10</span>, nenner)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: -2
+Info: Das Ergebnis von 10/-2 = -5.0
+Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: -1
+Info: Das Ergebnis von 10/-1 = -10.0
+Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: 0
+Warning: Division durch 0
+Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: 1
+Info: Das Ergebnis von 10/1 = 10.0
+Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: 2
+Info: Das Ergebnis von 10/2 = 5.0
+Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: 3
+Info: Das Ergebnis von 10/3 = 3.3333333333333335
+Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: 4
+Info: Das Ergebnis von 10/4 = 2.5
+Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: 5
+Info: Das Ergebnis von 10/5 = 2.0
+Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: 6
+Info: Das Ergebnis von 10/6 = 1.6666666666666667
+Debug: Eingabe Zaehler: 10
+Debug: Eingabe Nenner: 7
+Info: Das Ergebnis von 10/7 = 1.4285714285714286</code></pre>
+</div>
+</div>
+</section>
+<section id="debugging-mit-logging" class="level2">
+<h2 class="anchored" data-anchor-id="debugging-mit-logging">Debugging mit <code>logging</code></h2>
+<p>Deshalb verwendet man bei komplexeren Programmen meist ein <code>logging</code>-Paket. Dieses erlaubt es, Ausgaben Kategorien zuzuordnen und anhand dieser zu filtern. In der Python-Bibliothek <code>logging</code> sind die Kategorien: <code>debug</code>, <code>info</code>, <code>warning</code>, <code>error</code> und <code>critical</code>.</p>
+<div id="46b9df47" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> logging</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>log<span class="op">=</span>logging.getLogger(<span class="st">"meinlog"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> division(zaehler, nenner):</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    log.debug(<span class="ss">f"Eingabe Zaehler: </span><span class="sc">{</span>zaehler<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    log.debug(<span class="ss">f"Eingabe Nenner: </span><span class="sc">{</span>nenner<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> <span class="bu">isinstance</span>(nenner, (<span class="bu">int</span>, <span class="bu">float</span>)):</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        log.error(<span class="ss">f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="sc">{</span><span class="bu">type</span>(nenner)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="sc">{</span><span class="bu">type</span>(nenner)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="kw">not</span> <span class="bu">isinstance</span>(zaehler, (<span class="bu">int</span>, <span class="bu">float</span>)):</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        log.error(<span class="ss">f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="sc">{</span><span class="bu">type</span>(zaehler)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="sc">{</span><span class="bu">type</span>(zaehler)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="kw">not</span> nenner:</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        log.warning(<span class="st">"Division durch 0"</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        ergebnis <span class="op">=</span> zaehler <span class="op">/</span> nenner</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>        log.info(<span class="ss">f"Das Ergebnis von </span><span class="sc">{</span>zaehler<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>nenner<span class="sc">}</span><span class="ss"> = </span><span class="sc">{</span>ergebnis<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> ergebnis</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Wenn wir jetzt die Funktion aufrufen, sehen wir nur noch die Warnung zur Division durch 0.</p>
+<div id="c5aa692e" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>log.setLevel(logging.WARNING)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> nenner <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">8</span>):</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    division(<span class="dv">10</span>, nenner)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Division durch 0</code></pre>
+</div>
+</div>
+<p>Wir können allerdings bei Bedarf, etwa bei der Fehlersuche, den Loglevel auch erhöhen. Zum Beispiel wollen wir alle Debug-Nachrichten erhalten.</p>
+<div id="d4e61e1b" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>log.setLevel(logging.DEBUG)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> nenner <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">8</span>):</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    division(<span class="dv">10</span>, nenner)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Division durch 0</code></pre>
+</div>
+</div>
+<p>Ferner erlaubt das Logging auch, automatisch weitere Informationen hinzuzufügen. Wir sehen im Log oben bereits nicht nur das Level (INFO, DEBUG, WARNING), sondern auch den Namen des Loggers (<code>meinlog</code>). Wir können dieses Format anpassen, um z. B. auch die Zeit auszugeben. Das ist insbesondere wichtig, um zu verstehen, wann etwas passiert ist.</p>
+<div id="eba1e39c" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sh<span class="op">=</span>logging.StreamHandler()</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>formatter <span class="op">=</span> logging.Formatter(<span class="st">'</span><span class="sc">%(asctime)s</span><span class="st">  </span><span class="sc">%(name)s</span><span class="st">  </span><span class="sc">%(levelname)s</span><span class="st">: </span><span class="sc">%(message)s</span><span class="st">'</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>sh.setFormatter(formatter)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>log.addHandler(sh)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>log.setLevel(logging.INFO)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> nenner <span class="kw">in</span> <span class="bu">range</span>(<span class="op">-</span><span class="dv">2</span>, <span class="dv">8</span>):</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    division(<span class="dv">10</span>, nenner)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>2026-06-18 11:46:38,594  meinlog  INFO: Das Ergebnis von 10/-2 = -5.0
+2026-06-18 11:46:38,594  meinlog  INFO: Das Ergebnis von 10/-1 = -10.0
+2026-06-18 11:46:38,595  meinlog  WARNING: Division durch 0
+2026-06-18 11:46:38,595  meinlog  INFO: Das Ergebnis von 10/1 = 10.0
+2026-06-18 11:46:38,595  meinlog  INFO: Das Ergebnis von 10/2 = 5.0
+2026-06-18 11:46:38,595  meinlog  INFO: Das Ergebnis von 10/3 = 3.3333333333333335
+2026-06-18 11:46:38,595  meinlog  INFO: Das Ergebnis von 10/4 = 2.5
+2026-06-18 11:46:38,595  meinlog  INFO: Das Ergebnis von 10/5 = 2.0
+2026-06-18 11:46:38,596  meinlog  INFO: Das Ergebnis von 10/6 = 1.6666666666666667
+2026-06-18 11:46:38,596  meinlog  INFO: Das Ergebnis von 10/7 = 1.4285714285714286</code></pre>
+</div>
+</div>
+<p>In der Praxis wird das Logging sehr häufig insbesondere in Cloud-Anwendungen verwendet. Da diese ja keine Bildschirme haben, müssen Fehler in Logs gesucht werden. Solange alles ok ist, läuft so eine Anwendung dann z.B. im Log-Level <code>INFO</code>, mit nur wenig Ausgaben. Tritt ein Fehler auf, so wird der Server auf das Log-Level <code>DEBUG</code> gesetzt und man sucht in den detaillierten Logs dann nach Informationen, um den Fehler einzugrenzen.</p>
+</section>
+<section id="debugging-durch-debug-oberflächen" class="level2">
+<h2 class="anchored" data-anchor-id="debugging-durch-debug-oberflächen">Debugging durch Debug-Oberflächen</h2>
+<p>Viele integrierte Entwicklungsumgebungen (IDE) bieten an direkt Debugger auszuführen. Diese Debugger erlauben es die dynamische Ausführung des Codes zu unterbrechen. Ziel ist es kurz vor Auftreten des Fehlers die Ausführung anzuhalten, um dann das Fehlerverhalten genau beobachten zu können.</p>
+<p>Dabei werden meist zwei Formen der Unterbrechung unterstützt:</p>
+<ul>
+<li>Die Unterbrechung in bestimmten Code-Zeilen mit Hilfe von Breakpoints.</li>
+<li>Die Unterbrechung bei bestimmten Exceptions.</li>
+</ul>
+<section id="debugging-in-jupyter-notebooks-in-vscode" class="level3">
+<h3 class="anchored" data-anchor-id="debugging-in-jupyter-notebooks-in-vscode">Debugging in Jupyter-Notebooks in VSCode</h3>
+<p>Die Debug-Oberflächen sehen je nach IDE etwas anders aus, verfügen aber über ähnliche Funktionen. Dieses Jupyter Notebook wurde in VSCode geschrieben, welches wir als erstes Beispiel betrachten.</p>
+<p>Dafür kann man meist in der IDE links neben eine Zeile klicken um einen Breakpoint <span style="color: red">⬤</span> zu setzen. Wir setzen dafür einen Breakpoint auf die Zeile 11 auf die Ausgabe der Warnung.</p>
+<p><img src="images/07b_Debugging/debug_vscode_1.png" class="img-fluid"></p>
+<p>Dann wird der Code in einer speziellen Debugumgebung ausgeführt, die es erlaubt, die Ausführung zu unterbrechen. In unserem Notebook in VSCode starten wir diese durch das Symbol <img src="images/07b_Debugging/debug_vscode_2.png" class="img-fluid">.</p>
+<div id="1b54e5ea" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> division(zaehler, nenner):</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    log.debug(<span class="ss">f"Eingabe Zaehler: </span><span class="sc">{</span>zaehler<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    log.debug(<span class="ss">f"Eingabe Nenner: </span><span class="sc">{</span>nenner<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> <span class="bu">isinstance</span>(nenner, (<span class="bu">int</span>, <span class="bu">float</span>)):</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        log.error(<span class="ss">f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="sc">{</span><span class="bu">type</span>(nenner)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="sc">{</span><span class="bu">type</span>(nenner)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="kw">not</span> <span class="bu">isinstance</span>(zaehler, (<span class="bu">int</span>, <span class="bu">float</span>)):</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        log.error(<span class="ss">f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="sc">{</span><span class="bu">type</span>(zaehler)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ </span><span class="sc">{</span><span class="bu">type</span>(zaehler)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="kw">not</span> nenner:</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        log.warning(<span class="st">"Division durch 0"</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">None</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        ergebnis <span class="op">=</span> zaehler <span class="op">/</span> nenner</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>        log.info(<span class="ss">f"Das Ergebnis von </span><span class="sc">{</span>zaehler<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>nenner<span class="sc">}</span><span class="ss"> = </span><span class="sc">{</span>ergebnis<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> ergebnis</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>division(<span class="dv">10</span>, <span class="dv">0</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>2026-06-18 11:46:38,601  meinlog  WARNING: Division durch 0</code></pre>
+</div>
+</div>
+<p>Dies startet den Debug-Modus. In diesem wird die aktuelle Zeile hervorgehoben, ebenso werden die aktuellen Variablen im Speicher angezeigt.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/07b_Debugging/debug_vscode_3.png" class="img-fluid figure-img"></p>
+<figcaption>Debugging in VS Code</figcaption>
+</figure>
+</div>
+<p>In der Debugumgebung kann man dann Zeile für Zeile vorgehen durch drücken von <img src="images/07b_Debugging/debug_vscode_2.png" class="img-fluid"> und damit nachvollziehen wie das Programm bearbeitet wird und welche Variablen sich ändern.</p>
+</section>
+</section>
+<section id="multi-funktions-modul-walkthrough" class="level2">
+<h2 class="anchored" data-anchor-id="multi-funktions-modul-walkthrough">Multi-Funktions-Modul Walkthrough</h2>
+</section>
+<section id="mehrere-funktionen-systematisch-verfolgen" class="level2">
+<h2 class="anchored" data-anchor-id="mehrere-funktionen-systematisch-verfolgen">Mehrere Funktionen systematisch verfolgen</h2>
+<p>KI-generierter Code besteht oft aus mehreren aufeinander aufbauenden Funktionen. Dann genügt es nicht mehr, nur einzelne Werte mit <code>print()</code> auszugeben. Stattdessen verfolgt man die Aufrufkette systematisch: zuerst am Einstiegspunkt stoppen, dann gezielt in verdächtige Funktionen hineinsteigen und nach jedem Rückgabewert prüfen, ob die Erwartung noch erfüllt ist.</p>
+<p>Die drei Debug-Schritte in diesem Walkthrough geben dafür eine einfache Heuristik vor: am Einstieg starten, passende Navigationsbefehle (<code>Step Into</code>, <code>Step Over</code>, <code>Step Out</code>) wählen und nach jeder Ebene den Zustand mit der Hypothese abgleichen. So lässt sich eingrenzen, in welcher Funktion die erste falsche Annahme wirksam wird.</p>
+<p>Die folgende Übungsaufgabe soll die 5-Schritt-Strategie explizit einüben. Ziel ist nicht nur, eine Lösung zu finden, sondern den Fehler mit Testfall, Hypothese, Beobachtung und Re-Verifikation nachvollziehbar zu dokumentieren.</p>
+</section>
+<section id="quiz" class="level2">
+<h2 class="anchored" data-anchor-id="quiz">Quiz</h2>
+<div class="quizdown">
+    ---
+    shuffleQuestions: false
+    shuffleAnswers: true
+    ---
+
+    ### Was versteht man unter Debugging?
+    - [x] Das Finden und Beheben von Fehlern im Programmcode
+    - [ ] Die Optimierung des Programmcodes
+    - [ ] Das Schreiben von Dokumentation
+    - [ ] Das Formatieren von Quellcode
+
+    ### Warum reicht statische Code-Analyse allein nicht aus?
+    - [x] Weil logische Fehler zur Laufzeit auftreten können
+    - [ ] Weil sie keine Sicherheitslücken erkennt
+    - [ ] Weil sie den Code langsamer macht
+    - [ ] Weil sie nicht mit Python funktioniert
+
+    ### Was ist `print`-Debugging?
+    - [x] Das Einfügen von `print()`-Befehlen zur Laufzeitanalyse
+    - [ ] Das Entfernen aller `print()`-Befehle
+    - [ ] Ein automatisiertes Debugging-Verfahren
+    - [ ] Ein grafischer Debugger
+
+    ### Was ist der Zweck von `logging` in Python?
+    - [x] Protokollierung von Ereignissen und Fehlern
+    - [ ] Optimierung der Programmausführung
+    - [ ] Erstellen von Benutzeroberflächen
+    - [ ] Automatisches Testen von Funktionen
+
+    ### Sortiere die folgenden Zeilen, um einen vollständigen `try-except`-Block korrekt aufzubauen
+
+    1. `def division(zaehler, nenner):`
+    2. `    print(f"Debug: Eingabe Zaehler: {zaehler}")`
+    3. `    print(f"Debug: Eingabe Nenner: {nenner}")`
+    4. `    if not isinstance(nenner, (int, float)):`
+    5. `        print(f"Error: Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")`
+    6. `        raise ValueError(f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")`
+    7. `    elif not isinstance(zaehler, (int, float)):`
+    8. `        print(f"Error: Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")`
+    9. `        raise ValueError(f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")`
+    10. `    elif not nenner:`
+    11. `        print("Warning: Division durch 0")`
+    12. `        return None`
+    13. `    else:`
+    14. `        ergebnis = zaehler / nenner`
+    15. `        print(f"Info: Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")`
+    16. `        return ergebnis`
+
+
+    ### Was passiert bei einer Division durch Null im folgenden Code?
+    ```python
+    def division(zaehler, nenner):
+        print(f"Debug: Eingabe Zaehler: {zaehler}")
+        print(f"Debug: Eingabe Nenner: {nenner}")
+        if not isinstance(nenner, (int, float)):
+            ...
+        elif not nenner:
+            print("Warning: Division durch 0")
+            return None
+    ```
+    - [x] Eine Warnung wird ausgegeben und `None` zurückgegeben.
+    - [ ] Es erfolgt ein Abbruch durch `ZeroDivisionError`.
+    - [ ] Es wird 0 zurückgegeben.
+    - [ ] Der Nenner wird automatisch auf 1 gesetzt.
+
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Kopiert");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Kopiert");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

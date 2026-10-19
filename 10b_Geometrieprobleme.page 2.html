@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="de" xml:lang="de"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Joern Ploennigs · AI4SC">
+
+<title>Geometrieprobleme – Ingenieursinformatik</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./images/ai4sc_logo_v2.svg" rel="icon" type="image/svg+xml">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-8dd822d9b6a2bbb4b5c2dbc38ee1c6d3.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-24c5c1054373caee88a3efe0263853eb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-8dd822d9b6a2bbb4b5c2dbc38ee1c6d3.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-599c720961cf7f370b54a5914f113280.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-ecd8d5e51560d88b825d415cb7a00a37.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-599c720961cf7f370b54a5914f113280.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/quizdown-0.6.0/quizdown.js"></script>
+<script src="site_libs/quarto-contrib/quizdown-0.6.0/quizdownKatex.js"></script>
+<script src="site_libs/quarto-contrib/quizdown-0.6.0/quizdownHighlight.js"></script>
+<script src="site_libs/quarto-contrib/quizdown-0.6.0/quizdown-init.js"></script>
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Keine Treffer",
+    "search-matching-documents-text": "Treffer",
+    "search-copy-link-title": "Link in die Suche kopieren",
+    "search-hide-matches-text": "Zusätzliche Treffer verbergen",
+    "search-more-match-text": "weitere Treffer in diesem Dokument",
+    "search-more-matches-text": "weitere Treffer in diesem Dokument",
+    "search-clear-button-title": "Zurücksetzen",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Abbrechen",
+    "search-submit-button-title": "Abschicken",
+    "search-label": "Suchen"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/fonts.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./images/ai4sc_logo_v2.svg" alt="" class="navbar-logo light-content">
+    <img src="./images/ai4sc_logo_v2.svg" alt="" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Ingenieursinformatik</span>
+    </a>
+  </div>
+        <div class="quarto-navbar-tools tools-end">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Dunkelmodus umschalten"><i class="bi"></i></a>
+</div>
+          <div id="quarto-search" class="" title="Suchen"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Geometrieprobleme</li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Seitenleiste umschalten" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Suchen" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Suchen"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Grundlagen</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Abschnitt umschalten">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01a_Ueberblick.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Einführung</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01b_Programmiersprachen.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Programmier<wbr>sprachen</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01c_Computerhardware.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Computer<wbr>hardware</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02a_Wissenspyramide.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Wissenspyramide</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02b_Datentypen.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Datentypen</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02c_Speicher.page.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Speicher</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Auf dieser Seite</h2>
+   
+  <ul>
+  <li><a href="#geometrische-probleme" id="toc-geometrische-probleme" class="nav-link active" data-scroll-target="#geometrische-probleme">Geometrische Probleme</a>
+  <ul class="collapse">
+  <li><a href="#tldr" id="toc-tldr" class="nav-link" data-scroll-target="#tldr">TL;DR</a></li>
+  </ul></li>
+  <li><a href="#was-macht-ein-problem-geometrisch" id="toc-was-macht-ein-problem-geometrisch" class="nav-link" data-scroll-target="#was-macht-ein-problem-geometrisch">Was macht ein Problem geometrisch?</a></li>
+  <li><a href="#typische-daten-und-fragen-im-bauwesen" id="toc-typische-daten-und-fragen-im-bauwesen" class="nav-link" data-scroll-target="#typische-daten-und-fragen-im-bauwesen">Typische Daten und Fragen im Bauwesen</a></li>
+  <li><a href="#ingenieursanwendungen" id="toc-ingenieursanwendungen" class="nav-link" data-scroll-target="#ingenieursanwendungen">Ingenieursanwendungen</a>
+  <ul class="collapse">
+  <li><a href="#tldr-1" id="toc-tldr-1" class="nav-link" data-scroll-target="#tldr-1">TL;DR</a></li>
+  </ul></li>
+  <li><a href="#geometrie-im-bauwesen-beispiele" id="toc-geometrie-im-bauwesen-beispiele" class="nav-link" data-scroll-target="#geometrie-im-bauwesen-beispiele">Geometrie im Bauwesen — Beispiele</a></li>
+  <li><a href="#gemeinsame-problemstruktur" id="toc-gemeinsame-problemstruktur" class="nav-link" data-scroll-target="#gemeinsame-problemstruktur">Gemeinsame Problemstruktur</a></li>
+  <li><a href="#vektoralgebra" id="toc-vektoralgebra" class="nav-link" data-scroll-target="#vektoralgebra">Vektoralgebra</a>
+  <ul class="collapse">
+  <li><a href="#tldr-2" id="toc-tldr-2" class="nav-link" data-scroll-target="#tldr-2">TL;DR</a></li>
+  </ul></li>
+  <li><a href="#geometrische-grundobjekte" id="toc-geometrische-grundobjekte" class="nav-link" data-scroll-target="#geometrische-grundobjekte">Geometrische Grundobjekte</a></li>
+  <li><a href="#ein-beispiel-von-punkt-zu-operation" id="toc-ein-beispiel-von-punkt-zu-operation" class="nav-link" data-scroll-target="#ein-beispiel-von-punkt-zu-operation">Ein Beispiel von Punkt zu Operation</a></li>
+  <li><a href="#vektor-operationen" id="toc-vektor-operationen" class="nav-link" data-scroll-target="#vektor-operationen">Vektor-Operationen</a></li>
+  <li><a href="#grundoperationen" id="toc-grundoperationen" class="nav-link" data-scroll-target="#grundoperationen">Grundoperationen</a>
+  <ul class="collapse">
+  <li><a href="#tldr-3" id="toc-tldr-3" class="nav-link" data-scroll-target="#tldr-3">TL;DR</a></li>
+  </ul></li>
+  <li><a href="#point-in-polygon-liegt-ein-punkt-in-einer-zone" id="toc-point-in-polygon-liegt-ein-punkt-in-einer-zone" class="nav-link" data-scroll-target="#point-in-polygon-liegt-ein-punkt-in-einer-zone">Point-in-Polygon: Liegt ein Punkt in einer Zone?</a></li>
+  <li><a href="#distanz-und-schnitt" id="toc-distanz-und-schnitt" class="nav-link" data-scroll-target="#distanz-und-schnitt">Distanz und Schnitt</a></li>
+  <li><a href="#shapely" id="toc-shapely" class="nav-link" data-scroll-target="#shapely">shapely</a>
+  <ul class="collapse">
+  <li><a href="#tldr-4" id="toc-tldr-4" class="nav-link" data-scroll-target="#tldr-4">TL;DR</a></li>
+  </ul></li>
+  <li><a href="#shapely-die-geometrische-standardbibliothek" id="toc-shapely-die-geometrische-standardbibliothek" class="nav-link" data-scroll-target="#shapely-die-geometrische-standardbibliothek">shapely — Die geometrische Standardbibliothek</a></li>
+  <li><a href="#koordinatensysteme" id="toc-koordinatensysteme" class="nav-link" data-scroll-target="#koordinatensysteme">Koordinatensysteme</a>
+  <ul class="collapse">
+  <li><a href="#tldr-5" id="toc-tldr-5" class="nav-link" data-scroll-target="#tldr-5">TL;DR</a></li>
+  </ul></li>
+  <li><a href="#warum-projektionen-wichtig-sind" id="toc-warum-projektionen-wichtig-sind" class="nav-link" data-scroll-target="#warum-projektionen-wichtig-sind">Warum Projektionen wichtig sind</a></li>
+  <li><a href="#projektionen-im-code" id="toc-projektionen-im-code" class="nav-link" data-scroll-target="#projektionen-im-code">Projektionen im Code</a></li>
+  <li><a href="#ki-code-mit-shapely-lesen-aufgabe" id="toc-ki-code-mit-shapely-lesen-aufgabe" class="nav-link" data-scroll-target="#ki-code-mit-shapely-lesen-aufgabe">KI-Code mit shapely lesen — Aufgabe</a></li>
+  <li><a href="#ki-prompt-muster" id="toc-ki-prompt-muster" class="nav-link" data-scroll-target="#ki-prompt-muster">KI-Prompt-Muster</a>
+  <ul class="collapse">
+  <li><a href="#tldr-6" id="toc-tldr-6" class="nav-link" data-scroll-target="#tldr-6">TL;DR</a></li>
+  </ul></li>
+  <li><a href="#prompt-muster-für-geometrische-probleme" id="toc-prompt-muster-für-geometrische-probleme" class="nav-link" data-scroll-target="#prompt-muster-für-geometrische-probleme">Prompt-Muster für geometrische Probleme</a></li>
+  <li><a href="#ki-fehler-bei-geometrie-erkennen" id="toc-ki-fehler-bei-geometrie-erkennen" class="nav-link" data-scroll-target="#ki-fehler-bei-geometrie-erkennen">KI-Fehler bei Geometrie erkennen</a></li>
+  <li><a href="#verifikation" id="toc-verifikation" class="nav-link" data-scroll-target="#verifikation">Verifikation</a>
+  <ul class="collapse">
+  <li><a href="#tldr-7" id="toc-tldr-7" class="nav-link" data-scroll-target="#tldr-7">TL;DR</a></li>
+  </ul></li>
+  <li><a href="#verifikations-checkliste" id="toc-verifikations-checkliste" class="nav-link" data-scroll-target="#verifikations-checkliste">Verifikations-Checkliste</a></li>
+  <li><a href="#referenzen" id="toc-referenzen" class="nav-link" data-scroll-target="#referenzen">Referenzen</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Andere Formate</h2><ul><li><a href="10b_Geometrieprobleme.slide.html"><i class="bi bi-file-easel"></i>Slides</a></li><li><a href="10b_Geometrieprobleme.page 2.html"><i class="bi bi-file-earmark-easel"></i>Slides PDF</a></li><li><a href="10b_Geometrieprobleme.page.pdf"><i class="bi bi-file-earmark-pdf"></i>Document PDF</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<script>
+window.__plotlyCallQueue = window.__plotlyCallQueue || [];
+
+if (!window.Plotly) {
+  window.Plotly = {
+    __ai4scPlotlyStub: true,
+    newPlot: (...args) =>
+      new Promise((resolve, reject) => {
+        window.__plotlyCallQueue.push({
+          method: "newPlot",
+          args,
+          resolve,
+          reject,
+        });
+      }),
+    addFrames: (...args) => {
+      window.__plotlyCallQueue.push({
+        method: "addFrames",
+        args,
+      });
+    },
+    Plots: {
+      resize: () => Promise.resolve(),
+    },
+    relayout: () => Promise.resolve(),
+  };
+}
+</script>
+<script>
+window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
+  const imageSelector = ".reveal .slides section > img.r-stretch, .reveal .slides section > img.stretch";
+  const SIZED_ATTR = "data-ai4sc-sized";
+
+  const stamp = (root = document) => {
+    root.querySelectorAll(imageSelector).forEach((img) => {
+      if (!(img instanceof HTMLElement)) return;
+      const style = img.getAttribute("style") || "";
+      if (
+        img.hasAttribute("width") ||
+        img.hasAttribute("height") ||
+        /(^|;)\s*(width|height)\s*:/.test(style)
+      ) {
+        img.setAttribute(SIZED_ATTR, "");
+      }
+    });
+  };
+
+  const release = (root = document) => {
+    root.querySelectorAll(imageSelector).forEach((img) => {
+      if (!(img instanceof HTMLElement) || !img.hasAttribute(SIZED_ATTR)) {
+        return;
+      }
+
+      img.classList.remove("r-stretch", "stretch");
+
+      if (img.hasAttribute("width")) {
+        img.style.removeProperty("width");
+      }
+      if (img.hasAttribute("height")) {
+        img.style.removeProperty("height");
+      }
+
+      img.style.maxWidth = "100%";
+      img.style.maxHeight = "100%";
+      img.style.objectFit = "contain";
+    });
+  };
+
+  const scheduleRelease = () => window.requestAnimationFrame(() => release());
+
+  const init = () => { stamp(); scheduleRelease(); };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
+  }
+
+  window.addEventListener("load", scheduleRelease, { once: true });
+  return release;
+})();
+</script>
+<script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/plotly-loader.js"></script>
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Geometrieprobleme</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Autor:in</div>
+    <div class="quarto-title-meta-contents">
+             <p>Joern Ploennigs · AI4SC </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><img src="images/10b_Geometrieprobleme/mj_title_band.jpg" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p>God eternally geometrizes.</p>
+<p>— Plato</p>
+</blockquote>
+<section id="geometrische-probleme" class="level2">
+<h2 class="anchored" data-anchor-id="geometrische-probleme">Geometrische Probleme</h2>
+<section id="tldr" class="level3">
+<h3 class="anchored" data-anchor-id="tldr">TL;DR</h3>
+<p>Geometrische Probleme sind überall im Bauingenieurwesen zu finden — von CAD-Modellen über BIM bis GIS. Diese Lektion startet mit einem konkreten Fehlerszenario, erläutert typische Datenstrukturen und zeigt, wie die Python-Bibliotheken <code>shapely</code> und <code>pyproj</code> geometrische Aufgaben lösen <span class="citation" data-cites="shapelydocs pyprojdocs">(<a href="#ref-shapelydocs" role="doc-biblioref">Shapely Contributors 2026</a>; <a href="#ref-pyprojdocs" role="doc-biblioref">pyproj Contributors 2026</a>)</span>.</p>
+<p>Zum Einstieg lohnt sich die Rückfrage: Wo sind euch bereits Koordinaten, Vektoren oder Polygone begegnet? Wenn diese Begriffe nicht mehr präsent sind, ist das kein Problem — genau diese Repräsentationen werden in der Lektion systematisch wieder aufgebaut.</p>
+</section>
+</section>
+<section id="was-macht-ein-problem-geometrisch" class="level2">
+<h2 class="anchored" data-anchor-id="was-macht-ein-problem-geometrisch">Was macht ein Problem geometrisch?</h2>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <path d="M8 3 4 7l4 4"></path>
+  <path d="M4 7h16"></path>
+  <path d="m16 21 4-4-4-4"></path>
+  <path d="M20 17H4"></path>
+</svg>
+</span></p>
+</div>
+<p>Ein typischer Fehler aus der Praxis: Eine Leitung wirkt im Modell kollisionsfrei oder ein Gebäude scheint “nah genug”, obwohl Distanz oder Lage im falschen Koordinatensystem berechnet wurden.</p>
+<p><strong>Geometrische Probleme</strong> drehen sich um:</p>
+<ul>
+<li>Räumliche Objekte: Punkte, Linien, Flächen</li>
+<li><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <path d="M8 3 4 7l4 4"></path>
+  <path d="M4 7h16"></path>
+  <path d="m16 21 4-4-4-4"></path>
+  <path d="M20 17H4"></path>
+</svg>
+</span> Räumliche Beziehungen: enthält, schneidet, nächster</li>
+<li>Koordinaten, Maße, Orientierungen</li>
+</ul>
+<p><strong>Problemklassen-Signatur:</strong></p>
+<ul>
+<li><em>Eingabe:</em> Koordinaten, Formen, Abstände</li>
+<li><em>Frage:</em> Liegt A in B? Wie weit? Überlappen sie?</li>
+<li><em>Ausgabe:</em> Bool, Zahl oder neue Geometrie</li>
+</ul>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <path d="M8 3 4 7l4 4"></path>
+  <path d="M4 7h16"></path>
+  <path d="m16 21 4-4-4-4"></path>
+  <path d="M20 17H4"></path>
+</svg>
+</span> Problemklasse</p>
+</div>
+<p><strong>Geometrische Domänen:</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Domäne</th>
+<th>Beispiel</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CAD</td>
+<td>Gebäudegrundriss prüfen</td>
+</tr>
+<tr class="even">
+<td>BIM</td>
+<td>Bauteilkollision erkennen</td>
+</tr>
+<tr class="odd">
+<td>GIS</td>
+<td>Gebäude in Überschwemmungszone</td>
+</tr>
+<tr class="even">
+<td>Netze</td>
+<td>Trassierung einer Straße</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="typische-daten-und-fragen-im-bauwesen" class="level2">
+<h2 class="anchored" data-anchor-id="typische-daten-und-fragen-im-bauwesen">Typische Daten und Fragen im Bauwesen</h2>
+<section id="cad-1" class="level4">
+<h4 class="anchored" data-anchor-id="cad-1">CAD</h4>
+<ul>
+<li>Daten: Punkte, Linien, Polygone</li>
+<li>Frage: Passt ein Bauteil in den Grundriss?</li>
+<li>Ziel: Geometrie korrekt konstruieren</li>
+</ul>
+</section>
+<section id="bim-1" class="level4">
+<h4 class="anchored" data-anchor-id="bim-1">BIM</h4>
+<ul>
+<li>Daten: Bauteile mit Lage und Ausdehnung</li>
+<li>Frage: Schneiden sich zwei Elemente?</li>
+<li>Ziel: Kollisionen und Mengen prüfen</li>
+</ul>
+</section>
+<section id="gis-1" class="level4">
+<h4 class="anchored" data-anchor-id="gis-1">GIS</h4>
+<ul>
+<li>Daten: Flächen, Netze, Zonen</li>
+<li>Frage: Liegt ein Objekt in einer Risikozone?</li>
+<li>Ziel: räumliche Analyse und Bewertung</li>
+</ul>
+</section>
+</section>
+<section id="ingenieursanwendungen" class="level2">
+<h2 class="anchored" data-anchor-id="ingenieursanwendungen">Ingenieursanwendungen</h2>
+<section id="tldr-1" class="level3">
+<h3 class="anchored" data-anchor-id="tldr-1">TL;DR</h3>
+<p>Geometrische Fragestellungen durchziehen viele Kernaufgaben des Bauingenieurwesens: Grundflächenanalyse, Hochwasserzonierung, Trassierung und Kollisionsprüfung sind alle geometrische Probleme, die mit denselben Grundoperationen lösbar sind.</p>
+</section>
+</section>
+<section id="geometrie-im-bauwesen-beispiele" class="level2">
+<h2 class="anchored" data-anchor-id="geometrie-im-bauwesen-beispiele">Geometrie im Bauwesen — Beispiele</h2>
+<p><strong>Gebäude und Infrastruktur:</strong></p>
+<ul>
+<li>Grundfläche eines Gebäudes berechnen</li>
+<li>Sensor innerhalb eines Raums prüfen</li>
+<li>Rohr mit Decke auf Kollision prüfen</li>
+<li>Straßenachse als Linienzug modellieren</li>
+</ul>
+<p><strong>Raumbezogene Analyse:</strong></p>
+<ul>
+<li>Gebäude in Überschwemmungszone ermitteln</li>
+<li>Nächste Haltestelle bestimmen</li>
+<li>Kreuzung unterirdischer Leitungen erkennen</li>
+</ul>
+<p><img src="images/10b_Geometrieprobleme/mj_building_footprint.png" class="midjourney img-fluid"></p>
+<p>Midjourney: Gebäudekontur als abstrahierter Lageplan</p>
+</section>
+<section id="gemeinsame-problemstruktur" class="level2">
+<h2 class="anchored" data-anchor-id="gemeinsame-problemstruktur">Gemeinsame Problemstruktur</h2>
+<p><strong>Problem 1:</strong> Sensor im Raum? → <em>Point-in-Polygon</em></p>
+<p><strong>Problem 2:</strong> Nächstes Krankenhaus? → <em>Distanzberechnung</em></p>
+<p><strong>Problem 3:</strong> Rohrkollision? → <em>Schnittprüfung</em></p>
+<p><strong>Problem 4:</strong> Überlappen zwei Bauparzellen? → <em>Flächenschnitt</em></p>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <rect width="8" height="8" x="3" y="3" rx="2"></rect>
+  <path d="M7 11v4a2 2 0 0 0 2 2h4"></path>
+  <rect width="8" height="8" x="13" y="13" rx="2"></rect>
+</svg>
+</span> Muster erkennen</p>
+</div>
+<p>Alle vier Fragen nutzen nur drei Grundoperationen:</p>
+<ol type="1">
+<li><strong>contains / within</strong> — Enthaltensein</li>
+<li><strong>distance</strong> — Abstand</li>
+<li><strong>intersects / intersection</strong> — Schnitt</li>
+</ol>
+<p>Dieselbe Bibliothek löst alle vier.</p>
+</section>
+<section id="vektoralgebra" class="level2">
+<h2 class="anchored" data-anchor-id="vektoralgebra">Vektoralgebra</h2>
+<section id="tldr-2" class="level3">
+<h3 class="anchored" data-anchor-id="tldr-2">TL;DR</h3>
+<p>Geometrische Berechnungen basieren auf Vektoralgebra. Die Grundobjekte — Punkt, Liniensegment, Polygon — und ihre Operationen (Abstand, Kreuzprodukt) bilden die Basis jeder geometrischen Programmierbibliothek.</p>
+</section>
+</section>
+<section id="geometrische-grundobjekte" class="level2">
+<h2 class="anchored" data-anchor-id="geometrische-grundobjekte">Geometrische Grundobjekte</h2>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <path d="M8 5h13"></path>
+  <path d="M13 12h8"></path>
+  <path d="M13 19h8"></path>
+  <path d="M3 10a2 2 0 0 0 2 2h3"></path>
+  <path d="M3 5v12a2 2 0 0 0 2 2h3"></path>
+</svg>
+</span></p>
+</div>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <path d="M8 5h13"></path>
+  <path d="M13 12h8"></path>
+  <path d="M13 19h8"></path>
+  <path d="M3 10a2 2 0 0 0 2 2h3"></path>
+  <path d="M3 5v12a2 2 0 0 0 2 2h3"></path>
+</svg>
+</span> Datenstrukturen</p>
+</div>
+<p><strong>Punkt:</strong> <code>(x, y)</code> oder <code>(x, y, z)</code></p>
+<p><strong>Liniensegment:</strong> Liste von 2+ Punkten</p>
+<p><strong>Polygon:</strong> Geordnete Punktliste, konzeptuell geschlossen</p>
+<p>In vielen Datenformaten wird der erste Punkt am Ende wiederholt. In <code>shapely</code> darf die Schlusskante meist weggelassen werden, weil <code>Polygon(...)</code> sie automatisch ergänzt.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Punkt</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> (<span class="fl">3.0</span>, <span class="fl">2.5</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Liniensegment</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>linie <span class="op">=</span> [(<span class="dv">0</span>, <span class="dv">0</span>), (<span class="dv">10</span>, <span class="dv">5</span>)]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Polygon (Rechteck)</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>polygon <span class="op">=</span> [</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">10</span>, <span class="dv">0</span>),</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">10</span>, <span class="dv">5</span>),</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">0</span>, <span class="dv">5</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># shapely schließt das Polygon automatisch</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="ein-beispiel-von-punkt-zu-operation" class="level2">
+<h2 class="anchored" data-anchor-id="ein-beispiel-von-punkt-zu-operation">Ein Beispiel von Punkt zu Operation</h2>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <rect width="8" height="8" x="3" y="3" rx="2"></rect>
+  <path d="M7 11v4a2 2 0 0 0 2 2h4"></path>
+  <rect width="8" height="8" x="13" y="13" rx="2"></rect>
+</svg>
+</span></p>
+</div>
+<p><strong>Mini-Beispiel:</strong></p>
+<ul>
+<li>Raum als Rechteck modellieren</li>
+<li>Sensor als Punkt modellieren</li>
+<li>Danach erst die Frage “innen oder außen?” stellen</li>
+</ul>
+<p>So trennen wir Repräsentation und Operation:</p>
+<ol type="1">
+<li>Objekt als Datenstruktur beschreiben</li>
+<li>Passende geometrische Operation wählen</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>raum <span class="op">=</span> [(<span class="dv">0</span>, <span class="dv">0</span>), (<span class="dv">10</span>, <span class="dv">0</span>), (<span class="dv">10</span>, <span class="dv">5</span>), (<span class="dv">0</span>, <span class="dv">5</span>)]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>sensor <span class="op">=</span> (<span class="dv">3</span>, <span class="dv">2</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Noch keine Antwort auf die Frage:</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Wir haben nur die Geometrie modelliert.</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="vektor-operationen" class="level2">
+<h2 class="anchored" data-anchor-id="vektor-operationen">Vektor-Operationen</h2>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <rect width="8" height="8" x="3" y="3" rx="2"></rect>
+  <path d="M7 11v4a2 2 0 0 0 2 2h4"></path>
+  <rect width="8" height="8" x="13" y="13" rx="2"></rect>
+</svg>
+</span></p>
+</div>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <rect width="8" height="8" x="3" y="3" rx="2"></rect>
+  <path d="M7 11v4a2 2 0 0 0 2 2h4"></path>
+  <rect width="8" height="8" x="13" y="13" rx="2"></rect>
+</svg>
+</span> Algorithmen</p>
+</div>
+<p><strong>Abstand zwischen zwei Punkten:</strong></p>
+<p><span class="math display">\[d = \sqrt{(x_2-x_1)^2 + (y_2-y_1)^2}\]</span></p>
+<p><strong>Kreuzprodukt (Orientierung):</strong></p>
+<p><span class="math display">\[\vec{u} \times \vec{v} = u_x v_y - u_y v_x\]</span></p>
+<ul>
+<li>Positiv → Punkt liegt links der Linie</li>
+<li>Negativ → Punkt liegt rechts der Linie</li>
+<li>Null → Punkt liegt auf der Linie</li>
+</ul>
+<p><strong>Anwendung des Kreuzprodukts:</strong></p>
+<ul>
+<li>Grundlage für Point-in-Polygon</li>
+<li>Orientierung von Polygonecken</li>
+<li>Kollisionserkennung</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> kreuzprodukt_2d(u, v):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> u[<span class="dv">0</span>]<span class="op">*</span>v[<span class="dv">1</span>] <span class="op">-</span> u[<span class="dv">1</span>]<span class="op">*</span>v[<span class="dv">0</span>]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Liegt (3,2) links von (0,0)→(5,5)?</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>u <span class="op">=</span> (<span class="dv">5</span><span class="op">-</span><span class="dv">0</span>, <span class="dv">5</span><span class="op">-</span><span class="dv">0</span>)  <span class="co"># Richtung</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>v <span class="op">=</span> (<span class="dv">3</span><span class="op">-</span><span class="dv">0</span>, <span class="dv">2</span><span class="op">-</span><span class="dv">0</span>)  <span class="co"># zum Punkt</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>k <span class="op">=</span> kreuzprodukt_2d(u, v)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># k &gt; 0 → links</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="grundoperationen" class="level2">
+<h2 class="anchored" data-anchor-id="grundoperationen">Grundoperationen</h2>
+<section id="tldr-3" class="level3">
+<h3 class="anchored" data-anchor-id="tldr-3">TL;DR</h3>
+<p>Die drei wichtigsten geometrischen Operationen für Ingenieure sind: Point-in-Polygon, Distanzberechnung und Schnittprüfung. Die Bibliothek <code>shapely</code> stellt alle drei als einfache Methodenaufrufe zur Verfügung.</p>
+</section>
+</section>
+<section id="point-in-polygon-liegt-ein-punkt-in-einer-zone" class="level2">
+<h2 class="anchored" data-anchor-id="point-in-polygon-liegt-ein-punkt-in-einer-zone">Point-in-Polygon: Liegt ein Punkt in einer Zone?</h2>
+<p><strong>Problem:</strong> Liegt Sensor in Gebäude? Liegt Adresse in Überschwemmungszone?</p>
+<p><strong>Ray-Casting-Algorithmus:</strong></p>
+<ol type="1">
+<li>Strahl vom Punkt nach rechts</li>
+<li>Zähle Schnitte mit Polygon-Kanten</li>
+<li>Ungerade Anzahl → Punkt liegt innen</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Merksatz">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tipp</span>Merksatz
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Ungerade = drinnen. Gerade = draußen.</p>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> Point, Polygon</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>zone <span class="op">=</span> Polygon([</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">0</span>,<span class="dv">0</span>),(<span class="dv">10</span>,<span class="dv">0</span>),(<span class="dv">10</span>,<span class="dv">5</span>),(<span class="dv">0</span>,<span class="dv">5</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>sensor <span class="op">=</span> Point(<span class="dv">3</span>, <span class="dv">2</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># contains: Punkt vollständig innen?</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(zone.contains(sensor))   <span class="co"># True</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(zone.contains(Point(<span class="dv">15</span>, <span class="dv">2</span>)))  <span class="co"># False</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># within ist die Umkehrung</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(sensor.within(zone))     <span class="co"># True</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="distanz-und-schnitt" class="level2">
+<h2 class="anchored" data-anchor-id="distanz-und-schnitt">Distanz und Schnitt</h2>
+<p><strong>Distanz</strong> — kürzester Abstand zweier Geometrien:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> Point</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>krankenhaus <span class="op">=</span> Point(<span class="dv">5</span>, <span class="dv">5</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>unfallort   <span class="op">=</span> Point(<span class="dv">12</span>, <span class="dv">8</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> krankenhaus.distance(unfallort)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>dist<span class="sc">:.2f}</span><span class="ss">"</span>)  <span class="co"># 7.62</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Anwendung:</strong> Nächste Haltestelle, nächstes Krankenhaus, nächste Feuerwehr</p>
+<p><strong>Schnitt</strong> — überlappen sich zwei Geometrien?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> LineString</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>rohr1 <span class="op">=</span> LineString([(<span class="dv">0</span>,<span class="dv">0</span>),(<span class="dv">10</span>,<span class="dv">10</span>)])</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>rohr2 <span class="op">=</span> LineString([(<span class="dv">0</span>,<span class="dv">10</span>),(<span class="dv">10</span>,<span class="dv">0</span>)])</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Kreuzen sie sich?</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(rohr1.intersects(rohr2))  <span class="co"># True</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Wo genau?</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>punkt <span class="op">=</span> rohr1.intersection(rohr2)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(punkt)  <span class="co"># POINT (5 5)</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Anwendung:</strong> Kollisionsprüfung in BIM</p>
+</section>
+<section id="shapely" class="level2">
+<h2 class="anchored" data-anchor-id="shapely">shapely</h2>
+<section id="tldr-4" class="level3">
+<h3 class="anchored" data-anchor-id="tldr-4">TL;DR</h3>
+<p>Die Python-Bibliothek <code>shapely</code> implementiert alle gängigen 2D-Geometrieoperationen. KI kann aufgefordert werden, <code>shapely</code> für geometrische Probleme zu verwenden — Fachpersonen prüfen anschließend, ob Geometrietyp und Koordinatensystem korrekt repräsentiert sind <span class="citation" data-cites="shapelydocs">(<a href="#ref-shapelydocs" role="doc-biblioref">Shapely Contributors 2026</a>)</span>.</p>
+</section>
+</section>
+<section id="shapely-die-geometrische-standardbibliothek" class="level2">
+<h2 class="anchored" data-anchor-id="shapely-die-geometrische-standardbibliothek">shapely — Die geometrische Standardbibliothek</h2>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <path d="M8 5h13"></path>
+  <path d="M13 12h8"></path>
+  <path d="M13 19h8"></path>
+  <path d="M3 10a2 2 0 0 0 2 2h3"></path>
+  <path d="M3 5v12a2 2 0 0 0 2 2h3"></path>
+</svg>
+</span></p>
+</div>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <path d="M8 5h13"></path>
+  <path d="M13 12h8"></path>
+  <path d="M13 19h8"></path>
+  <path d="M3 10a2 2 0 0 0 2 2h3"></path>
+  <path d="M3 5v12a2 2 0 0 0 2 2h3"></path>
+</svg>
+</span> Bibliothek</p>
+</div>
+<p><strong>Kerntypen:</strong></p>
+<ul>
+<li><code>Point</code> — Koordinate</li>
+<li><code>LineString</code> — Linienzug</li>
+<li><code>Polygon</code> — Fläche mit Grenze</li>
+<li><code>MultiPolygon</code> — z.B. Parzellengruppe</li>
+</ul>
+<p><strong>Kernoperationen:</strong></p>
+<ul>
+<li><code>.contains()</code>, <code>.within()</code></li>
+<li><code>.intersects()</code>, <code>.intersection()</code></li>
+<li><code>.distance()</code>, <code>.area</code>, <code>.length</code></li>
+<li><code>.buffer()</code> — Pufferzone erzeugen</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> Point, Polygon</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>gebaeude <span class="op">=</span> Polygon([</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">0</span>, <span class="dv">0</span>), (<span class="dv">20</span>, <span class="dv">0</span>),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    (<span class="dv">20</span>, <span class="dv">15</span>), (<span class="dv">0</span>, <span class="dv">15</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Fläche: </span><span class="sc">{</span>gebaeude<span class="sc">.</span>area<span class="sc">}</span><span class="ss"> m²"</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Fläche: 300 m²</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 5m Pufferzone</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>puffer <span class="op">=</span> gebaeude.<span class="bu">buffer</span>(<span class="dv">5</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Mit Puffer: </span><span class="sc">{</span>puffer<span class="sc">.</span>area<span class="sc">:.0f}</span><span class="ss"> m²"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Mit Puffer: 729 m²</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Enthält ein Punkt die Zone?</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>sensor <span class="op">=</span> Point(<span class="dv">10</span>, <span class="dv">7</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(gebaeude.contains(sensor))  <span class="co"># True</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="koordinatensysteme" class="level2">
+<h2 class="anchored" data-anchor-id="koordinatensysteme">Koordinatensysteme</h2>
+<section id="tldr-5" class="level3">
+<h3 class="anchored" data-anchor-id="tldr-5">TL;DR</h3>
+<p>Koordinatensysteme (KBS) und Projektionen sind eine der häufigsten Fehlerquellen bei geometrischen Problemen — und eine typische Auslassung in KI-generiertem Code. Jede Distanzberechnung setzt ein metrisches KBS voraus.</p>
+</section>
+</section>
+<section id="warum-projektionen-wichtig-sind" class="level2">
+<h2 class="anchored" data-anchor-id="warum-projektionen-wichtig-sind">Warum Projektionen wichtig sind</h2>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <path d="M8 3 4 7l4 4"></path>
+  <path d="M4 7h16"></path>
+  <path d="m16 21 4-4-4-4"></path>
+  <path d="M20 17H4"></path>
+</svg>
+</span></p>
+</div>
+<p><strong>Problem:</strong> Die Erde ist eine Kugel — Karten sind flach.</p>
+<p><strong>WGS84 (EPSG:4326):</strong></p>
+<ul>
+<li>Koordinaten in Grad (Länge/Breite)</li>
+<li>Standard für GPS, Google Maps, GeoJSON</li>
+<li>1 Grad ≠ 1 Meter!</li>
+</ul>
+<p><strong>Lokale Systeme (z.B. UTM, EPSG:25833):</strong></p>
+<ul>
+<li>Koordinaten in Metern</li>
+<li>Geeignet für lokale Distanzberechnungen</li>
+<li>Verzerrt über große Gebiete</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled" title="Häufiger KI-Fehler">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Hinweis</span>Häufiger KI-Fehler
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>KI-generierter Code berechnet Abstände direkt aus WGS84-Koordinaten. <code>shapely</code> kennt kein KBS — <code>distance()</code> liefert Werte in den Einheiten der Koordinaten, also hier in Grad und nicht automatisch in Metern.</p>
+</div>
+</div>
+</section>
+<section id="projektionen-im-code" class="level2">
+<h2 class="anchored" data-anchor-id="projektionen-im-code">Projektionen im Code</h2>
+<p><strong>Falsch — typischer KI-Output:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> Point</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Koordinaten in WGS84 (Grad)</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>berlin  <span class="op">=</span> Point(<span class="fl">13.405</span>, <span class="fl">52.520</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>potsdam <span class="op">=</span> Point(<span class="fl">13.064</span>, <span class="fl">52.400</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> berlin.distance(potsdam)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># ≠ Meter! Einheit: Grad</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dist)  <span class="co"># 0.35 — bedeutungslos</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p><strong>Problem:</strong> 0.35 Grad ≈ 35 km, aber <code>shapely</code> weiß das nicht.</p>
+<p><strong>Richtig — mit Projektion:</strong></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyproj <span class="im">import</span> Transformer</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.ops <span class="im">import</span> transform</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># WGS84 → UTM Zone 33N</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> Transformer.from_crs(<span class="dv">4326</span>, <span class="dv">25833</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                          always_xy<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>berlin_utm  <span class="op">=</span> transform(t.transform, berlin)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>potsdam_utm <span class="op">=</span> transform(t.transform, potsdam)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>dist_m <span class="op">=</span> berlin_utm.distance(potsdam_utm)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>dist_m<span class="sc">:.0f}</span><span class="ss"> m"</span>)  <span class="co"># 28 422 m ✓</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="ki-code-mit-shapely-lesen-aufgabe" class="level2">
+<h2 class="anchored" data-anchor-id="ki-code-mit-shapely-lesen-aufgabe">KI-Code mit shapely lesen — Aufgabe</h2>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <rect width="8" height="8" x="3" y="3" rx="2"></rect>
+  <path d="M7 11v4a2 2 0 0 0 2 2h4"></path>
+  <rect width="8" height="8" x="13" y="13" rx="2"></rect>
+</svg>
+</span></p>
+</div>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <rect width="8" height="8" x="3" y="3" rx="2"></rect>
+  <path d="M7 11v4a2 2 0 0 0 2 2h4"></path>
+  <rect width="8" height="8" x="13" y="13" rx="2"></rect>
+</svg>
+</span> KI-Code lesen</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># KI-generiert: Gebäude im Radius finden</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> Point, Polygon</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gebaeude_in_radius(gebaeude_liste, mittelpunkt_coords, radius_m):</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    mittelpunkt <span class="op">=</span> Point(mittelpunkt_coords)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    suchzone <span class="op">=</span> mittelpunkt.<span class="bu">buffer</span>(radius_m)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    treffer <span class="op">=</span> []</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> geb <span class="kw">in</span> gebaeude_liste:</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        polygon <span class="op">=</span> Polygon(geb[<span class="st">'koordinaten'</span>])</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> suchzone.intersects(polygon):</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>            treffer.append(geb)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> treffer</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-warning callout-titled" title="Versteht den Code — nach dem CRS-Block">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warnung</span>Versteht den Code — nach dem CRS-Block
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><code>buffer(radius_m)</code> erzeugt eine Suchzone in den Einheiten der Eingabekoordinaten.</li>
+<li><code>intersects()</code> genügt hier, weil auch teilweise überdeckte Gebäude gezählt werden sollen.</li>
+<li>Bei WGS84 in Grad fehlt vor dem <code>buffer()</code> eine Projektion in ein metrisches KBS.</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="ki-prompt-muster" class="level2">
+<h2 class="anchored" data-anchor-id="ki-prompt-muster">KI-Prompt-Muster</h2>
+<section id="tldr-6" class="level3">
+<h3 class="anchored" data-anchor-id="tldr-6">TL;DR</h3>
+<p>Beim Einsatz von KI für geometrische Probleme müssen Geometrierepräsentation und Koordinatensystem im Prompt explizit angegeben werden. Ohne diese Angaben erzeugt KI häufig Code ohne KBS-Berücksichtigung.</p>
+</section>
+</section>
+<section id="prompt-muster-für-geometrische-probleme" class="level2">
+<h2 class="anchored" data-anchor-id="prompt-muster-für-geometrische-probleme">Prompt-Muster für geometrische Probleme</h2>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <rect width="8" height="8" x="3" y="3" rx="2"></rect>
+  <path d="M7 11v4a2 2 0 0 0 2 2h4"></path>
+  <rect width="8" height="8" x="13" y="13" rx="2"></rect>
+</svg>
+</span></p>
+</div>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <rect width="8" height="8" x="3" y="3" rx="2"></rect>
+  <path d="M7 11v4a2 2 0 0 0 2 2h4"></path>
+  <rect width="8" height="8" x="13" y="13" rx="2"></rect>
+</svg>
+</span> Agentic Cycle</p>
+</div>
+<p><strong>Schlechter Prompt:</strong></p>
+<blockquote class="blockquote">
+<p>“Schreibe Python-Code, um Gebäude in der Nähe eines Punktes zu finden.”</p>
+</blockquote>
+<p><strong>Fehlende Angaben:</strong></p>
+<ul>
+<li>Kein Koordinatensystem</li>
+<li>Kein Datenformat</li>
+<li>Keine Einheit für “Nähe”</li>
+<li>Keine Bibliotheksvorgabe</li>
+</ul>
+<p><strong>Guter Prompt:</strong></p>
+<blockquote class="blockquote">
+<p>“Gegeben: Gebäudepolygone als Liste von WGS84-Koordinaten (Länge, Breite). Aufgabe: Alle Gebäude zurückgeben, die innerhalb von 500 m eines gegebenen Punktes liegen. Verwende <code>shapely</code> und <code>pyproj</code>. Transformiere alle Geometrien zuerst nach UTM Zone 33N (EPSG:25833).”</p>
+</blockquote>
+<p><strong>Checkliste Prompt Geometrie:</strong></p>
+<ul>
+<li>Koordinatensystem angeben</li>
+<li>Einheit angeben (Meter, Grad)</li>
+<li>Bibliothek benennen (<code>shapely</code>)</li>
+</ul>
+</section>
+<section id="ki-fehler-bei-geometrie-erkennen" class="level2">
+<h2 class="anchored" data-anchor-id="ki-fehler-bei-geometrie-erkennen">KI-Fehler bei Geometrie erkennen</h2>
+<p><strong>Häufige KI-Fehler:</strong></p>
+<ul>
+<li>Kein KBS angegeben oder verwendet</li>
+<li><code>distance()</code> auf WGS84-Koordinaten (Grad)</li>
+<li>Bibliotheksverhalten zu Polygonringen falsch angenommen</li>
+<li>Koordinatenreihenfolge vertauscht (lat/lon statt lon/lat)</li>
+<li>Gleichheitsvergleich ohne Fließkomma-Toleranz</li>
+</ul>
+<p><strong>Prüffragen beim Code-Review:</strong></p>
+<ul>
+<li>Eingabe-KBS bestimmen</li>
+<li>Einheit der Distanzberechnung prüfen</li>
+<li>Polygonformat für die verwendete Bibliothek prüfen</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fließkomma-Toleranz</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> Point, LineString</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>p    <span class="op">=</span> Point(<span class="fl">1.0</span>, <span class="fl">2.0</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>linie <span class="op">=</span> LineString([(<span class="dv">0</span>,<span class="dv">0</span>),(<span class="dv">2</span>,<span class="dv">4</span>)])</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Falsch: exakter Vergleich</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> linie.distance(p) <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"auf der Linie"</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Richtig: Toleranz</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>TOL <span class="op">=</span> <span class="fl">1e-9</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> linie.distance(p) <span class="op">&lt;</span> TOL:</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"auf der Linie"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="verifikation" class="level2">
+<h2 class="anchored" data-anchor-id="verifikation">Verifikation</h2>
+<section id="tldr-7" class="level3">
+<h3 class="anchored" data-anchor-id="tldr-7">TL;DR</h3>
+<p>KI-generierter geometrischer Code muss systematisch überprüft werden. Die Checkliste stellt sicher, dass Geometrietyp, Koordinatensystem und Fließkomma-Präzision korrekt behandelt werden.</p>
+</section>
+</section>
+<section id="verifikations-checkliste" class="level2">
+<h2 class="anchored" data-anchor-id="verifikations-checkliste">Verifikations-Checkliste</h2>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5c-1.4 0-2.5-1.1-2.5-2.5V2"></path>
+  <path d="M8.5 2h7"></path>
+  <path d="M14.5 16h-5"></path>
+</svg>
+</span></p>
+</div>
+<div class="eyebrow">
+<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
+  <rect width="8" height="8" x="3" y="3" rx="2"></rect>
+  <path d="M7 11v4a2 2 0 0 0 2 2h4"></path>
+  <rect width="8" height="8" x="13" y="13" rx="2"></rect>
+</svg>
+</span> Agentic Cycle · Geometrie</p>
+</div>
+<p><strong>Vor dem Ausführen:</strong></p>
+<ul>
+<li>Geometrietyp bestimmen: Punkt, Linie oder Polygon</li>
+<li>KBS prüfen: WGS84 oder metrisches System</li>
+<li>Polygonformat für die Bibliothek prüfen</li>
+<li>Koordinatenreihenfolge prüfen: <code>(lon, lat)</code> oder <code>(lat, lon)</code></li>
+</ul>
+<p><strong>Beim Testen:</strong></p>
+<ul>
+<li>Mit bekannter Geometrie testen: Einheitsquadrat</li>
+<li>Grenzfälle prüfen: Punkt auf Kante, Punkt im Eckpunkt</li>
+<li>Numerische Ergebnisse mit Handrechnung vergleichen</li>
+<li>Distanzwerte auf Plausibilität prüfen</li>
+</ul>
+<blockquote class="blockquote">
+<p><strong>Agentic workflow:</strong> Bei KI-generiertem Geometriecode:</p>
+<ol type="1">
+<li>KBS prüfen — steht es im Code oder fehlt es?</li>
+<li>Geometrietyp prüfen — <code>.geom_type</code> ausgeben lassen</li>
+<li>Einfachen Testfall ausführen (Einheitsquadrat: Fläche = 1?)</li>
+<li>Distanzberechnung prüfen — Einheit plausibel?</li>
+<li>Fließkomma-Toleranz ergänzen wenn nötig</li>
+</ol>
+</blockquote>
+</section>
+<section id="referenzen" class="level2">
+<h2 class="anchored" data-anchor-id="referenzen">Referenzen</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-pyprojdocs" class="csl-entry" role="listitem">
+pyproj Contributors. 2026. <span>„pyproj Documentation“</span>. <a href="https://pyproj4.github.io/pyproj/stable/">https://pyproj4.github.io/pyproj/stable/</a>.
+</div>
+<div id="ref-shapelydocs" class="csl-entry" role="listitem">
+Shapely Contributors. 2026. <span>„Shapely User Manual“</span>. <a href="https://shapely.readthedocs.io/en/stable/manual.html">https://shapely.readthedocs.io/en/stable/manual.html</a>.
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Kopiert");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Kopiert");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
