@@ -161,9 +161,9 @@ Mit Objekten:
 
 %%book
 
-### Das Verhaltensproblem
+#### Das Verhaltensproblem
 
-Objekte werden zudem verwendet, um die Funktionen zur Verarbeitung der Datenstrukturen direkt mit dieser zu bündeln, so dass die Datenstruktur nur jene Funktionen anbietet, welche auch sinnvoll anwendbar sind. Das vermeidet semantische und logische Fehler durch falsche Verwendung.
+Objekte werden zudem verwendet, um die Funktionen zur Verarbeitung der Datenstrukturen direkt mit dieser zu bündeln, so dass die Datenstruktur nur jene Funktionen anbietet, welche auch sinnvoll anwendbar sind. Ohne Objekte kann eine freie Funktion wie `distanz(a, b)` auf beliebige Daten angewendet werden, auf zwei Punkte genauso wie auf zwei Linien, und niemand prüft, ob die Daten damit verarbeitet werden können. Das führt zu semantischen und logischen Fehlern. Gehört die Operation `distanz()` dagegen zur Klasse `Punkt`, so *kapselt* die Klasse Daten und zulässige Operationen, und die falsche Anwendung wird verhindert.
 
 %%/book
 
@@ -197,7 +197,11 @@ Jedes Objekt verfügt über Attribute (Eigenschaften) und Methoden (Verantwortli
 
 %%book
 
-## Klassen als Entwurfseinheiten
+Objektorientierte Programmierung ist ein Programmierparadigma, das annimmt, dass ein Programm ausschließlich aus Objekten besteht, die miteinander kooperativ interagieren. Jedes Objekt verfügt über Attribute (Eigenschaften) und Methoden (Verantwortlichkeiten). Die Attribute definieren Werte über den Zustand eines Objektes, die Methoden die möglichen Zustandsänderungen (Handlungen).
+
+Anstatt unübersichtlich viele verstreute Datenstrukturen und Funktionen zu benutzen, gruppieren wir diese in Objekte. Die Struktur dieser Objekte wird in Form von Klassen definiert, die eine Art Bauplan darstellen. Eine Klasse definiert, welche Attribute ein Objekt dieser Klasse besitzt und welche Methoden es bereitstellt. Beides wird zusammen in einer komplexen Datenstruktur gespeichert: Jedes Objekt stellt somit einen zusammengesetzten (komplexen) Datentyp dar.
+
+#### Klassen als Entwurfseinheiten
 
 Eine Klasse ist der Entwurfsplan für eine Familie gleichartiger Objekte. Sie legt fest, welche Attribute (Eigenschaften) ein Objekt hat und welche Methoden (Operationen) es bereitstellt. Der Entwurf der Klasse kommt **vor** der Implementierung.
 
@@ -232,9 +236,13 @@ Ein Objekt ist damit ein zusammengesetzter (komplexer) Datentyp, wie wir ihn aus
 
 %%book
 
-### Klassen und Instanzen
+#### Klassen und Instanzen
 
 Objekte selbst sind immer Instanzen einer Klasse (die Klasse ist ja nur ein Bauplan). Eine Klasse kann beliebig viele Instanzen haben oder gar keine. Alle Instanzen sind gleich aufgebaut, besitzen aber nicht unbedingt die gleichen Werte in den Attributen.
+
+Die Abbildung zeigt das am Beispiel eines Raums: Die Klasse `Raum` legt die Attribute `name`, `fläche` und `höhe` sowie die Methode `berechne_volumen()` fest, enthält aber selbst keine Werte. Die beiden Instanzen `r101` (Seminarraum, 48,0 m²) und `r102` (Flur, 22,5 m²) sind nach diesem Bauplan gebaut und tragen jeweils eigene Attributwerte. Die gestrichelten Pfeile lesen sich als „ist Instanz von“.
+
+![Klasse `Raum` als Bauplan und zwei Instanzen](images/04c_Objects/uml_instanzen.svg)
 
 %%/book
 
@@ -259,7 +267,15 @@ Ein Modell ist eine abstrakte, vereinfachte Abbildung eines Systems (meist aus d
 
 Unsere Wahrnehmung und unser Denken beruhen darauf, Objekte zu erkennen, also etwa einen Stuhl von einem Tisch zu trennen. Das Nachbilden dieser Wahrnehmung im Computer nennt man Modellierung. Weil unsere Wahrnehmung auf Objekten basiert, ist es naheliegend, auch für die Modellierung Objekte zu nutzen. Da die Objekte in der Welt miteinander interagieren, muss auch dieses Verhalten modelliert werden. Ein Modell ist eine abstrakte, vereinfachte Abbildung eines Systems, meist aus der Realität.
 
-Im objektorientierten Softwareentwurf wird ein Programm so entworfen, dass es nur aus Objekten besteht. Hierbei verwendet man meist die Modellierungssprache [UML](https://de.wikipedia.org/wiki/Unified_Modeling_Language), mit der Klassen auch visuell entworfen werden können.
+#### Geometrische Elemente als Objekte
+
+![Geometrische Elemente: Dreieck, Viereck, Fünfeck und Linie](images/04c_Objects/elemente.svg)
+
+Alle gezeigten Elemente sind geometrische Objekte. Sie bestehen aus Punkten, die mit Linien verbunden sind. Das können wir bei der Modellierung ausnutzen und Klassen so definieren, dass sie diese Gemeinsamkeit nutzen. Wie das aussieht, zeigt der Abschnitt zur Vererbung.
+
+#### Objektorientierter Softwareentwurf
+
+Im objektorientierten Softwareentwurf wird ein Programm so entworfen, dass es nur aus Objekten besteht. Der Softwareentwurf gleicht dabei stark dem Vorgehen von Ingenieuren beim Entwurf von Plänen. Hierbei verwendet man meist die Modellierungssprache [UML](https://de.wikipedia.org/wiki/Unified_Modeling_Language), mit der Klassen auch visuell entworfen werden können.
 
 Man modelliert im Entwurf,
 
@@ -269,7 +285,7 @@ Man modelliert im Entwurf,
 - wie sie miteinander in statischer Beziehung stehen (Assoziation, Aggregation, Komposition)
 - und wie sie dynamisch interagieren (Verhalten).
 
-In diesem Kurs nutzen wir UML-Klassendiagramme als Brücke zwischen Anforderung und KI-Prompt: Wer sein Klassenmodell als UML zeichnen kann, kann es auch in einen präzisen Prompt übersetzen. Wie das geht, zeigt der Abschnitt *Design before you prompt*.
+In diesem Kurs nutzen wir UML-Klassendiagramme als Brücke zwischen Anforderung und KI-Prompt: Wer sein Klassenmodell als UML zeichnen kann, kann es auch in einen präzisen Prompt übersetzen. Wie das geht, zeigt der Abschnitt *Agentischer Objektentwurf*.
 
 %%/book
 
@@ -354,7 +370,7 @@ Der Standard (UML 2.5) umfasst 14 Diagrammtypen, die typischsten:
 
 %%book
 
-## UML — Entwurfssprache für Software
+#### UML — Entwurfssprache für Software
 
 Die Unified Modelling Language (UML) ist ein ISO-Standard zur Beschreibung von Softwareentwürfen. Sie wird für Entwurf, Ausschreibung, Implementation und Dokumentation von Funktionalitäten, Strukturen, Businessprozessen und Nutzerinteraktionen genutzt. Der Standard umfasst in der aktuellen Version UML 2.5 vierzehn Diagrammtypen. Die typischsten sind Klassendiagramme für die Klassen- und Datenstruktur, Aktivitätsdiagramme für Abläufe und Algorithmen (verwandt mit den Programmablaufplänen aus `04b_Programmablauf`), Sequenzdiagramme für Interaktionen und Use-Case-Diagramme für Nutzer und Nutzfälle.
 
@@ -362,7 +378,7 @@ Die Unified Modelling Language (UML) ist ein ISO-Standard zur Beschreibung von S
 
 %%book
 
-## Klassen, Attribute und Methoden
+#### Klassen, Attribute und Methoden
 
 Eine Klasse ist in UML ein Viereck mit drei Ebenen. In der ersten Ebene steht der Klassenname. In der zweiten Ebene werden alle primitiven Attribute der Klasse aufgelistet (die keine Referenzen darstellen). Die dritte Ebene enthält alle Methoden der Klasse. Für eine Klasse `Point` mit den Attributen `x` und `y` und der Methode `distance()` zur Berechnung des Abstands zu einem anderen Punkt sieht die Klasse in UML so aus:
 
@@ -432,7 +448,7 @@ add_room(r: Room)
 
 %%book
 
-## Attribut- und Methoden-Notation
+#### Attribut- und Methoden-Notation
 
 Die abstrakte Schreibweise ist bewusst kompakt. Ein Attribut wird als `name: Typ` notiert, also zum Beispiel `x: float`. Eine Methode wird mit Parametern und Rückgabetyp angegeben, etwa `distance(p: Point): float`.
 
@@ -480,15 +496,27 @@ Ohne Gebäude ist eine Etage nicht sinnvoll
 
 %%book
 
-## Beziehungen zwischen Objekten
-
 In Programmen stehen Objekte meist im Zusammenhang. Z.B. besteht eine Linie aus zwei Punkten. Diesen Zusammenhang zweier Objekt-Klassen bezeichnet man als *Assoziation*. Bei stärkerer Bindung spricht man von *Aggregation* (lose) oder *Komposition* (untrennbar). Diese Beziehungen müssen im Entwurf explizit festgehalten werden, **bevor** man sie in Code übersetzt.
+
+Die drei Arten lassen sich an kleinen Beispielen unterscheiden:
+
+- Bei der **Assoziation** verwendet ein Objekt ein anderes, beide bleiben aber unabhängig. Ein `Ingenieur` verwendet ein `Werkzeug`; keiner der beiden gehört zum anderen.
+
+  ![Assoziation: Ingenieur verwendet Werkzeug](images/04c_Objects/uml_assoziation.svg)
+
+- Bei der **Aggregation** enthält ein Objekt andere Objekte, die aber auch allein existieren können. Ein `Polygon` enthält `Punkt`-Objekte; Punkte können auch ohne Polygon vorkommen.
+
+  ![Aggregation: Polygon enthält Punkte](images/04c_Objects/uml_aggregation.svg)
+
+- Bei der **Komposition** besteht ein Objekt aus anderen, die ohne das Ganze nicht sinnvoll sind. Eine `Etage` ist ohne ihr `Gebäude` nicht sinnvoll.
+
+  ![Komposition: Gebäude besteht aus Etagen](images/04c_Objects/uml_komposition.svg)
 
 %%/book
 
 %%book
 
-### Besitzverhältnisse
+#### Besitzverhältnisse
 
 UML unterscheidet Beziehungen nach ihren Besitzverhältnissen: Ein Objekt kann Teil eines anderen sein und trotzdem ohne dieses existieren (Aggregation), es kann nicht ohne dieses existieren (Komposition), oder beide Objekte sind unabhängig und eines verwendet nur das andere (Assoziation). Für jede Art definiert UML eine eigene Linienform: eine leere Raute für die Aggregation, eine gefüllte Raute für die Komposition und eine einfache Linie oder einen Pfeil für die Assoziation. Die Raute sitzt jeweils beim Ganzen.
 
@@ -528,9 +556,11 @@ Im Entwurf klären: Welche Richtung? Wie viele? Wer lebt von wem ab?
 
 %%book
 
-## Multiplizität
+#### Multiplizität
 
 Die Multiplizität beschreibt, wie viele Objekte an einer Beziehung beteiligt sind. Sie beantwortet also Fragen wie: "Hat eine Linie genau zwei Punkte?" oder "Kann ein Raum beliebig viele Fenster haben?"
+
+Die gängigen Notationen sind `1` (genau eins), `0..*` (null oder mehr), `1..*` (ein oder mehr) und `0..1` (keins oder eins). Im Entwurf klärt man damit drei Fragen: in welche Richtung die Beziehung gilt, wie viele Objekte beteiligt sind und wer von wem abhängt.
 
 Im Beispiel `Line`–`Point` oben liest man: Eine Linie steht mit genau zwei Punkten in Beziehung, nämlich Start- und Endpunkt. Die Gebäudekette liest sich genauso: Ein Gebäude besteht aus mindestens einer Etage (`1..*`), jede Etage aus mindestens einem Raum, und ein Raum enthält null oder mehr Fenster (`0..*`). Die gefüllten Rauten markieren Kompositionen, die leere Raute beim Raum eine Aggregation.
 
@@ -574,9 +604,15 @@ Diese Information ist für die Implementierung wichtig, weil sie vorgibt, ob wir
 
 %%book
 
-## Weitere OOP-Konzepte
+Zur Objektorientierung gehören nicht nur Klassen und Beziehungen, sondern auch Kapselung, Vererbung und Polymorphismus. Alle drei sind Entwurfsentscheidungen, die man im Klassendiagramm festhält.
 
-Zur Objektorientierung gehören nicht nur Klassen und Beziehungen, sondern auch **Kapselung**, **Vererbung** und **Polymorphismus**. Kapselung bedeutet, dass Daten und die für sie sinnvollen Operationen gemeinsam entworfen werden und der Zugriff bewusst geregelt wird. Vererbung beschreibt, dass eine speziellere Klasse Eigenschaften und Verantwortlichkeiten einer allgemeineren Klasse übernimmt. Polymorphismus bedeutet, dass verschiedene Klassen dieselbe Verantwortlichkeit anbieten können, aber jeweils unterschiedlich umsetzen.
+#### Kapselung
+
+Kapselung bedeutet, dass Daten und die für sie sinnvollen Operationen gemeinsam entworfen werden und der Zugriff bewusst geregelt wird. Nicht jedes Attribut soll von außen beliebig änderbar sein. UML markiert die Sichtbarkeit vor dem Namen eines Attributs oder einer Methode: `+` für öffentlich, `#` für geschützt und `-` für privat.
+
+#### Polymorphismus
+
+Polymorphismus bedeutet, dass verschiedene Klassen dieselbe Verantwortlichkeit anbieten können, aber jeweils unterschiedlich umsetzen. Die Methode `fläche()` gibt es bei `Rechteck` und bei `Kreis`, doch die Berechnung unterscheidet sich. Das ist wichtig für austauschbare Objekte, die dasselbe Interface anbieten.
 
 %%/book
 
@@ -600,9 +636,11 @@ Zur Objektorientierung gehören nicht nur Klassen und Beziehungen, sondern auch 
 
 %%book
 
-## Vererbung
+#### Vererbung
 
-Gleichartige Objekte teilen oft dieselben Eigenschaften und Methoden. Damit man diese nicht in jeder Klasse neu definieren muss und dabei Fehler macht, gibt es die Vererbung: Eine spezialisierte Unterklasse besitzt alle Attribute und Methoden ihrer generalisierten Oberklasse (Basisklasse) und ergänzt nur, was sie besonders macht. Im Beispiel oben erbt `Serverraum` von `Raum` den Namen, die Fläche und `berechne_volumen()` und ergänzt die `kühlleistung`.
+Vererbung beschreibt, dass eine speziellere Klasse Eigenschaften und Verantwortlichkeiten einer allgemeineren Klasse übernimmt. Gleichartige Objekte teilen oft dieselben Eigenschaften und Methoden. Damit man diese nicht in jeder Klasse neu definieren muss und dabei Fehler macht, gibt es die Vererbung: Eine spezialisierte Unterklasse besitzt alle Attribute und Methoden ihrer generalisierten Oberklasse (Basisklasse) und ergänzt nur, was sie besonders macht. Im Beispiel unten erbt `Serverraum` von `Raum` den Namen, die Fläche und `berechne_volumen()` und ergänzt die `kühlleistung`.
+
+![Vererbung: `Serverraum` ist ein spezieller `Raum`](images/04c_Objects/uml_vererbung.svg)
 
 Die Vererbung wird in UML durch eine Linie mit einem nicht ausgefüllten (weißen) Dreieck bei der Oberklasse gezeichnet (es ist kein Pfeil). Zurück zur Hörsaalfrage: Alle dort gezeigten Elemente bestehen aus Punkten, die mit Linien verbunden sind. Um auszudrücken, dass `Triangle`, `Tetragon` und `Pentagon` Unterklassen des Polygons sind, zeichnen wir:
 
@@ -636,7 +674,7 @@ Eine reine Baumstruktur vereinfacht dabei: Ein Quadrat ist geometrisch sowohl ei
 
 %%book
 
-### Brücke zu Python: `self`
+#### Brücke zu Python: `self`
 
 Im UML-Diagramm sprechen wir abstrakt über eine Klasse und ihre Verantwortlichkeiten. In Python muss eine Methode jedoch auf **eine konkrete Instanz** zugreifen können. Dafür gibt es `self`: Die Selbst-Referenz auf genau das Objekt, dessen Methode gerade ausgeführt wird. In `06b_Objects` wird daraus dann die konkrete Syntax mit `class`, `__init__` und `self.attributname`.
 
@@ -667,9 +705,16 @@ Das UML-Diagramm ist die Spezifikation. Der Code ist das Ergebnis.
 
 %%book
 
-Der agentische Ansatz für Objektorientierung bedeutet: **zuerst entwerfen, dann prompten**. Das UML-Klassendiagramm ist die Spezifikation, die wir der KI übergeben. Ein minimales Beispiel wäre die Klasse `Raum` mit den Attributen `name: str`, `fläche: float`, `höhe: float` und der Methode `berechne_volumen() -> float`. Aus diesem Diagramm kann ein Prompt wie *„Implementiere die Klasse `Raum` genau mit diesen Attributen und dieser Methode“* erzeugt werden. Danach vergleichen wir den generierten Code systematisch wieder mit dem Diagramm.
+Der agentische Ansatz für Objektorientierung bedeutet: **zuerst entwerfen, dann prompten**. Das UML-Klassendiagramm ist die Spezifikation, die wir der KI übergeben; der Code ist das Ergebnis. Daraus ergibt sich derselbe Zyklus wie in `03c_Softwareentwurf` und `03d_AgentischesProgrammieren`:
 
-Dieser Zyklus — Entwerfen → Prompten → Generieren → Verifizieren — ist die Kernkompetenz des agentischen Programmierens für Objekte.
+1. **Prompt:** Das Diagramm geht als Spezifikation an die KI.
+2. **Generate:** Die KI erzeugt die Python-Klasse.
+3. **Verify:** Der Code wird gegen das Diagramm geprüft.
+4. **Iterate:** Abweichungen schärfen Diagramm und Prompt nach, und der Zyklus beginnt von vorn.
+
+![Agentischer Zyklus mit dem UML-Diagramm als Spezifikation](images/04c_Objects/design_cycle.svg){.nostretch fig-align="center" width="70%"}
+
+Der Entwurf des Diagramms ist dabei der eigentliche Ingenieurschritt, denn er legt fest, was die KI umsetzen soll. Diesen Zyklus zu beherrschen, ist die Kernkompetenz des agentischen Programmierens für Objekte.
 
 %%/book
 
@@ -740,9 +785,17 @@ Erfinde keine weiteren Attribute.
 
 %%book
 
-### UML als Prompt-Vorlage
+#### UML-Diagramm als KI-Prompt
 
 Ein UML-Klassendiagramm, das einer KI als Prompt übergeben wird, muss vollständig sein: Klassennamen, Attribute mit Typen, Methoden mit Parametern und Rückgabetypen, Beziehungen mit Richtung und Multiplizität. Für unser `Raum`-Beispiel heißt das: Nicht nur der Klassenname, sondern auch `name: str`, `fläche: float`, `höhe: float` und `berechne_volumen() -> float` müssen explizit genannt sein. Aus dem Diagramm formulieren wir dann einen präzisen Prompt, der die KI anweist, genau diese Spezifikation umzusetzen. Was nicht im Diagramm steht, wird die KI erfinden — und das oft falsch.
+
+Für das Beispiel sieht das Diagramm so aus:
+
+![UML-Fragment der Klasse `Raum`](images/04c_Objects/uml_raum.svg)
+
+Daraus entsteht ein Prompt, der nur die Elemente des Diagramms nennt und der KI ausdrücklich verbietet, etwas hinzuzuerfinden:
+
+> Implementiere die Klasse Raum. Attribute: name: str, fläche: float, höhe: float. Methode: berechne_volumen() -> float. Erfinde keine weiteren Attribute.
 
 %%/book
 
@@ -792,9 +845,21 @@ Ergebnis: unvollständig — Prompt oder Diagramm nachschärfen
 
 %%book
 
-### Verifizieren gegen das Diagramm
+#### Verifizieren gegen das Diagramm
 
 Die Verifikation ist der entscheidende Schritt im agentischen Workflow. Wer nur den generierten Code liest, ohne gegen das Diagramm zu prüfen, übersieht fehlende Attribute, falsche Beziehungstypen oder falsch typisierte Rückgabewerte. Wenn die KI z.B. eine Klasse `Raum` ohne `berechne_volumen()` oder ohne die Beziehung zu `Fenster` erzeugt, ist nicht "fast richtig", sondern unvollständig. Das Diagramm ist das Kriterium — nicht das eigene Bauchgefühl. Erst wenn Code und Diagramm übereinstimmen, ist der Entwurf korrekt umgesetzt.
+
+Die Prüfung läuft in vier Schritten: Man liest die generierten Klassen gegen das UML-Diagramm, prüft, ob alle Attribute vorhanden und korrekt benannt sind, prüft, ob alle Beziehungen korrekt umgesetzt sind, und ergänzt bei Abweichungen das Diagramm, bevor man erneut promptet.
+
+Ein Beispiel: Die KI liefert für die Klasse `Raum` den folgenden Code.
+
+```python
+class Raum:
+    def __init__(self, name, fläche, höhe):
+        self.name = name
+```
+
+Gegen das Diagramm geprüft ergibt sich: `name` ist vorhanden, aber der Typ `str` fehlt. `fläche` und `höhe` werden zwar übergeben, aber nicht gespeichert, und `berechne_volumen()` fehlt ganz. Der Code ist also unvollständig, und Prompt oder Diagramm müssen nachgeschärft werden.
 
 %%/book
 
@@ -819,9 +884,9 @@ Die Verifikation ist der entscheidende Schritt im agentischen Workflow. Wer nur 
 
 %%book
 
-## BIM-Beispiel: Gebäudehierarchie
+Die Zerlegung einer Domäne in Entitäten zeigt sich am Gebäude. Die Entitäten sind `Gebäude`, `Etage`, `Raum` und `Fenster`. Zwischen Gebäude, Etage und Raum besteht jeweils eine Komposition, zwischen Raum und Fenster eine Aggregation. Attribute und Methoden stehen bereits im Diagramm und nicht erst im Code.
 
-![](images/04c_Objects/uml_bim.svg)
+![Gebäudehierarchie als UML-Klassendiagramm](images/04c_Objects/uml_bim.svg)
 
 Ein typisches BIM-Modell lässt sich als Objekthierarchie ausdrücken: `Gebäude → Etage → Raum → Fenster`. Jede Klasse hat eigene Attribute (z.B. `Raum.fläche`, `Fenster.u_wert`) und eigene Verantwortlichkeiten (z.B. `Etage.berechne_gesamtfläche()`). Die Beziehungen — Komposition, Aggregation — müssen im Entwurf mit Multiplizitäten explizit festgehalten werden.
 
@@ -831,7 +896,7 @@ Für das Fenster werden die Attribute `breite: float`, `höhe: float` und `u_wer
 
 %%book
 
-## Anforderung → UML → KI → Code
+#### Anforderung, UML, KI-Prompt und Code
 
 Dieses Beispiel führt den vollständigen agentischen Workflow durch: von einer natürlichsprachlichen Anforderung über ein UML-Klassendiagramm zu einem KI-generierten Python-Programm. Die Verifikationsphase zeigt, wie man prüft, ob der generierte Code das Diagramm korrekt umsetzt.
 
@@ -866,7 +931,7 @@ Dieses Beispiel führt den vollständigen agentischen Workflow durch: von einer 
 
 %%book
 
-## BIM-Beispiel — Schritt 1: Anforderung formulieren
+##### Schritt 1: Anforderung formulieren
 
 Der Auftraggeber beschreibt das Problem in seiner Fachsprache. Für den Entwurf stellt die Ingenieurin oder der Ingenieur vier Fragen an diesen Text: Welche Klassen, welche Attribute mit welchen Typen, welche Methoden mit welchen Signaturen und welche Beziehungen zwischen den Klassen gibt es?
 
@@ -892,9 +957,9 @@ Der Auftraggeber beschreibt das Problem in seiner Fachsprache. Für den Entwurf 
 
 %%book
 
-## BIM-Beispiel — Schritt 2: Anforderung → UML
+##### Schritt 2: Anforderung → UML
 
-![](images/04c_Objects/uml_building_room_window.svg)
+![UML-Diagramm zu Gebäude, Raum und Fenster](images/04c_Objects/uml_building_room_window.svg)
 
 Das UML-Klassendiagramm identifiziert drei Klassen: `Building`, `Room` und `Window`. Sie ergeben sich direkt aus den Sätzen der Anforderung:
 
@@ -932,7 +997,7 @@ Die geforderte Berechnung "Gesamtfensterfläche eines Raumes" wird zur Methode `
 
 %%book
 
-## BIM-Beispiel — Schritt 3: UML → KI-Prompt → Verifizieren
+##### Schritt 3: UML → KI-Prompt → Verifizieren
 
 Aus dem UML-Diagramm kann nun ein präziser KI-Prompt formuliert werden. Ein mögliches generiertes Python-Ergebnis wäre:
 
@@ -999,7 +1064,7 @@ Die letzten beiden Punkte sind typische Abweichungen, die man nur findet, wenn m
 
 %%book
 
-## Anwendungsbeispiel — BIM (Building Information Models)
+#### Praxisbezug: BIM und IFC
 
 Das Beispiel ist nicht künstlich: In realen BIM-Workflows werden Gebäude als objektorientierte Modelle beschrieben. Der Standard *IFC* (Industry Foundation Classes) enthält Klassen, Eigenschaften und Beziehungen für Bauteile, Räume, Öffnungen oder technische Anlagen.
 
@@ -1034,6 +1099,14 @@ Tests verifizieren, ob die Python-Implementierung dem UML-Entwurf entspricht
 %%/col
 
 %%/slides
+
+%%book
+
+### Querverbindungen
+
+Diese Einheit behandelt nur die Entwurfsseite der Objekte. In `03c_Softwareentwurf` haben wir gesehen, warum der Entwurf vor der Implementierung steht. In `06b_Objects` folgt die Python-Syntax für dieselben Konzepte: `class`, `__init__`, `self`, Attribute und Methoden. In `08a_UnitTest` schließlich prüfen Tests, ob die Python-Implementierung dem UML-Entwurf entspricht.
+
+%%/book
 
 %%book
 
