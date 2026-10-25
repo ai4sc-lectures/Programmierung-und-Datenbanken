@@ -99,7 +99,27 @@
     code span.va { color: #111111; } /* Variable */
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
-  </style>
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
   <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-c6d6628e7e574435f2d21401e0a6d85b.css">
   <link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/fonts.css">
   <link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/reveal-fixes.css">
@@ -297,7 +317,7 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
         <p class="subtitle">Vom Problem zum Prompt</p>
             <p class="author">Joern Ploennigs · AI4SC</p>
                         <p class="image-credit">
-      Midjourney: A civil engineer reviewing a digital blueprint with an AI assistant
+      ‘The Connoisseur’ by Norman Rockwell
     </p>
       </div>
 </section>
@@ -305,421 +325,582 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 <h2>Hörsaalfrage</h2>
 <div class="columns">
 <div class="column vcent" style="width:40%;">
-<p>Wer legt in einem Projekt fest, was gebaut wird?</p>
+<p>Der Agent meldet: Aufgabe erledigt. Woher wissen Sie, ob das stimmt?</p>
 </div><div class="column" style="width:60%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/04a_Anforderungen/mj_title_band.jpg" class="midjourney"></p>
-<figcaption>Midjourney: Ein Bauingenieur prüft mit einem KI-Assistenten einen digitalen Bauplan</figcaption>
+<p><img data-src="images/04a_Anforderungen/mj_jobdone.png" class="midjourney"></p>
+<figcaption>Midjourney: Job Done</figcaption>
 </figure>
 </div>
 </div></div>
-<!-- TODO MJ: A civil engineer reviewing a blueprint with an AI assistant, split-screen, flat illustration -->
 </section>
 <section>
 <section id="warum-anforderungen-1" class="title-slide slide level1 center">
 <h1>Warum Anforderungen?</h1>
 
 </section>
-<section id="ki-erfüllt-den-prompt-nicht-den-bedarf-1" class="slide level2 scramble-slide" data-transition="none">
-<h2>KI erfüllt den Prompt, nicht den Bedarf</h2>
+<section id="ein-satz-drei-ergebnisse-1" class="slide level2">
+<h2>Ein Satz, drei Ergebnisse</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<h3 id="was-ki-tut">Was KI tut</h3>
-<p>Sie erzeugt Code, der den Prompt erfüllt.</p>
-<h3 id="was-ki-nicht-tut">Was KI nicht tut</h3>
-<p>Sie prüft nicht, ob der Prompt das Problem des Stakeholders trifft.</p>
+<h3 id="prompt">Prompt</h3>
+<blockquote>
+<p>„Berechne den mittleren Wasserstand.“</p>
+</blockquote>
+<p>Beispieldaten einer Messstation, −999 steht für „Messwert fehlt“:</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Zeit in h</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pegel in m</td>
+<td>2,30</td>
+<td>2,32</td>
+<td>−999</td>
+<td>2,60</td>
+</tr>
+</tbody>
+</table>
 </div><div class="column" style="width:50%;">
-<h3 id="konsequenz">Konsequenz</h3>
-<p>Sie sind die Brücke zwischen Stakeholder-Bedarf und KI-generiertem Code.</p>
-<p>Keine gute Anforderung, kein guter Prompt.</p>
-</div></div>
-</section>
-<section id="anforderung-quelle-von-prompt-und-test" class="slide level2">
-<h2>Anforderung: Quelle von Prompt und Test</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p>Der agentische Zyklus:</p>
-<ol type="1">
-<li><strong>Prompt</strong> → KI generiert Code</li>
-<li><strong>Generate</strong> → Code entsteht</li>
-<li><strong>Understand</strong> → Code lesen</li>
-<li><strong>Verify</strong> → Testen gegen Anforderung</li>
-<li><strong>Iterate</strong> → Prompt verfeinern</li>
-</ol>
-</div><div class="column" style="width:50%;">
-<p><strong>Anforderung</strong> ist Grundlage für Schritt 1 und Schritt 4.</p>
-<p>Ohne klare Anforderung:</p>
+<h3 id="drei-programme-drei-ergebnisse">Drei Programme, drei Ergebnisse</h3>
 <ul>
-<li>kein präziser Prompt</li>
-<li>kein sinnvoller Test</li>
-<li>kein Maßstab für „fertig”</li>
+<li>Mittelwert aller Einträge: −247,945 m</li>
+<li>Mittelwert der gültigen Werte: 2,407 m</li>
+<li>Zeitgewichteter Mittelwert (Trapezregel): 2,435 m</li>
 </ul>
+<p>Welche Lesart meint der Auftraggeber? Der Satz legt es nicht fest.</p>
 </div></div>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/04a_Anforderungen/zyklus_anforderung.svg" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
-</figure>
+<div class="slide-refs">
+<p>Tang et al.: How Coding Agents Fail Their Users, arXiv:2605.29442, 2026</p>
 </div>
-<p>Die <span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
-  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-  <path d="M12 11h4"></path>
-  <path d="M12 16h4"></path>
-  <path d="M8 11h.01"></path>
-  <path d="M8 16h.01"></path>
-</svg>
-</span> Anforderung speist Schritt 1 (Prompt) und Schritt 4 (Verifizieren). Ohne sie gibt es kein Maß für „fertig“.</p>
+<div class="slide-ref-cites">
+<!-- slide_ref: tang2026agents -->
+<p><span class="citation" data-cites="tang2026agents">[<a href="#/referenzen" role="doc-biblioref" onclick="">Tang et al., 2026</a>]</span></p>
+</div>
+</section>
+<section id="vier-fehlerarten-von-agenten-1" class="slide level2">
+<h2>Vier Fehlerarten von Agenten</h2>
+<div class="stat-grid large" style="grid-template-columns: repeat(4, 1fr); gap: 12px;">
+<div class="stat-card">
+<div class="stat-value">
+<p>38,3 %</p>
+</div>
+<div class="stat-label">
+<p>Einschränkung verletzt</p>
+</div>
+<div class="stat-delta">
+<p>Der Agent verletzt eine ausdrücklich genannte Vorgabe. Abhilfe: Randbedingungen kurz, dauerhaft und prüfbar festhalten</p>
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-value">
+<p>27,0 %</p>
+</div>
+<div class="stat-label">
+<p>Absicht missverstanden</p>
+</div>
+<div class="stat-delta">
+<p>Der Agent füllt eine Lücke falsch. Abhilfe: vollständige funktionale Anforderungen</p>
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-value">
+<p>22,6 %</p>
+</div>
+<div class="stat-label">
+<p>Ungenaue Selbstauskunft</p>
+</div>
+<div class="stat-delta">
+<p>Der Agent meldet Erfolg, der nicht stimmt. Abhilfe: prüfbare Akzeptanzkriterien</p>
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-value">
+<p>10,2 %</p>
+</div>
+<div class="stat-label">
+<p>Eigenmächtige Erweiterung</p>
+</div>
+<div class="stat-delta">
+<p>Der Agent handelt über den genannten Umfang hinaus. Abhilfe: Umfang und Nicht-Ziele festhalten und prüfen</p>
+</div>
+</div>
+</div>
+<div class="slide-refs">
+<p>Tang et al.: How Coding Agents Fail Their Users, arXiv:2605.29442, 2026. Anteile an allen Episoden, gerundet</p>
+</div>
+<div class="slide-ref-cites">
+<!-- slide_ref: tang2026agents -->
+<p><span class="citation" data-cites="tang2026agents">[<a href="#/referenzen" role="doc-biblioref" onclick="">Tang et al., 2026</a>]</span></p>
+</div>
+</section>
+<section id="der-agent-fragt-nicht-nach-und-meldet-fertig-1" class="slide level2">
+<h2>Der Agent fragt nicht nach und meldet „fertig“</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="er-fragt-nicht-nach">Er fragt nicht nach</h3>
+<p>Ohne Aufforderung fragen Modelle bei unvollständigen Aufgaben meist nicht nach. Dürfen sie Rückfragen stellen, erreichen Claude-Modelle etwa 80 % (Sonnet 3.5) bis 89 % (Sonnet 4) der Leistung bei vollständiger Aufgabenbeschreibung.</p>
+</div><div class="column" style="width:50%;">
+<h3 id="er-hört-auf-wenn-es-fertig-aussieht">Er hört auf, wenn es fertig aussieht</h3>
+<p>„Claude stops when the work looks done. Without a check it can run, ‚looks done‘ is the only signal available.“</p>
+<p>Wer keine Prüfung mitliefert, wird selbst zur Prüfinstanz.</p>
+</div></div>
+<div class="slide-refs">
+<p>Vijayvargiya et al.: Ambig-SWE, arXiv:2502.13069, 2026</p>
+<p>Anthropic: Best practices for Claude Code, 2026</p>
+</div>
+<div class="slide-ref-cites">
+<!-- slide_ref: vijayvargiya2026ambig, anthropic2026bestpractices -->
+<p><span class="citation" data-cites="vijayvargiya2026ambig anthropic2026bestpractices">[<a href="#/referenzen" role="doc-biblioref" onclick="">Anthropic, 2026</a>; <a href="#/referenzen" role="doc-biblioref" onclick="">Vijayvargiya et al., 2026</a>]</span></p>
+</div>
 </section></section>
 <section>
-<section id="anforderungsarten-1" class="title-slide slide level1 center">
-<h1>Anforderungsarten</h1>
+<section id="anforderungen-ermitteln-1" class="title-slide slide level1 center">
+<h1>Anforderungen ermitteln</h1>
 
 </section>
-<section id="drei-kategorien-1" class="slide level2">
-<h2>Drei Kategorien</h2>
+<section id="der-kontext-bestimmt-die-quellen-1" class="slide level2">
+<h2>Der Kontext bestimmt die Quellen</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/04a_Anforderungen/kontext_pegel.svg" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div><div class="column" style="width:40%;">
+<h3 id="drei-arten-von-quellen">Drei Arten von Quellen</h3>
+<ul>
+<li>Stakeholder: Betreiber, Berichtswesen</li>
+<li>Dokumente: Messvorschrift, Normen</li>
+<li>Andere Systeme: Sensor, Warnsystem, Archiv</li>
+</ul>
+<p>Die Systemgrenze legt fest, wer Anforderungen stellt.</p>
+</div></div>
+<div class="slide-refs">
+<p>Glinz et al.: IREB CPRE Foundation Level Handbook, Abschnitte 3.4.2 und 4.1, 2022</p>
+</div>
+<div class="slide-ref-cites">
+<!-- slide_ref: glinz2022ireb -->
+<p><span class="citation" data-cites="glinz2022ireb">[<a href="#/referenzen" role="doc-biblioref" onclick="">Glinz et al., 2022</a>]</span></p>
+</div>
+</section>
+<section id="fünf-familien-von-ermittlungstechniken-1" class="slide level2">
+<h2>Fünf Familien von Ermittlungstechniken</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Familie</th>
+<th>Techniken</th>
+<th>Findet vor allem</th>
+<th>Beispiel Messstation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Befragung</td>
+<td>Interview, Fragebogen</td>
+<td>Ausdrücklich genannte Wünsche</td>
+<td>Betreiber nach dem Berichtsformat fragen</td>
+</tr>
+<tr class="even">
+<td>Zusammenarbeit</td>
+<td>Workshop, Crowd</td>
+<td>Ausdrücklich genannte Wünsche</td>
+<td>Tragwerk, Haustechnik und Betreiber legen Messgrößen fest</td>
+</tr>
+<tr class="odd">
+<td>Beobachtung</td>
+<td>Feldbeobachtung, Apprenticing</td>
+<td>Selbstverständliches</td>
+<td>Begehung der Messstation, Ablesen und Ausfälle verfolgen</td>
+</tr>
+<tr class="even">
+<td>Artefakte</td>
+<td>Systemarchäologie, Feedback-Analyse, Wiederverwendung</td>
+<td>Selbstverständliches und Wünsche</td>
+<td>Altes Auswerteskript, Störungsprotokolle, Messvorschrift</td>
+</tr>
+<tr class="odd">
+<td>Kreativität und Design</td>
+<td>Brainstorming, Analogie, Prototyp, Szenario</td>
+<td>Neue Ideen, Qualitätsanforderungen</td>
+<td>Handrechnung als Prototyp, Szenario Hochwasser</td>
+</tr>
+</tbody>
+</table>
+<div class="slide-refs">
+<p>Glinz et al.: IREB CPRE Foundation Level Handbook, Abschnitt 4.2, 2022</p>
+</div>
+<div class="slide-ref-cites">
+<!-- slide_ref: glinz2022ireb -->
+<p><span class="citation" data-cites="glinz2022ireb">[<a href="#/referenzen" role="doc-biblioref" onclick="">Glinz et al., 2022</a>]</span></p>
+</div>
+</section>
+<section id="beobachten-und-artefakte-auswerten-1" class="slide level2">
+<h2>Beobachten und Artefakte auswerten</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="beobachtung">Beobachtung</h3>
+<ul>
+<li>Feldbeobachtung: zusehen, ohne einzugreifen</li>
+<li>Apprenticing: mitarbeiten und von erfahrenen Nutzern lernen, einen Tag bis mehrere Wochen</li>
+</ul>
+<p>Findet, was so üblich ist, dass es niemand sagt.</p>
+<p>Beispiel: Wie liest das Personal die Messstation tatsächlich ab, und wo notiert es Ausfälle?</p>
+</div><div class="column" style="width:50%;">
+<h3 id="artefakte">Artefakte</h3>
+<ul>
+<li>Systemarchäologie: Altsystem, Dokumentation, Code, Testfälle</li>
+<li>Dokumente: Normen, Vorschriften, Arbeitsanweisungen</li>
+<li>Feedback-Analyse: Fehlerberichte, Protokolle</li>
+</ul>
+<p>Vorsicht: Altes kann veraltet sein.</p>
+<p>Beispiel: Das alte Auswerteskript zeigt, dass −999 ein Ausfall ist.</p>
+</div></div>
+<div class="slide-refs">
+<p>Glinz et al.: IREB CPRE Foundation Level Handbook, Abschnitte 4.1.2 bis 4.2.2, 2022</p>
+</div>
+<div class="slide-ref-cites">
+<!-- slide_ref: glinz2022ireb -->
+<p><span class="citation" data-cites="glinz2022ireb">[<a href="#/referenzen" role="doc-biblioref" onclick="">Glinz et al., 2022</a>]</span></p>
+</div>
+</section>
+<section id="entwerfen-und-ausprobieren-1" class="slide level2">
+<h2>Entwerfen und ausprobieren</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="kreativität">Kreativität</h3>
+<ul>
+<li>Brainstorming: Ideen sammeln, Urteil aufschieben</li>
+<li>Analogie: ein ähnliches Problem aus einer anderen Branche übertragen</li>
+</ul>
+<p>Findet neue Ideen.</p>
+</div><div class="column" style="width:50%;">
+<h3 id="design">Design</h3>
+<ul>
+<li>Prototyp: von der Skizze bis zur Vorabversion</li>
+<li>Szenario und Storyboard: Ablauf mit Akteuren, auch Ausnahmen</li>
+</ul>
+<p>Findet Qualitätsanforderungen, Selbstverständliches und Randbedingungen.</p>
+<p>Beispiel: Handrechnung oder Tabelle als Prototyp, Szenario „Hochwasser, Sensor fällt aus“.</p>
+</div></div>
+<div class="slide-refs">
+<p>Glinz et al.: IREB CPRE Foundation Level Handbook, Abschnitt 4.2.3, 2022</p>
+</div>
+<div class="slide-ref-cites">
+<!-- slide_ref: glinz2022ireb -->
+<p><span class="citation" data-cites="glinz2022ireb">[<a href="#/referenzen" role="doc-biblioref" onclick="">Glinz et al., 2022</a>]</span></p>
+</div>
+</section></section>
+<section>
+<section id="anforderungen-festlegen-1" class="title-slide slide level1 center">
+<h1>Anforderungen festlegen</h1>
+
+</section>
+<section id="drei-arten-von-anforderungen-1" class="slide level2">
+<h2>Drei Arten von Anforderungen</h2>
 <div class="columns">
 <div class="column" style="width:33%;">
 <h4 id="funktional">Funktional</h4>
-<p>Was das System tun muss</p>
+<p>Ergebnis, Verhalten oder Interaktion, die ein System liefern soll</p>
 <ul>
-<li>Messwerte einlesen</li>
-<li>Grenzwert prüfen</li>
-<li>Alarm auslösen</li>
-<li>Bericht erzeugen</li>
+<li>Der Mittelwert wird zeitgewichtet berechnet</li>
+<li>Ein Messwert −999 wird ignoriert</li>
 </ul>
 </div><div class="column" style="width:33%;">
-<h4 id="nichtfunktional">Nichtfunktional</h4>
-<p>Wie gut es das tun muss</p>
+<h4 id="qualität">Qualität</h4>
+<p>Qualitätsaspekte, die die funktionalen Anforderungen nicht abdecken</p>
 <ul>
-<li>Antwortzeit unter 2 s</li>
-<li>1 Mio. Datensätze verarbeiten</li>
-<li>Ausgabe IFC-konform</li>
+<li>Auswertung eines Tages dauert höchstens 1 s</li>
+<li>Das System bleibt bei Sensorausfall betriebsbereit</li>
 </ul>
 </div><div class="column" style="width:33%;">
-<h4 id="randbedingungen">Randbedingungen</h4>
-<p>Womit und worunter</p>
+<h4 id="randbedingung">Randbedingung</h4>
+<p>Beschränkt den Lösungsraum über das Nötige hinaus</p>
 <ul>
-<li>Raspberry Pi 4</li>
-<li>Python 3.11</li>
-<li>DSGVO</li>
+<li>Nur die Python-Standardbibliothek</li>
+<li>Ausgabe im Format des Warnsystems</li>
 </ul>
 </div></div>
+<div class="slide-refs">
+<p>Glinz et al.: IREB CPRE Foundation Level Handbook, Abschnitt 1.1, 2022</p>
+</div>
+<div class="slide-ref-cites">
+<!-- slide_ref: glinz2022ireb -->
+<p><span class="citation" data-cites="glinz2022ireb">[<a href="#/referenzen" role="doc-biblioref" onclick="">Glinz et al., 2022</a>]</span></p>
+</div>
 </section>
-<section id="beispiel-sensorüberwachung-brückenbauwerk" class="slide level2">
-<h2>Beispiel: Sensorüberwachung Brückenbauwerk</h2>
+<section id="eine-einzelne-anforderung-prüfen-1" class="slide level2">
+<h2>Eine einzelne Anforderung prüfen</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<h3 id="szenario">Szenario</h3>
-<p>Überwachungssystem für Feuchte- und Temperatursensoren in einem Brückenbauwerk.</p>
-<h3 id="funktional-1">Funktional</h3>
+<h3 id="sechs-kriterien-ireb">Sechs Kriterien (IREB)</h3>
 <ul>
-<li>Messwerte alle 60 s einlesen</li>
-<li>Grenzwertüberschreitung erkennen</li>
-<li>Alarm per E-Mail versenden</li>
-<li>Messdaten lokal speichern</li>
+<li>Angemessen: beschreibt echte, abgestimmte Bedürfnisse</li>
+<li>Notwendig: gehört zum Umfang des Systems</li>
+<li>Eindeutig: alle verstehen dasselbe</li>
+<li>Vollständig: nichts zum Verständnis fehlt</li>
+<li>Verständlich: die Zielgruppe versteht sie</li>
+<li>Prüfbar: Erfüllung lässt sich eindeutig feststellen</li>
 </ul>
 </div><div class="column" style="width:50%;">
-<h3 id="nichtfunktional-1">Nichtfunktional</h3>
-<ul>
-<li>Antwortzeit unter 2 s</li>
-<li>Weiterbetrieb bei Netzausfall</li>
-</ul>
-<h3 id="randbedingungen-1">Randbedingungen</h3>
-<ul>
-<li>Hardware: Raspberry Pi 4</li>
-<li>Betriebssystem: Raspberry Pi OS</li>
-</ul>
+<h3 id="umschreiben">Umschreiben</h3>
+<p><span class="con">„Die Auswertung soll schnell und einfach sein.“</span></p>
+<p><span class="pro">„WENN ein Tagesbericht angefordert wird, muss die Auswertung für 144 Messwerte (24 h im 10-Minuten-Raster) in höchstens 1 s ein Ergebnis liefern.“</span></p>
+<p>Der Zahlenwert ist ein Beispielwert, nur die 144 folgen aus dem Messraster.</p>
 </div></div>
+<div class="slide-refs">
+<p>Glinz et al.: IREB CPRE Foundation Level Handbook, Abschnitt 3.8, 2022</p>
+</div>
+<div class="slide-ref-cites">
+<!-- slide_ref: glinz2022ireb -->
+<p><span class="citation" data-cites="glinz2022ireb">[<a href="#/referenzen" role="doc-biblioref" onclick="">Glinz et al., 2022</a>]</span></p>
+</div>
 </section>
-<section id="häufige-fehler-bei-anforderungen" class="slide level2">
-<h2>Häufige Fehler bei Anforderungen</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="schlecht">Schlecht</h3>
-<ul>
-<li><span class="con">Vage: „Das System soll schnell sein“</span></li>
-<li><span class="con">Nicht testbar: „Benutzerfreundliche Oberfläche“</span></li>
-<li><span class="con">Lösungsorientiert: „Nutze SQLite als Datenbank“</span></li>
-</ul>
-</div><div class="column" style="width:50%;">
-<h3 id="besser">Besser</h3>
-<ul>
-<li><span class="pro">Messbar: „Antwortzeit unter 2 s bei 95 % der Anfragen“</span></li>
-<li><span class="pro">Testbar: „Die Alarmfunktion wird ohne Anleitung in unter 30 s gefunden“</span></li>
-<li><span class="pro">Problemorientiert: „Messdaten bleiben nach Stromausfall abrufbar“</span></li>
-</ul>
-</div></div>
-</section></section>
-<section>
-<section id="stakeholder-perspektiven-1" class="title-slide slide level1 center">
-<h1>Stakeholder-Perspektiven</h1>
-
-</section>
-<section id="drei-perspektiven-ein-system-1" class="slide level2">
-<h2>Drei Perspektiven, ein System</h2>
-<div class="columns">
-<div class="column" style="width:33%;">
-<h4 id="tragwerksplaner">Tragwerksplaner</h4>
-<p>Braucht:</p>
-<ul>
-<li>Rohmesswerte (kPa, °C)</li>
-<li>Langzeittrends</li>
-<li>Export in IFC / CSV</li>
-</ul>
-</div><div class="column" style="width:33%;">
-<h4 id="facility-manager">Facility Manager</h4>
-<p>Braucht:</p>
-<ul>
-<li>Echtzeit-Alarmierung</li>
-<li>Dashboard auf dem Tablet</li>
-<li>Eskalationsregeln</li>
-</ul>
-</div><div class="column" style="width:33%;">
-<h4 id="behördenprüfer">Behördenprüfer</h4>
-<p>Braucht:</p>
-<ul>
-<li>Audit-Trail</li>
-<li>Manipulationssicherheit</li>
-<li>Exportierbare Berichte</li>
-</ul>
-</div></div>
-</section>
-<section id="stakeholder-bedarf-in-anforderungen-überführen" class="slide level2">
-<h2>Stakeholder-Bedarf in Anforderungen überführen</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="vorgehen">Vorgehen</h3>
-<ol type="1">
-<li>Stakeholder identifizieren</li>
-<li>Nutzungsszenarien je Rolle erfassen</li>
-<li>Funktionale und nichtfunktionale Anforderungen ableiten</li>
-<li>Konflikte aufdecken und priorisieren</li>
-</ol>
-</div><div class="column" style="width:50%;">
-<h3 id="typische-konflikte">Typische Konflikte</h3>
-<ul>
-<li>Echtzeit (Manager) gegen Langzeitarchiv (Planer)</li>
-<li>Offene API gegen Sicherheitsanforderung (Prüfer)</li>
-<li>Detailtiefe gegen Übersichtlichkeit</li>
-</ul>
-</div></div>
-</section></section>
-<section>
-<section id="qualitätskriterien-1" class="title-slide slide level1 center">
-<h1>Qualitätskriterien</h1>
-
-</section>
-<section id="messbare-abnahmekriterien-1" class="slide level2">
-<h2>Messbare Abnahmekriterien</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="das-system-soll-zuverlässig-sein.">„Das System soll zuverlässig sein.“</h3>
-<p>Messbar gemacht:</p>
-<ul>
-<li>Messwerte bleiben nach Stromausfall abrufbar</li>
-<li>Automatischer Neustart nach unter 60 s</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<h3 id="das-system-soll-skalierbar-sein.">„Das System soll skalierbar sein.“</h3>
-<p>Messbar gemacht:</p>
-<ul>
-<li>1 Mio. Datensätze in unter 10 s verarbeiten</li>
-<li>Ausgabe validiert gegen das IFC-Schema</li>
-</ul>
-</div></div>
-<div title="Merksatz">
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Merksatz</strong></p>
-</div>
-<div class="callout-content">
-<p>Sofern möglich braucht jede nichtfunktionale Anforderung ein quantitatives Akzeptanzkriterium. Falls das nicht sinnvoll ist, braucht sie wenigstens ein klares Prüfkriterium.</p>
-</div>
-</div>
-</div>
-</div>
-</section></section>
-<section>
-<section id="user-stories-1" class="title-slide slide level1 center">
-<h1>User Stories</h1>
-
-</section>
-<section id="user-story-format-1" class="slide level2">
-<h2>User-Story-Format</h2>
+<section id="user-story-und-akzeptanzkriterien-1" class="slide level2">
+<h2>User Story und Akzeptanzkriterien</h2>
 <div class="columns">
 <div class="column" style="width:45%;">
 <h3 id="schablone">Schablone</h3>
 <blockquote>
-<p>Als <strong>[Rolle]</strong><br>
-möchte ich <strong>[Funktion]</strong><br>
-damit ich <strong>[Nutzen]</strong>.</p>
+<p>Als <strong>[Rolle]</strong> möchte ich <strong>[Anforderung]</strong>, damit <strong>[Nutzen]</strong>.</p>
 </blockquote>
-<p>Akzeptanzkriterien beantworten: Wann ist die Story erledigt?</p>
+<p>Akzeptanzkriterien legen fest, wann die Story erfüllt ist.</p>
 </div><div class="column" style="width:55%;">
 <h3 id="beispiel">Beispiel</h3>
 <blockquote>
-<p>Als <strong>Facility Manager</strong><br>
-möchte ich ein <strong>Sensor-Alarm-Dashboard</strong><br>
-damit ich <strong>vor einem SLA-Bruch reagieren kann</strong>.</p>
+<p>Als <strong>Betreiber</strong> möchte ich den mittleren Wasserstand je Tag, damit ich Berichte ohne Handrechnung erstellen kann.</p>
 </blockquote>
 <ul>
-<li>Dashboard lädt in unter 2 s</li>
-<li>Aktive Alarme werden rot hervorgehoben</li>
-<li>Quittierung wird mit UTC-Zeitstempel gespeichert</li>
+<li>Gegeben Messwerte bei 0, 1, 2 und 6 h mit 2,30; 2,32; −999; 2,60 m, wenn der Mittelwert berechnet wird, dann ergibt sich 2,435 m (±0,001 m).</li>
+<li>Gegeben nur ein gültiger Messwert, wenn der Mittelwert berechnet wird, dann erscheint eine Fehlermeldung statt einer Zahl.</li>
 </ul>
 </div></div>
+<div class="slide-refs">
+<p>Fowler: Given When Then, martinfowler.com, 2013</p>
+</div>
+<div class="slide-ref-cites">
+<!-- slide_ref: fowler2013gwt -->
+<p><span class="citation" data-cites="fowler2013gwt">[<a href="#/referenzen" role="doc-biblioref" onclick="">Fowler, 2013</a>]</span></p>
+</div>
 </section></section>
 <section>
-<section id="anforderung-und-prompt-1" class="title-slide slide level1 center">
-<h1>Anforderung und Prompt</h1>
+<section id="anforderungen-für-den-agenten-1" class="title-slide slide level1 center">
+<h1>Anforderungen für den Agenten</h1>
 
 </section>
-<section id="von-der-user-story-zum-prompt-kontext-1" class="slide level2">
-<h2>Von der User Story zum Prompt: Kontext</h2>
+<section id="die-agententaugliche-spezifikation-1" class="slide level2">
+<h2>Die agententaugliche Spezifikation</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Abschnitt der Spezifikation</th>
+<th>Prompt-Element (03d)</th>
+<th>Beugt vor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Ziel und Kontext</td>
+<td>Rolle, Kontext</td>
+<td>Absicht missverstanden</td>
+</tr>
+<tr class="even">
+<td>Funktionale Anforderungen</td>
+<td>Aufgabe</td>
+<td>Absicht missverstanden</td>
+</tr>
+<tr class="odd">
+<td>Randbedingungen</td>
+<td>Constraint</td>
+<td>Einschränkung verletzt</td>
+</tr>
+<tr class="even">
+<td>Nicht-Ziele</td>
+<td>Constraint</td>
+<td>Eigenmächtige Erweiterung</td>
+</tr>
+<tr class="odd">
+<td>Qualitätsanforderungen, Akzeptanzkriterien</td>
+<td>Ausgabeformat und Test</td>
+<td>Ungenaue Selbstauskunft</td>
+</tr>
+</tbody>
+</table>
+<div class="slide-refs">
+<p>Anthropic: Best practices for Claude Code, Abschnitt „Let Claude interview you“, 2026</p>
+</div>
+<div class="slide-ref-cites">
+<!-- slide_ref: anthropic2026bestpractices -->
+<p><span class="citation" data-cites="anthropic2026bestpractices">[<a href="#/referenzen" role="doc-biblioref" onclick="">Anthropic, 2026</a>]</span></p>
+</div>
+</section>
+<section id="beispiel-spezifikation-für-den-mittleren-wasserstand-1" class="slide level2">
+<h2>Beispiel: Spezifikation für den mittleren Wasserstand</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<h3 id="user-story">User Story</h3>
+<pre><code>Ziel
+  mittlerer_wasserstand(zeiten_h, werte_m)
+  für Pegeldaten, Meter über Pegelnull
+
+Funktional
+  F1  Die Funktion muss den zeitgewichteten
+      Mittelwert (Trapezregel) der gültigen
+      Werte liefern.
+  F2  FALLS ein Messwert -999 ist, DANN muss
+      sie ihn ignorieren.
+  F3  FALLS weniger als zwei gültige Werte
+      vorliegen, DANN muss sie einen
+      ValueError auslösen.</code></pre>
+</div><div class="column" style="width:50%;">
+<pre><code>Randbedingungen
+  R1  Nur die Python-Standardbibliothek.
+  R2  Zeiten in Stunden, aufsteigend.
+
+Nicht-Ziele
+  Keine Interpolation, keine Plots,
+  Eingaben bleiben unverändert.
+
+Akzeptanz
+  A1  Zeiten 0, 1, 2, 6 h; Werte
+      2,30; 2,32; -999; 2,60
+      ergeben 2,435 m (±0,001 m).</code></pre>
+</div></div>
+<div class="slide-refs">
+<p>Anthropic: Best practices for Claude Code, 2026</p>
+</div>
+<div class="slide-ref-cites">
+<!-- slide_ref: anthropic2026bestpractices -->
+<p><span class="citation" data-cites="anthropic2026bestpractices">[<a href="#/referenzen" role="doc-biblioref" onclick="">Anthropic, 2026</a>]</span></p>
+</div>
+</section>
+<section id="randbedingungen-und-abgrenzung-ausdrücklich-nennen-1" class="slide level2">
+<h2>Randbedingungen und Abgrenzung ausdrücklich nennen</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="ohne">Ohne</h3>
 <blockquote>
-<p>Als Facility Manager<br>
-möchte ich ein Sensor-Alarm-Dashboard<br>
-damit ich vor einem SLA-Bruch reagieren kann.</p>
+<p>„Schreibe eine Funktion mittlerer_wasserstand.“</p>
 </blockquote>
+<p>Offen bleiben:</p>
 <ul>
-<li>Lädt in unter 2 s</li>
-<li>Aktive Alarme rot markiert</li>
-<li>Quittierung mit UTC-Zeitstempel</li>
+<li>welche Bibliotheken erlaubt sind</li>
+<li>ob die Eingabelisten verändert werden dürfen</li>
+<li>ob fehlende Werte ergänzt werden sollen</li>
 </ul>
 </div><div class="column" style="width:50%;">
-<h3 id="prompt-kontext-abschnitt">Prompt: Kontext-Abschnitt</h3>
-<pre><code>Du bist ein Python-Entwickler.
-Aufgabe: Sensor-Alarm-Dashboard.
-Rolle: Facility Manager
-Ziel: SLA-Überwachung in Echtzeit</code></pre>
-<p>Rolle und Nutzen der User Story bilden den Kontext des Prompts.</p>
+<h3 id="mit">Mit</h3>
+<blockquote>
+<p>„Schreibe nur die Funktion mittlerer_wasserstand in pegel.py. Nur Standardbibliothek. Die Eingabelisten nicht verändern. Fehlende Werte nicht ergänzen. Keine weiteren Dateien anlegen.“</p>
+</blockquote>
+<p>Jeder Satz verbietet etwas, das ein Agent sonst plausibel tun würde.</p>
 </div></div>
+<div class="slide-refs">
+<p>Tang et al.: How Coding Agents Fail Their Users, arXiv:2605.29442, 2026</p>
+</div>
+<div class="slide-ref-cites">
+<!-- slide_ref: tang2026agents -->
+<p><span class="citation" data-cites="tang2026agents">[<a href="#/referenzen" role="doc-biblioref" onclick="">Tang et al., 2026</a>]</span></p>
+</div>
 </section>
-<section id="von-der-user-story-zum-prompt-anforderungen" class="slide level2">
-<h2>Von der User Story zum Prompt: Anforderungen</h2>
+<section id="akzeptanzkriterien-werden-tests-1" class="slide level2">
+<h2>Akzeptanzkriterien werden Tests</h2>
 <div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="akzeptanzkriterium-zu-prompt-bedingung">Akzeptanzkriterium zu Prompt-Bedingung</h3>
+<div class="column" style="width:40%;">
+<p>Jedes Kriterium ergibt mindestens einen Test:</p>
 <ul>
-<li>Lädt in unter 2 s wird zu <code>Ladezeit &lt; 2 s</code></li>
-<li>Alarme rot wird zu <code>Alarme mit Status "active" rot</code></li>
-<li>Zeitstempel wird zu <code>Quittierung + UTC-Zeitstempel</code></li>
+<li>A1: Beispieldaten ergeben 2,435 m</li>
+<li>F2: Fehlwert −999 wird ignoriert</li>
+<li>F3: weniger als zwei gültige Werte lösen einen Fehler aus</li>
 </ul>
-</div><div class="column" style="width:50%;">
-<h3 id="vollständiger-prompt">Vollständiger Prompt</h3>
-<pre><code>Erstelle ein Streamlit-Dashboard
-für Sensor-Alarme (Python).
-
-Anforderungen:
-- Ladezeit &lt; 2 s
-- Aktive Alarme rot hervorheben
-- Quittierung + UTC-Zeitstempel
-
-Schreibe pytest-Tests, die diese
-Anforderungen prüfen.</code></pre>
+</div><div class="column" style="width:60%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pytest</span>
+<span id="cb3-2"><a aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pegel <span class="im">import</span> mittlerer_wasserstand</span>
+<span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_beispieldaten():</span>
+<span id="cb3-5"><a aria-hidden="true" tabindex="-1"></a>    z, w <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">6</span>], [<span class="fl">2.30</span>, <span class="fl">2.32</span>, <span class="op">-</span><span class="fl">999.0</span>, <span class="fl">2.60</span>]</span>
+<span id="cb3-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> mittlerer_wasserstand(z, w) <span class="op">==</span> pytest.approx(<span class="fl">2.435</span>, <span class="bu">abs</span><span class="op">=</span><span class="fl">1e-3</span>)</span>
+<span id="cb3-7"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_fehlwert_wird_ignoriert():</span>
+<span id="cb3-9"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> mittlerer_wasserstand([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>], [<span class="fl">2.0</span>, <span class="op">-</span><span class="fl">999.0</span>, <span class="fl">2.0</span>]) <span class="op">==</span> pytest.approx(<span class="fl">2.0</span>)</span>
+<span id="cb3-10"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_zu_wenige_werte():</span>
+<span id="cb3-12"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> pytest.raises(<span class="pp">ValueError</span>):</span>
+<span id="cb3-13"><a aria-hidden="true" tabindex="-1"></a>        mittlerer_wasserstand([<span class="dv">0</span>, <span class="dv">1</span>], [<span class="fl">2.0</span>, <span class="op">-</span><span class="fl">999.0</span>])</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-<div title="Merksatz">
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<div class="slide-refs">
+<p>Fowler: Given When Then, martinfowler.com, 2013</p>
 </div>
-<p><strong>Merksatz</strong></p>
-</div>
-<div class="callout-content">
-<p>Eine präzise Anforderung ist der beste Prompt.</p>
-</div>
-</div>
-</div>
-</div>
-</section></section>
-<section>
-<section id="von-anforderungen-zu-tests-1" class="title-slide slide level1 center">
-<h1>Von Anforderungen zu Tests</h1>
-
-</section>
-<section id="von-der-anforderung-zum-test-1" class="slide level2">
-<h2>Von der Anforderung zum Test</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="dashboard-lädt-in-unter-2-s">„Dashboard lädt in unter 2 s“</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_dashboard_load_time():</span>
-<span id="cb3-2"><a aria-hidden="true" tabindex="-1"></a>    start <span class="op">=</span> time.time()</span>
-<span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a>    dashboard <span class="op">=</span> load_dashboard(</span>
-<span id="cb3-4"><a aria-hidden="true" tabindex="-1"></a>        sensor_data</span>
-<span id="cb3-5"><a aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb3-6"><a aria-hidden="true" tabindex="-1"></a>    elapsed <span class="op">=</span> time.time() <span class="op">-</span> start</span>
-<span id="cb3-7"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> elapsed <span class="op">&lt;</span> <span class="fl">2.0</span>, <span class="op">\</span></span>
-<span id="cb3-8"><a aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"Zu langsam: </span><span class="sc">{</span>elapsed<span class="sc">:.2f}</span><span class="ss">s"</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:50%;">
-<h3 id="quittierung-mit-utc-zeitstempel">„Quittierung mit UTC-Zeitstempel“</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_alarm_acknowledgment():</span>
-<span id="cb4-2"><a aria-hidden="true" tabindex="-1"></a>    alarm <span class="op">=</span> Alarm(</span>
-<span id="cb4-3"><a aria-hidden="true" tabindex="-1"></a>        sensor_id<span class="op">=</span><span class="st">"S01"</span>,</span>
-<span id="cb4-4"><a aria-hidden="true" tabindex="-1"></a>        level<span class="op">=</span><span class="st">"critical"</span></span>
-<span id="cb4-5"><a aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb4-6"><a aria-hidden="true" tabindex="-1"></a>    alarm.acknowledge(user<span class="op">=</span><span class="st">"jdoe"</span>)</span>
-<span id="cb4-7"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> alarm.ack_timestamp <span class="op">\</span></span>
-<span id="cb4-8"><a aria-hidden="true" tabindex="-1"></a>        <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span></span>
-<span id="cb4-9"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> alarm.ack_user <span class="op">==</span> <span class="st">"jdoe"</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-</div></div>
-<div title="Wenn die KI einen Test generiert">
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Wenn die KI einen Test generiert</strong></p>
-</div>
-<div class="callout-content">
-<ol type="1">
-<li>Prüfe, ob der Test das Akzeptanzkriterium tested und nicht nur die Implementierung.</li>
-<li>Führe den Test gegen die Anforderung aus, nicht nur gegen den Code.</li>
-<li>Schreibe den Test vor dem Prompt, dann siehst du sofort, was fehlt.</li>
-<li>Nutze bei nicht direkt testbaren Anforderungen ergänzend Inspektion, Analyse oder Demonstration.</li>
-</ol>
-</div>
-</div>
-</div>
+<div class="slide-ref-cites">
+<!-- slide_ref: fowler2013gwt -->
+<p><span class="citation" data-cites="fowler2013gwt">[<a href="#/referenzen" role="doc-biblioref" onclick="">Fowler, 2013</a>]</span></p>
 </div>
 </section>
-<section id="test-driven-prompting" class="slide level2">
-<h2>Test-Driven Prompting</h2>
+<section id="prüfung-gegen-die-spezifikation-1" class="slide level2">
+<h2>Prüfung gegen die Spezifikation</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<h3 id="reihenfolge">Reihenfolge</h3>
+<h3 id="drei-prüfungen">Drei Prüfungen</h3>
 <ol type="1">
-<li>Anforderung formulieren</li>
-<li>Akzeptanzkriterien ableiten</li>
-<li>Test schreiben (noch kein Code)</li>
-<li>Prompt aus Anforderung und Test</li>
-<li>KI generiert Code</li>
-<li>Test grün, Anforderung erfüllt</li>
+<li>Führen Sie die Tests selbst aus.</li>
+<li>Lesen Sie die Änderungen gegen die Spezifikation: Wurde etwas hinzugefügt, das dort nicht steht?</li>
+<li>Lassen Sie eine zweite Sitzung ohne den bisherigen Verlauf gegen die Spezifikation prüfen.</li>
 </ol>
 </div><div class="column" style="width:50%;">
-<h3 id="vorteil">Vorteil</h3>
-<ul>
-<li>Der Prompt enthält den Test als Spezifikation</li>
-<li>Die KI hat ein klares Zielkriterium</li>
-<li>Verifikation ist objektiv und automatisierbar</li>
-<li>Anforderung, Prompt und Test bleiben synchron</li>
-</ul>
+<h3 id="warum">Warum</h3>
+<p>22,6 % der Episoden: Der Agent beschreibt sein Ergebnis ungenauer, als es ist.</p>
+<p>Ein Prüfer ohne die Vorgeschichte bewertet nur Ergebnis und Kriterien.</p>
 </div></div>
-</section></section>
-<section>
-<section id="das-traceability-dreieck-1" class="title-slide slide level1 center">
-<h1>Das Traceability-Dreieck</h1>
-
+<div class="slide-refs">
+<p>Anthropic: Best practices for Claude Code, Abschnitt „Add an adversarial review step“, 2026</p>
+<p>Tang et al.: How Coding Agents Fail Their Users, arXiv:2605.29442, 2026</p>
+</div>
+<div class="slide-ref-cites">
+<!-- slide_ref: anthropic2026bestpractices, tang2026agents -->
+<p><span class="citation" data-cites="anthropic2026bestpractices tang2026agents">[<a href="#/referenzen" role="doc-biblioref" onclick="">Anthropic, 2026</a>; <a href="#/referenzen" role="doc-biblioref" onclick="">Tang et al., 2026</a>]</span></p>
+</div>
+</section>
+<section id="den-agenten-fragen-lassen-1" class="slide level2">
+<h2>Den Agenten fragen lassen</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="vor-dem-code">Vor dem Code</h3>
+<blockquote>
+<p>„Ich will [Beschreibung]. Interviewe mich ausführlich. Frage nach Randfällen und Zielkonflikten, nicht nach Offensichtlichem. Schreibe danach eine vollständige Spezifikation in eine Datei.“</p>
+</blockquote>
+<p>Die Spezifikation prüfen Sie gegen das, was Sie gesammelt haben.</p>
+</div><div class="column" style="width:50%;">
+<h3 id="grenzen">Grenzen</h3>
+<p>Im Benchmark ReqElicitGym erreicht das beste von sieben Modellen einen Anteil von 0,32 der impliziten Anforderungen, das niedrigste 0,08. Anforderungen zum Stil erreichen fast 0.</p>
+</div></div>
+<div class="slide-refs">
+<p>Anthropic: Best practices for Claude Code, 2026</p>
+<p>Jin et al.: ReqElicitGym, arXiv:2602.18306, 2026</p>
+</div>
+<div class="slide-ref-cites">
+<!-- slide_ref: anthropic2026bestpractices, jin2026reqelicitgym -->
+<p><span class="citation" data-cites="anthropic2026bestpractices jin2026reqelicitgym">[<a href="#/referenzen" role="doc-biblioref" onclick="">Anthropic, 2026</a>; <a href="#/referenzen" role="doc-biblioref" onclick="">Jin et al., 2026</a>]</span></p>
+</div>
 </section>
 <section id="traceability-dreieck-1" class="slide level2">
 <h2>Traceability-Dreieck</h2>
@@ -732,23 +913,38 @@ Anforderungen prüfen.</code></pre>
 </div>
 </div><div class="column" style="width:45%;">
 <h3 id="regel">Regel</h3>
-<p>Ändert sich die Anforderung, müssen Prompt und Test angepasst werden.</p>
-<p>Ändert sich der Test, müssen Anforderung und Prompt geprüft werden.</p>
+<p>Ändert sich die Anforderung, werden Prompt und Test angepasst.</p>
+<p>Ändert sich der Test, werden Anforderung und Prompt geprüft.</p>
 <p>Kein Test und kein Prompt ohne Anforderung.</p>
 </div></div>
-<div title="Merksatz">
-<div class="callout callout-tip callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<div class="slide-refs">
+<p>Glinz et al.: IREB CPRE Foundation Level Handbook, Abschnitt 3.8, 2022</p>
 </div>
-<p><strong>Merksatz</strong></p>
+<div class="slide-ref-cites">
+<!-- slide_ref: glinz2022ireb -->
+<p><span class="citation" data-cites="glinz2022ireb">[<a href="#/referenzen" role="doc-biblioref" onclick="">Glinz et al., 2022</a>]</span></p>
 </div>
-<div class="callout-content">
-<p>Das Dreieck ist vollständig, wenn jede Anforderung einen Prompt und einen Test hat und jede Änderung alle drei aktualisiert.</p>
+</section>
+<section id="referenzen" class="slide level2 smaller scrollable">
+<h2>Referenzen</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-anthropic2026bestpractices" class="csl-entry" role="listitem">
+Anthropic (2026). Best practices for Claude Code.
 </div>
+<div id="ref-fowler2013gwt" class="csl-entry" role="listitem">
+Fowler, M. (2013). Given When Then.
 </div>
+<div id="ref-glinz2022ireb" class="csl-entry" role="listitem">
+Glinz, M., Loenhoud, H. van, Staal, S., &amp; Bühne, S. (2022). <em>Handbook for the CPRE Foundation Level in accordance with the IREB Standard, Version 1.2.0</em>. IREB e.V.
+</div>
+<div id="ref-jin2026reqelicitgym" class="csl-entry" role="listitem">
+Jin, D., Jin, Z., Fang, Z., Li, L., Yang, X., He, Y., &amp; Chen, X. (2026). ReqElicitGym: An Evaluation Environment for Interview Competence in Conversational Requirements Elicitation.
+</div>
+<div id="ref-tang2026agents" class="csl-entry" role="listitem">
+Tang, N., Chen, C., Xu, G., Shi, Y., Huang, Y., McMillan, C., et al. (2026). How Coding Agents Fail Their Users: A Large-Scale Analysis of Developer-Agent Misalignment in 20,574 Real-World Sessions.
+</div>
+<div id="ref-vijayvargiya2026ambig" class="csl-entry" role="listitem">
+Vijayvargiya, S., Zhou, X., Yerukola, A., Sap, M., &amp; Neubig, G. (2026). Ambig-SWE: Interactive Agents to Overcome Underspecificity in Software Engineering.
 </div>
 </div>
 </section></section>
@@ -761,7 +957,7 @@ Anforderungen prüfen.</code></pre>
   <div class="quarto-auto-generated-content" style="display: none;">
 <p><img src="site_libs/quarto-contrib/quarto-project/ai4sc-style/assets/logos/ai4sc-logo-gray.svg" class="slide-logo"></p>
 <div class="footer footer-default">
-<p><span style="letter-spacing: .03em;">Artificial</span><br><span style="letter-spacing: -.03em;">Intelligence</span></p>
+<p><span style="letter-spacing: .03em;">Ingenieurs-</span><br><span style="letter-spacing: -.03em;">Informatik</span></p>
 </div>
 </div></div>
 
