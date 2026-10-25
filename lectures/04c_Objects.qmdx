@@ -36,6 +36,14 @@ resources:
 
 %%/slides
 
+%%book
+
+Diese Einheit behandelt Objekte als Entwurfskonzept, noch bevor wir in `06b_Objects` die Python-Syntax dazu kennenlernen. Sie lernen, Objekte als Entwurfseinheiten zu verstehen und eine Domäne in Entitäten, Attribute und Verantwortlichkeiten zu zerlegen. Sie halten die Beziehungen zwischen Objekten explizit im Entwurf fest und nutzen das UML-Klassendiagramm sowohl als Entwurfsartefakt als auch als Spezifikation für eine KI. Außerdem unterscheiden Sie Datentypen von Klassen und Funktionen von Methoden.
+
+Das Kapitel folgt diesem Faden: Zuerst klären wir, warum Objekte nötig sind und was Klassen und Instanzen sind. Danach lernen wir mit UML die Sprache kennen, in der Klassen und ihre Beziehungen gezeichnet werden. Zuletzt nutzen wir ein Klassendiagramm als Vorlage für einen KI-Prompt und prüfen das Ergebnis dagegen.
+
+%%/book
+
 %%# Objekte und Klassen
 
 %%## Objekte als Entwurfseinheiten
@@ -51,19 +59,11 @@ resources:
 
 %%book
 
-# Objekte
-
 Objektorientierte Programmierung (OOP) ist ein Programmierparadigma, das annimmt, dass ein Programm aus *Objekten* besteht, die miteinander kooperativ interagieren. Jedes Objekt verfügt über *Attribute* (Eigenschaften) und *Methoden* (Verantwortlichkeiten).
 
-In dieser Einheit betrachten wir Objekte als Entwurfskonzept — noch bevor wir eine Zeile Python schreiben. Das Ziel ist: Denken in Objekten, Beziehungen und Verantwortlichkeiten.
+Objekte sind damit Entwurfseinheiten, die vor dem Code entstehen. Beim Entwurf zerlegt man eine Domäne in Entitäten, etwa ein Gebäude in Etagen, Räume und Fenster, und legt für jede Entität fest, welche Attribute sie hat und welche Verantwortlichkeiten sie übernimmt. Eine Klasse beschreibt Struktur und Verantwortlichkeit einer solchen Entität. Weil Entitäten nicht isoliert sind, müssen auch die Beziehungen zwischen den Klassen ausdrücklich entworfen werden. Das Ziel ist, in Objekten, Beziehungen und Verantwortlichkeiten zu denken.
 
-%%/book
-
-%%book
-
-## Drei Probleme wiederholter Datenstrukturen
-
-Die Objektorientierung löst grundlegende Probleme im Umgang mit sich wiederholenden Datenstrukturen in großen Programmen. Diese Probleme entstehen bereits beim Entwurf, nicht erst bei der Implementierung. Wir betrachten daher drei Probleme, die durch Objekte gelöst werden.
+Die Objektorientierung löst grundlegende Probleme im Umgang mit sich wiederholenden Datenstrukturen in großen Programmen. Diese Probleme entstehen bereits beim Entwurf, nicht erst bei der Implementierung. Wir betrachten drei davon: das syntaktische, das semantische und das Verhaltensproblem.
 
 %%/book
 
@@ -86,9 +86,9 @@ Objekte legen fest, wie sich wiederholende Datenstrukturen gespeichert werden. D
 
 %%book
 
-### Das syntaktische Problem
+#### Das syntaktische Problem
 
-Wächst das Programm an, so wächst auch die Menge der Variablen und Datenstrukturen. Dabei basieren die zugrundeliegenden Elemente meist auf sich wiederholenden Datenstrukturen. Analysiert man z.B. Baupläne oder Karten, so verwaltet man viele Punkt-Koordinaten — aber ohne Festlegung kann eine Koordinate unterschiedlich ausgedrückt werden. Das ist das syntaktische Problem. Objekte lösen es, indem sie die Syntax der Datenstruktur eindeutig definieren.
+Wächst das Programm an, so wächst auch die Menge der Variablen und Datenstrukturen. Sie dienen dazu, Daten zu speichern, den Programmfluss zu kontrollieren, Zustände abzuspeichern und Ein- und Ausgaben zu verarbeiten. Dabei basieren die zugrundeliegenden Elemente meist auf sich wiederholenden Datenstrukturen. Analysiert man z.B. Baupläne oder Karten, so verwaltet man viele Punkt-Koordinaten. Ohne Festlegung kann eine Koordinate aber unterschiedlich ausgedrückt werden, etwa als Tupel oder als Liste; beide sind möglich und beide liefern denselben Punkt. Das ist das syntaktische Problem. Objekte lösen es, indem sie die Syntax der Datenstruktur verbindlich und eindeutig definieren.
 
 %%/book
 
@@ -126,9 +126,9 @@ punkt_1.longitude = 12.108811
 
 %%book
 
-### Das semantische Problem
+#### Das semantische Problem
 
-Ein anderer Programmierer wird nicht ohne Weiteres die semantische Bedeutung der Werte verstehen. Um solche Unklarheiten zu beseitigen, will man der Datenstruktur eine klare semantische Definition geben. Objekte lösen das, indem sie Attributnamen vergeben, die die Bedeutung der Werte dokumentieren.
+Haben wir uns darauf geeinigt, einen Punkt syntaktisch durch ein Tupel zu repräsentieren, so ist die Bedeutung der Werte dennoch nicht bekannt. Im Tupel `(54.083336, 12.108811)` bleibt offen, ob der erste Wert die Latitude oder die Longitude ist und ob die Koordinaten kartesisch oder radial gemeint sind. Ein anderer Programmierer wird die semantische Bedeutung der Werte nicht ohne Weiteres verstehen. Um solche Unklarheiten zu beseitigen, will man der Datenstruktur eine klare semantische Definition geben. Objekte lösen das, indem sie Attributnamen vergeben, die die Bedeutung der Werte dokumentieren: `punkt_1.latitude` und `punkt_1.longitude` sind selbsterklärend.
 
 %%/book
 

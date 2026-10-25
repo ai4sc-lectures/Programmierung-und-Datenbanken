@@ -30,7 +30,7 @@ resources:
 %%slides
 
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Der Agent meldet: Aufgabe erledigt. Woher wissen Sie, ob das stimmt?" capR="Midjourney: Ein Bauingenieur prüft mit einem KI-Assistenten einen digitalen Bauplan" imgR="images/04a_Anforderungen/mj_title_band.jpg"}
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Der Agent meldet: Aufgabe erledigt. Woher wissen Sie, ob das stimmt?" capR="Midjourney: Job Done" imgR="images/04a_Anforderungen/mj_jobdone.png"}
 
 <!-- TODO MJ: A civil engineer reviewing a blueprint with an AI assistant, split-screen, flat illustration -->
 
@@ -50,7 +50,7 @@ Ein Agent erfüllt den Prompt, den er bekommt, nicht die Absicht dahinter. Wo de
 %%/book
 
 %%scol 50 50
-### Aufgabe an den Agenten
+### Prompt
 
 > „Berechne den mittleren Wasserstand.“
 
@@ -681,7 +681,7 @@ Jeder Satz verbietet etwas, das ein Agent sonst plausibel tun würde.
 %%/scol
 
 %%book
-Die häufigste Fehlerart in der Studie ist die verletzte Einschränkung, mit 38,33 % der Episoden. Dabei hatten die Entwickler die Einschränkung ausdrücklich genannt, der Agent hielt sich nicht daran; aufschreiben allein genügt also nicht, die Randbedingungen müssen kurz, dauerhaft verfügbar (siehe die Folie zur Datei CLAUDE.md) und überprüfbar sein (siehe die Folie zur Prüfung). Einschränkungen sind Randbedingungen und Nicht-Ziele, und sie entstehen aus vier Quellen. Technische Randbedingungen betreffen Bibliotheken, Sprachversion und Plattform, Datenrandbedingungen betreffen die Frage, was am Bestand nicht verändert werden darf, Umfangsrandbedingungen betreffen die Dateien und Funktionen, die der Agent anfassen darf, und Prozessrandbedingungen betreffen Vorgaben wie das Verbot, ohne Rückfrage zu committen. Die letzte Fehlerart der Tabelle, die eigenmächtige Erweiterung (10,20 %), hängt damit zusammen: Der Agent fügt etwas hinzu, das niemand verlangt hat, etwa Protokollierung, Zusatzfunktionen oder Umstrukturierungen.
+Die häufigste Fehlerart in der Studie ist die verletzte Einschränkung, mit 38,33 % der Episoden. Dabei hatten die Entwickler die Einschränkung ausdrücklich genannt, der Agent hielt sich nicht daran; aufschreiben allein genügt also nicht, die Randbedingungen müssen kurz, dauerhaft verfügbar und überprüfbar sein (siehe die Folie zur Prüfung). Einschränkungen sind Randbedingungen und Nicht-Ziele, und sie entstehen aus vier Quellen. Technische Randbedingungen betreffen Bibliotheken, Sprachversion und Plattform, Datenrandbedingungen betreffen die Frage, was am Bestand nicht verändert werden darf, Umfangsrandbedingungen betreffen die Dateien und Funktionen, die der Agent anfassen darf, und Prozessrandbedingungen betreffen Vorgaben wie das Verbot, ohne Rückfrage zu committen. Die letzte Fehlerart der Tabelle, die eigenmächtige Erweiterung (10,20 %), hängt damit zusammen: Der Agent fügt etwas hinzu, das niemand verlangt hat, etwa Protokollierung, Zusatzfunktionen oder Umstrukturierungen.
 
 Aus Sicht des Requirements Engineering sind Randbedingungen Anforderungen, die den Lösungsraum beschränken, und sie stammen meist aus Dokumenten und Systemen: aus dem Programmierstandard des Projekts, aus der Schnittstelle zum Warnsystem oder aus dem Verbot, Rohdaten zu ändern. Die Quellen aus dem zweiten Abschnitt liefern sie. Eine Randbedingung, die Sie im Kopf haben, aber nicht aufgeschrieben haben, existiert für den Agenten nicht.
 %%/book
@@ -765,41 +765,6 @@ Die dritte Prüfung entspricht dem Grundsatz der Unabhängigkeit aus dem Require
 %%slide_ref @tang2026agents Tang et al.: How Coding Agents Fail Their Users, arXiv:2605.29442, 2026
 
 
-%%## Dauerhafter Kontext: die Datei CLAUDE.md
-
-%%scol 50 50
-### Gehört hinein
-
-- Befehle, die der Agent nicht erraten kann
-- Regeln, die vom Standard abweichen
-- Entscheidungen des Projekts
-- Konventionen, die niemand erwähnt
-
-### Gehört nicht hinein
-
-- Was der Agent aus dem Code lesen kann
-- Lange Erklärungen
-- Häufig Wechselndes
-%%sep
-```
-# Pegelauswertung (Beispiel)
-- Wasserstände in Metern über Pegelnull.
-- Der Wert -999 bedeutet: Messwert fehlt.
-- Zeiten in Stunden, aufsteigend sortiert.
-- Tests mit: pytest
-- Eingabedaten nie verändern.
-```
-%%/scol
-
-%%book
-Die Datei CLAUDE.md liest der Agent zu Beginn jeder Sitzung. Nach Anthropic enthält sie, was der Agent aus dem Code nicht ableiten kann: Befehle, abweichende Regeln und Entscheidungen des Projekts. Sie soll kurz sein, denn zu lange Dateien führen dazu, dass der Agent Teile ignoriert; für jede Zeile sollte man fragen, ob ihr Fehlen den Agenten zu Fehlern veranlassen würde. Für Anforderungen ist die Datei der richtige Ort für die Basismerkmale aus der Kano-Betrachtung: Die Konvention, dass −999 ein Ausfall ist, gilt für das ganze Projekt und gehört deshalb dauerhaft in die Datei, während die einzelne Funktion in der Spezifikation beschrieben wird. Der Inhalt des Beispiels ist erfunden und zeigt nur das Muster.
-
-Der Unterschied zur Spezifikation ist der Geltungsbereich. Die Spezifikation beschreibt eine bestimmte Aufgabe und endet mit ihr, die Projektdatei beschreibt Regeln für alle Aufgaben. Wer beides vermischt, bekommt eine überlange Datei und Spezifikationen, die Konventionen wiederholen.
-%%/book
-
-%%slide_ref @anthropic2026bestpractices Anthropic: Best practices for Claude Code, Abschnitt „Write an effective CLAUDE.md“, 2026
-
-
 %%## Den Agenten fragen lassen
 
 %%scol 50 50
@@ -852,66 +817,6 @@ In der Praxis stellt sich diese Übereinstimmung nicht von selbst ein. Sie brauc
 
 %%slide_ref @glinz2022ireb Glinz et al.: IREB CPRE Foundation Level Handbook, Abschnitt 3.8, 2022
 
-
-## Übung: Anforderungen für die Verkehrsstärke {background-color="#D9FF66"}
-
-%%scol 50 50
-### Auftrag
-
-> „Berechne die Verkehrsstärke einer Zählstelle.“
-
-Eine Zählschleife liefert eine Liste von Zeitstempeln, einen je Fahrzeug.
-%%sep
-### Aufgabe
-
-1. Nennen Sie je Fehlerart eine Lücke im Auftrag.
-2. Schreiben Sie drei Anforderungen mit Satzschablonen.
-3. Formulieren Sie ein Akzeptanzkriterium in der Form gegeben, wenn, dann.
-4. Nennen Sie eine Randbedingung und ein Nicht-Ziel.
-%%/scol
-
-%%book
-Die Übung wendet die Methoden des Kapitels auf eine neue Aufgabe an. Die Verkehrsstärke ist die Zahl der Fahrzeuge, die einen Querschnitt je Zeiteinheit passieren. Der Auftrag lässt, wie der erste Satz des Kapitels, viel offen. Gehen Sie die vier Fehlerarten durch: Was könnte der Agent falsch verstehen, welche Einschränkung könnte er verletzen, wie würden Sie sein „fertig“ prüfen, und was könnte er eigenmächtig ergänzen? Die Lösung steht auf der nächsten Folie.
-%%/book
-
-
-## Lösung: Verkehrsstärke
-
-%%scol 50 50
-### Lücken
-
-- Bezugszeitraum: Stunde, Tag?
-- Fahrzeugarten und Fahrtrichtung
-- Ausfall der Schleife, doppelte Zeitstempel
-- Ausgabe: Zahl, Einheit
-
-### Mögliche Festlegung
-
-- WENN ein Zeitraum von einer Stunde angegeben ist, muss die Funktion die Zahl der Zeitstempel dieses Zeitraums als Fahrzeuge je Stunde ausgeben.
-- FALLS im Zeitraum kein Zeitstempel liegt, DANN muss sie 0 ausgeben.
-- FALLS ein Zeitstempel ungültig ist, DANN muss sie einen ValueError auslösen.
-%%sep
-### Prüfung und Abgrenzung
-
-- Gegeben Zeitstempel 07:05, 07:20, 07:40, 08:10, wenn der Zeitraum 07:00 bis 08:00 gilt, dann ergibt sich 3 Fahrzeuge je Stunde.
-- Randbedingung: nur Standardbibliothek, Zeitstempel im ISO-Format.
-- Nicht-Ziel: keine Unterscheidung nach Fahrzeugart oder Richtung.
-%%/scol
-
-%%book
-Die Lösung zeigt eine mögliche Festlegung; andere sind gleichwertig, solange sie entschieden und aufgeschrieben sind. Die Lücken entsprechen den Fehlerarten: Der Bezugszeitraum und die Ausgabe betreffen die Absicht, die Zählung nach Fahrzeugart oder Richtung ist eine Frage des Umfangs, und der Ausfall der Schleife oder doppelte Zeitstempel sind Fehlerfälle, die erst die Schablone FALLS … DANN sichtbar macht. Das Akzeptanzkriterium ist nachgerechnet: Von den vier Zeitstempeln liegen drei zwischen 07:00 und 08:00 Uhr. Zu beachten ist, dass die Festlegungen Entscheidungen sind und keine Tatsachen. Ob doppelte Zeitstempel einmal oder zweimal zählen, muss der Auftraggeber entscheiden, und genau diese Rückfrage kann der Agent nicht stellen.
-%%/book
-
-
-## Lessons Learned
-
-%%note Anforderungen für Agenten
-Ein Agent füllt jede Lücke im Prompt mit einer plausiblen Annahme. Schließen Sie die Lücken vorher: ermitteln Sie Anforderungen aus Stakeholdern, Dokumenten und Systemen, legen Sie sie mit Schablonen fest, grenzen Sie Randbedingungen und Umfang ab, und schreiben Sie die Akzeptanzkriterien als Tests, bevor der Agent beginnt.
-%%/note
-
-%%book
-Das Kapitel hat gezeigt, warum Anforderungen bei der Arbeit mit Agenten wichtiger werden. Der Agent kennt die Konventionen des Projekts nicht, fragt nicht nach und meldet fertig, wenn das Ergebnis fertig aussieht. Die Methoden des Requirements Engineering, die das IREB-Handbuch zusammenfasst, liefern dagegen eine Reihenfolge: ermitteln (Quellen und Techniken), festlegen (Arten, Qualitätskriterien, Schablonen, Konflikte, Validierung) und für den Agenten aufbereiten (Spezifikation, Randbedingungen, Tests, Prüfung, dauerhafter Kontext). Die vier beobachteten Fehlerarten dienen als Prüfliste für jede Spezifikation.
-%%/book
 
 
 %%references
