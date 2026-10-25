@@ -368,10 +368,10 @@ def build_quarto_book(c):
         for qmdx in render_list:
             c.run(f"quarto render {qmdx.stem}.qmd")
             _sync_site_to_build(site_dir, build_dir, [qmdx], False)
+            # Stamp per lecture so an interrupted run keeps its progress
+            _mark_fresh(qmdx.stem, "quarto")
 
     _clean_lectures_artifacts(HERE / "lectures")
-    for qmdx in stale:
-        _mark_fresh(qmdx.stem, "quarto")
 
 
 @task()
@@ -397,10 +397,10 @@ def build_quarto_book_quick(c):
         for qmdx in render_list:
             c.run(f"quarto render {qmdx.stem}.qmd --no-execute")
             _sync_site_to_build(site_dir, build_dir, [qmdx], False)
+            # Stamp per lecture so an interrupted run keeps its progress
+            _mark_fresh(qmdx.stem, "quarto_quick")
 
     _clean_lectures_artifacts(HERE / "lectures")
-    for qmdx in stale:
-        _mark_fresh(qmdx.stem, "quarto_quick")
 
 
 @task()

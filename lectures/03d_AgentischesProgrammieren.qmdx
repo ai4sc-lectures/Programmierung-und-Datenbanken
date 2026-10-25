@@ -281,14 +281,14 @@ Beim Pre-Training minimiert das Modell den Vorhersagefehler für das nächste To
 ## Programmcode ist deterministisch und prüfbar, ein Sprachmodell nicht
 
 %%scol 50 50
-#### Sprachmodell
+### Sprachmodell
 
 - Eingabe: Prompt
 - [Keine formale Garantie für die Ausgabe]{.con}
 - Fehler: trotzdem eine plausible Ausgabe
 %%sep
 
-#### Programmcode
+### Programmcode
 
 - Eingabe: Daten
 - [Gleiche Eingabe, gleiche Ausgabe]{.pro}
@@ -331,19 +331,19 @@ def get_layout(title="", height=500):
 ## Kann KI das allein? → Die Kompetenzfalle
 
 %%scol 50 50
-**Verstehen**
+### Verstehen
 
 - [Zusammenfassen, Allgemeinwissen zu Bauen und Architektur]{.pro}
 - [Kein numerisches oder räumliches Verständnis]{.con}
 - [Kein Detailwissen zur Baudomäne und zu Projektinformationen]{.con}
 
-**Generieren**
+### Generieren
 
 - [Übersetzen, Bilder erzeugen]{.pro}
 - [Halluziniert bei Unwissenheit]{.con}
 - [Erzeugt keine wiederholbar zusammenhängenden Ergebnisse]{.con}
 
-**Anpassen**
+### Anpassen
 
 - [Wissen erweiterbar (RAG), Tuning von Modellen auf Spezialwissen]{.pro}
 - [Dennoch nicht an komplexe Ingenieurprobleme anpassbar]{.con}
@@ -494,7 +494,7 @@ Ein Agent erweitert das Sprachmodell um eine Schleife: Das Modell plant einen Sc
 
 ## Der agentische Zyklus legt eine äußere Schleife um den Agenten
 
-![](images/03d_AgentischesProgrammieren/cycle.svg){.nostretch fig-align="center" width="100%"}
+![](images/03d_AgentischesProgrammieren/cycle.svg)
 
 %%div lead
 Jeder Schritt braucht eine eigene Kompetenz: Anforderungen formulieren, Code lesen, Testen denken.
@@ -505,6 +505,22 @@ Weil der Agent nur so gut ist wie die Anforderung, die er erhält, brauchen Inge
 
 Der Zyklus besteht aus fünf Schritten: Prompt, Generieren, Verstehen, Verifizieren und Iterieren. Nur der zweite Schritt gehört der KI, die übrigen vier gehören Ihnen. Am Beispiel heißt das: Sie legen Einheiten und Ausgabegröße fest, die KI liefert eine Funktion, Sie verfolgen die Einheiten im Datenfluss, prüfen das Ergebnis gegen die Handrechnung von 28,125 N/mm² und ergänzen bei Abweichung den fehlenden Constraint im Prompt. Der Zyklus wird wiederholt, bis die Anforderung nachweislich erfüllt ist. Er verlangt genau die Fähigkeiten, die dieser Kurs aufbaut: Python-Lesekompetenz, Anforderungsformulierung und Testdenken.
 %%/book
+
+## Der Zyklus ist die Methode des ganzen Kurses
+
+| Block | Thema | Trainierter Schritt |
+|-------|-------|---------------------|
+| 1 | Computational Foundations | Verstehen |
+| 2 | Computational Engineering | Prompt |
+| 3 | Programming Foundations | Verstehen, Iterieren |
+| 4 | Verification & Quality | Verifizieren |
+| 5 | Problem Classes | Prompt, Verifizieren |
+| 6 | Data Management | ganzer Zyklus |
+
+%%book
+Der agentische Zyklus verteilt sich über alle sechs Kursblöcke (S01 bis S13). In Block 1 steht das Verstehen im Vordergrund: Code lesen, Datentypen erkennen. Block 2 trainiert die Formulierung von Anforderungen als Prompt. In Block 3 lesen und überarbeiten wir Kontrollstrukturen und Funktionen. Block 4 formalisiert die Verifikation durch Unit Tests und Code Review. In Block 5 wenden wir Prompt und Verifikation auf typische Problemklassen an, und Block 6 verbindet alle Schritte in datenbankgestützten Projekten. Die Zuordnung ist eine Orientierung, jede Sitzung kann weitere Schritte berühren.
+%%/book
+
 
 
 ## Ein Prompt ist eine Anforderungsspezifikation
@@ -535,6 +551,8 @@ Ein guter Prompt hat fünf Elemente: Rolle, Kontext, Aufgabe, Constraint und Aus
 %%scol 50 50
 **Vager Prompt:**
 
+> „Schreibe eine Python-Funktion für die Biegespannung eines Rechteckquerschnitts.“
+
 ```{python}
 #| echo: true
 def biegespannung_v1(b, h, M):
@@ -545,8 +563,14 @@ print(f"{biegespannung_v1(200, 400, 150):.1e}")
 ```
 
 [Läuft, aber 10⁶-fach zu klein]{.con}
+
 %%sep
+
 **Prompt mit Einheiten-Constraint:**
+
+> „Schreibe `biegespannung(b_mm, h_mm, M_knm)`.\
+> b und h in mm, M in kNm.\
+> Rechne intern in N und mm, Ergebnis in N/mm².“
 
 ```{python}
 #| echo: true
@@ -562,81 +586,41 @@ print(f"{biegespannung(200, 400, 150):.3f}")
 %%/scol
 
 %%book
-Beide Funktionen sind syntaktisch einwandfrei, und beide laufen ohne Fehlermeldung. Die erste entspricht dem Ergebnis des vagen Prompts: Sie rechnet mit gemischten Einheiten. Die zweite entsteht, wenn der Prompt die Einheiten festlegt: Die Parameternamen tragen die Einheiten, die Umrechnung steht explizit im Code, und der Docstring nennt die Einheit des Ergebnisses. Das ist kein Fehler des Modells, sondern ein unvollständiger Prompt. Die Ingenieurin oder der Ingenieur ist für die vollständige Spezifikation verantwortlich.
+Beide Funktionen sind syntaktisch einwandfrei, und beide laufen ohne Fehlermeldung. Die erste entspricht dem Ergebnis des vagen Prompts „Schreibe eine Python-Funktion für die Biegespannung eines Rechteckquerschnitts“: Er nennt keine Einheiten, also rechnet die Funktion mit gemischten Einheiten. Die zweite entsteht, wenn der Prompt Signatur, Eingabeeinheiten und Ergebniseinheit festlegt: Die Parameternamen tragen die Einheiten, die Umrechnung steht explizit im Code, und der Docstring nennt die Einheit des Ergebnisses. Das ist kein Fehler des Modells, sondern ein unvollständiger Prompt. Die Ingenieurin oder der Ingenieur ist für die vollständige Spezifikation verantwortlich.
 %%/book
 
 
-## Lesen Sie zuerst den Vertrag der Funktion, dann die Implementierung
+## Lesen Sie zuerst, was die Funktion verspricht, dann wie sie rechnet
 
 %%scol 50 50
 
-1. Signatur: Parameter, Einheiten, Rückgabetyp
-2. Docstring: Was verspricht die Funktion?
-3. Tests: Was ist das erwartete Verhalten?
-4. Implementierung: Wie ist es umgesetzt?
-%%sep
-%%note Agentischer Ablauf
-Wenn KI eine Funktion generiert:
+1. Tragen die Parameternamen die Einheiten?
+2. Nennt der Docstring die Einheit des Ergebnisses?
+3. Stimmt ein Wert, den Sie von Hand nachrechnen? b = 200 mm, h = 400 mm, M = 150 kNm ergibt 28,125 N/mm².
 
-1. Signatur lesen: Tragen die Namen die Einheiten?
-2. Docstring prüfen: Stimmt die Einheit des Ergebnisses?
-3. Testfall schreiben, bevor Sie die Implementierung lesen
-4. Bei Abweichung: Prompt um den Constraint ergänzen
-%%/note
+Erst wenn alle drei Fragen mit Ja beantwortet sind, lohnt sich der Blick in die Implementierung.
+%%sep
+
+```python
+def biegespannung_v1(b, h, M):
+    ...
+
+def biegespannung(b_mm, h_mm, M_knm):
+    """Biegespannung in N/mm²; M in kNm."""
+    ...
+```
 %%/scol
 
 %%book
-Signatur und Docstring beschreiben das Was, die Implementierung das Wie. Wenn das Was nicht stimmt, ist das Wie irrelevant. Deshalb beginnt die Lesestrategie mit dem Vertrag der Funktion. In `biegespannung(b_mm, h_mm, M_knm)` stehen die Einheiten bereits in der Signatur; in `biegespannung_v1(b, h, M)` fehlen sie, und genau dort lag der Fehler. Die Reihenfolge, den Test vor der Implementierung zu lesen, ist eine Methode dieses Kurses und kein etablierter Branchenbegriff. Wer zuerst den Test formuliert, liest aus der Anforderungsperspektive statt aus der Implementierungsperspektive.
-%%/book
-
-
-## Ein Test mit Handrechnung findet den Fehler, bevor Sie lesen
-
-```{python}
-#| echo: true
-#| error: true
-erwartet = 28.125                     # Handrechnung in N/mm²
-assert abs(biegespannung_v1(200, 400, 150) - erwartet) < 1e-3
-```
-
-```{python}
-#| echo: true
-assert abs(biegespannung(200, 400, 150) - erwartet) < 1e-3
-print("Test bestanden")
-```
-
-%%div lead
-Eigener Test: Was passiert bei h = 0? Welches Verhalten verlangt die Anforderung?
-%%/div
-
-%%book
-Der Test besteht aus einer einzigen Zeile: Die Handrechnung liefert 28,125 N/mm², und die Funktion muss diesen Wert bis auf eine Toleranz treffen. Gegen die erste Funktion schlägt der Test fehl, gegen die zweite besteht er. Der Test entsteht aus der Anforderung und nicht aus dem generierten Code, er kann deshalb nicht denselben Denkfehler enthalten. Bei h gleich null bricht die Funktion mit einer Division durch null ab. Ob das gewollt ist oder ob die Anforderung eine eigene Fehlermeldung verlangt, entscheidet die Anforderung, nicht die KI.
-%%/book
-
-
-## Wissenstreppe
-
-![](images/03d_AgentischesProgrammieren/wissenstreppe.svg){.nostretch fig-align="center" width="100%"}
-
-%%slide_ref @north2011wissen North, K. (2011): Wissensorientierte Unternehmensführung. Wertschöpfung durch Wissen.
-
-%%book
-Die Wissenstreppe nach North [@north2011wissen] erweitert die Wissenspyramide (Sitzung S03): Auf Zeichen folgen Daten (Syntax), Information (Semantik), Wissen (Vernetzung, Kontext, Erfahrung, Erwartung), Können (Anwendungsbezug), Handeln (Anwendung, Motivation), Kompetenz (richtiges Handeln) und Wettbewerbsfähigkeit (Einzigartigkeit, bessere Ergebnisse). Die unteren Stufen sind verfügbare Daten, die mittleren explizites, theoretisches Wissen und die oberen implizites, operatives Wissen.
-%%/book
-
-
-## Wissenstreppe und ChatGPT
-
-![](images/03d_AgentischesProgrammieren/wissenstreppe_chatgpt.svg){.nostretch fig-align="center" width="100%"}
-
-%%slide_ref @north2011wissen North, K. (2011): Wissensorientierte Unternehmensführung. Wertschöpfung durch Wissen.
-
-%%book
-ChatGPT und vergleichbare Modelle decken die Stufen von den Zeichen bis zum Wissen ab. Das implizite, operative Wissen, also Handeln, Kompetenz und Wettbewerbsfähigkeit, liegt nicht in den Modellen.
+Signatur und Docstring beschreiben, was eine Funktion verspricht; die Implementierung beschreibt, wie sie es umsetzt. Wenn das Versprechen nicht stimmt, ist die Umsetzung zweitrangig. Deshalb lesen Sie generierten Code zuerst von außen. Bei `biegespannung_v1(b, h, M)` scheitert schon die erste Frage: Die Parameternamen sagen nichts über Einheiten, und es gibt keinen Docstring. Bei `biegespannung(b_mm, h_mm, M_knm)` stehen die Einheiten in den Namen, und der Docstring nennt N/mm² als Ergebnis. Die dritte Frage prüft das Versprechen an einem Wert, den Sie unabhängig von der KI kennen: Mit W = b · h² / 6 = 5 333 333 mm³ und M = 150 · 10⁶ Nmm ergibt die Handrechnung 28,125 N/mm². Liefert die Funktion etwas anderes, ergänzen Sie den Prompt um den fehlenden Constraint, wie im agentischen Zyklus beschrieben.
 %%/book
 
 
 ## KI schreibt den Code, Sie verantworten ihn
+
+%%div lead
+Die KI ist die Junior-Entwicklerin, Sie sind der Senior, der den Code abnimmt.
+%%/div
 
 %%scol 33 33 33
 ### Auftraggeber
@@ -659,76 +643,11 @@ ChatGPT und vergleichbare Modelle decken die Stufen von den Zeichen bis zum Wiss
 - Im Beispiel: Handrechnung ergibt 28,1
 %%/scol
 
-%%div lead
-Die KI ist die Junior-Entwicklerin, Sie sind der Senior, der den Code abnimmt.
-%%/div
-
 %%book
 Beim Einsatz von KI-Werkzeugen übernehmen Ingenieurinnen und Ingenieure drei Rollen. Als Auftraggeber formulieren sie die Anforderung so präzise, dass die KI passenden Code erzeugen kann. Als Leser verstehen sie den generierten Code mit seinen Annahmen und Grenzen. Als Verifizierer prüfen sie, ob das Ergebnis die Anforderung erfüllt. Die Metapher von Junior und Senior ist bewusst gewählt: Eine gute Senior-Entwicklerin oder ein guter Senior-Entwickler liest den Code gründlich, stellt Fragen, fordert Änderungen und gibt erst dann das Okay. Die Verantwortung für den Code in Produktion bleibt bei den Menschen; KI-Code entbindet nicht von der Haftung.
 %%/book
 
 
-## Vier Fehlerarten treten bei KI-Code immer wieder auf
-
-%%slides
-
-::::::: {.stat-grid style="grid-template-columns: repeat(4, 1fr); gap: 12px;"}
-
-%%%%div stat-card
-%%div stat-value
-1
-%%/div
-%%div stat-label
-Erfundene Funktion
-%%/div
-%%div stat-delta
-Bibliothek oder Methode existiert nicht
-%%/div
-%%%%/div
-
-%%%%div stat-card
-%%div stat-value
-2
-%%/div
-%%div stat-label
-Falsche Einheit
-%%/div
-%%div stat-delta
-kN statt N, mm statt m, wie im Beispiel
-%%/div
-%%%%/div
-
-%%%%div stat-card
-%%div stat-value
-3
-%%/div
-%%div stat-label
-Vergessener Randfall
-%%/div
-%%div stat-delta
-leere Liste, Division durch null
-%%/div
-%%%%/div
-
-%%%%div stat-card
-%%div stat-value
-4
-%%/div
-%%div stat-label
-Stilles Fehlverhalten
-%%/div
-%%div stat-delta
-läuft ohne Meldung, rechnet das Falsche
-%%/div
-%%%%/div
-
-:::::::
-
-%%/slides
-
-%%book
-Vier Fehlerarten sollten Sie beim Lesen gezielt suchen: erfundene Funktionen oder Bibliotheken, stillschweigend falsche Einheiten, vergessene Randfälle wie leere Listen oder Division durch null und Code, der ohne Fehlermeldung das Falsche berechnet. Hinzu kommen Fragen des Datenschutzes und der Lizenzen, wenn Projektdaten oder fremder Code an KI-Werkzeuge gelangen.
-%%/book
 
 
 ## Dann prüft eben der Mensch? → Die Kapazitätsfalle
@@ -763,7 +682,7 @@ fig_metr.add_annotation(
     x=1.5, y=-27, text="<b>39 Prozentpunkte Wahrnehmungslücke</b>",
     showarrow=False)
 fig_metr.update_layout(
-    **get_layout("Beschleunigung durch KI, laut Entwicklern und gemessen", height=430),
+    **get_layout("Beschleunigung durch KI", height=430),
     xaxis=dict(automargin=True),
     yaxis=dict(range=[-34, 36], ticksuffix="%", title="Beschleunigung (+)", automargin=True),
     showlegend=False)
@@ -862,62 +781,28 @@ Teufelskreis **Deskilling**
 Selbst wenn Menschen prüfen, müssen sie dazu in der Lage bleiben. Nutzende überschätzen ihre Fähigkeit, KI-Output zu prüfen [@fernandes2026ai], und die KI-Nutzung führt zu Cognitive Offloading und sinkendem kritischem Denken [@gerlich2025cognitive]. Erfahrene verlieren dadurch Fähigkeiten (Deskilling): In der Studie zur Koloskopie sank die Adenom-Erkennungsrate ohne KI-Hilfe von 28,4 auf 22,4 Prozent, nachdem die Ärztinnen und Ärzte KI genutzt hatten [@budzyn2025endoscopist]. Einsteiger erlernen die Grundlagen gar nicht erst (Never-Skilling): Beim Code-Verständnis erreichten Lernende, die mit KI gearbeitet hatten, 50 statt 67 Prozent [@shen2026skill; @ke2026neverskilling]. So entsteht ein Teufelskreis: Mehr KI-Assistenz führt zu Cognitive Offloading, dieses zu Deskilling und am Ende zu Never-Skilling.
 %%/book
 
+%%slides
 
-## Was tun? → Den Teufelskreis durchbrechen
-
-%%scol 33 33 33
-#### 1. Bildung
-
-- **Weiterbildung** für strukturierte KI-Nutzung
-- **Ausbildung** für kritische Kompetenzen
-- **Kultur** des Lernens und kritischen Denkens
-
-%%sep
-
-#### 2. Organisation
-
-- **Prozesse** zur Prüfung von KI-Ergebnissen
-- **Digitale Werkzeuge** zur Dokumentation im BIM
-- **Führung**, die KI-Resilienz etabliert
-
-%%sep
-
-#### 3. Rahmenbedingungen
-
-- **Forschung** zur Bewertung von KI-Resilienz
-- **Regulierung** der Randbedingungen
-- **Offenheit** für eine positive KI-Vision
-%%/scol
-
-%%div lead
-Es braucht Zusammenarbeit, um Erfahrungen auszutauschen und Leitlinien zu entwickeln.
-%%/div
-
-%%book
-Den Teufelskreis durchbrechen wir auf drei Ebenen. In der Bildung geht es um Weiterbildung für strukturierte KI-Nutzung, Ausbildung für kritische Kompetenzen und eine Kultur des Lernens und kritischen Denkens. In der Organisation braucht es Prozesse zur Prüfung von KI-Ergebnissen, digitale Werkzeuge zur Dokumentation im BIM und Führung, die KI-Resilienz etabliert. Bei den Rahmenbedingungen gehören Forschung zur Bewertung von KI-Resilienz, Regulierung der Randbedingungen und Offenheit für eine positive KI-Vision dazu. Dafür braucht es Zusammenarbeit, um Erfahrungen auszutauschen und Leitlinien zu entwickeln.
-%%/book
+# Lessons Learned {background="#66ccffff" background-video-loop="true" background-video-muted="true" background-video="images/03d_AgentischesProgrammieren/mj_beanstalkofbooks.mp4" credit="cf. 'Jack and the Beanstalk' by Arthur Rackham" .fragment .scramble-auto}
 
 
-## Der Zyklus ist die Methode des ganzen Kurses
+## Lessons Learned - Warum ist das wichtig {background="#66ccffff"}
 
-%%scol 60 40v
-| Block | Thema | Trainierter Schritt |
-|-------|-------|---------------------|
-| 1 | Computational Foundations | Verstehen |
-| 2 | Computational Engineering | Prompt |
-| 3 | Programming Foundations | Verstehen, Iterieren |
-| 4 | Verification & Quality | Verifizieren |
-| 5 | Problem Classes | Prompt, Verifizieren |
-| 6 | Data Management | ganzer Zyklus |
-%%sep
-%%div lead
-Jede Übung trainiert mindestens einen Schritt des Zyklus.
-%%/div
-%%/scol
+![](images/03d_AgentischesProgrammieren/wissenstreppe.svg)
 
-%%book
-Der agentische Zyklus verteilt sich über alle sechs Kursblöcke (S01 bis S13). In Block 1 steht das Verstehen im Vordergrund: Code lesen, Datentypen erkennen. Block 2 trainiert die Formulierung von Anforderungen als Prompt. In Block 3 lesen und überarbeiten wir Kontrollstrukturen und Funktionen. Block 4 formalisiert die Verifikation durch Unit Tests und Code Review. In Block 5 wenden wir Prompt und Verifikation auf typische Problemklassen an, und Block 6 verbindet alle Schritte in datenbankgestützten Projekten. Die Zuordnung ist eine Orientierung, jede Sitzung kann weitere Schritte berühren.
-%%/book
+%%slide_ref @north2011wissen North, K. (2011): Wissensorientierte Unternehmensführung. Wertschöpfung durch Wissen.
+
+
+## Lessons Learned - Was ist Ihre Kompetenz vs. ChatGPT
+
+![](images/03d_AgentischesProgrammieren/wissenstreppe_chatgpt.svg)
+
+%%slide_ref @north2011wissen North, K. (2011): Wissensorientierte Unternehmensführung. Wertschöpfung durch Wissen.
+
+ChatGPT und vergleichbare Modelle decken die Stufen von den Zeichen bis zum Wissen ab. Agenten wie Claude Code übernehmen zusätzlich das Handeln: Sie führen Code aus, ändern Dateien und starten Tests. Ob eine Handlung richtig ist, beurteilen sie nicht verlässlich. Kompetenz und Wettbewerbsfähigkeit bleiben bei Ihnen.
+
+
+%%/slides
 
 %%book
 
