@@ -30,11 +30,17 @@ MONO = "Menlo"
 
 SENTENCE = ["Rostock", "ist", "eine", "schöne", "Stadt."]
 GENERATED = ["Sie", "liegt", "an", "der", "Ostsee."]
+# illustrative probabilities: (chosen word, p) and the two next most likely alternatives
+PROBS = {"Sie": (0.37, [("Das", 0.22), ("Die", 0.15)]),
+         "liegt": (0.71, [("ist", 0.12), ("hat", 0.06)]),
+         "an": (0.64, [("in", 0.12), ("direkt", 0.07)]),
+         "der": (0.93, [("einer", 0.03), ("dem", 0.02)]),
+         "Ostsee.": (0.88, [("Küste.", 0.05), ("Warnow.", 0.03)])}
 IDS = {"Rostock": 5412, "ist": 318, "eine": 287, "schöne": 9055, "Stadt.": 2201,
        "Sie": 2764, "liegt": 4590, "an": 331, "der": 262, "Ostsee.": 18823}
 
 ROWS = [1.5, 0.75, 0.0, -0.75, -1.5]
-X_BOX, X_IN, X_H1, X_H2, X_OUT, X_RES = -5.0, -2.5, -0.7, 1.1, 2.9, 5.0
+X_BOX, X_IN, X_H1, X_H2, X_OUT, X_RES = -5.0, -2.7, -0.95, 0.8, 2.45, 5.2
 Y_TEXT, Y_TRAVEL = 2.85, -2.3
 
 
@@ -70,10 +76,10 @@ class LLMPipeline(Scene):
             for na in a:
                 for nb in b:
                     edges.add(Line(na.get_center(), nb.get_center(), color=LINE, stroke_width=1))
-        res_box = RoundedRectangle(corner_radius=0.1, width=1.9, height=0.9, color=RED, stroke_width=3,
+        res_box = RoundedRectangle(corner_radius=0.1, width=1.5, height=0.9, color=RED, stroke_width=3,
                                    fill_color=BUBBLE, fill_opacity=1).move_to([X_RES, 0, 0])
-        res_lab = T("Nächstes Wort", 18, INK, weight=BOLD).move_to([X_RES, 0.7, 0])
-        res_arrow = Arrow([X_OUT + 0.2, 0, 0], [X_RES - 0.97, 0, 0], buff=0, color=RED, stroke_width=4,
+        res_lab = T("Nächstes Wort", 16, INK, weight=BOLD).move_to([X_RES, 0.7, 0])
+        res_arrow = Arrow([X_OUT + 1.65, 0, 0], [X_RES - 0.78, 0, 0], buff=0, color=RED, stroke_width=4,
                           tip_length=0.2, max_tip_length_to_length_ratio=1, max_stroke_width_to_length_ratio=100)
         net = VGroup(edges, *[VGroup(*l) for l in layers])
 
@@ -109,10 +115,8 @@ class LLMPipeline(Scene):
             self.add(*dots)
             self.play(*[d.animate.move_to([X_IN, d.get_center()[1], 0]) for d in dots], run_time=t)
             self.remove(*dots)
-            for k, lay in enumerate(layers):
+            for k, lay in enumerate(layers[:-1]):
                 self.play(*[n.animate.set_fill(YELLOW, opacity=0.95) for n in lay], run_time=t)
-            self.play(l_out[1].animate.set_fill(RED, opacity=0.9), *[
-                n.animate.set_fill(base_fill[0], opacity=1) for n in l_out if n is not l_out[1]], run_time=t)
             self.play(*[n.animate.set_fill(base_fill[k], opacity=1) for k, lay in enumerate(layers[:-1]) for n in lay],
                       run_time=t)
 
@@ -126,9 +130,23 @@ class LLMPipeline(Scene):
                 self.wait(0.8)
                 caption("Die Zahlen laufen durch das Netzwerk", "Schicht für Schicht entsteht eine Vorhersage.")
             pulse(detailed)
-            # 2 output
+            # 2 output: a probability for each candidate word
+            p_main, alts = PROBS[new_word]
+            cands = [alts[0], (new_word, p_main), alts[1]]          # chosen word in the middle row
             if detailed:
-                caption("Das nächste Wort kommt heraus", "Zuerst als Zahl, dann als Wort.")
+                caption("Jedes mögliche Wort bekommt eine Wahrscheinlichkeit", "Hier die drei wahrscheinlichsten Wörter.")
+            labels = VGroup()
+            fills = []
+            for node, (w_, p_) in zip(l_out, cands):
+                y = node.get_center()[1]
+                lab = VGroup(T(w_, 15, INK).move_to([X_OUT + 0.4, y, 0], aligned_edge=LEFT),
+                             T(f"{p_:.2f}".replace(".", ","), 13, MUTED, font=MONO).move_to([X_OUT + 1.6, y, 0], aligned_edge=RIGHT))
+                labels.add(lab)
+                fills.append(node.animate.set_fill(RED, opacity=0.2 + 0.8 * p_ / 0.95))
+            self.play(*fills, FadeIn(labels), run_time=0.7 if detailed else 0.3)
+            if detailed:
+                self.wait(0.8)
+                caption("Das nächste Wort wird gewählt", "Zuerst als Zahl, dann als Wort.")
             self.play(GrowArrow(res_arrow), run_time=0.4 if detailed else 0.2)
             num = T(str(IDS[new_word]), 18, INK, font=MONO).move_to(res_box)
             self.play(FadeIn(num), run_time=0.4 if detailed else 0.2)
@@ -148,7 +166,8 @@ class LLMPipeline(Scene):
             nb["grp"].move_to([X_RES, 0, 0])
             nb_start = nb["grp"].copy()
             copy = word.copy()
-            self.play(FadeOut(res_arrow), FadeIn(new_hl), FadeIn(new_text), run_time=0.4 if detailed else 0.2)
+            self.play(FadeOut(res_arrow), FadeOut(labels), *[n.animate.set_fill(BUBBLE, opacity=1) for n in l_out],
+                      FadeIn(new_hl), FadeIn(new_text), run_time=0.4 if detailed else 0.2)
             path = VMobject().set_points_as_corners([[X_RES, 0, 0], [X_RES, Y_TRAVEL, 0], [X_BOX, Y_TRAVEL, 0],
                                                     [X_BOX, ROWS[-1], 0]])
             self.play(FadeOut(num), FadeIn(nb["grp"]), run_time=0.15)

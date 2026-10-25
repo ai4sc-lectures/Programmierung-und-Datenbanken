@@ -50,7 +50,7 @@ print(f"Ergebnis: {sigma:.1e}")
 
 Ergebnis des fehlerfreien Laufs:
 ```bash
-Ergebnis: 2,8·10⁻⁵
+Ergebnis: 2.8e-05
 ```
 
 %%/col
@@ -91,7 +91,7 @@ print(f"Ergebnis: {sigma:.1e}")
 
 Ergebnis des fehlerfreien Laufs:
 ```bash
-Ergebnis: 2,8·10⁻⁵
+Ergebnis: 2.8e-05
 ```
 
 %%/scol
@@ -167,7 +167,7 @@ Künstliche neuronale Netzwerke (KNN, 1943) sind eine mathematische Nachbildung 
 %%/scol
 
 %%book
-Tiefe Neuronale Netzwerke (DNN) enthalten sehr viele (3 bis 100) tiefe Schichten von Neuronen. Mit jeder Schicht steigt die Anzahl der Parameter multiplikativ, und man erhält tausende von Parametern. Ab 2011 führten zwei Entwicklungen zur Berechenbarkeit: die Parallelisierung der Berechnung in Grafikkarten mit tausenden von Recheneinheiten und bessere Algorithmen, um die sehr große Anzahl an Parametern schnell zu bestimmen. Der Trick: Mit den tieferen Schichten kann das Netzwerk Wissen besser abstrahieren, da wir Eingänge immer mehr zusammenführen, und verknüpfen, da wir mit jeder Schicht das abstrahierte Wissen besser verknüpfen und das Wichtige betonen.
+Tiefe Neuronale Netzwerke (DNN) enthalten sehr viele (3 bis 150) tiefe Schichten von Neuronen. Mit jeder Schicht steigt die Anzahl der Parameter multiplikativ, und man erhält tausende von Parametern. Ab 2011 führten zwei Entwicklungen zur Berechenbarkeit: die Parallelisierung der Berechnung in Grafikkarten mit tausenden von Recheneinheiten und bessere Algorithmen, um die sehr große Anzahl an Parametern schnell zu bestimmen. Der Trick: Mit den tieferen Schichten kann das Netzwerk Wissen besser abstrahieren, da wir Eingänge immer mehr zusammenführen, und verknüpfen, da wir mit jeder Schicht das abstrahierte Wissen besser verknüpfen und das Wichtige betonen.
 %%/book
 
 
@@ -195,7 +195,7 @@ Große Sprachmodelle (Large Language Models, LLM, seit 2017) erhöhen die Anzahl
 %%/book
 
 
-## Ein Sprachmodell bildet Token-Folgen auf Wahrscheinlichkeiten ab
+## Ein Sprachmodell sagt das nächste Wort voraus
 
 ```{=html}
 <video poster="images/03d_AgentischesProgrammieren/manim_llm_pipeline_last.png" data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/03d_AgentischesProgrammieren/manim_llm_pipeline.webm" type="video/webm"><source src="images/03d_AgentischesProgrammieren/manim_llm_pipeline.mp4" type="video/mp4"></video>
@@ -278,7 +278,7 @@ Beim Pre-Training minimiert das Modell den Vorhersagefehler für das nächste To
 %%/book
 
 
-## Programm code garantieren Korrektheit, ein Sprachmodell nicht
+## Programmcode ist deterministisch und prüfbar, ein Sprachmodell nicht
 
 %%scol 50 50
 #### Sprachmodell
@@ -297,7 +297,7 @@ Beim Pre-Training minimiert das Modell den Vorhersagefehler für das nächste To
 %%/scol
 
 %%div lead
-{{< ai4sc-icon test-tube >}} Wer garantiert die Korrektheit? Bei einem LLM sind Sie es.
+Wer garantiert die Korrektheit? Bei einem LLM sind Sie es.
 %%/div
 
 %%book
@@ -500,10 +500,6 @@ Ein Agent erweitert das Sprachmodell um eine Schleife: Das Modell plant einen Sc
 Jeder Schritt braucht eine eigene Kompetenz: Anforderungen formulieren, Code lesen, Testen denken.
 %%/div
 
-%%aside
-→ `01a_Ueberblick` (S01): Kursüberblick und Symbollegende
-%%/aside
-
 %%book
 Weil der Agent nur so gut ist wie die Anforderung, die er erhält, brauchen Ingenieurinnen und Ingenieure eine eigene, äußere Schleife. Sie ist die Arbeitsmethode des ganzen Kurses.
 
@@ -529,12 +525,8 @@ Der Zyklus besteht aus fünf Schritten: Prompt, Generieren, Verstehen, Verifizie
 > Mit Docstring, der die Einheiten nennt, und Typ-Hints.“
 %%/scol
 
-%%aside
-→ `04a_Anforderungen` (S04): Anforderungsspezifikation als Quelle eines guten Prompts
-%%/aside
-
 %%book
-Ein guter Prompt hat fünf Elemente: Rolle, Kontext, Aufgabe, Constraint und Ausgabeformat. Der vage Prompt „Berechne die Biegespannung“ lässt alle offen: Einheiten, Funktionsname, Rückgabe, erlaubte Bibliotheken. Die KI muss raten, und sie rät plausibel. Der ausformulierte Prompt legt diese Punkte fest und ist damit eine Anforderungsspezifikation im Sinne der Softwareentwicklung. Je präziser der Prompt, desto weniger Iterationen sind nötig. Die systematische Formulierung von Anforderungen vertiefen wir in Sitzung S04.
+Ein guter Prompt hat fünf Elemente: Rolle, Kontext, Aufgabe, Constraint und Ausgabeformat. Der vage Prompt „Berechne die Biegespannung“ lässt alle offen: Einheiten, Funktionsname, Rückgabe, erlaubte Bibliotheken. Die KI muss raten, und sie rät plausibel. Der ausformulierte Prompt legt diese Punkte fest und ist damit eine Anforderungsspezifikation im Sinne der Softwareentwicklung. Je präziser der Prompt, desto weniger Iterationen sind nötig.
 %%/book
 
 
@@ -593,10 +585,6 @@ Wenn KI eine Funktion generiert:
 %%/note
 %%/scol
 
-%%aside
-→ `08a_UnitTest` (S08): Tests als primäres Verifikationswerkzeug
-%%/aside
-
 %%book
 Signatur und Docstring beschreiben das Was, die Implementierung das Wie. Wenn das Was nicht stimmt, ist das Wie irrelevant. Deshalb beginnt die Lesestrategie mit dem Vertrag der Funktion. In `biegespannung(b_mm, h_mm, M_knm)` stehen die Einheiten bereits in der Signatur; in `biegespannung_v1(b, h, M)` fehlen sie, und genau dort lag der Fehler. Die Reihenfolge, den Test vor der Implementierung zu lesen, ist eine Methode dieses Kurses und kein etablierter Branchenbegriff. Wer zuerst den Test formuliert, liest aus der Anforderungsperspektive statt aus der Implementierungsperspektive.
 %%/book
@@ -620,10 +608,6 @@ print("Test bestanden")
 %%div lead
 Eigener Test: Was passiert bei h = 0? Welches Verhalten verlangt die Anforderung?
 %%/div
-
-%%aside
-→ `08a_UnitTest` (S08): Unit-Tests und Test-first-Prompting
-%%/aside
 
 %%book
 Der Test besteht aus einer einzigen Zeile: Die Handrechnung liefert 28,125 N/mm², und die Funktion muss diesen Wert bis auf eine Toleranz treffen. Gegen die erste Funktion schlägt der Test fehl, gegen die zweite besteht er. Der Test entsteht aus der Anforderung und nicht aus dem generierten Code, er kann deshalb nicht denselben Denkfehler enthalten. Bei h gleich null bricht die Funktion mit einer Division durch null ab. Ob das gewollt ist oder ob die Anforderung eine eigene Fehlermeldung verlangt, entscheidet die Anforderung, nicht die KI.
@@ -655,21 +639,21 @@ ChatGPT und vergleichbare Modelle decken die Stufen von den Zeichen bis zum Wiss
 ## KI schreibt den Code, Sie verantworten ihn
 
 %%scol 33 33 33
-### {{< ai4sc-icon clipboard-list >}} Auftraggeber
+### Auftraggeber
 
 - Anforderung präzise formulieren
 - Im Beispiel: Einheiten fehlten im Prompt
 
 %%sep
 
-### {{< ai4sc-icon eye >}} Leser
+### Leser
 
 - Code und Annahmen verstehen
 - Im Beispiel: kNm durch mm³ im Datenfluss
 
 %%sep
 
-### {{< ai4sc-icon test-tube >}} Verifizierer
+### Verifizierer
 
 - Ergebnis gegen die Anforderung prüfen
 - Im Beispiel: Handrechnung ergibt 28,1
@@ -840,7 +824,7 @@ fig_skill.update_layout(
     **get_layout("Leistung ohne KI-Hilfe", height=430),
     legend_title="",
     xaxis=dict(title="", automargin=True),
-    yaxis=dict(title="Erkennungsrate (%)", range=[0, 80], automargin=True),
+    yaxis=dict(title="Leistung (%)", range=[0, 80], automargin=True),
     legend=dict(orientation="h", yanchor="top", y=-0.2, xanchor="center", x=0.5))
 fig_skill.write_image("data/03d_AgentischesProgrammieren/faehigkeitsfalle.png", width=600, height=430, scale=2)
 fig = fig_skill
@@ -872,6 +856,7 @@ Teufelskreis **Deskilling**
 %%slide_ref @gerlich2025cognitive Gerlich, M.: _AI Tools in Society: Impacts on Cognitive Offloading and the Future of Critical Thinking_, **Societies**, 2025.
 %%slide_ref @budzyn2025endoscopist Budzyń et al.: _Endoscopist deskilling risk after exposure to artificial intelligence in colonoscopy_, **Lancet Gastroenterology & Hepatology**, 2025.
 %%slide_ref @ke2026neverskilling Ke et al.: _AI-induced never-skilling in medical education_, **Nature Medicine**, 2026.
+%%slide_ref @shen2026skill Shen & Tamkin: _How AI Impacts Skill Formation_, **arXiv:2601.20245**, 2026.
 
 %%book
 Selbst wenn Menschen prüfen, müssen sie dazu in der Lage bleiben. Nutzende überschätzen ihre Fähigkeit, KI-Output zu prüfen [@fernandes2026ai], und die KI-Nutzung führt zu Cognitive Offloading und sinkendem kritischem Denken [@gerlich2025cognitive]. Erfahrene verlieren dadurch Fähigkeiten (Deskilling): In der Studie zur Koloskopie sank die Adenom-Erkennungsrate ohne KI-Hilfe von 28,4 auf 22,4 Prozent, nachdem die Ärztinnen und Ärzte KI genutzt hatten [@budzyn2025endoscopist]. Einsteiger erlernen die Grundlagen gar nicht erst (Never-Skilling): Beim Code-Verständnis erreichten Lernende, die mit KI gearbeitet hatten, 50 statt 67 Prozent [@shen2026skill; @ke2026neverskilling]. So entsteht ein Teufelskreis: Mehr KI-Assistenz führt zu Cognitive Offloading, dieses zu Deskilling und am Ende zu Never-Skilling.
@@ -947,15 +932,9 @@ Der agentische Zyklus verteilt sich über alle sechs Kursblöcke (S01 bis S13). 
 
     ### Warum erzeugt ein Sprachmodell plausiblen, aber nicht garantiert korrekten Code?
     - [x] Weil sein Trainingssignal die Vorhersage der Fortsetzung belohnt, nicht die Korrektheit
-    - [ ] Weil es Code nur aus einer Datenbank nachschlägt
+    - [ ] Weil es Code nur aus einer Sammlung nachschlägt
     - [ ] Weil es keinen Code ausführen darf
     - [ ] Weil es nur Python kennt
-
-    ### Was bewirkt eine höhere Temperatur beim Sampling?
-    - [x] Die Wahrscheinlichkeit verteilt sich breiter, derselbe Prompt kann andere Ausgaben liefern
-    - [ ] Das Modell rechnet genauer
-    - [ ] Das Modell führt den Code aus
-    - [ ] Das Modell wird schneller
 
     ### Was unterscheidet einen Agenten von einem reinen Sprachmodell?
     - [x] Er ruft in einer Schleife Werkzeuge auf (Dateien, Ausführung, Tests) und erhält deren Ergebnisse
