@@ -14,7 +14,7 @@ resources:
   - data/03d_AgentischesProgrammieren
   - images/03d_AgentischesProgrammieren/manim_*_last.png
 ---
- 
+
 %%book
 
 ![](images/03d_AgentischesProgrammieren/mj_title_band.jpg)
@@ -22,6 +22,10 @@ resources:
 > There's a new kind of coding I call ‘vibe coding’, where you fully give in to the vibes, embrace exponentials, and forget that the code even exists.
 >
 > — Andrej Karpathy, Beitrag auf X, 2025 [@karpathy2025vibe]
+
+Karpathy beschreibt mit *vibe coding* eine Arbeitsweise, bei der wir das Programmieren vollständig einer KI überlassen und den entstandenen Code gar nicht mehr ansehen. Für Ingenieurinnen und Ingenieure ist das keine Option, denn sie verantworten die Ergebnisse ihrer Berechnungen unabhängig davon, wer den Code geschrieben hat. In diesem Kapitel klären wir deshalb, was ein KI-Assistent beim Programmieren tatsächlich tut und wo seine Grenzen liegen.
+
+Zunächst betrachten wir, wie ein großes Sprachmodell Text und Code erzeugt und warum es dabei plausible, aber nicht zwingend korrekte Ergebnisse liefert. Darauf aufbauend lernen wir Agenten und den agentischen Zyklus kennen, der die Arbeitsmethode dieses Kurses bildet, und üben zwei seiner Schritte: einen Prompt als Anforderung zu formulieren und generierten Code gezielt zu lesen. Abschließend fragen wir, wie gut Menschen KI-Ergebnisse überhaupt prüfen können. Als roter Faden dient uns ein einfaches Beispiel aus der Tragwerksplanung, die Biegespannung eines Rechteckträgers.
 
 %%/book
 
@@ -64,7 +68,8 @@ Ergebnis: 2.8e-05
 
 ## Fehlerfrei ausgeführt heißt nicht richtig gerechnet
 
-%%scol 50 50
+%%slides
+%%col 50 50
 **Was sehen Sie, wenn Sie den Code lesen?**
 
 - [Kein Fehler, das Programm läuft durch]{.neutral}
@@ -94,10 +99,24 @@ Ergebnis des fehlerfreien Laufs:
 Ergebnis: 2.8e-05
 ```
 
-%%/scol
+%%/col
+%%/slides
 
 %%book
-KI-Assistenten können Code erzeugen, der ohne Fehlermeldung läuft und trotzdem falsch rechnet. Im Beispiel wird ein Moment in kNm durch ein Widerstandsmoment in mm³ geteilt; die Einheiten passen nicht zusammen, und die Spannung fällt um den Faktor 10⁶ zu klein aus. Python meldet dabei nichts, denn für den Rechner ist jede Zahl gültig. Wer den Code liest, erkennt das sofort; wer ihn nur ausführt, nicht. Dieses Beispiel begleitet uns durch die ganze Sitzung. Zunächst fragen wir, wie ein Sprachmodell zu einem solchen Ergebnis kommt.
+Wir beginnen mit einem Prompt, wie ihn viele von uns in einen Chat-Assistenten tippen würden: „Berechne die Biegespannung eines Rechteckträgers.“ Der Assistent liefert daraufhin den folgenden Code, der ohne jede Fehlermeldung durchläuft:
+
+```{python}
+#| echo: true
+b, h = 200, 400     # Breite, Höhe in mm
+M = 150             # Moment in kNm
+W = b * h**2 / 6    # Widerstandsmoment in mm³
+sigma = M / W       # Spannung in N/mm²
+print(f"Ergebnis: {sigma:.1e}")
+```
+
+Das Ergebnis von 2,8·10⁻⁵ N/mm² sieht zunächst wie eine gewöhnliche Zahl aus. Lesen wir den Code jedoch Zeile für Zeile, fällt auf, dass das Moment in kNm angegeben ist, das Widerstandsmoment hingegen in mm³. Für eine Spannung in N/mm² müsste das Moment zuerst in Nmm umgerechnet, also mit 10⁶ multipliziert werden. Mit $W = b h^2 / 6 = 5\,333\,333\ \text{mm}^3$ und $M = 150 \cdot 10^6\ \text{Nmm}$ ergibt sich richtig $\sigma = M / W$ = 28,125 N/mm². Das Programm liegt also um den Faktor 10⁶ daneben, ohne dass Python etwas meldet, denn der Interpreter kennt keine Einheiten und hält jede Zahl für gültig.
+
+Wer die Grundlagen der Statik beherrscht, erkennt den Fehler beim Lesen sofort, beim bloßen Ausführen dagegen nicht. Damit stellt sich die Frage, die uns durch dieses Kapitel begleitet: Warum macht ein so leistungsfähiges System einen so einfachen Fehler, und wie können wir ihn systematisch vermeiden? Um sie zu beantworten, müssen wir zunächst verstehen, wie ein Sprachmodell zu seiner Antwort kommt.
 %%/book
 
 
@@ -108,19 +127,24 @@ KI-Assistenten können Code erzeugen, der ohne Fehlermeldung läuft und trotzdem
 
 ![](images/03d_AgentischesProgrammieren/ki_gebiete.svg){.nostretch fig-align="center" width="100%"}
 
+%%slides
 - KI – Künstlichen Intelligenz
 - KNN – Künstliche Neuronale Netzwerke
 - CV – Computer Vision (Bildverarbeitung) und Large Vision Models (LVM)
 - NLP – Natural Language Processing (Sprachverarbeitung) und Large Language Models (LLM)
+%%/slides
 
 %%book
-Die Gebiete der Künstlichen Intelligenz haben sich in drei Zeitaltern verschoben. Im Semantic and Machine Learning Age (2012) stehen Semantic Reasoning (Logik), Machine Learning, Optimierung und Robotik nebeneinander. Im Neural Network Age (2018) wird Machine Learning zum dominierenden Gebiet, und Künstliche Neuronale Netzwerke (KNN) umfassen NLP, Robotik und Computer Vision (CV). Im Large Foundation Model Age (2022), auch Generative Models genannt, prägen Large Language Models (LLM) für die Sprachverarbeitung (NLP) und Large Vision Models (LVM) für die Bildverarbeitung (CV) die Neuronalen Netzwerke.
+Sprachmodelle sind ein Teilgebiet der Künstlichen Intelligenz (KI), deren Schwerpunkte sich in den letzten Jahren stark verschoben haben. Die Abbildung zeigt drei Phasen dieser Entwicklung. Im Semantic and Machine Learning Age um 2012 standen logikbasiertes Schließen (Semantic Reasoning), Machine Learning, Optimierung und Robotik als weitgehend eigenständige Gebiete nebeneinander. Im Neural Network Age um 2018 wurde Machine Learning zum dominierenden Gebiet, und künstliche neuronale Netzwerke (KNN) durchdrangen die Sprachverarbeitung (Natural Language Processing, NLP), die Bildverarbeitung (Computer Vision, CV) und die Robotik.
+
+Seit etwa 2022, im Large Foundation Model Age, bestimmen große generative Modelle das Feld: Large Language Models (LLM) für Sprache und Large Vision Models (LVM) für Bilder. Alle KI-Werkzeuge, mit denen wir in diesem Kurs programmieren, gehören zu dieser letzten Phase. Ihre gemeinsame Grundlage sind neuronale Netzwerke, die wir uns deshalb als Erstes ansehen.
 %%/book
 
 
 ## KNN – Künstliche Neuronale Netzwerke (1943)
 
-%%scol 55 45v
+%%slides
+%%col 55 45v
 
 - Ursprünglich mathematisches Modell der Neuronen im menschlichen Gehirn
 - Ein Neuronales Netzwerk setzt sich aus sehr vielen Neuronen zusammen
@@ -128,8 +152,8 @@ Die Gebiete der Künstlichen Intelligenz haben sich in drei Zeitaltern verschobe
     - Eingänge $x_1, x_2, \dots, x_n$ die multipliziert werden mit den
     - Gewichten $w_1, w_2, \dots, w_n$ und dazu wird ein
     - Bias $b$ addiert
-- Der Ausgang $y$ ist die Summe davon, aktiviert und deaktiviert mit einer Aktivierungsfunktion $f(\cdot)$ 
-- Die Aufgabe beim Training ist den Bias $b$ und die Gewichte $w_1, w_2, \dots, w_n$ zu erlernen, also welche Eingänge wichtig sind 
+- Der Ausgang $y$ ist die Summe davon, aktiviert und deaktiviert mit einer Aktivierungsfunktion $f(\cdot)$
+- Die Aufgabe beim Training ist den Bias $b$ und die Gewichte $w_1, w_2, \dots, w_n$ zu erlernen, also welche Eingänge wichtig sind
 - **Der Trick:** Neuronale Netzwerke bestehen aus einfachen Bausteinen, die schnell und hoch-parallel zu berechnen sind
 
 %%sep
@@ -139,18 +163,26 @@ Die Gebiete der Künstlichen Intelligenz haben sich in drei Zeitaltern verschobe
 $$
 y = f\left(b + \sum_{i=1}^{n} w_i x_i\right)
 $$
-%%/scol
+%%/col
+%%/slides
 
 %%book
-Um Fehler wie den obigen vorherzusehen, müssen wir verstehen, was ein Large Language Model (LLM) tatsächlich berechnet und was es nicht berechnet. Danach ordnen wir die gängigen Werkzeuge entlang ihrer Autonomie ein.
+Ein künstliches neuronales Netzwerk (KNN) ist ursprünglich ein mathematisches Modell der Nervenzellen im menschlichen Gehirn, das bereits 1943 formuliert wurde. Sein Grundbaustein, das künstliche **Neuron**, ist bemerkenswert einfach aufgebaut. Es multipliziert jeden Eingang $x_i$ mit einem Gewicht $w_i$, addiert die Produkte sowie einen Bias $b$ und gibt die Summe an eine Aktivierungsfunktion $f(\cdot)$ weiter, die entscheidet, wie stark das Neuron aktiviert wird:
 
-Künstliche neuronale Netzwerke (KNN, 1943) sind eine mathematische Nachbildung der Neuronen im menschlichen Gehirn. Ein Netzwerk setzt sich aus sehr vielen Neuronen zusammen, und jedes Neuron ist meist einfach aufgebaut: Die Eingänge $x_1, \dots, x_n$ werden mit den Gewichten $w_1, \dots, w_n$ multipliziert, und dazu wird ein Bias $b$ addiert. Der Ausgang $y$ ist die Summe davon, gefiltert mit einer Aktivierungsfunktion $f(\cdot)$. Wir gewichten also die Eingänge nach Wichtigkeit. Die Aufgabe beim Lernen ist, die Gewichte und das Bias zu bestimmen, wir lernen also, welche Eingänge wichtig sind. Der Trick: Neuronale Netzwerke bestehen aus einfachen Bausteinen, die gut zu rechnen sind.
+![](images/03d_AgentischesProgrammieren/neuron.svg){.nostretch fig-align="center" width="70%"}
+
+$$
+y = f\left(b + \sum_{i=1}^{n} w_i x_i\right)
+$$
+
+Die Gewichte drücken aus, wie wichtig ein Eingang für das Ergebnis ist. Beim Training werden Gewichte und Bias so lange angepasst, bis das Netzwerk für bekannte Beispiele die gewünschten Ausgänge liefert; das Netzwerk lernt also, welche Eingänge zählen. Die Stärke des Ansatzes liegt nicht im einzelnen Neuron, sondern darin, dass sehr viele dieser gleichartigen Bausteine schnell und hochparallel berechnet werden können. Für unsere Ausgangsfrage ist schon hier eine Eigenschaft wichtig: Ein Neuron gewichtet und addiert nur Zahlen, eine Vorstellung von Einheiten, Kräften oder Momenten enthält es nicht.
 %%/book
 
 
 ## DNN – Tiefe Neuronale Netzwerke (seit 2011 skalierbar)
 
-%%scol 45 55
+%%slides
+%%col 45 55
 
 - Tiefe Neuronale Netzwerke enthalten sehr viele (3-150) tiefe Schichten von Neuronen
 - Mit jeder Schicht steigt die Anzahl der Parameter multiplikativ und man erhält sehr viele Parameter
@@ -164,16 +196,22 @@ Künstliche neuronale Netzwerke (KNN, 1943) sind eine mathematische Nachbildung 
 %%sep
 
 ![](images/03d_AgentischesProgrammieren/dnn.svg){.nostretch fig-align="center" width="100%"}
-%%/scol
+%%/col
+%%/slides
 
 %%book
-Tiefe Neuronale Netzwerke (DNN) enthalten sehr viele (3 bis 150) tiefe Schichten von Neuronen. Mit jeder Schicht steigt die Anzahl der Parameter multiplikativ, und man erhält tausende von Parametern. Ab 2011 führten zwei Entwicklungen zur Berechenbarkeit: die Parallelisierung der Berechnung in Grafikkarten mit tausenden von Recheneinheiten und bessere Algorithmen, um die sehr große Anzahl an Parametern schnell zu bestimmen. Der Trick: Mit den tieferen Schichten kann das Netzwerk Wissen besser abstrahieren, da wir Eingänge immer mehr zusammenführen, und verknüpfen, da wir mit jeder Schicht das abstrahierte Wissen besser verknüpfen und das Wichtige betonen.
+Ein einzelnes Neuron kann nur einfache Zusammenhänge abbilden. Tiefe neuronale Netzwerke (Deep Neural Networks, DNN) schalten deshalb viele Schichten von Neuronen hintereinander, je nach Architektur zwischen 3 und 150. Da jedes Neuron einer Schicht mit den Neuronen der nächsten Schicht verbunden ist, wächst die Zahl der Parameter mit jeder Schicht multiplikativ. Praktisch trainieren ließen sich solche Netze erst ab etwa 2011, als zwei Entwicklungen zusammenkamen: Grafikkarten mit tausenden Recheneinheiten, die die vielen gleichartigen Rechnungen parallel ausführen, und bessere Algorithmen, die eine sehr große Zahl von Parametern zuverlässig bestimmen.
+
+![](images/03d_AgentischesProgrammieren/dnn.svg){.nostretch fig-align="center" width="70%"}
+
+Der Gewinn der Tiefe liegt darin, dass jede Schicht die Ausgaben der vorherigen zusammenführt. Dadurch kann das Netzwerk Wissen abstrahieren, weil die Eingänge Schicht für Schicht zu allgemeineren Merkmalen verdichtet werden. Zugleich kann es Wissen verknüpfen, weil jede weitere Schicht die abstrahierten Merkmale kombiniert und das für die Aufgabe Wichtige stärker gewichtet. Bei einem Foto einer Betonoberfläche können frühe Schichten beispielsweise Kanten erkennen und spätere daraus den Verlauf eines Risses.
 %%/book
 
 
 ## Große Sprachmodelle (Large Language Models LLM) (seit 2017)
 
-%%scol 45 55
+%%slides
+%%col 45 55
 
 - Erhöhen die Anzahl der Parameter auf mehrere Milliarden
 - Die Netzwerke zerlegen Texte in Worte und lernen mit welcher Wahrscheinlichkeit diese Worte im Text aufeinander folgen
@@ -188,33 +226,43 @@ Tiefe Neuronale Netzwerke (DNN) enthalten sehr viele (3 bis 150) tiefe Schichten
 %%sep
 
 ![](images/03d_AgentischesProgrammieren/llm_words.svg){.nostretch fig-align="center" width="100%"}
-%%/scol
+%%/col
+%%/slides
 
 %%book
-Große Sprachmodelle (Large Language Models, LLM, seit 2017) erhöhen die Anzahl der Parameter auf mehrere Milliarden. Die Netzwerke zerlegen Texte in Worte und lernen, mit welcher Wahrscheinlichkeit diese Worte im Text aufeinander folgen. Mit der Entdeckung der Transformer-Netzwerke [@vaswani2017attention] konnte man diese Textzusammenhänge lernen. Der Trick besteht darin, dass das Netzwerk lernt zu abstrahieren, welche Worte in einem Text wichtig sind, und zu verknüpfen, welche Worte mit diesen wichtigen Worten über Sätze verknüpft sind. Wenn wir eine Anfrage an ChatGPT stellen, wird das umgekehrt, und ChatGPT generiert die wahrscheinliche Wortfolge für die Anfrage.
+Große Sprachmodelle (Large Language Models, LLM) übertragen dieses Prinzip auf Text und vergrößern die Netzwerke auf mehrere Milliarden Parameter. Sie zerlegen Texte in Wörter oder Wortteile und lernen aus sehr großen Textsammlungen, mit welcher Wahrscheinlichkeit welches Wort auf welche vorangehenden Wörter folgt. Möglich wurde das 2017 durch die Transformer-Architektur [@vaswani2017attention], deren Attention-Mechanismus für jedes Wort gewichtet, welche anderen Wörter im Text für dieses Wort relevant sind, auch über Satzgrenzen hinweg.
+
+![](images/03d_AgentischesProgrammieren/llm_words.svg){.nostretch fig-align="center" width="70%"}
+
+Auch hier lernt das Netzwerk zu abstrahieren und zu verknüpfen: Es erkennt, welche Wörter in einem Text wichtig sind, und welche anderen Wörter über Sätze hinweg mit ihnen zusammenhängen. Stellen wir eine Anfrage an einen Chat-Assistenten wie ChatGPT, wird dieses gelernte Wissen umgekehrt genutzt, indem das Modell die Wortfolge erzeugt, die als Fortsetzung unserer Anfrage am wahrscheinlichsten ist. Quellcode ist für das Modell ebenfalls nur Text, und auf genau diese Weise ist auch der Code aus unserem Einstiegsbeispiel entstanden.
 %%/book
 
 
 ## Ein Sprachmodell sagt das nächste Wort voraus
 
+%%slides
 ```{=html}
 <video poster="images/03d_AgentischesProgrammieren/manim_llm_pipeline_last.png" data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/03d_AgentischesProgrammieren/manim_llm_pipeline.webm" type="video/webm"><source src="images/03d_AgentischesProgrammieren/manim_llm_pipeline.mp4" type="video/mp4"></video>
 ```
- 
+
 %%div lead
 Das Modell sagt immer nur das nächste Wort voraus und beginnt dann von vorn.
 %%/div
+%%/slides
 
 %%book
-Ein LLM verarbeitet keinen Text, sondern Zahlen. Jedes Wort oder Wortteil (Token) steht in einem festen Vokabular und hat dort eine Nummer. Die Nummern des bisherigen Textes laufen durch das neuronale Netzwerk, und am Ende steht für jedes Token des Vokabulars eine Wahrscheinlichkeit. Das Modell wählt daraus das nächste Token und hängt es an den Text an. Der Ausschnitt des Textes, den das Netzwerk liest, rückt dann um ein Token weiter, und der Vorgang beginnt von vorn. Man nennt das autoregressive Generierung. Im Beispiel entsteht aus „Rostock ist eine schöne Stadt.“ Wort für Wort der Satz „Sie liegt an der Ostsee.“ Die Nummern im Bild sind illustrativ. Moderne Modelle haben Milliarden bis Billionen Parameter.
+Wie entsteht aus diesen Wahrscheinlichkeiten ein ganzer Text? Ein LLM verarbeitet intern keine Buchstaben, sondern Zahlen. Jedes Wort oder Wortteil, ein sogenanntes **Token**, steht in einem festen Vokabular und hat dort eine Nummer. Die Nummern des bisherigen Textes laufen durch das neuronale Netzwerk, das am Ende für jedes Token des Vokabulars eine Wahrscheinlichkeit ausgibt. Das Modell wählt daraus das nächste Token, hängt es an den Text an und beginnt mit dem verlängerten Text von vorn. Dieses Vorgehen heißt *autoregressive Generierung*.
 
 ![Das Netzwerk liest die Nummern der Wörter und gibt das nächste Wort aus, das an den Text angehängt wird](images/03d_AgentischesProgrammieren/manim_llm_pipeline.png){fig-align="center" width="100%"}
+
+Die Abbildung zeigt den Ablauf an einem Beispiel, wobei die Nummern illustrativ gewählt sind: Aus „Rostock ist eine schöne Stadt.“ entsteht Wort für Wort die Fortsetzung „Sie liegt an der Ostsee.“ Entscheidend ist, dass das Modell in jedem Schritt nur das nächste Token vorhersagt. Es plant keine Rechnung und prüft am Ende kein Ergebnis. Ob eine Zeile wie `sigma = M / W` mit passenden Einheiten arbeitet, spielt für die Vorhersage daher keine Rolle, solange der Code wie typischer Code aussieht.
 %%/book
 
 
 ## Warum ist das ein Problem?
 
-%%scol 50 50
+%%slides
+%%col 50 50
 
 #### [Wie ein Ingenieur denkt]{.pro}
 
@@ -242,18 +290,22 @@ Ein LLM verarbeitet keinen Text, sondern Zahlen. Jedes Wort oder Wortteil (Token
 ```
 
 :::
-%%/scol
+%%/col
 
 %%slide_ref @Ploennigs25 Ploennigs et al.: _Building foundation models - potentials, challenges and research directions for using LLM and LVM in AEC_, **EC3**, 2025.
+%%/slides
 
 %%book
-Ein Ingenieur übersetzt ein Problem in ein mentales Modell und analysiert darin abstrakte Zusammenhänge: Er versteht, warum und wann sich ein Balken biegt. Er kann kausale Schlussfolgerungen ableiten und prüfen, ob das Ergebnis physikalisch sinnvoll ist, er kann also rechnen. Ein LLM dagegen übersetzt ein Problem in ein sprachliches Muster. Es hat kein mentales Modell abstrakter Zusammenhänge und weiß nur, dass „Balken“ und „biegen“ korrelieren. Es sagt nur statistisch wahrscheinliche Wörter voraus und kann nicht prüfen, ob der Output sinnvoll ist, es kann also nicht rechnen [@Ploennigs25].
+Damit wird deutlich, warum das Vorgehen eines Sprachmodells für Ingenieuraufgaben problematisch ist. Eine Ingenieurin, die die Biegespannung berechnet, übersetzt die Aufgabe in ein mentales Modell: Sie stellt sich den Träger, die Belastung und die Spannungsverteilung im Querschnitt vor. In diesem Modell versteht sie, warum und wann sich der Balken biegt, kann daraus kausale Schlüsse ziehen und das Ergebnis auf physikalische Plausibilität prüfen. Eine Randspannung von 0,000028 N/mm² unter einem Moment von 150 kNm würde ihr deshalb sofort als unrealistisch auffallen.
+
+Ein LLM übersetzt dieselbe Aufgabe dagegen in ein sprachliches Muster. Es weiß, dass Wörter wie „Balken“, „biegen“ und „Widerstandsmoment“ häufig gemeinsam vorkommen und welche Codezeilen typischerweise darauf folgen, besitzt aber kein Modell der dahinterliegenden Mechanik. Es sagt nur statistisch wahrscheinliche Wörter voraus und kann nicht prüfen, ob seine Ausgabe sinnvoll ist; im wörtlichen Sinn rechnet es also nicht [@Ploennigs25].
 %%/book
 
 
 ## Das Training belohnt Plausibilität, nicht Korrektheit
 
-%%scol 50 50
+%%slides
+%%col 50 50
 
 ### Training
 
@@ -271,16 +323,20 @@ Ein Ingenieur übersetzt ein Problem in ein mentales Modell und analysiert darin
 %%div lead
 Das Modell lernt Wortwahrscheinlichkeiten. Es schlägt nichts nach und rechnet nichts nach.
 %%/div
-%%/scol
+%%/col
+%%/slides
 
 %%book
-Beim Pre-Training minimiert das Modell den Vorhersagefehler für das nächste Token über sehr große Text- und Code-Sammlungen. Die Verlustfunktion bewertet nur, wie gut die tatsächliche Fortsetzung vorhergesagt wurde. Instruction-Tuning und Feedback von Menschen [@ouyang2022instructgpt] richten das Modell auf hilfreiche Antworten aus. In keinem dieser Schritte kommt ein Ergebnis einer Programmausführung oder eine Einheitenprüfung vor. Das Modell erzeugt deshalb Code, der zu seinen Trainingsmustern passt. Es ist kein Nachschlagewerk: Auch Code, der so nie in den Trainingsdaten stand, kann es neu zusammensetzen. Das erklärt sowohl seine Stärke als auch den Einheitenfehler im Beispiel.
+Woher kommt dieses Verhalten? Ein Sprachmodell durchläuft drei Trainingsphasen. Beim *Pre-Training* lernt es an sehr großen Sammlungen aus Text und Code, die jeweils nächste Fortsetzung vorherzusagen, wobei die Verlustfunktion allein misst, wie gut die tatsächliche Fortsetzung getroffen wurde. Beim *Instruction-Tuning* ahmt es Paare aus Aufgaben und Musterantworten nach und lernt so, Anweisungen zu befolgen. In der Feedback-Phase bewerten Menschen alternative Antworten, und das Modell wird auf die bevorzugten Antworten ausgerichtet [@ouyang2022instructgpt].
+
+In keiner dieser Phasen kommen eine Einheitenprüfung, das Ergebnis einer Programmausführung oder die konkrete Anforderung der späteren Nutzenden vor. Belohnt wird, was plausibel und hilfreich klingt, nicht was nachweislich korrekt ist. Dabei ist das Modell kein Nachschlagewerk, das gespeicherten Code wiedergibt, denn es setzt aus gelernten Mustern auch Code zusammen, der so nie in den Trainingsdaten stand. Darin liegt seine Stärke, weil es für fast jede Aufgabe einen Lösungsvorschlag liefern kann. Darin liegt aber auch die Ursache unseres Einheitenfehlers: `sigma = M / W` ist ein häufiges und plausibles Muster, und nichts im Training hat das Modell gezwungen, die Einheit von `M` zu hinterfragen.
 %%/book
 
 
 ## Programmcode ist deterministisch und prüfbar, ein Sprachmodell nicht
 
-%%scol 50 50
+%%slides
+%%col 50 50
 ### Sprachmodell
 
 - Eingabe: Prompt
@@ -294,14 +350,17 @@ Beim Pre-Training minimiert das Modell den Vorhersagefehler für das nächste To
 - [Gleiche Eingabe, gleiche Ausgabe]{.pro}
 - Fehler: Fehlermeldung mit Zeile
 
-%%/scol
+%%/col
 
 %%div lead
 Wer garantiert die Korrektheit? Bei einem LLM sind Sie es.
 %%/div
+%%/slides
 
 %%book
-Programmcode verhält sich deterministisch: Dieselbe Eingabe liefert dieselbe Ausgabe, und Syntax- oder Typfehler führen zu einer Fehlermeldung mit Zeilenangabe. Ob die Formel im Code richtig ist, garantiert das nicht, wie unser Beispiel mit dem Einheitenfehler zeigt. Das Verhalten ist aber reproduzierbar und prüfbar. Ein Sprachmodell antwortet immer, auch wenn der Prompt unklar ist oder die richtige Antwort nirgends gelernt wurde, und dieselbe Eingabe kann andere Ausgaben liefern. Die Prüfung liegt hier bei den Anwenderinnen und Anwendern. Verifikation ist deshalb Pflicht und kein optionaler Zusatzschritt.
+Der Unterschied wird deutlicher, wenn wir ein Sprachmodell mit einem gewöhnlichen Programm vergleichen. Ein Programm erhält Daten als Eingabe und verhält sich deterministisch: Dieselbe Eingabe liefert immer dieselbe Ausgabe, und ein Syntax- oder Typfehler führt zu einer Fehlermeldung mit Zeilenangabe. Ob die Formel im Programm fachlich stimmt, garantiert das zwar nicht, wie unser Einstiegsbeispiel zeigt. Das Verhalten ist aber reproduzierbar und lässt sich deshalb systematisch testen. Ähnlich verlässlich arbeiten eine Datenbankabfrage, die genau die gespeicherten Datensätze zurückgibt, oder ein Compiler, der Quellcode nach festen Regeln übersetzt.
+
+Ein Sprachmodell erhält dagegen einen Prompt und gibt keine formale Garantie für seine Ausgabe. Es antwortet immer, auch wenn der Prompt unklar ist oder die richtige Antwort nie gelernt wurde, und dieselbe Eingabe kann bei erneuter Anfrage eine andere Ausgabe liefern. Statt einer Fehlermeldung erhalten wir im Fehlerfall eine plausibel klingende, aber falsche Antwort. Die Verantwortung für die Korrektheit liegt damit vollständig bei den Menschen, die das Modell nutzen, und Verifikation wird vom optionalen Zusatzschritt zur Pflicht.
 %%/book
 
 
@@ -330,7 +389,8 @@ def get_layout(title="", height=500):
 
 ## Kann KI das allein? → Die Kompetenzfalle
 
-%%scol 50 50
+%%slides
+%%col 50 50
 ### Verstehen
 
 - [Zusammenfassen, Allgemeinwissen zu Bauen und Architektur]{.pro}
@@ -378,22 +438,23 @@ fig = fig_pursnani
 
 %%cache_plotly "data/03d_AgentischesProgrammieren/kompetenzfalle.json" 700x450 write
 
-::: {.content-visible when-format="typst"}
-![](data/03d_AgentischesProgrammieren/kompetenzfalle.png)
-:::
-
 [Daten: @PURSNANI2023100183, @fe_civil_2025. Statik und Tragwerke bleiben am schwächsten.]{style="font-size: 0.7em"}
-%%/scol
+%%/col
 
 %%slide_ref @PURSNANI2023100183 Pursnani et al.: _Performance of ChatGPT on the US fundamentals of engineering exam_, **Computers and Education: AI**, 2023.
 %%slide_ref @fe_civil_2025 Oblitas, Adeeb & Cruz-Noguez: _Performance of AI Chatbots on the Fundamentals of Engineering Civil Exam_, **Discover Artificial Intelligence**, 2025.
+%%/slides
 
 %%book
-Kann KI Ingenieuraufgaben allein lösen? Das hängt davon ab, welche Fähigkeit wir betrachten. Beim Verstehen sind Zusammenfassen und Allgemeinwissen zu Bauen und Architektur Stärken, numerisches und räumliches Verständnis sowie Detailwissen zur Baudomäne fehlen. Beim Generieren gelingen Übersetzen und Bilder, bei Unwissenheit halluziniert das Modell und erzeugt keine wiederholbar zusammenhängenden Ergebnisse. Beim Anpassen lässt sich das Wissen über RAG erweitern und das Modell auf Spezialwissen abstimmen, an komplexe Ingenieurprobleme lässt es sich dennoch nicht anpassen. Die Aufgaben der US-amerikanischen Ingenieur-Grundlagenprüfung zeigen das: GPT-4 erreichte 2023 in der Statik 14 Prozent, ChatGPT o3 2025 immerhin 50 Prozent, in der Tragwerksplanung 30 Prozent. Statik und Tragwerke bleiben die schwächsten Gebiete [@PURSNANI2023100183; @fe_civil_2025].
+Wie gut lösen Sprachmodelle Ingenieuraufgaben, wenn wir sie allein arbeiten lassen? Die Antwort hängt davon ab, welche Fähigkeit gefragt ist. Beim Verstehen sind sie stark im Zusammenfassen und im Allgemeinwissen zu Bauen und Architektur; ihnen fehlen jedoch numerisches und räumliches Verständnis sowie Detailwissen zur Baudomäne und zum konkreten Projekt. Beim Generieren übersetzen sie zuverlässig und erzeugen Bilder, halluzinieren aber bei Unwissenheit und liefern keine wiederholbar zusammenhängenden Ergebnisse. Ihr Wissen lässt sich durch Retrieval-Augmented Generation (RAG) erweitern oder durch Nachtraining auf Spezialwissen abstimmen, an komplexe Ingenieurprobleme lassen sie sich damit aber dennoch nicht anpassen.
+
+![LLMs in der Ingenieur-Grundlagenprüfung (FE), Anteil richtig gelöster Aufgaben je Fachgebiet [@PURSNANI2023100183; @fe_civil_2025]](data/03d_AgentischesProgrammieren/kompetenzfalle.png){fig-align="center" width="85%"}
+
+Das Diagramm zeigt diese Grenzen anhand der US-amerikanischen Ingenieur-Grundlagenprüfung (Fundamentals of Engineering, FE). Auf der x-Achse stehen die Fachgebiete, auf der y-Achse der Anteil richtig gelöster Aufgaben, und die gestrichelte Linie bei 70 Prozent markiert ein gutes Ergebnis. GPT-4 erreichte 2023 in Ethik und Berufsrecht 100 Prozent und in Wirtschaft 85 Prozent, in Bodenmechanik, Hydraulik und Statik dagegen nur 42, 35 und 14 Prozent [@PURSNANI2023100183]. Das neuere Modell ChatGPT o3 verbesserte sich 2025 deutlich, blieb aber in der Statik bei 50 und in der Tragwerksplanung bei 30 Prozent [@fe_civil_2025]. Gerade die Gebiete, die unser Beispiel betrifft, bleiben also die schwächsten. Wir sprechen von einer Kompetenzfalle, weil die sprachliche Gewandtheit des Modells eine fachliche Kompetenz nahelegt, die es in diesen Gebieten nicht besitzt.
 %%/book
 
 
-# Agentenische Programmierung
+# Agentisches Programmieren
 
 ## Code-Vervollständigung wurde in acht Jahren zum Agenten
 
@@ -471,12 +532,23 @@ LLM mit Zugriff auf Dateien und Terminal
 %%/slides
 
 %%book
-Die Technik hinter den heutigen Assistenten ist jung. Die Transformer-Architektur [@vaswani2017attention] ersetzte 2017 rekurrente Netze durch den Attention-Mechanismus. GPT-3 [@brown2020gpt3] zeigte 2020, dass ein ausreichend großes Modell Aufgaben aus wenigen Beispielen im Prompt lernt. Codex, das Modell hinter GitHub Copilot, wurde 2021 auf Quellcode feinjustiert [@chen2021codex]. Mit Instruction-Tuning und Feedback von Menschen [@ouyang2022instructgpt] entstanden 2022 Chat-Assistenten. Seit 2025 verbreiten sich Coding-Agenten, die Dateien lesen, Code ausführen und Tests starten. Karpathy prägte für das ungeprüfte Übernehmen solcher Ergebnisse den Begriff vibe coding [@karpathy2025vibe].
+Nachdem wir verstanden haben, wie ein Sprachmodell Code erzeugt, wenden wir uns den Werkzeugen zu, mit denen wir in diesem Kurs arbeiten. Die Technik hinter ihnen ist erstaunlich jung, wie die folgende Übersicht zeigt.
+
+| Jahr | Meilenstein | Bedeutung |
+|------|-------------|-----------|
+| 2017 | Transformer [@vaswani2017attention] | Attention ersetzt rekurrente Netze |
+| 2020 | GPT-3 [@brown2020gpt3] | 175 Mrd. Parameter, lernt Aufgaben aus wenigen Beispielen im Prompt |
+| 2021 | Codex und GitHub Copilot [@chen2021codex] | Sprachmodell auf Quellcode feinjustiert |
+| 2022 | ChatGPT [@ouyang2022instructgpt] | Instruction-Tuning und Feedback von Menschen |
+| 2025 | Coding-Agenten | Sprachmodell mit Zugriff auf Dateien und Terminal |
+
+Die ersten Code-Werkzeuge vervollständigten einzelne Zeilen im Editor. Chat-Assistenten konnten ab 2022 ganze Funktionen auf Anfrage schreiben, die wir anschließend selbst in unser Projekt kopierten. Seit 2025 verbreiten sich Coding-Agenten, die Dateien selbst lesen und ändern, Code ausführen und Tests starten. Mit jeder dieser Stufen übernimmt die KI mehr Arbeit, und umso größer wird die Versuchung, ihre Ergebnisse ungeprüft zu übernehmen, also genau das *vibe coding*, das Karpathy beschreibt [@karpathy2025vibe].
 %%/book
 
 ## Ein Agent ist ein Sprachmodell in einer Schleife mit Werkzeugen
 
-%%scol 55 45v
+%%slides
+%%col 55 45v
 ![](images/03d_AgentischesProgrammieren/agent_loop.svg){.nostretch fig-align="center" width="100%"}
 %%sep
 **Autonomie der Werkzeuge:**
@@ -484,10 +556,15 @@ Die Technik hinter den heutigen Assistenten ist jung. Die Transformer-Architektu
 - GitHub Copilot ergänzt Zeilen beim Tippen. Prüfen: jede Annahme per Tab
 - Cursor bietet Chat und Edits im Editor. Prüfen: den Diff vor der Übernahme
 - Claude Code plant, liest, führt aus und testet. Prüfen: das Ergebnis gegen die Anforderung
-%%/scol
+%%/col
+%%/slides
 
 %%book
-Ein Agent erweitert das Sprachmodell um eine Schleife: Das Modell plant einen Schritt, ruft ein Werkzeug auf, etwa zum Lesen einer Datei, zum Ausführen von Code oder zum Starten von Tests, und erhält das Ergebnis zurück in sein Kontextfenster. So arbeitet es mehrere Schritte selbstständig ab. Die drei Werkzeuge dieses Kurses unterscheiden sich vor allem im Grad der Autonomie. GitHub Copilot liefert Inline-Vorschläge im Tippfluss, was bequem ist, aber dazu verleitet, Code ohne Lesen zu akzeptieren. Cursor kombiniert Editor und Chat. Claude Code, das Werkzeug dieses Kurses, arbeitet im Terminal oder als VS-Code-Erweiterung mit Sicht auf das ganze Projekt. Je höher die Autonomie, desto wichtiger ist die Prüfung, denn der Agent kennt Ihre Anforderung nur aus dem Prompt.
+Ein Chat-Assistent beantwortet eine Anfrage und wartet dann auf die nächste. Ein **Agent** erweitert das Sprachmodell dagegen um eine Schleife mit Werkzeugen. Das Modell plant einen Schritt, ruft ein Werkzeug auf, etwa zum Lesen oder Schreiben einer Datei, zum Ausführen von Code oder zum Starten von Tests, und erhält dessen Ergebnis zurück in sein Kontextfenster. Auf dieser Grundlage plant es den nächsten Schritt. So arbeitet ein Agent mehrere Schritte selbstständig ab und kann beispielsweise eine Fehlermeldung lesen und den Code daraufhin korrigieren.
+
+![](images/03d_AgentischesProgrammieren/agent_loop.svg){.nostretch fig-align="center" width="70%"}
+
+Die gängigen Werkzeuge unterscheiden sich vor allem im Grad dieser Autonomie, und damit ändert sich, was wir prüfen müssen. GitHub Copilot ergänzt Zeilen während des Tippens; geprüft wird jeder einzelne Vorschlag, bevor wir ihn mit der Tabulatortaste übernehmen, was bequem ist, aber dazu verleitet, Code ungelesen zu akzeptieren. Cursor kombiniert Editor und Chat und schlägt Änderungen vor, die wir als Diff vor der Übernahme durchsehen. Claude Code, das Werkzeug dieses Kurses, arbeitet im Terminal oder als VS-Code-Erweiterung mit Sicht auf das ganze Projekt; es plant, liest, führt aus und testet selbst, sodass wir am Ende das Ergebnis gegen die Anforderung prüfen. Je höher die Autonomie, desto wichtiger wird diese Prüfung, denn der Agent kennt unsere Anforderung nur aus dem Prompt. Selbst wenn er Tests ausführt, kann er nicht wissen, ob diese Tests die richtige Anforderung abbilden.
 %%/book
 
 
@@ -496,14 +573,16 @@ Ein Agent erweitert das Sprachmodell um eine Schleife: Das Modell plant einen Sc
 
 ![](images/03d_AgentischesProgrammieren/cycle.svg)
 
+%%slides
 %%div lead
 Jeder Schritt braucht eine eigene Kompetenz: Anforderungen formulieren, Code lesen, Testen denken.
 %%/div
+%%/slides
 
 %%book
-Weil der Agent nur so gut ist wie die Anforderung, die er erhält, brauchen Ingenieurinnen und Ingenieure eine eigene, äußere Schleife. Sie ist die Arbeitsmethode des ganzen Kurses.
+Der Agent arbeitet seine innere Schleife selbstständig ab, doch die Anforderung kennt nur der Mensch. Deshalb legen wir um diese innere Schleife eine äußere, den **agentischen Zyklus**, der die Arbeitsmethode des ganzen Kurses bildet. Er besteht aus fünf Schritten: Prompt, Generieren, Verstehen, Verifizieren und Iterieren. Nur das Generieren übernimmt die KI, die übrigen vier Schritte liegen bei uns.
 
-Der Zyklus besteht aus fünf Schritten: Prompt, Generieren, Verstehen, Verifizieren und Iterieren. Nur der zweite Schritt gehört der KI, die übrigen vier gehören Ihnen. Am Beispiel heißt das: Sie legen Einheiten und Ausgabegröße fest, die KI liefert eine Funktion, Sie verfolgen die Einheiten im Datenfluss, prüfen das Ergebnis gegen die Handrechnung von 28,125 N/mm² und ergänzen bei Abweichung den fehlenden Constraint im Prompt. Der Zyklus wird wiederholt, bis die Anforderung nachweislich erfüllt ist. Er verlangt genau die Fähigkeiten, die dieser Kurs aufbaut: Python-Lesekompetenz, Anforderungsformulierung und Testdenken.
+Am Leitbeispiel lässt sich jeder Schritt konkret benennen. Im Prompt legen wir Einheiten und Ausgabegröße fest. Die KI generiert daraufhin eine Funktion `biegespannung(…)` und durchläuft dabei gegebenenfalls selbst die innere Agentenschleife. Beim Verstehen lesen wir den Code und verfolgen die Einheiten im Datenfluss. Beim Verifizieren vergleichen wir das Ergebnis mit einer unabhängigen Handrechnung, die 28,125 N/mm² ergibt. Weicht es ab, ergänzen wir beim Iterieren den fehlenden Constraint und prompten neu, bis die Anforderung nachweislich erfüllt ist. Jeder dieser Schritte verlangt eine eigene Kompetenz, nämlich Anforderungen zu formulieren, Code zu lesen und in Tests zu denken; genau diese Fähigkeiten baut der Kurs auf.
 %%/book
 
 ## Der Zyklus ist die Methode des ganzen Kurses
@@ -518,14 +597,15 @@ Der Zyklus besteht aus fünf Schritten: Prompt, Generieren, Verstehen, Verifizie
 | 6 | Data Management | ganzer Zyklus |
 
 %%book
-Der agentische Zyklus verteilt sich über alle sechs Kursblöcke (S01 bis S13). In Block 1 steht das Verstehen im Vordergrund: Code lesen, Datentypen erkennen. Block 2 trainiert die Formulierung von Anforderungen als Prompt. In Block 3 lesen und überarbeiten wir Kontrollstrukturen und Funktionen. Block 4 formalisiert die Verifikation durch Unit Tests und Code Review. In Block 5 wenden wir Prompt und Verifikation auf typische Problemklassen an, und Block 6 verbindet alle Schritte in datenbankgestützten Projekten. Die Zuordnung ist eine Orientierung, jede Sitzung kann weitere Schritte berühren.
+Die Tabelle zeigt, wie sich der agentische Zyklus über die sechs Blöcke des Kurses (S01 bis S13) verteilt. Im ersten Block steht das Verstehen im Vordergrund, denn wir lernen, Code zu lesen und Datentypen zu erkennen. Der zweite Block, zu dem dieses Kapitel gehört, trainiert die Formulierung von Anforderungen als Prompt. Im dritten Block lesen und überarbeiten wir Kontrollstrukturen und Funktionen, während der vierte Block die Verifikation durch Unit Tests und Code Review formalisiert. Im fünften Block wenden wir Prompt und Verifikation auf typische Problemklassen an, und der sechste Block verbindet alle Schritte in datenbankgestützten Projekten. Die Zuordnung ist als Orientierung gedacht, denn jede Sitzung kann auch weitere Schritte berühren.
 %%/book
 
 
 
 ## Ein Prompt ist eine Anforderungsspezifikation
 
-%%scol 50 50
+%%slides
+%%col 50 50
 
 1. **Rolle:** Tragwerksplanerin, Python-Entwickler
 2. **Kontext:** b, h in mm, M in kNm
@@ -539,16 +619,29 @@ Der agentische Zyklus verteilt sich über alle sechs Kursblöcke (S01 bis S13). 
 > Rechne intern in N und mm, Ergebnis in N/mm².\
 > Keine externen Bibliotheken.\
 > Mit Docstring, der die Einheiten nennt, und Typ-Hints.“
-%%/scol
+%%/col
+%%/slides
 
 %%book
-Ein guter Prompt hat fünf Elemente: Rolle, Kontext, Aufgabe, Constraint und Ausgabeformat. Der vage Prompt „Berechne die Biegespannung“ lässt alle offen: Einheiten, Funktionsname, Rückgabe, erlaubte Bibliotheken. Die KI muss raten, und sie rät plausibel. Der ausformulierte Prompt legt diese Punkte fest und ist damit eine Anforderungsspezifikation im Sinne der Softwareentwicklung. Je präziser der Prompt, desto weniger Iterationen sind nötig.
+Der erste Schritt des Zyklus entscheidet maßgeblich darüber, wie viele Iterationen folgen. Ein Prompt ist im Kern eine Anforderungsspezifikation, wie wir sie aus der Softwareentwicklung kennen, und sollte fünf Elemente enthalten. Die **Rolle** legt fest, aus welcher fachlichen Perspektive die KI antworten soll, hier als Python-Entwickler für Tragwerksplanung. Der **Kontext** beschreibt die Ausgangslage, insbesondere die Eingabegrößen und ihre Einheiten. Die **Aufgabe** benennt präzise, was entstehen soll, möglichst mit Funktionsname und Signatur. Ein **Constraint** schränkt die Lösung ein, etwa auf eine interne Rechnung in N und mm oder auf den Verzicht auf externe Bibliotheken. Das **Ausgabeformat** bestimmt schließlich die Form des Ergebnisses, zum Beispiel einen Docstring mit Einheiten und Typ-Hints.
+
+Für unser Beispiel ergibt sich daraus der folgende Prompt:
+
+> „Du bist Python-Entwickler für Tragwerksplanung.\
+> Eingaben: b und h in mm, M in kNm.\
+> Schreibe `biegespannung(b_mm, h_mm, M_knm) -> float`.\
+> Rechne intern in N und mm, Ergebnis in N/mm².\
+> Keine externen Bibliotheken.\
+> Mit Docstring, der die Einheiten nennt, und Typ-Hints.“
+
+Der vage Prompt „Berechne die Biegespannung eines Rechteckträgers“ ließ dagegen alle diese Punkte offen. Die KI musste Einheiten, Funktionsnamen, Rückgabewert und erlaubte Hilfsmittel erraten, und sie riet plausibel, aber nicht passend. Je präziser der Prompt, desto weniger Iterationen sind nötig; wie wir Anforderungen systematisch erheben, vertiefen wir in `04a_Anforderungen`.
 %%/book
 
 
 ## Der fehlende Constraint verursacht den Einheitenfehler
 
-%%scol 50 50
+%%slides
+%%col 50 50
 **Vager Prompt:**
 
 > „Schreibe eine Python-Funktion für die Biegespannung eines Rechteckquerschnitts.“
@@ -583,16 +676,41 @@ print(f"{biegespannung(200, 400, 150):.3f}")
 ```
 
 [Einheiten im Namen, Ergebnis stimmt]{.pro}
-%%/scol
+%%/col
+%%/slides
 
 %%book
-Beide Funktionen sind syntaktisch einwandfrei, und beide laufen ohne Fehlermeldung. Die erste entspricht dem Ergebnis des vagen Prompts „Schreibe eine Python-Funktion für die Biegespannung eines Rechteckquerschnitts“: Er nennt keine Einheiten, also rechnet die Funktion mit gemischten Einheiten. Die zweite entsteht, wenn der Prompt Signatur, Eingabeeinheiten und Ergebniseinheit festlegt: Die Parameternamen tragen die Einheiten, die Umrechnung steht explizit im Code, und der Docstring nennt die Einheit des Ergebnisses. Das ist kein Fehler des Modells, sondern ein unvollständiger Prompt. Die Ingenieurin oder der Ingenieur ist für die vollständige Spezifikation verantwortlich.
+Wie stark der Prompt das Ergebnis bestimmt, zeigt der direkte Vergleich zweier Varianten. Der vage Prompt „Schreibe eine Python-Funktion für die Biegespannung eines Rechteckquerschnitts.“ nennt keine Einheiten und führt zu einer Funktion wie dieser:
+
+```{python}
+#| echo: true
+def biegespannung_v1(b, h, M):
+    W = b * h**2 / 6
+    return M / W
+
+print(f"{biegespannung_v1(200, 400, 150):.1e}")
+```
+
+Die Funktion läuft und gibt einen Wert aus, der um den Faktor 10⁶ zu klein ist, weil sie das Moment in kNm unmittelbar durch das Widerstandsmoment in mm³ teilt. Legt der Prompt dagegen Signatur, Eingabeeinheiten und Ergebniseinheit fest („Schreibe `biegespannung(b_mm, h_mm, M_knm)`. b und h in mm, M in kNm. Rechne intern in N und mm, Ergebnis in N/mm².“), entsteht eine Funktion, deren Parameternamen die Einheiten bereits tragen:
+
+```{python}
+#| echo: true
+def biegespannung(b_mm, h_mm, M_knm):
+    """Biegespannung in N/mm²; M in kNm."""
+    W_mm3 = b_mm * h_mm**2 / 6
+    return M_knm * 1e6 / W_mm3
+
+print(f"{biegespannung(200, 400, 150):.3f}")
+```
+
+Hier steht die Umrechnung `M_knm * 1e6` explizit im Code, und der Docstring nennt die Einheit des Ergebnisses, sodass die Funktion die erwarteten 28,125 N/mm² liefert. Beide Funktionen sind syntaktisch einwandfrei und laufen ohne Fehlermeldung; der Unterschied liegt allein in der Spezifikation. Der Einheitenfehler ist daher weniger ein Versagen des Modells als die Folge eines unvollständigen Prompts, und für die vollständige Spezifikation sind wir als Ingenieurinnen und Ingenieure verantwortlich.
 %%/book
 
 
 ## Lesen Sie zuerst, was die Funktion verspricht, dann wie sie rechnet
 
-%%scol 50 50
+%%slides
+%%col 50 50
 
 1. Tragen die Parameternamen die Einheiten?
 2. Nennt der Docstring die Einheit des Ergebnisses?
@@ -609,20 +727,24 @@ def biegespannung(b_mm, h_mm, M_knm):
     """Biegespannung in N/mm²; M in kNm."""
     ...
 ```
-%%/scol
+%%/col
+%%/slides
 
 %%book
-Signatur und Docstring beschreiben, was eine Funktion verspricht; die Implementierung beschreibt, wie sie es umsetzt. Wenn das Versprechen nicht stimmt, ist die Umsetzung zweitrangig. Deshalb lesen Sie generierten Code zuerst von außen. Bei `biegespannung_v1(b, h, M)` scheitert schon die erste Frage: Die Parameternamen sagen nichts über Einheiten, und es gibt keinen Docstring. Bei `biegespannung(b_mm, h_mm, M_knm)` stehen die Einheiten in den Namen, und der Docstring nennt N/mm² als Ergebnis. Die dritte Frage prüft das Versprechen an einem Wert, den Sie unabhängig von der KI kennen: Mit W = b · h² / 6 = 5 333 333 mm³ und M = 150 · 10⁶ Nmm ergibt die Handrechnung 28,125 N/mm². Liefert die Funktion etwas anderes, ergänzen Sie den Prompt um den fehlenden Constraint, wie im agentischen Zyklus beschrieben.
+Auch ein guter Prompt garantiert keinen korrekten Code, daher folgt auf das Generieren das Verstehen. Dabei hilft eine feste Lesereihenfolge, die von außen nach innen vorgeht: zuerst die Signatur mit Parametern und Rückgabetyp, dann der Docstring, danach vorhandene Tests und erst zuletzt die Implementierung. Signatur und Docstring beschreiben, was eine Funktion verspricht, während die Implementierung beschreibt, wie sie es umsetzt. Stimmt bereits das Versprechen nicht, ist die Umsetzung zweitrangig.
+
+Für unser Beispiel lassen sich daraus drei Prüffragen ableiten. Die erste lautet, ob die Parameternamen die Einheiten tragen, die zweite, ob der Docstring die Einheit des Ergebnisses nennt. Bei `biegespannung_v1(b, h, M)` scheitert schon die erste Frage, denn die Namen sagen nichts über Einheiten aus, und ein Docstring fehlt ganz. Bei `biegespannung(b_mm, h_mm, M_knm)` stehen die Einheiten in den Namen, und der Docstring nennt N/mm² als Ergebnis. Die dritte Frage übernimmt die Rolle eines Tests, indem sie das Versprechen an einem Wert prüft, den wir unabhängig von der KI kennen: Mit b = 200 mm, h = 400 mm und M = 150 kNm muss die Funktion 28,125 N/mm² liefern. Erst wenn alle drei Fragen mit Ja beantwortet sind, lohnt sich der genaue Blick in die Implementierung; liefert die Funktion etwas anderes, ergänzen wir den Prompt um den fehlenden Constraint. Wie sich solche Prüfwerte als automatische Unit Tests formulieren lassen, behandeln wir in `08a_UnitTest`.
 %%/book
 
 
 ## KI schreibt den Code, Sie verantworten ihn
 
+%%slides
 %%div lead
 Die KI ist die Junior-Entwicklerin, Sie sind der Senior, der den Code abnimmt.
 %%/div
 
-%%scol 33 33 33
+%%col 33 33 33
 ### Auftraggeber
 
 - Anforderung präzise formulieren
@@ -641,10 +763,13 @@ Die KI ist die Junior-Entwicklerin, Sie sind der Senior, der den Code abnimmt.
 
 - Ergebnis gegen die Anforderung prüfen
 - Im Beispiel: Handrechnung ergibt 28,1
-%%/scol
+%%/col
+%%/slides
 
 %%book
-Beim Einsatz von KI-Werkzeugen übernehmen Ingenieurinnen und Ingenieure drei Rollen. Als Auftraggeber formulieren sie die Anforderung so präzise, dass die KI passenden Code erzeugen kann. Als Leser verstehen sie den generierten Code mit seinen Annahmen und Grenzen. Als Verifizierer prüfen sie, ob das Ergebnis die Anforderung erfüllt. Die Metapher von Junior und Senior ist bewusst gewählt: Eine gute Senior-Entwicklerin oder ein guter Senior-Entwickler liest den Code gründlich, stellt Fragen, fordert Änderungen und gibt erst dann das Okay. Die Verantwortung für den Code in Produktion bleibt bei den Menschen; KI-Code entbindet nicht von der Haftung.
+Aus dem Zyklus ergibt sich ein neues Rollenverständnis. Die KI übernimmt die Rolle einer Junior-Entwicklerin, die schnell Code liefert, und wir übernehmen die Rolle der Senior-Entwicklerin oder des Senior-Entwicklers, die diesen Code abnehmen. Eine gute Senior-Entwicklerin liest den Code gründlich, stellt Fragen, fordert Änderungen und gibt erst dann ihre Freigabe.
+
+Konkret umfasst diese Abnahme drei Rollen. Als Auftraggeber formulieren wir die Anforderung so präzise, dass die KI passenden Code erzeugen kann; im Beispiel fehlten genau hier die Einheiten. Als Leser verstehen wir den generierten Code mit seinen Annahmen und Grenzen, im Beispiel also die Division von kNm durch mm³ im Datenfluss. Als Verifizierer prüfen wir, ob das Ergebnis die Anforderung erfüllt, im Beispiel durch die Handrechnung mit 28,125 N/mm². Die Verantwortung für den Code bleibt damit beim Menschen, denn KI-generierter Code entbindet nicht von der Haftung für das Ergebnis.
 %%/book
 
 
@@ -652,7 +777,8 @@ Beim Einsatz von KI-Werkzeugen übernehmen Ingenieurinnen und Ingenieure drei Ro
 
 ## Dann prüft eben der Mensch? → Die Kapazitätsfalle
 
-%%scol 40 40 20
+%%slides
+%%col 40 40 20
 Das Prüfen von KI-Output ist ermüdend ("AI Fatigue") und nicht trivial, Beispiel Softwareentwicklung:
 
 - [KI-Output skaliert schneller als menschliche Review-Kapazität (4× mehr Pull Requests auf GitHub [@coderabbit2026throttle])]{.con}
@@ -692,28 +818,30 @@ fig = fig_metr
 
 %%cache_plotly "data/03d_AgentischesProgrammieren/kapazitaetsfalle.json" 600x430 write
 
-::: {.content-visible when-format="typst"}
-![](data/03d_AgentischesProgrammieren/kapazitaetsfalle.png)
-:::
-
 %%sep
 
 > „Entwickler erwarteten, mit KI 24 % schneller zu sein, und selbst nachdem sie die Verlangsamung erlebt hatten, glaubten sie noch, KI habe sie um 20 % beschleunigt.“
 >
 > — @metr2025devstudy
-%%/scol
+%%/col
 
 %%slide_ref @metr2025devstudy METR: _Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity_, 2025.
 %%slide_ref @coderabbit2026throttle CodeRabbit: _GitHub Gives Maintainers a Throttle for the AI Pull Request_, 2026.
+%%/slides
 
 %%book
-Auch wenn KI nicht allein arbeiten kann, bleibt das Prüfen nicht automatisch beim Menschen gut aufgehoben. Prüfen ist ermüdend ("AI Fatigue") und nicht trivial. In der Softwareentwicklung wächst der KI-Output schneller als die Review-Kapazität: Auf GitHub gibt es viermal mehr Pull Requests [@coderabbit2026throttle]. Die METR-Studie ließ 16 erfahrene Open-Source-Entwickler an 246 echten Issues arbeiten. Sie erwarteten, mit KI 24 Prozent schneller zu sein, und glaubten auch nach der Studie noch an 20 Prozent Beschleunigung. Tatsächlich waren sie 19 Prozent langsamer. Gefühlte und gemessene Produktivität liegen damit 39 Prozentpunkte auseinander [@metr2025devstudy].
+Wenn die KI nicht allein arbeiten kann, liegt es nahe, die Prüfung einfach dem Menschen zu überlassen. Doch auch das stößt an Grenzen, weshalb wir hier von einer Kapazitätsfalle sprechen. Das Prüfen von KI-Output ist ermüdend, was unter dem Begriff *AI Fatigue* diskutiert wird, und es ist alles andere als trivial. In der Softwareentwicklung wächst die Menge an KI-generiertem Code schneller als die Kapazität für Reviews; auf GitHub hat sich die Zahl der Pull Requests vervierfacht [@coderabbit2026throttle].
+
+![Erwartete, wahrgenommene und gemessene Beschleunigung durch KI in der METR-Studie [@metr2025devstudy]](data/03d_AgentischesProgrammieren/kapazitaetsfalle.png){fig-align="center" width="75%"}
+
+Hinzu kommt, dass wir den eigenen Nutzen von KI schlecht einschätzen. Die METR-Studie ließ 16 erfahrene Open-Source-Entwicklerinnen und -Entwickler an 246 echten Issues arbeiten, wobei für jedes Issue zufällig festgelegt wurde, ob KI-Werkzeuge erlaubt waren [@metr2025devstudy]. Das Diagramm zeigt die drei zentralen Kennwerte der Studie. Vorab erwarteten die Teilnehmenden eine Beschleunigung um 24 Prozent, und auch nach der Arbeit schätzten sie die erlebte Beschleunigung noch auf 20 Prozent. Gemessen wurde jedoch eine Verlangsamung um 19 Prozent, sodass zwischen gefühlter und gemessener Produktivität 39 Prozentpunkte liegen. Wer sich auf das eigene Gefühl verlässt, prüft also womöglich weniger gründlich, als die Situation erfordert.
 %%/book
 
 
 ## Und wer kann morgen noch prüfen? → Die Fähigkeitsfalle
 
-%%scol 40 40 20
+%%slides
+%%col 40 40 20
 - [Nutzer überschätzen ihre Fähigkeit, KI-Output zu prüfen [@fernandes2026ai]]{.con}
 - [KI-Nutzung führt zu Cognitive Offloading und sinkendem kritischen Denken [@gerlich2025cognitive]]{.con}
 - [→ Deskilling: Erfahrene verlieren Fähigkeiten [@budzyn2025endoscopist]]{.con}
@@ -751,10 +879,6 @@ fig = fig_skill
 
 %%cache_plotly "data/03d_AgentischesProgrammieren/faehigkeitsfalle.json" 600x430 write
 
-::: {.content-visible when-format="typst"}
-![](data/03d_AgentischesProgrammieren/faehigkeitsfalle.png)
-:::
-
 [Daten: Deskilling [@budzyn2025endoscopist]; No-Skilling [@shen2026skill]]{style="font-size: 0.7em"}
 
 %%sep
@@ -769,16 +893,23 @@ Teufelskreis **Deskilling**
 > | {{< ai4sc-icon chevron-down >}}
 > | Never Skilling
 > :::
-%%/scol
+%%/col
 
 %%slide_ref @fernandes2026ai Fernandes et al.: _AI makes you smarter but none the wiser_, **Computers in Human Behavior**, 2026.
 %%slide_ref @gerlich2025cognitive Gerlich, M.: _AI Tools in Society: Impacts on Cognitive Offloading and the Future of Critical Thinking_, **Societies**, 2025.
 %%slide_ref @budzyn2025endoscopist Budzyń et al.: _Endoscopist deskilling risk after exposure to artificial intelligence in colonoscopy_, **Lancet Gastroenterology & Hepatology**, 2025.
 %%slide_ref @ke2026neverskilling Ke et al.: _AI-induced never-skilling in medical education_, **Nature Medicine**, 2026.
 %%slide_ref @shen2026skill Shen & Tamkin: _How AI Impacts Skill Formation_, **arXiv:2601.20245**, 2026.
+%%/slides
 
 %%book
-Selbst wenn Menschen prüfen, müssen sie dazu in der Lage bleiben. Nutzende überschätzen ihre Fähigkeit, KI-Output zu prüfen [@fernandes2026ai], und die KI-Nutzung führt zu Cognitive Offloading und sinkendem kritischem Denken [@gerlich2025cognitive]. Erfahrene verlieren dadurch Fähigkeiten (Deskilling): In der Studie zur Koloskopie sank die Adenom-Erkennungsrate ohne KI-Hilfe von 28,4 auf 22,4 Prozent, nachdem die Ärztinnen und Ärzte KI genutzt hatten [@budzyn2025endoscopist]. Einsteiger erlernen die Grundlagen gar nicht erst (Never-Skilling): Beim Code-Verständnis erreichten Lernende, die mit KI gearbeitet hatten, 50 statt 67 Prozent [@shen2026skill; @ke2026neverskilling]. So entsteht ein Teufelskreis: Mehr KI-Assistenz führt zu Cognitive Offloading, dieses zu Deskilling und am Ende zu Never-Skilling.
+Die dritte Falle betrifft die Zukunft, denn selbst wenn wir heute gründlich prüfen, müssen wir diese Fähigkeit auch morgen noch besitzen. Nutzende überschätzen ihre Fähigkeit, KI-Output zu beurteilen [@fernandes2026ai]. Zugleich führt häufige KI-Nutzung zu *Cognitive Offloading*, also zum Auslagern von Denkarbeit an das Werkzeug, und geht mit sinkendem kritischem Denken einher [@gerlich2025cognitive].
+
+![Leistung ohne KI-Hilfe: Deskilling bei Ärztinnen und Ärzten [@budzyn2025endoscopist] und Never-Skilling beim Code-Verständnis [@shen2026skill]](data/03d_AgentischesProgrammieren/faehigkeitsfalle.png){fig-align="center" width="75%"}
+
+Das Diagramm zeigt zwei Folgen davon, jeweils gemessen an der Leistung ohne KI-Hilfe. Beim *Deskilling* verlieren Erfahrene Fähigkeiten, die sie bereits beherrschten: In einer Studie zur Koloskopie sank die Adenom-Erkennungsrate von Ärztinnen und Ärzten bei Untersuchungen ohne KI von 28,4 auf 22,4 Prozent, nachdem sie zuvor mit KI-Unterstützung gearbeitet hatten [@budzyn2025endoscopist]. Beim *Never-Skilling* erwerben Einsteigerinnen und Einsteiger die Grundlagen gar nicht erst [@ke2026neverskilling]. Im Bereich Programmierung erreichten Entwicklerinnen und Entwickler, die sich mit KI-Hilfe in neue Inhalte eingearbeitet hatten, im anschließenden Test zum Code-Verständnis 50 statt 67 Prozent [@shen2026skill].
+
+Zusammen ergibt sich ein Teufelskreis: Mehr KI-Assistenz führt zu Cognitive Offloading, dieses zu Deskilling und schließlich zu Never-Skilling. Für Studierende im ersten Semester ist das die eigentliche Begründung für den Aufbau dieses Kurses, denn wer KI-generierten Code prüfen will, muss zuerst selbst lernen, Code zu verstehen.
 %%/book
 
 %%slides
@@ -806,6 +937,15 @@ ChatGPT und vergleichbare Modelle decken die Stufen von den Zeichen bis zum Wiss
 
 %%book
 
+## Zusammenfassung
+
+Warum ist all das für Ingenieurinnen und Ingenieure wichtig? Eine Antwort gibt die Wissenstreppe nach North [@north2011wissen], die die Stufen von verfügbaren Daten bis zu besseren Ergebnissen ordnet. Aus Zeichen werden durch Syntax Daten, aus Daten durch Semantik Information und aus Information durch Vernetzung mit Kontext, Erfahrung und Erwartung Wissen. Diese unteren Stufen bilden explizites, theoretisches Wissen. Erst mit Anwendungsbezug wird aus Wissen Können, mit Motivation Handeln, durch richtiges Handeln Kompetenz und durch Einzigartigkeit schließlich Wettbewerbsfähigkeit; diese oberen Stufen bilden implizites, operatives Wissen.
+
+![Wissenstreppe nach North mit den Stufen, die Sprachmodelle und Agenten abdecken](images/03d_AgentischesProgrammieren/wissenstreppe_chatgpt.svg)
+
+ChatGPT und vergleichbare Modelle decken die Stufen von den Zeichen bis zum Wissen ab. Agenten wie Claude Code übernehmen zusätzlich das Handeln, denn sie führen Code aus, ändern Dateien und starten Tests. Ob eine Handlung richtig ist, beurteilen sie jedoch nicht verlässlich, und genau an dieser Stelle beginnt die Kompetenz. Für unser Beispiel heißt das: Den Code für die Biegespannung schreibt die KI in Sekunden, aber zu erkennen, dass 2,8·10⁻⁵ N/mm² nicht stimmen kann, und die Anforderung so zu formulieren, dass 28,125 N/mm² herauskommt, bleibt unsere Aufgabe. Diese Kompetenz ist zugleich unser entscheidender Vorteil gegenüber dem Werkzeug.
+
+Die wichtigsten Punkte dieses Kapitels lassen sich so zusammenfassen. Sprachmodelle erzeugen plausiblen, aber nicht garantiert korrekten Code, weil ihr Training Wortwahrscheinlichkeiten belohnt und keine Rechnung prüft. Ein gut strukturierter Prompt mit Rolle, Kontext, Aufgabe, Constraint und Ausgabeformat ist eine Anforderungsspezifikation. Im agentischen Zyklus übernimmt die KI das Generieren, während wir als Auftraggeber, Leser und Verifizierer für Anforderung und Ergebnis verantwortlich bleiben.
 
 ## Quiz
 
