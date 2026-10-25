@@ -65,22 +65,6 @@ Ergebnis: 2,8·10⁻⁵
 ## Fehlerfrei ausgeführt heißt nicht richtig gerechnet
 
 %%scol 50 50
-Prompt: „Berechne die Biegespannung eines Rechteckträgers.“
-
-```{python}
-#| echo: true
-b, h = 200, 400     # Breite, Höhe in mm
-M = 150             # Moment in kNm
-W = b * h**2 / 6    # Widerstandsmoment in mm³
-sigma = M / W       # Spannung in N/mm²
-print(f"Ergebnis: {sigma:.1e}")
-```
-
-```bash
-Ergebnis: 2,8·10⁻⁵
-```
-
-%%sep
 **Was sehen Sie, wenn Sie den Code lesen?**
 
 - [Kein Fehler, das Programm läuft durch]{.neutral}
@@ -91,6 +75,25 @@ Ergebnis: 2,8·10⁻⁵
 %%div lead
 Warum macht ein so leistungsfähiges System so einen Fehler?
 %%/div
+%%sep
+
+Prompt: „Berechne die Biegespannung eines Rechteckträgers.“
+
+Erzeugter Code:
+```{python}
+#| echo: true
+b, h = 200, 400     # Breite, Höhe in mm
+M = 150             # Moment in kNm
+W = b * h**2 / 6    # Widerstandsmoment in mm³
+sigma = M / W       # Spannung in N/mm²
+print(f"Ergebnis: {sigma:.1e}")
+```
+
+Ergebnis des fehlerfreien Laufs:
+```bash
+Ergebnis: 2,8·10⁻⁵
+```
+
 %%/scol
 
 %%book
@@ -105,6 +108,7 @@ KI-Assistenten können Code erzeugen, der ohne Fehlermeldung läuft und trotzdem
 
 ![](images/03d_AgentischesProgrammieren/ki_gebiete.svg){.nostretch fig-align="center" width="100%"}
 
+- KI – Künstlichen Intelligenz
 - KNN – Künstliche Neuronale Netzwerke
 - CV – Computer Vision (Bildverarbeitung) und Large Vision Models (LVM)
 - NLP – Natural Language Processing (Sprachverarbeitung) und Large Language Models (LLM)
@@ -118,15 +122,15 @@ Die Gebiete der Künstlichen Intelligenz haben sich in drei Zeitaltern verschobe
 
 %%scol 55 45v
 
-- Mathematische Nachbildung der Neuronen im menschlichen Gehirn
-- Ein Neuronales Netzwerk setzt sich aus (sehr) vielen Neuronen zusammen
+- Ursprünglich mathematisches Modell der Neuronen im menschlichen Gehirn
+- Ein Neuronales Netzwerk setzt sich aus sehr vielen Neuronen zusammen
 - Jedes Neuron ist meist einfach aufgebaut
     - Eingänge $x_1, x_2, \dots, x_n$ die multipliziert werden mit den
     - Gewichten $w_1, w_2, \dots, w_n$ und dazu wird ein
     - Bias $b$ addiert
-- Der Ausgang $y$ ist die Summe davon, gefiltert mit einer Aktivierungsfunktion $f(\cdot)$ (Wir gewichten also die Eingänge nach „Wichtigkeit“)
-- Die Aufgabe beim Lernen ist die Gewichte $w_1, w_2, \dots, w_n$ und das Bias $b$ zu bestimmen (Wir lernen welche Eingänge wichtig sind)
-- **Der Trick:** Neuronale Netzwerke bestehen aus einfachen Bausteinen (→ einfach hoch-parallel zu berechnen)
+- Der Ausgang $y$ ist die Summe davon, aktiviert und deaktiviert mit einer Aktivierungsfunktion $f(\cdot)$ 
+- Die Aufgabe beim Training ist den Bias $b$ und die Gewichte $w_1, w_2, \dots, w_n$ zu erlernen, also welche Eingänge wichtig sind 
+- **Der Trick:** Neuronale Netzwerke bestehen aus einfachen Bausteinen, die schnell und hoch-parallel zu berechnen sind
 
 %%sep
 
@@ -149,10 +153,10 @@ Künstliche neuronale Netzwerke (KNN, 1943) sind eine mathematische Nachbildung 
 %%scol 45 55
 
 - Tiefe Neuronale Netzwerke enthalten sehr viele (3-150) tiefe Schichten von Neuronen
-- Mit jeder Schicht steigt die Anzahl der Parameter multiplikativ und man erhält tausende Parameter
+- Mit jeder Schicht steigt die Anzahl der Parameter multiplikativ und man erhält sehr viele Parameter
 - Ab 2011 führten zwei Entwicklungen zur Berechenbarkeit
     - Parallelisierung der Berechnung in Graphikkarten mit tausenden von Recheneinheiten
-    - Bessere Algorithmen, um die sehr große Anzahl an Parametern schnell zu bestimmen
+    - Bessere Algorithmen, um die sehr große Anzahl an Parametern zuverlässig zu erlernen
 - **Der Trick:** Mit den tieferen Schichten kann das Neuronale Netzwerk Wissen besser
     - **Abstrahieren** – da wir Eingänge immer mehr zusammen führen
     - **Verknüpfen** – Mit jeder Schicht verknüpfen wir das abstrahierte Wissen besser und betonen das Wichtige
@@ -193,75 +197,22 @@ Große Sprachmodelle (Large Language Models, LLM, seit 2017) erhöhen die Anzahl
 
 ## Ein Sprachmodell bildet Token-Folgen auf Wahrscheinlichkeiten ab
 
-![](images/03d_AgentischesProgrammieren/llm_pipeline.svg){.nostretch fig-align="center" width="100%"}
-
+```{=html}
+<video poster="images/03d_AgentischesProgrammieren/manim_llm_pipeline_last.png" data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/03d_AgentischesProgrammieren/manim_llm_pipeline.webm" type="video/webm"><source src="images/03d_AgentischesProgrammieren/manim_llm_pipeline.mp4" type="video/mp4"></video>
+```
+ 
 %%div lead
-Attention: Jedes Token gewichtet alle vorherigen Tokens nach Relevanz.
+Das Modell sagt immer nur das nächste Wort voraus und beginnt dann von vorn.
 %%/div
 
 %%book
-Ein LLM verarbeitet keinen Text, sondern Token, also Wortteile oder Symbole eines festen Vokabulars. Jedes Token wird in einen Vektor eingebettet. Mehrere Dutzend Transformer-Schichten berechnen daraus Zwischendarstellungen; in jeder Schicht gewichtet der Attention-Mechanismus für jedes Token, welche vorherigen Tokens für die Fortsetzung relevant sind. Am Ende steht eine Wahrscheinlichkeitsverteilung über das gesamte Vokabular. Aus ihr wird ein Token gezogen, an die Eingabe angehängt, und der Vorgang wiederholt sich. Man nennt das autoregressive Generierung. Im Beispiel steht nach `W = b * h**2 /` mit hoher Wahrscheinlichkeit eine 6, weil diese Formel im Training oft vorkam. Die Wahrscheinlichkeiten im Bild sind illustrativ. Moderne Modelle haben Milliarden bis Billionen Parameter.
+Ein LLM verarbeitet keinen Text, sondern Zahlen. Jedes Wort oder Wortteil (Token) steht in einem festen Vokabular und hat dort eine Nummer. Die Nummern des bisherigen Textes laufen durch das neuronale Netzwerk, und am Ende steht für jedes Token des Vokabulars eine Wahrscheinlichkeit. Das Modell wählt daraus das nächste Token und hängt es an den Text an. Der Ausschnitt des Textes, den das Netzwerk liest, rückt dann um ein Token weiter, und der Vorgang beginnt von vorn. Man nennt das autoregressive Generierung. Im Beispiel entsteht aus „Rostock ist eine schöne Stadt.“ Wort für Wort der Satz „Sie liegt an der Ostsee.“ Die Nummern im Bild sind illustrativ. Moderne Modelle haben Milliarden bis Billionen Parameter.
+
+![Das Netzwerk liest die Nummern der Wörter und gibt das nächste Wort aus, das an den Text angehängt wird](images/03d_AgentischesProgrammieren/manim_llm_pipeline.png){fig-align="center" width="100%"}
 %%/book
 
 
-## Das Training belohnt Plausibilität, nicht Korrektheit
-
-%%scol 50 50
-
-### Training
-
-1. Pre-Training: Fortsetzung von Text und Code vorhersagen
-2. Instruction-Tuning: Aufgaben und Antworten nachahmen
-3. Feedback: Antworten bevorzugen, die Menschen besser bewerten
-
-$$
-\mathcal{L}(\theta) = -\sum_t \log P_\theta(x_t \mid x_{<t})
-$$
-%%sep
-**Was dieses Signal nicht enthält:**
-
-- [Keine Einheitenprüfung]{.con}
-- [Kein Ergebnis einer Ausführung]{.con}
-- [Keine Kenntnis Ihrer Anforderung]{.con}
-
-%%div lead
-Das Modell verallgemeinert Muster. Es schlägt nichts nach und rechnet nichts nach.
-%%/div
-%%/scol
-
-%%book
-Beim Pre-Training minimiert das Modell den Vorhersagefehler für das nächste Token über sehr große Text- und Code-Sammlungen. Die Verlustfunktion bewertet nur, wie gut die tatsächliche Fortsetzung vorhergesagt wurde. Instruction-Tuning und Feedback von Menschen [@ouyang2022instructgpt] richten das Modell auf hilfreiche Antworten aus. In keinem dieser Schritte kommt ein Ergebnis einer Programmausführung oder eine Einheitenprüfung vor. Das Modell erzeugt deshalb Code, der zu seinen Trainingsmustern passt. Es ist kein Nachschlagewerk: Auch Code, der so nie in den Trainingsdaten stand, kann es neu zusammensetzen. Das erklärt sowohl seine Stärke als auch den Einheitenfehler im Beispiel.
-%%/book
-
-
-## Programm code garantieren Korrektheit, ein Sprachmodell nicht
-
-%%scol 50 50
-#### Programmcode
-
-- Eingabe: Daten
-- [Gleiche Eingabe, gleiche Ausgabe]{.pro}
-- Fehler: Fehlermeldung mit Zeile
-
-%%sep
-
-#### Sprachmodell
-
-- Eingabe: Prompt
-- [Keine formale Garantie für die Ausgabe]{.con}
-- Fehler: trotzdem eine plausible Ausgabe
-%%/scol
-
-%%div lead
-{{< ai4sc-icon test-tube >}} Wer garantiert die Korrektheit? Bei einem LLM sind Sie es.
-%%/div
-
-%%book
-Programmcode verhält sich deterministisch: Dieselbe Eingabe liefert dieselbe Ausgabe, und Syntax- oder Typfehler führen zu einer Fehlermeldung mit Zeilenangabe. Ob die Formel im Code richtig ist, garantiert das nicht, wie unser Beispiel mit dem Einheitenfehler zeigt. Das Verhalten ist aber reproduzierbar und prüfbar. Ein Sprachmodell antwortet immer, auch wenn der Prompt unklar ist oder die richtige Antwort nirgends gelernt wurde, und dieselbe Eingabe kann andere Ausgaben liefern. Die Prüfung liegt hier bei den Anwenderinnen und Anwendern. Verifikation ist deshalb Pflicht und kein optionaler Zusatzschritt.
-%%/book
-
-
-## Warum nicht?
+## Warum ist das ein Problem?
 
 %%scol 50 50
 
@@ -300,41 +251,60 @@ Ein Ingenieur übersetzt ein Problem in ein mentales Modell und analysiert darin
 %%/book
 
 
-## Die Gefahren neuer Grundlagen KI-Modelle
+## Das Training belohnt Plausibilität, nicht Korrektheit
 
-%%scol 33 33 33
-#### Verstehen
+%%scol 50 50
 
-- [*Fehlendes räumliches und numerisches* Verständnis]{.con}
-- [*Fehlendes logisches Erschließen* komplexer Zusammenhänge obwohl einfache funktionieren]{.con}
-- *Auslassen* statistisch irrelevanter aber fachlich wichtiger Details
-- *Übersetzen* mit False-Friends, die in der Domäne andere Bedeutungen haben
+### Training
 
-%%sep
-
-#### Generieren
-
-- [*Halluzination* von falschen Inhalten]{.con}
-- [*Fehlassistenz* durch fehlerhafte Ratschläge]{.con}
-- *Inkonsistenz* von generierten Inhalten (mehrere Sichten)
-- *Bias* der Vorurteile/ Falschaussagen in den Trainingsdaten überbetont
-- *Ineffizienz* durch generierte Texte, die keiner mehr liest
-- *Fehloptimierungen* durch Lernen von Korrelationen in Trainingsdaten
+1. Pre-Training: Fortsetzung von Text und Code vorhersagen
+2. Instruction-Tuning: Aufgaben und Antworten nachahmen
+3. Feedback: Antworten bevorzugen, die Menschen besser bewerten
 
 %%sep
+### Was dieses Signal nicht enthält
 
-#### Anpassen
+- [Keine Einheitenprüfung]{.con}
+- [Kein Ergebnis einer Ausführung]{.con}
+- [Keine Kenntnis Ihrer Anforderung]{.con}
 
-- [*Keine BIM-Unterstützung* zur Datenverarbeitung in KI-Modellen]{.con}
-- [*Fehlende große Datensätze*]{.con}
-- *Unerklärliche* Black-Box-Modelle
-- *Hohe Kosten* für regelmäßiges Training
-- *Fehlendes Wissen* zu den Modellen
+%%div lead
+Das Modell lernt Wortwahrscheinlichkeiten. Es schlägt nichts nach und rechnet nichts nach.
+%%/div
 %%/scol
 
 %%book
-Die Gefahren neuer Grundlagen-KI-Modelle lassen sich nach den drei Fähigkeiten Verstehen, Generieren und Anpassen ordnen. Beim Verstehen fehlen räumliches und numerisches Verständnis sowie das logische Erschließen komplexer Zusammenhänge, obwohl einfache funktionieren. Statistisch irrelevante, aber fachlich wichtige Details werden ausgelassen, und beim Übersetzen entstehen False-Friends, die in der Domäne andere Bedeutungen haben. Beim Generieren treten Halluzinationen von falschen Inhalten und Fehlassistenz durch fehlerhafte Ratschläge auf. Generierte Inhalte können inkonsistent sein (mehrere Sichten), Vorurteile und Falschaussagen in den Trainingsdaten werden überbetont, generierte Texte werden von niemandem mehr gelesen (Ineffizienz), und durch das Lernen von Korrelationen in Trainingsdaten entstehen Fehloptimierungen. Beim Anpassen fehlt die BIM-Unterstützung zur Datenverarbeitung in KI-Modellen, es fehlen große Datensätze, die Black-Box-Modelle sind unerklärlich, das regelmäßige Training ist teuer, und das Wissen zu den Modellen fehlt.
+Beim Pre-Training minimiert das Modell den Vorhersagefehler für das nächste Token über sehr große Text- und Code-Sammlungen. Die Verlustfunktion bewertet nur, wie gut die tatsächliche Fortsetzung vorhergesagt wurde. Instruction-Tuning und Feedback von Menschen [@ouyang2022instructgpt] richten das Modell auf hilfreiche Antworten aus. In keinem dieser Schritte kommt ein Ergebnis einer Programmausführung oder eine Einheitenprüfung vor. Das Modell erzeugt deshalb Code, der zu seinen Trainingsmustern passt. Es ist kein Nachschlagewerk: Auch Code, der so nie in den Trainingsdaten stand, kann es neu zusammensetzen. Das erklärt sowohl seine Stärke als auch den Einheitenfehler im Beispiel.
 %%/book
+
+
+## Programm code garantieren Korrektheit, ein Sprachmodell nicht
+
+%%scol 50 50
+#### Sprachmodell
+
+- Eingabe: Prompt
+- [Keine formale Garantie für die Ausgabe]{.con}
+- Fehler: trotzdem eine plausible Ausgabe
+%%sep
+
+#### Programmcode
+
+- Eingabe: Daten
+- [Gleiche Eingabe, gleiche Ausgabe]{.pro}
+- Fehler: Fehlermeldung mit Zeile
+
+%%/scol
+
+%%div lead
+{{< ai4sc-icon test-tube >}} Wer garantiert die Korrektheit? Bei einem LLM sind Sie es.
+%%/div
+
+%%book
+Programmcode verhält sich deterministisch: Dieselbe Eingabe liefert dieselbe Ausgabe, und Syntax- oder Typfehler führen zu einer Fehlermeldung mit Zeilenangabe. Ob die Formel im Code richtig ist, garantiert das nicht, wie unser Beispiel mit dem Einheitenfehler zeigt. Das Verhalten ist aber reproduzierbar und prüfbar. Ein Sprachmodell antwortet immer, auch wenn der Prompt unklar ist oder die richtige Antwort nirgends gelernt wurde, und dieselbe Eingabe kann andere Ausgaben liefern. Die Prüfung liegt hier bei den Anwenderinnen und Anwendern. Verifikation ist deshalb Pflicht und kein optionaler Zusatzschritt.
+%%/book
+
+
 
 ```{python}
 #| include: false
