@@ -28,10 +28,11 @@ resources:
 
 ## Zielsetzung
 
-- Objekte als **Entwurfseinheiten** verstehen — bevor Python-Syntax kommt
+- Objekte als **Entwurfseinheiten** verstehen
 - Domänen in Entitäten, Attribute und Verantwortlichkeiten zerlegen
 - Beziehungen zwischen Objekten explizit im Entwurf festhalten
 - UML-Klassendiagramm als Entwurfsartefakt und KI-Prompt nutzen
+- Den Unterschied zwischen Datentypen und Klassen sowie zwischen Funktionen und Methoden verstehen
 
 %%/slides
 
@@ -43,17 +44,14 @@ resources:
 
 %%/slides
 
-%%# Warum in Objekten denken?
+%%# Objekte und Klassen
 
-%%## Objekte als Denkstrategie
+%%## Objekte als Entwurfseinheiten
 
 %%slides
 
-Nicht: „Wie schreibt man eine Klasse in Python?“
-
-Sondern: **„Welche Entitäten hat meine Domäne — und was macht jede davon?“**
-
-- {{< ai4sc-icon box >}} Objekte sind Entwurfseinheiten **vor** dem Code
+- Objekte sind Entwurfseinheiten **vor** dem Code
+- Eine Domäne wird in Entitäten zerlegt, jede mit Attributen und Verantwortlichkeiten
 - Eine Klasse beschreibt Struktur und Verantwortlichkeit einer Entität
 - Beziehungen zwischen Klassen müssen explizit entworfen werden
 
@@ -71,7 +69,7 @@ In dieser Einheit betrachten wir Objekte als Entwurfskonzept — noch bevor wir 
 
 %%book
 
-## Warum in Objekten denken?
+## Drei Probleme wiederholter Datenstrukturen
 
 Die Objektorientierung löst grundlegende Probleme im Umgang mit sich wiederholenden Datenstrukturen in großen Programmen. Diese Probleme entstehen bereits beim Entwurf, nicht erst bei der Implementierung. Wir betrachten daher drei Probleme, die durch Objekte gelöst werden.
 
@@ -149,15 +147,16 @@ Objekte bündeln Datenstrukturen mit den Operationen, die für sie sinnvoll sind
 
 Ohne Objekte:
 
-- Freie Funktion `distanz()` kann auf beliebige Typen angewendet werden
-- Auf Punkte, Linien, Strings — kein Schutz
+- Eine freie Funktion `distanz(a, b)` kann auf beliebige Daten angewendet werden
+- Auf zwei Punkte genauso wie auf zwei Linien — kein Schutz
+- Können die Daten mit der Funktion verarbeitet werden? Das prüft niemand
 - Führt zu semantischen und logischen Fehlern
 
 %%sep
 
 Mit Objekten:
 
-- Methode `punkt.distanz()` ist nur für Punkte verfügbar
+- Die Operation `distanz()` gehört zur Klasse `Punkt`
 - Die Klasse *kapselt* Daten und zulässige Operationen
 - Falsche Anwendung wird verhindert
 
@@ -173,9 +172,7 @@ Objekte werden zudem verwendet, um die Funktionen zur Verarbeitung der Datenstru
 
 %%/book
 
-%%# Klassen als Entwurfseinheiten
-
-%%## Klassen: Bauplan einer Entität
+%%## Objektorientierte Programmierung
 
 %%slides
 
@@ -183,18 +180,30 @@ Objekte werden zudem verwendet, um die Funktionen zur Verarbeitung der Datenstru
 Objektorientierte Programmierung (OOP) ist ein Programmierparadigma, das annimmt, dass ein Programm aus Objekten besteht, die miteinander kooperativ interagieren.
 %%/def
 
-Anstatt viele verstreute Datenstrukturen und Funktionen zu nutzen, gruppieren wir diese in **Klassen**. Eine Klasse definiert:
+Jedes Objekt verfügt über Attribute (Eigenschaften) und Methoden (Verantwortlichkeiten).
 
-- welche **Attribute** (Eigenschaften) eine Entität besitzt
-- welche **Verantwortlichkeiten** (Methoden) sie bereitstellt
+%%/slides
+
+%%slides
+
+## Grundlagen der Objektorientierung
+
+- Anstatt unübersichtlich viele verstreute Datenstrukturen und Funktionen zu benutzen, gruppieren wir diese in **Objekte**
+- Die Struktur dieser Objekte wird in Form von **Klassen** definiert, die eine Art Bauplan darstellen
+- Eine Klasse definiert:
+    - welche **Attribute** (Eigenschaften) ein Objekt dieser Klasse besitzt
+    - welche **Methoden** (Verantwortlichkeiten) ein Objekt dieser Klasse bereitstellt
+- Beides wird zusammen in einer komplexen Datenstruktur gespeichert: Jedes Objekt stellt somit einen zusammengesetzten (komplexen) Datentyp dar
 
 %%/slides
 
 %%book
 
-# Klassen als Entwurfseinheiten
+## Klassen als Entwurfseinheiten
 
 Eine Klasse ist der Entwurfsplan für eine Familie gleichartiger Objekte. Sie legt fest, welche Attribute (Eigenschaften) ein Objekt hat und welche Methoden (Operationen) es bereitstellt. Der Entwurf der Klasse kommt **vor** der Implementierung.
+
+Ein Objekt ist damit ein zusammengesetzter (komplexer) Datentyp, wie wir ihn aus `02b_Datentypen` kennen: Es speichert mehrere Werte (Attribute) in einer Struktur. Anders als eine Liste oder ein Tupel bringt es aber auch die dazu passenden Operationen mit. Eine Klasse ist daher ein selbst definierter Datentyp, und eine Methode ist eine Funktion, die zu genau diesem Datentyp gehört.
 
 %%/book
 
@@ -204,7 +213,7 @@ Eine Klasse ist der Entwurfsplan für eine Familie gleichartiger Objekte. Sie le
 
 %%col 40 60
 
-**{{< ai4sc-icon box >}} Klasse** = Bauplan (Entwurf)
+**Klasse** = Bauplan (Entwurf)
 
 - Definiert Struktur und Verhalten
 - Keine Werte
@@ -373,7 +382,7 @@ Eine Klasse besteht aus drei Ebenen:
 
 1. *Klassenname* (oben)
 2. *Attribute* mit Datentyp (mitte)
-3. {{< ai4sc-icon square-function >}} *Methoden* mit Signatur (unten)
+3. *Methoden* mit Signatur (unten)
 
 %%sep
 
@@ -433,13 +442,11 @@ Bezogen auf die Klasse `Point` oben bedeutet das: `x: float` und `y: float` besc
 
 %%/book
 
-%%# Beziehungen zwischen Objekten
-
 %%## Objektbeziehungen
 
 %%slides
 
-In Programmen stehen Objekte im Zusammenhang. Diese {{< ai4sc-icon arrow-left-right >}} Beziehungen müssen im Entwurf **explizit** festgehalten werden:
+In Programmen stehen Objekte im Zusammenhang. Diese Beziehungen müssen im Entwurf **explizit** festgehalten werden:
 
 %%col 33 33 33
 
@@ -534,8 +541,6 @@ Im Beispiel `Line`–`Point` oben liest man: Eine Linie steht mit genau zwei Pun
 Diese Information ist für die Implementierung wichtig, weil sie vorgibt, ob wir in Python ein einzelnes Attribut, eine optionale Referenz oder eine Liste von Objekten benötigen.
 
 %%/book
-
-%%# Weitere OOP-Konzepte
 
 %%## Kapselung, Vererbung, Polymorphismus
 
@@ -645,7 +650,7 @@ Im UML-Diagramm sprechen wir abstrakt über eine Klasse und ihre Verantwortlichk
 
 %%slides
 
-{{< ai4sc-icon clipboard-list >}} Das UML-Diagramm ist die Spezifikation. Der Code ist das Ergebnis.
+Das UML-Diagramm ist die Spezifikation. Der Code ist das Ergebnis.
 
 ![](images/04c_Objects/design_cycle.svg){fig-alt="Vier Schritte: Entwerfen, Prompten, Generieren, Verifizieren; Rückpfeil zum Nachschärfen"}
 
@@ -736,7 +741,7 @@ Ein UML-Klassendiagramm, das einer KI als Prompt übergeben wird, muss vollstän
 
 ## Verifizieren gegen das Diagramm
 
-> **{{< ai4sc-icon workflow >}} Agentic Workflow — Objekte entwerfen:**
+> **Agentic Workflow — Objekte entwerfen:**
 >
 > 1. Lies die generierten Klassen gegen das UML-Diagramm
 > 2. Prüfe: Sind alle Attribute vorhanden und korrekt benannt?
@@ -784,8 +789,6 @@ Die Verifikation ist der entscheidende Schritt im agentischen Workflow. Wer nur 
 
 %%/book
 
-%%# BIM-Beispiel: Gebäudehierarchie
-
 %%## Domänenzerlegung: Gebäude
 
 %%slides
@@ -796,8 +799,8 @@ Die Verifikation ist der entscheidende Schritt im agentischen Workflow. Wer nur 
 
 %%sep
 
-- {{< ai4sc-icon box >}} Entitäten: `Gebäude`, `Etage`, `Raum`, `Fenster`
-- {{< ai4sc-icon arrow-left-right >}} Komposition: Gebäude → Etage → Raum
+- Entitäten: `Gebäude`, `Etage`, `Raum`, `Fenster`
+- Komposition: Gebäude → Etage → Raum
 - Aggregation: Raum → Fenster
 - Attribute und Methoden stehen im Diagramm, nicht erst im Code
 

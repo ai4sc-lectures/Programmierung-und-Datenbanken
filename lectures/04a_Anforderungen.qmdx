@@ -30,7 +30,7 @@ resources:
 %%slides
 
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Wer legt in einem Projekt fest, was gebaut wird?" capR="Midjourney: Ein Bauingenieur prüft mit einem KI-Assistenten einen digitalen Bauplan" imgR="images/04a_Anforderungen/mj_title_band.jpg"}
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Der Agent meldet: Aufgabe erledigt. Woher wissen Sie, ob das stimmt?" capR="Midjourney: Ein Bauingenieur prüft mit einem KI-Assistenten einen digitalen Bauplan" imgR="images/04a_Anforderungen/mj_title_band.jpg"}
 
 <!-- TODO MJ: A civil engineer reviewing a blueprint with an AI assistant, split-screen, flat illustration -->
 
@@ -39,87 +39,325 @@ resources:
 
 %%# Warum Anforderungen?
 
-%%## KI erfüllt den Prompt, nicht den Bedarf {.scramble-slide data-transition="none"}
+%%## Ein Satz, drei Ergebnisse
 
 %%book
 
 ### TL;DR
 
-KI-Werkzeuge erzeugen Code aus Prompts, aber ein guter Prompt setzt voraus, dass das Problem präzise verstanden ist. Anforderungsanalyse ist die Vorbedingung für jede KI-gestützte Entwicklung: Sie liefert die Quelle des Prompts und die Grundlage des Tests.
+Ein Agent erfüllt den Prompt, den er bekommt, nicht die Absicht dahinter. Wo der Prompt eine Lücke lässt, setzt er eine plausible Annahme ein und fragt in der Regel nicht nach. Dieses Kapitel zeigt, dass die Lücken im Prompt Lücken in den Anforderungen sind, und stellt die Methoden des Requirements Engineering vor, mit denen sie sich schließen lassen.
 
 %%/book
 
 %%scol 50 50
-### Was KI tut
+### Aufgabe an den Agenten
 
-Sie erzeugt Code, der den Prompt erfüllt.
+> „Berechne den mittleren Wasserstand.“
 
-### Was KI nicht tut
+Beispieldaten einer Messstation, −999 steht für „Messwert fehlt“:
 
-Sie prüft nicht, ob der Prompt das Problem des Stakeholders trifft.
+| Zeit in h | 0 | 1 | 2 | 6 |
+|---|---|---|---|---|
+| Pegel in m | 2,30 | 2,32 | −999 | 2,60 |
 %%sep
-### Konsequenz
+### Drei Programme, drei Ergebnisse
 
-Sie sind die Brücke zwischen Stakeholder-Bedarf und KI-generiertem Code.
+- Mittelwert aller Einträge: −247,945 m
+- Mittelwert der gültigen Werte: 2,407 m
+- Zeitgewichteter Mittelwert (Trapezregel): 2,435 m
 
-Keine gute Anforderung, kein guter Prompt.
+Welche Lesart meint der Auftraggeber? Der Satz legt es nicht fest.
 %%/scol
 
 %%book
-KI-Werkzeuge wie Claude Code generieren Code, der den gegebenen Prompt möglichst gut erfüllt. Sie können jedoch nicht selbständig entscheiden, ob der Prompt das richtige Problem beschreibt. Diese Lücke schließt der Entwickler durch systematische Anforderungsanalyse, die dem Prompting vorausgeht.
+Alle drei Ergebnisse sind das Resultat eines Programms, das den Satz „Berechne den mittleren Wasserstand“ erfüllt. Der Satz legt nicht fest, ob der Wert −999 als Messwert oder als Platzhalter für einen Ausfall zu behandeln ist, und er sagt nichts darüber, ob ungleich verteilte Messzeitpunkte gleich oder nach ihrem zeitlichen Abstand gewichtet werden sollen. Der erste Wert von −247,945 m entsteht, wenn der Platzhalter als Messung gezählt wird, der zweite, wenn er übersprungen wird, der dritte, wenn zusätzlich die Länge der Messabstände eingeht. Ein Mensch im Projektteam kennt die Konvention der Messstation und würde sie stillschweigend anwenden. Ein Agent kennt sie nur, wenn sie im Prompt oder in den Dateien steht, die er liest.
+
+Dass Agenten solche Lücken tatsächlich mit plausiblen Annahmen füllen, zeigt eine Analyse von 20.574 realen Sitzungen mit Coding-Agenten. In 44,10 % der Episoden, in denen der Agent die Absicht der Entwicklerin falsch verstanden hatte, war im Prompt eine folgenreiche Lücke geblieben, die der Agent mit einer plausiblen, aber falschen Handlung füllte. Das Beispiel der Autoren ist eine Aufforderung zur Seitenaufteilung (Pagination), die als endloses Scrollen umgesetzt wurde. Die Beispieldaten oben sind erfunden und dienen nur dazu, die drei Lesarten rechnerisch zu trennen; die Ergebnisse sind nachgerechnet.
+%%/book
+
+%%slide_ref @tang2026agents Tang et al.: How Coding Agents Fail Their Users, arXiv:2605.29442, 2026
+
+
+%%## Vier Fehlerarten, vier fehlende Anforderungen
+
+%%slides
+
+::::::: {.stat-grid .large style="grid-template-columns: repeat(4, 1fr); gap: 12px;"}
+
+%%%%div stat-card
+%%div stat-value
+38,3 %
+%%/div
+%%div stat-label
+Einschränkung verletzt
+%%/div
+%%div stat-delta
+Der Agent verletzt eine ausdrücklich genannte Vorgabe. Abhilfe: Randbedingungen kurz, dauerhaft und prüfbar festhalten
+%%/div
+%%%%/div
+
+%%%%div stat-card
+%%div stat-value
+27,0 %
+%%/div
+%%div stat-label
+Absicht missverstanden
+%%/div
+%%div stat-delta
+Der Agent füllt eine Lücke falsch. Abhilfe: vollständige funktionale Anforderungen
+%%/div
+%%%%/div
+
+%%%%div stat-card
+%%div stat-value
+22,6 %
+%%/div
+%%div stat-label
+Ungenaue Selbstauskunft
+%%/div
+%%div stat-delta
+Der Agent meldet Erfolg, der nicht stimmt. Abhilfe: prüfbare Akzeptanzkriterien
+%%/div
+%%%%/div
+
+%%%%div stat-card
+%%div stat-value
+10,2 %
+%%/div
+%%div stat-label
+Eigenmächtige Erweiterung
+%%/div
+%%div stat-delta
+Der Agent handelt über den genannten Umfang hinaus. Abhilfe: Umfang und Nicht-Ziele festhalten und prüfen
+%%/div
+%%%%/div
+
+:::::::
+
+%%/slides
+
+%%slide_ref @tang2026agents Tang et al.: How Coding Agents Fail Their Users, arXiv:2605.29442, 2026. Anteile an allen Episoden, gerundet
+
+%%book
+Die Studie wertet 20.574 Sitzungen aus 1.639 Repositories aus und zählt Episoden, in denen ein Entwickler eine Fehlentwicklung des Agenten sichtbar korrigiert hat. Die Einordnung der Episoden stammt von einer LLM-Pipeline, deren Genauigkeit die Autoren mit 0,93 angeben. Eine Episode kann mehreren Fehlerarten zugleich angehören, die Anteile addieren sich daher nicht zu 100 %. Am häufigsten verletzt der Agent eine Einschränkung des Entwicklers (38,33 %), gefolgt vom Missverstehen der Absicht (26,95 %), einer ungenauen Selbstauskunft (22,58 %) und eigenmächtigen Erweiterungen (10,20 %).
+
+Die Autoren definieren die Fehlerarten knapp: Der Agent verletzt eine ausdrücklich genannte Einschränkung des Entwicklers, handelt auf der Grundlage einer falschen Deutung der Anfrage, berichtet den Stand seiner Arbeit falsch (zum Beispiel Erfolg, obwohl danach ein Laufzeitfehler auftritt) oder handelt über den genannten Umfang hinaus. Jede dieser Fehlerarten lässt sich einer Aufgabe des Requirements Engineering zuordnen, allerdings aus unterschiedlichen Gründen. Missverstandene Absichten gehen häufig auf unvollständige funktionale Anforderungen zurück; die Studie führt 44,10 % dieser Episoden auf eine folgenreiche Lücke im Prompt zurück. Verletzte Einschränkungen und eigenmächtige Erweiterungen betreffen Vorgaben, die genannt wurden, aber nicht eingehalten wurden; hier helfen **Randbedingungen** und Nicht-Ziele, die kurz, dauerhaft verfügbar und überprüfbar festgehalten sind. Eine ungenaue Selbstauskunft lässt sich nur durch prüfbare **Akzeptanzkriterien** und eine unabhängige Prüfung auffangen. Diese Zuordnung ist die Deutung dieses Kurses, nicht die der Autoren. Sie bildet das Gerüst der Vorlesung: Der zweite und dritte Abschnitt behandeln, wie Anforderungen ermittelt und festgelegt werden, der vierte, wie sie für einen Agenten aufbereitet und geprüft werden. Zu beachten ist die Reichweite der Studie: Sie beobachtet reale Sitzungen und erfasst nur Fehlentwicklungen, die der Entwickler bemerkt und beanstandet hat, nicht solche, die unbemerkt blieben.
 %%/book
 
 
-## Anforderung: Quelle von Prompt und Test
+%%## Der Agent fragt nicht nach und meldet „fertig“
 
 %%scol 50 50
-Der agentische Zyklus:
+### Er fragt nicht nach
 
-1. **Prompt** → KI generiert Code
-2. **Generate** → Code entsteht
-3. **Understand** → Code lesen
-4. **Verify** → Testen gegen Anforderung
-5. **Iterate** → Prompt verfeinern
-
+Ohne Aufforderung fragen Modelle bei unvollständigen Aufgaben meist nicht nach. Dürfen sie Rückfragen stellen, erreichen Claude-Modelle etwa 80 % (Sonnet 3.5) bis 89 % (Sonnet 4) der Leistung bei vollständiger Aufgabenbeschreibung.
 %%sep
-**Anforderung** ist Grundlage für Schritt 1 und Schritt 4.
+### Er hört auf, wenn es fertig aussieht
 
-Ohne klare Anforderung:
+„Claude stops when the work looks done. Without a check it can run, ‚looks done‘ is the only signal available.“
 
-- kein präziser Prompt
-- kein sinnvoller Test
-- kein Maßstab für „fertig"
-
+Wer keine Prüfung mitliefert, wird selbst zur Prüfinstanz.
 %%/scol
 
-%%slides
-![](images/04a_Anforderungen/zyklus_anforderung.svg){.nostretch fig-align="center" width="100%"}
+%%book
+Zwei Verhaltensmuster machen unvollständige Anforderungen bei Agenten gefährlicher als bei Menschen. Das erste untersucht die Studie Ambig-SWE an einer Variante des Benchmarks SWE-Bench Verified, in der die Aufgabenbeschreibungen bewusst gekürzt wurden. Die Modelle bemerken die fehlenden Angaben meist nur dann, wenn sie ausdrücklich dazu aufgefordert werden. Erst mit simulierten Rückfragen holen sie sich die fehlende Information, und dann erreichen Claude Sonnet 3.5 etwa 80 % und Claude Sonnet 4 etwa 89 % der Leistung, die sie bei der vollständigen Aufgabe zeigen.
 
-Die {{< ai4sc-icon clipboard-list >}} Anforderung speist Schritt 1 (Prompt) und Schritt 4 (Verifizieren). Ohne sie gibt es kein Maß für „fertig“.
+Das zweite Muster beschreibt Anthropic in den Empfehlungen zu Claude Code: Der Agent beendet seine Arbeit, wenn das Ergebnis fertig aussieht. Gibt es keine Prüfung, die der Agent selbst ausführen kann, ist dieser Eindruck das einzige Signal, und der Entwickler muss jeden Fehler selbst bemerken. Daraus folgt für die Anforderungen eine Reihenfolge: Die Lücken müssen vor dem Prompt geschlossen werden, und die Prüfung muss vor der Implementierung feststehen.
+%%/book
+
+%%slide_ref @vijayvargiya2026ambig Vijayvargiya et al.: Ambig-SWE, arXiv:2502.13069, 2026
+%%slide_ref @anthropic2026bestpractices Anthropic: Best practices for Claude Code, 2026
+
+
+%%## Selbstverständliches steht in keinem Prompt
+
+%%slides
+%%col 33 33 33
+#### Basismerkmale
+
+Dissatisfiers: so selbstverständlich, dass sie niemand nennt
+
+- Fehlwert −999 zählt nie als Messwert
+- Pegel in Metern über Pegelnull
+- Rohdaten bleiben unverändert
+%%sep
+#### Leistungsmerkmale
+
+Satisfiers: Stakeholder fordern sie ausdrücklich
+
+- Mittelwert je Tag
+- Ausgabe als Tabelle
+- Auswertung für mehrere Messstellen
+%%sep
+#### Begeisterungsmerkmale
+
+Delighters: niemand fragt danach, weil es noch nicht bekannt ist
+
+- Warnung bei auffälligem Anstieg
+- Vergleich mit dem Vorjahr
+%%/col
 %%/slides
 
 %%book
-![](images/04a_Anforderungen/zyklus_anforderung.svg)
+Das Kano-Modell, wie es das IREB-Handbuch beschreibt, ordnet Merkmale eines Systems nach der Rolle, die sie für die Zufriedenheit spielen. **Basismerkmale** (dissatisfiers) sind so selbstverständlich, dass Stakeholder sie nicht nennen und sich ein System ohne sie nicht vorstellen können; fehlen sie, lehnen die Nutzer das System ab. **Leistungsmerkmale** (satisfiers) werden ausdrücklich gefordert, und mit jedem weiteren steigt die Zufriedenheit, aber auch der Aufwand. **Begeisterungsmerkmale** (delighters) kennt niemand im Voraus; sie fallen nicht auf, wenn sie fehlen, und begeistern, wenn sie vorhanden sind. Nach dem Handbuch sprechen Stakeholder von sich aus vor allem über Leistungsmerkmale.
 
-Die Anforderung hat im agentischen Entwicklungszyklus eine doppelte Rolle: Sie ist die Quelle des Prompts (Schritt 1) und die Grundlage der Verifikation (Schritt 4). Ohne sie lässt sich weder sinnvoll prompten noch prüfen, ob das Ergebnis genügt.
-
-Verifikation besteht dabei nicht nur aus Tests. Je nach Anforderung kommen auch Inspektion, Analyse oder Demonstration zum Einsatz, etwa wenn Wartbarkeit über Code-Review oder Benutzbarkeit über Beobachtung geprüft wird.
-
-→ Verweis: `03d_AgentischesProgrammieren` (S01) für die Prompt-Struktur.
+Für die Arbeit mit Agenten ist die erste Gruppe entscheidend. Die Konvention, dass −999 einen Ausfall bedeutet, ist im Projektteam Allgemeinwissen und steht deshalb in keiner Aufgabenbeschreibung. Ein Agent kann sie nicht erraten, während ein neues Teammitglied sie spätestens nach der ersten Fehlermeldung kennt. Welche Techniken Basismerkmale zutage fördern, behandelt der nächste Abschnitt. Welche Informationen ein Agent überhaupt sieht, erklärt `03d_AgentischesProgrammieren` im Abschnitt zum Agenten als Schleife aus Modell und Werkzeugen.
 %%/book
 
+%%slide_ref @glinz2022ireb Glinz et al.: IREB CPRE Foundation Level Handbook, Abschnitt 4.2.1, 2022
 
-%%# Anforderungsarten
 
-%%## Drei Kategorien
+%%# Anforderungen ermitteln
+
+%%## Der Kontext bestimmt die Quellen
 
 %%book
 
 ### TL;DR
 
-Anforderungen lassen sich in drei Kategorien unterteilen: funktionale Anforderungen (was das System tun muss), nichtfunktionale Anforderungen (wie gut es das tun muss) und Randbedingungen (was den Lösungsraum einschränkt). Alle drei sind relevant für Prompt und Test.
+Anforderungen gibt es immer, auch wenn sie niemand aufgeschrieben hat. Das IREB-Handbuch unterscheidet drei Quellen: Stakeholder, Dokumente und andere Systeme. Interviews sind nur eine von mehreren Techniken, mit denen man sie erschließt, und Ingenieure verlassen sich meist stärker auf Dokumente, Messdaten und bestehende Systeme als auf Befragungen.
 
-Für das Prompting heißt das: Funktionale Anforderungen werden zu konkreten Aufgaben, nichtfunktionale Anforderungen zu Qualitätszielen und Randbedingungen zu festen Leitplanken. Für die Verifikation heißt es: Manche Anforderungen werden getestet, andere durch Analyse, Inspektion oder Demonstration überprüft.
+%%/book
+
+%%scol 60 40
+![](images/04a_Anforderungen/kontext_pegel.svg){.nostretch fig-align="center" width="100%"}
+%%sep
+### Drei Arten von Quellen
+
+- Stakeholder: Betreiber, Berichtswesen
+- Dokumente: Messvorschrift, Normen
+- Andere Systeme: Sensor, Warnsystem, Archiv
+
+Die Systemgrenze legt fest, wer Anforderungen stellt.
+%%/scol
+
+%%book
+Ein Kontextdiagramm zeigt das System als einen Kasten und stellt alle Stellen dar, mit denen es Informationen austauscht. Das Handbuch betont, dass ein Kontextmodell keine Anforderungen beschreibt, sondern die Quellen von Anforderungen aufdeckt: Jede Schnittstelle führt zu einem Stakeholder, einem Dokument oder einem anderen System, das etwas vom neuen System verlangt. Die Abbildung zeigt es für die Auswertung der Wasserstände einer Messstation. Der Sensor liefert Rohwerte und mit ihnen die Konvention für Ausfälle, das Warnsystem erwartet einen Alarm in einem festgelegten Format, das Berichtswesen braucht Mittelwerte, und die Messvorschrift des Betreibers enthält Regeln und Grenzen, die niemand mehr erwähnt.
+
+Die Suche nach Quellen ist nach dem Handbuch ein iterativer Prozess: Mit jeder gefundenen Quelle wird die Grenze des Systems schärfer, und neue Quellen werden sichtbar. Wer eine Quelle übersieht, übersieht ihre Anforderungen, und je später ein Fehlen auffällt, desto teurer wird die Korrektur. Stakeholder sind demnach nur eine von drei Quellenarten; im Ingenieurwesen liegen die Anforderungen häufig in Normen, Vorschriften, Plänen, Messdaten und Altsystemen, die sich nicht befragen lassen, sondern ausgewertet werden müssen.
+%%/book
+
+%%slide_ref @glinz2022ireb Glinz et al.: IREB CPRE Foundation Level Handbook, Abschnitte 3.4.2 und 4.1, 2022
+
+
+%%## Fünf Familien von Ermittlungstechniken
+
+%%slides
+
+| Familie | Techniken | Findet vor allem | Beispiel Messstation |
+|---|---|---|---|
+| Befragung | Interview, Fragebogen | Leistungsmerkmale | Betreiber nach dem Berichtsformat fragen |
+| Zusammenarbeit | Workshop, Crowd | Leistungsmerkmale | Tragwerk, Haustechnik und Betreiber legen Messgrößen fest |
+| Beobachtung | Feldbeobachtung, Apprenticing | Basismerkmale | Begehung der Messstation, Ablesen und Ausfälle verfolgen |
+| Artefakte | Systemarchäologie, Feedback-Analyse, Wiederverwendung | Basis- und Leistungsmerkmale | Altes Auswerteskript, Störungsprotokolle, Messvorschrift |
+| Kreativität und Design | Brainstorming, Analogie, Prototyp, Szenario | Begeisterungsmerkmale, Qualitätsanforderungen | Handrechnung als Prototyp, Szenario Hochwasser |
+
+%%/slides
+
+%%slide_ref @glinz2022ireb Glinz et al.: IREB CPRE Foundation Level Handbook, Abschnitt 4.2, 2022
+
+%%book
+Das Handbuch gliedert die Techniken in zwei Gruppen. Die Gruppe der Sammeltechniken umfasst Befragung, Zusammenarbeit, Beobachtung und artefaktbasierte Techniken; sie fördern nach dem Handbuch vor allem Leistungs- und Basismerkmale zutage. Die zweite Gruppe, Kreativitäts- und Designtechniken, soll neue Anforderungen erzeugen, die die Stakeholder noch gar nicht kennen, also vor allem Begeisterungsmerkmale. Die Wahl der Technik folgt der Art der gesuchten Anforderung: Für ausdrücklich geforderte Leistungsmerkmale genügen Befragung und Workshop, für Basismerkmale braucht es Beobachtung oder die Auswertung von Artefakten, weil Stakeholder sie nicht nennen.
+
+Dazu gehören auch Verfahren, die in Software-Lehrbüchern unter anderen Namen laufen: Umfragen sind Fragebögen, die Auswertung von Nutzungs- und Fehlerprotokollen ist eine Feedback-Analyse, und Workshops umfassen Brainstorming, gemeinsame Entwurfssitzungen und Fokusgruppen. Der Aufwand richtet sich nach dem Risiko: Für eine kleine Auswertefunktion reichen ein Gespräch und die Messvorschrift, für ein System, dessen Ausfall Menschen gefährdet, wird mit mehreren Techniken gleichzeitig gearbeitet und das Ergebnis unabhängig geprüft. Die folgenden drei Folien zeigen die Techniken am Beispiel der Messstation.
+%%/book
+
+
+%%## Beobachten und Artefakte auswerten
+
+%%scol 50 50
+### Beobachtung
+
+- Feldbeobachtung: zusehen, ohne einzugreifen
+- Apprenticing: mitarbeiten und von erfahrenen Nutzern lernen, einen Tag bis mehrere Wochen
+
+Findet, was so üblich ist, dass es niemand sagt.
+
+Beispiel: Wie liest das Personal die Messstation tatsächlich ab, und wo notiert es Ausfälle?
+%%sep
+### Artefakte
+
+- Systemarchäologie: Altsystem, Dokumentation, Code, Testfälle
+- Dokumente: Normen, Vorschriften, Arbeitsanweisungen
+- Feedback-Analyse: Fehlerberichte, Protokolle
+
+Vorsicht: Altes kann veraltet sein.
+
+Beispiel: Das alte Auswerteskript zeigt, dass −999 ein Ausfall ist.
+%%/scol
+
+%%book
+Beobachtungstechniken eignen sich für Anforderungen, die so selbstverständlich sind, dass Befragte sie nicht erwähnen. Bei der Feldbeobachtung sieht der Analyst den Nutzern bei ihrer normalen Arbeit zu, ohne einzugreifen, um den Ablauf nicht zu verfälschen; Video kann sie ergänzen. Beim Apprenticing arbeitet er mit und lernt von erfahrenen Nutzern, darf Fehler machen und naive Fragen stellen. Das Handbuch nennt als übliche Dauer einen Tag bis mehrere Wochen und weist darauf hin, dass sich die Technik in manchen Bereichen wie Medizin, Luftfahrt oder Militär nicht umsetzen lässt. Bei einer Messstation heißt das: Wer einmal bei einer Begehung zugesehen hat, weiß, dass die Sensoren bei Frost regelmäßig ausfallen und welche Werte das Personal dann von Hand ersetzt.
+
+Artefaktbasierte Techniken nutzen vorhandene Arbeitsprodukte statt der Stakeholder. Bei der Systemarchäologie werden Anforderungen aus Altsystemen herausgelesen, aus Dokumentation, Code, Kommentaren und Testfällen; das lohnt sich vor allem, wenn ein altes System ersetzt wird und dasselbe leisten soll. Normen, Richtlinien und Arbeitsanweisungen enthalten nach dem Handbuch Einschränkungen, die leicht übersehen werden und die Stakeholder selten von sich aus nennen. Jedes Dokument muss auf Gültigkeit und Aktualität geprüft werden, und oft müssen Stakeholder bestätigen, dass es noch gilt. Aus einem veralteten Dokument abgeleitete Anforderungen führen zu einem System, das scheitert. Feedback-Analyse wertet vorhandene Rückmeldungen von Nutzern aus, im Handbuch etwa Bewertungen und Kommentare, und zeigt Probleme und Wünsche, die niemand von sich aus nennt. Für technische Anlagen ist das Pendant die Auswertung von Betriebsprotokollen und Störungsmeldungen; diese Übertragung ist eine Deutung dieses Kurses.
+%%/book
+
+%%slide_ref @glinz2022ireb Glinz et al.: IREB CPRE Foundation Level Handbook, Abschnitte 4.1.2 bis 4.2.2, 2022
+
+
+%%## Fragen und gemeinsam festlegen
+
+%%scol 33 33 33
+### Interview
+
+Einzelgespräch mit einem Stakeholder. Flexibel, braucht klare Ziele und Vorbereitung, zeitaufwendig. Liefert meist bewusste Anforderungen.
+%%sep
+### Fragebogen
+
+Gleiche Fragen an viele. Geschlossene Fragen bestätigen Vermutungen und lassen sich schnell auswerten. Offene Fragen finden Neues, kosten aber Aufwand beim Auswerten.
+%%sep
+### Workshop
+
+Strukturiertes Treffen ausgewählter Stakeholder und Fachleute. Liefert in kurzer Zeit einen Überblick, Details folgen in Interviews.
+%%/scol
+
+%%book
+Befragungstechniken setzen voraus, dass der Stakeholder die Antwort kennt und aussprechen kann. Das Interview ist nach dem Handbuch eine der am häufigsten verwendeten Techniken, weil es keine Hilfsmittel erfordert und sowohl grobe als auch sehr detaillierte Anforderungen liefert. Es braucht klare Ziele und Vorbereitung und kostet viel Zeit, sodass es sich für große Personengruppen nicht eignet. Ein Fragebogen wird meist eingesetzt, nachdem erste Interviews eine vorläufige Vorstellung geliefert haben, und prüft sie bei vielen Personen: Mit geschlossenen Fragen lassen sich Annahmen quantitativ bestätigen, offene Fragen finden neue Anforderungen. Der Entwurf eines guten Fragebogens ist aufwendig.
+
+Bei den Zusammenarbeitstechniken arbeitet der Analyst mit Stakeholdern und Fachleuten gemeinsam an Ergebnissen. Ein Workshop vereint ausgewählte Teilnehmer in einem strukturierten Treffen, in dem sie Modelle und Dokumente gemeinsam erstellen und abschließen. Im Ingenieurwesen sind Workshops besonders nützlich, wenn mehrere Fachdisziplinen, zum Beispiel Tragwerksplanung, Haustechnik und Betrieb, Anforderungen aufeinander abstimmen müssen. Das Handbuch nennt außerdem das crowdbasierte Requirements Engineering, bei dem sehr viele Nutzer über eine Plattform beteiligt werden; es ist auf sehr viele Nutzer zugeschnitten und für ein einzelnes Ingenieurprojekt meist nicht relevant.
+%%/book
+
+%%slide_ref @glinz2022ireb Glinz et al.: IREB CPRE Foundation Level Handbook, Abschnitt 4.2.2, 2022
+
+
+%%## Entwerfen und ausprobieren
+
+%%scol 50 50
+### Kreativität
+
+- Brainstorming: Ideen sammeln, Urteil aufschieben
+- Analogie: ein ähnliches Problem aus einer anderen Branche übertragen
+
+Findet Begeisterungsmerkmale.
+%%sep
+### Design
+
+- Prototyp: von der Skizze bis zur Vorabversion
+- Szenario und Storyboard: Ablauf mit Akteuren, auch Ausnahmen
+
+Findet Qualitätsanforderungen, Basismerkmale und Randbedingungen.
+
+Beispiel: Handrechnung oder Tabelle als Prototyp, Szenario „Hochwasser, Sensor fällt aus“.
+%%/scol
+
+%%book
+Wenn ein System Neues leisten soll, können Stakeholder dazu keine Anforderungen nennen, weil sie die Möglichkeiten nicht kennen. Kreativitätstechniken sollen Ideen erzeugen, die direkt von Stakeholdern nicht zu erhalten sind. Beim Brainstorming werden Ideen gesammelt, ohne sie sofort zu bewerten; Menge geht vor Qualität, Kritik ist verboten, und erst danach werden die Ideen sortiert, bewertet und priorisiert. Die Analogietechnik überträgt ein ähnliches Problem, etwa aus einer anderen Branche, auf die eigene Aufgabe.
+
+Designtechniken konkretisieren vage Wünsche mit greifbaren Artefakten. Ein Prototyp reicht nach dem Handbuch von der Papierskizze bis zur funktionsfähigen Vorabversion und eignet sich besonders, um nichtfunktionale Anforderungen, Basismerkmale und Randbedingungen zu finden, die sich in Modellen und Dokumenten nur schwer festlegen lassen. Für ein Programm kann schon die Handrechnung mit einer Tabelle ein Prototyp sein: Rechnet man den mittleren Wasserstand für die Beispieldaten von Hand aus, fällt sofort auf, dass man den Fehlwert behandeln und sich für eine Gewichtung entscheiden muss. Ein Szenario beschreibt einen Ablauf mit den beteiligten Akteuren, einschließlich der Ausnahmen, und lässt sich schnell erstellen und ändern. Für die Messstation könnte es lauten: Der Pegel steigt, der Sensor fällt aus, und das Warnsystem erwartet trotzdem einen Alarm. Prototypen und Szenarien dienen auch der Validierung, die später im Kapitel folgt.
+%%/book
+
+%%slide_ref @glinz2022ireb Glinz et al.: IREB CPRE Foundation Level Handbook, Abschnitt 4.2.3, 2022
+
+
+%%# Anforderungen festlegen
+
+%%## Drei Arten von Anforderungen
+
+%%book
+
+### TL;DR
+
+Das Handbuch unterscheidet funktionale Anforderungen, Qualitätsanforderungen und Randbedingungen. Qualitätsanforderungen werden von Stakeholdern am häufigsten vergessen, weil sie sie für selbstverständlich halten. Eine gute Einzelanforderung ist angemessen, notwendig, eindeutig, vollständig, verständlich und prüfbar, und Satzschablonen helfen, diese Eigenschaften zu erreichen.
 
 %%/book
 
@@ -127,450 +365,555 @@ Für das Prompting heißt das: Funktionale Anforderungen werden zu konkreten Auf
 %%col 33 33 33
 #### Funktional
 
-Was das System tun muss
+Ergebnis, Verhalten oder Interaktion, die ein System liefern soll
 
-- Messwerte einlesen
-- Grenzwert prüfen
-- Alarm auslösen
-- Bericht erzeugen
+- Der Mittelwert wird zeitgewichtet berechnet
+- Ein Messwert −999 wird ignoriert
 %%sep
-#### Nichtfunktional
+#### Qualität
 
-Wie gut es das tun muss
+Qualitätsaspekte, die die funktionalen Anforderungen nicht abdecken
 
-- Antwortzeit unter 2 s
-- 1 Mio. Datensätze verarbeiten
-- Ausgabe IFC-konform
+- Auswertung eines Tages dauert höchstens 1 s
+- Das System bleibt bei Sensorausfall betriebsbereit
 %%sep
-#### Randbedingungen
+#### Randbedingung
 
-Womit und worunter
+Beschränkt den Lösungsraum über das Nötige hinaus
 
-- Raspberry Pi 4
-- Python 3.11
-- DSGVO
+- Nur die Python-Standardbibliothek
+- Ausgabe im Format des Warnsystems
 %%/col
 %%/slides
 
 %%book
-**Funktionale Anforderungen** beschreiben das gewünschte Verhalten: Ein- und Ausgaben, Abläufe, Reaktionen auf Ereignisse. **Nichtfunktionale Anforderungen** beschreiben Qualitätseigenschaften wie Geschwindigkeit, Zuverlässigkeit oder Wartbarkeit. **Randbedingungen** schränken den Lösungsraum von außen ein, durch Hardware, Plattform, Gesetze oder Standards.
+Das IREB-Handbuch definiert den Begriff mit drei Bedeutungen und unterscheidet danach drei Arten von Anforderungen.
 
 %%def Anforderung
-Eine Anforderung ist eine messbare Aussage darüber, was ein System tun oder sein soll, nicht wie es das erreicht.
+1. Ein von einem Stakeholder wahrgenommenes Bedürfnis.
+2. Eine Fähigkeit oder Eigenschaft, die ein System haben soll.
+3. Eine dokumentierte Darstellung eines Bedürfnisses, einer Fähigkeit oder Eigenschaft.
 %%/def
+
+%%def Requirements Engineering
+Das systematische und disziplinierte Vorgehen beim Spezifizieren und Verwalten von Anforderungen mit dem Ziel, die Wünsche und Bedürfnisse der Stakeholder zu verstehen und das Risiko zu verringern, ein System zu liefern, das diese Bedürfnisse nicht erfüllt.
+%%/def
+
+%%def Stakeholder
+Eine Person oder Organisation, die die Anforderungen eines Systems beeinflusst oder von dem System betroffen ist.
+%%/def
+
+Ein systematisch erfasster Satz von Anforderungen heißt Anforderungsspezifikation. **Funktionale Anforderungen** betreffen ein Ergebnis oder Verhalten, das eine Funktion des Systems liefern soll, einschließlich Daten und Interaktion mit der Umgebung. **Qualitätsanforderungen** betreffen Qualitätsaspekte, die die funktionalen Anforderungen nicht abdecken, zum Beispiel Leistung, Verfügbarkeit, Sicherheit oder Zuverlässigkeit. **Randbedingungen** beschränken den Lösungsraum über das hinaus, was für die funktionalen und die Qualitätsanforderungen nötig ist.
+
+Die Einordnung folgt dem Anliegen, das eine Anforderung betrifft, und nicht der verbreiteten Faustregel, funktionale Anforderungen beschrieben das Was und Qualitätsanforderungen das Wie. Das Handbuch nennt ein Beispiel: Die Datenmenge, die ein System aus einem Teilchendetektor verarbeiten muss, ist eine Qualitätsanforderung, auch wenn Physiker sie als erste nennen würden. Auch der Zusatz „Wie schnell“ macht aus einer funktionalen Anforderung keine Randbedingung. Qualitätsanforderungen werden nach dem Handbuch von Stakeholdern häufig nicht genannt, weil sie sie für selbstverständlich halten; sie müssen gezielt erfragt werden. Der Abschnitt zu den Qualitätsmerkmalen liefert dafür eine Checkliste.
 %%/book
 
-
-## Beispiel: Sensorüberwachung Brückenbauwerk
-
-%%scol 50 50
-### Szenario
-
-Überwachungssystem für Feuchte- und Temperatursensoren in einem Brückenbauwerk.
-
-### Funktional
-
-- Messwerte alle 60 s einlesen
-- Grenzwertüberschreitung erkennen
-- Alarm per E-Mail versenden
-- Messdaten lokal speichern
-%%sep
-### Nichtfunktional
-
-- Antwortzeit unter 2 s
-- Weiterbetrieb bei Netzausfall
-
-### Randbedingungen
-
-- Hardware: Raspberry Pi 4
-- Betriebssystem: Raspberry Pi OS
-%%/scol
-
-%%book
-Dieses Beispiel begleitet die gesamte Vorlesung. Das Sensorüberwachungssystem für ein Brückenbauwerk ist typisch für Bauingenieurwesen und Umweltüberwachung: eingebettete Hardware, geringe Netzanbindung, harte Zeitanforderungen.
-%%/book
+%%slide_ref @glinz2022ireb Glinz et al.: IREB CPRE Foundation Level Handbook, Abschnitt 1.1, 2022
 
 
-## Häufige Fehler bei Anforderungen
-
-%%scol 50 50
-### Schlecht
-
-- [Vage: „Das System soll schnell sein“]{.con}
-- [Nicht testbar: „Benutzerfreundliche Oberfläche“]{.con}
-- [Lösungsorientiert: „Nutze SQLite als Datenbank“]{.con}
-%%sep
-### Besser
-
-- [Messbar: „Antwortzeit unter 2 s bei 95 % der Anfragen“]{.pro}
-- [Testbar: „Die Alarmfunktion wird ohne Anleitung in unter 30 s gefunden“]{.pro}
-- [Problemorientiert: „Messdaten bleiben nach Stromausfall abrufbar“]{.pro}
-%%/scol
-
-%%book
-Eine gute Anforderung ist messbar, überprüfbar und beschreibt das Was, nicht das Wie. Vage oder lösungsorientierte Anforderungen führen zu schlechten Prompts und untestbaren Ergebnissen. Viele dieser Fehler entstehen, weil nur aus einer Perspektive formuliert wird. Deshalb folgt als nächster Schritt die Stakeholder-Sicht.
-%%/book
-
-
-%%# Stakeholder-Perspektiven
-
-%%## Drei Perspektiven, ein System
-
-%%book
-
-### TL;DR
-
-Dasselbe System wird von verschiedenen Stakeholdern mit unterschiedlichen Erwartungen betrachtet. Das Verstehen aller Perspektiven ist Voraussetzung dafür, vollständige und konsistente Anforderungen zu formulieren.
-
-%%/book
+%%## Qualitätsanforderungen systematisch finden
 
 %%slides
-%%col 33 33 33
-#### Tragwerksplaner
 
-Braucht:
+| Qualitätsmerkmal (ISO/IEC 25010:2023) | Frage an die Messstation |
+|---|---|
+| Funktionale Eignung | Rechnet die Funktion bei Fehlwerten richtig? |
+| Leistungseffizienz | Wie viele Messwerte in welcher Zeit? |
+| Kompatibilität | Welche Formate liefern Sensor und Warnsystem? |
+| Interaktionsfähigkeit (früher Usability) | Wer bedient, wie werden Fehleingaben abgefangen? |
+| Zuverlässigkeit | Was passiert bei Sensor- oder Stromausfall? |
+| Sicherheit (Security) | Wer darf Rohdaten ändern? |
+| Wartbarkeit | Wer ändert den Code in fünf Jahren, gibt es Tests? |
+| Flexibilität (früher Portabilität) | Läuft die Auswertung auch für weitere Messstellen? |
+| Funktionssicherheit (Safety) | Was passiert, wenn ein Alarm ausbleibt? |
 
-- Rohmesswerte (kPa, °C)
-- Langzeittrends
-- Export in IFC / CSV
-%%sep
-#### Facility Manager
-
-Braucht:
-
-- Echtzeit-Alarmierung
-- Dashboard auf dem Tablet
-- Eskalationsregeln
-%%sep
-#### Behördenprüfer
-
-Braucht:
-
-- Audit-Trail
-- Manipulationssicherheit
-- Exportierbare Berichte
-%%/col
 %%/slides
 
-%%book
-Stakeholder-Analyse deckt auf, dass verschiedene Gruppen aus denselben Rohdaten völlig unterschiedliche Anforderungen ableiten. Wer diese Unterschiede nicht kennt, baut Systeme, die nur einer Gruppe dienen.
+%%slide_ref @iso25010_2023 ISO/IEC 25010:2023, Produktqualitätsmodell
 
-| Stakeholder | Kernbedarf | Schlüssel-Anforderung |
-|-------------|------------|----------------------|
-| Tragwerksplaner | Langzeitdaten | IFC-Export |
-| Facility Manager | Echtzeit | Dashboard-Ladezeit unter 2 s |
-| Behördenprüfer | Nachvollziehbarkeit | Audit-Log, Manipulationsschutz |
+%%book
+Das IREB-Handbuch verweist für Qualitätsanforderungen auf die Norm ISO/IEC 25010. In der Fassung von 2023 enthält das Produktqualitätsmodell neun Merkmale: funktionale Eignung, Leistungseffizienz, Kompatibilität, Interaktionsfähigkeit, Zuverlässigkeit, Sicherheit, Wartbarkeit, Flexibilität und Funktionssicherheit. Gegenüber der Fassung von 2011 sind Usability zu Interaktionsfähigkeit und Portabilität zu Flexibilität geworden, und Funktionssicherheit ist neu hinzugekommen. Die Tabelle nutzt die Merkmale als Checkliste: Zu jedem Merkmal wird eine Frage an das System gestellt, und jede Antwort, die mit „das hat niemand gesagt“ beginnt, ist eine Lücke.
+
+Die Checkliste ersetzt kein Gespräch, sie stellt aber sicher, dass kein Qualitätsaspekt vergessen wird, weil er selbstverständlich wirkt. Die Merkmale sind eine Auswahl von Fragen. Für eine kleine Auswertefunktion sind Leistung und Wartbarkeit wichtiger als Interaktion; für ein Warnsystem rückt die Funktionssicherheit in den Mittelpunkt. Wie genau eine Qualitätsanforderung formuliert werden muss, hängt vom Risiko ab, und das Handbuch fordert nicht, dass jede Anforderung alle Kriterien vollständig erfüllt.
 %%/book
 
 
-## Stakeholder-Bedarf in Anforderungen überführen
+%%## Eine einzelne Anforderung prüfen
 
 %%scol 50 50
-### Vorgehen
+### Sechs Kriterien (IREB)
 
-1. Stakeholder identifizieren
-2. Nutzungsszenarien je Rolle erfassen
-3. Funktionale und nichtfunktionale Anforderungen ableiten
-4. Konflikte aufdecken und priorisieren
+- Angemessen: beschreibt echte, abgestimmte Bedürfnisse
+- Notwendig: gehört zum Umfang des Systems
+- Eindeutig: alle verstehen dasselbe
+- Vollständig: nichts zum Verständnis fehlt
+- Verständlich: die Zielgruppe versteht sie
+- Prüfbar: Erfüllung lässt sich eindeutig feststellen
 %%sep
-### Typische Konflikte
+### Umschreiben
 
-- Echtzeit (Manager) gegen Langzeitarchiv (Planer)
-- Offene API gegen Sicherheitsanforderung (Prüfer)
-- Detailtiefe gegen Übersichtlichkeit
+[„Die Auswertung soll schnell und einfach sein.“]{.con}
+
+[„WENN ein Tagesbericht angefordert wird, muss die Auswertung für 144 Messwerte (24 h im 10-Minuten-Raster) in höchstens 1 s ein Ergebnis liefern.“]{.pro}
+
+Der Zahlenwert ist ein Beispielwert, nur die 144 folgen aus dem Messraster.
 %%/scol
 
 %%book
-Konflikte zwischen Stakeholderanforderungen sind normal und müssen explizit verhandelt werden, nicht implizit aufgelöst. Ohne Stakeholder-Analyse entstehen Systeme, die einem Stakeholder gerecht werden und allen anderen nicht.
+Das IREB-Handbuch empfiehlt sechs Qualitätskriterien für eine einzelne Anforderung. Sie ist **angemessen**, wenn sie wahre und abgestimmte Bedürfnisse der Stakeholder beschreibt, **notwendig**, wenn sie zum Systemumfang gehört und zu mindestens einem Ziel beiträgt, **eindeutig**, wenn alle Beteiligten sie gleich verstehen, **vollständig**, wenn kein zum Verständnis nötiger Teil fehlt, **verständlich**, wenn die Zielgruppe sie versteht, und **prüfbar**, wenn sich ihre Erfüllung durch ein implementiertes System zweifelsfrei feststellen lässt. Angemessenheit und Verständlichkeit gelten als die wichtigsten, denn ohne sie ist eine Anforderung nutzlos oder schädlich. Für ganze Spezifikationen kommen weitere Kriterien hinzu: widerspruchsfrei, redundanzfrei, vollständig, änderbar, rückverfolgbar und normkonform.
 
-Sobald mehrere Perspektiven sichtbar sind, reicht ein allgemeiner Wunsch wie „zuverlässig“ oder „skalierbar“ nicht mehr aus. Für Entscheidungen zwischen Konflikten braucht es präzise Qualitätskriterien.
+Das Beispiel verletzt mit „schnell und einfach“ mehrere Kriterien. Es ist nicht eindeutig, weil niemand weiß, wie schnell schnell ist, nicht vollständig, weil Auslöser und Datenmenge fehlen, und nicht prüfbar, weil kein Test ein „einfach“ feststellt. Die Umschreibung nennt Auslöser, Datenmenge und Grenzwert. Das Handbuch weist ausdrücklich darauf hin, dass Anforderungen nicht jedes Kriterium vollständig erfüllen müssen; wie genau sie sein müssen, richtet sich nach dem Wert der Anforderung und dem Risiko. Für einen Agenten liegt die Schwelle höher, weil er Unklarheiten nicht im Gespräch auflöst.
 %%/book
 
+%%slide_ref @glinz2022ireb Glinz et al.: IREB CPRE Foundation Level Handbook, Abschnitt 3.8, 2022
 
-%%# Qualitätskriterien
 
-%%## Messbare Abnahmekriterien
-
-%%book
-
-### TL;DR
-
-Qualitätskriterien überführen nichtfunktionale Anforderungen möglichst in messbare Abnahmekriterien. Wo Quantifizierung nicht sinnvoll oder nicht vollständig möglich ist, müssen stattdessen qualitative Prüfkriterien für Analyse, Inspektion oder Demonstration formuliert werden.
-
-%%/book
+%%## Satzschablonen schaffen Eindeutigkeit
 
 %%scol 50 50
-### „Das System soll zuverlässig sein.“
+### EARS-Schablonen
 
-Messbar gemacht:
-
-- Messwerte bleiben nach Stromausfall abrufbar
-- Automatischer Neustart nach unter 60 s
+```
+Immer:
+  Das System muss <Reaktion>.
+Ereignis:
+  WENN <Auslöser> muss das System <Reaktion>.
+Zustand:
+  SOLANGE <Zustand> muss das System <Reaktion>.
+Fehlerfall:
+  FALLS <Auslöser>, DANN muss das System <Reaktion>.
+Option:
+  WO <Merkmal> muss das System <Reaktion>.
+```
 %%sep
-### „Das System soll skalierbar sein.“
+### Beispiele Messstation
 
-Messbar gemacht:
-
-- 1 Mio. Datensätze in unter 10 s verarbeiten
-- Ausgabe validiert gegen das IFC-Schema
+- Immer: Die Auswertung muss Pegel in Metern über Pegelnull ausgeben.
+- Ereignis: WENN ein Tagesbericht angefordert wird, muss die Auswertung den Mittelwert des Vortags liefern.
+- Zustand: SOLANGE der Sensor ausgefallen ist, muss die Auswertung den letzten gültigen Wert kennzeichnen.
+- Fehlerfall: FALLS ein Messwert −999 ist, DANN muss die Auswertung ihn ignorieren.
 %%/scol
 
-%%note Merksatz
-Sofern möglich braucht jede nichtfunktionale Anforderung ein quantitatives Akzeptanzkriterium. Falls das nicht sinnvoll ist, braucht sie wenigstens ein klares Prüfkriterium.
-%%/note
-
 %%book
-Messbare Abnahmekriterien sind der Übergang von der Anforderungsanalyse zur Testspezifikation. Ohne sie gibt es keinen objektiven Maßstab dafür, ob ein System die Anforderung erfüllt. Für Eigenschaften wie Wartbarkeit, Benutzbarkeit oder Ästhetik reichen Zahlen allein oft nicht aus; dort müssen ergänzende Review- oder Beobachtungskriterien definiert werden.
+Natürliche Sprache ist mehrdeutig, daher bieten Satzschablonen eine feste Reihenfolge der Bestandteile an. Die Norm ISO/IEC/IEEE 29148 gibt nach dem IREB-Handbuch eine einzige Schablone vor, nämlich [Bedingung] Subjekt Aktion Objekt [Einschränkung], etwa „Wenn eine gültige Karte erkannt wird, muss das System innerhalb von 200 ms die Meldung ‚PIN eingeben‘ anzeigen“. Die Hilfsverben sind dabei genormt: „shall“ (hier „muss“) kennzeichnet eine verbindliche Anforderung, „should“ („soll“) eine gewünschte, „may“ („kann“) einen Vorschlag.
 
-| Domäne | Vage | Überprüfbar |
-|--------|------|-------------|
-| CAD/BIM | „Export muss kompatibel sein“ | Ausgabe validiert gegen IFC 4.0 ohne Schemafehler |
-| Öffentliche Verwaltung | „Antragstellung soll barrierearm sein“ | Zentrale Schritte sind per Tastatur bedienbar und im Test beobachtbar |
-| Sensorüberwachung | „Alarm soll zuverlässig sein“ | Jeder Alarm wird protokolliert und ist nach Neustart abrufbar |
-
-Dieses Muster zieht sich durch alle Domänen: vage Wünsche müssen in überprüfbare Kriterien übersetzt werden. Erst dann können sie als Prompt-Bedingung und als Testfall oder Review-Kriterium verwendet werden.
+Mavin und Kollegen entwickelten bei Rolls-Royce die Easy Approach to Requirements Syntax (EARS), eine Familie von Schablonen für typische Situationen: ständig gültige Anforderungen, ereignisgesteuerte (WHEN), zustandsgesteuerte (WHILE), der Umgang mit unerwünschtem Verhalten (IF … THEN) und optionale Merkmale (WHERE). Das Handbuch weist darauf hin, dass das Verhalten im Fehlerfall eine eigene Schablone erhält, weil unerwartete Ereignisse wie Ausfälle oder Angriffe eine Hauptquelle für Lücken sind. Die deutschen Schlüsselwörter in der Tabelle sind eine Übertragung dieser englischen Schlüsselwörter. Die Schablone zwingt dazu, Auslöser und Reaktion zu nennen, und deckt damit fehlende Angaben auf: Im vierten Beispiel steht jetzt fest, dass der Ausfallwert ignoriert wird, was im Ausgangssatz „Berechne den mittleren Wasserstand“ offen blieb.
 %%/book
 
+%%slide_ref @mavin2009ears Mavin et al.: Easy Approach to Requirements Syntax (EARS), RE'09, 2009
 
-%%# User Stories
 
-%%## User-Story-Format
-
-%%book
-
-### TL;DR
-
-User Stories strukturieren Anforderungen aus der Nutzerperspektive. Die Schablone (als … möchte ich … damit …) trennt Rolle, Funktion und Nutzen, also genau die Struktur, die ein KI-Werkzeug braucht, um relevanten Code zu erzeugen.
-
-%%/book
+%%## User Story und Akzeptanzkriterien
 
 %%scol 45 55
 ### Schablone
 
-> Als **[Rolle]**\
-> möchte ich **[Funktion]**\
-> damit ich **[Nutzen]**.
+> Als **[Rolle]** möchte ich **[Anforderung]**, damit **[Nutzen]**.
 
-Akzeptanzkriterien beantworten: Wann ist die Story erledigt?
+Akzeptanzkriterien legen fest, wann die Story erfüllt ist.
 %%sep
 ### Beispiel
 
-> Als **Facility Manager**\
-> möchte ich ein **Sensor-Alarm-Dashboard**\
-> damit ich **vor einem SLA-Bruch reagieren kann**.
+> Als **Betreiber** möchte ich den mittleren Wasserstand je Tag, damit ich Berichte ohne Handrechnung erstellen kann.
 
-- Dashboard lädt in unter 2 s
-- Aktive Alarme werden rot hervorgehoben
-- Quittierung wird mit UTC-Zeitstempel gespeichert
+- Gegeben Messwerte bei 0, 1, 2 und 6 h mit 2,30; 2,32; −999; 2,60 m, wenn der Mittelwert berechnet wird, dann ergibt sich 2,435 m (±0,001 m).
+- Gegeben nur ein gültiger Messwert, wenn der Mittelwert berechnet wird, dann erscheint eine Fehlermeldung statt einer Zahl.
 %%/scol
 
 %%book
-Die User-Story-Schablone stammt aus dem agilen Softwaremanagement. Sie ist besonders wertvoll für das Prompting, weil sie Rolle, Funktion und Nutzen explizit trennt. Diese drei Elemente bilden den Kern eines guten Prompts.
+Die Schablone für User Stories geht auf Cohn zurück und lautet „Als <Rolle> möchte ich <Anforderung>, damit <Nutzen>“. Das Handbuch hebt hervor, dass heute für jede Story ein Nutzen angegeben wird, und verlangt zu jeder Story Akzeptanzkriterien, also Kriterien, die die Umsetzung erfüllen muss, um von den Stakeholdern abgenommen zu werden. Sie machen die Story konkreter und weniger mehrdeutig und verhindern Umsetzungsfehler aus Missverständnissen. Die Story selbst ist kurz und beschreibt, wer etwas braucht und wozu; die Genauigkeit entsteht erst durch die Kriterien.
+
+Die Form „Gegeben, wenn, dann“ für Akzeptanzkriterien stammt aus dem Behavior-Driven Development, das Daniel Terhorst-North und Chris Matts entwickelten. Martin Fowler beschreibt sie als Stil, ein Verhalten durch Beispiele festzulegen: „Gegeben“ beschreibt den Zustand vor dem Verhalten, „wenn“ das Verhalten selbst und „dann“ die erwarteten Änderungen. Beide Kriterien im Beispiel sind aus den Beispieldaten der ersten Folie abgeleitet und lassen sich unmittelbar als Test schreiben, was der vierte Abschnitt zeigt. Die Handrechnung aus dem Prototyp liefert so den ersten Abnahmewert.
 %%/book
 
+%%slide_ref @fowler2013gwt Fowler: Given When Then, martinfowler.com, 2013
 
-%%# Anforderung und Prompt
 
-%%## Von der User Story zum Prompt: Kontext
+%%## Konflikte lösen und priorisieren
+
+%%scol 50 50
+### Sechs Konfliktarten
+
+Sach-, Daten-, Interessen-, Werte-, Beziehungs- und Strukturkonflikt
+
+### Lösungstechniken
+
+Einigung, Kompromiss, Abstimmung, Entscheidung von oben, Varianten, Hilfstechniken
+%%sep
+### Priorisieren mit MoSCoW
+
+- Must: Basismerkmale
+- Should: Leistungsmerkmale
+- Could oder Won't: Begeisterungsmerkmale
+
+Beispiel: Der Betreiber will Lücken füllen, das Berichtswesen nur gemessene Werte. Lösung als Variante: zwei Ausgaben, beide dokumentiert.
+%%/scol
+
+%%book
+Aus verschiedenen Quellen und mit verschiedenen Techniken entsteht eine Sammlung von Anforderungen, die sich widersprechen kann. Das Handbuch nennt sechs Arten von Konflikten: Sachkonflikte, bei denen die Beteiligten tatsächlich verschiedene Bedürfnisse haben, zum Beispiel wegen unterschiedlicher Gesetze; Datenkonflikte, bei denen sie mit widersprüchlichen Daten arbeiten oder dieselben Daten verschieden deuten; Interessenkonflikte; Wertekonflikte; Beziehungskonflikte und Strukturkonflikte. Die Art bestimmt die Technik: Bei einer Einigung verstehen alle Parteien einander und einigen sich auf eine Option; beim Kompromiss gibt jede Partei etwas auf; bei einer Abstimmung entscheidet die Mehrheit; bei einer Entscheidung von oben fällt eine Autorität die Entscheidung, wenn die übrigen Techniken scheitern; bei Varianten wird ein konfigurierbares System entwickelt. Entscheidend ist, dass ein Konflikt nicht ignoriert wird und das Ergebnis dokumentiert ist.
+
+Priorisierung ist nötig, weil Zeit, Geld und Aufmerksamkeit begrenzt sind. Das Handbuch beschreibt als einfache Technik die MoSCoW-Methode mit den Kategorien Must have, Should have, Could have und Won't have this time und stellt den Bezug zum Kano-Modell her: Basismerkmale sind Must-haves, Leistungsmerkmale Should-haves, Begeisterungsmerkmale Could- oder Won't-haves. Das Beispiel auf der Folie ist erfunden: Der Betreiber will fehlende Werte füllen, das Berichtswesen nur gemessene Werte. Eine Möglichkeit ist eine Variante mit zwei Ausgaben, deren Wahl dokumentiert wird. Für den Agenten ist die Entscheidung unverzichtbar, denn er kann sie nicht für Sie treffen.
+%%/book
+
+%%slide_ref @glinz2022ireb Glinz et al.: IREB CPRE Foundation Level Handbook, Abschnitte 4.3 und 6.8, 2022
+
+
+%%## Anforderungen vor dem Bauen prüfen
+
+%%scol 33 33 33
+### Reviews
+
+Walkthrough und Inspektion: Anforderungen lesen und Mängel suchen. Je höher das Risiko, desto unabhängiger die Prüfer.
+%%sep
+### Ausprobieren
+
+Prototyp, Alpha- und Betatest: Anwender erleben eine frühe Version.
+%%sep
+### Beispielentwicklung
+
+Entwickler erzeugen Entwurf, Code oder Testfälle aus den Anforderungen und finden dabei Unklarheiten, Lücken und Widersprüche.
+%%/scol
+
+%%book
+Das IREB-Handbuch betont, dass nicht validierte Anforderungen nutzlos sind, und gliedert die Validierungstechniken in drei Kategorien. **Reviews** untersuchen die Arbeitsprodukte, ohne etwas auszuführen: Ein Walkthrough erklärt dem Publikum die Anforderungen Schritt für Schritt, eine Inspektion folgt einem formalen Ablauf mit Moderator und Checklisten und kommt vor allem bei sicherheitskritischen Systemen zum Einsatz. Das Handbuch empfiehlt unabhängige Prüfer, weil an der Erhebung Beteiligte eigene blinde Flecken haben, und rät, Mängel zuerst zu sammeln und erst danach zu beheben. **Explorative Techniken** lassen Anwender eine frühe Version des Systems erleben, etwa als Prototyp oder Betatest. Bei der **Beispielentwicklung** erzeugen Entwickler aus den Anforderungen Entwürfe, Code oder Testfälle und bemerken dabei unklare, fehlende oder widersprüchliche Anforderungen.
+
+Die dritte Kategorie lässt sich mit einem Agenten gezielt nutzen. Lassen Sie ihn aus der Spezifikation zuerst Testfälle oder einen Plan schreiben, bevor er Code erzeugt, und lesen Sie diese Ergebnisse kritisch: Jede Annahme, die er trifft, zeigt eine Lücke. Das ist etwas anderes, als den Agenten Anforderungen erheben zu lassen. Er dient hier als Werkzeug der Validierung, die Beurteilung bleibt bei Ihnen.
+%%/book
+
+%%slide_ref @glinz2022ireb Glinz et al.: IREB CPRE Foundation Level Handbook, Abschnitt 4.4, 2022
+
+
+%%# Anforderungen für den Agenten
+
+%%## Die agententaugliche Spezifikation
 
 %%book
 
 ### TL;DR
 
-Eine gut formulierte User Story lässt sich schrittweise in einen strukturierten Claude-Code-Prompt überführen. Jedes Akzeptanzkriterium wird direkt zu einer Prompt-Bedingung.
+Eine Spezifikation für einen Agenten muss ohne Rückfragen verständlich sein: Ziel, funktionale Anforderungen, Qualitätsanforderungen, Randbedingungen, Abgrenzung und prüfbare Akzeptanzkriterien. Jeder Abschnitt beugt einer der vier beobachteten Fehlerarten vor und entspricht einem Element des Prompts aus `03d_AgentischesProgrammieren`.
 
 %%/book
 
+%%slides
+
+| Abschnitt der Spezifikation | Prompt-Element (03d) | Beugt vor |
+|---|---|---|
+| Ziel und Kontext | Rolle, Kontext | Absicht missverstanden |
+| Funktionale Anforderungen | Aufgabe | Absicht missverstanden |
+| Randbedingungen | Constraint | Einschränkung verletzt |
+| Nicht-Ziele | Constraint | Eigenmächtige Erweiterung |
+| Qualitätsanforderungen, Akzeptanzkriterien | Ausgabeformat und Test | Ungenaue Selbstauskunft |
+
+%%/slides
+
+%%slide_ref @anthropic2026bestpractices Anthropic: Best practices for Claude Code, Abschnitt „Let Claude interview you“, 2026
+
+%%book
+Anthropic beschreibt in den Empfehlungen zu Claude Code, welche Spezifikationen sich bewährt haben: Sie sind in sich geschlossen, nennen die beteiligten Dateien und Schnittstellen, legen fest, was nicht zum Umfang gehört, und enden mit einer durchgängigen Prüfung, die zeigt, dass das Merkmal funktioniert. Das sind im Kern die Bestandteile einer klassischen Anforderungsspezifikation. In der deutschen Ingenieurpraxis entspricht das Pflichtenheft des Auftragnehmers, das die Umsetzung eines Lastenhefts beschreibt (DIN 69901-5), dieser Stufe: Es legt fest, was gebaut und wie es abgenommen wird. Im Kurs übernimmt Ihr Prompt diese Aufgabe, und die Aufgabenstellung des Auftraggebers entspricht dem Lastenheft.
+
+Die Tabelle ordnet die Abschnitte der Spezifikation den fünf Elementen eines Prompts aus `03d_AgentischesProgrammieren` zu (Rolle, Kontext, Aufgabe, Constraint, Ausgabeformat) und den Fehlerarten, die sie verhindern. Die Zuordnung ist ein Vorschlag dieses Kurses, keine Norm. Die vier Fehlerarten bilden dabei eine Prüfliste: Wer eine Spezifikation geschrieben hat, geht sie nach Randbedingungen, Lücken in der Funktion, Prüfbarkeit und Abgrenzung durch.
+%%/book
+
+
+%%## Beispiel: Spezifikation für den mittleren Wasserstand
+
 %%scol 50 50
-### User Story
+```
+Ziel
+  mittlerer_wasserstand(zeiten_h, werte_m)
+  für Pegeldaten, Meter über Pegelnull
 
-> Als Facility Manager\
-> möchte ich ein Sensor-Alarm-Dashboard\
-> damit ich vor einem SLA-Bruch reagieren kann.
-
-- Lädt in unter 2 s
-- Aktive Alarme rot markiert
-- Quittierung mit UTC-Zeitstempel
+Funktional
+  F1  Die Funktion muss den zeitgewichteten
+      Mittelwert (Trapezregel) der gültigen
+      Werte liefern.
+  F2  FALLS ein Messwert -999 ist, DANN muss
+      sie ihn ignorieren.
+  F3  FALLS weniger als zwei gültige Werte
+      vorliegen, DANN muss sie einen
+      ValueError auslösen.
+```
 %%sep
-### Prompt: Kontext-Abschnitt
-
 ```
-Du bist ein Python-Entwickler.
-Aufgabe: Sensor-Alarm-Dashboard.
-Rolle: Facility Manager
-Ziel: SLA-Überwachung in Echtzeit
-```
+Randbedingungen
+  R1  Nur die Python-Standardbibliothek.
+  R2  Zeiten in Stunden, aufsteigend.
 
-Rolle und Nutzen der User Story bilden den Kontext des Prompts.
+Nicht-Ziele
+  Keine Interpolation, keine Plots,
+  Eingaben bleiben unverändert.
+
+Akzeptanz
+  A1  Zeiten 0, 1, 2, 6 h; Werte
+      2,30; 2,32; -999; 2,60
+      ergeben 2,435 m (±0,001 m).
+```
 %%/scol
 
 %%book
-Der erste Schritt überführt Rolle und Nutzen der User Story in den Kontext-Abschnitt des Prompts. Der Kontextrahmen teilt dem KI-Werkzeug mit, aus welcher Perspektive und mit welchem Ziel es arbeitet.
+Die Spezifikation schließt die Lücken des Ausgangssatzes „Berechne den mittleren Wasserstand“ Zeile für Zeile. F1 entscheidet zwischen den drei Lesarten der ersten Folie: Gewünscht ist der zeitgewichtete Mittelwert, und die Trapezregel macht die Gewichtung nachvollziehbar. F2 hält die Konvention des Sensors fest, die im Projekt selbstverständlich war, und F3 legt fest, was geschieht, wenn nach dem Aussortieren zu wenige Werte bleiben, ohne dass das Programm stillschweigend einen Wert erfindet. Die Randbedingung R1 verhindert, dass der Agent zusätzliche Bibliotheken einführt, und die Nicht-Ziele verhindern, dass er fehlende Werte interpoliert oder die Eingabelisten verändert, wie es bei einem eifrigen Agenten vorkommt. A1 schließlich ist der Abnahmewert, den die Handrechnung am Prototyp geliefert hat: Er ist unabhängig vom Code des Agenten bekannt und kann deshalb zur Prüfung dienen.
 
-Verweis: Prompt-Struktur aus `03d_AgentischesProgrammieren` (S01).
+Die Spezifikation ist deutlich länger als der ursprüngliche Satz. Sie ist trotzdem kürzer, als es die Fehlersuche wäre, die ohne sie folgt, und sie ist im Gegensatz zu einem Gespräch dauerhaft: Sie kann in einer Datei stehen, die der Agent in einer neuen Sitzung wieder liest. Anthropic empfiehlt das ausdrücklich: Nach einem fertigen Spezifikationsdokument beginnt man für die Umsetzung eine frische Sitzung, deren Kontext ganz auf der Umsetzung liegt.
 %%/book
 
+%%slide_ref @anthropic2026bestpractices Anthropic: Best practices for Claude Code, 2026
 
-## Von der User Story zum Prompt: Anforderungen
+
+%%## Randbedingungen und Abgrenzung ausdrücklich nennen
 
 %%scol 50 50
-### Akzeptanzkriterium zu Prompt-Bedingung
+### Ohne
 
-- Lädt in unter 2 s wird zu `Ladezeit < 2 s`
-- Alarme rot wird zu `Alarme mit Status "active" rot`
-- Zeitstempel wird zu `Quittierung + UTC-Zeitstempel`
+> „Schreibe eine Funktion mittlerer_wasserstand.“
+
+Offen bleiben:
+
+- welche Bibliotheken erlaubt sind
+- ob die Eingabelisten verändert werden dürfen
+- ob fehlende Werte ergänzt werden sollen
 %%sep
-### Vollständiger Prompt
+### Mit
 
-```
-Erstelle ein Streamlit-Dashboard
-für Sensor-Alarme (Python).
+> „Schreibe nur die Funktion mittlerer_wasserstand in pegel.py. Nur Standardbibliothek. Die Eingabelisten nicht verändern. Fehlende Werte nicht ergänzen. Keine weiteren Dateien anlegen.“
 
-Anforderungen:
-- Ladezeit < 2 s
-- Aktive Alarme rot hervorheben
-- Quittierung + UTC-Zeitstempel
+Jeder Satz verbietet etwas, das ein Agent sonst plausibel tun würde.
+%%/scol
 
-Schreibe pytest-Tests, die diese
-Anforderungen prüfen.
+%%book
+Die häufigste Fehlerart in der Studie ist die verletzte Einschränkung, mit 38,33 % der Episoden. Dabei hatten die Entwickler die Einschränkung ausdrücklich genannt, der Agent hielt sich nicht daran; aufschreiben allein genügt also nicht, die Randbedingungen müssen kurz, dauerhaft verfügbar (siehe die Folie zur Datei CLAUDE.md) und überprüfbar sein (siehe die Folie zur Prüfung). Einschränkungen sind Randbedingungen und Nicht-Ziele, und sie entstehen aus vier Quellen. Technische Randbedingungen betreffen Bibliotheken, Sprachversion und Plattform, Datenrandbedingungen betreffen die Frage, was am Bestand nicht verändert werden darf, Umfangsrandbedingungen betreffen die Dateien und Funktionen, die der Agent anfassen darf, und Prozessrandbedingungen betreffen Vorgaben wie das Verbot, ohne Rückfrage zu committen. Die letzte Fehlerart der Tabelle, die eigenmächtige Erweiterung (10,20 %), hängt damit zusammen: Der Agent fügt etwas hinzu, das niemand verlangt hat, etwa Protokollierung, Zusatzfunktionen oder Umstrukturierungen.
+
+Aus Sicht des Requirements Engineering sind Randbedingungen Anforderungen, die den Lösungsraum beschränken, und sie stammen meist aus Dokumenten und Systemen: aus dem Programmierstandard des Projekts, aus der Schnittstelle zum Warnsystem oder aus dem Verbot, Rohdaten zu ändern. Die Quellen aus dem zweiten Abschnitt liefern sie. Eine Randbedingung, die Sie im Kopf haben, aber nicht aufgeschrieben haben, existiert für den Agenten nicht.
+%%/book
+
+%%slide_ref @tang2026agents Tang et al.: How Coding Agents Fail Their Users, arXiv:2605.29442, 2026
+
+
+%%## Akzeptanzkriterien werden Tests
+
+%%scol 40 60
+### Gegeben, wenn, dann
+
+- A1: Beispieldaten ergeben 2,435 m
+- F2: Fehlwert −999 wird ignoriert
+- F3: weniger als zwei gültige Werte lösen einen Fehler aus
+
+Jedes Kriterium ergibt mindestens einen Test.
+%%sep
+```python
+import pytest
+from pegel import mittlerer_wasserstand
+
+def test_beispieldaten():
+    z, w = [0, 1, 2, 6], [2.30, 2.32, -999.0, 2.60]
+    assert mittlerer_wasserstand(z, w) == pytest.approx(2.435, abs=1e-3)
+
+def test_fehlwert_wird_ignoriert():
+    assert mittlerer_wasserstand([0, 1, 2], [2.0, -999.0, 2.0]) == pytest.approx(2.0)
+
+def test_zu_wenige_werte():
+    with pytest.raises(ValueError):
+        mittlerer_wasserstand([0, 1], [2.0, -999.0])
 ```
 %%/scol
 
-%%tip Merksatz
-Eine präzise Anforderung ist der beste Prompt.
-%%/tip
-
 %%book
-Jedes Akzeptanzkriterium wird direkt in eine Prompt-Bedingung übersetzt. Der resultierende Prompt ist präziser und enthält bereits die Grundlage für die Testspezifikation. Das KI-Werkzeug bekommt ein klares Zielkriterium.
-%%/book
-
-
-%%# Von Anforderungen zu Tests
-
-%%## Von der Anforderung zum Test
-
-%%book
-
-### TL;DR
-
-Dieselbe User Story, die den Prompt erzeugt, liefert auch die Testfälle. Akzeptanzkriterien werden direkt in Unit-Tests übersetzt. Dieser Abschnitt motiviert die vertiefte Behandlung in `08a_UnitTest` (S08).
-
-%%/book
-
-%%scol 50 50
-### „Dashboard lädt in unter 2 s“
+Jedes Akzeptanzkriterium der Spezifikation wird zu mindestens einem Test. Die drei Tests oben prüfen A1, F2 und F3; ein vierter Test, der sicherstellt, dass die Eingabelisten unverändert bleiben, deckt das Nicht-Ziel ab. Zur vollständigen Lösung gehört eine Funktion, die die Tests besteht. Sie steht hier, damit sich alle Beispiele nachvollziehen lassen:
 
 ```python
-def test_dashboard_load_time():
-    start = time.time()
-    dashboard = load_dashboard(
-        sensor_data
-    )
-    elapsed = time.time() - start
-    assert elapsed < 2.0, \
-        f"Zu langsam: {elapsed:.2f}s"
+FEHLWERT = -999.0
+
+def mittlerer_wasserstand(zeiten_h, werte_m):
+    """Zeitgewichteter Mittelwert (Trapezregel) in m."""
+    gueltig = [(t, w) for t, w in zip(zeiten_h, werte_m) if w != FEHLWERT]
+    if len(gueltig) < 2:
+        raise ValueError("mindestens zwei gültige Messwerte nötig")
+    flaeche = sum((t2 - t1) * (w1 + w2) / 2
+                  for (t1, w1), (t2, w2) in zip(gueltig, gueltig[1:]))
+    return flaeche / (gueltig[-1][0] - gueltig[0][0])
 ```
-%%sep
-### „Quittierung mit UTC-Zeitstempel“
 
-```python
-def test_alarm_acknowledgment():
-    alarm = Alarm(
-        sensor_id="S01",
-        level="critical"
-    )
-    alarm.acknowledge(user="jdoe")
-    assert alarm.ack_timestamp \
-        is not None
-    assert alarm.ack_user == "jdoe"
-```
-%%/scol
-
-%%note Wenn die KI einen Test generiert
-1. Prüfe, ob der Test das Akzeptanzkriterium tested und nicht nur die Implementierung. 
-2. Führe den Test gegen die Anforderung aus, nicht nur gegen den Code.
-3. Schreibe den Test vor dem Prompt, dann siehst du sofort, was fehlt.
-4. Nutze bei nicht direkt testbaren Anforderungen ergänzend Inspektion, Analyse oder Demonstration.
-%%/note
-
-%%book
-Der Unit-Test ist die formale Repräsentation vieler Akzeptanzkriterien. Wenn der Test grün ist, ist die zugehörige testbare Anforderung erfüllt. Diese direkte *Traceability* (Rückverfolgbarkeit) von Anforderung über Akzeptanzkriterium bis Test ist der Kern des testgetriebenen Promptings. Nicht alle Anforderungen lassen sich jedoch vollständig in Unit-Tests ausdrücken; manche werden ergänzend durch Review, Analyse oder Beobachtung verifiziert.
-
-Verweis: `08a_UnitTest` (S08) vertieft Unit-Testing mit pytest in Python.
+Beide Codeblöcke wurden mit pytest ausgeführt, alle vier Tests bestehen. Wichtig ist die Reihenfolge: Der Test entsteht aus der Anforderung und nicht aus dem Code des Agenten. Der Agent kann die Tests ausführen und seine Implementierung so lange verbessern, bis sie bestehen; das ist die Prüfung, die er nach Anthropic braucht, um nicht beim bloßen Anschein von „fertig“ stehenzubleiben. Eine vertiefte Behandlung von Unit-Tests folgt in `08a_UnitTest`.
 %%/book
 
+%%slide_ref @fowler2013gwt Fowler: Given When Then, martinfowler.com, 2013
 
-## Test-Driven Prompting
+
+%%## „Fertig“ heißt nicht „erfüllt“
 
 %%scol 50 50
-### Reihenfolge
+### Drei Prüfungen
 
-1. Anforderung formulieren
-2. Akzeptanzkriterien ableiten
-3. Test schreiben (noch kein Code)
-4. Prompt aus Anforderung und Test
-5. KI generiert Code
-6. Test grün, Anforderung erfüllt
+1. Führen Sie die Tests selbst aus.
+2. Lesen Sie die Änderungen gegen die Spezifikation: Wurde etwas hinzugefügt, das dort nicht steht?
+3. Lassen Sie eine zweite Sitzung ohne den bisherigen Verlauf gegen die Spezifikation prüfen.
 %%sep
-### Vorteil
+### Warum
 
-- Der Prompt enthält den Test als Spezifikation
-- Die KI hat ein klares Zielkriterium
-- Verifikation ist objektiv und automatisierbar
-- Anforderung, Prompt und Test bleiben synchron
+22,6 % der Episoden: Der Agent beschreibt sein Ergebnis ungenauer, als es ist.
+
+Ein Prüfer ohne die Vorgeschichte bewertet nur Ergebnis und Kriterien.
 %%/scol
 
 %%book
-Test-Driven Prompting überträgt das Prinzip von Test-Driven Development (TDD) auf den KI-gestützten Entwicklungsprozess: Zuerst den Test schreiben, dann den Prompt formulieren, dann Code generieren lassen. Das Ergebnis ist objektiv verifizierbarer Code, bei dem der Test die Anforderung abbildet.
+Eine ungenaue Selbstauskunft des Agenten betrifft 22,58 % der beobachteten Episoden: Der Agent meldet, die Aufgabe sei erledigt oder getestet, obwohl das nicht stimmt. Die erste Prüfung besteht darin, die Tests selbst auszuführen und die Ausgabe zu lesen; Anthropic empfiehlt, sich vom Agenten Belege zeigen zu lassen, etwa Testausgabe oder Befehl, und nicht nur die Versicherung. Die zweite Prüfung vergleicht die Änderungen mit der Spezifikation, insbesondere mit den Nicht-Zielen, denn eigenmächtige Erweiterungen erkennt man am Unterschied zwischen dem, was geändert wurde, und dem, was verlangt war.
+
+Die dritte Prüfung entspricht dem Grundsatz der Unabhängigkeit aus dem Requirements Engineering: Wer an der Erhebung beteiligt war, hat blinde Flecken, und ein unabhängiger Prüfer findet mehr und schwerere Mängel. Nach Anthropic sieht ein Prüfer in einem frischen Kontext nur die Änderungen und die genannten Kriterien, nicht die Überlegungen, die zur Änderung geführt haben, und bewertet das Ergebnis daher für sich. Der Prüfauftrag sollte nur Abweichungen von den Anforderungen melden, die Korrektheit betreffen, denn ein Prüfer, der Lücken finden soll, findet fast immer welche und verleitet zu Überarbeitungen, die niemand braucht.
 %%/book
 
+%%slide_ref @anthropic2026bestpractices Anthropic: Best practices for Claude Code, Abschnitt „Add an adversarial review step“, 2026
+%%slide_ref @tang2026agents Tang et al.: How Coding Agents Fail Their Users, arXiv:2605.29442, 2026
 
-%%# Das Traceability-Dreieck
+
+%%## Dauerhafter Kontext: die Datei CLAUDE.md
+
+%%scol 50 50
+### Gehört hinein
+
+- Befehle, die der Agent nicht erraten kann
+- Regeln, die vom Standard abweichen
+- Entscheidungen des Projekts
+- Konventionen, die niemand erwähnt
+
+### Gehört nicht hinein
+
+- Was der Agent aus dem Code lesen kann
+- Lange Erklärungen
+- Häufig Wechselndes
+%%sep
+```
+# Pegelauswertung (Beispiel)
+- Wasserstände in Metern über Pegelnull.
+- Der Wert -999 bedeutet: Messwert fehlt.
+- Zeiten in Stunden, aufsteigend sortiert.
+- Tests mit: pytest
+- Eingabedaten nie verändern.
+```
+%%/scol
+
+%%book
+Die Datei CLAUDE.md liest der Agent zu Beginn jeder Sitzung. Nach Anthropic enthält sie, was der Agent aus dem Code nicht ableiten kann: Befehle, abweichende Regeln und Entscheidungen des Projekts. Sie soll kurz sein, denn zu lange Dateien führen dazu, dass der Agent Teile ignoriert; für jede Zeile sollte man fragen, ob ihr Fehlen den Agenten zu Fehlern veranlassen würde. Für Anforderungen ist die Datei der richtige Ort für die Basismerkmale aus der Kano-Betrachtung: Die Konvention, dass −999 ein Ausfall ist, gilt für das ganze Projekt und gehört deshalb dauerhaft in die Datei, während die einzelne Funktion in der Spezifikation beschrieben wird. Der Inhalt des Beispiels ist erfunden und zeigt nur das Muster.
+
+Der Unterschied zur Spezifikation ist der Geltungsbereich. Die Spezifikation beschreibt eine bestimmte Aufgabe und endet mit ihr, die Projektdatei beschreibt Regeln für alle Aufgaben. Wer beides vermischt, bekommt eine überlange Datei und Spezifikationen, die Konventionen wiederholen.
+%%/book
+
+%%slide_ref @anthropic2026bestpractices Anthropic: Best practices for Claude Code, Abschnitt „Write an effective CLAUDE.md“, 2026
+
+
+%%## Den Agenten fragen lassen
+
+%%scol 50 50
+### Vor dem Code
+
+> „Ich will [Beschreibung]. Interviewe mich ausführlich. Frage nach Randfällen und Zielkonflikten, nicht nach Offensichtlichem. Schreibe danach eine vollständige Spezifikation in SPEC.md.“
+
+Die Spezifikation prüfen Sie gegen Ihre Checklisten.
+%%sep
+### Grenzen
+
+Im Benchmark ReqElicitGym erreicht das beste von sieben Modellen einen Anteil von 0,32 der impliziten Anforderungen, das niedrigste 0,08. Anforderungen zum Stil erreichen fast 0.
+%%/scol
+
+%%book
+Weil Agenten ohne Aufforderung nicht nachfragen, empfiehlt Anthropic, sie bei größeren Vorhaben ausdrücklich zum Interview aufzufordern: Der Agent fragt dann nach Randfällen, Abwägungen und Dingen, an die man noch nicht gedacht hat, und schreibt das Ergebnis in eine Spezifikationsdatei. Das ist ein sinnvoller Einstieg, und die Spezifikation liefert eine Grundlage für die Prüfung. Sie ersetzt aber nicht die Ermittlung aus dem zweiten Abschnitt, denn der Agent kann nur nach dem fragen, was er sich vorstellen kann, und sieht weder die Messstation noch die Messvorschrift.
+
+Wie begrenzt das ist, zeigt der Benchmark ReqElicitGym, in dem Sprachmodelle in Dialogen mit einem simulierten Nutzer implizite Anforderungen von 101 Webseiten-Szenarien aufdecken sollen. Das beste der sieben getesteten Modelle deckt nur 0,32 der impliziten Anforderungen auf, Claude Opus 4.5 deckt in der Einstellung ohne Zwischenschritt 0,08 auf, und Anforderungen zum Stil liegen bei fast allen Modellen unter 0,01. Die Modelle stellen überwiegend vertiefende statt klärende Fragen. Die Ergebnisse stammen aus simulierten Gesprächen über Webseiten, nicht aus Ingenieuraufgaben. Als Schlussfolgerung gilt: Der Agent unterstützt das Fragen, die Vollständigkeit prüfen Sie.
+%%/book
+
+%%slide_ref @anthropic2026bestpractices Anthropic: Best practices for Claude Code, 2026
+%%slide_ref @jin2026reqelicitgym Jin et al.: ReqElicitGym, arXiv:2602.18306, 2026
+
 
 %%## Traceability-Dreieck
-
-%%book
-
-### TL;DR
-
-Anforderung, Prompt und Test sind keine unabhängigen Artefakte, sie bilden ein Traceability-Dreieck. Änderungen an einem Element müssen die anderen beiden mitberücksichtigen.
-
-%%/book
 
 %%scol 55 45
 ![](images/04a_Anforderungen/traceability.svg){.nostretch fig-align="center" width="100%"}
 %%sep
 ### Regel
 
-Ändert sich die Anforderung, müssen Prompt und Test angepasst werden.
+Ändert sich die Anforderung, werden Prompt und Test angepasst.
 
-Ändert sich der Test, müssen Anforderung und Prompt geprüft werden.
+Ändert sich der Test, werden Anforderung und Prompt geprüft.
 
 Kein Test und kein Prompt ohne Anforderung.
 %%/scol
 
-%%tip Merksatz
-Das Dreieck ist vollständig, wenn jede Anforderung einen Prompt und einen Test hat und jede Änderung alle drei aktualisiert.
-%%/tip
-
 %%book
-Das Traceability-Dreieck ist das zentrale Konzept dieser Vorlesung: Anforderung, Prompt und Test sind drei Seiten desselben Dreiecks.
+Rückverfolgbarkeit ist nach dem IREB-Handbuch ein Kriterium für Spezifikationen: Jede Anforderung lässt sich zu ihrem Ursprung, zur Umsetzung in Entwurf, Code und Test und zu abhängigen Anforderungen verfolgen. Für die Arbeit mit Agenten bilden Anforderung, Prompt und Test ein Dreieck. Die Anforderung liefert Ziel und Kontext des Prompts und die Akzeptanzkriterien des Tests, und der Test prüft, was der Prompt erzeugt hat. Ändert sich eine Seite, müssen die beiden anderen geprüft werden, sonst driften sie auseinander: Ein Agent, der mit einem veralteten Prompt arbeitet, erfüllt eine Anforderung, die es nicht mehr gibt, und ein Test, der die alte Anforderung prüft, meldet einen Fehler, der keiner ist.
 
 | Artefakt | Quelle | Werkzeug |
 |----------|--------|----------|
-| Anforderung | Stakeholder | User Story |
+| Anforderung | Stakeholder, Dokumente, Systeme | Spezifikation, User Story |
 | Prompt | Anforderung | Claude Code |
 | Test | Akzeptanzkriterium | pytest |
 
-In der Praxis ist dieses Dreieck jedoch nie automatisch stabil. Prompts, Tests und Anforderungen driften im Projektalltag auseinander; deshalb braucht Traceability regelmäßige Reviews und kurze Audits, um Lücken sichtbar zu machen.
-
-Querverweise:
-
-- `03d_AgentischesProgrammieren` (S01): Prompt-Struktur, die hier angewendet wird
-- `03c_Softwareentwurf` (S03): Anforderungen gehen dem Entwurf voraus
-- `04b_Programmablauf` (S04): Flussdiagramme operationalisieren Anforderungen
-- `08a_UnitTest` (S08): Unit-Tests als formale Verifikationsschicht
+In der Praxis stellt sich diese Übereinstimmung nicht von selbst ein. Sie braucht kurze, regelmäßige Prüfungen, etwa nach jeder Änderung der Spezifikation. Querverweise: `03c_Softwareentwurf` behandelt die Anforderungsdefinition als erste Phase der Softwareentwicklung, `04b_Programmablauf` zeigt, wie Flussdiagramme Anforderungen in Abläufe überführen, `04c_Objects` überträgt sie in Klassendiagramme, und `08a_UnitTest` vertieft die Tests als Verifikationsschicht.
 %%/book
 
+%%slide_ref @glinz2022ireb Glinz et al.: IREB CPRE Foundation Level Handbook, Abschnitt 3.8, 2022
+
+
+## Übung: Anforderungen für die Verkehrsstärke {background-color="#D9FF66"}
+
+%%scol 50 50
+### Auftrag
+
+> „Berechne die Verkehrsstärke einer Zählstelle.“
+
+Eine Zählschleife liefert eine Liste von Zeitstempeln, einen je Fahrzeug.
+%%sep
+### Aufgabe
+
+1. Nennen Sie je Fehlerart eine Lücke im Auftrag.
+2. Schreiben Sie drei Anforderungen mit Satzschablonen.
+3. Formulieren Sie ein Akzeptanzkriterium in der Form gegeben, wenn, dann.
+4. Nennen Sie eine Randbedingung und ein Nicht-Ziel.
+%%/scol
+
+%%book
+Die Übung wendet die Methoden des Kapitels auf eine neue Aufgabe an. Die Verkehrsstärke ist die Zahl der Fahrzeuge, die einen Querschnitt je Zeiteinheit passieren. Der Auftrag lässt, wie der erste Satz des Kapitels, viel offen. Gehen Sie die vier Fehlerarten durch: Was könnte der Agent falsch verstehen, welche Einschränkung könnte er verletzen, wie würden Sie sein „fertig“ prüfen, und was könnte er eigenmächtig ergänzen? Die Lösung steht auf der nächsten Folie.
+%%/book
+
+
+## Lösung: Verkehrsstärke
+
+%%scol 50 50
+### Lücken
+
+- Bezugszeitraum: Stunde, Tag?
+- Fahrzeugarten und Fahrtrichtung
+- Ausfall der Schleife, doppelte Zeitstempel
+- Ausgabe: Zahl, Einheit
+
+### Mögliche Festlegung
+
+- WENN ein Zeitraum von einer Stunde angegeben ist, muss die Funktion die Zahl der Zeitstempel dieses Zeitraums als Fahrzeuge je Stunde ausgeben.
+- FALLS im Zeitraum kein Zeitstempel liegt, DANN muss sie 0 ausgeben.
+- FALLS ein Zeitstempel ungültig ist, DANN muss sie einen ValueError auslösen.
+%%sep
+### Prüfung und Abgrenzung
+
+- Gegeben Zeitstempel 07:05, 07:20, 07:40, 08:10, wenn der Zeitraum 07:00 bis 08:00 gilt, dann ergibt sich 3 Fahrzeuge je Stunde.
+- Randbedingung: nur Standardbibliothek, Zeitstempel im ISO-Format.
+- Nicht-Ziel: keine Unterscheidung nach Fahrzeugart oder Richtung.
+%%/scol
+
+%%book
+Die Lösung zeigt eine mögliche Festlegung; andere sind gleichwertig, solange sie entschieden und aufgeschrieben sind. Die Lücken entsprechen den Fehlerarten: Der Bezugszeitraum und die Ausgabe betreffen die Absicht, die Zählung nach Fahrzeugart oder Richtung ist eine Frage des Umfangs, und der Ausfall der Schleife oder doppelte Zeitstempel sind Fehlerfälle, die erst die Schablone FALLS … DANN sichtbar macht. Das Akzeptanzkriterium ist nachgerechnet: Von den vier Zeitstempeln liegen drei zwischen 07:00 und 08:00 Uhr. Zu beachten ist, dass die Festlegungen Entscheidungen sind und keine Tatsachen. Ob doppelte Zeitstempel einmal oder zweimal zählen, muss der Auftraggeber entscheiden, und genau diese Rückfrage kann der Agent nicht stellen.
+%%/book
+
+
+## Lessons Learned
+
+%%note Anforderungen für Agenten
+Ein Agent füllt jede Lücke im Prompt mit einer plausiblen Annahme. Schließen Sie die Lücken vorher: ermitteln Sie Anforderungen aus Stakeholdern, Dokumenten und Systemen, legen Sie sie mit Schablonen fest, grenzen Sie Randbedingungen und Umfang ab, und schreiben Sie die Akzeptanzkriterien als Tests, bevor der Agent beginnt.
+%%/note
+
+%%book
+Das Kapitel hat gezeigt, warum Anforderungen bei der Arbeit mit Agenten wichtiger werden. Der Agent kennt die Konventionen des Projekts nicht, fragt nicht nach und meldet fertig, wenn das Ergebnis fertig aussieht. Die Methoden des Requirements Engineering, die das IREB-Handbuch zusammenfasst, liefern dagegen eine Reihenfolge: ermitteln (Quellen und Techniken), festlegen (Arten, Qualitätskriterien, Schablonen, Konflikte, Validierung) und für den Agenten aufbereiten (Spezifikation, Randbedingungen, Tests, Prüfung, dauerhafter Kontext). Die vier beobachteten Fehlerarten dienen als Prüfliste für jede Spezifikation.
+%%/book
+
+
+%%references
 
 %%final
