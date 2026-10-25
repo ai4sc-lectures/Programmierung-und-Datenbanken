@@ -43,16 +43,15 @@
 
 Connects programming to software engineering practice. Moved to S03 — before any
 programming content — to establish that design precedes implementation. Substantially
-expanded: the agentic dev loop is added as a fourth process model; UML class diagram
-notation is introduced here to prepare object design in S04.
+expanded: the agentic dev loop is added as a fourth process model. UML class diagram
+notation and the BIM worked example live in `04c_Objects` (S04), not here.
 
 #### Main topics
 
 - Software development phases: requirements → design → implementation → test
 - Waterfall, V-model, and agile development processes
 - **[ADDED]** Agentic dev loop as a fourth process model
-- **[ADDED]** UML class diagram notation (prerequisite for S04 `04c_Objects`)
-- **[ADDED]** BIM worked example: requirement → UML → AI prompt → verify
+- **[MOVED]** UML class diagram notation and BIM worked example → `04c_Objects` (S04)
 - **[REMOVED]** 6 revision slides reviewing OOP/datatypes (not yet taught at this point)
 
 #### Key takeaways
@@ -60,7 +59,6 @@ notation is introduced here to prepare object design in S04.
 - Good software begins with explicit design before any code is written.
 - The agentic loop (prompt → generate → verify → iterate) is a modern process model
   where AI is the implementer.
-- UML class diagrams are the language for expressing what you want before you prompt.
 
 #### Change Notes
 
@@ -70,12 +68,6 @@ notation is introduced here to prepare object design in S04.
 - Agentic dev loop as a process model (~5 slides): prompt = requirements spec;
   generate = implementation sprint; verify = test suite; iterate = next sprint.
   Compare rhythm and risk with waterfall and agile.
-- UML class diagrams (~5 slides): class notation, typed attributes, methods with
-  signatures, association and inheritance arrows. Enough to draw a simple domain
-  model.
-- BIM worked example (~3 slides): "A building has rooms. Each room has a name, area,
-  and list of windows." → requirement → UML → AI prompt → generated Python code →
-  verify against diagram.
 
 **Content to REMOVE or REDUCE**:
 - REMOVE 6 revision slides reviewing OOP and data types. These assume knowledge not
@@ -89,11 +81,10 @@ notation is introduced here to prepare object design in S04.
 - The agentic dev loop slide explicitly maps the cycle from `03d_AgentischesProgrammieren`
   onto project management rhythm.
 
-**Symbols to add**: 📋 on requirements slides; ⇄ on UML relationship diagrams;
-⚙ on method notation; 🔄 on process model comparison.
+**Symbols to add**: 📋 on requirements slides; 🔄 on process model comparison.
 
 **Cross-references**:
 - → `03b_Softwarearchitektur` (S03): architecture precedes design; this is the design
   step
-- → `04c_Objects` design view (S04): UML introduced here is applied there
+- → `04c_Objects` design view (S04): UML class diagrams for the design step
 - → `04a_Anforderungen` (S04): requirements engineering detail follows

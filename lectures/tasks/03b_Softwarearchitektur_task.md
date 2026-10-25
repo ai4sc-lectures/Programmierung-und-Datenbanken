@@ -78,4 +78,4 @@ preparing students for process models and design tools in `03c_Softwareentwurf`.
 
 **Cross-references**:
 - → `02a_Wissenspyramide` (S03): information layer of the pyramid = architecture
-- → `03c_Softwareentwurf` (S03): process models and UML are the design tools
+- → `03c_Softwareentwurf` (S03): process models are the design tools; UML follows in `04c_Objects` (S04)

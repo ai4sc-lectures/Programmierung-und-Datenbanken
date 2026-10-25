@@ -88,6 +88,6 @@ Block 2. An environmental monitoring ER example replaces abstract academic examp
 📋 on "ER to prompt" slide.
 
 **Cross-references**:
-- → `03c_Softwareentwurf` (S03): UML introduced there — same modeling spirit
+- → `04c_Objects` (S04): UML introduced there — same modeling spirit
 - → `13a_RelationaleDatenbanken` (S13): relational concepts implement the ER design
 - → `13b_Datenbanken_SQL_Select` (S13): SQL queries work on tables designed here

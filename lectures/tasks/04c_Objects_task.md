@@ -56,6 +56,9 @@ Python syntax. "Design before you prompt."
 - Associations, aggregation, composition
 - Worked example: BIM element hierarchy (Building → Floor → Room → Window)
 - **[ADDED]** UML class diagram as the design artifact for an AI prompt
+- **[MOVED from 03c]** UML class diagram notation: class box, typed attributes,
+  methods with signatures, references, multiplicity, inheritance
+- **[MOVED from 03c]** BIM worked example: requirement → UML → AI prompt → verify; IFC
 
 #### Key takeaways
 
@@ -71,7 +74,8 @@ Python syntax. "Design before you prompt."
   We are learning to think in objects."
 - "Design before you prompt" section (~3 slides): UML class diagram → structured
   prompt → AI generates Python class → verify against diagram.
-- Connect to UML notation introduced in `03c_Softwareentwurf` (S03).
+- UML class diagram notation (moved from `03c_Softwareentwurf`): class notation, typed
+  attributes, methods with signatures, references, multiplicity, inheritance arrows.
 
 **Content to REMOVE or REDUCE**:
 - For this view: REDUCE Python syntax slides to near zero — move to S06 implementation
@@ -89,6 +93,6 @@ Python syntax. "Design before you prompt."
 📋 on "design before prompt" slide.
 
 **Cross-references**:
-- → `03c_Softwareentwurf` (S03): UML notation introduced there
+- → `03c_Softwareentwurf` (S03): process models; design precedes implementation
 - → `04c_Objects` implementation view (S06): Python syntax for same concepts
 - → `08a_UnitTest` (S08): tests verify implemented class matches design
