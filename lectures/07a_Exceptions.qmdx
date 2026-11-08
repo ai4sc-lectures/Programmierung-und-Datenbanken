@@ -10,8 +10,6 @@ format:
     output-file: 07a_Exceptions.slide.html
   typst:
     output-file: 07a_Exceptions.page.pdf
-resources:
-  - data/07a_Exceptions
 ---
 
 %%book
@@ -77,6 +75,10 @@ Zeichen formen die Basis und das Wissen die Spitze der Pyramide.
 
 
 # Exceptions
+
+### TL;DR
+
+KI-generierter Code enthält oft stillschweigende Annahmen über Eingaben und Rückgabewerte. Eine Exception zeigt, welche dieser Annahmen verletzt wurde, und der Traceback zeigt den Aufrufpfad bis zu dieser Stelle. Wir lernen, Tracebacks zu lesen, Vorbedingungen mit Guard Clauses explizit zu prüfen und Exceptions mit `try-except` und `raise` gezielt zu behandeln. Die Fehlerklassen (lexikalisch, syntaktisch, semantisch, logisch) ordnen ein, welche Fehler wie behandelt werden.
 
 %%/book
 
@@ -185,6 +187,7 @@ TypeError: 'NoneType' object is not iterable ← Verletzte Annahme
 
 
 ## Traceback lesen: Beispiel zum KI-Fehler
+
 1. **Aufrufpfad:** `<module>` → `berechne_mittleren_durchfluss()` — von oben nach unten.
 2. **Absturzstelle:** In `berechne_mittleren_durchfluss()` wurde `sum(messungen)` aufgerufen.
 3. **Exception:** `TypeError: 'NoneType' object is not iterable` — `sum()` erhielt kein iterierbares Objekt.
@@ -723,9 +726,11 @@ except RecursionError as e:
 
 
 ## Exceptions steigen im Aufrufstapel auf
+
 %%col 50 50
 
-```python
+```{python}
+#| echo: true
 def factorial_recursiv(x, depth=1):
     if depth > 20:
         raise RecursionError("Recursion zu tief")
@@ -733,15 +738,18 @@ def factorial_recursiv(x, depth=1):
         return x * factorial_recursiv(x-1, depth+1)
     else:
         return 1
+```
 
-factorial_recursiv(21)
+```{python}
+#| echo: true
+factorial_recursiv(20)
 ```
 
 %%sep
 
 - Jeder Aufruf legt einen Frame auf den Stack
-- Die Exception wird im tiefsten Aufruf ausgelöst und steigt Frame für Frame nach oben
-- Wird sie nirgends abgefangen, listet der Traceback alle Frames bis zur Auslösung
+- `factorial_recursiv(21)` löst die Exception im 21. Aufruf aus
+- Sie steigt Frame für Frame nach oben; ohne `try-except` listet der Traceback alle Frames
 
 %%/col
 
@@ -749,34 +757,7 @@ factorial_recursiv(21)
 
 %%book
 
-Der Traceback ist der eingefrorene Aufrufstapel: Er listet alle Funktionsaufrufe vom Start bis zu der Stelle, an der die Exception ausgelöst wurde. Das Beispiel `factorial_recursiv(21)` zeigt das mit der bewusst kleinen Rekursionsgrenze 20.
-
-%%/book
-
-%%slides
-
-
-## Typisiert abfangen mit `try-except`
-
-```python
-zaehler = 'keine_zahl'
-nenner = 0
-ergebnis = None
-try:
-    ergebnis = zaehler / nenner
-except TypeError as e:
-    print(f"Zaehler oder Nenner nicht vom Datentyp `int`")
-except ZeroDivisionError as e:
-    print("Teilung durch 0")
-
-print(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
-```
-
-%%/slides
-
-%%book
-
-Auf der Folie wird dasselbe Beispiel wie oben gezeigt: Jede bekannte Exception erhält einen eigenen `except`-Zweig mit spezifischer Meldung. Guard Clauses und `try-except` ergänzen sich.
+Exceptions steigen im Aufrufstapel nach oben, bis ein `except` sie abfängt. Wird sie nirgends abgefangen, beendet sie das Programm, und der Traceback zeigt den eingefrorenen Stack: alle Funktionsaufrufe vom Start bis zu der Stelle, an der die Exception ausgelöst wurde. Das Beispiel `factorial_recursiv` hat mit der Grenze `depth > 20` eine bewusst kleine Rekursionsgrenze. Beim Aufruf mit 20 ist das Ergebnis korrekt, beim Aufruf mit 21 wird die Exception im 21. Aufruf ausgelöst, wie die Beispiele im folgenden Abschnitt zeigen.
 
 %%/book
 
