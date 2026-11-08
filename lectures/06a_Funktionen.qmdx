@@ -191,15 +191,24 @@ def funktionsname(arg1, arg2): # <- Name ist wählbar, arg1 und arg2 sind Parame
 %%slides
 
 
-## Beispiel – Verdopplung eines Werts
+## Beispiel – Mittelwert einer Messreihe
 
 %%col 50 50
 
 Direkte Berechnung
 
 ```python
-zahl = 4
-ergebnis = zahl * 2   # 8
+temp_a = [12.1, 13.4, 11.8, 14.0]
+summe = 0
+for t in temp_a:
+    summe += t
+mittel_a = summe / len(temp_a)   # 12.825
+
+temp_b = [9.5, 10.2, 8.9]
+summe = 0
+for t in temp_b:
+    summe += t
+mittel_b = summe / len(temp_b)   # 9.533...
 ```
 
 %%sep
@@ -207,15 +216,14 @@ ergebnis = zahl * 2   # 8
 Als Funktion gekapselt
 
 ```python
-def verdopple(zahl):
-    return zahl * 2
+def mittelwert(werte):
+    summe = 0
+    for wert in werte:
+        summe += wert
+    return summe / len(werte)
 
-ergebnis = verdopple(4)   # 8
-ergebnis = verdopple(7)   # 14
-
-# Alternative (nur für int): Bit-Shift nach links
-def verdopple_shift(zahl):
-    return zahl << 1
+mittel_a = mittelwert([12.1, 13.4, 11.8, 14.0])  # 12.825
+mittel_b = mittelwert([9.5, 10.2, 8.9])          # 9.533...
 ```
 
 %%/col
@@ -242,7 +250,7 @@ x = distance(a1, a2, b1, b2)  # 5.0
 
 %%book
 
-Die Funktion `verdopple(zahl)` kapselt die Rechnung `zahl * 2` und lässt sich mit verschiedenen Argumenten aufrufen: `verdopple(4)` ergibt 8, `verdopple(7)` ergibt 14. Die Bit-Shift-Variante `zahl << 1` funktioniert nur für `int`, nicht für `float`. Die Funktion `distance(a1, a2, b1, b2)` berechnet den euklidischen Abstand zweier Punkte; für die Punkte (2, 3) und (6, 6) ergibt sich 5.0.
+Die Funktion `mittelwert(werte)` kapselt die Schleife, die eine Messreihe aufsummiert und durch die Anzahl der Werte teilt. Ohne Funktion steht diese Schleife für jede Messreihe erneut im Programm; mit Funktion genügt ein Aufruf je Reihe: `mittelwert([12.1, 13.4, 11.8, 14.0])` ergibt 12.825, `mittelwert([9.5, 10.2, 8.9])` ergibt etwa 9.53. Die Funktion `distance(a1, a2, b1, b2)` berechnet den euklidischen Abstand zweier Punkte; für die Punkte (2, 3) und (6, 6) ergibt sich 5.0.
 
 %%/book
 
