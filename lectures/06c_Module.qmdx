@@ -38,6 +38,12 @@ resources:
 
 %%book
 
+In dieser Einheit lernen wir, wie Python-Programme auf Dateien, Module und Packages verteilt werden und wie wir KI-generierte Module prüfen: Interface, private Helfer und Imports.
+
+%%/book
+
+%%book
+
 
 ## Projektstruktur als Architekturentscheidung
 
@@ -108,7 +114,7 @@ Die Summe aller Module formt dann ein *Package*. In diesem Fall das Package `geo
 
 %%col 50 50
 
-{{< ai4sc-icon folder >}} Ein *Modul* ist eine `.py`-Datei, ein *Package* ein Verzeichnis aus Modulen.
+Ein *Modul* ist eine `.py`-Datei, ein *Package* ein Verzeichnis aus Modulen.
 
 Eine Datei pro:
 
@@ -120,7 +126,7 @@ Modulgrenzen sind Architekturentscheidungen. Klassen in Modulen: → `04c_Object
 
 %%sep
 
-![](images/06c_Module/tree_geometry.svg){.nostretch fig-align="center" width="100%"}
+![](images/06c_Module/tree_geometry.svg){.nostretch fig-align="center" width="65%"}
 
 %%/col
 
@@ -133,7 +139,7 @@ Modulgrenzen sind Architekturentscheidungen. Klassen in Modulen: → `04c_Object
 
 %%col 50 50
 
-*{{< ai4sc-icon folder >}} Allgemeine Struktur*
+*Allgemeine Struktur*
 
 ![](images/06c_Module/tree_main_import.svg){.nostretch fig-align="center" width="100%"}
 
@@ -170,7 +176,7 @@ import geometry
 
 %%col 55 45
 
-{{< ai4sc-icon folder >}} KI liefert Code auf Modulebene:
+KI liefert Code auf Modulebene:
 
 - Ein Prompt → eine `.py`-Datei
 - Klares *öffentliches Interface*: die Funktionen und Klassen, die andere Module nutzen
@@ -206,9 +212,9 @@ Damit ist die Modulgrenze eine Architekturgrenze. Vor dem Übernehmen eines gene
 
 %%col 45 55
 
-*{{< ai4sc-icon square-function >}} Schritt 1: Anforderung formulieren*
+*Schritt 1: Anforderung formulieren*
 
-> „Schreibe `sensor_processing.py` mit einer Funktion `clean_readings(values: list[float]) -> list[float]`, die Ausreißer entfernt (Werte außerhalb 2σ).“
+> „Schreibe `sensor_processing.py` mit einer {{< ai4sc-icon square-function >}} Funktion `clean_readings(values: list[float]) -> list[float]`, die Ausreißer entfernt (Werte außerhalb 2σ).“
 
 `list[float]` ist eine Typangabe: Die Funktion erwartet eine Liste aus Fließkommazahlen und liefert wieder eine solche Liste.
 
@@ -264,7 +270,7 @@ def _is_outlier(value: float, mean: float, std: float) -> bool:
 
 %%col 50 50
 
-*{{< ai4sc-icon square-function >}} Interface und Struktur*
+*Interface und Struktur*
 
 1. Ist das öffentliche Interface das, was wir spezifiziert haben? Ja: Name und Typen stimmen.
 2. Sind interne Helfer privat? `_is_outlier` ja, wird aber nie aufgerufen (toter Code).
@@ -545,7 +551,7 @@ from external_file import external_function as ext_func
 
 %%col 50 50
 
-- {{< ai4sc-icon folder >}} *Modul:* eine importierte `.py`-Datei, z.B. `ImmutablePoint.py`
+- *Modul:* eine importierte `.py`-Datei, z.B. `ImmutablePoint.py`
 - *Namespace:* das entstehende Objekt (Typ `module`)
 - *Package:* ein Verzeichnis mit Modulen und Untermodulen, z.B. `geometry`
 
@@ -873,6 +879,12 @@ Die Konvention mit führendem Unterstrich (`_helper`) sagt also: "intern gedacht
 
 %%/slides
 
+%%book
+
+Die Slides zeigen acht Standardpakete aus der obigen Tabelle, die wir im Projekt am häufigsten brauchen.
+
+%%/book
+
 %%slides
 
 
@@ -885,21 +897,21 @@ Die Konvention mit führendem Unterstrich (`_helper`) sagt also: "intern gedacht
 3. `plotly`: Liniendiagramm Tmin/Tmax
 4. `dash`: optional im Browser anzeigen
 
+`pandas`, `plotly` und `dash` stammen aus PyPI: installieren und dokumentieren.
+
 %%sep
 
-```python
-df = pd.DataFrame(wetter[stationID]['days'])
-fig = px.line(df, x="dayDate",
-              y=["temperatureMin", "temperatureMax"])
-```
+![](images/06c_Module/wetter.png){.nostretch fig-align="center" width="100%"}
 
 %%/col
 
-%%note Abhängigkeiten dokumentieren
-`pandas`, `plotly` und `dash` stammen aus PyPI: installieren und in `requirements.txt` oder `pyproject.toml` festhalten.
-%%/note
-
 %%/slides
+
+%%book
+
+Die Wetterdaten zeigen, wie Packages zusammenspielen: `urllib` und `json` laden die Daten, `pandas` macht daraus eine Tabelle, `plotly` zeichnet das Diagramm und `dash` zeigt es optional im Browser. `pandas`, `plotly` und `dash` stammen von PyPI und müssen dokumentiert werden.
+
+%%/book
 
 %%slides
 
@@ -908,7 +920,7 @@ fig = px.line(df, x="dayDate",
 
 %%col 50 50
 
-- {{< ai4sc-icon square-function >}} `_name`: Konvention für "intern gedacht"
+- `_name`: Konvention für "intern gedacht"
 - `__all__`: legt fest, was `from modul import *` exportiert
 - Kleines, bewusstes Interface = leichter zu prüfen
 
@@ -922,6 +934,12 @@ __all__ = ["Line", "Triangle", "Polygon"]
 %%/col
 
 %%/slides
+
+%%book
+
+Der führende Unterstrich markiert interne Helfer. Mit `__all__` legen wir zusätzlich ausdrücklich fest, was ein Package nach außen anbietet. Ein kleines Interface ist leichter zu prüfen.
+
+%%/book
 
 %%book
 
@@ -961,24 +979,23 @@ Gerade in Teamprojekten und bei KI-generiertem Code sollte man deshalb immer pr�
 %%slides
 
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Die KI liefert eine Datei utils.py mit Laden, Prüfen und Plotten. Wie teilen Sie sie in Module auf?" capR="Midjourney: Modular Blocks, ref. Piet Mondrian" imgR="images/06c_Module/mj_title_band.jpg"}
+## Lesson Learned {background="#66ccffff" cols40x60 txtL="Wie priorisiert man richtig?" capR="„I have two kinds of problems, the urgent and the important. The urgent are not important, and the important are never urgent.“, Eisenhower" imgR="images/06c_Module/eisenhower.jpg"}
 
 %%/slides
 
 %%slides
 
 
-## Lesson Learned: Modulgrenzen
+## Lesson Learned - Priorisierung
 
 %%col 50 50
 
-- Modulgrenzen sind Architekturgrenzen
-- Ein Prompt → ein Modul mit klarem Interface
-- Prüfen: Interface, private Helfer, Imports, Abhängigkeiten
+- Beim Eisenhower-Schema unterteilt man in dringend und wichtig
+- Man bearbeitet zuerst die dringenden, wichtigen
 
 %%sep
 
-![](images/06c_Module/tree_sensor_project.svg){.nostretch fig-align="center" width="80%"}
+![](images/06c_Module/priotisierung.svg){class="midjourney"}
 
 %%/col
 
