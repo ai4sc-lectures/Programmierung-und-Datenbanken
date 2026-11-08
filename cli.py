@@ -27,3 +27,6 @@ def serve() -> None:
 
 def publish() -> None:
     _run("publish")
+
+def update() -> None:
+    _run("update")
