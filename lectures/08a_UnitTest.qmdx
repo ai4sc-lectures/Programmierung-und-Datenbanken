@@ -76,13 +76,13 @@ def division(zaehler, nenner):
 4. Fehlerbehandlung
 5. Fehlerausschluss
 
-Heute: Vermeidung und Erkennung durch *Tests*. Behebung und Behandlung siehe `07b_Debugging` und `07a_Exceptions`.
+Schwerpunkt: Vermeidung und Erkennung durch *Tests*. Behebung, Behandlung und Ausschluss folgen als Rückblick.
 
 %%/slides
 
 %%book
 
-Für den Umgang mit Programmfehlern unterscheidet man fünf Strategien: Fehlervermeidung, Fehlererkennung, Fehlerbehebung, Fehlerbehandlung und Fehlerausschluss. In diesem Kapitel behandeln wir Vermeidung und Erkennung durch Tests. Die Fehlerbehebung haben wir in `07b_Debugging` besprochen, die Fehlerbehandlung mit Exceptions in `07a_Exceptions`.
+Für den Umgang mit Programmfehlern unterscheidet man fünf Strategien: Fehlervermeidung, Fehlererkennung, Fehlerbehebung, Fehlerbehandlung und Fehlerausschluss. In diesem Kapitel behandeln wir Vermeidung und Erkennung durch Tests; Fehlerbehebung, Fehlerbehandlung und Fehlerausschluss fassen wir am Ende zusammen. Vertiefungen stehen in `07b_Debugging` und `07a_Exceptions`.
 
 %%/book
 
@@ -908,6 +908,299 @@ Wenn Tests fehlschlagen, beginnt der nächste Schritt der Verifikation: das syst
 
 %%/book
 
+
+%%slides
+
+
+## 3. Fehlerbehebung - Grundlagen
+%%def Debugging
+Debugging ist das systematische Suchen und Beheben von Fehlern.
+%%/def
+
+- Methoden:
+    - Logging-Nachrichten zur Verfolgung des Programmflusses
+    - Debugger für detaillierte Analyse
+
+- Debugger-Funktionen:
+    - Schrittweise Ausführung von Codezeilen
+    - Überwachen von Variablenwerten
+    - Dynamisches Einfügen von Code
+
+%%/slides
+
+%%book
+
+Debugging ist das systematische Suchen und Beheben von Fehlern. Methoden sind Logging-Nachrichten zur Verfolgung des Programmflusses und Debugger für die detaillierte Analyse. Ein Debugger erlaubt die schrittweise Ausführung von Codezeilen, das Überwachen von Variablenwerten und das dynamische Einfügen von Code.
+
+%%/book
+
+%%slides
+
+
+## 3. Fehlerbehebung - In Python
+
+- Das systematische Debugging ist eine Kernkompetenz jeden Programmierers
+- Python Debugging-Tools
+    - Standard-Debugger: pdb (Python-Modul)
+    - IDE-eigene Debugger (oft benutzerfreundlicher)
+
+- Mehr Details dazu in der Übung!
+
+%%/slides
+
+%%book
+
+Das systematische Debugging ist eine Kernkompetenz jedes Programmierers. In Python gibt es den Standard-Debugger `pdb` und die oft benutzerfreundlicheren Debugger der IDEs. Mehr dazu in der Übung und in `07b_Debugging`.
+
+%%/book
+
+%%slides
+
+
+## 4. Fehlerbehandlung - Auf alles vorbereitet sein
+
+%%col 50 50
+
+- Realität: Allen Bemühungen zum Trotz werden in realen Programmen Fehler zur Laufzeit auftreten
+
+- Ziel:
+    - Fehler abfangen und behandeln
+    - Programm läuft weiter oder beendet kontrolliert
+
+%%sep
+
+- Mechanismus:
+    - Dynamischer Fehler → *Exception* wird erzeugt
+    - Python-Werkzeuge: `try`, `except`, `raise`
+
+%%/col
+
+%%/slides
+
+%%book
+
+Allen Bemühungen zum Trotz treten in realen Programmen Fehler zur Laufzeit auf. Wir wollen sie abfangen und behandeln, damit das Programm weiterläuft oder kontrolliert beendet wird. Ein dynamischer Fehler erzeugt eine *Exception*; Python stellt dafür `try`, `except` und `raise` bereit.
+
+%%/book
+
+%%slides
+
+
+## 4. Fehlerbehandlung - In Python
+
+- `try:` Enthält ein (vermutlich fehleranfälliges) Stück Programmcode
+- `except:` Tritt im try-Block ein bestimmter Fehler (Exception) auf, wird dieser beendet und der passende except-Block aufgerufen.
+- `raise:` Wird in einem except-Block aufgerufen um eine Exception weiterzugeben
+- `finally:` Wird nach dem Ende des try-Blocks aufgerufen, egal ob es einen Fehler gab oder nicht
+- `else:` optional definiert nach allen except-Blöcken, wird ausgeführt falls im try-Block keine Exception auftritt
+
+%%/slides
+
+%%book
+
+`try` enthält ein vermutlich fehleranfälliges Stück Programmcode. Tritt darin ein bestimmter Fehler auf, wird der Block beendet und der passende `except`-Block aufgerufen. `raise` gibt in einem `except`-Block eine Exception weiter. `finally` wird nach dem `try`-Block immer ausgeführt, `else` nur dann, wenn keine Exception auftrat.
+
+%%/book
+
+%%slides
+
+
+## Semantische Fehler - Exceptions
+
+%%col 50 50
+
+- *Exception*-Mechanismus:
+    - Unterbrechen normalen Programmverlauf
+    - Kommunizieren Fehler mit Fehlermeldung
+    - Verhindern unkontrolliertes Abstürzen
+    - Werden im *Stack nach oben weitergegeben*
+    - Bis sie abgefangen oder Programm abstürzt
+
+- Ziel: Programm in lauffähigen Zustand halten
+
+%%sep
+
+![](images/08a_UnitTest/stack3.svg){class="midjourney"}
+
+%%/col
+
+%%/slides
+
+%%book
+
+Exceptions unterbrechen den normalen Programmverlauf, kommunizieren den Fehler mit einer Fehlermeldung und verhindern unkontrolliertes Abstürzen. Sie werden im Stack nach oben weitergegeben, bis sie abgefangen werden oder das Programm abstürzt. Ziel ist, das Programm in einem lauffähigen Zustand zu halten.
+
+%%/book
+
+%%slides
+
+
+## Semantische Fehler - Exceptions abfangen
+
+%%col 50 50
+
+Bekannte Exceptions sollten immer abgefangen werden
+
+Python `try-except`-Block:
+```python
+try:
+    # Block mit erwarteter Exception
+    ergebnis = zaehler / nenner
+except:
+    # Fehlerbehandlung
+    print("Division durch 0")
+    ergebnis = None
+```
+
+%%sep
+
+![](images/08a_UnitTest/stack4.svg){class="midjourney"}
+
+%%/col
+
+%%/slides
+
+%%book
+
+Bekannte Exceptions sollten immer abgefangen werden. In Python geschieht das mit dem `try-except`-Block; wird die Exception abgefangen, läuft das Programm weiter.
+
+%%/book
+
+%%slides
+
+
+## Semantische Fehler - Exception-Ebenen
+
+%%col 50 50
+
+Exceptions werden auf mehreren Ebenen genutzt:
+
+- Betriebssystem - Vordefinierte System-Exceptions
+- Programmiersprache - Eingebaute Language-Exceptions
+- Eigener Code - Selbst definierte Exceptions
+
+%%sep
+
+Einsatzgebiete (wo Fehler wahrscheinlich sind):
+
+- Kommunikation mit externen Quellen
+- Lesen von Dateien
+- Nutzereingaben
+- Netzwerkverbindungen
+
+%%/col
+
+%%/slides
+
+%%book
+
+Exceptions werden auf mehreren Ebenen genutzt: vom Betriebssystem als vordefinierte System-Exceptions, von der Programmiersprache als eingebaute Exceptions und im eigenen Code als selbst definierte Exceptions. Einsatzgebiete sind Stellen, an denen Fehler wahrscheinlich sind: Kommunikation mit externen Quellen, Lesen von Dateien, Nutzereingaben und Netzwerkverbindungen.
+
+%%/book
+
+%%slides
+
+
+## 4. Fehlerbehandlung - Beispiel: Division durch 0
+
+%%col 50 50
+
+```python
+zaehler = 12
+nenner = 0
+
+try:
+    ergebnis = zaehler / nenner
+except:
+    print("Exception")
+```
+
+%%sep
+
+Mögliche Exceptions:
+
+::: {.fragment}
+
+
+- `ZeroDivisionError` - Division durch 0
+- `TypeError` - Falscher Datentyp
+- `NameError` - Variable nicht definiert
+:::
+
+%%/col
+
+%%/slides
+
+%%book
+
+Im Beispiel löst die Division durch 0 einen `ZeroDivisionError` aus. Je nach Code kommen ein `TypeError` bei falschem Datentyp und ein `NameError` bei nicht definierter Variable hinzu.
+
+%%/book
+
+%%slides
+
+
+## 4. Fehlerbehandlung - Exceptions propagieren
+
+- Wichtiges Konzept in komplexerer Software
+- Wir können Fehler zwar lokal behandeln, wollen aber dennoch die "oberen Ebenen" des Programmes darüber informieren.
+- Die `raise`-Anweisung "wirft" dafür aus einem `except`-Block eine Exception weiter nach oben.
+
+%%/slides
+
+%%book
+
+Wir können Fehler lokal behandeln und wollen dennoch die oberen Ebenen des Programms informieren. Die `raise`-Anweisung gibt dafür aus einem `except`-Block eine Exception weiter nach oben.
+
+%%/book
+
+%%slides
+
+
+## 4. Fehlerbehandlung - Beispiel: Exception weiterreichen
+
+```python
+def count_up_and_down(x):
+    if x <= 0:
+        raise ValueError("No negative values allowed")
+
+    # Verknüpft vorwärts- und rückwärts-Liste
+    return list(range(x)) + list(reversed(list(range(x-1))))
+
+try:
+    print(count_up_and_down(-6))
+except ValueError:
+    print("That value was invalid.")
+```
+
+%%/slides
+
+%%book
+
+Die Funktion `count_up_and_down` löst für `x <= 0` mit `raise` einen `ValueError` aus. Der aufrufende `try`-Block fängt ihn ab und gibt eine Meldung aus.
+
+%%/book
+
+%%slides
+
+
+## 5. Fehlerausschluss - Korrektheit von Programmen mathematisch beweisen
+
+- Gewisser Programmcode kann mittels *mathematischen Beweises* validiert werden
+- *Hoare-Kalkül:* Programm Zeile für Zeile mit mathematischer Logik formalisieren
+- Von vorne nach hinten durch das gesamte Programm
+
+- *Problem:* Für die meisten Anwendungen zu zeitaufwendig und komplex
+
+- *Einsatz:* Nur bei kritischen Systemen (Medizintechnik, Luftfahrt, etc.)
+
+%%/slides
+
+%%book
+
+Gewisser Programmcode kann mittels mathematischen Beweises validiert werden. Das Hoare-Kalkül formalisiert ein Programm Zeile für Zeile mit mathematischer Logik, von vorne nach hinten durch das gesamte Programm. Für die meisten Anwendungen ist das zu zeitaufwendig und komplex; es kommt nur bei kritischen Systemen wie Medizintechnik oder Luftfahrt zum Einsatz.
+
+%%/book
 
 %%book
 
