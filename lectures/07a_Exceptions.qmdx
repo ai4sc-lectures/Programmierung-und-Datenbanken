@@ -147,7 +147,7 @@ Traceback (most recent call last):
 TypeError: 'NoneType' object is not iterable
 ```
 
-Unterste Zeile: `sum(messungen)` ist abgestürzt, weil `messungen` den Wert `None` hatte. `sum()` erwartet ein iterierbares Objekt, also zum Beispiel eine Liste. Die KI hat angenommen, `hole_messungen()` gibt immer eine Liste zurück — aber `dict.get()` gibt `None` zurück, wenn der Schlüssel nicht existiert.
+Letzte Stack-Zeile: `sum(messungen)` ist abgestürzt, weil `messungen` den Wert `None` hatte. `sum()` erwartet ein iterierbares Objekt, also zum Beispiel eine Liste. Die KI hat angenommen, `hole_messungen()` gibt immer eine Liste zurück — aber `dict.get()` gibt `None` zurück, wenn der Schlüssel nicht existiert.
 
 %%/book
 
@@ -155,13 +155,9 @@ Unterste Zeile: `sum(messungen)` ist abgestürzt, weil `messungen` den Wert `Non
 
 
 ## Tracebacks: Den Aufrufstapel lesen
-%%div eyebrow
-{{< ai4sc-icon search >}} Traceback-Analyse
-%%/div
-
 %%col 50 50
 
-*Traceback von oben nach unten lesen — der Aufrufpfad bis zum Absturz:*
+*Traceback {{< ai4sc-icon search >}} von oben nach unten lesen — der Aufrufpfad bis zum Absturz:*
 
 1. **Oberste Zeile** — der Startpunkt des Aufrufs
 2. **Weiter abwärts** — jede Zeile ist ein Funktionsaufruf tiefer
@@ -189,10 +185,6 @@ TypeError: 'NoneType' object is not iterable ← Verletzte Annahme
 
 
 ## Traceback lesen: Beispiel zum KI-Fehler
-%%div eyebrow
-{{< ai4sc-icon search >}} Traceback-Analyse
-%%/div
-
 1. **Aufrufpfad:** `<module>` → `berechne_mittleren_durchfluss()` — von oben nach unten.
 2. **Absturzstelle:** In `berechne_mittleren_durchfluss()` wurde `sum(messungen)` aufgerufen.
 3. **Exception:** `TypeError: 'NoneType' object is not iterable` — `sum()` erhielt kein iterierbares Objekt.
@@ -207,10 +199,10 @@ TypeError: 'NoneType' object is not iterable ← Verletzte Annahme
 
 Beim KI-Beispiel lässt sich der Traceback Schritt für Schritt lesen:
 
-1. In der **untersten Zeile** steht der Fehlertyp: `TypeError`.
-2. Die **Fehlermeldung** sagt genauer, was schiefging: `NoneType` ist nicht iterierbar.
-3. Die Zeile darüber zeigt die **konkrete Absturzstelle**: `sum(messungen)`.
-4. Danach liest man **nach oben**, um zu sehen, woher der problematische Wert kam.
+1. Der Traceback wird von oben nach unten gelesen: Er zeigt den Aufrufpfad vom Startpunkt bis zum Absturz.
+2. Die letzte Stack-Zeile zeigt die konkrete Absturzstelle: `sum(messungen)`.
+3. Die letzte Zeile des Tracebacks nennt den Fehlertyp `TypeError` und die Fehlermeldung: `NoneType` ist nicht iterierbar.
+4. Danach fragt man rückwärts, woher der problematische Wert kam.
 
 So wird aus einem abstrakten Fehlerbericht eine präzise Diagnose: Nicht `sum()` ist falsch, sondern die Vorannahme, dass `messungen` immer eine Liste ist.
 
@@ -288,10 +280,6 @@ Beide Muster sind nützlich. Entscheidend ist, dass die Annahmen im Code explizi
 
 
 ## Agentic Workflow: KI-Exception → Reprompt
-
-%%div eyebrow
-{{< ai4sc-icon search >}} Agentic Cycle — Exception-Diagnose
-%%/div
 
 1. **Traceback lesen** — welche Zeile ist abgestürzt?
 2. **Annahme identifizieren** — was hat die KI stillschweigend erwartet?
@@ -557,10 +545,6 @@ finally:
 
 ## Semantische Fehler — Behandlung
 
-%%div eyebrow
-{{< ai4sc-icon search >}} Traceback-Analyse
-%%/div
-
 *Erster Schritt: Traceback verstehen*
 
 - **Letzte Stack-Zeile:** Wo ist der Code abgestürzt?
@@ -738,50 +722,63 @@ except RecursionError as e:
 %%slides
 
 
-## Exceptions im Aufrufstapel
-%%div eyebrow
-{{< ai4sc-icon search >}} Traceback = Call Stack
-%%/div
-
+## Exceptions steigen im Aufrufstapel auf
 %%col 50 50
 
 ```python
-def lade(sensor_id):
-    return hole_messungen(sensor_id)
+def factorial_recursiv(x, depth=1):
+    if depth > 20:
+        raise RecursionError("Recursion zu tief")
+    if x > 1:
+        return x * factorial_recursiv(x-1, depth+1)
+    else:
+        return 1
 
-def analysiere(sensor_id):
-    return berechne_mittleren_durchfluss(sensor_id)
+factorial_recursiv(21)
 ```
-
-*Jeder Aufruf legt einen Frame auf den Stack.*
 
 %%sep
 
-- Exceptions steigen im Stack **nach oben**, bis sie abgefangen werden
-- Sonst stürzt das Programm ab — der Traceback zeigt dann den **eingefrorenen Stack**
-- Je tiefer die Zeile, desto näher an der Ursache
+- Jeder Aufruf legt einen Frame auf den Stack
+- Die Exception wird im tiefsten Aufruf ausgelöst und steigt Frame für Frame nach oben
+- Wird sie nirgends abgefangen, listet der Traceback alle Frames bis zur Auslösung
 
 %%/col
 
 %%/slides
 
+%%book
+
+Der Traceback ist der eingefrorene Aufrufstapel: Er listet alle Funktionsaufrufe vom Start bis zu der Stelle, an der die Exception ausgelöst wurde. Das Beispiel `factorial_recursiv(21)` zeigt das mit der bewusst kleinen Rekursionsgrenze 20.
+
+%%/book
+
 %%slides
 
 
-## Exception abfangen: try-except
+## Typisiert abfangen mit `try-except`
 
 ```python
+zaehler = 'keine_zahl'
+nenner = 0
+ergebnis = None
 try:
-    mittel = berechne_mittleren_durchfluss("sensor_01")
+    ergebnis = zaehler / nenner
 except TypeError as e:
-    print(f"Sensor lieferte keine Messwerte: {e}")
+    print(f"Zaehler oder Nenner nicht vom Datentyp `int`")
+except ZeroDivisionError as e:
+    print("Teilung durch 0")
+
+print(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
 ```
 
-- *Spezifische* Exception-Typen abfangen, kein blankes `except:`
-- `try-except` **ergänzt** Guard Clauses, es ersetzt sie nicht
-- Nie verstecken, um das Problem zu ignorieren — die Annahme muss explizit werden
-
 %%/slides
+
+%%book
+
+Auf der Folie wird dasselbe Beispiel wie oben gezeigt: Jede bekannte Exception erhält einen eigenen `except`-Zweig mit spezifischer Meldung. Guard Clauses und `try-except` ergänzen sich.
+
+%%/book
 
 %%slides
 
