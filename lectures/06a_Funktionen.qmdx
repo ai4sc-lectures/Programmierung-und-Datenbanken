@@ -167,19 +167,24 @@ funktionsname("anderer wert ", "noch ein anderer")
 
 
 ## Funktionen in Python
-```python
 
-
-# Codeblock der Funktionsdefinition
-def funktionsname(arg1, arg2): # <- funktionsname ist wählbar, arg1 und arg2 sind Parameter
-    statement1 # <- Codeblock beginnt hier und ist eingerückt
-    statement2 # <- noch Teil des eingerückten Codeblocks
-```
+%%col 50 50
 
 - Funktionsdefinitionen beginnen mit `def`
 - Es folgen Name, Parameter und ein `:`
 - Parameter gelten im gesamten Funktionskörper
 - Beim Aufruf werden die Parameter mit den übergebenen Argumenten belegt
+
+%%sep
+
+```python
+# Codeblock der Funktionsdefinition
+def funktionsname(arg1, arg2): # <- Name ist wählbar, arg1 und arg2 sind Parameter
+    statement1 # <- Codeblock beginnt hier und ist eingerückt
+    statement2 # <- noch Teil des eingerückten Codeblocks
+```
+
+%%/col
 
 %%/slides
 
@@ -362,16 +367,31 @@ print(type(ergebnis2))
 
 ## Funktionen mit Rückgabewert
 
-```python
-def funktionsname(arg1):
-    statement1
-    return rueckgabewert
-```
+%%col 50 50
 
 - `return` beendet die Ausführung und liefert den Rückgabewert zurück
 - „Zurückgeben“ heißt: Der Rückgabewert ersetzt den Funktionsaufruf im ursprünglichen Ausdruck
 - Ist kein `return` definiert, gibt die Funktion `None` zurück
-- `print` gibt nur aus: Bei `def f(a): print(a * 2)` ergibt `x = f(3)` den Wert `None`
+- `print` zeigt einen Wert nur auf dem Bildschirm an und liefert ihn nicht zurück: `zeige_doppelt(3)` druckt 6, das Ergebnis ist trotzdem `None`
+
+%%sep
+
+```python
+def funktionsname(arg1):
+    statement1
+    return rueckgabewert
+
+def verdopple(a):
+    return a * 2        # liefert den Wert zurück
+
+def zeige_doppelt(a):
+    print(a * 2)        # nur Ausgabe, kein return
+
+x = verdopple(3)        # x ist 6
+y = zeige_doppelt(3)    # druckt 6, y ist None
+```
+
+%%/col
 
 %%/slides
 
@@ -379,13 +399,28 @@ def funktionsname(arg1):
 
 
 ## Standardwerte bei Parametern
-```python
-def funktionsname(arg1, arg2="default"):
-    return statement1
-```
+
+%%col 50 50
 
 - Parameter können Standardwerte besitzen
-- Beim Aufruf ist das Argument optional; ein übergebener Wert überschreibt den Standard
+- Fehlt beim Aufruf das Argument, gilt der Standardwert; ein übergebener Wert überschreibt ihn
+- Argumente lassen sich auch über den Namen übergeben (`arg2="x"`)
+- Parameter mit Standardwert stehen nach den Parametern ohne Standardwert, sonst gibt es einen `SyntaxError`
+
+%%sep
+
+```python
+def funktionsname(arg1, arg2="default"):
+    return arg1, arg2
+
+funktionsname(1)            # (1, 'default')
+funktionsname(1, "anders")  # (1, 'anders')
+funktionsname(1, arg2="x")  # (1, 'x')
+
+# def f(a="x", b): ...      # SyntaxError
+```
+
+%%/col
 
 %%/slides
 
@@ -408,6 +443,19 @@ x = measurement(5.5, "kg") # "5.5 kg"
 
 
 ## Vorsicht: Veränderliche Standardwerte
+
+%%col 50 50
+
+**Warum passiert das?**
+
+Die Liste `[]` wird **einmalig** bei der Definition der Funktion erstellt — nicht bei jedem Aufruf. Alle Aufrufe teilen dieselbe Liste.
+
+**Korrekte Version**
+
+Als Standardwert `None` verwenden und die Liste im Funktionskörper neu erzeugen.
+
+%%sep
+
 ```python
 # ✗ Kommt in KI-generiertem Code vor
 def sammle_messwerte(wert, liste=[]):
@@ -416,19 +464,8 @@ def sammle_messwerte(wert, liste=[]):
 
 print(sammle_messwerte(1))  # [1]
 print(sammle_messwerte(2))  # [1, 2] ← nicht [2]!
-```
 
-%%col 50 50
-
-**Warum passiert das?**
-
-Die Liste `[]` wird **einmalig** bei der Definition der Funktion erstellt — nicht bei jedem Aufruf. Alle Aufrufe teilen dieselbe Liste.
-
-%%sep
-
-**Korrekte Version**
-
-```python
+# ✓ Korrekte Version
 def sammle_messwerte(wert, liste=None):
     if liste is None:
         liste = []
@@ -448,17 +485,24 @@ Dieses Muster kommt in KI-generiertem Code vor. Prüfen Sie Standardwerte auf ve
 
 
 ## Die Signatur als Vertrag
-```python
-def calculate_area(length: float, width: float) -> float:
-    """Berechnet die Fläche eines Rechtecks in m²."""
-    ...
-```
+
+%%col 50 50
 
 - `calculate_area` → Name beschreibt die Aufgabe
 - `length: float, width: float` → Eingabetypen sind dokumentiert
 - `-> float` → Rückgabetyp ist dokumentiert
 - Die {{< ai4sc-icon clipboard-list >}} Signatur beschreibt die Schnittstelle, ohne Implementierung
 - Typangaben sind Annotationen: Der Interpreter prüft sie nicht, Werkzeuge wie `mypy` und Tests tun es
+
+%%sep
+
+```python
+def calculate_area(length: float, width: float) -> float:
+    """Berechnet die Fläche eines Rechtecks in m²."""
+    ...
+```
+
+%%/col
 
 %%/slides
 
@@ -698,6 +742,15 @@ print("Der Wert von argument nach der Funktion ist immer noch "+str(argument))
 
 ## Variablengültigkeit
 
+%%col 50 50
+
+- Parameter und in der Funktion zugewiesene Namen sind **lokal**
+- Außerhalb der Funktion existieren sie nicht
+- Globale Namen lassen sich lesen; eine Zuweisung erzeugt einen lokalen Namen (sonst `UnboundLocalError`)
+- Warum? Jeder Aufruf erhält einen eigenen *Frame* – siehe nächste Folie
+
+%%sep
+
 ```python
 def meine_funktion(argument):
     interne_variable = "geheim"
@@ -707,10 +760,7 @@ meine_funktion("wert")
 print(interne_variable)   # NameError
 ```
 
-- Parameter und in der Funktion zugewiesene Namen sind **lokal**
-- Außerhalb der Funktion existieren sie nicht
-- Globale Namen lassen sich lesen; eine Zuweisung erzeugt einen lokalen Namen (sonst `UnboundLocalError`)
-- Warum? Jeder Aufruf erhält einen eigenen *Frame* – siehe nächste Folie
+%%/col
 
 %%/slides
 
