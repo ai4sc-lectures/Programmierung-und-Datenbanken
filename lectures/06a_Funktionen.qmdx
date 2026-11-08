@@ -38,9 +38,9 @@ resources:
 
 ## Gründe für Funktionen
 - Wiederkehrende Schritte nur einmal schreiben
+- Änderungen nur an einer Stelle vornehmen (einfachere Wartung)
 - Komplexe Aufgaben in kleine, verständliche Bausteine zerlegen
 - Namen geben dem Code Bedeutung und machen Programme lesbarer
-- Änderungen an einer Stelle vornehmen
 
 %%/slides
 
@@ -50,19 +50,35 @@ resources:
 ## Funktionen – Mathematisch
 
 Funktionen setzen in Programmiersprachen das mathematische Konzept der Funktion um.
-Sie stellen eine Abbildung von einer Eingabemenge auf eine Ausgabemenge dar.
+Sie stellen eine Abbildung von einer Eingabemenge (Parameter) auf eine Ausgabemenge (Rückgabe) dar.
 
-Abbildung: Eine Funktion $f$ ordnet jedem Element $x$ einer Definitionsmenge $X$ ein Element $y$ einer Zielmenge $Y$ zu.
+%%def Abbildung
+Eine Funktion $f$ ordnet jedem Element $x$ einer Definitionsmenge $X$ ein Element $y$ einer Zielmenge $Y$ zu.
+Mathematisch ist die Abbildung definiert als
 
-$$ f : X \to Y, \quad x \mapsto y $$
+$$ f : X \to Y, \quad x \mapsto y.$$
+
+Meist schreibt man einfach
+
+$$ y = f(x).$$
+%%/def
 
 %%/slides
 
 %%book
 
-Eine Funktion im mathematischen Sinn ordnet jedem Element einer Definitionsmenge genau ein Element einer Zielmenge zu. Funktionen in Python übernehmen dieses Prinzip: Aus Eingabewerten entsteht ein Rückgabewert. Anders als in der Mathematik können sie zusätzlich Seiteneffekte haben, etwa die Ausgabe mit `print` oder das Verändern einer übergebenen Liste (siehe unten).
+%%def Abbildung
+Eine Funktion $f$ ordnet jedem Element $x$ einer Definitionsmenge $X$ ein Element $y$ einer Zielmenge $Y$ zu.
+Mathematisch ist die Abbildung definiert als
 
-$$ f : X \to Y, \quad x \mapsto y $$
+$$ f : X \to Y, \quad x \mapsto y.$$
+
+Meist schreibt man einfach
+
+$$ y = f(x).$$
+%%/def
+
+Funktionen in Python übernehmen dieses Prinzip: Aus dem Eingabewert $x$ entsteht der Rückgabewert $y = f(x)$. Anders als in der Mathematik können sie zusätzlich Seiteneffekte haben, etwa die Ausgabe mit `print` oder das Verändern der Eingabewerte, z. B. bei einer übergebenen Liste (siehe unten).
 
 %%/book
 
@@ -72,7 +88,7 @@ $$ f : X \to Y, \quad x \mapsto y $$
 ## Funktionen – Programmierung
 
 %%def Funktion
-{{< ai4sc-icon square-function >}} Wiederverwendbarer Programmcode, der eine bestimmte Aufgabe ausführt.
+Wiederverwendbarer Programmcode, der eine bestimmte Aufgabe ausführt.
 %%/def
 
 - Nehmen Eingabewerte entgegen (*Argumente*)
@@ -179,7 +195,7 @@ funktionsname("anderer wert ", "noch ein anderer")
 
 ```python
 # Codeblock der Funktionsdefinition
-def funktionsname(arg1, arg2): # <- Name ist wählbar, arg1 und arg2 sind Parameter
+def funktionsname(arg1): # <- Name ist wählbar, arg1 ist Parameter
     statement1 # <- Codeblock beginnt hier und ist eingerückt
     statement2 # <- noch Teil des eingerückten Codeblocks
 ```
@@ -385,10 +401,6 @@ print(type(ergebnis2))
 %%sep
 
 ```python
-def funktionsname(arg1):
-    statement1
-    return rueckgabewert
-
 def verdopple(a):
     return a * 2        # liefert den Wert zurück
 
@@ -499,9 +511,11 @@ Dieses Muster kommt in KI-generiertem Code vor. Prüfen Sie Standardwerte auf ve
 %%slides
 
 
-## Die Signatur als Vertrag
+## Typisierung: Die Signatur als Vertrag
 
 %%col 50 50
+
+Typangaben sind in Python optional, dokumentieren aber, wie eine Funktion zu benutzen ist.
 
 - `calculate_area` → Name beschreibt die Aufgabe
 - `length: float, width: float` → Eingabetypen sind dokumentiert
@@ -553,85 +567,6 @@ def calc(x, y):
 %%/col
 
 > **Agentic workflow:** Wenn KI eine Funktion generiert: Signatur zuerst lesen. Stimmen Eingabetypen und Rückgabetyp mit der Anforderung überein? Wenn nicht — Signatur korrigieren und neu prompten.
-
-%%/slides
-
-%%slides
-
-
-## Übung: KI-Code lesen – Schritt 1 {background-color="#D9FF66"}
-Eine KI hat diese Funktion generiert. **Lesen Sie erst nur Signatur und Docstring:**
-
-```python
-def flow_velocity(
-    flow_rate: float,
-    pipe_diameter: float
-) -> float:
-    """
-    Berechnet die mittlere Fließgeschwindigkeit in einem Rohr.
-
-    Args:
-        flow_rate: Volumenstrom in m³/s
-        pipe_diameter: Rohrdurchmesser in m
-    Returns:
-        Fließgeschwindigkeit in m/s
-    """
-    ...
-```
-
-**Frage:** Welche zwei Tests würden Sie schreiben — *bevor* Sie die Implementierung lesen?
-
-%%/slides
-
-%%slides
-
-
-## Übung: KI-Code lesen – Schritt 2
-```python
-# Test 1: Bekanntes Ergebnis prüfen (assert bricht ab, wenn die Bedingung falsch ist)
-# Rohr ∅ 0.1 m, Volumenstrom 0.001 m³/s
-# Fläche A = π·(0.05)² ≈ 0.00785 m²  →  v = Q/A ≈ 0.127 m/s
-assert abs(flow_velocity(0.001, 0.1) - 0.1273) < 0.001
-
-# Test 2: Grenzfall — Was passiert bei Durchmesser 0?
-# Erwartet: Division durch 0 → Python wirft einen ZeroDivisionError
-# (Umgang mit Fehlern: 07a_Exceptions)
-# flow_velocity(0.001, 0.0)   # → ZeroDivisionError
-```
-
-**Dann:** Lesen Sie die Implementierung. Stimmt sie mit Ihren Erwartungen überein? Wie solche Tests systematisch aufgebaut werden, behandelt `08a_UnitTest`.
-
-%%/slides
-
-%%slides
-
-
-## Übung: KI-Code lesen – Schritt 3
-```python
-def flow_velocity(flow_rate: float, pipe_diameter: float) -> float:
-    """..."""
-    from math import pi
-    area = pi * (pipe_diameter / 2) ** 2
-    return flow_rate / area
-```
-
-%%col 50 50
-
-**Was stimmt?**
-
-- Formel $v = Q / A$ korrekt
-- Rückgabetyp `float` korrekt
-- Import im Funktionskörper — ungewöhnlich, funktioniert aber; meist steht `import` aus Effizienz- und Stilgründen am Modulanfang
-
-%%sep
-
-**Was fehlt?**
-
-- Keine Absicherung gegen `pipe_diameter == 0`
-- Keine Einheitenprüfung
-- Kein Hinweis auf negative Eingabewerte
-
-%%/col
 
 %%/slides
 
@@ -784,7 +719,7 @@ Globale Namen lassen sich in einer Funktion lesen. Weist die Funktion demselben 
 %%slides
 
 
-## Jeder Funktionsaufruf erhält einen Frame
+## Jeder Funktionsaufruf erhält einen Speicherbereich (Frame)
 
 %%col 50 50
 
@@ -816,7 +751,7 @@ main()
 
 %%book
 
-### Jeder Funktionsaufruf erhält einen Frame
+### Jeder Funktionsaufruf erhält einen Speicherbereich (Frame)
 
 Warum sind die Variablen einer Funktion nach dem Aufruf verschwunden? Wenn Python eine Funktion aufruft, legt es einen neuen *Frame* auf den *Call Stack*. Dieser Frame enthält die lokalen Namen der Funktion, also ihre Parameter und alle Namen, die in ihr zugewiesen werden. Der oberste Frame ist der aktive.
 
@@ -868,16 +803,8 @@ Während `berechne_fläche` läuft, liegen drei Frames übereinander: der des Ha
 
 Beim Rücksprung wird der Frame entfernt, und mit ihm verschwinden die lokalen Namen, hier `fläche`. Von außen sind sie nie erreichbar; das ist der Grund für die Variablengültigkeit oben. Der Stack arbeitet nach dem LIFO-Prinzip (*last in, first out*): Der zuletzt aufgerufene Frame wird als erster wieder entfernt. Wie der Stack bei vielen verschachtelten Aufrufen wächst, sehen wir bei der Rekursion in `09b_Rekursion`.
 
-%%/book
-
-%%book
-
 
 ## Veränderte und unveränderte Argumente
-
-%%/book
-
-%%book
 
 Ein Parameter ist ein neuer Name für dieselbe Adresse wie das übergebene Argument, genau wie ein Alias in `02c_Speicher`. Wird innerhalb einer Funktion ein neuer Wert an einen Parameternamen gebunden, bleibt die Variable außerhalb der Funktion unverändert. Das gilt auch bei unveränderlichen Typen wie `int`, `float`, `str` oder `tuple`.
 
@@ -1091,12 +1018,6 @@ Python bringt viele eingebaute Funktionen mit.
 
 %%/slides
 
-
-
-
-
-
-
 %%book
 
 Bei Pass-by-value arbeitet die Funktion mit einer Kopie des Werts, bei Pass-by-reference mit einer Referenz auf dieselben Daten. Python übergibt immer eine Referenz auf ein Objekt, man spricht von „call by sharing“ oder Pass-by-assignment. Bei unveränderlichen Typen wirkt eine Neubindung nur lokal, bei veränderlichen Typen sind direkte Änderungen am Objekt auch außerhalb sichtbar. Objekte und Referenzen behandelt `04c_Objects`.
@@ -1119,12 +1040,6 @@ Python bringt eine Reihe eingebauter Funktionen mit, etwa `print()`, `len()`, `a
 %%book
 
 Die Signatur einer Funktion besteht aus Name, Parametern (mit Typangaben) und Rückgabetyp, ergänzt durch den Docstring. Sie beschreibt, was die Funktion verspricht, ohne die Implementierung zu zeigen. Typangaben sind Annotationen: Der Interpreter prüft sie nicht, Werkzeuge wie `mypy` und Tests tun es. Typangaben und `assert` werden in `08a_UnitTest` vertieft. Vor dem Lesen der Implementierung prüft man Name, Parametertypen und Reihenfolge, Rückgabetyp und die im Docstring genannten Grenzfälle.
-
-%%/book
-
-%%book
-
-Im Beispiel `flow_velocity(flow_rate, pipe_diameter)` lassen sich allein aus Signatur und Docstring zwei Tests ableiten: ein bekanntes Ergebnis (Rohr mit 0,1 m Durchmesser und 0,001 m³/s ergibt etwa 0,127 m/s) und der Grenzfall Durchmesser 0, bei dem Python einen `ZeroDivisionError` auslöst. Erst danach liest man die Implementierung und prüft, ob sie zur Signatur passt und welche Fälle fehlen, hier die Prüfung auf Durchmesser 0, Einheiten und negative Eingaben.
 
 %%/book
 
