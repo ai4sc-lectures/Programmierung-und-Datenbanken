@@ -26,12 +26,18 @@ resources:
 
 %%# Ausgangslage
 
+%%## 200 Zeilen KI-Code. Falsche Ausgabe.
+
+%%book
+
+KI-Werkzeuge erzeugen schnell umfangreichen Code. Besonders tückisch sind logische Fehler: Das Programm läuft ohne Exception durch, liefert aber ein falsches Ergebnis. Hier hilft statisches Lesen allein nicht weiter, wir müssen die Ausführung beobachten.
+
+%%/book
+
 %%slides
 
-## 200 Zeilen KI-Code. Falsche Ausgabe.
-
 %%div eyebrow
-{{< ai4sc-icon test-tube >}} Debugging-Szenario
+{{< ai4sc-icon search >}} Debugging-Szenario
 %%/div
 
 %%col 55 45v
@@ -53,23 +59,34 @@ Ausführung muss beobachtet werden.
 
 %%# Die 5-Schritt-KI-Debugging-Strategie
 
+%%## Strategie im Überblick
+
 %%slides
 
-## {.section-divider}
-
 %%div eyebrow
-{{< ai4sc-icon test-tube >}} Strategie
-%%/div
-
-%%div display
-5 Schritte zum\
-systematischen\
-Debugging von KI-Code
+{{< ai4sc-icon search >}} Strategie
 %%/div
 
 %%div lead
-Reproduce → Isolate → Hypothesize → Inspect → Fix & Re-verify
+Reproduzieren → Isolieren → Hypothese → Inspizieren → Beheben & Re-Verifizieren
 %%/div
+
+%%col 50 50
+**1. Reproduzieren**
+: Minimalen Fehler-Input finden
+
+**2. Isolieren**
+: Unit-Test für die Funktion schreiben
+
+**3. Hypothese**
+: Welche Annahme ist falsch?
+%%sep
+**4. Inspizieren**
+: Debugger, Schritt für Schritt
+
+**5. Beheben + Re-Verifizieren**
+: Testen, ob der Fix vollständig ist
+%%/col
 
 %%/slides
 
@@ -77,11 +94,7 @@ Reproduce → Isolate → Hypothesize → Inspect → Fix & Re-verify
 
 ## Schritt 1 — Reproduzieren
 %%div eyebrow
-{{< ai4sc-icon test-tube >}}
-%%/div
-
-%%div eyebrow
-Strategie · Schritt 1 von 5
+{{< ai4sc-icon search >}} Strategie · Schritt 1 von 5
 %%/div
 
 - Schreibe den **kleinsten Input**, der das Fehlverhalten auslöst
@@ -92,26 +105,26 @@ Strategie · Schritt 1 von 5
 Ein Bug, den man nicht reproduzieren kann, kann man nicht debuggen.
 %%/tip
 
+%%note Querverweis
+`07a_Exceptions`: Exceptions sind ein typischer Ausgangspunkt. Ohne Exception beginnt die Suche beim falschen Ergebnis.
+%%/note
+
 %%/slides
 
 %%slides
 
 ## Schritt 2 — Isolieren
 %%div eyebrow
-{{< ai4sc-icon test-tube >}}
-%%/div
-
-%%div eyebrow
-Strategie · Schritt 2 von 5
+{{< ai4sc-icon search >}} Strategie · Schritt 2 von 5
 %%/div
 
 - Schreibe einen **Unit-Test** direkt für die verdächtige Funktion
 - Teste Ein- und Ausgabe isoliert — ohne das gesamte Programm
 - Das grenzt das Problem auf eine einzelne Funktion ein
 
-%%aside
-→ `08a_UnitTest`: Isolieren ist Schritt 2 der Strategie
-%%/aside
+%%note Querverweis
+`08a_UnitTest`: Isolieren mit einem Unit-Test ist Schritt 2 der Strategie.
+%%/note
 
 %%/slides
 
@@ -119,11 +132,7 @@ Strategie · Schritt 2 von 5
 
 ## Schritt 3 — Hypothese bilden
 %%div eyebrow
-{{< ai4sc-icon test-tube >}}
-%%/div
-
-%%div eyebrow
-Strategie · Schritt 3 von 5
+{{< ai4sc-icon search >}} Strategie · Schritt 3 von 5
 %%/div
 
 **Stelle dir diese Fragen:**
@@ -142,11 +151,7 @@ Eine gute Hypothese beschreibt die Abweichung zwischen Erwartung und Beobachtung
 
 ## Schritt 3 — Typische falsche Annahmen
 %%div eyebrow
-{{< ai4sc-icon test-tube >}}
-%%/div
-
-%%div eyebrow
-Strategie · Schritt 3 von 5
+{{< ai4sc-icon search >}} Strategie · Schritt 3 von 5
 %%/div
 
 - Falscher Datentyp
@@ -160,11 +165,7 @@ Strategie · Schritt 3 von 5
 
 ## Schritt 4 — Ausführung inspizieren
 %%div eyebrow
-{{< ai4sc-icon test-tube >}}
-%%/div
-
-%%div eyebrow
-Strategie · Schritt 4 von 5
+{{< ai4sc-icon search >}} Strategie · Schritt 4 von 5
 %%/div
 
 - Setze einen **Breakpoint** an der Eintrittsstelle der verdächtigen Funktion
@@ -181,11 +182,7 @@ Strategie · Schritt 4 von 5
 
 ## Schritt 5 — Beheben und re-verifizieren
 %%div eyebrow
-{{< ai4sc-icon test-tube >}}
-%%/div
-
-%%div eyebrow
-Strategie · Schritt 5 von 5
+{{< ai4sc-icon search >}} Strategie · Schritt 5 von 5
 %%/div
 
 - Korrigiere nur die identifizierte Fehlerursache — **minimaler Fix**
@@ -196,36 +193,6 @@ Strategie · Schritt 5 von 5
 Debugging ist der **Verify**-Schritt auf Ausführungsebene:\
 *prompt → generate → understand → **verify** → iterate*
 %%/tip
-
-%%/slides
-
-%%slides
-
-## Strategie-Übersicht
-%%div eyebrow
-{{< ai4sc-icon test-tube >}}
-%%/div
-
-%%col 50 50
-**1. Reproduzieren**
-: Minimalen Fehler-Input finden
-
-**2. Isolieren**
-: Unit-Test für die Funktion schreiben
-
-**3. Hypothese**
-: Welche Annahme ist falsch?
-%%sep
-**4. Inspizieren**
-: Debugger, Schritt für Schritt
-
-**5. Fix + Re-Verifikation**
-: Testen, ob der Fix vollständig ist
-%%/col
-
-%%aside
-→ `07a_Exceptions`: Exceptions sind der Ausgangspunkt für Schritt 1
-%%/aside
 
 %%/slides
 
@@ -241,7 +208,7 @@ Die Schritte 1 bis 5 greifen dabei ineinander: Reproduktion und Isolierung schaf
 
 %%book
 
-## Die 5-Schritt-Strategie in der Praxis
+### Die 5-Schritt-Strategie in der Praxis
 
 Die Strategie dient als wiederholbarer Ablauf für logische Fehler ohne offensichtliche Exception. Zuerst wird das Fehlverhalten mit einem kleinen Beispiel reproduziert. Danach wird der Fehler auf eine Funktion oder einen klar umrissenen Teil des Programms isoliert.
 
@@ -252,7 +219,7 @@ Auf dieser Grundlage formuliert man eine Hypothese: Welche Annahme im Code könn
 %%book
 
 
-## Debugging mit `print()`
+### Debugging mit `print()`
 
 %%/book
 
@@ -261,12 +228,12 @@ Auf dieser Grundlage formuliert man eine Hypothese: Welche Annahme im Code könn
 ## `print()`-Debugging — Zustände sichtbar machen
 
 %%div eyebrow
-Werkzeug · Inspizieren (unterstützt Schritt 1)
+{{< ai4sc-icon search >}} Werkzeug · Inspizieren (Schritt 4)
 %%/div
 
 ```python
 def division(zaehler, nenner):
-    print(f"Debug: Eingabe Zaehler: {zaehler}")  # Schritt 3: Zustand prüfen
+    print(f"Debug: Eingabe Zaehler: {zaehler}")  # Schritt 4: Zustand prüfen
     print(f"Debug: Eingabe Nenner: {nenner}")
     if not isinstance(nenner, (int, float)):
         print(f"Error: Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")
@@ -354,7 +321,7 @@ for nenner in range(-2, 8):
 %%book
 
 
-## Debugging mit `logging`
+### Debugging mit `logging`
 
 %%/book
 
@@ -363,7 +330,7 @@ for nenner in range(-2, 8):
 ## `logging` — Gefilterte Sichtbarkeit
 
 %%div eyebrow
-Werkzeug · Inspizieren mit Filtern
+{{< ai4sc-icon search >}} Werkzeug · Inspizieren mit Filtern
 %%/div
 
 ```python
@@ -481,7 +448,7 @@ In der Praxis wird das Logging sehr häufig insbesondere in Cloud-Anwendungen ve
 %%book
 
 
-## Debugging durch Debug-Oberflächen
+### Debugging durch Debug-Oberflächen
 
 %%/book
 
@@ -490,7 +457,7 @@ In der Praxis wird das Logging sehr häufig insbesondere in Cloud-Anwendungen ve
 ## Grafischer Debugger — Voller Zustandsüberblick
 
 %%div eyebrow
-Werkzeug · Inspizieren (Schritt 4)
+{{< ai4sc-icon search >}} Werkzeug · Inspizieren (Schritt 4)
 %%/div
 
 %%col 50 50
@@ -523,7 +490,7 @@ Dabei werden meist zwei Formen der Unterbrechung unterstützt:
 
 %%book
 
-### Debugging in Jupyter-Notebooks in VSCode
+#### Debugging in Jupyter-Notebooks in VSCode
 
 %%/book
 
@@ -597,15 +564,11 @@ In der Debugumgebung kann man dann Zeile für Zeile vorgehen durch drücken von 
 
 %%# Multi-Funktions-Modul Walkthrough
 
+%%## KI generiert oft mehrere Funktionen
+
 %%slides
-
-## KI generiert oft mehrere Funktionen
 %%div eyebrow
-{{< ai4sc-icon test-tube >}}
-%%/div
-
-%%div eyebrow
-Walkthrough · Schritt 4 — Inspizieren
+{{< ai4sc-icon search >}} Walkthrough · Schritt 4 — Inspizieren
 %%/div
 
 %%col 55 45v
@@ -633,11 +596,7 @@ Breakpoint setzen → hineinsteigen → Zustand auf jeder Ebene prüfen
 
 ## Breakpoint am Einstiegspunkt setzen
 %%div eyebrow
-{{< ai4sc-icon test-tube >}}
-%%/div
-
-%%div eyebrow
-Walkthrough · Schritt 1 von 3
+{{< ai4sc-icon search >}} Walkthrough · Schritt 1 von 3
 %%/div
 
 - Setze den ersten Breakpoint an der **Eintrittsfunktion** (`verarbeite_daten`)
@@ -654,11 +613,7 @@ Starte immer am Anfang der Aufrufkette, nicht tief im Code.
 
 ## Durch Funktionsaufrufe schrittweise gehen
 %%div eyebrow
-{{< ai4sc-icon test-tube >}}
-%%/div
-
-%%div eyebrow
-Walkthrough · Schritt 2 von 3
+{{< ai4sc-icon search >}} Walkthrough · Schritt 2 von 3
 %%/div
 
 %%col 50 50
@@ -685,11 +640,7 @@ Walkthrough · Schritt 2 von 3
 
 ## Zustand auf jeder Ebene inspizieren
 %%div eyebrow
-{{< ai4sc-icon test-tube >}}
-%%/div
-
-%%div eyebrow
-Walkthrough · Schritt 3 von 3
+{{< ai4sc-icon search >}} Walkthrough · Schritt 3 von 3
 %%/div
 
 - Prüfe nach **jedem Funktionsaufruf**: Entspricht der Rückgabewert der Erwartung?
@@ -704,7 +655,7 @@ Der grafische Debugger ist mächtiger als `print()` für KI-Module mit mehreren 
 
 %%book
 
-## Mehrere Funktionen systematisch verfolgen
+### Mehrere Funktionen systematisch verfolgen
 
 KI-generierter Code besteht oft aus mehreren aufeinander aufbauenden Funktionen. Dann genügt es nicht mehr, nur einzelne Werte mit `print()` auszugeben. Stattdessen verfolgt man die Aufrufkette systematisch: zuerst am Einstiegspunkt stoppen, dann gezielt in verdächtige Funktionen hineinsteigen und nach jedem Rückgabewert prüfen, ob die Erwartung noch erfüllt ist.
 
@@ -714,13 +665,9 @@ Die drei Debug-Schritte in diesem Walkthrough geben dafür eine einfache Heurist
 
 %%slides
 
-## Übungsaufgabe: Fehler systematisch eingrenzen
+## Übungsaufgabe: Fehler systematisch eingrenzen {background-color="#D9FF66"}
 %%div eyebrow
-{{< ai4sc-icon test-tube >}}
-%%/div
-
-%%div eyebrow
-Praxis · Strategie anwenden
+{{< ai4sc-icon search >}} Praxis · Strategie anwenden
 %%/div
 
 Eine KI liefert für `division("10", 2)` oder `division(10, 0)` unerwartete Ergebnisse.
@@ -741,7 +688,7 @@ Arbeite die vier Punkte in der Reihenfolge der 5-Schritt-Strategie ab.
 Die folgende Übungsaufgabe soll die 5-Schritt-Strategie explizit einüben. Ziel ist nicht nur, eine Lösung zu finden, sondern den Fehler mit Testfall, Hypothese, Beobachtung und Re-Verifikation nachvollziehbar zu dokumentieren.
 
 
-## Quiz
+### Quiz
 
 
 ```{quizdown}
@@ -774,7 +721,25 @@ Die folgende Übungsaufgabe soll die 5-Schritt-Strategie explizit einüben. Ziel
     - [ ] Erstellen von Benutzeroberflächen
     - [ ] Automatisches Testen von Funktionen
 
-    ### Sortiere die folgenden Zeilen, um einen vollständigen `try-except`-Block korrekt aufzubauen
+    ### Welche Reihenfolge hat die 5-Schritt-Strategie zum Debuggen von KI-Code?
+    - [x] Reproduzieren, Isolieren, Hypothese bilden, Inspizieren, Beheben und re-verifizieren
+    - [ ] Inspizieren, Beheben, Reproduzieren, Isolieren, Hypothese bilden
+    - [ ] Hypothese bilden, Beheben, Isolieren, Reproduzieren, Inspizieren
+    - [ ] Beheben, Re-Verifizieren, Reproduzieren, Isolieren, Inspizieren
+
+    ### Wozu dient ein Unit-Test in Schritt 2 (Isolieren)?
+    - [x] Er prüft die verdächtige Funktion einzeln und grenzt den Fehler auf sie ein
+    - [ ] Er ersetzt den Debugger vollständig
+    - [ ] Er formatiert den Code automatisch
+    - [ ] Er stellt sicher, dass die KI keinen Fehler mehr macht
+
+    ### Welche Debugger-Aktion verwendest du, wenn eine Funktion bekanntermaßen korrekt ist?
+    - [x] Step Over — die Funktion wird ausgeführt, ohne hineinzuspringen
+    - [ ] Step Into — der Debugger springt in die Funktion
+    - [ ] Step Out — der Debugger beendet das gesamte Programm
+    - [ ] Gar keine, es muss immer Step Into verwendet werden
+
+    ### Sortiere die folgenden Zeilen, um die `print`-Debugging-Funktion `division` korrekt aufzubauen
 
     1. `def division(zaehler, nenner):`
     2. `    print(f"Debug: Eingabe Zaehler: {zaehler}")`
