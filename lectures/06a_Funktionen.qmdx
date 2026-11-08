@@ -742,22 +742,18 @@ print("Der Wert von argument nach der Funktion ist immer noch "+str(argument))
 
 ## Variablengültigkeit
 
-%%col 50 50
+%%col 40 60
 
 - Parameter und in der Funktion zugewiesene Namen sind **lokal**
 - Außerhalb der Funktion existieren sie nicht
+- Derselbe Name kann in verschiedenen Frames verschiedene Werte haben
 - Globale Namen lassen sich lesen; eine Zuweisung erzeugt einen lokalen Namen (sonst `UnboundLocalError`)
 - Warum? Jeder Aufruf erhält einen eigenen *Frame* – siehe nächste Folie
 
 %%sep
 
-```python
-def meine_funktion(argument):
-    interne_variable = "geheim"
-    print(argument, interne_variable)
-
-meine_funktion("wert")
-print(interne_variable)   # NameError
+```{=html}
+<video poster="images/06a_Funktionen/manim_scope_last.png" data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/06a_Funktionen/manim_scope.webm" type="video/webm"><source src="images/06a_Funktionen/manim_scope.mp4" type="video/mp4"></video>
 ```
 
 %%/col
@@ -946,6 +942,39 @@ Dies führt häufig zu Fehlern, wenn Sie unbeabsichtigt globale Datenstrukturen 
 %%slides
 
 
+## Übergabe von Argumentwerten (Konzepte)
+
+%%col 40 60
+
+**Pass-by-value**
+
+- Die Funktion arbeitet mit einer **Kopie des übergebenen Werts**
+- Die Kopie hat eine eigene Adresse
+- Änderungen an der Kopie bleiben innerhalb der Funktion
+- Oft sicherer als unbedachtes Referenz-Überschreiben
+
+**Pass-by-reference**
+
+- Die Funktion arbeitet mit einer Referenz auf **dieselben Daten**
+- Parameter und Argument sind ein Alias für dieselbe Adresse
+- Veränderungen am Objekt sind auch außerhalb der Funktion sichtbar
+- Spart Zeit und Speicher
+
+%%sep
+
+```{=html}
+<video poster="images/06a_Funktionen/manim_pass_concepts_last.png" data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/06a_Funktionen/manim_pass_concepts.webm" type="video/webm"><source src="images/06a_Funktionen/manim_pass_concepts.mp4" type="video/mp4"></video>
+```
+
+%%/col
+
+Adressen und Alias erklärt `02c_Speicher`, Objekte und Referenzen `04c_Objects`.
+
+%%/slides
+
+%%slides
+
+
 ## Veränderte und unveränderte Argumente
 
 %%col 50 50
@@ -978,33 +1007,6 @@ print(liste)   # [6, 3]
 
 %%/slides
 
-
-%%slides
-
-
-## Übergabe von Argumentwerten (Konzepte)
-
-%%col 50 50
-
-**Pass-by-value**
-
-- Die Funktion arbeitet mit einer **Kopie des übergebenen Werts**
-- Änderungen an dieser lokalen Kopie bleiben innerhalb der Funktion
-- Oft einfacher zu verstehen und sicherer als unbedachtes Referenz-Überschreiben
-
-%%sep
-
-**Pass-by-reference**
-
-- Die Funktion arbeitet mit einer Referenz auf **dieselben Daten**
-- Veränderungen am Objekt sind auch außerhalb der Funktion sichtbar
-- Spart Zeit und Speicher
-
-%%/col
-
-Was Objekte und Referenzen sind, steht in `04c_Objects`.
-
-%%/slides
 
 %%slides
 
