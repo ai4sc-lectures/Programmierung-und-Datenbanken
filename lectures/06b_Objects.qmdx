@@ -35,13 +35,13 @@ resources:
 
 %%/slides
 
-%%# Von UML zu Python
-
 %%book
 
 In S04 haben wir Klassen als Entwurfseinheiten kennen gelernt und das UML-Klassendiagramm als Notation für den Entwurf verwendet. In dieser Einheit übersetzen wir diesen Entwurf in Python-Code — und lernen, wie wir KI-generierten Code gegen den Entwurf verifizieren.
 
 %%/book
+
+%%# Von UML zu Python
 
 %%## Das Mapping
 
@@ -85,7 +85,7 @@ class Raum:
 
 %%/col
 
-{{< ai4sc-icon box >}} Klasse → `class Raum:`, Attribut → `self.attribut` in `__init__`
+Eine {{< ai4sc-icon box >}} Klasse wird zu `class Raum:`, jedes Attribut zu `self.attribut` in `__init__`.
 
 %%/slides
 
@@ -107,8 +107,8 @@ Der Konstruktor `__init__()` wird implizit aufgerufen, wenn der Klassenname wie 
 
 ![](images/06b_Objects/uml_raum_methoden.svg){.nostretch fig-align="center" width="100%"}
 
-- {{< ai4sc-icon square-function >}} Methode → `def … (self)`
-- {{< ai4sc-icon arrow-left-right >}} Assoziation → Instanzattribut
+- Eine {{< ai4sc-icon square-function >}} Methode wird zu `def … (self)`
+- Eine {{< ai4sc-icon arrow-left-right >}} Assoziation wird zum Instanzattribut
 - `0..*` → leere Liste in `__init__`
 
 %%sep
@@ -140,22 +140,28 @@ Methoden aus dem UML-Diagramm werden als Funktionen mit `self` als erstem Parame
 
 %%slides
 
-## Instanzen erzeugen
+## Syntax im Überblick
 
-%%col 50 50
+%%col 45 55
 
-- Klassenname wie eine Funktion aufrufen
-- `self` übergibt Python automatisch
+- `__init__` legt die Attribute einer neuen Instanz an
+- `self` ist immer der erste Parameter und steht für die Instanz
+- Instanz erzeugen: Klassenname wie eine Funktion aufrufen, `self` übergibt Python automatisch
 - Benannte Parameter vermeiden Verwechslungen
-- Zugriff über die Punkt-Syntax
 
 %%sep
 
 ```python
+class Raum:
+    def __init__(self, name: str,
+                 fläche: float, höhe: float):
+        self.name   = name
+        self.fläche = fläche
+        self.höhe   = höhe
+
 raum = Raum(name="Büro 1",
             fläche=30.0, höhe=2.8)
-print(raum.fläche)             # 30.0
-print(raum.berechne_volumen()) # 84.0
+print(raum.fläche)  # 30.0
 ```
 
 %%/col
@@ -250,8 +256,6 @@ Die Beziehungsrichtung im UML-Diagramm bestimmt, in welcher Klasse das Attribut 
 
 %%/book
 
-%%# BIM-Beispiel: Raum-Klasse
-
 %%## KI generiert die Raum-Klasse
 
 %%slides
@@ -262,7 +266,7 @@ Die Beziehungsrichtung im UML-Diagramm bestimmt, in welcher Klasse das Attribut 
 
 %%sep
 
-{{< ai4sc-icon box >}} Prompt:
+Prompt:
 
 *„Implementiere die Klasse `Raum` aus diesem UML-Diagramm."*
 
@@ -589,8 +593,6 @@ In Python ist `cls` die Konvention für den ersten Parameter von Klassenmethoden
 
 %%/book
 
-%%# Code-Verständnis-Checkliste
-
 %%## Drei Fragen für KI-generierten Klassencode
 
 %%slides
@@ -655,6 +657,12 @@ Kapselung, Vererbung, Methodensignaturen
 %%/col
 
 %%/slides
+
+%%book
+
+Die UML-Entwurfsartefakte, die wir hier in Python übersetzen, stammen aus `04c_Objects` (S04). In `06c_Module` (S06) organisieren wir Klassen in Modulen, und in `08b_CodeReview` (S08) gehen Kapselung, Vererbung und Methodensignaturen als OOP-Best-Practices in die Review-Checkliste ein.
+
+%%/book
 
 %%book
 
