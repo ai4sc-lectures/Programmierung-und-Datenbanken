@@ -1013,13 +1013,33 @@ print(liste)   # [6, 3]
 
 ## Übergabe von Argumentwerten in Python
 
-- Python übergibt immer eine Referenz auf ein Objekt an den Parameternamen
-- Der Parameter ist ein neuer Name für **dieselbe Adresse** wie das Argument (→ `02c_Speicher`)
-- Dieses Modell heißt „Pass-by-assignment“ oder „call by sharing“
-- Bei unveränderlichen Typen (*immutable*) wirkt eine Neubindung lokal, es sieht aus wie *pass-by-value*
-- Bei veränderlichen Typen (*mutable*) sind Objektänderungen sichtbar, es sieht aus wie *pass-by-reference*
-- Eine reine Neubindung wirkt auch bei veränderlichen Typen nicht außerhalb
-- `+=` verändert eine Liste direkt, bindet bei `int` und `tuple` aber neu
+%%col 50 50
+
+- Python übergibt immer eine **Referenz** auf ein Objekt: Der Parameter ist ein neuer Name für dieselbe Adresse (→ `02c_Speicher`)
+- Das Modell heißt „Pass-by-assignment“ oder „call by sharing“
+- Veränderliche Typen (`list`, `dict`, `set`): Eine Änderung am Objekt ist auch außen sichtbar, es wirkt wie *pass-by-reference*
+- Unveränderliche Typen (`int`, `str`, `tuple`): Es gibt nur Neubindung, es wirkt wie *pass-by-value*
+- Eine reine Neubindung wirkt nie außerhalb
+
+%%sep
+
+```python
+def f(argument):
+    argument += [3]     # Liste: ändert das Objekt
+
+def g(argument):
+    argument += 3       # int: Neubindung des Namens
+
+liste = [6]
+f(liste)
+print(liste)   # [6, 3]  ← außen sichtbar
+
+zahl = 6
+g(zahl)
+print(zahl)    # 6       ← außen unverändert
+```
+
+%%/col
 
 %%/slides
 
