@@ -266,7 +266,7 @@ def funktionsname(arg1, arg2): # <- funktionsname ist wählbar, arg1 und arg2 si
     statement2 # <- noch Teil des eingerückten Codeblocks
 ```
 
-- Funktionsdefinitionen beginnen mit `def`
+- {{< ai4sc-icon square-function >}} Funktionsdefinitionen beginnen mit `def`
 - Es folgen Name, Argumente und ein `:`
 - Argumente gelten im gesamten Funktionskörper
 - Beim Aufruf werden die Argumente mit Eingabedaten belegt
@@ -527,6 +527,151 @@ KI generiert diesen Fehler häufig. Prüfen Sie Standardwerte auf veränderliche
 
 %%/slides
 
+%%slides
+
+
+## Die Signatur als Vertrag
+```python
+def calculate_area(length: float, width: float) -> float:
+    """Berechnet die Fläche eines Rechtecks in m²."""
+    ...
+```
+
+- `calculate_area` → Name beschreibt die Aufgabe
+- `length: float, width: float` → Eingabetypen sind festgelegt
+- `-> float` → Rückgabetyp ist bekannt
+- {{< ai4sc-icon clipboard-list >}} **Vollständige Spezifikation** — die Signatur sagt, was die Funktion verspricht, ohne Implementierung
+
+%%/slides
+
+%%slides
+
+
+## Was prüft man an der Signatur?
+%%col 50 50
+
+**Vor dem Lesen der Implementierung**
+
+1. Name: Passt er zur Anforderung?
+2. Parameter: Richtige Typen und Reihenfolge?
+3. Rückgabetyp: Stimmt er mit dem erwarteten Ergebnis überein?
+4. Docstring: Beschreibt er Grenzfälle?
+
+%%sep
+
+```python
+# ✓ Klare Signatur
+def hydraulic_gradient(
+    head_loss: float,
+    pipe_length: float
+) -> float:
+    """Hydraulisches Gefälle i = Δh / L"""
+    ...
+
+# ✗ Unklare Signatur
+def calc(x, y):
+    ...
+```
+
+%%/col
+
+> **Agentic workflow:** Wenn KI eine Funktion generiert: Signatur zuerst lesen. Stimmen Eingabetypen und Rückgabetyp mit der Anforderung überein? Wenn nicht — Signatur korrigieren und neu prompten.
+
+%%/slides
+
+%%slides
+
+
+## Übung: KI-Code lesen – Schritt 1 {background-color="#D9FF66"}
+Eine KI hat diese Funktion generiert. **Lesen Sie erst nur Signatur und Docstring:**
+
+```python
+def flow_velocity(
+    flow_rate: float,
+    pipe_diameter: float
+) -> float:
+    """
+    Berechnet die mittlere Fließgeschwindigkeit in einem Rohr.
+
+    Args:
+        flow_rate: Volumenstrom in m³/s
+        pipe_diameter: Rohrdurchmesser in m
+    Returns:
+        Fließgeschwindigkeit in m/s
+    """
+    ...
+```
+
+**Frage:** Welche zwei Tests würden Sie schreiben — *bevor* Sie die Implementierung lesen?
+
+%%/slides
+
+%%slides
+
+
+## Übung: KI-Code lesen – Schritt 2 {background-color="#D9FF66"}
+```python
+# Test 1: Bekanntes Ergebnis prüfen
+# Rohr ∅ 0.1 m, Volumenstrom 0.001 m³/s
+# Fläche A = π·(0.05)² ≈ 0.00785 m²  →  v = Q/A ≈ 0.127 m/s
+assert abs(flow_velocity(0.001, 0.1) - 0.1273) < 0.001
+
+# Test 2: Grenzfall — Was passiert bei Durchmesser 0?
+# Erwartet: Division durch 0 → Python wirft einen ZeroDivisionError
+# (Umgang mit Fehlern: 07a_Exceptions)
+# flow_velocity(0.001, 0.0)   # → ZeroDivisionError
+```
+
+**Dann:** Lesen Sie die Implementierung. Stimmt sie mit Ihren Erwartungen überein? Wie solche Tests systematisch aufgebaut werden, behandelt `08a_UnitTest`.
+
+%%/slides
+
+%%slides
+
+
+## Übung: KI-Code lesen – Schritt 3 {background-color="#D9FF66"}
+```python
+def flow_velocity(flow_rate: float, pipe_diameter: float) -> float:
+    """..."""
+    from math import pi
+    area = pi * (pipe_diameter / 2) ** 2
+    return flow_rate / area
+```
+
+%%col 50 50
+
+**Was stimmt?**
+
+- Formel $v = Q / A$ korrekt
+- Rückgabetyp `float` korrekt
+- Import im Funktionskörper — ungewöhnlich, funktioniert aber; meist steht `import` aus Effizienz- und Stilgründen am Modulanfang
+
+%%sep
+
+**Was fehlt?**
+
+- Kein Guard für `pipe_diameter == 0`
+- Keine Einheitenprüfung
+- Kein Hinweis auf negative Eingabewerte
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Agentisches Arbeiten mit Funktionen
+> {{< ai4sc-icon workflow >}} **Wenn KI eine Funktion generiert:**
+>
+> 1. **Signatur lesen:** Stimmen Eingabetypen und Rückgabetyp mit der Anforderung überein?
+> 2. **Test schreiben:** Einen bekannten Testfall formulieren — *bevor* die Implementierung gelesen wird
+> 3. **Docstring prüfen:** Beschreibt er Grenzfälle (None, 0, leere Liste)?
+> 4. **Implementierung lesen:** Stimmt sie mit der Signatur überein?
+> 5. **Wenn nicht:** Signatur korrigieren und neu prompten
+
+%%/slides
+
 %%book
 
 
@@ -632,6 +777,26 @@ print("Der Wert von argument nach der Funktion ist immer noch "+str(argument))
 
 %%slides
 
+
+## Variablengültigkeit
+
+```python
+def meine_funktion(argument):
+    interne_variable = "geheim"
+    print(argument, interne_variable)
+
+meine_funktion("wert")
+print(interne_variable)   # NameError
+```
+
+- Parameter und in der Funktion zugewiesene Namen sind **lokal**
+- Außerhalb der Funktion existieren sie nicht
+- Warum? Jeder Aufruf erhält einen eigenen *Frame* – siehe nächste Folie
+
+%%/slides
+
+%%slides
+
 ## Jeder Funktionsaufruf erhält einen Frame
 
 %%col 50 50
@@ -652,7 +817,7 @@ main()
 
 %%sep
 
-![](images/06a_Funktionen/callstack.svg){fig-align="center"}
+![](images/06a_Funktionen/callstack.svg){fig-align="center" width="100%"}
 
 %%/col
 
@@ -822,6 +987,7 @@ Was Objekte und Referenzen sind, steht in `04c_Objects`.
 ## Übergabe von Argumentwerten in Python
 
 - Python übergibt immer eine Referenz auf ein Objekt an den Parameternamen
+- Der Parameter ist ein neuer Name für **dieselbe Adresse** wie das Argument (→ `02c_Speicher`)
 - Dieses Modell wird oft „**Pass-by-assignment**“ oder „call by sharing" genannt
 - Bei **immutable** Typen wirkt eine Neubindung lokal, deshalb sieht es oft wie *pass-by-value* aus
 - Bei **mutable** Typen sind Objektänderungen sichtbar, deshalb wirkt es oft wie *pass-by-reference*
@@ -862,150 +1028,11 @@ Python hat eine umfangreiche Liste eingebauter Funktionen.
 
 %%/slides
 
-%%slides
 
 
-## Die Signatur als Vertrag
-```python
-def calculate_area(length: float, width: float) -> float:
-    """Berechnet die Fläche eines Rechtecks in m²."""
-    ...
-```
-
-- `calculate_area` → Name beschreibt die Aufgabe
-- `length: float, width: float` → Eingabetypen sind festgelegt
-- `-> float` → Rückgabetyp ist bekannt
-- Die {{< ai4sc-icon clipboard-list >}} Signatur ist eine **vollständige Spezifikation** — ohne Implementierung
-
-%%/slides
-
-%%slides
 
 
-## Was prüft man an der Signatur?
-%%col 50 50
 
-**Vor dem Lesen der Implementierung**
-
-1. Name: Passt er zur Anforderung?
-2. Parameter: Richtige Typen und Reihenfolge?
-3. Rückgabetyp: Stimmt er mit dem erwarteten Ergebnis überein?
-4. Docstring: Beschreibt er Grenzfälle?
-
-%%sep
-
-```python
-# ✓ Klare Signatur
-def hydraulic_gradient(
-    head_loss: float,
-    pipe_length: float
-) -> float:
-    """Hydraulisches Gefälle i = Δh / L"""
-    ...
-
-# ✗ Unklare Signatur
-def calc(x, y):
-    ...
-```
-
-%%/col
-
-> **Agentic workflow:** Wenn KI eine Funktion generiert: Signatur zuerst lesen. Stimmen Eingabetypen und Rückgabetyp mit der Anforderung überein? Wenn nicht — Signatur korrigieren und neu prompten.
-
-%%/slides
-
-%%slides
-
-
-## Übung: KI-Code lesen – Schritt 1
-Eine KI hat diese Funktion generiert. **Lesen Sie erst nur Signatur und Docstring:**
-
-```python
-def flow_velocity(
-    flow_rate: float,
-    pipe_diameter: float
-) -> float:
-    """
-    Berechnet die mittlere Fließgeschwindigkeit in einem Rohr.
-
-    Args:
-        flow_rate: Volumenstrom in m³/s
-        pipe_diameter: Rohrdurchmesser in m
-    Returns:
-        Fließgeschwindigkeit in m/s
-    """
-    ...
-```
-
-**Frage:** Welche zwei Tests würden Sie schreiben — *bevor* Sie die Implementierung lesen?
-
-%%/slides
-
-%%slides
-
-
-## Übung: KI-Code lesen – Schritt 2
-```python
-# Test 1: Bekanntes Ergebnis prüfen
-# Rohr ∅ 0.1 m, Volumenstrom 0.001 m³/s
-# Fläche A = π·(0.05)² ≈ 0.00785 m²  →  v = Q/A ≈ 0.127 m/s
-assert abs(flow_velocity(0.001, 0.1) - 0.127) < 0.01
-
-# Test 2: Grenzfall — Was passiert bei Durchmesser 0?
-# Erwartet: Division durch 0 → Python wirft einen ZeroDivisionError
-# (Umgang mit Fehlern: S07)
-result = flow_velocity(0.001, 0.0)
-```
-
-**Dann:** Lesen Sie die Implementierung. Stimmt sie mit Ihren Erwartungen überein? Wie solche Tests systematisch aufgebaut werden, behandelt `08a_UnitTest`.
-
-%%/slides
-
-%%slides
-
-
-## Übung: KI-Code lesen – Schritt 3
-```python
-def flow_velocity(flow_rate: float, pipe_diameter: float) -> float:
-    """..."""
-    from math import pi
-    area = pi * (pipe_diameter / 2) ** 2
-    return flow_rate / area
-```
-
-%%col 50 50
-
-**Was stimmt?**
-
-- Formel $v = Q / A$ korrekt
-- Rückgabetyp `float` korrekt
-- Import im Funktionskörper — ungewöhnlich, funktioniert aber; meist steht `import` aus Effizienz- und Stilgründen am Modulanfang
-
-%%sep
-
-**Was fehlt?**
-
-- Kein Guard für `pipe_diameter == 0`
-- Keine Einheitenprüfung
-- Kein Hinweis auf negative Eingabewerte
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## Agentisches Arbeiten mit Funktionen
-> {{< ai4sc-icon workflow >}} **Wenn KI eine Funktion generiert:**
->
-> 1. **Signatur lesen:** Stimmen Eingabetypen und Rückgabetyp mit der Anforderung überein?
-> 2. **Test schreiben:** Einen bekannten Testfall formulieren — *bevor* die Implementierung gelesen wird
-> 3. **Docstring prüfen:** Beschreibt er Grenzfälle (None, 0, leere Liste)?
-> 4. **Implementierung lesen:** Stimmt sie mit der Signatur überein?
-> 5. **Wenn nicht:** Signatur korrigieren und neu prompten
-
-%%/slides
 
 %%book
 
