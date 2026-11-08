@@ -156,21 +156,17 @@ Unterste Zeile: `sum(messungen)` ist abgestürzt, weil `messungen` den Wert `Non
 
 ## Tracebacks: Den Aufrufstapel lesen
 %%div eyebrow
-{{< ai4sc-icon test-tube >}}
-%%/div
-
-%%div eyebrow
-{{< ai4sc-icon test-tube >}} Traceback-Analyse
+{{< ai4sc-icon search >}} Traceback-Analyse
 %%/div
 
 %%col 50 50
 
-*Traceback von unten nach oben lesen:*
+*Traceback von oben nach unten lesen — der Aufrufpfad bis zum Absturz:*
 
-1. **Unterste Zeile** — die Stelle, die abgestürzt ist
-2. **Exception-Typ** — welche Annahme verletzt wurde
-3. **Fehlermeldung** — welcher konkrete Wert das ausgelöst hat
-4. **Aufwärts** — der Aufrufpfad bis zum Startpunkt
+1. **Oberste Zeile** — der Startpunkt des Aufrufs
+2. **Weiter abwärts** — jede Zeile ist ein Funktionsaufruf tiefer
+3. **Letzte Stack-Zeile** — die Stelle, die abgestürzt ist
+4. **Exception-Typ + Meldung** — welche Annahme verletzt wurde
 
 %%sep
 
@@ -193,10 +189,13 @@ TypeError: 'NoneType' object is not iterable ← Verletzte Annahme
 
 
 ## Traceback lesen: Beispiel zum KI-Fehler
+%%div eyebrow
+{{< ai4sc-icon search >}} Traceback-Analyse
+%%/div
 
-1. **Unterste Zeile:** `TypeError` bedeutet, dass ein Wert nicht zur Operation passt.
-2. **Fehlermeldung:** `'NoneType' object is not iterable` zeigt, dass `sum()` kein iterierbares Objekt erhalten hat.
-3. **Absturzstelle:** In `berechne_mittleren_durchfluss()` wurde `sum(messungen)` aufgerufen.
+1. **Aufrufpfad:** `<module>` → `berechne_mittleren_durchfluss()` — von oben nach unten.
+2. **Absturzstelle:** In `berechne_mittleren_durchfluss()` wurde `sum(messungen)` aufgerufen.
+3. **Exception:** `TypeError: 'NoneType' object is not iterable` — `sum()` erhielt kein iterierbares Objekt.
 4. **Rückwärts fragen:** Woher kam `messungen`? Aus `hole_messungen(sensor_id)`.
 5. **Annahme finden:** Die KI hat angenommen, dass `hole_messungen()` immer eine Liste liefert.
 
@@ -244,7 +243,7 @@ def berechne_mittleren_durchfluss(sensor_id):
     if messungen is None:       # Guard
         return None
     if len(messungen) == 0:     # Guard
-        return 0.0
+        return None
     return sum(messungen) / len(messungen)
 ```
 
@@ -291,7 +290,7 @@ Beide Muster sind nützlich. Entscheidend ist, dass die Annahmen im Code explizi
 ## Agentic Workflow: KI-Exception → Reprompt
 
 %%div eyebrow
-{{< ai4sc-icon test-tube >}} Agentic Cycle — Exception-Diagnose
+{{< ai4sc-icon search >}} Agentic Cycle — Exception-Diagnose
 %%/div
 
 1. **Traceback lesen** — welche Zeile ist abgestürzt?
@@ -559,14 +558,14 @@ finally:
 ## Semantische Fehler — Behandlung
 
 %%div eyebrow
-{{< ai4sc-icon test-tube >}} Traceback-Analyse
+{{< ai4sc-icon search >}} Traceback-Analyse
 %%/div
 
 *Erster Schritt: Traceback verstehen*
 
-- **Unterste Zeile:** Wo ist der Code abgestürzt?
+- **Letzte Stack-Zeile:** Wo ist der Code abgestürzt?
 - **Exception-Typ:** Welche Annahme wurde verletzt? (`TypeError`, `AttributeError`, `ZeroDivisionError` …)
-- **Aufwärts:** Wer hat den fehlerhaften Wert übergeben?
+- **Aufrufpfad davor:** Wer hat den fehlerhaften Wert übergeben?
 - **Fehlermeldung:** Welcher konkrete Wert hat das Problem ausgelöst?
 
 *Bei KI-Code: Welche stillschweigende Annahme hat die KI über diesen Wert gemacht?*
@@ -599,6 +598,8 @@ Exceptions können auch selbst mit `raise` erzeugt werden. Das ist sinnvoll, wen
 Als Beispiel definieren wir eine eigene Divisionsfunktion mit expliziten Guard Clauses und klarer Fehlerbenennung:
 
 %%/book
+
+%%book
 
 ```{python}
 #| echo: true
@@ -737,6 +738,54 @@ except RecursionError as e:
 %%slides
 
 
+## Exceptions im Aufrufstapel
+%%div eyebrow
+{{< ai4sc-icon search >}} Traceback = Call Stack
+%%/div
+
+%%col 50 50
+
+```python
+def lade(sensor_id):
+    return hole_messungen(sensor_id)
+
+def analysiere(sensor_id):
+    return berechne_mittleren_durchfluss(sensor_id)
+```
+
+*Jeder Aufruf legt einen Frame auf den Stack.*
+
+%%sep
+
+- Exceptions steigen im Stack **nach oben**, bis sie abgefangen werden
+- Sonst stürzt das Programm ab — der Traceback zeigt dann den **eingefrorenen Stack**
+- Je tiefer die Zeile, desto näher an der Ursache
+
+%%/col
+
+%%/slides
+
+%%slides
+
+
+## Exception abfangen: try-except
+
+```python
+try:
+    mittel = berechne_mittleren_durchfluss("sensor_01")
+except TypeError as e:
+    print(f"Sensor lieferte keine Messwerte: {e}")
+```
+
+- *Spezifische* Exception-Typen abfangen, kein blankes `except:`
+- `try-except` **ergänzt** Guard Clauses, es ersetzt sie nicht
+- Nie verstecken, um das Problem zu ignorieren — die Annahme muss explizit werden
+
+%%/slides
+
+%%slides
+
+
 ## Logische Fehler — Grundlagen
 
 *Entstehen durch:*
@@ -828,8 +877,8 @@ except RecursionError as e:
     - [ ] Der Computer hat einen Hardwarefehler
 
     ### Wie liest man einen Traceback?
-    - [x] Von unten nach oben — unterste Zeile ist der Absturz, aufwärts der Aufrufpfad
-    - [ ] Von oben nach unten — erste Zeile zeigt den Absturz
+    - [x] Von oben nach unten — der Aufrufpfad bis zur letzten Zeile, die den Absturz zeigt
+    - [ ] Von unten nach oben — die erste Zeile zeigt den Absturz
     - [ ] Nur die erste Zeile ist relevant
     - [ ] Der Traceback enthält keine nützlichen Informationen
 
