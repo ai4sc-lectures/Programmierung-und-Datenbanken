@@ -16,6 +16,10 @@ resources:
 
 %%book
 
+### TL;DR
+
+Ein UML-Klassendiagramm aus S04 lässt sich schematisch in Python übersetzen: Die Klasse wird zu `class`, Attribute werden zu `self.attribut` in `__init__`, Methoden zu `def … (self)` und Assoziationen zu Instanzattributen. Eine KI erzeugt diesen Code, die Ingenieurin oder der Ingenieur verifiziert ihn gegen das Diagramm. Typische Fehler sind veränderliche Standardwerte in `__init__`, fehlendes `self` und `cls` statt `self`.
+
 ![](images/06b_Objects/mj_title_band.jpg)
 
 > Nothing is particularly hard if you divide it into small jobs.
@@ -25,6 +29,7 @@ resources:
 
 
 %%slides
+
 
 ## Zielsetzung
 
@@ -40,6 +45,7 @@ resources:
 In S04 haben wir Klassen als Entwurfseinheiten kennen gelernt und das UML-Klassendiagramm als Notation für den Entwurf verwendet. In dieser Einheit übersetzen wir diesen Entwurf in Python-Code — und lernen, wie wir KI-generierten Code gegen den Entwurf verifizieren.
 
 %%/book
+
 
 %%# Von UML zu Python
 
@@ -63,6 +69,7 @@ Jedes Element des UML-Klassendiagramms hat eine direkte Python-Entsprechung. Die
 %%/book
 
 %%slides
+
 
 ## Klassenname und Attribute
 
@@ -100,6 +107,7 @@ Der Konstruktor `__init__()` wird implizit aufgerufen, wenn der Klassenname wie 
 %%/book
 
 %%slides
+
 
 ## Methode und Assoziation
 
@@ -140,6 +148,7 @@ Methoden aus dem UML-Diagramm werden als Funktionen mit `self` als erstem Parame
 
 %%slides
 
+
 ## Syntax im Überblick
 
 %%col 45 55
@@ -175,6 +184,7 @@ Objekte selbst sind immer Instanzen einer Klasse. Eine Klasse kann beliebig viel
 %%/book
 
 %%slides
+
 
 ## Instanz- vs. Klassenattribute
 
@@ -213,6 +223,7 @@ Veränderliche Klassenattribute (Listen, Dicts) gelten für **alle** Instanzen.
 Instanzattribute werden in `__init__` mit `self.attributname` definiert und können in jeder Instanz unterschiedlich sein. Klassenattribute werden auf Klassenebene (außerhalb von `__init__`) definiert und haben denselben Wert für alle Instanzen. Bei veränderlichen Klassenattributen (Listen, Dictionaries) gilt: Eine Änderung durch eine Instanz wirkt sich auf alle anderen aus.
 
 %%/book
+
 
 %%## Assoziationen als Instanzattribute
 
@@ -256,6 +267,7 @@ Die Beziehungsrichtung im UML-Diagramm bestimmt, in welcher Klasse das Attribut 
 
 %%/book
 
+
 %%## KI generiert die Raum-Klasse
 
 %%slides
@@ -283,6 +295,7 @@ Die KI übernimmt die Übersetzung des UML-Diagramms in Python-Code. Dazu geben 
 %%/book
 
 %%slides
+
 
 ## Die generierte Klasse lesen
 
@@ -325,6 +338,7 @@ Bevor wir den Code ausführen, wenden wir Pattern C an: Wir lesen den Code und s
 
 %%slides
 
+
 ## Verifizieren gegen das Diagramm
 
 > **Agentic Workflow — Klasse verifizieren:**
@@ -343,6 +357,7 @@ Die Verifikation läuft systematisch gegen das UML-Diagramm. Der Code muss das D
 %%/book
 
 %%slides
+
 
 ## Hörsaalfrage {background="#FFD966"}
 
@@ -389,6 +404,7 @@ Welche Klasse setzt das UML-Diagramm `Raum` korrekt um? Nur Variante A tut das: 
 
 %%/book
 
+
 %%# Kapselung und Vererbung
 
 %%## Kapselung: Attribute schützen
@@ -422,6 +438,7 @@ class Raum:
 Kapselung schützt Attribute vor unerwünschtem Zugriff. Private Attribute (`__name`) sind nur innerhalb der Klasse über `self` zugänglich; der direkte Zugriff von außen schlägt fehl. Python setzt hier allerdings kein echtes Zugriffsverbot um, sondern verwendet sogenanntes Name Mangling: Intern wird der Name umgeschrieben, sodass versehentlicher Zugriff erschwert wird. Um Lesezugriff zu ermöglichen, definiert man Getter-Methoden. Kapselung ist im UML-Diagramm durch die Sichtbarkeitsmarker `+` (public), `#` (protected) und `-` (private) ausgedrückt.
 
 %%/book
+
 
 %%## Vererbung
 
@@ -463,6 +480,7 @@ Vererbung ist eine der wichtigsten Eigenschaften der Objektorientierung. Unterkl
 Unterklassen können Methoden der Elternklasse überschreiben (*Polymorphismus*) — und so dasselbe Interface unterschiedlich implementieren.
 
 %%/book
+
 
 %%# Typische KI-Fehler bei Klassen
 
@@ -512,6 +530,7 @@ Ein häufiger KI-Fehler ist die Verwendung von veränderlichen Objekten (Listen,
 
 %%/book
 
+
 %%## KI-Fehler 2 — Fehlendes `self`
 
 %%slides
@@ -549,6 +568,7 @@ class Raum:
 Methoden müssen immer `self` als ersten Parameter haben. Ohne `self` hat die Methode keinen Zugriff auf die Instanzattribute und wird beim Aufruf mit einem `TypeError` fehlschlagen. Dieser Fehler passiert KI-Systemen besonders dann, wenn Methoden aus freien Funktionen umgebaut werden.
 
 %%/book
+
 
 %%## KI-Fehler 3 — `cls` statt `self`
 
@@ -593,6 +613,7 @@ In Python ist `cls` die Konvention für den ersten Parameter von Klassenmethoden
 
 %%/book
 
+
 %%## Drei Fragen für KI-generierten Klassencode
 
 %%slides
@@ -631,6 +652,7 @@ Diese drei Fragen bilden den Kern der Verifikation von KI-generiertem Klassencod
 
 %%slides
 
+
 ## Querverbindungen
 
 %%col 33 33 33
@@ -662,9 +684,6 @@ Kapselung, Vererbung, Methodensignaturen
 
 Die UML-Entwurfsartefakte, die wir hier in Python übersetzen, stammen aus `04c_Objects` (S04). In `06c_Module` (S06) organisieren wir Klassen in Modulen, und in `08b_CodeReview` (S08) gehen Kapselung, Vererbung und Methodensignaturen als OOP-Best-Practices in die Review-Checkliste ein.
 
-%%/book
-
-%%book
 
 ```{quizdown}
 
@@ -764,5 +783,6 @@ Die UML-Entwurfsartefakte, die wir hier in Python übersetzen, stammen aus `04c_
 ```
 
 %%/book
+
 
 %%final
