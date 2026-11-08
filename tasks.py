@@ -605,6 +605,22 @@ def _resolve_lecture(name: str) -> Path:
     raise Exit(f"'{name}' is ambiguous: " + ", ".join(m.stem for m in matches), code=2)
 
 
+def _require_in_project(stem: str) -> None:
+    """Quarto renders a file outside project.render as a standalone document into
+    lectures/ (not _site), so refuse instead of reporting a misleading success."""
+    import yaml
+
+    cfg = yaml.safe_load((LECTURES / "_quarto.yaml").read_text(encoding="utf-8")) or {}
+    listed = (cfg.get("project") or {}).get("render") or []
+    if listed and f"{stem}.qmd" not in listed:
+        raise Exit(
+            f"{stem}.qmd is not in project.render of lectures/_quarto.yaml; add it there "
+            "(and to the sidebar) before rendering, otherwise Quarto writes a standalone "
+            "file into lectures/ instead of _site/",
+            code=2,
+        )
+
+
 def _main_checkout() -> Path:
     """Root of the main checkout, also when called from a git worktree."""
     try:
@@ -785,6 +801,8 @@ def render(c, deck, to="html,slides", execute=True, keep=False, strict=False):
     if "html" in targets and "slides" not in targets and slide_html.exists():
         info(f"Note: the html render removes {slide_html.name}; add 'slides' to keep it")
     ordered = [t for t in _TARGET_ORDER if t in targets]
+    if targets & {"html", "typst", "slides", "pdf", "shots"}:
+        _require_in_project(stem)
 
     log_dir = HERE / "_build" / "render" / stem
     log_dir.mkdir(parents=True, exist_ok=True)
@@ -880,6 +898,7 @@ def preview(c, deck, to="slides", port=0, execute=True):
         raise Exit("--to must be 'slides' or 'html'", code=2)
     qmdx = _resolve_lecture(deck)
     stem = qmdx.stem
+    _require_in_project(stem)
     _seed_site()
     _preprocess_one(qmdx)
     port = _pick_port(int(port), 4200)
