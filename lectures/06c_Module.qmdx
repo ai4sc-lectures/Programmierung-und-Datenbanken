@@ -13,6 +13,7 @@ format:
     output-file: 06c_Module.page.pdf
 resources:
   - images/06c_Module/mj_title_poster.jpg
+  - data/06c_Module
 execute:
   cache: false   # inline {python} expressions do not work with Jupyter Cache
 ---
@@ -27,14 +28,14 @@ execute:
 
 ### TL;DR
 
-Größere Programme verteilen wir auf Module und Packages: eine Datei pro Klasse, Thema oder Aufgabenbereich, Unterpakete in eigenen Ordnern. KI-Werkzeuge verfehlen diese Granularität oft und erzeugen eine riesige Datei, sehr viele winzige Dateien oder tief verschachtelte Ordner. Wir lernen, wie Python Module mit `main()` und `import` startet und findet, und wie wir die Standardbibliothek und Packages aus PyPI nutzen.
+Größere Programme verteilen wir auf Module und Packages: eine Datei pro Klasse, Thema oder Aufgabenbereich, Unterpakete in eigenen Ordnern. KI-Werkzeuge verfehlen diese Granularität oft und erzeugen eine riesige Datei, sehr viele winzige Dateien oder tief verschachtelte Ordner. Wir lernen, wie Python Module mit `main()` und `import` startet und findet und wie wir die Standardbibliothek und Packages aus PyPI nutzen.
 
 %%/book
 
 %%slides
 
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Sie lassen eine KI das Geometrie-Projekt aus der letzten Vorlesung schreiben. Welche Struktur bekommen Sie zurück, und welche wollen Sie?" capR="Vier mögliche Strukturen für dieselben sieben Klassen" imgR="images/06c_Module/fehlformen_frage.png"}
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Sie lassen eine KI das Geometrie-Projekt aus der letzten Vorlesung schreiben. Welche Struktur bekommen Sie zurück und welche wollen Sie?" capR="Vier mögliche Strukturen für dieselben sieben Klassen" imgR="images/06c_Module/fehlformen_frage.png"}
 
 
 ## Zielsetzung
@@ -46,12 +47,12 @@ Größere Programme verteilen wir auf Module und Packages: eine Datei pro Klasse
 
 %%/slides
 
-%%book
+
+%%# Warum Module
 
 
-## Projektstruktur als Architekturentscheidung
+%%## Module dienen der Strukturierung
 
-%%/book
 
 %%book
 
@@ -113,12 +114,6 @@ Die Summe aller Module formt dann ein *Package*. In diesem Fall das Package `geo
 
 %%slides
 
-
-# Warum Module
-
-
-## Module dienen der Strukturierung
-
 %%col 45 55
 
 - Große Programme haben dutzende Klassen und tausende Zeilen: in einer Datei geht der Überblick verloren
@@ -173,11 +168,27 @@ import geometry
 
 %%/col
 
+%%/slides
 
-# Die richtige Granularität
+%%book
+
+Ein Projekt hat meist eine zentrale Datei, die die Funktion `main()` enthält und die übrigen Module importiert. In der allgemeinen Struktur ist das `main.py` mit den Modulen `module1`, `module2` und `helpers`, im Stadtprojekt `city.py` mit den Modulen `buildings`, `streets` und `geometry`. Wie `main()` und `import` genau funktionieren, sehen wir weiter unten.
+
+%%/book
 
 
-## Drei Fehlformen bei KI-generiertem Code
+%%# Die richtige Granularität
+
+
+%%## Drei Fehlformen bei KI-generiertem Code
+
+%%book
+
+Lassen wir eine KI ein Projekt wie das Geometrie-Package schreiben, bekommen wir nicht automatisch eine gute Aufteilung. Die Hörsaalfrage zu Beginn zeigt vier mögliche Strukturen für dieselben sieben Klassen; nur B gliedert sie nach dem Muster aus dem letzten Abschnitt. Die drei anderen sind typische Fehlformen. Bei der ersten stehen alle Klassen in einer einzigen Datei, die mit dem Projekt immer weiter wächst. Bei der zweiten bekommt jede Methode ihre eigene Datei; für die sieben Geometrieklassen wären das 15 Dateien mit jeweils wenigen Zeilen und jede braucht ihre eigenen Imports. Bei der dritten bekommt jede Datei einen eigenen Ordner, sodass `Triangle.py` erst nach fünf Ordnerebenen erreicht ist und die Importpfade entsprechend lang werden.
+
+%%/book
+
+%%slides
 
 %%col 33 34 33
 
@@ -198,6 +209,16 @@ Eine Datei pro Methode: die Klasse zerfällt, jede Datei braucht eigene Imports
 Ein Ordner pro Datei: fünf Ordner bis zur Datei `Triangle.py`, entsprechend lange Importpfade
 
 %%/col
+
+%%/slides
+
+%%book
+
+Gegen diese Fehlformen helfen einfache Faustregeln. Die Struktur folgt der Objektorientierung mit einer Datei pro Klasse, Hilfsfunktionen kommen in eine Datei pro Thema und Aufgabenbereiche wie Laden, Verarbeiten und Darstellen liegen in getrennten Modulen. Unterpakete bekommen eigene Unterordner und eine Datei hat höchstens etwa 1000 Zeilen. Die gewünschte Gliederung nennen wir schon im Prompt und prüfen die erzeugte Struktur anschließend gegen diese Regeln.
+
+%%/book
+
+%%slides
 
 
 ## Faustregeln für gute Module
@@ -320,12 +341,11 @@ Beim Prüfen des generierten Moduls vergleichen wir zuerst das Interface mit dem
 %%/book
 
 
-%%book
+%%# Startpunkt und Import
 
 
-## `main()` - Der Startpunkt eines Programmes
+%%## Der Startpunkt eines Programmes die `main()` als Startpunkt`
 
-%%/book
 
 %%book
 
@@ -369,12 +389,6 @@ Sie nutzt aus, dass der Wert der Standardvariable `__name__` in der Hauptdatei i
 
 %%slides
 
-
-# Startpunkt und Import
-
-
-## main() als Startpunkt
-
 %%col 50 50
 
 - Bei mehreren Dateien braucht Python einen Startpunkt: die Funktion `main()`
@@ -383,7 +397,7 @@ Sie nutzt aus, dass der Wert der Standardvariable `__name__` in der Hauptdatei i
 
 ```python
 def main():
-    print("This is the main function")
+    ...  # Programmablauf
 
 if __name__ == "__main__":
     main()
@@ -425,7 +439,7 @@ Der Programmfluss bleibt übersichtlich, das Programm ist einfach zu ändern und
 %%book
 
 
-## Importieren von Modulen
+### Importieren von Modulen
 
 %%/book
 
@@ -558,12 +572,12 @@ geometry.points.ImmutablePoint.ImmutablePoint(...)
 *Mit Alias*
 
 ```python
-import paket.modul as name
+import paket.modul as m
 
-name.Klasse(...)
+m.Klasse(...)
 ```
 
-`name` ist das Modulobjekt, der *Namespace*.
+Ein kurzer Name wie `m` ersetzt den langen Pfad.
 
 ```python
 point.ImmutablePoint(...)
@@ -579,7 +593,7 @@ from paket.modul import Klasse
 Klasse(...)
 ```
 
-Holt `Klasse` direkt in die Datei, `*` holt alle Namen.
+Importiert nur `Klasse` (alles mit `*`)
 
 ```python
 ImmutablePoint(...)
@@ -619,15 +633,13 @@ Mit vollem Pfad oder `from … import Line` ergibt sich dieselbe Länge, nur die
 %%/col
 
 
-## Verzeichnis, Package, Modul
+## Wie Python ein Modul findet
 
-%%col 58 42
+%%col 45 55
 
-- *Verzeichnis:* nur eine Ordnerstruktur auf der Festplatte
-- *Package:* ein Verzeichnis, das Python als importierbaren Namensraum behandelt
-- *Modul:* eine konkrete Python-Datei wie `ImmutablePoint.py`
-
-`__init__.py` markiert ein Package ausdrücklich. `geometry` hat keine und lässt sich trotzdem importieren.
+- Jeder Teil des Imports ist ein Ordner, der letzte eine Datei
+- Den ersten Ordner (`geometry`) sucht Python in den Ordnern der Liste `sys.path`, zuerst im Ordner des gestarteten Programms
+- Findet Python ihn dort nicht, bricht der Import ab, z. B. bei einem Tippfehler:
 
 ```{python}
 #| echo: true
@@ -637,18 +649,18 @@ import geometrie
 
 %%sep
 
-![](images/06c_Module/sys_path.svg){.nostretch fig-align="center" width="100%"}
+![](images/06c_Module/import_pfad.svg){.nostretch fig-align="center" width="100%"}
 
 %%/col
 
 %%/slides
 
-%%book
+
+%%# Vorhandene Packages nutzen
 
 
-## Standard Pakete aus Python importieren
+%%## Standardbibliothek
 
-%%/book
 
 %%book
 
@@ -703,12 +715,6 @@ for count, filename in enumerate(os.listdir(folder)):
 
 %%slides
 
-
-# Vorhandene Packages nutzen
-
-
-## Standardbibliothek
-
 %%col 40 60
 
 | Package | Aufgabe |
@@ -728,10 +734,8 @@ Alle Dateien im Unterpaket `shapes` auflisten:
 import os
 
 folder = "geometry/shapes/"
-for count, filename in enumerate(os.listdir(folder)):
-	if os.path.isfile(os.path.join(folder, filename)):
-		path = os.path.join(folder, filename)
-		print(path)
+[f for f in sorted(os.listdir(folder))
+ if os.path.isfile(os.path.join(folder, f))]
 ```
 
 %%/col
@@ -771,20 +775,25 @@ with urllib.request.urlopen(f'https://app-prod-ws.warnwetter.de/v30/stationOverv
 
 ## Beispiel: Wetterdaten vom DWD
 
-`urllib` lädt die Daten der Station Rostock-Hansaviertel (ID `12495`), `json` macht daraus ein `dict`, `pprint` gibt es lesbar aus.
+`urllib` lädt die Daten der Station Rostock-Hansaviertel (ID `12495`), `json` macht daraus ein `dict`.
 
 ```{python}
 #| echo: true
-#| class-output: output-scroll
 import urllib.request
 import json
-import pprint
 
 stationID='12495' # Rostock-Hansaviertel
 with urllib.request.urlopen(f'https://app-prod-ws.warnwetter.de/v30/stationOverviewExtended?stationIds={stationID}') as f:
     data=f.read() # Dies gibt uns ein binären Datentyp zurück
     wetter=json.loads(data) # Wir konvertieren den binären Datentyp in ein dict
-    pprint.pprint(wetter, indent=2, compact=True)
+```
+
+Die Vorhersage für den ersten Tag:
+
+```{python}
+#| echo: true
+#| class-output: output-scroll
+wetter[stationID]['days'][0]
 ```
 
 %%/slides
@@ -792,7 +801,7 @@ with urllib.request.urlopen(f'https://app-prod-ws.warnwetter.de/v30/stationOverv
 %%book
 
 
-## Externe Pakete installieren und importieren
+### Externe Pakete installieren und importieren
 
 %%/book
 
@@ -889,6 +898,15 @@ pip install pandas plotly dash
 ```
 
 ```{python}
+#| echo: false
+#| output: false
+from pathlib import Path
+from ai4sc_style.plotly_loader import load_ai4sc_theme
+
+load_ai4sc_theme("pastello", themes_dir=Path("_extensions/ai4sc-style/themes"))
+```
+
+```{python}
 #| echo: true
 import pandas as pd
 import plotly.express as px
@@ -904,8 +922,18 @@ Vier Zeilen Python von den Rohdaten zum Diagramm.
 
 ```{python}
 #| echo: false
-fig.show(renderer="svg")
+fig.update_xaxes(automargin=True, title_text="Tag")
+fig.update_yaxes(automargin=True, title_text="Temperatur (0,1 °C)")
+fig.update_layout(height=420, margin=dict(l=10, r=10, t=20, b=10), legend_title_text="",
+                  legend=dict(orientation="h", yanchor="top", y=-0.25, xanchor="left", x=0))
+fig.write_image("data/06c_Module/wetter_temperatur.png", width=600, height=420, scale=2)
 ```
+
+%%cache_plotly "data/06c_Module/wetter_temperatur.json" 600x420 write
+
+::: {.content-visible when-format="typst"}
+![](data/06c_Module/wetter_temperatur.png)
+:::
 
 %%/col
 
@@ -921,6 +949,7 @@ Optional können wir dieses Diagramm anschließend in einer Webseite auf einem W
 
 ```{python}
 #| echo: true
+#| eval: false
 import dash
 
 app = dash.Dash()
@@ -938,6 +967,7 @@ Dann erzeugen wir eine Webseite mit einer Überschrift (`H1`), welche den Plot a
 
 ```{python}
 #| echo: true
+#| eval: false
 app.layout = dash.html.Div(children = [
     dash.html.H1(children='Wetter in Rostock'),
     dash.dcc.Graph(id="wetter", figure=fig)
@@ -955,14 +985,14 @@ Und starten den Webserver.
 %%book
 
 ```python
-app.run_server()
+app.run()
 ```
 
 %%/book
 
 %%book
 
-Dies startet einen Webserver, auf den wir in einem Browser unter `http://127.0.0.1:8083/` zugreifen können. Er zeigt eine Webseite mit einem interaktiven Diagramm der Wetterdaten.
+Dies startet einen Webserver, auf den wir in einem Browser unter `http://127.0.0.1:8050/` zugreifen können. Er zeigt eine Webseite mit einem interaktiven Diagramm der Wetterdaten.
 
 %%/book
 
@@ -987,10 +1017,10 @@ app.layout = dash.html.Div(children = [
     dash.html.H1(children='Wetter in Rostock'),
     dash.dcc.Graph(id="wetter", figure=fig)
 ])
-app.run_server()
+app.run()
 ```
 
-Sieben Zeilen für eine Webseite mit interaktivem Diagramm unter `http://127.0.0.1:8083/`.
+Sieben Zeilen für eine Webseite mit interaktivem Diagramm unter `http://127.0.0.1:8050/`.
 
 %%sep
 
@@ -1000,46 +1030,11 @@ Sieben Zeilen für eine Webseite mit interaktivem Diagramm unter `http://127.0.0
 
 %%/slides
 
-%%book
-
-Ein Package kann außerdem festlegen, welche Namen beim Import nach außen sichtbar sein sollen. Dazu kann in `__init__.py` oder in einem Modul die Variable `__all__` definiert werden. Sie ist besonders dann hilfreich, wenn ein Package ein bewusst kleines öffentliches Interface anbieten soll.
-
-```{python}
-#| echo: true
-__all__ = ["Line", "Triangle", "Polygon"]
-```
-
-Die Konvention mit führendem Unterstrich (`_helper`) sagt also: "intern gedacht". `__all__` macht dieses öffentliche Interface zusätzlich explizit.
-
-%%/book
-
-%%slides
-
-
-## Öffentliches Interface: `__all__`
-
-%%col 50 50
-
-- `__all__` in `__init__.py` legt fest, welche Namen ein Package nach außen anbietet
-- `from geometry.shapes import *` holt dann genau diese Namen
-- Ein führender Unterstrich wie bei `_is_outlier` heißt: intern gedacht
-
-%%sep
-
-```python
-# geometry/shapes/__init__.py
-__all__ = ["Line", "Triangle", "Polygon"]
-```
-
-%%/col
-
-%%/slides
-
 
 %%book
 
 
-## Python-Ökosystem: Standardbibliothek und PyPI
+### Python-Ökosystem: Standardbibliothek und PyPI
 
 Ein großer Teil der Stärke von Python liegt im Zusammenspiel aus Standardbibliothek und externer Paketwelt. Die Standardbibliothek deckt viele grundlegende Aufgaben ab, etwa Dateizugriffe, JSON-Verarbeitung oder mathematische Funktionen. PyPI erweitert dieses Fundament um spezialisierte Bibliotheken für Datenanalyse, Visualisierung, Webentwicklung, Geometrie, Machine Learning und vieles mehr.
 
@@ -1060,7 +1055,12 @@ from datetime import date
 
 req = urllib.request.Request("https://pypi.org/", headers={"User-Agent": "lecture-render"})
 html = urllib.request.urlopen(req, timeout=15).read().decode()
-pypi_projekte = int(re.search(r"([\d,]+)\s+projects", html).group(1).replace(",", ""))
+def pypi_zahl(einheit):
+    return int(re.search(rf"([\d,]+)\s+{einheit}", html).group(1).replace(",", ""))
+
+pypi_projekte = pypi_zahl("projects")
+pypi_dateien = pypi_zahl("files")
+pypi_benutzer = pypi_zahl("users")
 stand = date.today().strftime("%d.%m.%Y")
 ```
 
@@ -1075,17 +1075,93 @@ stand = date.today().strftime("%d.%m.%Y")
 - Die offizielle Anlaufstelle ist der Python Package Index (PyPI)
 - Installation meist mit einem Befehl: `pip install` oder `uv add`
 
-[**`{python} pypi_projekte`**]{.r-fit-text .fragment .count-auto}
-Projekte auf PyPI (Stand: `{python} stand`)
-
 %%sep
 
 <a href="https://pypi.org">![](images/06c_Module/pip.png)</a>
 
 %%/col
 
-%%note Bei KI-generiertem Code prüfen
-Gehört jeder Import zu Python, oder muss das Package erst installiert und dokumentiert werden?
+:::::: {.stat-grid style="grid-template-columns: repeat(3, 1fr); gap: 12px;"}
+
+%%%%div stat-card
+%%div stat-label
+Projekte
+%%/div
+%%div stat-value
+[`{python} pypi_projekte`]{.fragment .count-auto}
+%%/div
+%%%%/div
+
+%%%%div stat-card
+%%div stat-label
+Dateien
+%%/div
+%%div stat-value
+[`{python} pypi_dateien`]{.fragment .count-auto}
+%%/div
+%%%%/div
+
+%%%%div stat-card
+%%div stat-label
+Benutzer
+%%/div
+%%div stat-value
+[`{python} pypi_benutzer`]{.fragment .count-auto}
+%%/div
+%%%%/div
+
+::::::
+
+PyPI, Stand: `{python} stand`
+
+%%/slides
+
+%%book
+
+
+### Paketmanager: pip und uv
+
+Ein Paketmanager lädt Packages aus PyPI und installiert sie zusammen mit allen Packages, die diese selbst benötigen. Für `pandas`, `plotly` und `dash` sind das im November 2026 insgesamt 32 Packages. Der Standard-Paketmanager von Python ist `pip`. Er installiert in die gerade aktive Python-Umgebung, merkt sich aber nicht, welche Packages und Versionen ein Projekt braucht. Auf einem anderen Rechner fehlen sie dann und der Import bricht mit `ModuleNotFoundError` ab, oder es ist eine andere Version installiert, die sich anders verhält. Ein Beispiel aus diesem Kapitel: Den Webserver von `dash` startete man früher mit `app.run_server()`. In der aktuellen Version 4 gibt es diese Methode nicht mehr und ein älteres Programm bricht genau an dieser Zeile ab.
+
+Der Paketmanager `uv` legt deshalb für jedes Projekt eine eigene Umgebung an (`.venv`). Mit `uv add pandas` installiert er ein Package und trägt es in die Datei `pyproject.toml` ein; die genauen Versionen aller installierten Packages schreibt er in die Datei `uv.lock`. Mit `uv run main.py` baut er vor dem Start auf jedem Rechner dieselbe Umgebung auf. Das hilft besonders bei KI-generiertem Code, der oft Packages importiert, die im Projekt noch nicht stehen.
+
+%%/book
+
+%%slides
+
+
+## Paketmanager: pip und uv
+
+Ein Paketmanager lädt Packages aus PyPI und installiert sie mit allen Packages, die diese selbst brauchen: für `pandas`, `plotly` und `dash` insgesamt 32.
+
+%%col 50 50
+
+*pip*
+
+- Installiert in die gerade aktive Python-Umgebung
+- Merkt sich nicht, welche Packages und Versionen ein Projekt braucht
+- Pakete und Version speichert man deshalb in `requirements.txt`
+
+```bash
+pip install pandas plotly dash
+```
+
+%%sep
+
+*uv*
+
+- Installiert in eine eigene Umgebung pro Projekt (`.venv`)
+- Trägt die Packages in `pyproject.toml` ein und die Version in `uv.lock`
+- Baut die Umgebung auf jedem Rechner gleich auf
+
+```bash
+uv add pandas plotly dash
+```
+
+%%/col
+
+%%note Warum die Version zählt
+`app.run_server()` aus älteren `dash`-Versionen gibt es in Version 4 nicht mehr. Ohne festgehaltene Version läuft ein Programm auf einem anderen Rechner plötzlich nicht mehr.
 %%/note
 
 
@@ -1097,7 +1173,10 @@ Gehört jeder Import zu Python, oder muss das Package erst installiert und dokum
 %%col 50 50
 
 - Das Eisenhower-Schema ordnet Aufgaben nach zwei Merkmalen: dringend und wichtig
-- Zuerst bearbeitet man, was dringend und wichtig ist
+- Wichtig und dringend: zuerst und detailliert bearbeiten
+- Wichtig, aber nicht dringend: regelmäßig bearbeiten
+- Unwichtig, aber dringend: effizient bearbeiten
+- Unwichtig und nicht dringend: ignorieren und minimieren
 
 %%sep
 
