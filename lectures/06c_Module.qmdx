@@ -23,9 +23,14 @@ resources:
 >
 > — Doug McIlroy
 
+### TL;DR
+
+In dieser Einheit lernen wir, wie Python-Programme auf Dateien, Module und Packages verteilt werden. Modulgrenzen sind Architekturgrenzen: Sie bestimmen, wo KI-generierter Code im Projekt landet. Wir prüfen ein generiertes Modul auf Interface, private Helfer und Imports und lernen `main()`, `import` sowie externe Packages kennen.
+
 %%/book
 
 %%slides
+
 
 ## Zielsetzung
 
@@ -35,12 +40,6 @@ resources:
 - `main()`, `import` und externe Packages sicher einsetzen
 
 %%/slides
-
-%%book
-
-In dieser Einheit lernen wir, wie Python-Programme auf Dateien, Module und Packages verteilt werden und wie wir KI-generierte Module prüfen: Interface, private Helfer und Imports.
-
-%%/book
 
 %%book
 
@@ -564,10 +563,10 @@ Python sucht Module nicht "magisch", sondern in `sys.path`:
 
 ```python
 import sys
-print(sys.path)   # Suchreihenfolge der Importe
+sys.path   # Liste der Suchpfade für Importe
 
 import geometry.points.ImmutablePoint as point
-print(type(point))   # <class 'module'>
+type(point)   # Typ: module
 ```
 
 Liegt `geometry` nicht im Suchpfad, schlägt der Import mit `ModuleNotFoundError` fehl.
@@ -939,10 +938,6 @@ __all__ = ["Line", "Triangle", "Polygon"]
 
 Der führende Unterstrich markiert interne Helfer. Mit `__all__` legen wir zusätzlich ausdrücklich fest, was ein Package nach außen anbietet. Ein kleines Interface ist leichter zu prüfen.
 
-%%/book
-
-%%book
-
 
 ## Python-Ökosystem: Standardbibliothek und PyPI
 
@@ -974,16 +969,8 @@ Gerade in Teamprojekten und bei KI-generiertem Code sollte man deshalb immer pr�
 
 %%/col
 
-%%/slides
-
-%%slides
-
 
 ## Lesson Learned {background="#66ccffff" cols40x60 txtL="Wie priorisiert man richtig?" capR="„I have two kinds of problems, the urgent and the important. The urgent are not important, and the important are never urgent.“, Eisenhower" imgR="images/06c_Module/eisenhower.jpg"}
-
-%%/slides
-
-%%slides
 
 
 ## Lesson Learned - Priorisierung
