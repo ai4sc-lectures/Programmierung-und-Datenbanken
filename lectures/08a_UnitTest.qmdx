@@ -76,9 +76,15 @@ def division(zaehler, nenner):
 4. Fehlerbehandlung
 5. Fehlerausschluss
 
-Heute: Vermeidung und Erkennung durch *Tests* — Behebung und Behandlung folgen in `07b_Debugging` und `07a_Exceptions`
+Heute: Vermeidung und Erkennung durch *Tests*. Behebung und Behandlung siehe `07b_Debugging` und `07a_Exceptions`.
 
 %%/slides
+
+%%book
+
+Für den Umgang mit Programmfehlern unterscheidet man fünf Strategien: Fehlervermeidung, Fehlererkennung, Fehlerbehebung, Fehlerbehandlung und Fehlerausschluss. In diesem Kapitel behandeln wir Vermeidung und Erkennung durch Tests. Die Fehlerbehebung haben wir in `07b_Debugging` besprochen, die Fehlerbehandlung mit Exceptions in `07a_Exceptions`.
+
+%%/book
 
 %%slides
 
@@ -94,11 +100,13 @@ Heute: Vermeidung und Erkennung durch *Tests* — Behebung und Behandlung folgen
 
 - Achtung: Vorbeugung kann viel Vorarbeit bedeuten
 
-%%aside
-Ref.: Test-Driven Prompting und Testabdeckung folgen in diesem Kapitel
-%%/aside
-
 %%/slides
+
+%%book
+
+Fehler vermeidet man, indem man früh prüft: durch Code Reviews, durch Test-Driven Development, bei dem der Test vor dem Code entsteht, und durch eine möglichst vollständige Testabdeckung. Das erfordert Vorarbeit, spart aber später Suchaufwand. Test-Driven Prompting und Testabdeckung behandeln wir weiter unten.
+
+%%/book
 
 %%slides
 
@@ -133,15 +141,19 @@ Dynamische Fehler:
 
 %%/slides
 
+%%book
+
+Syntaktische Fehler meldet bereits die IDE. Statische Fehler findet man mit Lint-Tools, die den Code anhand von Regeln analysieren. Dynamische Fehler zeigen sich erst bei der Ausführung; sie werden durch Unit-Tests erkannt.
+
+%%/book
+
 %%slides
 
 
 ## 2. Fehlererkennung: Unit-Tests
-%%div eyebrow
-{{< ai4sc-icon test-tube >}} Teststrategie
-%%/div
+
 %%def Unit-Test
-Unit-Tests sind zusätzlich geschriebener Code, der nur zum Testen eines Moduls (Funktion, Klassen, Module) geschrieben wurde.
+{{< ai4sc-icon test-tube >}} Unit-Tests sind zusätzlich geschriebener Code, der nur zum Testen eines Moduls (Funktion, Klassen, Module) geschrieben wurde.
 %%/def
 
 - Wichtige Eigenschaften:
@@ -153,13 +165,16 @@ Unit-Tests sind zusätzlich geschriebener Code, der nur zum Testen eines Moduls 
 
 %%/slides
 
+%%book
+
+Ein Unit-Test ist zusätzlich geschriebener Code, der ein einzelnes Modul mit bestimmten Eingaben aufruft und die erwarteten Ausgaben oder Exceptions prüft. Der Test-Code ist oft umfangreicher als der geprüfte Code. Die Tests laufen automatisiert nach jeder Änderung und legen damit fest, was das Modul leisten soll.
+
+%%/book
+
 %%slides
 
 
 ## 2. Fehlererkennung: Unit-Test Typen
-%%div eyebrow
-{{< ai4sc-icon test-tube >}} Teststrategie
-%%/div
 
 %%col 33 33 33
 
@@ -209,21 +224,35 @@ except ValueError as e:
 
 %%/slides
 
+%%book
+
+Wir unterscheiden Funktionstests, Grenzwerttests und Datentyp-Tests. Die folgenden Abschnitte zeigen jeden Typ am Beispiel der Funktion `division()`.
+
+%%/book
+
 %%slides
 
 
 ## Teststrategie: KI-Code prüfen
-%%div eyebrow
-{{< ai4sc-icon test-tube >}} Teststrategie
-%%/div
 
-> **Agentic workflow:** Wenn die KI eine Funktion generiert:
->
-> 1. Anforderung lesen: Welche Eingaben, Ausgaben und Grenzfälle sind verlangt?
-> 2. Je einen Funktions-, Grenzwert- und Datentyp-Test schreiben
-> 3. Fehlschlagenden Test im Prompt nennen und die KI korrigieren lassen
+%%note Agentic Workflow
+
+{{< ai4sc-icon test-tube >}} Wenn die KI eine Funktion generiert:
+
+1. Anforderung lesen: Welche Eingaben, Ausgaben und Grenzfälle sind verlangt?
+2. Je einen Funktions-, Grenzwert- und Datentyp-Test schreiben
+3. Fehlschlagenden Test im Prompt nennen und die KI korrigieren lassen
+
+%%/note
 
 %%/slides
+
+%%book
+
+Wenn die KI eine Funktion generiert, lesen wir zuerst die Anforderung und schreiben dann je einen Funktions-, Grenzwert- und Datentyp-Test. Schlägt ein Test fehl, nennen wir ihn im nächsten Prompt, damit die KI gezielt korrigieren kann.
+
+%%/book
+
 
 %%book
 
@@ -502,9 +531,6 @@ Ein fehlgeschlagener Test auf KI-generierten Code ist kein Misserfolg. Er bedeut
 
 
 ## Tests sind die Spezifikation
-%%div eyebrow
-{{< ai4sc-icon clipboard-list >}} Anforderung und Test
-%%/div
 
 %%col 50 50
 
@@ -519,7 +545,7 @@ Klassische Sichtweise:
 Agentische Sichtweise:
 
 - Tests *definieren* das Verhalten
-- Tests sind die *Anforderung in Code*
+- Tests sind die {{< ai4sc-icon clipboard-list >}} *Anforderung in Code*
 - Schreibt man Tests vor dem Prompt, wird der Prompt präziser
 - Scheiternder Test auf KI-Code = Fehler *vor* dem Einsatz gefunden
 
@@ -531,9 +557,6 @@ Agentische Sichtweise:
 
 
 ## Test-Driven Prompting: Der Zyklus
-%%div eyebrow
-{{< ai4sc-icon clipboard-list >}} Agentischer Zyklus
-%%/div
 
 1. Anforderung verstehen
 2. Tests schreiben: die Anforderung operationalisieren
@@ -542,19 +565,20 @@ Agentische Sichtweise:
 5. Tests ausführen
 6. Tests scheitern? Diagnose und Reprompt
 
-%%aside
-Ref.: 03d_AgentischesProgrammieren, der Verify-Schritt des agentischen Zyklus
-%%/aside
+Den Verify-Schritt des agentischen Zyklus aus `03d_AgentischesProgrammieren` formalisieren wir hier durch Tests.
 
 %%/slides
+
+%%book
+
+Der Zyklus verbindet Anforderung, Tests und Prompt: Die Tests sind die Anforderung in Code, die KI generiert, der Testlauf verifiziert, und fehlschlagende Tests führen zu Diagnose und Reprompt. Den Verify-Schritt des agentischen Zyklus haben wir in `03d_AgentischesProgrammieren` eingeführt; hier formalisieren wir ihn durch Tests.
+
+%%/book
 
 %%slides
 
 
 ## Tests schreiben vor dem Prompt
-%%div eyebrow
-{{< ai4sc-icon clipboard-list >}} Anforderung und Test
-%%/div
 
 Tests zwingen zur Präzision und beantworten konkrete Fragen:
 
@@ -563,23 +587,26 @@ Tests zwingen zur Präzision und beantworten konkrete Fragen:
 - Welche Grenzfälle müssen behandelt werden?
 - Welche Fehler soll die Funktion auslösen?
 
-Ein Test vor dem Prompt = eine Anforderung, die die KI nicht ignorieren kann.
-
-%%aside
-Ref.: 04a_Anforderungen, Anforderungen sind die Quelle der Tests
-%%/aside
+Ein Test vor dem Prompt = eine Anforderung, die die KI nicht ignorieren kann. Die Quelle der Tests sind die Anforderungen aus `04a_Anforderungen`.
 
 %%/slides
+
+%%book
+
+Ein Test, der vor dem Prompt entsteht, beantwortet konkrete Fragen: Welche Eingaben sind gültig, welche Ausgaben werden erwartet, welche Grenzfälle gibt es und welche Fehler soll die Funktion auslösen? Die Anforderungen aus `04a_Anforderungen` sind dafür die Quelle.
+
+%%/book
 
 %%slides
 
 
 ## KI-Output mit Tests evaluieren
-%%div eyebrow
-{{< ai4sc-icon test-tube >}} Teststrategie
-%%/div
 
-%%col 50 50
+%%col 60 40
+
+![](images/08a_UnitTest/test_cycle.svg){.nostretch fig-align="center" width="100%"}
+
+%%sep
 
 Tests als Akzeptanzkriterium:
 
@@ -587,26 +614,17 @@ Tests als Akzeptanzkriterium:
 - Test scheitert → *Erfolg:* Fehler vor Produktion gefunden
 - Ungetesteter Bereich → unsichtbares Risiko
 
-%%sep
-
-Agentic Workflow:
-
-```
-Tests schreiben
-    ↓
-KI prompten
-    ↓
-Tests ausführen
-    ↓
-Fail? → Diagnose → Reprompt
-    ↓
-Pass? → Code übernehmen
-```
-
 %%/col
 
 %%/slides
 
+%%book
+
+Alle Tests grün bedeutet, dass die Anforderung erfüllt ist. Ein scheiternder Test ist ein Erfolg der Verifikation, weil der Fehler vor dem Einsatz auffällt. Bereiche, die kein Test ausführt, bleiben ein unsichtbares Risiko.
+
+![Ablauf des Test-Driven Prompting: Tests schreiben, KI prompten, Tests ausführen; bei Fehlschlag Diagnose und Reprompt, sonst Code übernehmen.](images/08a_UnitTest/test_cycle.svg)
+
+%%/book
 
 %%book
 
@@ -629,13 +647,10 @@ Bevor wir die KI prompten, schreiben wir 5 Tests: 3 Normalfälle und 2 Grenzwert
 
 
 ## Anforderung: Bodenkontamination klassifizieren
-%%div eyebrow
-{{< ai4sc-icon clipboard-list >}} Anforderung und Test
-%%/div
 
 %%col 50 50
 
-*Anforderung:*
+{{< ai4sc-icon clipboard-list >}} *Anforderung:*
 
 > Schreibe `klassifiziere_boden(wert)`, die einen Messwert (mg/kg) als `"Sauber"`, `"Beobachten"` oder `"Kritisch"` klassifiziert.
 
@@ -649,10 +664,6 @@ Grenzwerte:
 
 *Schritt 1:* Tests schreiben, bevor wir die KI prompten.
 
-%%aside
-Ref.: 04a_Anforderungen, Anforderungen operationalisieren
-%%/aside
-
 %%/col
 
 %%/slides
@@ -661,9 +672,6 @@ Ref.: 04a_Anforderungen, Anforderungen operationalisieren
 
 
 ## Tests schreiben vor dem Prompt: 5 Tests
-%%div eyebrow
-{{< ai4sc-icon clipboard-list >}} Anforderung und Test
-%%/div
 
 ```python
 # Schritt 1: Tests definieren (vor dem KI-Prompt)
@@ -687,13 +695,16 @@ def test_grenzwert_beobachten_kritisch():
 
 %%/slides
 
+%%book
+
+Die fünf Tests decken drei Normalfälle (10, 100 und 200 mg/kg) und die beiden Grenzwerte 50 und 150 mg/kg ab. Sie legen fest, in welche Klasse die Grenzwerte selbst fallen.
+
+%%/book
+
 %%slides
 
 
 ## KI generiert die Funktion
-%%div eyebrow
-{{< ai4sc-icon test-tube >}} Teststrategie
-%%/div
 
 *Schritt 2:* KI-Prompt mit Tests als Akzeptanzkriterium
 
@@ -709,21 +720,24 @@ def klassifiziere_boden(wert):
         return "Kritisch"
 ```
 
-*Frage:* Welcher Test wird scheitern, und warum?
+%%note Vor dem Ausführen
 
-::: {.fragment}
-Hinweis: Schaue besonders auf die Grenze bei `150 mg/kg`.
-:::
+Bestimmen Sie, welcher der fünf Tests scheitert. Achten Sie besonders auf die Grenze bei `150 mg/kg`.
+
+%%/note
 
 %%/slides
+
+%%book
+
+Die KI liefert eine Funktion, die auf den ersten Blick plausibel aussieht. Erst der Testlauf zeigt, dass der Vergleich `wert <= 150` den Grenzwert falsch behandelt.
+
+%%/book
 
 %%slides
 
 
 ## Tests ausführen: ein Test scheitert
-%%div eyebrow
-{{< ai4sc-icon test-tube >}} Teststrategie
-%%/div
 
 %%col 50 50
 
@@ -751,13 +765,16 @@ Der Test macht die Lücke sichtbar, vor dem Einsatz.
 
 %%/slides
 
+%%book
+
+Vier Tests laufen grün, der Grenzwerttest für 150 mg/kg scheitert mit einem `AssertionError`: Die Funktion gibt `"Beobachten"` statt `"Kritisch"` zurück.
+
+%%/book
+
 %%slides
 
 
 ## Diagnose und Reprompt
-%%div eyebrow
-{{< ai4sc-icon test-tube >}} Teststrategie
-%%/div
 
 %%col 50 50
 
@@ -785,6 +802,11 @@ Alle 5 Tests grün → Anforderung erfüllt.
 
 %%/slides
 
+%%book
+
+Wir nennen der KI den fehlgeschlagenen Test und die verletzte Anforderung: `>= 150` ist `"Kritisch"`. Die KI ändert den Vergleich zu `< 150`, danach laufen alle fünf Tests grün.
+
+%%/book
 
 %%book
 
@@ -801,15 +823,14 @@ Selbst wenn alle geschriebenen Tests grün sind, kann KI-generierter Code ungete
 
 **Verzweigungsabdeckung (Branch Coverage):** Wurden alle `if`/`else`-Zweige getestet? Dies ist wichtiger als reine Zeilenabdeckung, da KI-generierter Code häufig versteckte Zweige enthält, die nur bei speziellen Eingaben aktiv werden.
 
+Im Beispiel unten hat die KI einen Fehlercheck für negative Werte ergänzt, den die Anforderung nicht verlangt. Messen lässt sich das mit `coverage run --branch`; für unsere fünf Tests meldet es 7 von 8 Anweisungen und 5 von 6 Zweigen als ausgeführt.
+
 %%/book
 
 %%slides
 
 
 ## Testabdeckung: Zeilenabdeckung
-%%div eyebrow
-{{< ai4sc-icon test-tube >}} Teststrategie
-%%/div
 
 %%col 50 50
 
@@ -845,9 +866,6 @@ def klassifiziere_boden(wert):
 
 
 ## Testabdeckung: Verzweigungsabdeckung
-%%div eyebrow
-{{< ai4sc-icon test-tube >}} Teststrategie
-%%/div
 
 %%col 50 50
 
@@ -865,16 +883,17 @@ def klassifiziere_boden(wert):
 - Zweig *falsch*: von allen 5 Tests ausgeführt
 - Ergebnis: 5 von 6 Zweigen → 83% Branch Coverage
 
-Ungetesteter Zweig in KI-Code = unsichtbares Risiko.
-
-%%aside
-Ref.: 08b_CodeReview, Code Review als nächster Verifikationsschritt
-%%/aside
+Ungetesteter Zweig in KI-Code = unsichtbares Risiko. Der nächste Verifikationsschritt ist das Code Review (`08b_CodeReview`).
 
 %%/col
 
 %%/slides
 
+%%book
+
+Der Zweig `wert < 0` wird von keinem unserer Tests mit wahr betreten. Ein ungetesteter Zweig in KI-Code ist ein unsichtbares Risiko: Wir wissen nicht, ob er korrekt arbeitet. Die Prüfung von Code durch andere Personen folgt als nächster Verifikationsschritt in `08b_CodeReview`.
+
+%%/book
 
 %%book
 
@@ -885,25 +904,9 @@ Ref.: 08b_CodeReview, Code Review als nächster Verifikationsschritt
 
 %%book
 
-Wenn Tests fehlschlagen, beginnt der nächste Schritt der Verifikation: das systematische Suchen nach der Ursache. Dabei hilft *Debugging*. Zugleich müssen Programme mit erwartbaren Laufzeitfehlern robust umgehen können. Python stellt dafür mit `try`, `except`, `raise`, `else` und `finally` einen strukturierten Exception-Mechanismus bereit.
+Wenn Tests fehlschlagen, beginnt der nächste Schritt der Verifikation: das systematische Suchen nach der Ursache. Dabei hilft *Debugging* (`07b_Debugging`). Zugleich müssen Programme mit erwartbaren Laufzeitfehlern robust umgehen können. Python stellt dafür mit `try`, `except`, `raise`, `else` und `finally` einen strukturierten Exception-Mechanismus bereit (`07a_Exceptions`).
 
 %%/book
-
-%%slides
-
-
-## Wie geht es weiter?
-%%div eyebrow
-{{< ai4sc-icon test-tube >}} Teststrategie
-%%/div
-
-Ein Test scheitert, was nun?
-
-- *Fehler suchen und beheben:* `07b_Debugging`
-- *Fehler abfangen und behandeln:* `07a_Exceptions`
-- *KI-Code systematisch prüfen:* `08b_CodeReview`
-
-%%/slides
 
 
 %%book
@@ -975,3 +978,6 @@ Ein Test scheitert, was nun?
 ```
 
 %%/book
+
+
+%%final
