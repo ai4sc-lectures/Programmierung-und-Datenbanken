@@ -16,6 +16,10 @@ resources:
 
 %%book
 
+### TL;DR
+
+Ein UML-Klassendiagramm aus S04 lässt sich schematisch in Python übersetzen: Die Klasse wird zu `class`, Attribute werden zu `self.attribut` in `__init__`, Methoden zu `def … (self)` und Assoziationen zu Instanzattributen. Eine KI erzeugt diesen Code, die Ingenieurin oder der Ingenieur verifiziert ihn gegen das Diagramm. Typische Fehler sind veränderliche Standardwerte in `__init__`, fehlendes `self` und `cls` statt `self`.
+
 ![](images/06b_Objects/mj_title_band.jpg)
 
 > Nothing is particularly hard if you divide it into small jobs.
@@ -26,6 +30,7 @@ resources:
 
 %%slides
 
+
 ## Zielsetzung
 
 - UML-Klassendiagramm aus S04 in Python-Syntax übersetzen
@@ -35,6 +40,13 @@ resources:
 
 %%/slides
 
+%%book
+
+In S04 haben wir Klassen als Entwurfseinheiten kennen gelernt und das UML-Klassendiagramm als Notation für den Entwurf verwendet. In dieser Einheit übersetzen wir diesen Entwurf in Python-Code — und lernen, wie wir KI-generierten Code gegen den Entwurf verifizieren.
+
+%%/book
+
+
 %%# Von UML zu Python
 
 %%## Das Mapping
@@ -42,27 +54,22 @@ resources:
 %%slides
 
 | UML-Element | Python-Syntax |
-|---|---|
+|:--|:--|
 | Klassenname `Raum` | `class Raum:` |
-| Attribut `name: str` | `self.name = name` in `__init__` |
+| Attribut `name: str` | `self.name = name` |
 | Methode `f() → float` | `def f(self) -> float:` |
-| Assoziation `→ Fenster (0..*)` | `self.fenster = []` als Instanzattribut |
+| Assoziation `→ Fenster (0..*)` | `self.fenster = []` |
 
 %%/slides
 
 %%book
 
-# Von UML zu Python
-
-In S04 haben wir Klassen als Entwurfseinheiten kennen gelernt und das UML-Klassendiagramm als Notation für den Entwurf verwendet. In dieser Einheit übersetzen wir diesen Entwurf in Python-Code — und lernen, wie wir KI-generierten Code gegen den Entwurf verifizieren.
-
-## Von UML zu Python — das Mapping
-
-Jedes Element des UML-Klassendiagramms hat eine direkte Python-Entsprechung. Diese Übersetzung ist das Kernziel der Implementierungsphase. Die KI kann diese Übersetzung automatisch vornehmen — aber nur wenn das Diagramm vollständig ist.
+Jedes Element des UML-Klassendiagramms hat eine direkte Python-Entsprechung. Diese Übersetzung ist das Kernziel der Implementierungsphase. Die KI kann sie automatisch vornehmen — aber nur, wenn das Diagramm vollständig ist.
 
 %%/book
 
 %%slides
+
 
 ## Klassenname und Attribute
 
@@ -91,21 +98,28 @@ Eine {{< ai4sc-icon box >}} Klasse wird zu `class Raum:`, jedes Attribut zu `sel
 
 %%book
 
-### Klassenname und Attribute
-
 ![](images/06b_Objects/uml_raum_attribute.svg)
 
-Das `class`-Schlüsselwort leitet die Klassendefinition ein; der Name entspricht direkt dem UML-Klassenname. Die Attribute des UML-Diagramms werden im Konstruktor `__init__` als `self.attributname` definiert. `self` ist eine Selbstreferenz auf die aktuelle Instanz — sie muss immer der erste Parameter einer Methode sein.
+Das `class`-Schlüsselwort leitet die Klassendefinition ein; der Name entspricht direkt dem UML-Klassennamen. Die Attribute des UML-Diagramms werden im Konstruktor `__init__` als `self.attributname` definiert. `self` ist eine Selbstreferenz auf die aktuelle Instanz — sie muss immer der erste Parameter einer Methode sein.
+
+Der Konstruktor `__init__()` wird implizit aufgerufen, wenn der Klassenname wie eine Funktion benutzt wird. Die Zuweisung `self.x = x` bedeutet, dass wir dem neuen Instanzattribut `x` der Instanz `self` den Wert des Parameters `x` zuweisen — obwohl beide gleich heißen, sind sie nicht dieselbe Variable. Da `__init__()` eine Funktion ist, kann man auch Defaultwerte definieren: `def __init__(self, x=0.0, y=0.0)`.
 
 %%/book
 
 %%slides
 
+
 ## Methode und Assoziation
 
-![](images/06b_Objects/uml_raum_methoden.svg){.nostretch fig-align="center" width="70%"}
+%%col 45 55
 
-%%col 50 50
+![](images/06b_Objects/uml_raum_methoden.svg){.nostretch fig-align="center" width="100%"}
+
+- Eine {{< ai4sc-icon square-function >}} Methode wird zu `def … (self)`
+- Eine {{< ai4sc-icon arrow-left-right >}} Assoziation wird zum Instanzattribut
+- `0..*` → leere Liste in `__init__`
+
+%%sep
 
 ```python
 class Raum:
@@ -120,11 +134,44 @@ class Raum:
         return self.fenster
 ```
 
+%%/col
+
+%%/slides
+
+%%book
+
+![](images/06b_Objects/uml_raum_methoden.svg)
+
+Methoden aus dem UML-Diagramm werden als Funktionen mit `self` als erstem Parameter definiert. Dadurch kann auf die Attribute oder andere Methoden der Instanz zugegriffen werden. Assoziationen — Beziehungen zu anderen Klassen — werden als Instanzattribute implementiert. Eine `0..*`-Assoziation zu `Fenster` wird als leere Liste `self.fenster = []` initialisiert.
+
+%%/book
+
+%%slides
+
+
+## Syntax im Überblick
+
+%%col 45 55
+
+- `__init__` legt die Attribute einer neuen Instanz an
+- `self` ist immer der erste Parameter und steht für die Instanz
+- Instanz erzeugen: Klassenname wie eine Funktion aufrufen, `self` übergibt Python automatisch
+- Benannte Parameter vermeiden Verwechslungen
+
 %%sep
 
-- {{< ai4sc-icon square-function >}} Methode → `def … (self)`
-- {{< ai4sc-icon arrow-left-right >}} Assoziation → Instanzattribut
-- `0..*` → leere Liste in `__init__`
+```python
+class Raum:
+    def __init__(self, name: str,
+                 fläche: float, höhe: float):
+        self.name   = name
+        self.fläche = fläche
+        self.höhe   = höhe
+
+raum = Raum(name="Büro 1",
+            fläche=30.0, höhe=2.8)
+print(raum.fläche)  # 30.0
+```
 
 %%/col
 
@@ -132,37 +179,136 @@ class Raum:
 
 %%book
 
-### Methoden und Assoziationen
-
-![](images/06b_Objects/uml_raum_methoden.svg)
-
-Methoden aus dem UML-Diagramm werden als Funktionen mit `self` als erstem Parameter definiert. Assoziationen — Beziehungen zu anderen Klassen — werden als Instanzattribute implementiert. Eine `0..*`-Assoziation zu `Fenster` wird als leere Liste `self.fenster = []` initialisiert.
+Objekte selbst sind immer Instanzen einer Klasse. Eine Klasse kann beliebig viele Instanzen haben; alle sind gleich aufgebaut, besitzen aber nicht notwendigerweise dieselben Attributwerte. Instanzen werden erzeugt, indem der Klassenname wie eine Funktion aufgerufen wird — mit den Parametern des Konstruktors (ohne `self`). Benannte Parameter machen die Bedeutung der Werte explizit. Attributzugriff und Methodenaufruf erfolgen über die Punkt-Syntax.
 
 %%/book
 
 %%slides
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Welche Python-Klasse entspricht dem UML-Diagramm der Raum-Klasse aus S04?" capR="Midjourney: Bauhaus architectural line drawing" imgR="images/06b_Objects/mj_title_band.jpg"}
+
+## Instanz- vs. Klassenattribute
+
+%%col 50 50
+
+**Instanzattribut** — Wert je Instanz:
+
+```python
+class Raum:
+    def __init__(self, fläche: float):
+        self.fläche = fläche
+```
+
+%%sep
+
+**Klassenattribut** — Wert für alle:
+
+```python
+class Raum:
+    einheit = "m²"
+
+    def __init__(self, fläche: float):
+        self.fläche = fläche
+```
+
+%%/col
+
+%%warning Achtung
+Veränderliche Klassenattribute (Listen, Dicts) gelten für **alle** Instanzen.
+%%/warning
 
 %%/slides
 
-%%# BIM-Beispiel: Raum-Klasse
+%%book
+
+Instanzattribute werden in `__init__` mit `self.attributname` definiert und können in jeder Instanz unterschiedlich sein. Klassenattribute werden auf Klassenebene (außerhalb von `__init__`) definiert und haben denselben Wert für alle Instanzen. Bei veränderlichen Klassenattributen (Listen, Dictionaries) gilt: Eine Änderung durch eine Instanz wirkt sich auf alle anderen aus.
+
+%%/book
+
+
+%%## Assoziationen als Instanzattribute
+
+%%slides
+
+%%col 55 45
+
+{{< ai4sc-icon arrow-left-right >}} Assoziation → Instanzattribut:
+
+```python
+class Raum:
+    def __init__(self, name: str):
+        self.name    = name
+        self.fenster = []  # → Fenster (0..*)
+
+    def add_fenster(self, fenster):
+        self.fenster.append(fenster)
+```
+
+%%sep
+
+| UML | Python |
+|:--|:--|
+| `0..*` | `[]`, wächst mit `append` |
+| `1` | Pflichtparameter |
+| `0..1` | Default `None` |
+
+%%/col
+
+%%/slides
+
+%%book
+
+In Python werden Assoziationen als Instanzattribute umgesetzt. Die Multiplizität aus dem UML-Diagramm bestimmt direkt die Implementierung:
+
+- `0..*` → Liste, in `__init__` als `[]` initialisiert
+- `1` → Pflichtparameter im Konstruktor
+- `0..1` → optionales Attribut mit Default `None`
+
+Die Beziehungsrichtung im UML-Diagramm bestimmt, in welcher Klasse das Attribut definiert wird.
+
+%%/book
+
 
 %%## KI generiert die Raum-Klasse
 
 %%slides
 
-Prompt: *„Implementiere die Klasse `Raum` aus diesem UML-Diagramm."*
+%%col 45 55
 
-![](images/06b_Objects/uml_raum_voll.svg){.nostretch fig-align="center" width="60%"}
+![](images/06b_Objects/uml_raum_voll.svg){.nostretch fig-align="center" width="100%"}
+
+%%sep
+
+Prompt:
+
+*„Implementiere die Klasse `Raum` aus diesem UML-Diagramm."*
+
+%%/col
+
+%%/slides
+
+%%book
+
+![](images/06b_Objects/uml_raum_voll.svg)
+
+Die KI übernimmt die Übersetzung des UML-Diagramms in Python-Code. Dazu geben wir ihr das Diagramm und den Prompt *„Implementiere die Klasse `Raum` aus diesem UML-Diagramm."*
+
+%%/book
+
+%%slides
+
+
+## Die generierte Klasse lesen
+
+%%col 55 45
 
 ```python
 # KI-generiert
 class Raum:
-    def __init__(self, name: str, fläche: float, höhe: float):
-        self.name   = name
-        self.fläche = fläche
-        self.höhe   = höhe
+    def __init__(self, name: str,
+                 fläche: float, höhe: float):
+        self.name    = name
+        self.fläche  = fläche
+        self.höhe    = höhe
         self.fenster = []
 
     def berechne_volumen(self) -> float:
@@ -172,19 +318,26 @@ class Raum:
         return self.fenster
 ```
 
-**Vor dem Ausführen:** Was gibt `berechne_volumen()` zurück? Was gibt `get_fenster()` zurück? Welche Anforderung ist noch nicht erfüllt?
+%%sep
+
+**Vor dem Ausführen:**
+
+- Was gibt `berechne_volumen()` zurück?
+- Was gibt `get_fenster()` zurück?
+- Welche Anforderung ist noch nicht erfüllt?
+
+%%/col
 
 %%/slides
 
 %%book
 
-## BIM-Beispiel: KI generiert die Raum-Klasse
-
-Die KI übernimmt die Übersetzung des UML-Diagramms in Python-Code. Bevor wir den Code ausführen, wenden wir Pattern C an: Wir lesen den Code und stellen Verständnisfragen, bevor wir ihn laufen lassen. Das trainiert die Verifikationsgewohnheit.
+Bevor wir den Code ausführen, wenden wir Pattern C an: Wir lesen den Code und stellen Verständnisfragen, bevor wir ihn laufen lassen. Das trainiert die Verifikationsgewohnheit.
 
 %%/book
 
 %%slides
+
 
 ## Verifizieren gegen das Diagramm
 
@@ -199,227 +352,105 @@ Die KI übernimmt die Übersetzung des UML-Diagramms in Python-Code. Bevor wir d
 
 %%book
 
-### Verifizieren gegen das Diagramm
-
 Die Verifikation läuft systematisch gegen das UML-Diagramm. Der Code muss das Diagramm vollständig abbilden — nicht mehr und nicht weniger. Jede Abweichung ist entweder ein Fehler im Code oder eine Unvollständigkeit im Diagramm.
 
 %%/book
 
-%%# Python-Klassen — Syntax im Detail
-
-%%## Konstruktor `__init__`
-
 %%slides
 
-- `__init__()` ist die spezielle {{< ai4sc-icon square-function >}} Methode zum Erzeugen einer Instanz
-- Wird implizit aufgerufen wenn der Klassenname wie eine Funktion genutzt wird
-- Weist Instanzattribute zu und führt Initialisierungsschritte aus
-- `self` = Selbstreferenz auf die neue Instanz (immer erster Parameter)
 
-```python
-class Punkt:
-    def __init__(self, x: float, y: float):
-        self.x = x
-        self.y = y
-```
+## Hörsaalfrage {background="#FFD966"}
 
-%%/slides
+%%col 35 65
 
-%%book
+Welche Klasse setzt das Diagramm `Raum` korrekt um?
 
-# Python-Klassen — Syntax im Detail
-
-Dieser Abschnitt behandelt die vollständige Syntax für Python-Klassen: Konstruktor, Instanz- und Klassenattribute, Methoden, Instanzerzeugung und Methodenaufruf.
-
-## Konstruktor `__init__`
-
-Der Konstruktor `__init__()` ist eine spezielle Methode, die festlegt, wie eine neue Instanz der Klasse erzeugt wird. Er wird genutzt, um Attribute initial zuzuweisen und Initialisierungsschritte durchzuführen. `self` ist dabei eine Selbstreferenz auf die neue Instanz. Die Zuweisung `self.x = x` bedeutet, dass wir dem neuen Instanzattribut `x` der Instanz `self` den Wert des Parameters `x` zuweisen — obwohl beide gleich heißen, sind sie nicht dieselbe Variable.
-
-Da `__init__()` eine Funktion ist, kann man auch Defaultwerte definieren: `def __init__(self, x=0.0, y=0.0)`.
-
-%%/book
-
-%%slides
-
-## Instanz- vs. Klassenattribute
-
-%%col 50 50
-
-**Instanzattribute** (Wert je Instanz):
-
-```python
-class Raum:
-    def __init__(self, fläche: float):
-        self.fläche = fläche  # je Instanz
-```
+![](images/06b_Objects/uml_raum_voll.svg){.nostretch fig-align="center" width="100%"}
 
 %%sep
 
-**Klassenattribute** (Wert für alle):
+**A**
 
 ```python
 class Raum:
-    einheit = "m²"  # alle Instanzen teilen diesen Wert
+    def __init__(self, ...):
+        self.fenster = []
+    def berechne_volumen(self) -> float: ...
+```
 
-    def __init__(self, fläche: float):
-        self.fläche = fläche
+**B**
+
+```python
+class Raum:
+    fenster = []
+    def berechne_volumen() -> float: ...
+```
+
+**C**
+
+```python
+class Raum:
+    def __init__(self, ..., fenster=[]):
+        self.fenster = fenster
 ```
 
 %%/col
 
-%%warning Achtung
-Veränderliche Klassenattribute (Listen, Dicts) gelten für **alle** Instanzen — eine Änderung durch eine Instanz wirkt sich auf alle aus.
-%%/warning
-
 %%/slides
 
 %%book
 
-## Instanz- vs. Klassenattribute
-
-Instanzattribute werden in `__init__` mit `self.attributname` definiert und können in jeder Instanz unterschiedlich sein. Klassenattribute werden auf Klassenebene (außerhalb von `__init__`) definiert und haben denselben Wert für alle Instanzen. Bei veränderlichen Klassenattributen (Listen, Dictionaries) gilt: Eine Änderung durch eine Instanz wirkt sich auf alle anderen aus.
+Welche Klasse setzt das UML-Diagramm `Raum` korrekt um? Nur Variante A tut das: Variante B nutzt ein Klassenattribut statt eines Instanzattributs und lässt `self` weg, Variante C teilt sich durch den veränderlichen Defaultwert eine Liste zwischen allen Instanzen.
 
 %%/book
 
-%%slides
 
-## Methoden
-
-- {{< ai4sc-icon square-function >}} Methoden werden wie Funktionen mit `def` definiert — auf Klassenebene eingerückt
-- Erster Parameter ist immer `self` (Referenz auf die aktuelle Instanz)
-- Zugriff auf Attribute der Instanz über `self.attributname`
-- Man kann Parametern auch Defaults zuweisen
-
-```python
-class Raum:
-    def __init__(self, fläche: float, höhe: float):
-        self.fläche = fläche
-        self.höhe   = höhe
-
-    def berechne_volumen(self) -> float:
-        return self.fläche * self.höhe
-```
-
-%%/slides
-
-%%book
-
-## Methoden
-
-Klassen definieren eigene Methoden, die speziell für Instanzen dieser Klasse angewendet werden. Methoden werden als Funktionen innerhalb der Klassendefinition deklariert und besitzen immer `self` als ersten Parameter. Dadurch kann auf die Attribute oder andere Methoden der Instanz zugegriffen werden.
-
-%%/book
-
-%%slides
-
-## Instanzen erzeugen und nutzen
-
-- {{< ai4sc-icon box >}} Instanzen werden erzeugt indem der Klassenname als Funktion aufgerufen wird
-- `self` wird dabei von Python automatisch übergeben
-- Benannte Parameter empfohlen — vermeiden semantische Unklarheiten
-- Attributzugriff und Methodenaufruf über den Punkt-Syntax
-
-```python
-raum = Raum(name="Büro 1", fläche=30.0, höhe=2.8)
-print(raum.fläche)             # 30.0
-print(raum.berechne_volumen()) # 84.0
-```
-
-%%/slides
-
-%%book
-
-## Instanzen erzeugen
-
-Objekte selbst sind immer Instanzen einer Klasse. Eine Klasse kann beliebig viele Instanzen haben; alle sind gleich aufgebaut, besitzen aber nicht notwendigerweise dieselben Attributwerte. Instanzen werden erzeugt, indem der Klassenname wie eine Funktion aufgerufen wird — mit den Parametern des Konstruktors (ohne `self`). Benannte Parameter machen die Bedeutung der Werte explizit und verhindern Verwechslungen.
-
-%%/book
-
-%%# Assoziationen implementieren
-
-%%## Assoziationen als Instanzattribute
-
-%%slides
-
-Eine {{< ai4sc-icon arrow-left-right >}} Assoziation zwischen Klassen wird als Instanzattribut implementiert:
-
-```python
-class Raum:
-    def __init__(self, name: str, fläche: float, höhe: float):
-        self.name    = name
-        self.fläche  = fläche
-        self.höhe    = höhe
-        self.fenster = []  # ⇄ Assoziation → Fenster (0..*)
-
-    def add_fenster(self, fenster):
-        self.fenster.append(fenster)
-```
-
-- `0..*` → leere Liste (`[]`), wächst mit `append`
-- `1` → direktes Attribut, Pflichtparameter im Konstruktor
-- `0..1` → optionales Attribut, Default `None`
-
-%%/slides
-
-%%book
-
-## Assoziationen implementieren
-
-In Python werden Assoziationen als Instanzattribute umgesetzt. Die Multiplizität aus dem UML-Diagramm bestimmt direkt die Implementierung:
-
-- `0..*` → Liste, in `__init__` als `[]` initialisiert
-- `1` → Pflichtparameter im Konstruktor
-- `0..1` → optionales Attribut mit Default `None`
-
-Die Beziehungsrichtung im UML-Diagramm bestimmt, in welcher Klasse das Attribut definiert wird.
-
-%%/book
-
-%%# Kapselung
+%%# Kapselung und Vererbung
 
 %%## Kapselung: Attribute schützen
 
 %%slides
 
-- Private Attribute: `__attributname` — nur innerhalb der Klasse sichtbar
-- Protected Attribute: `_attributname` — für Klasse und Unterklassen
-- Public Attribute: `attributname` — überall sichtbar (Standard)
-- Getter-Methoden stellen kontrollierten Lesezugriff bereit
-- Python nutzt bei `__name` Name Mangling: technisch bleibt Zugriff möglich, aber nicht unter dem ursprünglichen Namen
+%%col 50 50
+
+- `__name` privat · `_name` protected · `name` öffentlich
+- Getter-Methoden: kontrollierter Lesezugriff
+- Name Mangling: kein echter Zugriffsschutz
+- UML: `-` privat · `#` protected · `+` öffentlich
+
+%%sep
 
 ```python
 class Raum:
     def __init__(self, fläche: float):
-        self.__fläche = fläche  # privat — von außen nicht direkt änderbar
+        self.__fläche = fläche
 
     def get_fläche(self) -> float:
         return self.__fläche
 ```
 
+%%/col
+
 %%/slides
 
 %%book
-
-## Kapselung
 
 Kapselung schützt Attribute vor unerwünschtem Zugriff. Private Attribute (`__name`) sind nur innerhalb der Klasse über `self` zugänglich; der direkte Zugriff von außen schlägt fehl. Python setzt hier allerdings kein echtes Zugriffsverbot um, sondern verwendet sogenanntes Name Mangling: Intern wird der Name umgeschrieben, sodass versehentlicher Zugriff erschwert wird. Um Lesezugriff zu ermöglichen, definiert man Getter-Methoden. Kapselung ist im UML-Diagramm durch die Sichtbarkeitsmarker `+` (public), `#` (protected) und `-` (private) ausgedrückt.
 
 %%/book
 
-%%# Vererbung
 
 %%## Vererbung
 
 %%slides
 
-- Unterklassen erben alle Attribute und Methoden der Oberklasse
-- In UML: Generalisierungspfeil (weißer Dreieckspfeil)
-- In Python: Oberklasse in Klammern beim `class`-Schlüsselwort
-- `super().__init__(...)` ruft den Konstruktor der Oberklasse auf
+%%col 40 60
 
-%%col 35 65
+![](images/06b_Objects/uml_vererbung.svg){.nostretch fig-align="center" width="70%"}
 
-![](images/06b_Objects/uml_vererbung.svg){.nostretch fig-align="center" width="100%"}
+- UML: Generalisierungspfeil
+- Python: `class Kind(Eltern):`
+- `super().__init__(...)` ruft den Elternkonstruktor
 
 %%sep
 
@@ -430,8 +461,9 @@ class Raum:
         self.fläche = fläche
 
 class Serverraum(Raum):
-    def __init__(self, name: str, fläche: float, kühlleistung: float):
-        super().__init__(name, fläche)   # Elternkonstruktor
+    def __init__(self, name: str, fläche: float,
+                 kühlleistung: float):
+        super().__init__(name, fläche)
         self.kühlleistung = kühlleistung
 ```
 
@@ -441,8 +473,6 @@ class Serverraum(Raum):
 
 %%book
 
-## Vererbung
-
 ![](images/06b_Objects/uml_vererbung.svg)
 
 Vererbung ist eine der wichtigsten Eigenschaften der Objektorientierung. Unterklassen erben alle Attribute und Methoden der Oberklasse. Beim Deklarieren gibt man die Oberklasse in Klammern an: `class Kind(Eltern):`. Der Konstruktor der Oberklasse muss explizit mit `super().__init__(...)` aufgerufen werden; sonst werden die Attribute der Oberklasse nicht initialisiert.
@@ -450,6 +480,7 @@ Vererbung ist eine der wichtigsten Eigenschaften der Objektorientierung. Unterkl
 Unterklassen können Methoden der Elternklasse überschreiben (*Polymorphismus*) — und so dasselbe Interface unterschiedlich implementieren.
 
 %%/book
+
 
 %%# Typische KI-Fehler bei Klassen
 
@@ -495,15 +526,14 @@ Das Problem gilt nicht nur in `__init__`, sondern bei **jeder** Python-Funktion 
 
 %%book
 
-### KI-Fehler 1: Mutable Default
-
 Ein häufiger KI-Fehler ist die Verwendung von veränderlichen Objekten (Listen, Dictionaries) als Defaultwerte in `__init__`. Dieses Problem ist nicht auf Klassen beschränkt, sondern gilt allgemein für jede Python-Funktion mit veränderlichem Defaultwert. Der Defaultwert wird nur **einmal** beim Definieren der Funktion ausgewertet — alle späteren Aufrufe oder Instanzen teilen dann dieselbe Liste. Die korrekte Lösung ist der Defaultwert `None` mit expliziter Initialisierung im Konstruktor.
 
 %%/book
 
-%%slides
 
-## KI-Fehler 2 — Fehlendes `self`
+%%## KI-Fehler 2 — Fehlendes `self`
+
+%%slides
 
 %%col 50 50
 
@@ -535,15 +565,14 @@ class Raum:
 
 %%book
 
-### KI-Fehler 2: Fehlendes `self`
-
 Methoden müssen immer `self` als ersten Parameter haben. Ohne `self` hat die Methode keinen Zugriff auf die Instanzattribute und wird beim Aufruf mit einem `TypeError` fehlschlagen. Dieser Fehler passiert KI-Systemen besonders dann, wenn Methoden aus freien Funktionen umgebaut werden.
 
 %%/book
 
-%%slides
 
-## KI-Fehler 3 — `cls` statt `self`
+%%## KI-Fehler 3 — `cls` statt `self`
+
+%%slides
 
 %%col 50 50
 
@@ -580,13 +609,10 @@ Instanzmethode → immer `self`, ohne Dekorator.
 
 %%book
 
-### KI-Fehler 3: `cls` statt `self`
-
 In Python ist `cls` die Konvention für den ersten Parameter von Klassenmethoden (dekoriert mit `@classmethod`). KI-Systeme verwechseln `cls` und `self` gelegentlich, insbesondere wenn sie zwischen verschiedenen Methodentypen wechseln. Bei einer mit `@classmethod` dekorierten Methode ist `cls` die Klasse selbst, nicht die Instanz. Der Zugriff auf Instanzattribute wie `cls.fläche` schlägt dann mit einem `AttributeError` fehl, weil `fläche` erst in `__init__` an der Instanz entsteht.
 
 %%/book
 
-%%# Code-Verständnis-Checkliste
 
 %%## Drei Fragen für KI-generierten Klassencode
 
@@ -620,13 +646,12 @@ In Python ist `cls` die Konvention für den ersten Parameter von Klassenmethoden
 
 %%book
 
-## Code-Verständnis-Checkliste
-
 Diese drei Fragen bilden den Kern der Verifikation von KI-generiertem Klassencode. Wer sie routinemäßig stellt, entwickelt die Kompetenz, generierten Code kritisch zu lesen — statt ihn blind zu übernehmen.
 
 %%/book
 
 %%slides
+
 
 ## Querverbindungen
 
@@ -656,6 +681,9 @@ Kapselung, Vererbung, Methodensignaturen
 %%/slides
 
 %%book
+
+Die UML-Entwurfsartefakte, die wir hier in Python übersetzen, stammen aus `04c_Objects` (S04). In `06c_Module` (S06) organisieren wir Klassen in Modulen, und in `08b_CodeReview` (S08) gehen Kapselung, Vererbung und Methodensignaturen als OOP-Best-Practices in die Review-Checkliste ein.
+
 
 ```{quizdown}
 
@@ -755,5 +783,6 @@ Kapselung, Vererbung, Methodensignaturen
 ```
 
 %%/book
+
 
 %%final
