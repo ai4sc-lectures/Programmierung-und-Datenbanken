@@ -84,7 +84,7 @@ Python vereinfacht einige Datentypen.
 
 
 
-## Anweisungen
+%%## Anweisungen
 
 
 %%book
@@ -93,15 +93,33 @@ Bei der Programmierung schreibt man Code, der formal aus Syntax und Semantik bes
 
 %%def Anweisung
 Eine Anweisung (engl. statement) stellt eine in der Syntax einer Programmiersprache formulierte einzelne Vorschrift dar, die im Programm nacheinander auszuführen ist.
+
+Beispiel: `x = 5` weist der Variablen `x` den Wert 5 zu.
 %%/def
 
 %%def Ausdrücke
 Eine besondere Form von Anweisungen sind Ausdrücke (engl. expression), die immer einen Wert zurückgeben und damit einen Datentyp haben.
+
+Beispiele: `3 + 4` ergibt `7` (`int`), `"Hallo " + "Welt"` ergibt einen `str`.
 %%/def
 
 %%def Operator
 Ein Operator ist ein Teil von Ausdrücken und ein Symbol oder Schlüsselwort, das dem Compiler oder Interpreter mitteilt, eine bestimmte Operation auf Werte auszuführen.
+
+Beispiel: In `3 + 4` ist `+` der Operator, `3` und `4` sind die Operanden.
 %%/def
+
+Die Beispiele lassen sich direkt auswerten:
+
+```{python}
+#| echo: true
+3 + 4
+```
+
+```{python}
+#| echo: true
+"Hallo " + "Welt"
+```
 
 Bei einer einfachen Variablenzuweisung steht der Ausdruck zum Beispiel auf der rechten Seite des Zuweisungsoperators und der Variablenname auf der linken Seite:
 
@@ -117,14 +135,20 @@ In dieser Sitzung lernen wir, solche Ausdrücke zu lesen und Schritt für Schrit
 
 %%def Anweisung
 Eine Anweisung (engl. statement) stellt eine in der Syntax einer Programmiersprache formulierte einzelne Vorschrift dar, die im Programm nacheinander auszuführen ist.
+
+Beispiel: `x = 5` weist der Variablen `x` den Wert 5 zu.
 %%/def
 
 %%def Ausdrücke
 Eine besondere Form von Anweisungen sind Ausdrücke (engl. expression), die immer einen Wert zurückgeben und damit einen Datentyp haben.
+
+Beispiele: `3 + 4` ergibt `7` (`int`), `"Hallo " + "Welt"` ergibt einen `str`.
 %%/def
 
 %%def Operator
 Ein Operator ist ein Teil von Ausdrücken und ein Symbol oder Schlüsselwort, das dem Compiler oder Interpreter mitteilt, eine bestimmte Operation auf Werte auszuführen.
+
+Beispiel: In `3 + 4` ist `+` der Operator, `3` und `4` sind die Operanden.
 %%/def
 
 
@@ -149,7 +173,7 @@ Ausdrücke in Python lesen, nach der Rangfolge auswerten und mit den passenden D
 %%/slides
 
 
-## Arithmetische Operatoren
+%%## Arithmetische Operatoren
 
 
 %%book
@@ -233,7 +257,7 @@ Der Ausdruck `x ** 2 - 3 * x + 1` kombiniert Potenzierung, Multiplikation, Subtr
 %%/book
 
 
-## Zuweisungsoperatoren
+%%## Zuweisungsoperatoren
 
 
 %%book
@@ -410,7 +434,7 @@ c2  # -10
 
 
 
-## Vergleichsoperatoren
+%%## Vergleichsoperatoren
 
 
 %%book
@@ -487,7 +511,7 @@ a != 1   # False
 %%/slides
 
 
-## Identitätsoperatoren
+%%## Identitätsoperatoren
 
 
 %%book
@@ -499,7 +523,31 @@ Identitätsoperatoren vergleichen Objekte. Sie prüfen, ob zwei Variablen auf da
 | Identität	| `x is y`	| wahr, wenn beide Variablen dasselbe Objekt sind. |
 | Nicht gleich	| `x is not y` | wahr, wenn die Variablen nicht dasselbe Objekt sind. |
 
-Ein gutes Gegenbeispiel ist eine Liste mit gleichem Inhalt: `a = [1, 2, 3]`, `b = a` und `c = [1, 2, 3]`. Dann ist `a is b` wahr, aber `a is c` falsch, obwohl `a == c` wahr ist.
+Ein gutes Gegenbeispiel ist eine Liste mit gleichem Inhalt. `b` verweist auf dieselbe Liste wie `a`, `c` ist dagegen eine zweite Liste mit gleichem Inhalt:
+
+```{python}
+#| echo: true
+a = [1, 2, 3]
+b = a
+c = [1, 2, 3]
+```
+
+```{python}
+#| echo: true
+a is b
+```
+
+```{python}
+#| echo: true
+a is c
+```
+
+Obwohl `a` und `c` verschiedene Objekte sind, haben sie denselben Inhalt:
+
+```{python}
+#| echo: true
+a == c
+```
 
 %%/book
 
@@ -746,13 +794,137 @@ Negiertes XOR: Wahr (1), wenn beide Eingänge gleich sind.
 
 %%/slides
 
+%%book
 
-## Logische Operatoren
+### Wahrheitstabellen der logischen Operationen
+
+Logische Operationen lassen sich gut an einer alltäglichen Auswahl erklären. Wir suchen einen Stuhl und beschreiben unseren Wunsch mit zwei Aussagen: A ist „Der Stuhl ist aus Holz“, B ist „Der Stuhl ist braun“. Je nachdem, wie wir A und B verknüpfen, passen andere Stühle. Ein Haken im Ergebnis bedeutet, dass der Stuhl unseren Wunsch erfüllt, ein Kreuz, dass er ihn nicht erfüllt.
+
+### Logische Operation: AND
+
+Ich will einen Stuhl, der aus Holz ist **und** braun ist. Das Ergebnis ist wahr, wenn beide Eingänge wahr sind.
+
+```python
+a and b
+```
+
+| Stuhl	| A: aus Holz	| B: braun	| A AND B |
+| ----- | ----------- | -------- | -------- |
+| ![Grün & Plastik](images/05a_Operatoren/stuhl_plastik_gruen.svg){.nostretch height="56px"}<br>Grün & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Nein](images/05a_Operatoren/stuhl_plastik_gruen_no.svg){.nostretch height="56px"} |
+| ![Braun & Plastik](images/05a_Operatoren/stuhl_plastik_braun.svg){.nostretch height="56px"}<br>Braun & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Nein](images/05a_Operatoren/stuhl_plastik_braun_no.svg){.nostretch height="56px"} |
+| ![Grün & Holz](images/05a_Operatoren/stuhl_holz_gruen.svg){.nostretch height="56px"}<br>Grün & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Nein](images/05a_Operatoren/stuhl_holz_gruen_no.svg){.nostretch height="56px"} |
+| ![Braun & Holz](images/05a_Operatoren/stuhl_holz_braun.svg){.nostretch height="56px"}<br>Braun & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Ja](images/05a_Operatoren/stuhl_holz_braun_ok.svg){.nostretch height="56px"} |
+
+### Logische Operation: OR
+
+Ich will einen Stuhl, der aus Holz ist **oder** braun ist. Das Ergebnis ist wahr, wenn mindestens ein Eingang wahr ist.
+
+```python
+a or b
+```
+
+| Stuhl	| A: aus Holz	| B: braun	| A OR B |
+| ----- | ----------- | -------- | -------- |
+| ![Grün & Plastik](images/05a_Operatoren/stuhl_plastik_gruen.svg){.nostretch height="56px"}<br>Grün & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Nein](images/05a_Operatoren/stuhl_plastik_gruen_no.svg){.nostretch height="56px"} |
+| ![Braun & Plastik](images/05a_Operatoren/stuhl_plastik_braun.svg){.nostretch height="56px"}<br>Braun & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Ja](images/05a_Operatoren/stuhl_plastik_braun_ok.svg){.nostretch height="56px"} |
+| ![Grün & Holz](images/05a_Operatoren/stuhl_holz_gruen.svg){.nostretch height="56px"}<br>Grün & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Ja](images/05a_Operatoren/stuhl_holz_gruen_ok.svg){.nostretch height="56px"} |
+| ![Braun & Holz](images/05a_Operatoren/stuhl_holz_braun.svg){.nostretch height="56px"}<br>Braun & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Ja](images/05a_Operatoren/stuhl_holz_braun_ok.svg){.nostretch height="56px"} |
+
+### Logische Operation: XOR
+
+Ich will einen Stuhl, der entweder aus Holz ist **oder** braun ist, aber nicht beides. Das Ergebnis ist wahr, wenn genau ein Eingang wahr ist.
+
+```python
+a != b
+```
+
+| Stuhl	| A: aus Holz	| B: braun	| A XOR B |
+| ----- | ----------- | -------- | -------- |
+| ![Grün & Plastik](images/05a_Operatoren/stuhl_plastik_gruen.svg){.nostretch height="56px"}<br>Grün & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Nein](images/05a_Operatoren/stuhl_plastik_gruen_no.svg){.nostretch height="56px"} |
+| ![Braun & Plastik](images/05a_Operatoren/stuhl_plastik_braun.svg){.nostretch height="56px"}<br>Braun & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Ja](images/05a_Operatoren/stuhl_plastik_braun_ok.svg){.nostretch height="56px"} |
+| ![Grün & Holz](images/05a_Operatoren/stuhl_holz_gruen.svg){.nostretch height="56px"}<br>Grün & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Ja](images/05a_Operatoren/stuhl_holz_gruen_ok.svg){.nostretch height="56px"} |
+| ![Braun & Holz](images/05a_Operatoren/stuhl_holz_braun.svg){.nostretch height="56px"}<br>Braun & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Nein](images/05a_Operatoren/stuhl_holz_braun_no.svg){.nostretch height="56px"} |
+
+### Logische Operation: NAND
+
+Ich will einen Stuhl, der **nicht** aus Holz **und** braun ist. Das ist das negierte AND: Das Ergebnis ist nur falsch, wenn beide Eingänge wahr sind.
+
+```python
+not (a and b)
+```
+
+| Stuhl	| A: aus Holz	| B: braun	| A NAND B |
+| ----- | ----------- | -------- | -------- |
+| ![Grün & Plastik](images/05a_Operatoren/stuhl_plastik_gruen.svg){.nostretch height="56px"}<br>Grün & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Ja](images/05a_Operatoren/stuhl_plastik_gruen_ok.svg){.nostretch height="56px"} |
+| ![Braun & Plastik](images/05a_Operatoren/stuhl_plastik_braun.svg){.nostretch height="56px"}<br>Braun & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Ja](images/05a_Operatoren/stuhl_plastik_braun_ok.svg){.nostretch height="56px"} |
+| ![Grün & Holz](images/05a_Operatoren/stuhl_holz_gruen.svg){.nostretch height="56px"}<br>Grün & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Ja](images/05a_Operatoren/stuhl_holz_gruen_ok.svg){.nostretch height="56px"} |
+| ![Braun & Holz](images/05a_Operatoren/stuhl_holz_braun.svg){.nostretch height="56px"}<br>Braun & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Nein](images/05a_Operatoren/stuhl_holz_braun_no.svg){.nostretch height="56px"} |
+
+### Logische Operation: NOR
+
+Ich will einen Stuhl, der **weder** aus Holz **noch** braun ist. Das ist das negierte OR: Das Ergebnis ist nur wahr, wenn beide Eingänge falsch sind.
+
+```python
+not (a or b)
+```
+
+| Stuhl	| A: aus Holz	| B: braun	| A NOR B |
+| ----- | ----------- | -------- | -------- |
+| ![Grün & Plastik](images/05a_Operatoren/stuhl_plastik_gruen.svg){.nostretch height="56px"}<br>Grün & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Ja](images/05a_Operatoren/stuhl_plastik_gruen_ok.svg){.nostretch height="56px"} |
+| ![Braun & Plastik](images/05a_Operatoren/stuhl_plastik_braun.svg){.nostretch height="56px"}<br>Braun & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Nein](images/05a_Operatoren/stuhl_plastik_braun_no.svg){.nostretch height="56px"} |
+| ![Grün & Holz](images/05a_Operatoren/stuhl_holz_gruen.svg){.nostretch height="56px"}<br>Grün & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Nein](images/05a_Operatoren/stuhl_holz_gruen_no.svg){.nostretch height="56px"} |
+| ![Braun & Holz](images/05a_Operatoren/stuhl_holz_braun.svg){.nostretch height="56px"}<br>Braun & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Nein](images/05a_Operatoren/stuhl_holz_braun_no.svg){.nostretch height="56px"} |
+
+### Logische Operation: XNOR
+
+Ich will einen Stuhl, der **nicht** entweder aus Holz **oder** braun ist. Das ist das negierte XOR: Das Ergebnis ist wahr, wenn beide Eingänge gleich sind.
+
+```python
+a == b
+```
+
+| Stuhl	| A: aus Holz	| B: braun	| A XNOR B |
+| ----- | ----------- | -------- | -------- |
+| ![Grün & Plastik](images/05a_Operatoren/stuhl_plastik_gruen.svg){.nostretch height="56px"}<br>Grün & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Ja](images/05a_Operatoren/stuhl_plastik_gruen_ok.svg){.nostretch height="56px"} |
+| ![Braun & Plastik](images/05a_Operatoren/stuhl_plastik_braun.svg){.nostretch height="56px"}<br>Braun & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Nein](images/05a_Operatoren/stuhl_plastik_braun_no.svg){.nostretch height="56px"} |
+| ![Grün & Holz](images/05a_Operatoren/stuhl_holz_gruen.svg){.nostretch height="56px"}<br>Grün & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0)	| ![Nein](images/05a_Operatoren/stuhl_holz_gruen_no.svg){.nostretch height="56px"} |
+| ![Braun & Holz](images/05a_Operatoren/stuhl_holz_braun.svg){.nostretch height="56px"}<br>Braun & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1)	| ![Ja](images/05a_Operatoren/stuhl_holz_braun_ok.svg){.nostretch height="56px"} |
+
+NAND, NOR und XNOR sind die negierten Varianten von AND, OR und XOR: Ihre Ergebnisse sind genau die invertierten Ergebnisse der Grundoperationen. XNOR ist wahr, wenn beide Aussagen denselben Wahrheitswert haben, in Python also `a == b`. Für XOR gilt umgekehrt `a != b`.
+
+%%/book
+
+
+%%## Logische Operatoren
 
 
 %%book
 
-Logische Operatoren kombinieren boolesche Ausdrücke, die dann als wahr oder falsch ausgewertet werden. Z.B. wird hier die Variable `is_teenager = (alter > 13) and (alter < 19)` als wahr ausgewertet, wenn der Wert der Variablen alter gleich 14 ist.
+Logische Operatoren kombinieren boolesche Ausdrücke, die dann als wahr oder falsch ausgewertet werden. Z.B. wird die Variable `is_teenager` als wahr ausgewertet, wenn der Wert der Variablen `alter` gleich 14 ist:
+
+```{python}
+#| echo: true
+alter = 14
+is_teenager = (alter > 13) and (alter < 19)
+```
+
+```{python}
+#| echo: true
+is_teenager
+```
+
+Bei `alter = 19` ist die zweite Bedingung `19 < 19` falsch, und damit der ganze Ausdruck:
+
+```{python}
+#| echo: true
+alter = 19
+is_teenager = (alter > 13) and (alter < 19)
+```
+
+```{python}
+#| echo: true
+is_teenager
+```
 
 `P` und `Q` stehen für logische Ausdrücke, z.B. `P = (x > 10)` und `Q = (x < 20)`.
 
@@ -945,7 +1117,7 @@ Bei KI-generierten Bedingungen lohnt sich eine kurze Lesepause vor dem Ausführe
 
 
 
-## Bitweise Operatoren
+%%## Bitweise Operatoren
 
 
 %%book
@@ -1206,12 +1378,22 @@ int("1") + 1
 %%/slides
 
 
-## Mitgliedsoperatoren
+%%## Mitgliedsoperatoren
 
 
 %%book
 
-Mitgliedsoperatoren prüfen, ob ein Objekt Mitglied einer Liste ist. Z.B. prüft `4 in [1,2,3]`, ob 4 in der Liste enthalten ist.
+Mitgliedsoperatoren prüfen, ob ein Objekt Mitglied einer Liste ist. Z.B. prüft `4 in [1, 2, 3]`, ob 4 in der Liste enthalten ist:
+
+```{python}
+#| echo: true
+4 in [1, 2, 3]
+```
+
+```{python}
+#| echo: true
+4 not in [1, 2, 3]
+```
 
 `x` steht hier für ein beliebiges Objekt, `list` für eine Auflistung.
 
@@ -1372,7 +1554,44 @@ Klammern machen die Rangfolge explizit. Der Typ von `x` bleibt trotzdem zu prüf
 
 ### Beispiel: Ausdruck nachverfolgen
 
-Auch hier hilft die Strategie aus der ganzen Sitzung: Operatoren identifizieren, Rangfolge bestimmen und dann den Ausdruck schrittweise auswerten. Bei `not x is None and x > 0.0` ergibt sich für `x = 10` der Wert `True`, für `x = None` der Wert `False` (der Vergleich `x > 0.0` wird wegen `and` nicht mehr ausgewertet) und für `x = "5"` ein `TypeError`, weil ein String nicht mit einer Zahl verglichen werden kann. Die umgeschriebene Form `x is not None and x > 0.0` ist für Menschen meist leichter zu lesen. Siehe auch → `05b_Verzweigung`, wo solche Ausdrücke als Bedingungen verwendet werden.
+Auch hier hilft die Strategie aus der ganzen Sitzung: Operatoren identifizieren, Rangfolge bestimmen und dann den Ausdruck schrittweise auswerten. Bei `not x is None and x > 0.0` werden zuerst die Vergleiche `x is None` und `x > 0.0` ausgewertet, danach `not` und zuletzt `and`. Für `x = 10` ergibt sich `True`:
+
+```{python}
+#| echo: true
+x = 10
+```
+
+```{python}
+#| echo: true
+not x is None and x > 0.0
+```
+
+Für `x = None` ergibt sich `False`. Der Vergleich `x > 0.0` wird wegen `and` gar nicht mehr ausgewertet:
+
+```{python}
+#| echo: true
+x = None
+```
+
+```{python}
+#| echo: true
+not x is None and x > 0.0
+```
+
+Für `x = "5"` scheitert der Vergleich mit einem `TypeError`, weil ein String nicht mit einer Zahl verglichen werden kann:
+
+```{python}
+#| echo: true
+x = "5"
+```
+
+```{python}
+#| echo: true
+#| error: true
+not x is None and x > 0.0
+```
+
+Die umgeschriebene Form `x is not None and x > 0.0` ist für Menschen meist leichter zu lesen. Siehe auch → `05b_Verzweigung`, wo solche Ausdrücke als Bedingungen verwendet werden.
 
 
 ### Quiz
