@@ -12,7 +12,6 @@ format:
   typst:
     output-file: 05b_Verzweigung.page.pdf
 resources:
-  - data/05b_Verzweigung
   - images/05b_Verzweigung/mj_title_poster.jpg
 ---
 
@@ -23,6 +22,10 @@ resources:
 > When you come to a fork in the road, take it.
 >
 > — Yogi Berra
+
+### TL;DR
+
+In dieser Einheit lernen wir, wie Python mit `if`, `elif` und `else` Programmteile nur unter einer Bedingung ausführt und welche Wahrheitswerte dabei gelten. Beim Lesen von Verzweigungen, auch aus KI-generiertem Code, prüfen wir jede Bedingung, ordnen Eingaben den Zweigen zu und suchen fehlende Fälle. Am Beispiel `classify_stress()` für Strukturspannungen schreiben wir mindestens einen Test pro Zweig.
 
 %%/book
 
@@ -171,17 +174,6 @@ Bei komplexeren Datentypen, wie Objekten, die den Wert `None` annehmen können, 
 
 %%book
 
-Eine häufige Umformung kombinierter Bedingungen sind die De-Morgan-Regeln:
-
-- `not (A and B)` ist gleichbedeutend zu `not A or not B`
-- `not (A or B)` ist gleichbedeutend zu `not A and not B`
-
-Solche Umformungen helfen, KI-generierten Code mit komplexen Bedingungen besser zu lesen oder in eine verständlichere Form zu bringen.
-
-%%/book
-
-%%book
-
 ```{python}
 #| echo: true
 bedingung=None # nicht belegt
@@ -203,6 +195,37 @@ if bedingung is not None:
 
 %%/book
 
+%%book
+
+Eine häufige Umformung kombinierter Bedingungen sind die De-Morgan-Regeln:
+
+- `not (A and B)` ist gleichbedeutend zu `not A or not B`
+- `not (A or B)` ist gleichbedeutend zu `not A and not B`
+
+Solche Umformungen helfen, Code mit komplexen Bedingungen besser zu lesen oder in eine verständlichere Form zu bringen. Die beiden Regeln entsprechen den Operationen NAND (`not (A and B)`, negiertes AND) und NOR (`not (A or B)`, negiertes OR) aus `05a_Operatoren`.
+
+Am Stuhlbeispiel aus `05a_Operatoren` lässt sich das nachvollziehen: A ist „aus Holz“, B ist „braun“. Wer einen Stuhl will, der nicht aus Holz und braun ist (`not (A and B)`), bekommt dieselben Stühle wie bei „nicht aus Holz oder nicht braun“ (`not A or not B`): alle außer dem braunen Holzstuhl. Wer einen Stuhl will, der weder aus Holz noch braun ist (`not (A or B)`), bekommt dieselben Stühle wie bei „nicht aus Holz und nicht braun“ (`not A and not B`): nur den grünen Plastikstuhl.
+
+### NAND: `not (A and B)` = `not A or not B`
+
+| Stuhl | A: aus Holz | B: braun | `not (A and B)` | `not A or not B` | Ergebnis |
+| ----- | ----------- | -------- | -------- | -------- | -------- |
+| ![Grün & Plastik](images/05a_Operatoren/stuhl_plastik_gruen.svg){.nostretch height="56px"}<br>Grün & Plastik | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Ja](images/05a_Operatoren/stuhl_plastik_gruen_ok.svg){.nostretch height="56px"} |
+| ![Braun & Plastik](images/05a_Operatoren/stuhl_plastik_braun.svg){.nostretch height="56px"}<br>Braun & Plastik | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Ja](images/05a_Operatoren/stuhl_plastik_braun_ok.svg){.nostretch height="56px"} |
+| ![Grün & Holz](images/05a_Operatoren/stuhl_holz_gruen.svg){.nostretch height="56px"}<br>Grün & Holz | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Ja](images/05a_Operatoren/stuhl_holz_gruen_ok.svg){.nostretch height="56px"} |
+| ![Braun & Holz](images/05a_Operatoren/stuhl_holz_braun.svg){.nostretch height="56px"}<br>Braun & Holz | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Nein](images/05a_Operatoren/stuhl_holz_braun_no.svg){.nostretch height="56px"} |
+
+### NOR: `not (A or B)` = `not A and not B`
+
+| Stuhl | A: aus Holz | B: braun | `not (A or B)` | `not A and not B` | Ergebnis |
+| ----- | ----------- | -------- | -------- | -------- | -------- |
+| ![Grün & Plastik](images/05a_Operatoren/stuhl_plastik_gruen.svg){.nostretch height="56px"}<br>Grün & Plastik | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Ja](images/05a_Operatoren/stuhl_plastik_gruen_ok.svg){.nostretch height="56px"} |
+| ![Braun & Plastik](images/05a_Operatoren/stuhl_plastik_braun.svg){.nostretch height="56px"}<br>Braun & Plastik | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Nein](images/05a_Operatoren/stuhl_plastik_braun_no.svg){.nostretch height="56px"} |
+| ![Grün & Holz](images/05a_Operatoren/stuhl_holz_gruen.svg){.nostretch height="56px"}<br>Grün & Holz | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Nein](images/05a_Operatoren/stuhl_holz_gruen_no.svg){.nostretch height="56px"} |
+| ![Braun & Holz](images/05a_Operatoren/stuhl_holz_braun.svg){.nostretch height="56px"}<br>Braun & Holz | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Nein](images/05a_Operatoren/stuhl_holz_braun_no.svg){.nostretch height="56px"} |
+
+%%/book
+
 %%slides
 
 
@@ -210,12 +233,12 @@ if bedingung is not None:
 
 - Eine Verzweigung führt Code nur dann aus, wenn eine Bedingung erfüllt ist
 
-- Bedingungen sind Ausdrücke mit Boolean-Ausgabe {{< ai4sc-icon variable >}} (Operatoren: `05a_Operatoren`):
+- Bedingungen sind Ausdrücke mit Boolean-Ausgabe (Operatoren: `05a_Operatoren`):
     - `True` — logische Werte
     - `a` — Variablenwerte (Bool-Äquivalent)
     - `2 < 5` — alle Vergleichsoperatoren
 
-*Ziel: KI-generierte Verzweigungen lesen, Zweige verfolgen, fehlende Fälle erkennen.*
+*Ziel: Verzweigungen lesen, Zweige verfolgen, fehlende Fälle erkennen.*
 
 %%/slides
 
@@ -225,7 +248,8 @@ if bedingung is not None:
 ## Wenn … Dann …
 
 - Grundform der Verzweigung:
-  > „Wenn die Bedingung zutrifft, dann führe folgende Statements aus"
+
+  „Wenn die Bedingung zutrifft, dann führe folgende Statements aus"
 
 - Oft folgt außerdem ein „sonst führe stattdessen folgendes Statement aus"
 
@@ -257,7 +281,13 @@ Die `if`-Anweisung startet in Python eine Verzweigung. Hinter `if` steht eine Be
 
 ## if-Anweisung
 
+%%col 45 55
+
 - Die `if`-Anweisung startet eine Verzweigung; bedingte Blöcke müssen eingerückt werden
+
+Ist die Bedingung `True`, werden die eingerückten Statements ausgeführt.
+
+%%sep
 
 ```python
 if Bedingung:
@@ -266,7 +296,7 @@ if Bedingung:
     Statement2
 ```
 
-Ist die Bedingung `True`, werden die eingerückten Statements ausgeführt.
+%%/col
 
 %%/slides
 
@@ -319,14 +349,20 @@ if ausgabe_aktiv:
 
 ## Wahrheitswerte im Alltag
 
+%%col 45 55
+
 - Praktische Frage: "Ist eine Liste leer?"
 - Python nutzt dafür oft direkt den Wahrheitswert eines Objekts
+
+%%sep
 
 ```python
 bauteile = []
 if not bauteile:
     print("Die Liste ist leer")
 ```
+
+%%/col
 
 %%/slides
 
@@ -335,9 +371,47 @@ if not bauteile:
 
 ## De-Morgan-Regeln
 
-- `not (A and B)` entspricht `not A or not B`
-- `not (A or B)` entspricht `not A and not B`
-- Hilft dabei, komplexe KI-Bedingungen umzuschreiben und zu prüfen (Wird z.B. in der Logik und beim Reasoning verwendet)
+Hilft komplexe Bedingungen umzuschreiben und zu prüfen (wird z.B. in der Logik und beim Reasoning verwendet).
+
+%%col 50 50
+
+### NAND-Regel: `not (A and B)` = `not A or not B`
+
+*Wir können also statt:*
+
+Ich will einen Stuhl, der **NICHT** aus Holz **UND** braun ist. 
+
+*einfacher sagen, dass:*
+
+Ich will einen Stuhl, der **NICHT** aus Holz **ODER** **NICHT** braun ist.
+
+| Stuhl | A | B | `not (A and B)` | `not A or not B` | Ergebnis |
+| --- | --- | --- | --- | --- | --- |
+| ![Grün & Plastik](images/05a_Operatoren/stuhl_plastik_gruen.svg){.nostretch height="48px"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Ja](images/05a_Operatoren/stuhl_plastik_gruen_ok.svg){.nostretch height="48px"} |
+| ![Braun & Plastik](images/05a_Operatoren/stuhl_plastik_braun.svg){.nostretch height="48px"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Ja](images/05a_Operatoren/stuhl_plastik_braun_ok.svg){.nostretch height="48px"} |
+| ![Grün & Holz](images/05a_Operatoren/stuhl_holz_gruen.svg){.nostretch height="48px"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Ja](images/05a_Operatoren/stuhl_holz_gruen_ok.svg){.nostretch height="48px"} |
+| ![Braun & Holz](images/05a_Operatoren/stuhl_holz_braun.svg){.nostretch height="48px"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Nein](images/05a_Operatoren/stuhl_holz_braun_no.svg){.nostretch height="48px"} |
+
+%%sep
+
+### NOR-Regel: `not (A or B)` = `not A and not B`
+
+*Wir können also statt:*
+
+Ich will einen Stuhl, der **NICHT** aus Holz **ODER** braun ist. 
+
+*einfacher sagen, dass:*
+
+Ich will einen Stuhl, der **NICHT** aus Holz **UND** **NICHT** braun ist.
+
+| Stuhl | A | B | `not (A or B)` | `not A and not B` | Ergebnis |
+| --- | --- | --- | --- | --- | --- |
+| ![Grün & Plastik](images/05a_Operatoren/stuhl_plastik_gruen.svg){.nostretch height="48px"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Ja](images/05a_Operatoren/stuhl_plastik_gruen_ok.svg){.nostretch height="48px"} |
+| ![Braun & Plastik](images/05a_Operatoren/stuhl_plastik_braun.svg){.nostretch height="48px"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Nein](images/05a_Operatoren/stuhl_plastik_braun_no.svg){.nostretch height="48px"} |
+| ![Grün & Holz](images/05a_Operatoren/stuhl_holz_gruen.svg){.nostretch height="48px"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Nein](images/05a_Operatoren/stuhl_holz_gruen_no.svg){.nostretch height="48px"} |
+| ![Braun & Holz](images/05a_Operatoren/stuhl_holz_braun.svg){.nostretch height="48px"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Nein](images/05a_Operatoren/stuhl_holz_braun_no.svg){.nostretch height="48px"} |
+
+%%/col
 
 %%/slides
 
@@ -425,9 +499,13 @@ print(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
 
 ## Alternativen
 
+%%col 45 55
+
 - `else` folgt nur auf ein `if`
 - Wird ausgeführt wenn die im `if` angegebene Bedingung `False` zurückgibt
 - Benötigt ebenso Einrückung des bedingten Code-Blocks
+
+%%sep
 
 ```python
 if Bedingung:
@@ -438,13 +516,20 @@ else:
     # ...
 ```
 
+%%/col
+
 %%/slides
 
 %%slides
 
 ## Beispiel: Division durch 0 (implizit)
 
+%%col 45 55
+
 Einfache Verzweigung, Wahrheitswert von `b`
+
+%%sep
+
 ```python
 a = 5
 b = 0
@@ -455,13 +540,20 @@ else:
     c = None
 ```
 
+%%/col
+
 %%/slides
 
 %%slides
 
 ## Beispiel: Division durch 0 (explizit)
 
+%%col 45 55
+
 Einfache Verzweigung, expliziter Vergleich
+
+%%sep
+
 ```python
 a = 5
 b = 0
@@ -471,6 +563,8 @@ else:
     print("Teilung durch 0")
     c = None
 ```
+
+%%/col
 
 %%/slides
 
@@ -506,7 +600,11 @@ print(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
 
 ## Verschachtelte Verzweigungen
 
+%%col 45 55
+
 Durch mehrfaches Einrücken können wir Verzweigungen in Verzweigungen definieren:
+
+%%sep
 
 ```python
 if Condition1:
@@ -517,6 +615,8 @@ else:
     else:
         StatementC
 ```
+
+%%/col
 
 %%/slides
 
@@ -637,6 +737,12 @@ print(f"Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
 
 ## Beispiel: Vorzeichen testen (Mehrfachverzweigung)
 
+%%col 45 55
+
+Viel sauberer und lesbarer als verschachtelte if-else Statements!
+
+%%sep
+
 ```python
 if a < 0:
     print("Die Zahl ist negativ")
@@ -646,13 +752,13 @@ else:
     print("Die Zahl ist null")
 ```
 
-Viel sauberer und lesbarer als verschachtelte if-else Statements!
+%%/col
 
 %%/slides
 
 %%book
 
-Mit `elif` bleibt dieselbe Logik erhalten, aber die Alternativen stehen auf einer Ebene. Das macht besonders bei KI-generiertem Code schneller sichtbar, welche Fälle nacheinander geprüft werden.
+Mit `elif` bleibt dieselbe Logik erhalten, aber die Alternativen stehen auf einer Ebene. Das macht schneller sichtbar, welche Fälle nacheinander geprüft werden.
 
 %%/book
 
@@ -661,7 +767,11 @@ Mit `elif` bleibt dieselbe Logik erhalten, aber die Alternativen stehen auf eine
 
 ## Branch-Lesestrategie: Beispiel
 
-{{< ai4sc-icon test-tube >}} Erst Beispiel, dann Methode
+%%col 45 55
+
+Welche Eingabe führt zu welchem Zweig? Welche Fälle fehlen?
+
+%%sep
 
 ```python
 # KI-generiert: Wert einschätzen
@@ -673,7 +783,7 @@ else:
     status = "niedrig"
 ```
 
-Welche Eingabe führt zu welchem Zweig? Welche Fälle fehlen?
+%%/col
 
 %%/slides
 
@@ -685,7 +795,7 @@ Wenn KI-Tools Verzweigungen generieren, ist das Ziel nicht, den Code zu schreibe
 
 %%book
 
-Beim Lesen dieses KI-generierten Codes: (1) Bedingungen — `> 100` und `> 50`; (2) drei Zweige — "hoch", "mittel", "niedrig"; (3) Eingaben: `wert=150` → "hoch", `wert=75` → "mittel", `wert=30` → "niedrig"; (4) fehlende Fälle — `wert=None`? Negative Werte? `wert=50` exakt (nicht `> 50`, sondern `== 50`)?
+Beim Lesen dieses KI-generierten Codes: (1) Bedingungen — `> 100` und `> 50`; (2) drei Zweige — "hoch", "mittel", "niedrig"; (3) Eingaben: `wert=150` → "hoch", `wert=75` → "mittel", `wert=30` → "niedrig"; (4) fehlende Fälle — `wert=None`? Negative Werte? Der Grenzwert `wert=50` trifft `> 50` nicht zu und landet deshalb im `else`-Zweig ("niedrig"). Ist das gewollt?
 
 %%/book
 
@@ -693,8 +803,6 @@ Beim Lesen dieses KI-generierten Codes: (1) Bedingungen — `> 100` und `> 50`; 
 
 
 ## KI-Code lesen: Verzweigungen
-
-{{< ai4sc-icon test-tube >}} Lesestrategie
 
 Für jeden `if`-Block in KI-generiertem Code:
 
@@ -747,12 +855,41 @@ match Variable:
 
 %%/slides
 
+%%book
+
+Seit Python 3.10 gibt es das `match`-Statement. Anstatt viele `elif`-Anweisungen mit dem Operator `==` zu schreiben, geben wir eine Variable an, deren Wert gegen mehrere Optionen geprüft wird. Der Fall `case _` greift, wenn keine der Optionen davor zutrifft, und entspricht damit dem `else`.
+
+```python
+if Variable == ValueA:
+    StatementA
+elif Variable == ValueB:
+    StatementB
+else:
+    StatementC
+```
+
+```python
+match Variable:
+    case ValueA:
+        StatementA
+    case ValueB:
+        StatementB
+    case _:
+        StatementC
+```
+
+%%/book
+
 %%slides
 
 
 ## KI-generierter Code: Schwellenwert-Klassifizierer
 
-{{< ai4sc-icon test-tube >}} KI-Code lesen
+%%col 45 55
+
+Bevor Sie diesen Code akzeptieren: Welche Bedingung hat jeder Zweig?
+
+%%sep
 
 ```python
 # KI-generiert: Strukturspannung klassifizieren
@@ -767,7 +904,7 @@ def classify_stress(stress_MPa: float) -> str:
         return "Kritisch"
 ```
 
-Bevor ihr diesen Code akzeptiert: Welche Bedingung hat jeder Zweig?
+%%/col
 
 %%/slides
 
@@ -786,11 +923,26 @@ def classify_stress(stress_MPa: float) -> str:
         return "Warnung"
     else:
         return "Kritisch"
+```
 
-print(classify_stress(-1))
-print(classify_stress(100))
-print(classify_stress(200))
-print(classify_stress(300))
+```{python}
+#| echo: true
+classify_stress(-1)
+```
+
+```{python}
+#| echo: true
+classify_stress(100)
+```
+
+```{python}
+#| echo: true
+classify_stress(200)
+```
+
+```{python}
+#| echo: true
+classify_stress(300)
 ```
 
 %%/book
@@ -822,7 +974,11 @@ Eine einfache Tabelle hilft beim Nachverfolgen von Zweigen. Für jede Beispiel-E
 
 ## Ein Test pro Zweig
 
-{{< ai4sc-icon test-tube >}} Verifikation
+%%col 45 55
+
+→ `08a_UnitTest`: Grenzwert-Tests systematisch
+
+%%sep
 
 ```python
 # Minimum: ein Test pro Zweig
@@ -836,7 +992,7 @@ assert classify_stress(150)  == "Warnung"
 assert classify_stress(250)  == "Kritisch"
 ```
 
-→ `08a_UnitTest`: Grenzwert-Tests systematisch
+%%/col
 
 %%/slides
 
@@ -863,8 +1019,6 @@ print("Alle Tests bestanden.")
 
 ## Agentic Workflow: Verzweigungen prüfen
 
-{{< ai4sc-icon workflow >}} Agentic Cycle
-
 > **Vor dem Akzeptieren von KI-generiertem Branching-Code:**
 >
 > 1. Jeden Zweig manuell verfolgen
@@ -874,18 +1028,16 @@ print("Alle Tests bestanden.")
 
 %%/slides
 
+%%book
+
+Bevor wir KI-generierten Code mit Verzweigungen in die Lösung übernehmen, gehen wir vier Schritte durch: Wir verfolgen jeden Zweig manuell, identifizieren fehlende Fälle (`None`, negative Werte, Grenzwerte), schreiben einen Test pro Zweig und übernehmen den Code erst danach.
+
+%%/book
+
 %%slides
 
 
-## Lesson Learned {colR capR="Midjourney: Six Sense" imgR="images/02a_Wissenspyramide/mj_senses.mp4" background="#66ccffff"}
-
-%%col 40 60
-
-Welche Lerntypen gibt es?
-
-%%sep
-
-%%/col
+# Lesson Learned {background="#66ccffff" background-video-loop="true" background-video-muted="true" background-video="images/05b_Verzweigung/mj_senses.mp4" credit="Midjourney: Six Sense" .fragment .scramble-auto}
 
 %%/slides
 
