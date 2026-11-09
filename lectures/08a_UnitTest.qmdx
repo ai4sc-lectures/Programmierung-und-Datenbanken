@@ -22,16 +22,12 @@ resources:
 >
 > — Robert C. Martin
 
-%%/book
 
-%%book
 
 
 # Unit-Tests
 
-%%/book
 
-%%book
 
 ### TL;DR
 
@@ -45,9 +41,7 @@ Zum Testen verwendet man in Python meist spezielle Pakete wie `unittest` oder `n
 
 Wir wollen zum Beispiel die [zuvor definierte Divisionsfunktion](6_Exceptions.html#Exceptions_selbst_erzeugen) `division()` testen.
 
-%%/book
 
-%%book
 
 ```{python}
 #| echo: true
@@ -257,23 +251,16 @@ Wir unterscheiden Funktionstests, Grenzwerttests und Datentyp-Tests. Die folgend
 
 Wenn die KI eine Funktion generiert, lesen wir zuerst die Anforderung und schreiben dann je einen Funktions-, Grenzwert- und Datentyp-Test. Schlägt ein Test fehl, nennen wir ihn im nächsten Prompt, damit die KI gezielt korrigieren kann.
 
-%%/book
 
-
-%%book
 
 
 ## Funktionstest
 
-%%/book
 
-%%book
 
 Hierfür schreiben wir als erstes einen *Funktionstest*. Diese überprüfen die korrekte Funktion eines Moduls mit mehreren Eingaben, für die wir das korrekte Ergebnis kennen. Hier macht man meist mehrere Tests, um sicherzustellen, dass man nicht `zufällig` das richtige Ergebnis bekommt, sondern für verschiedene Kombinationen.
 
-%%/book
 
-%%book
 
 ```{mermaid}
 graph LR
@@ -283,9 +270,7 @@ graph LR
     style e fill:none,stroke:none
 ```
 
-%%/book
 
-%%book
 
 ```{python}
 #| echo: true
@@ -296,31 +281,23 @@ def test_funktion(): # Die übliche Notation für Tests in Python ist die Funkti
     assert division(50, 5) == 10
 ```
 
-%%/book
 
-%%book
 
 ```{python}
 #| echo: true
 test_funktion()
 ```
 
-%%/book
 
-%%book
 
 
 ## Grenzwerttest
 
-%%/book
 
-%%book
 
 Ein weiterer wichtiger Test ist der *Grenzwerttest*. Hier prüft man ob Eingaben im Grenzwertbereich korrekt behandelt werden. Zum Beispiel ob positiv oder negativ Unendlich behandelt werden oder ob die Division durch 0 behandelt wird. Wir haben oben beim Erstellen der Funktion definiert, dass bei einer Division durch 0 die Funktion den Wert `None` ausgeben soll.
 
-%%/book
 
-%%book
 
 ```{mermaid}
 graph LR
@@ -330,9 +307,7 @@ graph LR
     style e fill:none,stroke:none
 ```
 
-%%/book
 
-%%book
 
 ```{python}
 #| echo: true
@@ -346,31 +321,23 @@ def test_grenzwert():
     assert division(100, 0) is None
 ```
 
-%%/book
 
-%%book
 
 ```{python}
 #| echo: true
 test_grenzwert()
 ```
 
-%%/book
 
-%%book
 
 
 ## Datentyp-Test
 
-%%/book
 
-%%book
 
 Da Python dynamische Datentypen unterstützt, ist der *Datentyp-Test* sehr wichtig. Hierbei wird getestet, ob die Funktion falsche Datentypen als Eingabe richtig behandelt.
 
-%%/book
 
-%%book
 
 ```{mermaid}
 graph LR
@@ -380,15 +347,11 @@ graph LR
     style e fill:none,stroke:none
 ```
 
-%%/book
 
-%%book
 
 Hierbei können wir nicht direkt `assert` nutzen da es ja unseren Code zum Absturz bringt.
 
-%%/book
 
-%%book
 
 ```{python}
 #| echo: true
@@ -398,15 +361,11 @@ except Exception as e:
     assert isinstance(e, ValueError)
 ```
 
-%%/book
 
-%%book
 
 Für vollständige Tests nutzen wir einen `try-except`-Block und die `else`-Anweisung. Sie wird nur dann ausgeführt, wenn im `try`-Block *keine* Exception auftritt, was im Testfall ja unerwünscht ist. In diesem Fall lösen wir selbst einen `AssertionError` aus. Ferner prüfen wir, ob die ausgelöste Exception der Funktion auch den richtigen Typ `ValueError` hat.
 
-%%/book
 
-%%book
 
 ```{python}
 #| echo: true
@@ -427,32 +386,24 @@ def test_datentyp():
         raise AssertionError("Datatype")
 ```
 
-%%/book
 
-%%book
 
 ```{python}
 #| echo: true
 test_datentyp()
 ```
 
-%%/book
 
-%%book
 
 ## Mit Tests bei Code-Änderungen Fehler erkennen
 
-%%/book
 
-%%book
 
 Diese Unit-Tests haben wir absichtlich als Funktion definiert, so dass wir sie nun bei Code-Änderungen immer wieder durchführen können. So kann man dann testen, ob die Implementation die gestellten Erwartungen überhaupt oder immer noch erfüllt.
 
 Wird zum Beispiel die Divisionsfunktion durch eine triviale Implementation überschrieben.
 
-%%/book
 
-%%book
 
 ```{python}
 #| echo: true
@@ -460,30 +411,22 @@ def division(zaehler, nenner):
     return zaehler / nenner
 ```
 
-%%/book
 
-%%book
 
 So funktioniert immer noch unser Funktionstest. Weshalb es meistens nicht hinreichend ist, nur diesen zu implementieren oder bei der Entwicklung nur die Funktion zu prüfen.
 
-%%/book
 
-%%book
 
 ```{python}
 #| echo: true
 test_funktion()
 ```
 
-%%/book
 
-%%book
 
 Der Grenzwerttest wird allerdings jetzt eine Ausnahme auslösen.
 
-%%/book
 
-%%book
 
 ```{python}
 #| echo: true
@@ -491,15 +434,11 @@ Der Grenzwerttest wird allerdings jetzt eine Ausnahme auslösen.
 test_grenzwert()
 ```
 
-%%/book
 
-%%book
 
 Auch der Datentyp-Test ist nicht erfolgreich, weil wir ja definiert haben, dass bei falschen Eingabedatentypen ein `ValueError` erzeugt werden soll, wir aber einen `TypeError` erhalten.
 
-%%/book
 
-%%book
 
 ```{python}
 #| echo: true
@@ -507,16 +446,12 @@ Auch der Datentyp-Test ist nicht erfolgreich, weil wir ja definiert haben, dass 
 test_datentyp()
 ```
 
-%%/book
 
-%%book
 
 
 ## Test-Driven Prompting
 
-%%/book
 
-%%book
 
 In der agentischen Programmentwicklung verändern Tests ihre Rolle: Sie sind nicht mehr nur Prüfinstrument für fertigen Code, sondern **Spezifikation** — die präzise Beschreibung des gewünschten Verhaltens. Wer Tests schreibt, bevor er die KI promptet, operationalisiert damit die Anforderung: aus vager Beschreibung wird messbare Bedingung.
 
@@ -557,9 +492,7 @@ Agentische Sichtweise:
 
 %%/col
 
-%%/slides
 
-%%slides
 
 
 ## Test-Driven Prompting: Der Zyklus
@@ -630,16 +563,12 @@ Alle Tests grün bedeutet, dass die Anforderung erfüllt ist. Ein scheiternder T
 
 ![Ablauf des Test-Driven Prompting: Tests schreiben, KI prompten, Tests ausführen; bei Fehlschlag Diagnose und Reprompt, sonst Code übernehmen.](images/08a_UnitTest/test_cycle.svg)
 
-%%/book
 
-%%book
 
 
 ## Umwelt-Beispiel: Bodenverschmutzung klassifizieren
 
-%%/book
 
-%%book
 
 Als durchgehendes Beispiel für Test-Driven Prompting verwenden wir eine typische Umweltingenieur-Aufgabe: die Klassifikation von Bodenkontaminationswerten.
 
@@ -672,9 +601,7 @@ Grenzwerte:
 
 %%/col
 
-%%/slides
 
-%%slides
 
 
 ## Tests schreiben vor dem Prompt: 5 Tests
@@ -812,16 +739,12 @@ Alle 5 Tests grün → Anforderung erfüllt.
 
 Wir nennen der KI den fehlgeschlagenen Test und die verletzte Anforderung: `>= 150` ist `"Kritisch"`. Die KI ändert den Vergleich zu `< 150`, danach laufen alle fünf Tests grün.
 
-%%/book
 
-%%book
 
 
 ## Testabdeckung
 
-%%/book
 
-%%book
 
 Selbst wenn alle geschriebenen Tests grün sind, kann KI-generierter Code ungetestete Bereiche enthalten. *Testabdeckung* (Coverage) misst, welcher Anteil des Codes durch Tests ausgeführt wurde.
 
@@ -866,9 +789,7 @@ def klassifiziere_boden(wert):
 
 %%/col
 
-%%/slides
 
-%%slides
 
 
 ## Testabdeckung: Verzweigungsabdeckung
@@ -899,16 +820,12 @@ Ungetesteter Zweig in KI-Code = unsichtbares Risiko. Der nächste Verifikationss
 
 Der Zweig `wert < 0` wird von keinem unserer Tests mit wahr betreten. Ein ungetesteter Zweig in KI-Code ist ein unsichtbares Risiko: Wir wissen nicht, ob er korrekt arbeitet. Die Prüfung von Code durch andere Personen folgt als nächster Verifikationsschritt in `08b_CodeReview`.
 
-%%/book
 
-%%book
 
 
 ## Debugging und Fehlerbehandlung
 
-%%/book
 
-%%book
 
 Wenn Tests fehlschlagen, beginnt der nächste Schritt der Verifikation: das systematische Suchen nach der Ursache. Dabei hilft *Debugging* (`07b_Debugging`). Zugleich müssen Programme mit erwartbaren Laufzeitfehlern robust umgehen können. Python stellt dafür mit `try`, `except`, `raise`, `else` und `finally` einen strukturierten Exception-Mechanismus bereit (`07a_Exceptions`).
 
@@ -1206,9 +1123,7 @@ Die Funktion `count_up_and_down` löst für `x <= 0` mit `raise` einen `ValueErr
 
 Gewisser Programmcode kann mittels mathematischen Beweises validiert werden. Das Hoare-Kalkül formalisiert ein Programm Zeile für Zeile mit mathematischer Logik, von vorne nach hinten durch das gesamte Programm. Für die meisten Anwendungen ist das zu zeitaufwendig und komplex; es kommt nur bei kritischen Systemen wie Medizintechnik oder Luftfahrt zum Einsatz.
 
-%%/book
 
-%%book
 
 
 ## Quiz
