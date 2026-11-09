@@ -10,8 +10,6 @@ format:
     output-file: 05a_Operatoren.slide.html
   typst:
     output-file: 05a_Operatoren.page.pdf
-resources:
-  - data/05a_Operatoren
 ---
 
 %%book
@@ -22,16 +20,16 @@ resources:
 >
 > — Blaise Pascal
 
+### TL;DR
+
+Operatoren verknüpfen Werte zu Ausdrücken, und Python wertet sie nach einer festen Rangfolge aus, nicht von links nach rechts. Das Ergebnis hängt vom Datentyp der Operanden ab: Derselbe Operator kann Zahlen addieren, Strings verbinden oder bei Mengen eine Differenz bilden. Wir lernen deshalb, Ausdrücke Schritt für Schritt auszuwerten, auch wenn sie von einem KI-Assistenten stammen.
+
 %%/book
 
 %%slides
 
 
 ## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Welche Ebenen hat die Wissenspyramide?" capR="Midjourney: Tower of Babel" imgR="images/05a_Operatoren/mj_tower.png"}
-
-%%/slides
-
-%%slides
 
 
 ## Wiederholung: Wissenspyramide
@@ -49,16 +47,8 @@ Zeichen formen die Basis und das Wissen die Spitze der Pyramide.
 
 %%/col
 
-%%/slides
-
-%%slides
-
 
 ## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Welche Datentypen gibt es in Programmiersprachen?" capR="DALL·E 2: A chair in the shape of a avocado" imgR="images/05a_Operatoren/mj_avocado.png"}
-
-%%/slides
-
-%%slides
 
 
 ## Wiederholung: Datentyp
@@ -72,16 +62,8 @@ Der Datentyp gibt an, von welcher Art die Daten sind, die mit ihm beschrieben we
 
 %%/col
 
-%%/slides
-
-%%slides
-
 
 ## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Welche Datentypen gibt es in Python?" capR="Midjourney: A python programming a robot" imgR="images/05a_Operatoren/mj_python.png"}
-
-%%/slides
-
-%%slides
 
 
 ## Wiederholung: Datentyp - Python
@@ -96,6 +78,11 @@ Python vereinfacht einige Datentypen.
 %%/col
 
 %%/slides
+
+
+%%# Ausdrücke und Zuweisung
+
+
 
 ## Anweisungen
 
@@ -116,13 +103,13 @@ Eine besondere Form von Anweisungen sind Ausdrücke (engl. expression), die imme
 Ein Operator ist ein Teil von Ausdrücken und ein Symbol oder Schlüsselwort, das dem Compiler oder Interpreter mitteilt, eine bestimmte Operation auf Werte auszuführen.
 %%/def
 
-Bei einer einfachen Variablenzuweisung steht der Ausdruck zum Beispiel auf der rechten Seite des Zuweisungsoperators und der {{< ai4sc-icon variable >}} Variablenname auf der linken Seite:
+Bei einer einfachen Variablenzuweisung steht der Ausdruck zum Beispiel auf der rechten Seite des Zuweisungsoperators und der Variablenname auf der linken Seite:
 
 ```python
 Variablenname = Ausdruck
 ```
 
-In dieser Sitzung geht es darum, solche Ausdrücke zu lesen und nachzuverfolgen, die ein KI-Assistent erzeugt hat, statt sie von Grund auf selbst zu schreiben.
+In dieser Sitzung lernen wir, solche Ausdrücke zu lesen und Schritt für Schritt auszuwerten.
 
 %%/book
 
@@ -140,15 +127,12 @@ Eine besondere Form von Anweisungen sind Ausdrücke (engl. expression), die imme
 Ein Operator ist ein Teil von Ausdrücken und ein Symbol oder Schlüsselwort, das dem Compiler oder Interpreter mitteilt, eine bestimmte Operation auf Werte auszuführen.
 %%/def
 
-%%/slides
-
-%%slides
 
 ## Variablenzuweisung: Ausdruck rechts, Name links
 
 %%col 50 50
 
-{{< ai4sc-icon variable >}} Bei einer Variablenzuweisung steht der Ausdruck rechts vom Zuweisungsoperator `=`, der Variablenname links.
+Bei einer Variablenzuweisung steht der Ausdruck rechts vom Zuweisungsoperator `=`, der Variablenname links.
 
 ```python
 Variablenname = Ausdruck
@@ -157,19 +141,20 @@ Variablenname = Ausdruck
 %%sep
 
 %%tip Lernziel dieser Sitzung
-KI-generierte Ausdrücke lesen und nachverfolgen, statt sie von Grund auf zu schreiben.
+Ausdrücke in Python lesen, nach der Rangfolge auswerten und mit den passenden Datentypen verwenden.
 %%/tip
 
 %%/col
 
 %%/slides
 
+
 ## Arithmetische Operatoren
 
 
 %%book
 
-Arithmetische Operatoren führen die bekannten mathematischen Operationen aus. {{< ai4sc-icon braces >}} Sie arbeiten mit numerischen Datentypen und werden mit numerischen Werten verwendet, um allgemeine mathematische Operationen auszuführen.
+Arithmetische Operatoren führen die bekannten mathematischen Operationen aus. Sie arbeiten mit numerischen Datentypen und werden mit numerischen Werten verwendet, um allgemeine mathematische Operationen auszuführen.
 
 | Operator	| Beispiel	| Wirkung |
 | --------- | --------- | ------- |
@@ -187,9 +172,13 @@ Bei Divisionen lohnt sich ein genauer Blick auf den Unterschied zwischen `/` und
 
 %%slides
 
-%%col 50 50
+%%col 40 60
 
-{{< ai4sc-icon braces >}} Arithmetische Operatoren arbeiten mit numerischen Datentypen.
+Arithmetische Operatoren arbeiten mit numerischen Datentypen.
+
+Python wertet erst `**` aus, dann `*` `/` `//` `%`, zuletzt `+` `-`.
+
+%%sep
 
 | Operator	| Beispiel	| Ergebnis |
 | --------- | --------- | -------- |
@@ -201,16 +190,37 @@ Bei Divisionen lohnt sich ein genauer Blick auf den Unterschied zwischen `/` und
 | `%`	| `10 % 3`	| 1 |
 | `**`	| `10 ** 3`	| 1000 |
 
-%%sep
+%%/col
+
+
+
+## Beispiel: Rangfolge nachverfolgen
+
+%%col 50 50
 
 ```python
 x = 5
 ergebnis = x ** 2 - 3 * x + 1
 ```
 
-%%note KI-generiert, erst nachverfolgen und dann ausführen
-Welche Operatoren kombiniert der Ausdruck? In welcher Reihenfolge werden sie ausgewertet? Welchen Wert hat `ergebnis`?
+%%note Rangfolge nachverfolgen
+Welche Operatoren kombiniert der Ausdruck, und in welcher Reihenfolge werden sie ausgewertet?
 %%/note
+
+%%sep
+
+%%div fragment
+
+%%tip Ergebnis
+```python
+x ** 2          # 25
+3 * x            # 15
+25 - 15 + 1      # 11
+ergebnis         # 11
+```
+%%/tip
+
+%%/div
 
 %%/col
 
@@ -218,16 +228,17 @@ Welche Operatoren kombiniert der Ausdruck? In welcher Reihenfolge werden sie aus
 
 %%book
 
-Der Ausdruck `x ** 2 - 3 * x + 1` kombiniert Potenzierung, Multiplikation, Subtraktion und Addition. Gerade bei KI-generiertem Code ist es wichtig, zuerst die Operatorrangfolge zu erkennen und danach die Zwischenschritte nacheinander auszuwerten: Für `x = 5` ergibt sich `25 - 15 + 1 = 11`.
+Der Ausdruck `x ** 2 - 3 * x + 1` kombiniert Potenzierung, Multiplikation, Subtraktion und Addition. Dafür ist es wichtig, zuerst die Operatorrangfolge zu erkennen und danach die Zwischenschritte nacheinander auszuwerten: Für `x = 5` ergibt sich `25 - 15 + 1 = 11`.
 
 %%/book
+
 
 ## Zuweisungsoperatoren
 
 
 %%book
 
-{{< ai4sc-icon variable >}} Zuweisungsoperatoren weisen Variablen Werte zu. Python verwendet für alle arithmetischen Operatoren die abgekürzte Zuweisung, es gibt jedoch keine Inkrementierung oder Dekrementierung wie in anderen Sprachen.
+Zuweisungsoperatoren weisen Variablen Werte zu. Python verwendet für alle arithmetischen Operatoren die abgekürzte Zuweisung, es gibt jedoch keine Inkrementierung oder Dekrementierung wie in anderen Sprachen.
 
 Bei der Zuweisung `x = y` wird der Wert der Variablen `y` (rechte Seite) der Variablen `x` (linke Seite) zugewiesen. Bei abgekürzten Zuweisungen wird jeweils eine Operation auf dem Wert einer Variablen ausgeführt und dieser neue Wert erneut der Variablen zugewiesen.
 
@@ -244,9 +255,11 @@ Bei der Zuweisung `x = y` wird der Wert der Variablen `y` (rechte Seite) der Var
 
 %%slides
 
-%%col 50 50
+%%col 40 60
 
-{{< ai4sc-icon variable >}} Zuweisungsoperatoren weisen Variablen Werte zu. Python kennt kein `x++`, nur die abgekürzte Zuweisung.
+Zuweisungsoperatoren weisen Variablen Werte zu. Python kennt kein `x++`, nur die abgekürzte Zuweisung.
+
+%%sep
 
 | Operator	| Wirkung |
 | --------- | ------- |
@@ -257,7 +270,13 @@ Bei der Zuweisung `x = y` wird der Wert der Variablen `y` (rechte Seite) der Var
 | `x //= 4`	| `x = x // 4` |
 | `x %= 4`	| `x = x % 4` |
 
-%%sep
+%%/col
+
+
+
+## Beispiel: Zeile für Zeile nachverfolgen
+
+%%col 50 50
 
 ```python
 a = 1 + 1
@@ -266,9 +285,24 @@ a += 1
 a *= 2
 ```
 
-%%note KI-generiert, erst nachverfolgen und dann ausführen
+%%note Zeile für Zeile
 Welchen Wert hat `a` nach jeder Zeile?
 %%/note
+
+%%sep
+
+%%div fragment
+
+%%tip Ergebnis
+```python
+a = 1 + 1   # 2
+a = a + 1   # 3
+a += 1      # 4
+a *= 2      # 8
+```
+%%/tip
+
+%%/div
 
 %%/col
 
@@ -277,13 +311,14 @@ Welchen Wert hat `a` nach jeder Zeile?
 %%book
 
 
-## Anwendung von Zuweisungs- und arithmetischen Operatoren
+### Anwendung von Zuweisungs- und arithmetischen Operatoren
 
 Operatoren werden in Programmiersprachen verwendet, um zwei oder mehrere Werte oder Variablen miteinander zu verknüpfen. Die arithmetischen Operatoren `+, -, *, /` aus der Mathematik gibt es auch in Python.
 
 %%/book
 
 %%slides
+
 
 ## Klammern verändern die Reihenfolge
 
@@ -295,18 +330,22 @@ c1 = (6 + a) * (-2)
 c2 = 6 + a * -2
 ```
 
-%%note KI-generiert, erst nachverfolgen und dann ausführen
-Beim Lesen von KI-Code jede Änderung der Variablen mitverfolgen.
+%%note Rangfolge von Klammern
+Welchen Wert haben `c1` und `c2`? Was ändern die Klammern?
 %%/note
 
 %%sep
 
-```python
-c1  # -28
-c2  # -10
-```
+%%div fragment
 
-`c1` und `c2` enthalten dieselben Zahlen, aber die Klammern ändern die Auswertungsreihenfolge und damit das Ergebnis.
+%%tip Ergebnis
+```python
+c1 = (6 + 8) * (-2)   # 14 * (-2) = -28
+c2 = 6 + 8 * -2       # 6 + (-16) = -10
+```
+%%/tip
+
+%%/div
 
 %%/col
 
@@ -314,29 +353,15 @@ c2  # -10
 
 %%book
 
-%%note KI-generierter Code
-Von KI generiert: erst nachverfolgen, dann ausführen.
-%%/note
-
 ```{python}
 #| echo: true
 a = 1 + 1
 a  # 2
 ```
 
-%%/book
-
-%%book
 
 Die Operationen funktionieren genauso mit Variablen oder gemischt.
 
-%%/book
-
-%%book
-
-%%note KI-generierter Code
-Von KI generiert: erst nachverfolgen, dann ausführen.
-%%/note
 
 ```{python}
 #| echo: true
@@ -344,15 +369,9 @@ a = a + 1
 a  # 3
 ```
 
-%%/book
-
-%%book
 
 In diesem Beispiel ist die erste Eingangsvariable `a` identisch mit der Ergebnisvariablen. In diesem Fall bietet Python auch eine Kurzform an, bei der der Operator direkt vor dem Zuweisungsoperator `=` steht.
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
@@ -360,9 +379,6 @@ a += 1
 a  # 4
 ```
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
@@ -370,15 +386,9 @@ a *= 2
 a  # 8
 ```
 
-%%/book
-
-%%book
 
 Hierbei bestimmen Klammern auch die Berechnungsreihenfolge, genauso wie in der Mathematik, und können das Ergebnis beeinflussen. Daher sind die folgenden beiden Ausdrücke nicht identisch:
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
@@ -386,9 +396,6 @@ c1 = (6 + a) * (-2)
 c1  # -28
 ```
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
@@ -399,12 +406,16 @@ c2  # -10
 %%/book
 
 
+%%# Vergleichen und Verknüpfen
+
+
+
 ## Vergleichsoperatoren
 
 
 %%book
 
-Vergleichsoperatoren vergleichen zwei Werte und liefern wahr oder falsch als Ergebnis. {{< ai4sc-icon braces >}} Zum Beispiel testet `a == b` ob `a` gleich `b` ist, und liefert je nachdem wahr oder falsch zurück, und `a != b` testet, ob `a` ungleich `b` ist.
+Vergleichsoperatoren vergleichen zwei Werte und liefern wahr oder falsch als Ergebnis. Zum Beispiel testet `a == b` ob `a` gleich `b` ist, und liefert je nachdem wahr oder falsch zurück, und `a != b` testet, ob `a` ungleich `b` ist.
 
 Bei der Zuweisung `x = y` wird der Wert der Variablen `y` (rechte Seite) der Variablen `x` (linke Seite) zugewiesen. Vergleichsoperatoren sehen ähnlich aus, verändern aber keine Variable, sondern liefern nur einen Wahrheitswert.
 
@@ -421,9 +432,11 @@ Bei der Zuweisung `x = y` wird der Wert der Variablen `y` (rechte Seite) der Var
 
 %%slides
 
-%%col 50 50
+%%col 40 60
 
-{{< ai4sc-icon braces >}} `=` weist einen Wert zu. Für den Vergleich von Werten nutzt Python `==`. Das Ergebnis ist immer `True` oder `False`.
+`=` weist einen Wert zu. Für den Vergleich von Werten nutzt Python `==`. Das Ergebnis ist immer `True` oder `False`.
+
+%%sep
 
 | Operator	| wahr, wenn |
 | --------- | ---------- |
@@ -434,7 +447,13 @@ Bei der Zuweisung `x = y` wird der Wert der Variablen `y` (rechte Seite) der Var
 | `x >= y`	| `x` größer gleich `y` |
 | `x <= y`	| `x` kleiner gleich `y` |
 
-%%sep
+%%/col
+
+
+
+## Beispiel: Vergleiche auswerten
+
+%%col 50 50
 
 ```python
 a = 1
@@ -444,9 +463,24 @@ a == 1
 a != 1
 ```
 
-%%note KI-generiert, erst nachverfolgen und dann ausführen
+%%note Wahrheitswerte
 Welche der vier Vergleiche sind `True`?
 %%/note
+
+%%sep
+
+%%div fragment
+
+%%tip Ergebnis
+```python
+a > 1    # False
+a >= 1   # True
+a == 1   # True
+a != 1   # False
+```
+%%/tip
+
+%%/div
 
 %%/col
 
@@ -458,7 +492,7 @@ Welche der vier Vergleiche sind `True`?
 
 %%book
 
-Identitätsoperatoren vergleichen Objekte. {{< ai4sc-icon braces >}} Sie prüfen, ob zwei Variablen auf dasselbe Objekt im Speicher zeigen. `x is y` gibt wahr zurück, wenn beide Variablen dasselbe Objekt referenzieren.
+Identitätsoperatoren vergleichen Objekte. Sie prüfen, ob zwei Variablen auf dasselbe Objekt im Speicher zeigen. `x is y` gibt wahr zurück, wenn beide Variablen dasselbe Objekt referenzieren.
 
 | Operator	| Beispiel	| Wirkung |
 | --------- | --------- | ------- |
@@ -471,14 +505,27 @@ Ein gutes Gegenbeispiel ist eine Liste mit gleichem Inhalt: `a = [1, 2, 3]`, `b 
 
 %%slides
 
-%%col 50 50
+%%col 40 60
 
-{{< ai4sc-icon braces >}} `x is y` ist wahr, wenn beide Variablen auf dasselbe Objekt im Speicher zeigen. `x is not y` verneint das.
+`x is y` ist wahr, wenn beide Variablen auf dasselbe Objekt im Speicher zeigen. `x is not y` verneint das.
 
 - `is` prüft dieselbe Referenz.
 - `==` prüft denselben Inhalt.
 
 %%sep
+
+| Operator	| wahr, wenn |
+| --------- | ---------- |
+| `x is y`	| `x` und `y` dasselbe Objekt sind |
+| `x is not y`	| `x` und `y` nicht dasselbe Objekt sind |
+
+%%/col
+
+
+
+## Beispiel: Referenz oder Inhalt?
+
+%%col 50 50
 
 ```python
 a = [1, 2, 3]
@@ -489,25 +536,213 @@ a is c
 a == c
 ```
 
-%%note KI-generiert, erst nachverfolgen und dann ausführen
+%%note Referenz oder Inhalt?
 Welche der drei Ausdrücke sind `True`?
 %%/note
 
+%%sep
+
+%%div fragment
+
+%%tip Ergebnis
+```python
+a is b   # True   (gleiche Liste)
+a is c   # False  (zweite Liste)
+a == c   # True   (gleicher Inhalt)
+```
+%%/tip
+
+%%/div
+
 %%/col
 
-%%/slides
-
-%%slides
 
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Welche Ergebnisse gibt es für welche logische Operation? (Entspricht der Aussagenlogik)" capR="Logische Operationen" imgR="images/05a_Operatoren/logic0.svg"}
 
-%%/slides
+## Logische Operation: AND
 
-%%slides
+%%col 50 50
+
+Ich will einen Stuhl, der aus Holz ist **UND** braun ist. 
+
+Welche Stühle bekomme ich?
+
+```python
+a and b
+```
+
+%%div fragment
+
+Wahr (1), wenn beide Eingänge Wahr sind.
+
+%%/div
+
+%%sep
+
+| Stuhl	| A: aus Holz	| B: braun	| A AND B |
+| --- | --- | --- | --- |
+| ![Grün & Plastik](images/05a_Operatoren/stuhl_plastik_gruen.svg){.nostretch height="72px"}<br>Grün & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| [![Nein](images/05a_Operatoren/stuhl_plastik_gruen_no.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+| ![Braun & Plastik](images/05a_Operatoren/stuhl_plastik_braun.svg){.nostretch height="72px"}<br>Braun & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| [![Nein](images/05a_Operatoren/stuhl_plastik_braun_no.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+| ![Grün & Holz](images/05a_Operatoren/stuhl_holz_gruen.svg){.nostretch height="72px"}<br>Grün & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| [![Nein](images/05a_Operatoren/stuhl_holz_gruen_no.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+| ![Braun & Holz](images/05a_Operatoren/stuhl_holz_braun.svg){.nostretch height="72px"}<br>Braun & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| [![Ja](images/05a_Operatoren/stuhl_holz_braun_ok.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+
+%%/col
 
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Welche Ergebnisse gibt es für welche logische Operation? (Entspricht der Aussagenlogik)" capR="Logische Operationen" imgR="images/05a_Operatoren/logic.svg"}
+
+## Logische Operation: OR
+
+%%col 50 50
+
+Ich will einen Stuhl, der aus Holz ist **ODER** braun ist. 
+
+Welche Stühle bekomme ich?
+
+```python
+a or b
+```
+
+%%div fragment
+
+Wahr (1), wenn mindestens ein Eingang Wahr ist.
+
+%%/div
+
+%%sep
+
+| Stuhl	| A: aus Holz	| B: braun	| A OR B |
+| --- | --- | --- | --- |
+| ![Grün & Plastik](images/05a_Operatoren/stuhl_plastik_gruen.svg){.nostretch height="72px"}<br>Grün & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| [![Nein](images/05a_Operatoren/stuhl_plastik_gruen_no.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+| ![Braun & Plastik](images/05a_Operatoren/stuhl_plastik_braun.svg){.nostretch height="72px"}<br>Braun & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| [![Ja](images/05a_Operatoren/stuhl_plastik_braun_ok.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+| ![Grün & Holz](images/05a_Operatoren/stuhl_holz_gruen.svg){.nostretch height="72px"}<br>Grün & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| [![Ja](images/05a_Operatoren/stuhl_holz_gruen_ok.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+| ![Braun & Holz](images/05a_Operatoren/stuhl_holz_braun.svg){.nostretch height="72px"}<br>Braun & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| [![Ja](images/05a_Operatoren/stuhl_holz_braun_ok.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+
+%%/col
+
+
+
+## Logische Operation: XOR
+
+%%col 50 50
+
+Ich will einen Stuhl, der entweder aus Holz ist **ODER** braun ist, aber nicht beides. 
+
+Welche Stühle bekomme ich?
+
+```python
+a != b
+```
+
+%%div fragment
+
+Wahr (1), wenn genau ein Eingang Wahr ist.
+
+%%/div
+
+%%sep
+
+| Stuhl	| A: aus Holz	| B: braun	| A XOR B |
+| --- | --- | --- | --- |
+| ![Grün & Plastik](images/05a_Operatoren/stuhl_plastik_gruen.svg){.nostretch height="72px"}<br>Grün & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| [![Nein](images/05a_Operatoren/stuhl_plastik_gruen_no.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+| ![Braun & Plastik](images/05a_Operatoren/stuhl_plastik_braun.svg){.nostretch height="72px"}<br>Braun & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| [![Ja](images/05a_Operatoren/stuhl_plastik_braun_ok.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+| ![Grün & Holz](images/05a_Operatoren/stuhl_holz_gruen.svg){.nostretch height="72px"}<br>Grün & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| [![Ja](images/05a_Operatoren/stuhl_holz_gruen_ok.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+| ![Braun & Holz](images/05a_Operatoren/stuhl_holz_braun.svg){.nostretch height="72px"}<br>Braun & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| [![Nein](images/05a_Operatoren/stuhl_holz_braun_no.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+
+%%/col
+
+
+
+## Logische Operation: NAND
+
+%%col 50 50
+
+Ich will einen Stuhl, der **NICHT** aus Holz **UND** braun ist. 
+
+Welche Stühle bekomme ich?
+
+```python
+not (a and b)
+```
+
+%%div fragment
+
+Negiertes AND: Falsch (0) nur, wenn beide Eingänge Wahr sind.
+
+%%/div
+
+%%sep
+
+| Stuhl	| A: aus Holz	| B: braun	| A NAND B |
+| --- | --- | --- | --- |
+| ![Grün & Plastik](images/05a_Operatoren/stuhl_plastik_gruen.svg){.nostretch height="72px"}<br>Grün & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| [![Ja](images/05a_Operatoren/stuhl_plastik_gruen_ok.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+| ![Braun & Plastik](images/05a_Operatoren/stuhl_plastik_braun.svg){.nostretch height="72px"}<br>Braun & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| [![Ja](images/05a_Operatoren/stuhl_plastik_braun_ok.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+| ![Grün & Holz](images/05a_Operatoren/stuhl_holz_gruen.svg){.nostretch height="72px"}<br>Grün & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| [![Ja](images/05a_Operatoren/stuhl_holz_gruen_ok.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+| ![Braun & Holz](images/05a_Operatoren/stuhl_holz_braun.svg){.nostretch height="72px"}<br>Braun & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| [![Nein](images/05a_Operatoren/stuhl_holz_braun_no.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+
+%%/col
+
+
+
+## Logische Operation: NOR
+
+%%col 50 50
+
+Ich will einen Stuhl, der **NICHT** aus Holz **ODER** braun ist. 
+
+Welche Stühle bekomme ich?
+
+```python
+not (a or b)
+```
+
+%%div fragment
+
+Negiertes OR: Wahr (1) nur, wenn beide Eingänge Falsch sind.
+
+%%/div
+
+%%sep
+
+| Stuhl	| A: aus Holz	| B: braun	| A NOR B |
+| --- | --- | --- | --- |
+| ![Grün & Plastik](images/05a_Operatoren/stuhl_plastik_gruen.svg){.nostretch height="72px"}<br>Grün & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| [![Ja](images/05a_Operatoren/stuhl_plastik_gruen_ok.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+| ![Braun & Plastik](images/05a_Operatoren/stuhl_plastik_braun.svg){.nostretch height="72px"}<br>Braun & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| [![Nein](images/05a_Operatoren/stuhl_plastik_braun_no.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+| ![Grün & Holz](images/05a_Operatoren/stuhl_holz_gruen.svg){.nostretch height="72px"}<br>Grün & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| [![Nein](images/05a_Operatoren/stuhl_holz_gruen_no.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+| ![Braun & Holz](images/05a_Operatoren/stuhl_holz_braun.svg){.nostretch height="72px"}<br>Braun & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| [![Nein](images/05a_Operatoren/stuhl_holz_braun_no.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+
+%%/col
+
+
+
+## Logische Operation: XNOR
+
+%%col 50 50
+
+Ich will einen Stuhl, der **NICHT** entweder aus Holz **ODER** braun ist. 
+
+Welche Stühle bekomme ich?
+
+```python
+a == b
+```
+
+%%div fragment
+
+Negiertes XOR: Wahr (1), wenn beide Eingänge gleich sind.
+
+%%/div
+
+%%sep
+
+| Stuhl	| A: aus Holz	| B: braun	| A XNOR B |
+| --- | --- | --- | --- |
+| ![Grün & Plastik](images/05a_Operatoren/stuhl_plastik_gruen.svg){.nostretch height="72px"}<br>Grün & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| [![Ja](images/05a_Operatoren/stuhl_plastik_gruen_ok.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+| ![Braun & Plastik](images/05a_Operatoren/stuhl_plastik_braun.svg){.nostretch height="72px"}<br>Braun & Plastik	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| [![Nein](images/05a_Operatoren/stuhl_plastik_braun_no.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+| ![Grün & Holz](images/05a_Operatoren/stuhl_holz_gruen.svg){.nostretch height="72px"}<br>Grün & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"}	| [![Nein](images/05a_Operatoren/stuhl_holz_gruen_no.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+| ![Braun & Holz](images/05a_Operatoren/stuhl_holz_braun.svg){.nostretch height="72px"}<br>Braun & Holz	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"}	| [![Ja](images/05a_Operatoren/stuhl_holz_braun_ok.svg){.nostretch height="72px"}]{.fragment data-fragment-index="1"} |
+
+%%/col
+
 
 %%/slides
 
@@ -517,7 +752,7 @@ Welche der drei Ausdrücke sind `True`?
 
 %%book
 
-Logische Operatoren kombinieren boolesche Ausdrücke, die dann als wahr oder falsch ausgewertet werden. {{< ai4sc-icon braces >}} Z.B. wird hier die Variable `is_teenager = (alter > 13) and (alter < 19)` als wahr ausgewertet, wenn der Wert der Variablen alter gleich 14 ist.
+Logische Operatoren kombinieren boolesche Ausdrücke, die dann als wahr oder falsch ausgewertet werden. Z.B. wird hier die Variable `is_teenager = (alter > 13) and (alter < 19)` als wahr ausgewertet, wenn der Wert der Variablen alter gleich 14 ist.
 
 `P` und `Q` stehen für logische Ausdrücke, z.B. `P = (x > 10)` und `Q = (x < 20)`.
 
@@ -531,9 +766,11 @@ Logische Operatoren kombinieren boolesche Ausdrücke, die dann als wahr oder fal
 
 %%slides
 
-%%col 50 50
+%%col 40 60
 
-{{< ai4sc-icon braces >}} Logische Operatoren kombinieren Wahrheitswerte. `P` und `Q` stehen für Ausdrücke wie `x > 10` und `x < 20`.
+Logische Operatoren kombinieren Wahrheitswerte. `P` und `Q` stehen für Ausdrücke wie `x > 10` und `x < 20`.
+
+%%sep
 
 | Operator	| wahr, wenn |
 | --------- | ---------- |
@@ -541,16 +778,37 @@ Logische Operatoren kombinieren boolesche Ausdrücke, die dann als wahr oder fal
 | `P or Q`	| `P` oder `Q` wahr ist |
 | `not P`	| `P` falsch ist |
 
-%%sep
+%%/col
+
+
+
+## Beispiel: Grenzfall prüfen
+
+%%col 50 50
 
 ```python
 alter = 14
 is_teenager = (alter > 13) and (alter < 19)
 ```
 
-%%note KI-generiert, erst nachverfolgen und dann ausführen
-Welchen Wert hat `is_teenager`? Welche Werte erhält man für `alter = 19`?
+%%note Grenzfall prüfen
+Welchen Wert hat `is_teenager`, und welchen für `alter = 19`?
 %%/note
+
+%%sep
+
+%%div fragment
+
+%%tip Ergebnis
+```python
+# alter = 14
+(14 > 13) and (14 < 19)   # True and True  -> True
+# alter = 19
+(19 > 13) and (19 < 19)   # True and False -> False
+```
+%%/tip
+
+%%/div
 
 %%/col
 
@@ -558,89 +816,57 @@ Welchen Wert hat `is_teenager`? Welche Werte erhält man für `alter = 19`?
 
 %%book
 
+
 ### Anwendung von Vergleichs- und Logischen Operatoren
 
-%%/book
-
-%%book
 
 Um zu prüfen, ob der Wert zweier Variablen gleich ist, wird in den meisten Programmiersprachen nicht das Gleichheitszeichen `=` verwendet, das es dort meist als Zuweisungsoperator definiert ist (und somit die erste Variable überschreiben würde). In Python nutzt man deshalb ein doppeltes Gleichheitszeichen `==` (mathematisch für exakt das gleiche). In unserem Beispiel ist `c1` nicht gleich `c2`, also die folgende Aussage falsch.
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
 c1 == c2
 ```
 
-%%/book
-
-%%book
 
 Für Ungleichheit wird in Python der `!=` Operator verwendet
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
 c1 != c2
 ```
 
-%%/book
-
-%%book
 
 Auch die mathematischen Operatoren für kleiner `<`, kleiner gleich `<=`, größer `>`, und größer gleich `>=` werden unterstützt.
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
 c1 < c2
 ```
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
 c1 <= c2
 ```
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
 c1 > c2
 ```
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
 c1 >= c2
 ```
 
-%%/book
-
-%%book
 
 Boolesche (logische) Werte werden in Python nicht durch die üblichen Operatoren für UND `&`, ODER `|`, NOT `~` kombiniert, sondern als `and`, `or`, `not` ausgeschrieben. Das Größergleich `>=` ist z.B. identisch mit der Bedingung
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
@@ -650,6 +876,7 @@ c1 > c2 or c1 == c2
 %%/book
 
 %%slides
+
 
 ## Operatorrangfolge: Wer bindet stärker?
 
@@ -681,13 +908,15 @@ not x is None and x > 0.0
 
 %%book
 
-## Operatorrangfolge
 
-Python wertet Operatoren nicht von links nach rechts aus, sondern nach ihrer Rangfolge: Potenzierung vor Punktrechnung, Punkt- vor Strichrechnung, arithmetische Operatoren vor Vergleichen, Vergleiche vor `not`, `not` vor `and`, `and` vor `or`. Bei KI-generierten Ausdrücken lohnt es sich, diese Reihenfolge vor dem Ausführen nachzuvollziehen. Klammern machen die gewünschte Reihenfolge explizit und sind im Zweifel besser als Wissen über die Rangfolge.
+### Operatorrangfolge
+
+Python wertet Operatoren nicht von links nach rechts aus, sondern nach ihrer Rangfolge: Potenzierung vor Punktrechnung, Punkt- vor Strichrechnung, arithmetische Operatoren vor Vergleichen, Vergleiche vor `not`, `not` vor `and`, `and` vor `or`. Diese Reihenfolge sollte man vor dem Ausführen eines Ausdrucks nachvollziehen. Klammern machen die gewünschte Reihenfolge explizit und sind im Zweifel besser als Wissen über die Rangfolge.
 
 %%/book
 
 %%slides
+
 
 ## Agentischer Arbeitsablauf: Logische Ausdrücke
 
@@ -704,11 +933,16 @@ Python wertet Operatoren nicht von links nach rechts aus, sondern nach ihrer Ran
 
 %%book
 
-## Agentischer Arbeitsablauf: Logische Ausdrücke
+
+### Agentischer Arbeitsablauf: Logische Ausdrücke
 
 Bei KI-generierten Bedingungen lohnt sich eine kurze Lesepause vor dem Ausführen. Ein Ausdruck wie `if not x is None and x > 0.0:` wird leichter verständlich, wenn man erst die Rangfolge prüft: Die Vergleiche `x is None` und `x > 0.0` werden zuerst ausgewertet, danach wird `not` auf `x is None` angewendet und zuletzt beide Teile mit `and` verknüpft. Man überführt ihn danach in die klarere Form `x is not None and x > 0.0`.
 
 %%/book
+
+
+%%# Bits und Datentypen
+
 
 
 ## Bitweise Operatoren
@@ -716,7 +950,7 @@ Bei KI-generierten Bedingungen lohnt sich eine kurze Lesepause vor dem Ausführe
 
 %%book
 
-Bitweise Operatoren führen bitweise Operationen auf ganzzahligen Operanden aus. {{< ai4sc-icon braces >}} D.h. die Operanden werden in ihre bitweise Darstellung konvertiert, z.B. `x = 5 = 0101`, `y = 3 = 0011`, und dann wird jedes Bit im Operanden `x` mit dem Bit an der passenden Position im Operanden `y` verknüpft.
+Bitweise Operatoren führen bitweise Operationen auf ganzzahligen Operanden aus. D.h. die Operanden werden in ihre bitweise Darstellung konvertiert, z.B. `x = 5 = 0101`, `y = 3 = 0011`, und dann wird jedes Bit im Operanden `x` mit dem Bit an der passenden Position im Operanden `y` verknüpft.
 
 | Operator	| Beispiel	| Wirkung |
 | --------- | --------- | ------- |
@@ -731,20 +965,28 @@ Bitweise Operatoren führen bitweise Operationen auf ganzzahligen Operanden aus.
 
 %%slides
 
-%%col 50 50
+%%col 40 60
 
-{{< ai4sc-icon braces >}} Bitweise Operatoren verknüpfen die Bits ganzer Zahlen. Das Gatter-Prinzip kennen Sie aus → `01c_Computerhardware`.
+Bitweise Operatoren verknüpfen die Bits ganzer Zahlen. Das Gatter-Prinzip kennen Sie aus → `01c_Computerhardware`.
+
+%%sep
 
 | Operator	| Wirkung |
 | --------- | ------- |
 | `x & y`	| 1, wenn beide Bits 1 sind |
-| `x \| y`	| 1, wenn mindestens ein Bit 1 ist |
+| <code>x &#124; y</code>	| 1, wenn mindestens ein Bit 1 ist |
 | `x ^ y`	| 1, wenn genau ein Bit 1 ist |
 | `~x`	| Einerkomplement |
 | `x >> n`	| Bits um `n` nach rechts |
 | `x << n`	| Bits um `n` nach links |
 
-%%sep
+%%/col
+
+
+
+## Beispiel: Bits nachverfolgen
+
+%%col 50 50
 
 ```python
 a = 10      # binär 1010
@@ -755,9 +997,24 @@ a << 2
 a >> 2
 ```
 
-%%note KI-generiert, erst nachverfolgen und dann ausführen
-Bestimmen Sie die vier Ergebnisse in Binärschreibweise, bevor Sie ausführen.
+%%note binär rechnen
+Bestimmen Sie die vier Ergebnisse in Binärschreibweise.
 %%/note
+
+%%sep
+
+%%div fragment
+
+%%tip Ergebnis
+```python
+a & b    # 0000   (0)
+a | b    # 1110   (14)
+a << 2   # 101000 (40)
+a >> 2   # 0010   (2)
+```
+%%/tip
+
+%%/div
 
 %%/col
 
@@ -767,9 +1024,6 @@ Bestimmen Sie die vier Ergebnisse in Binärschreibweise, bevor Sie ausführen.
 
 Die üblichen logischen Operatoren UND `&`, ODER `|`, sowie XOR `^` sind für bitweise Verknüpfung reserviert. Dies benutzt man nur sehr selten, bei bestimmten Berechnungen oder beim Masking.
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
@@ -777,120 +1031,67 @@ a = 10 # binär 1010
 b = 4  # binär 0100
 ```
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
-c = a & b
-print(c) # binär 0000
+a & b  # binär 0000
 ```
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
-c = a | b
-print(c) # binär 1110
+a | b  # binär 1110
 ```
 
-%%/book
-
-%%book
 
 Mit den Linksverschiebungs- `<<` und Rechtsverschiebungs-Operatoren `>>` lassen sich auch sehr schnelle Berechnungen realisieren. Eine Multiplikation mit 4 ist zum Beispiel eine Linksverschiebung um 2, eine Division um 4 hingegen eine Rechtsverschiebung um 2. Dies nutzen Compiler intern, um Berechnungen zu optimieren.
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
-c = a << 2
-print(c)
+a << 2  # binär 101000
 ```
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
-d = c >> 2
-print(d)
+a >> 2  # binär 0010
 ```
 
-%%/book
 
-%%book
+### Überladen von Operatoren
 
 
-## Überladen von Operatoren
+Die arithmetischen Operatoren `+` und `-` sind in Python *überladen*, d.h. man kann sie auch auf nicht numerische Datentypen anwenden. Um mehrere Strings zu verbinden kann man zum Beispiel schreiben:
 
-%%/book
-
-%%book
-
-Die arithmetischen Operatoren `+` und `-` sind in Python *überladen*, d.h. man kann sie auch auf nicht numerische Datentypen anwenden. {{< ai4sc-icon braces >}} Um mehrere Strings zu verbinden kann man zum Beispiel schreiben:
-
-%%/book
-
-%%book
-
-%%note KI-generierter Code — Datentypen prüfen
-Von KI generiert: erst nachverfolgen, dann ausführen.
-%%/note
 
 ```{python}
 #| echo: true
-satz = "Der "+ "Ball " + "ist " + "rund."
-print(satz)
+"Der " + "Ball " + "ist " + "rund."
 ```
 
-%%/book
-
-%%book
 
 Dies funktioniert auch für Listen
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
-liste1 = [1,2,3]
-liste2 = [2,3,4]
-
-liste12 = liste1 + liste2
-print(liste12)
+liste1 = [1, 2, 3]
+liste2 = [2, 3, 4]
+liste1 + liste2
 ```
 
-%%/book
-
-%%book
 
 oder als Subtraktion für Mengen
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
-menge1 = {1,2,3}
-menge2 = {2,3,4}
-
-menge12 = menge1 - menge2
-print(menge12)
+menge1 = {1, 2, 3}
+menge2 = {2, 3, 4}
+menge1 - menge2
 ```
 
-%%/book
-
-%%book
 
 %%warning Achtung
 Hierbei ist zu beachten, dass die Operatoren ihre semantische Bedeutung ändern, je nachdem welche Datentypen kombiniert werden. So ist die Addition zweier Strings `str` formal eine `concat` in einen neuen String. Bei der Liste bedeutet `+` das Kopieren der ersten Liste in eine neue, welche dann mit `expand` um den Inhalt der nächsten Liste erweitert wird. Bei beiden ist der Operator für die Subtraktion `-` nicht definiert. Bei einem Set ist `+` nicht definiert, dafür aber `-` um Differenzmenge zu bestimmen.
@@ -898,13 +1099,6 @@ Hierbei ist zu beachten, dass die Operatoren ihre semantische Bedeutung ändern,
 Ferner müssen bei Python beide verknüpften Werte immer den gleichen Datentypen haben. So kann man nicht, wie in Java oder JavaScript, ein String und eine Nummer kombinieren, sondern muss die Nummer zuerst in einen String konvertieren (casting).
 %%/warning
 
-%%/book
-
-%%book
-
-%%note KI-generierter Code — häufiger Typfehler
-Von KI generiert: erst nachverfolgen, dann ausführen.
-%%/note
 
 ```{python}
 #| echo: true
@@ -912,24 +1106,15 @@ Von KI generiert: erst nachverfolgen, dann ausführen.
 "Der Wert ist " + 1  # geht nicht
 ```
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
 "Der Wert ist " + str(1)  # geht
 ```
 
-%%/book
-
-%%book
 
 Dies hat damit zu tun, dass bestimmte Statements sonst mehrdeutig wären. So ist hier unklar, ob das Ergebnis ein String sein soll oder eine Zahl.
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
@@ -937,15 +1122,9 @@ Dies hat damit zu tun, dass bestimmte Statements sonst mehrdeutig wären. So ist
 "1" + 1  # geht nicht
 ```
 
-%%/book
-
-%%book
 
 Durch Casting der Werte in den richtigen Typ wird das Statement eindeutig
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
@@ -957,11 +1136,12 @@ int("1") + 1  # geht
 
 %%slides
 
+
 ## Überladen: Derselbe Operator, andere Bedeutung
 
 %%col 50 50
 
-{{< ai4sc-icon braces >}} Je nach Datentyp bedeutet derselbe Operator etwas anderes.
+Je nach Datentyp bedeutet derselbe Operator etwas anderes.
 
 ```python
 "Der " + "Ball"          # str
@@ -969,27 +1149,38 @@ int("1") + 1  # geht
 {1, 2, 3} - {2, 3, 4}    # set
 ```
 
+%%note Typen links und rechts
+Welche Datentypen stehen links und rechts vom Operator, und was ergibt jede Zeile?
+%%/note
+
 %%sep
 
 - `+` verbindet Strings und Listen.
 - `-` bildet die Differenzmenge bei Mengen.
 - `+` ist für Mengen nicht definiert.
 
-%%note KI-generiert, erst nachverfolgen und dann ausführen
-Welche Datentypen stehen links und rechts vom Operator?
-%%/note
+
+
+%%div fragment
+
+%%tip Ergebnis
+```python
+"Der " + "Ball"          # "Der Ball"
+[1, 2, 3] + [2, 3, 4]    # [1, 2, 3, 2, 3, 4]
+{1, 2, 3} - {2, 3, 4}    # {1}
+```
+%%/tip
+
+%%/div
 
 %%/col
 
-%%/slides
 
-%%slides
-
-## Typfehler: Häufiger Fehler in KI-Code
+## Typfehler bei Operatoren
 
 %%col 50 50
 
-{{< ai4sc-icon braces >}} Python verknüpft nur Werte desselben Datentyps. Strings und Zahlen müssen zuerst umgewandelt werden.
+Python verknüpft nur Werte desselben Datentyps. Strings und Zahlen müssen zuerst umgewandelt werden.
 
 ```python
 "Der Wert ist " + 1
@@ -999,6 +1190,10 @@ Welche Datentypen stehen links und rechts vom Operator?
 TypeError: can only concatenate str (not "int") to str
 ```
 
+%%note Typ der Operanden prüfen
+Vor dem Ausführen fragen: Welchen Datentyp haben beide Seiten? Siehe → `02b_Datentypen`.
+%%/note
+
 %%sep
 
 ```python
@@ -1006,20 +1201,17 @@ TypeError: can only concatenate str (not "int") to str
 int("1") + 1
 ```
 
-%%note Typ der Operanden prüfen
-Vor dem Ausführen fragen: Welchen Datentyp haben beide Seiten? Siehe → `02b_Datentypen`.
-%%/note
-
 %%/col
 
 %%/slides
+
 
 ## Mitgliedsoperatoren
 
 
 %%book
 
-Mitgliedsoperatoren prüfen, ob ein Objekt Mitglied einer Liste ist. {{< ai4sc-icon braces >}} Z.B. prüft `4 in [1,2,3]`, ob 4 in der Liste enthalten ist.
+Mitgliedsoperatoren prüfen, ob ein Objekt Mitglied einer Liste ist. Z.B. prüft `4 in [1,2,3]`, ob 4 in der Liste enthalten ist.
 
 `x` steht hier für ein beliebiges Objekt, `list` für eine Auflistung.
 
@@ -1034,12 +1226,16 @@ Mitgliedsoperatoren prüfen, ob ein Objekt Mitglied einer Liste ist. {{< ai4sc-i
 
 %%col 50 50
 
-{{< ai4sc-icon braces >}} Mitgliedsoperatoren prüfen, ob ein Objekt in einer Auflistung enthalten ist.
+Mitgliedsoperatoren prüfen, ob ein Objekt in einer Auflistung enthalten ist.
 
 | Operator	| wahr, wenn |
 | --------- | ---------- |
 | `x in list`	| `x` in `list` enthalten ist |
 | `x not in list`	| `x` nicht in `list` enthalten ist |
+
+%%note Enthalten?
+Welcher der beiden Ausdrücke ist `True`?
+%%/note
 
 %%sep
 
@@ -1048,9 +1244,18 @@ Mitgliedsoperatoren prüfen, ob ein Objekt Mitglied einer Liste ist. {{< ai4sc-i
 4 not in [1, 2, 3]
 ```
 
-%%note KI-generiert, erst nachverfolgen und dann ausführen
-Welcher der beiden Ausdrücke ist `True`?
-%%/note
+
+
+%%div fragment
+
+%%tip Ergebnis
+```python
+4 in [1, 2, 3]       # False
+4 not in [1, 2, 3]   # True
+```
+%%/tip
+
+%%/div
 
 %%/col
 
@@ -1058,13 +1263,11 @@ Welcher der beiden Ausdrücke ist `True`?
 
 %%book
 
+
 ### Tips zur Anwendung
 
 Mathematische Operatoren haben auch eine Kurzversion die vor dem Zuweisungsoperator `=` stehen kann: z.B. `a += 1` entspricht `a = a + 1`, `a *= 2` ist äquivalent zu `a = a*2`.
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
@@ -1074,15 +1277,9 @@ i *= 3
 i  # 6
 ```
 
-%%/book
-
-%%book
 
 Logische Operationen funktionieren meistens wie erwartet. Insbesondere `>`, `<`, `>=` und `<=`. Wie in mehreren anderen Sprachen wird Gleichheit mit doppelten Gleichheitszeichen `==` getestet. Ungleichheit kann mit `!=` getestet werden, und die logische Negation ist `not`:
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
@@ -1094,24 +1291,15 @@ a != 1  # False
 not a == 1  # False
 ```
 
-%%/book
-
-%%book
 
 Python unterstützt auch etwas weniger verbreitete, aber äußerst praktische Mehrweg-Vergleichsoperationen, zum Beispiel
 
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
 0 < a < 2  # True
 ```
 
-%%/book
-
-%%book
 
 Python erlaubt solche Mehrfachvergleiche, ohne dass `a` doppelt geschrieben werden muss. Das ist oft lesbarer als `0 < a and a < 2`.
 
@@ -1119,17 +1307,18 @@ Python erlaubt solche Mehrfachvergleiche, ohne dass `a` doppelt geschrieben werd
 
 %%slides
 
-## Übungsaufgabe: KI-Code nachverfolgen {background-color="#D9FF66"}
+
+## Beispiel: Ausdruck nachverfolgen
 
 %%col 50 50
 
-KI hat diesen Code generiert:
+Gegeben ist dieser Ausdruck:
 
 ```python
 ergebnis = not x is None and x > 0.0
 ```
 
-Bestimmen Sie auf Papier den Wert von `ergebnis` für
+Wir sagen auf Papier den Wert von `ergebnis` voraus für
 
 1. `x = 10`
 2. `x = None`
@@ -1146,11 +1335,8 @@ Gehen Sie wie folgt vor:
 
 %%/col
 
-%%/slides
 
-%%slides
-
-## Lösung: KI-Code nachverfolgen
+## Beispiel: Ergebnis der Auswertung
 
 %%col 50 50
 
@@ -1183,20 +1369,18 @@ Klammern machen die Rangfolge explizit. Der Typ von `x` bleibt trotzdem zu prüf
 
 %%book
 
-## Übungsaufgabe: KI-Code nachverfolgen
+
+### Beispiel: Ausdruck nachverfolgen
 
 Auch hier hilft die Strategie aus der ganzen Sitzung: Operatoren identifizieren, Rangfolge bestimmen und dann den Ausdruck schrittweise auswerten. Bei `not x is None and x > 0.0` ergibt sich für `x = 10` der Wert `True`, für `x = None` der Wert `False` (der Vergleich `x > 0.0` wird wegen `and` nicht mehr ausgewertet) und für `x = "5"` ein `TypeError`, weil ein String nicht mit einer Zahl verglichen werden kann. Die umgeschriebene Form `x is not None and x > 0.0` ist für Menschen meist leichter zu lesen. Siehe auch → `05b_Verzweigung`, wo solche Ausdrücke als Bedingungen verwendet werden.
 
-%%/book
 
-%%book
-
-
-## Quiz
+### Quiz
 
 %%/book
 
 %%slides
+
 
 ## Quiz zu Operatoren
 
