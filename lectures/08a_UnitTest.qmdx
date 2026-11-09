@@ -10,8 +10,6 @@ format:
     output-file: 08a_UnitTest.slide.html
   typst:
     output-file: 08a_UnitTest.page.pdf
-resources:
-  - data/08a_UnitTest
 ---
 
 %%book
@@ -31,15 +29,15 @@ resources:
 
 ### TL;DR
 
-Unit-Tests sind zum Vermeiden und Diagnostizieren von Fehlern sehr wichtig. Ein Unit-Test testet ein einzelnes Code-Modul, wie z.B. eine Funktion oder eine Klasse.
+Unit-Tests dienen dazu, Fehler zu erkennen und reproduzierbar zu machen. Ein Unit-Test prüft eine einzelne Einheit, z. B. eine Funktion oder eine Klasse.
 
-In der agentischen Programmentwicklung sind Tests mehr als Fehlererkennung — sie sind die **Spezifikation**: Sie definieren das erwartete Verhalten, bevor die KI Code generiert. Ein Test, der auf KI-generierten Code anschlägt, ist kein Misserfolg — es ist der Nachweis, dass die Verifikation funktioniert.
+Beim Programmieren mit KI sind Tests mehr als Fehlererkennung: Sie sind die *Spezifikation* und legen das erwartete Verhalten fest, bevor die KI Code generiert. Schlägt ein Test auf KI-generierten Code an, hat die Verifikation funktioniert.
 
 ### Tests in Python
 
-Zum Testen verwendet man in Python meist spezielle Pakete wie `unittest` oder `nosetest`, welche dann automatisch bei Code-Änderungen ausgeführt werden. Einfache Tests können direkt in den Code geschrieben werden. Hierfür ist der `assert` Befehl da. Er prüft, ob eine Testbedingung erfüllt ist (assert) und löst eine `AssertionError` Exception aus, wenn dies nicht der Fall ist.
+Zum Testen verwendet man in Python meist spezielle Pakete wie `unittest` oder `pytest`, die dann automatisch bei Code-Änderungen ausgeführt werden. Einfache Tests können direkt in den Code geschrieben werden. Hierfür dient die `assert`-Anweisung. Sie prüft, ob eine Testbedingung erfüllt ist, und löst einen `AssertionError` aus, wenn dies nicht der Fall ist.
 
-Wir wollen zum Beispiel die [zuvor definierte Divisionsfunktion](6_Exceptions.html#Exceptions_selbst_erzeugen) `division()` testen.
+Wir wollen zum Beispiel die zuvor definierte Divisionsfunktion `division()` testen (siehe `07a_Exceptions`).
 
 
 
@@ -66,7 +64,7 @@ def division(zaehler, nenner):
 
 ## Umgang mit Programmfehlern: Strategien
 
-5 Hauptstrategien:
+Fünf Strategien:
 
 1. Fehlervermeidung
 2. Fehlererkennung
@@ -117,7 +115,7 @@ Verschiedene Fehlertypen erfordern verschiedene Werkzeuge
 
 Syntaktische Fehler:
 
-- Automatisch in der IDE erkannt
+- Von Parser und IDE gemeldet
 
 %%sep
 
@@ -151,28 +149,28 @@ Syntaktische Fehler meldet bereits die IDE. Statische Fehler findet man mit Lint
 ## 2. Fehlererkennung: Unit-Tests
 
 %%def Unit-Test
-{{< ai4sc-icon test-tube >}} Unit-Tests sind zusätzlich geschriebener Code, der nur zum Testen eines Moduls (Funktion, Klassen, Module) geschrieben wurde.
+{{< ai4sc-icon test-tube >}} Unit-Tests sind zusätzlich geschriebener Code, der nur zum Testen einer Funktion, Klasse oder eines Moduls geschrieben wurde.
 %%/def
 
 - Wichtige Eigenschaften:
     - Oft ist Test-Code umfangreicher als der zu testende Code
-    - *Ziel:* Prüfen ob Modul die Anforderung korrekt erfüllt — Tests *sind* die Anforderung
-    - *White-Box-Test:* Modul mit bestimmten Eingaben aufrufen
+    - *Ziel:* Prüfen, ob die Funktion die Anforderung erfüllt
+    - *Black-Box-Test:* Funktion mit bestimmten Eingaben aufrufen und die Ausgabe gegen die Spezifikation prüfen
     - Erwartete Ausgaben oder Exceptions prüfen
-    - Sollte *automatisiert ausgeführt* werden nach jeder Code-Änderung
+    - Nach jeder Änderung automatisiert ausführen
 
 %%/slides
 
 %%book
 
-Ein Unit-Test ist zusätzlich geschriebener Code, der ein einzelnes Modul mit bestimmten Eingaben aufruft und die erwarteten Ausgaben oder Exceptions prüft. Der Test-Code ist oft umfangreicher als der geprüfte Code. Die Tests laufen automatisiert nach jeder Änderung und legen damit fest, was das Modul leisten soll. Ziel ist zu prüfen, ob das Modul die gewünschte Funktion korrekt ausführt und Fehlerfälle korrekt behandelt; das erwartete Verhalten muss dafür vorher spezifiziert und dokumentiert sein. Gerade bei komplexeren Programmen treten leicht unbeabsichtigte Seiteneffekte auf, die sich so nach jeder Änderung schnell erkennen lassen.
+Ein Unit-Test ist zusätzlich geschriebener Code, der eine einzelne Funktion mit bestimmten Eingaben aufruft und die erwarteten Ausgaben oder Exceptions prüft. Der Test-Code ist oft umfangreicher als der geprüfte Code. Die Tests laufen automatisiert nach jeder Änderung und legen damit fest, was das Modul leisten soll. Ziel ist zu prüfen, ob das Modul die gewünschte Funktion korrekt ausführt und Fehlerfälle korrekt behandelt; das erwartete Verhalten muss dafür vorher spezifiziert und dokumentiert sein. Gerade bei komplexeren Programmen treten leicht unbeabsichtigte Seiteneffekte auf, die sich so nach jeder Änderung schnell erkennen lassen.
 
 %%/book
 
 %%slides
 
 
-## 2. Fehlererkennung: Unit-Test Typen
+## 2. Fehlererkennung: Unit-Test-Typen
 
 %%col 33 33 33
 
@@ -181,7 +179,7 @@ Ein Unit-Test ist zusätzlich geschriebener Code, der ein einzelnes Modul mit be
 Korrekte Erfüllung der Funktion
 
 
-Beispiel: Division-Modul
+Beispiel: Funktion `division()`
 ```python
 zaehler = 10
 nenner = 2
@@ -212,10 +210,11 @@ Korrekter Umgang mit unerwarteten Eingaben
 zaehler = 'keine_zahl'
 nenner = 0
 try:
-    ergebnis = division(zaehler, nenner)
-    assert False # We let the test fail
-except ValueError as e:
-    # Erwartet: ValueError
+    division(zaehler, nenner)
+except ValueError:
+    pass  # Erwartet: ValueError
+else:
+    raise AssertionError
 ```
 
 %%/col
@@ -226,7 +225,7 @@ except ValueError as e:
 
 Wir unterscheiden Funktionstests, Grenzwerttests und Datentyp-Tests. Die folgenden Abschnitte zeigen jeden Typ am Beispiel der Funktion `division()`.
 
-![Jeder Testtyp ruft das Modul `division()` mit einer Eingabe auf und prüft die erwartete Ausgabe.](images/08a_UnitTest/test_types.svg)
+![Jeder Testtyp ruft die Funktion `division()` mit einer Eingabe auf und prüft die erwartete Ausgabe.](images/08a_UnitTest/test_types.svg)
 
 
 
@@ -234,7 +233,7 @@ Wir unterscheiden Funktionstests, Grenzwerttests und Datentyp-Tests. Die folgend
 
 
 
-Hierfür schreiben wir als erstes einen *Funktionstest*. Diese überprüfen die korrekte Funktion eines Moduls mit mehreren Eingaben, für die wir das korrekte Ergebnis kennen. Hier macht man meist mehrere Tests, um sicherzustellen, dass man nicht `zufällig` das richtige Ergebnis bekommt, sondern für verschiedene Kombinationen.
+Hierfür schreiben wir als Erstes einen *Funktionstest*. Dieser überprüft die korrekte Funktion einer Funktion mit mehreren Eingaben, für die wir das korrekte Ergebnis kennen. Üblich sind mehrere Tests, damit wir nicht zufällig das richtige Ergebnis erhalten, sondern es für verschiedene Kombinationen bestätigt ist. Bei Gleitkommazahlen vergleichen wir nicht mit `==`, sondern mit `math.isclose()`; die Beispiele hier sind exakt darstellbar (10/2, 50/5).
 
 
 
@@ -250,7 +249,7 @@ graph LR
 
 ```{python}
 #| echo: true
-def test_funktion(): # Die übliche Notation für Tests in Python ist die Funktionsnamen mit `test_` zu beginnen
+def test_funktion(): # Üblich ist es, Testfunktionen mit `test_` zu beginnen
     assert division(10, 2) == 5
     assert division(10, 5) == 2
     assert division(50, 1) == 50
@@ -271,7 +270,7 @@ test_funktion()
 
 
 
-Ein weiterer wichtiger Test ist der *Grenzwerttest*. Hier prüft man ob Eingaben im Grenzwertbereich korrekt behandelt werden. Zum Beispiel ob positiv oder negativ Unendlich behandelt werden oder ob die Division durch 0 behandelt wird. Wir haben oben beim Erstellen der Funktion definiert, dass bei einer Division durch 0 die Funktion den Wert `None` ausgeben soll.
+Ein weiterer wichtiger Test ist der *Grenzwerttest*. Hier prüfen wir, ob Eingaben im Grenzbereich korrekt behandelt werden, etwa unendliche Werte oder die Division durch 0 (Sonderfälle). Davon unterscheiden sich die Grenzen von Äquivalenzklassen, wie wir sie beim Boden-Beispiel (50 und 150) testen: Dort prüfen wir den Grenzwert selbst und seine Nachbarn. Wir haben oben beim Erstellen der Funktion definiert, dass bei einer Division durch 0 die Funktion den Wert `None` ausgeben soll.
 
 
 
@@ -287,12 +286,12 @@ graph LR
 
 ```{python}
 #| echo: true
-import math # die Zahl unendlich ist in der math bibliothek definiert
+import math # die Zahl unendlich ist in der math-Bibliothek definiert
 
 def test_grenzwert():
     assert division(math.inf, 1) == math.inf
     assert division(math.inf, 100) == math.inf
-    assert math.isnan(division(math.inf, math.inf)) # Das prüfen auf nan (not a number) ist nur durch die funktion `isnan` moeglich
+    assert math.isnan(division(math.inf, math.inf)) # nan (not a number) prüfen wir klar mit der Funktion `isnan`
     assert division(1, math.inf) == 0
     assert division(100, 0) is None
 ```
@@ -311,7 +310,7 @@ test_grenzwert()
 
 
 
-Da Python dynamische Datentypen unterstützt, ist der *Datentyp-Test* sehr wichtig. Hierbei wird getestet, ob die Funktion falsche Datentypen als Eingabe richtig behandelt.
+Da Python dynamische Datentypen unterstützt, ist der *Datentyp-Test* besonders wichtig. Hierbei wird getestet, ob die Funktion falsche Datentypen als Eingabe richtig behandelt.
 
 
 
@@ -325,7 +324,7 @@ graph LR
 
 
 
-Hierbei können wir nicht direkt `assert` nutzen da es ja unseren Code zum Absturz bringt.
+Hierbei können wir nicht direkt `assert` nutzen, da die Exception unseren Code zum Absturz bringt.
 
 
 
@@ -339,7 +338,7 @@ except Exception as e:
 
 
 
-Für vollständige Tests nutzen wir einen `try-except`-Block und die `else`-Anweisung. Sie wird nur dann ausgeführt, wenn im `try`-Block *keine* Exception auftritt, was im Testfall ja unerwünscht ist. In diesem Fall lösen wir selbst einen `AssertionError` aus. Ferner prüfen wir, ob die ausgelöste Exception der Funktion auch den richtigen Typ `ValueError` hat.
+Für vollständige Tests nutzen wir einen `try-except`-Block und die `else`-Anweisung. Sie wird nur dann ausgeführt, wenn im `try`-Block *keine* Exception auftritt, was im Testfall unerwünscht ist. In diesem Fall lösen wir selbst einen `AssertionError` aus. Ferner prüfen wir, ob die ausgelöste Exception der Funktion auch den richtigen Typ `ValueError` hat.
 
 
 
@@ -352,14 +351,14 @@ def test_datentyp():
     except Exception as e:
         assert isinstance(e, ValueError)
     else:
-        raise AssertionError("Datatype")
+        raise AssertionError("Datentyp")
     # den zweiten Fall des Nenners
     try:
         division(10, "falscher typ")
     except Exception as e:
         assert isinstance(e, ValueError)
     else:
-        raise AssertionError("Datatype")
+        raise AssertionError("Datentyp")
 ```
 
 
@@ -375,9 +374,9 @@ test_datentyp()
 
 
 
-Diese Unit-Tests haben wir absichtlich als Funktion definiert, so dass wir sie nun bei Code-Änderungen immer wieder durchführen können. So kann man dann testen, ob die Implementation die gestellten Erwartungen überhaupt oder immer noch erfüllt.
+Diese Unit-Tests haben wir absichtlich als Funktionen definiert, sodass wir sie bei Code-Änderungen immer wieder ausführen können. So testen wir, ob die Implementierung die gestellten Erwartungen noch erfüllt.
 
-Wird zum Beispiel die Divisionsfunktion durch eine triviale Implementation überschrieben.
+Überschreiben wir zum Beispiel die Divisionsfunktion durch eine triviale Implementierung:
 
 
 
@@ -389,7 +388,7 @@ def division(zaehler, nenner):
 
 
 
-So funktioniert immer noch unser Funktionstest. Weshalb es meistens nicht hinreichend ist, nur diesen zu implementieren oder bei der Entwicklung nur die Funktion zu prüfen.
+Unser Funktionstest läuft weiterhin durch. Deshalb genügt es meist nicht, nur diesen Test zu schreiben oder bei der Entwicklung nur die Funktion zu prüfen.
 
 
 
@@ -400,7 +399,7 @@ test_funktion()
 
 
 
-Der Grenzwerttest wird allerdings jetzt eine Ausnahme auslösen.
+Der Grenzwerttest löst jetzt eine Exception aus.
 
 
 
@@ -412,7 +411,7 @@ test_grenzwert()
 
 
 
-Auch der Datentyp-Test ist nicht erfolgreich, weil wir ja definiert haben, dass bei falschen Eingabedatentypen ein `ValueError` erzeugt werden soll, wir aber einen `TypeError` erhalten.
+Auch der Datentyp-Test ist nicht erfolgreich, weil wir definiert haben, dass bei falschen Eingabedatentypen ein `ValueError` erzeugt werden soll, wir aber einen `TypeError` erhalten.
 
 
 
@@ -429,18 +428,18 @@ test_datentyp()
 
 
 
-In der agentischen Programmentwicklung verändern Tests ihre Rolle: Sie sind nicht mehr nur Prüfinstrument für fertigen Code, sondern **Spezifikation** — die präzise Beschreibung des gewünschten Verhaltens. Wer Tests schreibt, bevor er die KI promptet, operationalisiert damit die Anforderung: aus vager Beschreibung wird messbare Bedingung.
+In der agentischen Programmentwicklung verändern Tests ihre Rolle: Sie sind nicht mehr nur Prüfinstrument für fertigen Code, sondern *Spezifikation*: die präzise Beschreibung des gewünschten Verhaltens. Wer Tests schreibt, bevor er die KI promptet, operationalisiert damit die Anforderung: aus vager Beschreibung wird messbare Bedingung.
 
 Test-Driven Prompting (TDP) folgt dem agentischen Zyklus:
 
 1. Anforderung verstehen
 2. Tests schreiben, die das gewünschte Verhalten operationalisieren
-3. KI prompten — die Tests als Akzeptanzkriterium übergeben
+3. KI prompten und die Tests als Akzeptanzkriterium übergeben
 4. KI generiert Code
 5. Tests ausführen
 6. Scheitern Tests → Diagnose, Reprompt, iterieren
 
-Ein fehlgeschlagener Test auf KI-generierten Code ist kein Misserfolg. Er bedeutet: der Fehler wurde vor dem Einsatz gefunden.
+Ein fehlgeschlagener Test auf KI-generierten Code ist kein Misserfolg: Der Fehler wurde vor dem Einsatz gefunden. Tests begrenzen allerdings nur, was sie prüfen. Generierter Code kann Testwerte fest eintragen, und ein Agent kann einen fehlschlagenden Test ändern oder löschen. Deshalb behandeln wir die Tests als schreibgeschützt für die KI, ergänzen Nachbarwerte und lesen den Code zusätzlich im Review (`08b_CodeReview`).
 
 %%/book
 
@@ -468,7 +467,15 @@ Agentische Sichtweise:
 
 %%/col
 
+%%/slides
 
+%%book
+
+Klassisch erkennen Tests Fehler in fertigem Code, und ein scheiternder Test gilt als Problem. Beim Test-Driven Prompting definieren Tests das Verhalten und sind die Anforderung in Code. Wer sie vor dem Prompt schreibt, formuliert den Prompt präziser, und ein scheiternder Test auf KI-Code zeigt einen Fehler vor dem Einsatz.
+
+%%/book
+
+%%slides
 
 
 ## Test-Driven Prompting: Der Zyklus
@@ -480,13 +487,13 @@ Agentische Sichtweise:
 5. Tests ausführen
 6. Tests scheitern? Diagnose und Reprompt
 
-Den Verify-Schritt des agentischen Zyklus aus `03d_AgentischesProgrammieren` formalisieren wir hier durch Tests.
+Den Schritt Verifizieren des agentischen Zyklus aus `03d_AgentischesProgrammieren` formalisieren wir hier durch Tests.
 
 %%/slides
 
 %%book
 
-Der Zyklus verbindet Anforderung, Tests und Prompt: Die Tests sind die Anforderung in Code, die KI generiert, der Testlauf verifiziert, und fehlschlagende Tests führen zu Diagnose und Reprompt. Den Verify-Schritt des agentischen Zyklus haben wir in `03d_AgentischesProgrammieren` eingeführt; hier formalisieren wir ihn durch Tests.
+Der Zyklus verbindet Anforderung, Tests und Prompt: Die Tests sind die Anforderung in Code, die KI generiert, der Testlauf verifiziert, und fehlschlagende Tests führen zu Diagnose und Reprompt. Den Schritt Verifizieren des agentischen Zyklus haben wir in `03d_AgentischesProgrammieren` eingeführt; hier formalisieren wir ihn durch Tests.
 
 %%/book
 
@@ -502,7 +509,7 @@ Tests zwingen zur Präzision und beantworten konkrete Fragen:
 - Welche Grenzfälle müssen behandelt werden?
 - Welche Fehler soll die Funktion auslösen?
 
-Ein Test vor dem Prompt = eine Anforderung, die die KI nicht ignorieren kann. Die Quelle der Tests sind die Anforderungen aus `04a_Anforderungen`.
+Ein Test vor dem Prompt ist eine überprüfbare Anforderung. Die Quelle der Tests sind die Anforderungen aus `04a_Anforderungen`.
 
 %%/slides
 
@@ -525,8 +532,8 @@ Ein Test, der vor dem Prompt entsteht, beantwortet konkrete Fragen: Welche Einga
 
 Tests als Akzeptanzkriterium:
 
-- Alle Tests grün → Anforderung erfüllt
-- Test scheitert → *Erfolg:* Fehler vor Produktion gefunden
+- Alle Tests grün → getestete Fälle erfüllt
+- Test scheitert → Fehler vor dem Einsatz gefunden
 - Ungetesteter Bereich → unsichtbares Risiko
 
 %%/col
@@ -535,7 +542,7 @@ Tests als Akzeptanzkriterium:
 
 %%book
 
-Alle Tests grün bedeutet, dass die Anforderung erfüllt ist. Ein scheiternder Test ist ein Erfolg der Verifikation, weil der Fehler vor dem Einsatz auffällt. Bereiche, die kein Test ausführt, bleiben ein unsichtbares Risiko.
+Sind alle Tests grün, sind die getesteten Fälle erfüllt; ungetestete Fälle bleiben offen. Ein scheiternder Test ist ein Erfolg der Verifikation, weil der Fehler vor dem Einsatz auffällt. Bereiche, die kein Test ausführt, bleiben ein unsichtbares Risiko.
 
 ![Ablauf des Test-Driven Prompting: Tests schreiben, KI prompten, Tests ausführen; bei Fehlschlag Diagnose und Reprompt, sonst Code übernehmen.](images/08a_UnitTest/test_cycle.svg)
 
@@ -546,11 +553,11 @@ Alle Tests grün bedeutet, dass die Anforderung erfüllt ist. Ein scheiternder T
 
 
 
-Als durchgehendes Beispiel für Test-Driven Prompting verwenden wir eine typische Umweltingenieur-Aufgabe: die Klassifikation von Bodenkontaminationswerten.
+Als durchgehendes Beispiel für Test-Driven Prompting verwenden wir eine typische Aufgabe aus dem Umweltingenieurwesen: die Klassifikation von Bodenkontaminationswerten. Die Grenzwerte sind didaktisch gewählt und keine Prüf- oder Maßnahmenwerte der BBodSchV; die fehlerhafte Variante haben wir bewusst konstruiert.
 
-**Anforderung:** Schreibe eine Funktion `klassifiziere_boden(wert)`, die einen Messwert in mg/kg als `"Sauber"`, `"Beobachten"` oder `"Kritisch"` klassifiziert. Grenzwerte: < 50 → Sauber, 50–149 → Beobachten, ≥ 150 → Kritisch.
+*Anforderung:* Gesucht ist eine Funktion `klassifiziere_boden(wert)`, die einen Messwert in mg/kg als `"Sauber"`, `"Beobachten"` oder `"Kritisch"` klassifiziert. Grenzwerte: `wert < 50` ist Sauber, `50 <= wert < 150` ist Beobachten, `wert >= 150` ist Kritisch.
 
-Bevor wir die KI prompten, schreiben wir 5 Tests: 3 Normalfälle und 2 Grenzwertfälle. Diese Tests übergeben wir als Akzeptanzkriterium im Prompt. Die KI liefert eine Funktion, bei der ein Grenzwerttest scheitert: der Vergleich `wert <= 150` ordnet den Wert 150 fälschlich als `"Beobachten"` ein. Der Test macht den Fehler sichtbar, bevor die Funktion eingesetzt wird.
+Bevor wir die KI prompten, schreiben wir 5 Tests: 3 Normalfälle und 2 Grenzwertfälle. Diese Tests übergeben wir als Akzeptanzkriterium im Prompt. Die KI liefert eine Funktion, bei der ein Grenzwerttest scheitert: der Vergleich `wert <= 150` ordnet den Wert 150 fälschlich als `"Beobachten"` ein. Der Test macht den Fehler sichtbar, bevor wir die Funktion einsetzen.
 
 %%/book
 
@@ -563,12 +570,12 @@ Bevor wir die KI prompten, schreiben wir 5 Tests: 3 Normalfälle und 2 Grenzwert
 
 {{< ai4sc-icon clipboard-list >}} *Anforderung:*
 
-> Schreibe `klassifiziere_boden(wert)`, die einen Messwert (mg/kg) als `"Sauber"`, `"Beobachten"` oder `"Kritisch"` klassifiziert.
+> Gesucht: `klassifiziere_boden(wert)`, die einen Messwert (mg/kg) als `"Sauber"`, `"Beobachten"` oder `"Kritisch"` klassifiziert.
 
 Grenzwerte:
 
 - < 50 mg/kg → *Sauber*
-- 50–149 mg/kg → *Beobachten*
+- 50 bis unter 150 mg/kg → *Beobachten*
 - ≥ 150 mg/kg → *Kritisch*
 
 %%sep
@@ -577,12 +584,21 @@ Grenzwerte:
 
 %%/col
 
+%%/slides
 
+%%book
+
+Die Anforderung legt drei Klassen fest: unter 50 mg/kg ist der Boden sauber, von 50 bis unter 150 mg/kg beobachten wir ihn, ab 150 mg/kg ist er kritisch. Genau an den Klassengrenzen entstehen die typischen Fehler, weshalb wir dort gezielt testen.
+
+%%/book
+
+%%slides
 
 
 ## Tests schreiben vor dem Prompt: 5 Tests
 
-```python
+```{python}
+#| echo: true
 # Schritt 1: Tests definieren (vor dem KI-Prompt)
 def test_sauber():
     assert klassifiziere_boden(10) == "Sauber"
@@ -617,7 +633,8 @@ Die fünf Tests decken drei Normalfälle (10, 100 und 200 mg/kg) und die beiden 
 
 *Schritt 2:* KI-Prompt mit Tests als Akzeptanzkriterium
 
-```python
+```{python}
+#| echo: true
 # KI-generierter Code (erst lesen, dann ausführen!)
 def klassifiziere_boden(wert):
     """Klassifiziert Bodenkontamination in mg/kg."""
@@ -650,15 +667,13 @@ Die KI liefert eine Funktion, die auf den ersten Blick plausibel aussieht. Erst 
 
 %%col 50 50
 
-```python
-test_sauber()                       # ✓ grün
-test_beobachten()                   # ✓ grün
-test_kritisch()                     # ✓ grün
-test_grenzwert_sauber_beobachten()  # ✓ grün
+```{python}
+#| echo: true
+#| error: true
 test_grenzwert_beobachten_kritisch()
-# ✗ AssertionError
-# "Beobachten" != "Kritisch"
 ```
+
+Die ersten vier Tests laufen grün.
 
 %%sep
 
@@ -666,9 +681,9 @@ test_grenzwert_beobachten_kritisch()
 
 `wert <= 150`: der Wert `150` wird als `"Beobachten"` klassifiziert.
 
-Anforderung verlangt `>= 150` → `"Kritisch"`.
+Die Anforderung verlangt für `>= 150` den Wert `"Kritisch"`.
 
-Der Test macht die Lücke sichtbar, vor dem Einsatz.
+Der Test macht die Lücke vor dem Einsatz sichtbar.
 
 %%/col
 
@@ -695,7 +710,8 @@ Vier Tests laufen grün, der Grenzwerttest für 150 mg/kg scheitert mit einem `A
 
 *Korrigierte Funktion:*
 
-```python
+```{python}
+#| echo: true
 def klassifiziere_boden(wert):
     if wert < 50:
         return "Sauber"
@@ -705,7 +721,12 @@ def klassifiziere_boden(wert):
         return "Kritisch"
 ```
 
-Alle 5 Tests grün → Anforderung erfüllt.
+```{python}
+#| echo: true
+klassifiziere_boden(150)
+```
+
+Alle 5 Tests grün: die getesteten Fälle sind erfüllt, ungetestete bleiben offen.
 
 %%/col
 
@@ -724,11 +745,11 @@ Wir nennen der KI den fehlgeschlagenen Test und die verletzte Anforderung: `>= 1
 
 Selbst wenn alle geschriebenen Tests grün sind, kann KI-generierter Code ungetestete Bereiche enthalten. *Testabdeckung* (Coverage) misst, welcher Anteil des Codes durch Tests ausgeführt wurde.
 
-**Zeilenabdeckung (Line Coverage):** Welche Codezeilen wurden durch Tests ausgeführt? Eine Abdeckung von 80% bedeutet, dass 20% der Zeilen nie getestet wurden — ihr Verhalten ist unbekannt.
+*Zeilenabdeckung* (Line Coverage): Welche Codezeilen wurden durch Tests ausgeführt? Eine Abdeckung von 80 % bedeutet, dass 20 % der Zeilen nie getestet wurden; ihr Verhalten ist unbekannt.
 
-**Verzweigungsabdeckung (Branch Coverage):** Wurden alle `if`/`else`-Zweige getestet? Dies ist wichtiger als reine Zeilenabdeckung, da KI-generierter Code häufig versteckte Zweige enthält, die nur bei speziellen Eingaben aktiv werden.
+*Verzweigungsabdeckung* (Branch Coverage): Wurden alle `if`/`else`-Zweige getestet? Sie ist strenger als reine Zeilenabdeckung, weil Zweige, die nur bei speziellen Eingaben aktiv werden, sonst unbemerkt bleiben.
 
-Im Beispiel unten hat die KI einen Fehlercheck für negative Werte ergänzt, den die Anforderung nicht verlangt. Messen lässt sich das mit `coverage run --branch`; für unsere fünf Tests meldet es 7 von 8 Anweisungen und 5 von 6 Zweigen als ausgeführt.
+Im Beispiel auf den Folien hat die KI eine Fehlerprüfung für negative Werte ergänzt, die die Anforderung nicht verlangt. Messen lässt sich das mit `coverage run --branch`; für unsere fünf Tests meldet es 7 von 8 Anweisungen und 5 von 6 Zweigen als ausgeführt. Dabei gilt: Testabdeckung misst nur, was ausgeführt wurde, nicht, ob es richtig ist. Die fehlerhafte Variante mit `<= 150` hätte mit denselben fünf Tests ebenfalls vollständige Abdeckung erreicht. Tests können das Vorhandensein von Fehlern zeigen, nicht ihre Abwesenheit (Dijkstra).
 
 %%/book
 
@@ -742,12 +763,12 @@ Im Beispiel unten hat die KI einen Fehlercheck für negative Werte ergänzt, den
 *Line Coverage:*
 
 - Welche Codezeilen wurden durch Tests ausgeführt?
-- 80% Coverage → 20% der Zeilen nie getestet
+- 80 % Abdeckung → 20 % der Zeilen nie getestet
 - Ungetestete Zeilen = unbekanntes Verhalten
 
 %%sep
 
-Die KI hat einen eigenen Fehlercheck ergänzt:
+Die KI hat eine eigene Fehlerprüfung ergänzt:
 
 ```python
 def klassifiziere_boden(wert):
@@ -761,7 +782,7 @@ def klassifiziere_boden(wert):
         return "Kritisch"
 ```
 
-7 von 8 Anweisungen ausgeführt → 88% Line Coverage
+7 von 8 Anweisungen ausgeführt → 88 % Zeilenabdeckung
 
 %%/col
 
@@ -776,7 +797,7 @@ def klassifiziere_boden(wert):
 
 - Wurden alle `if`/`else`-Zweige getestet?
 - Strenger als reine Zeilenabdeckung
-- KI generiert oft Code mit versteckten Zweigen
+- Zweige für Sonderfälle bleiben sonst unbemerkt
 
 %%sep
 
@@ -784,9 +805,9 @@ def klassifiziere_boden(wert):
 
 - Zweig *wahr*: kein Test, da die Anforderung negative Werte nicht erwähnt
 - Zweig *falsch*: von allen 5 Tests ausgeführt
-- Ergebnis: 5 von 6 Zweigen → 83% Branch Coverage
+- Ergebnis: 5 von 6 Zweigen → 83 % Verzweigungsabdeckung
 
-Ungetesteter Zweig in KI-Code = unsichtbares Risiko. Der nächste Verifikationsschritt ist das Code Review (`08b_CodeReview`).
+Ein ungetesteter Zweig ist ein unsichtbares Risiko. Abdeckung zeigt nur, was ausgeführt wurde, nicht ob es stimmt. Der nächste Verifikationsschritt ist das Code Review (`08b_CodeReview`).
 
 %%/col
 
@@ -794,7 +815,7 @@ Ungetesteter Zweig in KI-Code = unsichtbares Risiko. Der nächste Verifikationss
 
 %%book
 
-Der Zweig `wert < 0` wird von keinem unserer Tests mit wahr betreten. Ein ungetesteter Zweig in KI-Code ist ein unsichtbares Risiko: Wir wissen nicht, ob er korrekt arbeitet. Die Prüfung von Code durch andere Personen folgt als nächster Verifikationsschritt in `08b_CodeReview`.
+Der Zweig `wert < 0` wird von keinem unserer Tests mit wahr betreten. Der Zeilenzähler kommt so zustande: Die Funktion hat 8 Anweisungen (`def`, drei Bedingungen und vier `return`), davon wird `return "Fehler"` nie ausgeführt. Die drei Bedingungen ergeben 6 Zweige, von denen nur der wahre Zweig von `wert < 0` fehlt. Ein ungetesteter Zweig ist ein unsichtbares Risiko: Wir wissen nicht, ob er korrekt arbeitet. Die Prüfung von Code durch andere Personen folgt als nächster Verifikationsschritt in `08b_CodeReview`.
 
 
 
@@ -811,7 +832,8 @@ Wenn Tests fehlschlagen, beginnt der nächste Schritt der Verifikation: das syst
 %%slides
 
 
-## 3. Fehlerbehebung - Grundlagen
+## 3. Fehlerbehebung: Grundlagen
+
 %%def Debugging
 Debugging ist das systematische Suchen und Beheben von Fehlern.
 %%/def
@@ -836,9 +858,9 @@ Debugging ist das systematische Suchen und Beheben von Fehlern. Methoden sind Lo
 %%slides
 
 
-## 3. Fehlerbehebung - In Python
+## 3. Fehlerbehebung: In Python
 
-- Das systematische Debugging ist eine Kernkompetenz jeden Programmierers
+- Systematisches Debugging ist eine Kernkompetenz jeder programmierenden Person
 - Python Debugging-Tools
     - Standard-Debugger: pdb (Python-Modul)
     - IDE-eigene Debugger (oft benutzerfreundlicher)
@@ -849,14 +871,14 @@ Debugging ist das systematische Suchen und Beheben von Fehlern. Methoden sind Lo
 
 %%book
 
-Das systematische Debugging ist eine Kernkompetenz jedes Programmierers. In Python gibt es den Standard-Debugger `pdb` und die oft benutzerfreundlicheren Debugger der IDEs. Mehr dazu in der Übung und in `07b_Debugging`.
+Systematisches Debugging ist eine Kernkompetenz jeder programmierenden Person. In Python gibt es den Standard-Debugger `pdb` und die oft benutzerfreundlicheren Debugger der IDEs. Mehr dazu in der Übung und in `07b_Debugging`.
 
 %%/book
 
 %%slides
 
 
-## 4. Fehlerbehandlung - Auf alles vorbereitet sein
+## 4. Fehlerbehandlung: Laufzeitfehler abfangen
 
 %%col 50 50
 
@@ -885,11 +907,11 @@ Allen Bemühungen zum Trotz treten in realen Programmen Fehler zur Laufzeit auf.
 %%slides
 
 
-## 4. Fehlerbehandlung - In Python
+## 4. Fehlerbehandlung: In Python
 
 - `try:` Enthält ein (vermutlich fehleranfälliges) Stück Programmcode
 - `except:` Tritt im try-Block ein bestimmter Fehler (Exception) auf, wird dieser beendet und der passende except-Block aufgerufen.
-- `raise:` Wird in einem except-Block aufgerufen um eine Exception weiterzugeben
+- `raise:` Löst eine Exception aus; in einem except-Block gibt es die abgefangene Exception weiter
 - `finally:` Wird nach dem Ende des try-Blocks aufgerufen, egal ob es einen Fehler gab oder nicht
 - `else:` optional definiert nach allen except-Blöcken, wird ausgeführt falls im try-Block keine Exception auftritt
 
@@ -897,14 +919,14 @@ Allen Bemühungen zum Trotz treten in realen Programmen Fehler zur Laufzeit auf.
 
 %%book
 
-`try` enthält ein vermutlich fehleranfälliges Stück Programmcode. Tritt darin ein bestimmter Fehler auf, wird der Block beendet und der passende `except`-Block aufgerufen. `raise` gibt in einem `except`-Block eine Exception weiter. `finally` wird nach dem `try`-Block immer ausgeführt, `else` nur dann, wenn keine Exception auftrat.
+`try` enthält ein vermutlich fehleranfälliges Stück Programmcode. Tritt darin ein bestimmter Fehler auf, wird der Block beendet und der passende `except`-Block aufgerufen. `raise` löst eine Exception aus und gibt in einem `except`-Block die abgefangene Exception weiter. `finally` wird nach dem `try`-Block immer ausgeführt, `else` nur dann, wenn keine Exception auftrat.
 
 %%/book
 
 %%slides
 
 
-## Semantische Fehler - Exceptions
+## Laufzeitfehler: Exceptions
 
 %%col 50 50
 
@@ -919,7 +941,7 @@ Allen Bemühungen zum Trotz treten in realen Programmen Fehler zur Laufzeit auf.
 
 %%sep
 
-![](images/08a_UnitTest/stack3.svg){class="midjourney"}
+![](images/08a_UnitTest/stack3.svg)
 
 %%/col
 
@@ -934,18 +956,18 @@ Exceptions unterbrechen den normalen Programmverlauf, kommunizieren den Fehler m
 %%slides
 
 
-## Semantische Fehler - Exceptions abfangen
+## Laufzeitfehler: Exceptions abfangen
 
 %%col 50 50
 
-Bekannte Exceptions sollten immer abgefangen werden
+Bekannte Exceptions sollten gezielt abgefangen werden
 
 Python `try-except`-Block:
 ```python
 try:
     # Block mit erwarteter Exception
     ergebnis = zaehler / nenner
-except:
+except ZeroDivisionError:
     # Fehlerbehandlung
     print("Division durch 0")
     ergebnis = None
@@ -953,7 +975,7 @@ except:
 
 %%sep
 
-![](images/08a_UnitTest/stack4.svg){class="midjourney"}
+![](images/08a_UnitTest/stack4.svg)
 
 %%/col
 
@@ -961,14 +983,14 @@ except:
 
 %%book
 
-Bekannte Exceptions sollten immer abgefangen werden. In Python geschieht das mit dem `try-except`-Block; wird die Exception abgefangen, läuft das Programm weiter.
+Bekannte Exceptions sollten wir gezielt abfangen, also die erwartete Exception benennen. Ein `except` ohne Typ fängt auch unerwartete Fehler und sogar `KeyboardInterrupt` ab und verdeckt so Fehler. In Python geschieht das Abfangen mit dem `try-except`-Block; wird die Exception abgefangen, läuft das Programm weiter.
 
 %%/book
 
 %%slides
 
 
-## Semantische Fehler - Exception-Ebenen
+## Laufzeitfehler: Exception-Ebenen
 
 %%col 50 50
 
@@ -1000,7 +1022,7 @@ Exceptions werden auf mehreren Ebenen genutzt: vom Betriebssystem als vordefinie
 %%slides
 
 
-## 4. Fehlerbehandlung - Beispiel: Division durch 0
+## 4. Fehlerbehandlung: Beispiel Division durch 0
 
 %%col 50 50
 
@@ -1010,13 +1032,13 @@ nenner = 0
 
 try:
     ergebnis = zaehler / nenner
-except:
-    print("Exception")
+except ZeroDivisionError:
+    print("Division durch 0")
 ```
 
 %%sep
 
-Mögliche Exceptions:
+Mögliche Exceptions beim Dividieren (nur die erste wird hier abgefangen):
 
 ::: {.fragment}
 
@@ -1032,38 +1054,38 @@ Mögliche Exceptions:
 
 %%book
 
-Im Beispiel löst die Division durch 0 einen `ZeroDivisionError` aus. Je nach Code kommen ein `TypeError` bei falschem Datentyp und ein `NameError` bei nicht definierter Variable hinzu.
+Im Beispiel löst die Division durch 0 einen `ZeroDivisionError` aus, den wir gezielt abfangen. Je nach Code kommen ein `TypeError` bei falschem Datentyp und ein `NameError` bei nicht definierter Variable hinzu.
 
 %%/book
 
 %%slides
 
 
-## 4. Fehlerbehandlung - Exceptions propagieren
+## 4. Fehlerbehandlung: Exceptions propagieren
 
 - Wichtiges Konzept in komplexerer Software
-- Wir können Fehler zwar lokal behandeln, wollen aber dennoch die "oberen Ebenen" des Programmes darüber informieren.
-- Die `raise`-Anweisung "wirft" dafür aus einem `except`-Block eine Exception weiter nach oben.
+- Fehler lokal behandeln und die „oberen Ebenen“ des Programms trotzdem informieren
+- `raise` löst eine Exception aus und gibt sie nach oben weiter, im `except`-Block auch die gerade abgefangene
 
 %%/slides
 
 %%book
 
-Wir können Fehler lokal behandeln und wollen dennoch die oberen Ebenen des Programms informieren. Die `raise`-Anweisung gibt dafür aus einem `except`-Block eine Exception weiter nach oben.
+Wir können Fehler lokal behandeln und wollen dennoch die oberen Ebenen des Programms informieren. Die `raise`-Anweisung löst dafür eine Exception aus und gibt sie nach oben weiter; in einem `except`-Block gibt sie die abgefangene Exception weiter.
 
 %%/book
 
 %%slides
 
 
-## 4. Fehlerbehandlung - Beispiel: Exception weiterreichen
+## 4. Fehlerbehandlung: Beispiel Exception weiterreichen
 
 ```python
 def count_up_and_down(x):
     if x <= 0:
         raise ValueError("No negative values allowed")
 
-    # Verknüpft vorwärts- und rückwärts-Liste
+    # Verknüpft Vorwärts- und Rückwärtsliste
     return list(range(x)) + list(reversed(list(range(x-1))))
 
 try:
@@ -1083,11 +1105,11 @@ Die Funktion `count_up_and_down` löst für `x <= 0` mit `raise` einen `ValueErr
 %%slides
 
 
-## 5. Fehlerausschluss - Korrektheit von Programmen mathematisch beweisen
+## 5. Fehlerausschluss: Korrektheit mathematisch beweisen
 
 - Gewisser Programmcode kann mittels *mathematischen Beweises* validiert werden
-- *Hoare-Kalkül:* Programm Zeile für Zeile mit mathematischer Logik formalisieren
-- Von vorne nach hinten durch das gesamte Programm
+- *Hoare-Kalkül* (C. A. R. Hoare, 1969): Vor- und Nachbedingungen {P} C {Q} für jede Anweisung C
+- Beweist Korrektheit nur relativ zur Spezifikation
 
 - *Problem:* Für die meisten Anwendungen zu zeitaufwendig und komplex
 
@@ -1097,7 +1119,7 @@ Die Funktion `count_up_and_down` löst für `x <= 0` mit `raise` einen `ValueErr
 
 %%book
 
-Gewisser Programmcode kann mittels mathematischen Beweises validiert werden. Das Hoare-Kalkül formalisiert ein Programm Zeile für Zeile mit mathematischer Logik, von vorne nach hinten durch das gesamte Programm. Für die meisten Anwendungen ist das zu zeitaufwendig und komplex; es kommt nur bei kritischen Systemen wie Medizintechnik oder Luftfahrt zum Einsatz.
+Gewisser Programmcode kann mittels mathematischen Beweises validiert werden. Das Hoare-Kalkül (C. A. R. Hoare, 1969) beschreibt jede Anweisung C durch eine Vorbedingung P und eine Nachbedingung Q, geschrieben {P} C {Q}. Der Beweis zeigt die Korrektheit nur relativ zur Spezifikation. Für die meisten Anwendungen ist das zu zeitaufwendig und komplex; es kommt nur bei kritischen Systemen wie Medizintechnik oder Luftfahrt zum Einsatz.
 
 
 
@@ -1111,11 +1133,11 @@ Gewisser Programmcode kann mittels mathematischen Beweises validiert werden. Das
     shuffleAnswers: true
 
 
-    ### Was ist ein Bug?
-    - [x] Ein unbeabsichtigter Fehler im Programm.
-    - [ ] Ein spezielles Feature eines Debuggers.
-    - [ ] Ein Programm, das andere Programme testet.
-    - [ ] Eine Funktion, die besonders schwer zu verstehen ist.
+    ### Welcher Test scheitert, wenn `klassifiziere_boden` mit `wert <= 150` statt `wert < 150` vergleicht?
+    - [x] Der Grenzwerttest für 150 mg/kg
+    - [ ] Der Test für 10 mg/kg
+    - [ ] Der Test für 100 mg/kg
+    - [ ] Alle fünf Tests
 
     ### Was ist ein Unit-Test in Python?
     - [x] Ein Test für eine einzelne Funktion oder Klasse
@@ -1125,7 +1147,7 @@ Gewisser Programmcode kann mittels mathematischen Beweises validiert werden. Das
 
     ### Was passiert, wenn ein `assert` fehlschlägt?
     - [ ] Der Test wird übersprungen
-    - [x] Es wird eine `AssertionError` ausgelöst
+    - [x] Es wird ein `AssertionError` ausgelöst
     - [ ] Der Code läuft trotzdem weiter
     - [ ] Das Programm wird beendet, ohne Fehlermeldung
 
@@ -1136,28 +1158,40 @@ Gewisser Programmcode kann mittels mathematischen Beweises validiert werden. Das
     - [ ] Um den Speicherverbrauch zu senken
 
     ### Was bedeutet Test-Driven Prompting (TDP)?
-    - [x] Tests vor dem KI-Prompt schreiben, um Anforderungen zu operationalisieren
+    - [x] Tests vor dem KI-Prompt schreiben, um die Anforderung überprüfbar zu machen
     - [ ] Die KI schreibt automatisch Tests für den generierten Code
     - [ ] Tests werden nach dem Deployment geschrieben
     - [ ] Tests ersetzen die Anforderungsanalyse
 
     ### Was bedeutet ein fehlgeschlagener Test auf KI-generierten Code?
-    - [x] Ein Fehler wurde vor dem Einsatz gefunden — das ist Erfolg
+    - [x] Ein Fehler wurde vor dem Einsatz gefunden: Die Verifikation hat funktioniert
     - [ ] Der KI-Prompt war falsch formuliert
     - [ ] Der Code muss komplett neu generiert werden
     - [ ] Der Test selbst ist fehlerhaft
 
     ### Welche Pakete werden in Python häufig für Unit-Tests verwendet?
     - [x] `unittest`
-    - [x] `nosetest`
+    - [x] `pytest`
     - [ ] `math`
-    - [ ] `pytest-ui`
+    - [ ] `random`
 
-    ### Welche Arten von Teststrategien gibt es?
+    ### Welche Testarten haben wir für `division()` behandelt?
     - [x] Grenzwerttest
     - [x] Funktionstest
     - [x] Datentyp-Test
     - [ ] Syntaxtest
+
+    ### Warum garantieren fünf grüne Tests keine korrekte Funktion?
+    - [x] Sie zeigen nur, dass die getesteten Fälle stimmen
+    - [ ] Grüne Tests beweisen die Korrektheit immer vollständig
+    - [ ] Tests laufen nur bei Fehlern
+    - [ ] Python prüft Tests nur stichprobenartig
+
+    ### Was sagt eine hohe Zeilenabdeckung aus?
+    - [x] Der Code wurde ausgeführt, nicht unbedingt, dass er korrekt ist
+    - [ ] Der Code enthält keine Fehler
+    - [ ] Alle Grenzwerte sind richtig behandelt
+    - [ ] Der Code läuft besonders schnell
 
     ### Was deckt Branch Coverage ab?
     - [x] Ob alle if/else-Zweige durch Tests ausgeführt wurden
