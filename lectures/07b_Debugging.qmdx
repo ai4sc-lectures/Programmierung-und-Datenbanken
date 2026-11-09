@@ -23,9 +23,14 @@ resources:
 >
 > — Brian Kernighan
 
+### TL;DR
+
+Ein Programm kann ohne Exception laufen und trotzdem ein falsches Ergebnis liefern. Solche stillen Logikfehler finden wir systematisch in fünf Schritten: reproduzieren, isolieren, eine Hypothese bilden, die Ausführung inspizieren, beheben und erneut verifizieren. `print()`, `logging` und der Debugger sind Werkzeuge für den Inspektionsschritt. Ein Walkthrough durch ein Modul mit mehreren Funktionen zeigt das Vorgehen am Pegelstand-Beispiel.
+
 %%/book
 
-%%# Ausgangslage
+
+%%# Die 5-Schritt-KI-Debugging-Strategie
 
 %%## Falsche Ausgabe ohne Exception
 
@@ -49,8 +54,11 @@ def verarbeite_daten(daten):
     ergebnis = berechne(bereinigt)
     return formatiere(ergebnis)
 
-pegel = [0.0, 1.2, 0.8, None, 1.0]   # Pegelstände in m
-print(verarbeite_daten(pegel))
+```
+
+```{python}
+#| echo: true
+verarbeite_daten([0.0, 1.2, 0.8, None, 1.0])   # Pegelstände in m
 ```
 
 Der Mittelwert der gültigen Messwerte 0,0 m, 1,2 m, 0,8 m und 1,0 m beträgt 0,75 m. Das Modul gibt 1,00 m aus, ohne dass eine Exception auftritt. Auf den ersten Blick wirkt der Code korrekt. Um die Ursache zu finden, müssen wir die Ausführung beobachten. Lernziel dieser Sitzung ist es, einen solchen stillen Logikfehler zu reproduzieren, mit einem Test einzugrenzen, mit dem Debugger zu lokalisieren und nach dem Fix erneut zu verifizieren.
@@ -67,16 +75,13 @@ Stellen Sie sich 200 Zeilen KI-Code zur Auswertung von Pegelständen vor. Er lä
 - Ausführung beobachten statt nur lesen
 %%sep
 ```python
-pegel = [0.0, 1.2, 0.8, None, 1.0]  # in m
-print(verarbeite_daten(pegel))
-# Mittelwert: 1.00 m   (erwartet: 0.75 m)
+verarbeite_daten([0.0, 1.2, 0.8, None, 1.0])  # Pegelstände in m
+# 'Mittelwert: 1.00 m'   (erwartet: 0.75 m)
 ```
 %%/col
 
 %%/slides
 
-
-%%# Die 5-Schritt-KI-Debugging-Strategie
 
 %%## Strategie im Überblick
 
@@ -120,7 +125,7 @@ Zuerst suchen wir den kleinsten Input, der das Fehlverhalten auslöst. Statt der
 
 ```{python}
 #| echo: true
-print(verarbeite_daten([0.0, 1.0]))   # erwartet: Mittelwert: 0.50 m
+verarbeite_daten([0.0, 1.0])   # erwartet: 'Mittelwert: 0.50 m'
 ```
 
 %%/book
@@ -136,7 +141,7 @@ Ohne Exception (→ `07a_Exceptions`) beginnt die Suche beim falschen Ergebnis.
 %%sep
 ```python
 verarbeite_daten([0.0, 1.0])
-# Mittelwert: 1.00 m   (erwartet: 0.50 m)
+# 'Mittelwert: 1.00 m'   (erwartet: 0.50 m)
 ```
 %%/col
 
@@ -155,12 +160,23 @@ Als Nächstes prüfen wir jede Funktion einzeln mit einem Unit-Test und verwende
 
 ```{python}
 #| echo: true
-#| error: true
 def test_bereinige_behaelt_null():
     assert bereinige([0.0, 1.2, None]) == [0.0, 1.2]
+```
 
-print(berechne([0.0, 1.2]) == 0.6)
-print(formatiere(0.5) == "Mittelwert: 0.50 m")
+```{python}
+#| echo: true
+berechne([0.0, 1.2]) == 0.6
+```
+
+```{python}
+#| echo: true
+formatiere(0.5) == "Mittelwert: 0.50 m"
+```
+
+```{python}
+#| echo: true
+#| error: true
 test_bereinige_behaelt_null()
 ```
 
@@ -195,7 +211,7 @@ Nun formulieren wir die Abweichung zwischen Erwartung und Beobachtung. Für den 
 
 ```{python}
 #| echo: true
-print(bereinige([0.0, 1.0]))
+bereinige([0.0, 1.0])
 ```
 
 %%/book
@@ -230,7 +246,12 @@ Typische Annahmen, die KI-generierter Code stillschweigend trifft, sind ein fals
 
 ```{python}
 #| echo: true
-print(bool(None), bool(0.0))
+bool(None)
+```
+
+```{python}
+#| echo: true
+bool(0.0)
 ```
 
 %%/book
@@ -291,13 +312,24 @@ Zum Schluss korrigieren wir nur die identifizierte Ursache, also mit einem minim
 
 ```{python}
 #| echo: true
-#| error: true
 def bereinige(werte):
     return [w for w in werte if w is not None]
+```
 
+```{python}
+#| echo: true
 test_bereinige_behaelt_null()
-print(verarbeite_daten([0.0, 1.2, 0.8, None, 1.0]))
-print(verarbeite_daten([None]))   # Randfall
+```
+
+```{python}
+#| echo: true
+verarbeite_daten([0.0, 1.2, 0.8, None, 1.0])
+```
+
+```{python}
+#| echo: true
+#| error: true
+verarbeite_daten([None])   # Randfall
 ```
 
 %%/book
@@ -314,7 +346,8 @@ print(verarbeite_daten([None]))   # Randfall
 def bereinige(werte):
     return [w for w in werte if w is not None]
 # Test grün
-# Mittelwert: 0.75 m
+verarbeite_daten([0.0, 1.2, 0.8, None, 1.0])
+# 'Mittelwert: 0.75 m'
 ```
 %%/col
 
@@ -654,18 +687,18 @@ In der Debug-Umgebung gehen wir dann Zeile für Zeile vor, indem wir ![](images/
 
 %%# Multi-Funktions-Modul Walkthrough
 
-%%## KI-Module bestehen aus mehreren Funktionen
+%%## Module bestehen aus mehreren Funktionen
 
 %%book
 
-KI-generierter Code besteht oft aus mehreren aufeinander aufbauenden Funktionen. Dann genügt es nicht mehr, einzelne Werte mit `print()` auszugeben, denn der Fehler kann in jeder Funktion stecken. Der Debugger folgt dem Aufrufstapel durch alle Ebenen. Unser Pegelstand-Modul besteht aus vier Funktionen, die der Reihe nach aufgerufen werden.
+Code besteht oft aus mehreren aufeinander aufbauenden Funktionen. Dann genügt es nicht mehr, einzelne Werte mit `print()` auszugeben, denn der Fehler kann in jeder Funktion stecken. Der Debugger folgt dem Aufrufstapel durch alle Ebenen. Unser Pegelstand-Modul besteht aus vier Funktionen, die der Reihe nach aufgerufen werden.
 
 %%/book
 
 %%slides
 
 %%col 55 45
-KI-Code besteht oft aus mehreren {{< ai4sc-icon square-function >}} Funktionen, die aufeinander aufbauen.
+Code besteht oft aus mehreren {{< ai4sc-icon square-function >}} Funktionen, die aufeinander aufbauen.
 
 - `print()` müsste in jeder Funktion ergänzt werden
 - Der Debugger folgt dem Aufrufstapel durch alle Ebenen
@@ -780,69 +813,62 @@ Debug-Konsole:
 %%/col
 
 %%tip Agentic Workflow
-Der grafische Debugger zeigt für KI-Module mit mehreren Funktionen den Zustand jeder Ebene, ohne Code-Änderungen wie bei `print()`.
+Der grafische Debugger zeigt für Module mit mehreren Funktionen den Zustand jeder Ebene, ohne Code-Änderungen wie bei `print()`.
 %%/tip
 
 %%/slides
 
 
+%%## Beispiel — Grenzwert-Fehler mit den 5 Schritten eingrenzen
+
 %%book
 
-### Übungsaufgabe: Fehler systematisch eingrenzen
-
-Eine KI soll in einem Pegel-Warnmodul alle Messwerte zählen, die den Grenzwert erreichen oder überschreiten (Grenzwert inklusive). Für `anzahl_warnungen([0.8, 1.2, 1.5], 1.2)` erwarten wir 2, die Funktion liefert aber 1. Bearbeiten Sie die Aufgabe in der Reihenfolge der 5-Schritt-Strategie:
-
-1. Formulieren Sie einen minimalen Testfall.
-2. Notieren Sie eine Hypothese, welche Annahme im Code verletzt ist.
-3. Entscheiden Sie, ob `print()` reicht oder ob Sie direkt den Debugger verwenden.
-4. Beschreiben Sie, woran Sie erkennen, dass Ihr Fix erfolgreich re-verifiziert wurde.
+Die fünf Schritte wenden wir auf ein zweites, kleineres Modul an. Die Funktion `anzahl_warnungen` soll alle Messwerte zählen, die den Grenzwert erreichen oder überschreiten (Grenzwert inklusive). Für `[0.8, 1.2, 1.5]` und den Grenzwert 1,2 m erwarten wir 2, die Funktion liefert aber 1.
 
 ```{python}
 #| echo: true
 def anzahl_warnungen(pegel, grenze):
     return len([w for w in pegel if w > grenze])
-
-print(anzahl_warnungen([0.8, 1.2, 1.5], 1.2))
 ```
 
-%%/book
-
-%%slides
-
-## Übungsaufgabe: Fehler systematisch eingrenzen {background-color="#D9FF66"}
-
-Die KI soll alle Pegelwerte zählen, die den Grenzwert erreichen oder überschreiten. Für `anzahl_warnungen([0.8, 1.2, 1.5], 1.2)` erwarten wir 2, erhalten aber 1.
-
-```python
-def anzahl_warnungen(pegel, grenze):
-    return len([w for w in pegel if w > grenze])
+```{python}
+#| echo: true
+anzahl_warnungen([0.8, 1.2, 1.5], 1.2)
 ```
 
-1. Formulieren Sie einen minimalen Testfall.
-2. Notieren Sie eine Hypothese, welche Annahme im Code verletzt ist.
-3. Entscheiden Sie, ob `print()` reicht oder ob Sie direkt den Debugger verwenden.
-4. Beschreiben Sie, woran Sie erkennen, dass Ihr Fix erfolgreich re-verifiziert wurde.
-
-%%/slides
-
-
-%%## Lösung: Fehler systematisch eingrenzen
-
-%%book
-
-Die Lösung durchläuft die fünf Schritte. Der minimale Testfall ist `anzahl_warnungen([1.2], 1.2)`, er liefert 0 statt 1. Ein Unit-Test für diese Funktion schlägt fehl. Die Hypothese lautet, dass der Vergleich `w > grenze` den Grenzwert selbst ausschließt, obwohl er laut Anforderung zählen soll. Im Debugger ist die Bedingung `1.2 > 1.2` falsch, damit ist die Hypothese bestätigt. Der minimale Fix ist `>=`. Anschließend verifizieren wir den Test und die Randfälle erneut.
+Als minimalen Testfall (Schritt 1) genügt `anzahl_warnungen([1.2], 1.2)`: Erwartet wird 1, die Funktion liefert 0. Ein Unit-Test für diese Funktion schlägt fehl (Schritt 2). Die Hypothese (Schritt 3) lautet, dass der Vergleich `w > grenze` den Grenzwert selbst ausschließt, obwohl er laut Anforderung zählen soll. Im Debugger ist die Bedingung `1.2 > 1.2` falsch (Schritt 4), damit ist die Hypothese bestätigt. Der minimale Fix ist `>=`. Anschließend verifizieren wir den Testfall und die Randfälle `[]` und `[1.1]` erneut (Schritt 5).
 
 ```{python}
 #| echo: true
 def anzahl_warnungen(pegel, grenze):
     return len([w for w in pegel if w >= grenze])
+```
 
-print(anzahl_warnungen([1.2], 1.2), anzahl_warnungen([0.8, 1.2, 1.5], 1.2), anzahl_warnungen([], 1.2))
+```{python}
+#| echo: true
+anzahl_warnungen([1.2], 1.2)
+```
+
+```{python}
+#| echo: true
+anzahl_warnungen([0.8, 1.2, 1.5], 1.2)
+```
+
+```{python}
+#| echo: true
+anzahl_warnungen([], 1.2)
+```
+
+```{python}
+#| echo: true
+anzahl_warnungen([1.1], 1.2)
 ```
 
 %%/book
 
 %%slides
+
+Gezählt werden alle Werte, die den Grenzwert erreichen oder überschreiten: `anzahl_warnungen([0.8, 1.2, 1.5], 1.2)` liefert 1 statt 2.
 
 %%col 55 45
 1. Reproduzieren: `anzahl_warnungen([1.2], 1.2)` liefert 0 statt 1
@@ -854,11 +880,13 @@ print(anzahl_warnungen([1.2], 1.2), anzahl_warnungen([0.8, 1.2, 1.5], 1.2), anza
 ```python
 def anzahl_warnungen(pegel, grenze):
     return len([w for w in pegel if w >= grenze])
-# anzahl_warnungen([1.2], 1.2)  -> 1
+
+anzahl_warnungen([1.2], 1.2)   # 1
 ```
 %%/col
 
 %%/slides
+
 
 %%book
 
