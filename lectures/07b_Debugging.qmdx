@@ -19,9 +19,9 @@ resources:
 
 ![](images/07b_Debugging/mj_title_band.jpg)
 
-> Everyone knows that debugging is twice as hard as writing a program in the first place.
+> Debugging ist doppelt so schwer, wie den Code überhaupt erst zu schreiben. Wenn Sie ihn also so clever wie möglich schreiben, sind Sie per Definition nicht clever genug, ihn zu debuggen.
 >
-> — Brian Kernighan
+> — Brian W. Kernighan, The Elements of Programming Style, 1974
 
 ### TL;DR
 
@@ -133,6 +133,7 @@ verarbeite_daten([0.0, 1.0])   # erwartet: 'Mittelwert: 0.50 m'
 %%slides
 
 %%col 55 45
+
 - Schreiben Sie den **kleinsten Input** auf, der das Fehlverhalten auslöst
 - Entfernen Sie alle Abhängigkeiten, die nicht zum Fehler beitragen
 - Prüfen Sie, ob der Fehler immer oder nur unter bestimmten Bedingungen auftritt
@@ -185,6 +186,7 @@ test_bereinige_behaelt_null()
 %%slides
 
 %%col 50 50
+
 - {{< ai4sc-icon test-tube >}} Schreiben Sie einen Unit-Test direkt für die verdächtige Funktion
 - Prüfen Sie jede Stufe einzeln, ohne das gesamte Programm
 - Nur der Test für `bereinige` schlägt fehl
@@ -259,6 +261,7 @@ bool(0.0)
 %%slides
 
 %%col 50 50
+
 - Falscher Datentyp
 - Falsche Reihenfolge der Parameter
 - Grenzfall nicht behandelt (hier: `0.0`)
@@ -285,6 +288,7 @@ Statische Überlegungen genügen nicht, wir müssen die Ausführung beobachten. 
 %%slides
 
 %%col 55 45
+
 - Setzen Sie einen Breakpoint am Einstiegspunkt der Aufrufkette
 - Steigen Sie mit Step Into bis zur verdächtigen Funktion
 - Beobachten Sie, wo Erwartung und tatsächlicher Zustand auseinanderlaufen
@@ -337,6 +341,7 @@ verarbeite_daten([None])   # Randfall
 %%slides
 
 %%col 55 45
+
 - Korrigieren Sie nur die identifizierte Fehlerursache (minimaler Fix)
 - Führen Sie den Unit-Test aus Schritt 2 erneut aus
 - Prüfen Sie Randfälle: `[None]` führt zu einer Division durch null (→ `07a_Exceptions`)
@@ -402,10 +407,6 @@ Logische Fehler treten häufig erst dynamisch auf und lassen sich oft nicht mit 
 
 Wir ergänzen die Divisionsfunktion um `print()`-Anweisungen. Üblich ist es, die Eingangsparameter auszugeben, Fehler und Warnungen sichtbar zu machen und Ergebnisse zu protokollieren. Die Werkzeuge zeigen wir zunächst an dieser kleinen Funktion; die Anwendung auf das Pegel-Modul folgt im Walkthrough.
 
-%%/book
-
-%%book
-
 ```{python}
 #| echo: true
 def division(zaehler, nenner):
@@ -426,30 +427,14 @@ def division(zaehler, nenner):
         return ergebnis
 ```
 
-%%/book
-
-%%book
-
 Jetzt können wir insbesondere im Fehlerfall nachvollziehen, was genau geschehen ist, zum Beispiel bei der Division durch 0.
-
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
 division(10, 0)
 ```
 
-%%/book
-
-%%book
-
 Allerdings erzeugt auch der korrekte Fall Ausgaben. Das kann stören, weil wir echte Fehler dann leicht übersehen. Wir führen zehn Divisionen aus, von denen eine eine Division durch 0 ist.
-
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
@@ -485,10 +470,6 @@ Log-Level: `DEBUG` → `INFO` → `WARNING` → `ERROR` → `CRITICAL`
 
 Deshalb verwenden wir bei komplexeren Programmen das Modul `logging`. Es erlaubt, Ausgaben Kategorien (Log-Level) zuzuordnen und anhand dieser zu filtern. Die Kategorien sind `debug`, `info`, `warning`, `error` und `critical`. Ohne Handler gibt Python nur Warnungen und Fehler aus, daher fügen wir zuerst einen `StreamHandler` hinzu, der die Nachrichten ausgibt.
 
-%%/book
-
-%%book
-
 ```{python}
 #| echo: true
 import logging
@@ -515,15 +496,7 @@ def division(zaehler, nenner):
         return ergebnis
 ```
 
-%%/book
-
-%%book
-
 Wenn wir die Funktion jetzt aufrufen, sehen wir nur noch die Warnung zur Division durch 0.
-
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
@@ -532,15 +505,7 @@ for nenner in range(-2, 8):
     division(10, nenner)
 ```
 
-%%/book
-
-%%book
-
 Bei Bedarf, etwa bei der Fehlersuche, können wir das Log-Level auf `DEBUG` senken, um alle Nachrichten zu erhalten.
-
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
@@ -549,15 +514,7 @@ for nenner in range(-2, 8):
     division(10, nenner)
 ```
 
-%%/book
-
-%%book
-
 Außerdem können wir automatisch weitere Informationen hinzufügen. Bisher gibt der Handler nur die Nachricht aus. Mit einem Format ergänzen wir Zeit, Namen des Loggers (`meinlog`) und Level, zum Beispiel um zu verstehen, wann etwas passiert ist.
-
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
@@ -568,10 +525,6 @@ log.setLevel(logging.INFO)
 for nenner in range(-2, 8):
     division(10, nenner)
 ```
-
-%%/book
-
-%%book
 
 In der Praxis wird Logging häufig in Cloud-Anwendungen verwendet. Da diese keine Bildschirme besitzen, suchen wir Fehler in den Logs. Solange alles fehlerfrei läuft, arbeitet die Anwendung im Log-Level `INFO` mit wenigen Ausgaben. Tritt ein Fehler auf, setzen wir den Server auf `DEBUG` und suchen in den detaillierten Logs nach Informationen, um den Fehler einzugrenzen.
 
@@ -608,39 +561,15 @@ Dabei werden meist zwei Formen der Unterbrechung unterstützt:
 -  Die Unterbrechung in bestimmten Code-Zeilen mit Hilfe von Breakpoints.
 -  Die Unterbrechung bei bestimmten Exceptions.
 
-%%/book
-
-%%book
-
 #### Debugging in Jupyter Notebooks in VS Code
-
-%%/book
-
-%%book
 
 Die Debug-Oberflächen sehen je nach IDE etwas anders aus, verfügen aber über ähnliche Funktionen. Dieses Jupyter Notebook wurde in VS Code geschrieben, das wir als erstes Beispiel betrachten.
 
-%%/book
-
-%%book
-
 Dafür klicken wir in der IDE links neben eine Zeile, um einen Breakpoint (roter Punkt) zu setzen. Wir setzen ihn auf Zeile 11, die Ausgabe der Warnung.
-
-%%/book
-
-%%book
 
 ![](images/07b_Debugging/debug_vscode_1.png)
 
-%%/book
-
-%%book
-
 Dann wird der Code in einer speziellen Debug-Umgebung ausgeführt, die es erlaubt, die Ausführung zu unterbrechen. In unserem Notebook in VS Code starten wir diese durch das Symbol ![](images/07b_Debugging/debug_vscode_2.png).
-
-%%/book
-
-%%book
 
 ```{python}
 #| echo: true
@@ -664,21 +593,9 @@ def division(zaehler, nenner):
 division(10, 0)
 ```
 
-%%/book
-
-%%book
-
 Dies startet den Debug-Modus. Dabei wird die aktuelle Zeile hervorgehoben, und das Fenster zeigt die Variablen des aktuellen Gültigkeitsbereichs an.
 
-%%/book
-
-%%book
-
 ![Debugging in VS Code](images/07b_Debugging/debug_vscode_3.png)
-
-%%/book
-
-%%book
 
 In der Debug-Umgebung gehen wir dann Zeile für Zeile vor, indem wir ![](images/07b_Debugging/debug_vscode_2.png) drücken. So können wir nachvollziehen, wie das Programm abläuft und welche Variablen sich ändern.
 
@@ -734,6 +651,7 @@ Wir starten am Anfang der Aufrufkette und nicht tief im Code. Dazu setzen wir de
 %%slides
 
 %%col 55 45
+
 - Setzen Sie den ersten Breakpoint an der Eintrittsfunktion (`verarbeite_daten`)
 - Rufen Sie die Funktion mit dem minimalen Fehler-Input aus Schritt 1 auf
 - Die Ausführung hält am Eingangszustand
@@ -797,6 +715,7 @@ Nach jedem Funktionsaufruf prüfen wir, ob der Rückgabewert der Erwartung entsp
 %%slides
 
 %%col 55 45
+
 - Prüfen Sie nach jedem Funktionsaufruf, ob der Rückgabewert der Erwartung entspricht
 - Lesen Sie die lokalen Variablen im Variables-Panel
 - Der Aufrufstapel (Call Stack) zeigt, in welcher Funktion Sie stehen
@@ -871,6 +790,7 @@ anzahl_warnungen([1.1], 1.2)
 Gezählt werden alle Werte, die den Grenzwert erreichen oder überschreiten: `anzahl_warnungen([0.8, 1.2, 1.5], 1.2)` liefert 1 statt 2.
 
 %%col 55 45
+
 1. Reproduzieren: `anzahl_warnungen([1.2], 1.2)` liefert 0 statt 1
 2. Isolieren: Der Unit-Test für diese Funktion schlägt fehl
 3. Hypothese: `>` schließt den Grenzwert aus, erforderlich ist `>=`
