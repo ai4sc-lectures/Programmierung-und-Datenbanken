@@ -7,11 +7,13 @@ format:
   ai4sc-style-revealjs:
     title-slide-attributes:
       data-background-video: images/05c_Schleifen/mj_title.mp4
+      data-background-video-poster: images/05c_Schleifen/mj_title_poster.jpg
     output-file: 05c_Schleifen.slide.html
   typst:
     output-file: 05c_Schleifen.page.pdf
 resources:
-  - data/05c_Schleifen
+  - images/05c_Schleifen/mj_title_poster.jpg
+  - images/05c_Schleifen/manim_endlosschleife_last.png
 ---
 
 %%book
@@ -24,7 +26,11 @@ Wiederholung ohne Struktur skaliert nicht. Schleifen machen Wiederholung planbar
 
 %%book
 
-KI-Tools generieren Schleifen routinemäßig. Als Ingenieur*in müssen Sie nicht jede Schleife von Grund auf selbst schreiben — aber Sie müssen sie **lesen, verstehen und verifizieren** können.
+### TL;DR
+
+Schleifen wiederholen Anweisungen für große Datenmengen, etwa tausende Bodenproben oder Sensormesswerte. Python kennt dafür die `for`- und die `while`-Schleife. Beim Lesen einer Schleife helfen drei Kernfragen, eine Spur-Tabelle und die Prüfung der Abbruchbedingung.
+
+Als Ingenieur*in müssen Sie nicht jede Schleife von Grund auf selbst schreiben, aber Sie müssen sie lesen, verstehen und verifizieren können.
 
 Drei Kernfragen beim Lesen einer Schleife:
 
@@ -41,9 +47,15 @@ In Python sind zwei Schleifen verfügbar:
 
 %%/book
 
+%%book
+
+Ingenieurdaten fallen in großen Mengen an: tausende Bodenproben einer Baustelle, eine Million Sensormesswerte pro Tag im Monitoring oder zehntausende Bauelemente eines BIM-Modells. Von Hand lässt sich eine solche Menge nicht auswerten. Eine Schleife wendet dieselben Anweisungen auf jedes Element an, egal ob es zehn oder zehn Millionen sind.
+
+%%/book
+
 %%slides
 
-## Warum Schleifen?
+## Schleifen für große Datenmengen
 
 Manuelle Berechnung scheitert an der Datenmenge. Schleifen sind das Werkzeug für diese Skala.
 
@@ -91,7 +103,7 @@ BIM-Modell
 
 %%slides
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Wie oft müssten Sie print() von Hand aufschreiben, um 10.000 Bodenproben auszuwerten?" capR="DALL·E 2: A psychedelic robot with a question mark for a head" imgR="images/05c_Schleifen/orig_hoersaalfrage.png"}
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Wie würden Sie 10.000 Bodenproben auswerten, ohne für jede Probe dieselbe Rechnung einzeln hinzuschreiben?" capR="DALL·E 2: A psychedelic robot with a question mark for a head" imgR="images/05c_Schleifen/orig_hoersaalfrage.png"}
 
 %%/slides
 
@@ -99,7 +111,7 @@ BIM-Modell
 
 ## Schleifen lesen — nicht nur schreiben
 
-Wenn KI eine Schleife generiert, stellen Sie drei Fragen:
+Beim Lesen einer Schleife stellen Sie drei Fragen:
 
 %%col 33 33 33
 
@@ -131,24 +143,8 @@ Variablen aus Schleifen sind auch außerhalb der Schleife verfügbar. Python ken
 
 %%/slides
 
-%%slides
-
-# Wiederholungen mit bekannter Anzahl {colR capR="DALL·E 2: Infinite loop of intricate swirling mandala patterns" imgR="images/05c_Schleifen/orig_mandala.png" background="#333"}
-
-%%/slides
-
-%%book
-
-
-## Wiederholungen mit bekannter Anzahl
-
-%%/book
-
-%%book
-
-### for-each-Schleife bei Sequenzen
-
-%%/book
+%%# Wiederholungen mit bekannter Anzahl
+%%## for-Schleife über eine Sequenz
 
 %%book
 
@@ -186,8 +182,6 @@ for e in seq:
 
 %%slides
 
-## for-Schleife über eine Sequenz
-
 Die for-Schleife wiederholt einen Block für alle Elemente einer Sequenz. `e` wird dabei immer mit dem aktuellen Element belegt.
 
 %%col 50 50
@@ -197,19 +191,13 @@ for Element in Sequenz:
     # Statement
 ```
 
-```python
-seq = ['a','b','c']
-for e in seq:
-    print(e)
-```
-
 %%sep
 
-Ausgabe:
-```
-a
-b
-c
+```{python}
+#| echo: true
+seq = ['a', 'b', 'c']
+for e in seq:
+    print(e)
 ```
 
 %%/col
@@ -284,19 +272,17 @@ Klassisch n-mal wiederholen: `range(n)` erzeugt die Folge 0 bis n−1.
 %%col 50 50
 
 ```python
-n = 3
-seq = range(n)
-for e in seq:
-    print(e)
+for i in range(n):
+    # Statement
 ```
 
 %%sep
 
-Ausgabe:
-```
-0
-1
-2
+```{python}
+#| echo: true
+n = 3
+for i in range(n):
+    print(i)
 ```
 
 %%/col
@@ -394,31 +380,21 @@ print(measurements_meter)
 
 Einfaches `for key in seq:` liefert nur die Schlüssel.
 
-```python
+```{python}
+#| echo: true
 seq = {"key1": "wert1", "key2": "wert2"}
 for key in seq:
     print(key)
-```
-
-Ausgabe:
-```
-key1
-key2
 ```
 
 %%sep
 
 Mit `items()` kommen Schlüssel und Wert gemeinsam.
 
-```python
+```{python}
+#| echo: true
 for key, wert in seq.items():
     print(key, wert)
-```
-
-Ausgabe:
-```
-key1 wert1
-key2 wert2
 ```
 
 %%/col
@@ -433,26 +409,23 @@ Umrechnung einer Liste an Messwerten von imperialen Fuß in metrische Meter.
 
 %%col 55 45
 
-```python
+```{python}
+#| echo: true
 measurements_feet = [4.2, 2.3, 6.2, 10.5]
 measurements_meter = []
 
 for feets in measurements_feet:
     measurements_meter.append(0.3048 * feets)
 
-print(measurements_meter)
+measurements_meter
 ```
 
 %%sep
 
-Ausgabe:
-```
-[1.2801600000000002, 0.70104, 1.88976, 3.2004]
-```
-
 Kurzschreibweise (List Comprehension):
 
-```python
+```{python}
+#| echo: true
 [0.3048 * f for f in measurements_feet]
 ```
 
@@ -460,77 +433,52 @@ Kurzschreibweise (List Comprehension):
 
 %%/slides
 
+%%book
+
+Wir lesen eine KI-generierte Schleife, bevor wir sie ausführen. Sie berechnet den Mittelwert einer Liste von Temperaturen. Die Schleife iteriert über die Liste `temperaturen`; pro Iteration nimmt `t` den aktuellen Messwert an und `summe` wächst um diesen Wert. Eine Spur-Tabelle hält diese Werte Iteration für Iteration fest: Nach der vierten Iteration ist `summe` gleich 82,0, und die Division durch `len(temperaturen)` ergibt 20,5. Die Tabelle zeigt, dass die Schleife genau viermal läuft und terminiert, weil die Liste endlich ist.
+
+%%/book
+
 %%slides
 
-## Spur-Tabelle: KI-Loop lesen {background-color="#D9FF66"}
+## Beispiel: Spur-Tabelle für eine KI-Schleife
 
-**KI-generierter Code** — *erst lesen, dann ausführen!*
+KI-generierter Code, erst lesen, dann ausführen: Worüber iteriert die Schleife, und wie verändert sich `summe`?
 
 %%col 55 45
 
-```python
+```{python}
+#| echo: true
 # AI generated
-temperaturen = [18.5, 21.3, 19.8, 22.1]
+temperaturen = [18.5, 21.5, 19.5, 22.5]
 summe = 0
 for t in temperaturen:
     summe = summe + t
 durchschnitt = summe / len(temperaturen)
-print(durchschnitt)
-```
-
-Worüber iteriert die Schleife? Wie verändert sich `summe` pro Iteration?
-
-%%sep
-
-Spur-Tabelle auf Papier ausfüllen:
-
-| Iter. | `t` | `summe` |
-|-------|-----|---------|
-| 1 | ? | ? |
-| 2 | ? | ? |
-| 3 | ? | ? |
-| 4 | ? | ? |
-| Ende | — | ? |
-
-%%/col
-
-%%/slides
-
-%%slides
-
-## Spur-Tabelle: Lösung
-
-%%col 55 45
-
-```python
-temperaturen = [18.5, 21.3, 19.8, 22.1]
-summe = 0
-for t in temperaturen:
-    summe = summe + t
-durchschnitt = summe / len(temperaturen)
-print(durchschnitt)
-```
-
-Ausgabe:
-```
-20.425
+durchschnitt
 ```
 
 %%sep
 
-| Iter. | `t` | `summe` |
+| Schritt | `t` | `summe` |
 |-------|-----|---------|
 | 1 | 18.5 | 18.5 |
-| 2 | 21.3 | 39.8 |
-| 3 | 19.8 | 59.6 |
-| 4 | 22.1 | 81.7 |
-| Ende | — | 81.7 |
+| 2 | 21.5 | 40.0 |
+| 3 | 19.5 | 59.5 |
+| 4 | 22.5 | 82.0 |
+| Ende | — | 82.0 |
 
-81,7 / 4 = 20,425
+82,0 / 4 = 20,5
 
 %%/col
 
 %%/slides
+
+%%book
+
+Wenn KI eine Schleife generiert, gehen wir in drei Schritten vor: Erstens identifizieren wir, worüber die Schleife iteriert (Liste, Dictionary, Zahlenfolge oder eine Bedingung). Zweitens verfolgen wir die ersten zwei und die letzte Iteration in einer Spur-Tabelle; typische Fehler wie ein falscher Startwert oder ein Off-by-one am Ende fallen dabei auf. Drittens prüfen wir, ob die Schleife terminiert. Erst danach führen wir den Code aus.
+
+%%/book
 
 %%slides
 
@@ -564,18 +512,8 @@ Nicht sofort ausführen: erst lesen, die ersten zwei und die letzte Iteration ve
 
 %%/slides
 
-%%slides
-
-# Wiederholungen mit unbekannter Anzahl
-
-%%/slides
-
-%%book
-
-
-## Wiederholungen mit unbekannter Anzahl
-
-%%/book
+%%# Wiederholungen mit unbekannter Anzahl
+%%## while-Schleife
 
 %%book
 
@@ -590,8 +528,6 @@ In Python gibt es nur die `while`-Schleife. Do-While- und Repeat-Until-Muster si
 %%/book
 
 %%slides
-
-## while-Schleife
 
 Die Bedingung wird vor jedem Durchlauf geprüft. Ist sie von Anfang an falsch, läuft der Block nie.
 
@@ -662,9 +598,65 @@ while not Bedingung:
 
 %%book
 
-### while-Schleife
+Der Unterschied zeigt sich, wenn die Bedingung schon beim Start nicht erfüllt ist. Mit dem Startwert `n = 0` zählen wir in jeder Variante die Durchläufe mit. Die while-Schleife prüft die Bedingung zuerst und läuft deshalb nie. Das Do-While-Muster und das Repeat-Until-Muster führen den Block zuerst aus und prüfen danach; sie laufen daher genau einmal.
 
 %%/book
+
+%%slides
+
+## Beispiel: Durchläufe bei Startwert 0
+
+Alle drei Varianten starten mit `n = 0`. Gezählt wird, wie oft der Block läuft.
+
+%%col 33 33 33
+
+#### while
+
+```{python}
+#| echo: true
+n = 0
+durchlaeufe = 0
+while n > 0:
+    n -= 1
+    durchlaeufe += 1
+durchlaeufe
+```
+
+%%sep
+
+#### Do-While
+
+```{python}
+#| echo: true
+n = 0
+durchlaeufe = 0
+bedingung = True
+while bedingung:
+    n -= 1
+    durchlaeufe += 1
+    bedingung = n > 0
+durchlaeufe
+```
+
+%%sep
+
+#### Repeat-Until
+
+```{python}
+#| echo: true
+n = 0
+durchlaeufe = 0
+bedingung = False
+while not bedingung:
+    n += 1
+    durchlaeufe += 1
+    bedingung = n > 0
+durchlaeufe
+```
+
+%%/col
+
+%%/slides
 
 %%book
 
@@ -900,11 +892,43 @@ while_loop_mit_abbruch(math.inf)
 
 %%/book
 
+%%book
+
+Eine `while`-Schleife prüft ihre Bedingung vor jedem Durchlauf. Ändert sich nichts, was diese Bedingung beeinflusst, wird sie nie falsch, und die Schleife endet nicht. Im Beispiel `while x > 0:` mit `print(x)` bleibt `x` auf dem Stack bei 10; der Instruction Pointer springt zwischen den beiden Schleifenzeilen hin und her, und der Zähler der Durchläufe wächst ohne Ende. Legt die Schleife dabei in jedem Durchlauf ein neues Objekt an, etwa mit `daten.append(1)` in `while True:`, wächst zusätzlich der Heap, bis der Arbeitsspeicher voll ist. Stack und Heap sind in `02c_Speicher` eingeführt.
+
+%%/book
+
+%%slides
+
+## Das Problem mit Endlosschleifen
+
+%%col 40 60
+
+Ändert sich nichts an der Bedingung, wird sie nie falsch: Die Schleife endet nicht.
+
+Legt jeder Durchlauf ein Objekt auf dem Heap ab, wird auch der Speicher knapp.
+
+Stack und Heap: siehe `02c_Speicher`.
+
+%%sep
+
+%%video images/05c_Schleifen/manim_endlosschleife loop=false Die Schleife `while x > 0` ändert x nie und läuft ohne Ende; eine Schleife mit `daten.append(1)` füllt den Heap, bis der Speicher voll ist.
+
+%%/col
+
+%%/slides
+
+%%book
+
+Bei jeder `while`-Schleife prüfen wir die Terminierung. Drei Zeichen deuten auf eine Endlosschleife hin: Die Variable aus der Bedingung wird im Schleifenblock nicht verändert, die Bedingung kann logisch nie `False` werden, und es gibt weder ein `break` noch einen Zähler als Sicherheitsnetz. Im Beispiel `while x > 0:` mit `print(x)` ändert sich `x` nie, die Schleife läuft ohne Ende.
+
+%%/book
+
 %%slides
 
 ## Endlosschleifen erkennen
 
-KI generiert gelegentlich Endlosschleifen. Diese Zeichen verraten sie:
+Diese Zeichen verraten eine Endlosschleife:
 
 %%col 50 50
 
@@ -913,7 +937,7 @@ KI generiert gelegentlich Endlosschleifen. Diese Zeichen verraten sie:
 - Kein `break` und kein Zähler als Sicherheitsnetz
 
 %%warning Achtung
-While-Schleifen ohne sichtbare Abbruchbedingung sind ein Risiko, besonders in KI-generiertem Code. Immer die Terminierung prüfen.
+While-Schleifen ohne sichtbare Abbruchbedingung sind ein Risiko. Immer die Terminierung prüfen.
 %%/warning
 
 %%sep
@@ -928,6 +952,12 @@ while x > 0:       # Bedingung scheinbar sinnvoll
 %%/col
 
 %%/slides
+
+%%book
+
+Als Sicherheitsnetz zählen wir die Iterationen mit und brechen ab, sobald ein Maximum erreicht ist. Das schützt vor einem hängenden Programm und gehört zu jeder `while`-Schleife ohne klare Terminierung.
+
+%%/book
 
 %%slides
 
@@ -959,7 +989,7 @@ while bedingung and iterations < max_iter:
 ```
 
 - [Schützt vor hängendem Programm]{.pro}
-- [Pflicht bei KI-generierten `while`-Schleifen ohne klare Terminierung]{.con}
+- [Pflicht bei `while`-Schleifen ohne klare Terminierung]{.con}
 
 %%/col
 
@@ -1019,7 +1049,8 @@ Beides sind typische Befehle, um die Performance von Loops zu verbessern.
 
 Gesucht: das erste essbare Ding im Rucksack.
 
-```python
+```{python}
+#| echo: true
 dinge_in_meinem_rucksack = ["Papier", "Stift", "Apfel", "Brot", "Messer"]
 essbares = {"Apfel", "Brot"}
 ```
@@ -1028,20 +1059,22 @@ essbares = {"Apfel", "Brot"}
 
 `break` beendet die Schleife sofort:
 
-```python
+```{python}
+#| echo: true
 essbar = None
 for ding in dinge_in_meinem_rucksack:
     if ding in essbares:
         essbar = ding
         break
-print(essbar)   # Apfel
+essbar
 ```
 
 %%sep
 
 `continue` springt zur nächsten Iteration:
 
-```python
+```{python}
+#| echo: true
 for ding in dinge_in_meinem_rucksack:
     if ding not in essbares:
         continue
@@ -1210,7 +1243,7 @@ Jedes Programm, was jemals auf einem Computer ausgeführt wurde, könnte mit die
     - [ ] Nur mit einer While-Schleife
     - [ ] Nur durch Umwandlung in eine Liste
 
-    ### Was sind typische Warnsignale für eine Endlosschleife in KI-generiertem Code?
+    ### Was sind typische Warnsignale für eine Endlosschleife?
     - [x] Die Loop-Variable wird im Schleifenblock nicht verändert
     - [x] Die Bedingung hängt nur vom Schleifenkörper ab und nicht von der Iterationsanzahl
     - [ ] Die Schleife enthält einen break-Befehl
