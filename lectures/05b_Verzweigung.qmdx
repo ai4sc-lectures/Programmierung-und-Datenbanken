@@ -197,32 +197,7 @@ if bedingung is not None:
 
 %%book
 
-Eine häufige Umformung kombinierter Bedingungen sind die De-Morgan-Regeln:
-
-- `not (A and B)` ist gleichbedeutend zu `not A or not B`
-- `not (A or B)` ist gleichbedeutend zu `not A and not B`
-
-Solche Umformungen helfen, Code mit komplexen Bedingungen besser zu lesen oder in eine verständlichere Form zu bringen. Die beiden Regeln entsprechen den Operationen NAND (`not (A and B)`, negiertes AND) und NOR (`not (A or B)`, negiertes OR) aus `05a_Operatoren`.
-
-Am Stuhlbeispiel aus `05a_Operatoren` lässt sich das nachvollziehen: A ist „aus Holz“, B ist „braun“. Wer einen Stuhl will, der nicht aus Holz und braun ist (`not (A and B)`), bekommt dieselben Stühle wie bei „nicht aus Holz oder nicht braun“ (`not A or not B`): alle außer dem braunen Holzstuhl. Wer einen Stuhl will, der weder aus Holz noch braun ist (`not (A or B)`), bekommt dieselben Stühle wie bei „nicht aus Holz und nicht braun“ (`not A and not B`): nur den grünen Plastikstuhl.
-
-### NAND: `not (A and B)` = `not A or not B`
-
-| Stuhl | A: aus Holz | B: braun | `not (A and B)` | `not A or not B` | Ergebnis |
-| ----- | ----------- | -------- | -------- | -------- | -------- |
-| ![Grün & Plastik](images/05a_Operatoren/stuhl_plastik_gruen.svg){.nostretch height="56px"}<br>Grün & Plastik | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Ja](images/05a_Operatoren/stuhl_plastik_gruen_ok.svg){.nostretch height="56px"} |
-| ![Braun & Plastik](images/05a_Operatoren/stuhl_plastik_braun.svg){.nostretch height="56px"}<br>Braun & Plastik | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Ja](images/05a_Operatoren/stuhl_plastik_braun_ok.svg){.nostretch height="56px"} |
-| ![Grün & Holz](images/05a_Operatoren/stuhl_holz_gruen.svg){.nostretch height="56px"}<br>Grün & Holz | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Ja](images/05a_Operatoren/stuhl_holz_gruen_ok.svg){.nostretch height="56px"} |
-| ![Braun & Holz](images/05a_Operatoren/stuhl_holz_braun.svg){.nostretch height="56px"}<br>Braun & Holz | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Nein](images/05a_Operatoren/stuhl_holz_braun_no.svg){.nostretch height="56px"} |
-
-### NOR: `not (A or B)` = `not A and not B`
-
-| Stuhl | A: aus Holz | B: braun | `not (A or B)` | `not A and not B` | Ergebnis |
-| ----- | ----------- | -------- | -------- | -------- | -------- |
-| ![Grün & Plastik](images/05a_Operatoren/stuhl_plastik_gruen.svg){.nostretch height="56px"}<br>Grün & Plastik | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Ja](images/05a_Operatoren/stuhl_plastik_gruen_ok.svg){.nostretch height="56px"} |
-| ![Braun & Plastik](images/05a_Operatoren/stuhl_plastik_braun.svg){.nostretch height="56px"}<br>Braun & Plastik | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Nein](images/05a_Operatoren/stuhl_plastik_braun_no.svg){.nostretch height="56px"} |
-| ![Grün & Holz](images/05a_Operatoren/stuhl_holz_gruen.svg){.nostretch height="56px"}<br>Grün & Holz | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Nein](images/05a_Operatoren/stuhl_holz_gruen_no.svg){.nostretch height="56px"} |
-| ![Braun & Holz](images/05a_Operatoren/stuhl_holz_braun.svg){.nostretch height="56px"}<br>Braun & Holz | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="18px"} Wahr (1) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="18px"} Falsch (0) | ![Nein](images/05a_Operatoren/stuhl_holz_braun_no.svg){.nostretch height="56px"} |
+Kombinierte Bedingungen lassen sich mit den De-Morgan-Regeln umformen, z.B. `not (A and B)` zu `not A or not B` (→ `05a_Operatoren`).
 
 %%/book
 
@@ -361,55 +336,6 @@ bauteile = []
 if not bauteile:
     print("Die Liste ist leer")
 ```
-
-%%/col
-
-%%/slides
-
-%%slides
-
-
-## De-Morgan-Regeln
-
-Hilft komplexe Bedingungen umzuschreiben und zu prüfen (wird z.B. in der Logik und beim Reasoning verwendet).
-
-%%col 50 50
-
-### NAND-Regel: `not (A and B)` = `not A or not B`
-
-*Wir können also statt:*
-
-Ich will einen Stuhl, der **NICHT** aus Holz **UND** braun ist. 
-
-*einfacher sagen, dass:*
-
-Ich will einen Stuhl, der **NICHT** aus Holz **ODER** **NICHT** braun ist.
-
-| Stuhl | A | B | `not (A and B)` | `not A or not B` | Ergebnis |
-| --- | --- | --- | --- | --- | --- |
-| ![Grün & Plastik](images/05a_Operatoren/stuhl_plastik_gruen.svg){.nostretch height="48px"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Ja](images/05a_Operatoren/stuhl_plastik_gruen_ok.svg){.nostretch height="48px"} |
-| ![Braun & Plastik](images/05a_Operatoren/stuhl_plastik_braun.svg){.nostretch height="48px"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Ja](images/05a_Operatoren/stuhl_plastik_braun_ok.svg){.nostretch height="48px"} |
-| ![Grün & Holz](images/05a_Operatoren/stuhl_holz_gruen.svg){.nostretch height="48px"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Ja](images/05a_Operatoren/stuhl_holz_gruen_ok.svg){.nostretch height="48px"} |
-| ![Braun & Holz](images/05a_Operatoren/stuhl_holz_braun.svg){.nostretch height="48px"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Nein](images/05a_Operatoren/stuhl_holz_braun_no.svg){.nostretch height="48px"} |
-
-%%sep
-
-### NOR-Regel: `not (A or B)` = `not A and not B`
-
-*Wir können also statt:*
-
-Ich will einen Stuhl, der **NICHT** aus Holz **ODER** braun ist. 
-
-*einfacher sagen, dass:*
-
-Ich will einen Stuhl, der **NICHT** aus Holz **UND** **NICHT** braun ist.
-
-| Stuhl | A | B | `not (A or B)` | `not A and not B` | Ergebnis |
-| --- | --- | --- | --- | --- | --- |
-| ![Grün & Plastik](images/05a_Operatoren/stuhl_plastik_gruen.svg){.nostretch height="48px"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Ja](images/05a_Operatoren/stuhl_plastik_gruen_ok.svg){.nostretch height="48px"} |
-| ![Braun & Plastik](images/05a_Operatoren/stuhl_plastik_braun.svg){.nostretch height="48px"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Nein](images/05a_Operatoren/stuhl_plastik_braun_no.svg){.nostretch height="48px"} |
-| ![Grün & Holz](images/05a_Operatoren/stuhl_holz_gruen.svg){.nostretch height="48px"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Nein](images/05a_Operatoren/stuhl_holz_gruen_no.svg){.nostretch height="48px"} |
-| ![Braun & Holz](images/05a_Operatoren/stuhl_holz_braun.svg){.nostretch height="48px"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Wahr](images/05a_Operatoren/wahr_haken.svg){.nostretch height="30px"}<br>[Wahr (1)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Falsch](images/05a_Operatoren/falsch_kreuz.svg){.nostretch height="30px"}<br>[Falsch (0)]{style="font-size:0.7em"} | ![Nein](images/05a_Operatoren/stuhl_holz_braun_no.svg){.nostretch height="48px"} |
 
 %%/col
 

@@ -379,8 +379,8 @@ def build_quarto_book(c):
     preprocess_lectures(HERE / "lectures")
 
     build_dir = HERE / "_build" / "html_quarto"
-    stale = [q for q in sorted((HERE / "lectures").glob("*.qmdx"))
-             if _is_stale(q.stem, "quarto")]
+    decks = _project_lectures()
+    stale = [q for q in decks if _is_stale(q.stem, "quarto")]
     if not stale and build_dir.exists():
         info("Quarto book up to date, skipping render")
         return
@@ -392,7 +392,7 @@ def build_quarto_book(c):
         info("Restoring _site from _build/html_quarto for incremental render")
         shutil.copytree(str(build_dir), str(site_dir))
 
-    render_list = sorted((HERE / "lectures").glob("*.qmdx")) if full_render else stale
+    render_list = decks if full_render else stale
     with c.cd(os.path.join("lectures")):
         for qmdx in render_list:
             c.run(f"quarto render {qmdx.stem}.qmd")
@@ -409,8 +409,8 @@ def build_quarto_book_quick(c):
     preprocess_lectures(HERE / "lectures")
     site_dir = HERE / "lectures" / "_site"
     build_dir = HERE / "_build" / "html_quarto"
-    stale = [q for q in sorted((HERE / "lectures").glob("*.qmdx"))
-             if _is_stale(q.stem, "quarto_quick")]
+    decks = _project_lectures()
+    stale = [q for q in decks if _is_stale(q.stem, "quarto_quick")]
     if not stale and build_dir.exists():
         info("Quarto book up to date, skipping render")
         _clean_lectures_artifacts(HERE / "lectures")
@@ -419,9 +419,7 @@ def build_quarto_book_quick(c):
     if not full_render and not site_dir.exists():
         info("Restoring _site from _build/html_quarto for incremental render")
         shutil.copytree(str(build_dir), str(site_dir))
-    if full_render and not stale:
-        stale = sorted((HERE / "lectures").glob("*.qmdx"))
-    render_list = sorted((HERE / "lectures").glob("*.qmdx")) if full_render else stale
+    render_list = decks if full_render else stale
     with c.cd(os.path.join("lectures")):
         for qmdx in render_list:
             c.run(f"quarto render {qmdx.stem}.qmd --no-execute")
@@ -605,13 +603,27 @@ def _resolve_lecture(name: str) -> Path:
     raise Exit(f"'{name}' is ambiguous: " + ", ".join(m.stem for m in matches), code=2)
 
 
-def _require_in_project(stem: str) -> None:
-    """Quarto renders a file outside project.render as a standalone document into
-    lectures/ (not _site), so refuse instead of reporting a misleading success."""
+def _project_render_list() -> list:
+    """Entries of project.render in lectures/_quarto.yaml (commented-out decks are absent)."""
     import yaml
 
     cfg = yaml.safe_load((LECTURES / "_quarto.yaml").read_text(encoding="utf-8")) or {}
-    listed = (cfg.get("project") or {}).get("render") or []
+    return (cfg.get("project") or {}).get("render") or []
+
+
+def _project_lectures() -> list:
+    """The .qmdx decks a full build renders: only those listed in project.render.
+    Quarto renders any other file as a standalone document into lectures/ (no project
+    bibliography, so Typst fails on citations)."""
+    listed = _project_render_list()
+    decks = sorted(LECTURES.glob("*.qmdx"))
+    return [q for q in decks if f"{q.stem}.qmd" in listed] if listed else decks
+
+
+def _require_in_project(stem: str) -> None:
+    """Quarto renders a file outside project.render as a standalone document into
+    lectures/ (not _site), so refuse instead of reporting a misleading success."""
+    listed = _project_render_list()
     if listed and f"{stem}.qmd" not in listed:
         raise Exit(
             f"{stem}.qmd is not in project.render of lectures/_quarto.yaml; add it there "
