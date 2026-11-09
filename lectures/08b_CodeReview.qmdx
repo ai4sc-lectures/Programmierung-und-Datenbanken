@@ -7,9 +7,12 @@ format:
   ai4sc-style-revealjs:
     title-slide-attributes:
       data-background-video: images/08b_CodeReview/mj_title.mp4
+      data-background-video-poster: images/08b_CodeReview/mj_title_poster.jpg
     output-file: 08b_CodeReview.slide.html
   typst:
     output-file: 08b_CodeReview.page.pdf
+resources:
+  - images/08b_CodeReview/mj_title_poster.jpg
 ---
 
 %%book
@@ -18,20 +21,26 @@ format:
 
 > Code, der plausibel aussieht, ist noch nicht automatisch korrekt.
 
+
 # Code Review
+
+### TL;DR
+
+Ein Code Review prüft generierten Code in drei Dimensionen: gegen die Anforderungen, gegen den Entwurf und auf Implementierungsfehler. Wir lernen typische Fehlermuster wie veränderliche Standardargumente, hartcodierte Werte und erfundene Aufrufe kennen und fassen sie in einer Checkliste zusammen. Das Review ist der Schritt „Verifizieren“ im Agentic Cycle.
 
 %%/book
 
 %%slides
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Würden Sie Ihrem Kollegen vertrauen, wenn er Ihnen Code gibt, ohne dass Sie ihn lesen?" capR="Midjourney: Waves testing a boat, ref. Hokusai" imgR="images/08a_UnitTest/mj_title_band.jpg"}
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Welche Prüfungen würden Sie durchführen, bevor Sie Code aus dem Team übernehmen, den Sie nicht selbst geschrieben haben?" capR="Midjourney: Engineers reviewing technical blueprints" imgR="images/08b_CodeReview/mj_title_band.jpg"}
 <!-- TODO MJ: Two engineers reviewing blueprints together -->
 
 %%/slides
 
 %%book
 
-Wir beginnen mit der Frage, wann wir fremdem Code vertrauen dürfen. Bei Code von einem Kollegen und bei Code von einem Agenten lautet die Antwort gleich: erst nach einer Prüfung.
+Wir beginnen mit der Frage, welche Prüfungen fremder Code braucht, bevor wir ihn übernehmen. Dafür kennen wir bereits Unit-Tests (→ `08a_UnitTest`). Bei Code aus dem Team und bei Code von einem Agenten lautet die Antwort in beiden Fällen gleich: erst nach einer Prüfung. Das Code Review ergänzt die Tests um die Prüfung gegen Anforderungen und Entwurf.
 
 %%/book
 
@@ -43,7 +52,7 @@ Wir beginnen mit der Frage, wann wir fremdem Code vertrauen dürfen. Bei Code vo
 %%book
 
 %%note Überblick
-KI-Werkzeuge wie Claude Code oder GitHub Copilot generieren Code schnell, aber nicht immer korrekt. Ein Code Review ist bei KI-generiertem Code genauso notwendig wie bei menschlichem Code. KI zeigt keine Unsicherheit: Fehlerhafter Code sieht syntaktisch genauso aus wie korrekter.
+Werkzeuge wie Claude Code oder GitHub Copilot generieren Code schnell, der Code kann aber fehlerhaft sein. Ein Code Review ist bei generiertem Code genauso notwendig wie bei Code aus dem Team. Fehlerhafter Code sieht syntaktisch genauso aus wie korrekter.
 %%/note
 
 %%/book
@@ -69,7 +78,7 @@ Der Agent füllt eine Lücke falsch und liefert Code für eine andere Aufgabe
 22,6 %
 %%/div
 %%div stat-label
-Ungenaue Selbstauskunft
+Falsche Erfolgsmeldung
 %%/div
 %%div stat-delta
 Der Agent meldet Erfolg, der nicht stimmt
@@ -78,17 +87,17 @@ Der Agent meldet Erfolg, der nicht stimmt
 
 :::::::
 
-„Claude stops when the work looks done. Without a check it can run, ‚looks done‘ is the only signal available.“
+Ohne eine Prüfung, die der Agent selbst ausführen kann, bleibt „sieht fertig aus“ das einzige Signal.
 
 Wer keine Prüfung mitliefert, wird selbst zur Prüfinstanz (→ `04a_Anforderungen`).
 
-%%slide_ref @tang2026agents Tang et al.: How Coding Agents Fail Their Users, arXiv:2605.29442, 2026. Anteile an allen Episoden, gerundet
+%%slide_ref @tang2026agents Tang et al.: How Coding Agents Fail Their Users, arXiv:2605.29442, 2026. Anteile an allen 16.118 validierten Episoden (Mehrfachzuordnung möglich), gerundet
 %%slide_ref @anthropic2026bestpractices Anthropic: Best practices for Claude Code, 2026
 %%/slides
 
 %%book
 
-Die Studie von Tang et al. zählt Episoden, in denen ein Entwickler eine Fehlentwicklung des Agenten sichtbar korrigiert hat [@tang2026agents]. In 27,0 % davon hat der Agent die Absicht der Anfrage missverstanden, in 22,6 % hat er einen Erfolg gemeldet, der nicht stimmte. Anthropic beschreibt dasselbe Muster in den Empfehlungen zu Claude Code [@anthropic2026bestpractices]: Ohne eine Prüfung, die der Agent ausführen kann, ist der Eindruck „sieht fertig aus“ das einzige Signal. Die Prüfung übernimmt dann der Entwickler. Wie sich Lücken in den Anforderungen schließen lassen, behandelt `04a_Anforderungen`.
+Die Studie von Tang et al. wertet 16.118 validierte Episoden aus, in denen Entwickelnde und Agent nicht zusammenpassten [@tang2026agents]. In 27,0 % der Episoden hat der Agent die Absicht der Anfrage missverstanden, in 22,6 % hat er einen Erfolg gemeldet, der nicht stimmte. Eine Episode kann mehreren Fehlerformen zugeordnet sein, die Anteile addieren sich deshalb nicht. Anthropic beschreibt dasselbe Muster in den Empfehlungen zu Claude Code [@anthropic2026bestpractices]: Ohne eine Prüfung, die der Agent ausführen kann, ist der Eindruck „sieht fertig aus“ das einzige Signal. Die Prüfung übernimmt dann die entwickelnde Person. Wie sich Lücken in den Anforderungen schließen lassen, behandelt `04a_Anforderungen`.
 
 %%/book
 
@@ -97,7 +106,7 @@ Die Studie von Tang et al. zählt Episoden, in denen ein Entwickler eine Fehlent
 
 %%slides
 
-Ein {{< ai4sc-icon test-tube >}} Code Review prüft den Code in drei Dimensionen, jeweils gegen einen eigenen Maßstab:
+Ein Code Review prüft den Code in drei Dimensionen, jeweils gegen einen eigenen Maßstab. Die erste Dimension besteht aus drei Fragen (nächste Folie).
 
 %%col 33 33 33
 #### 1. Anforderung
@@ -106,15 +115,15 @@ Macht der Code, was verlangt wurde?
 
 Maßstab: die Spezifikation
 %%sep
-#### 2. Design
+#### 2. Entwurf
 
-Entspricht er der Architektur?
+Entspricht er dem Entwurf?
 
-Maßstab: das UML-Design
+Maßstab: das UML-Diagramm
 %%sep
 #### 3. Implementierung
 
-Ist er korrekt, sicher, wartbar?
+Ist er korrekt und wartbar?
 
 Maßstab: die Checkliste
 %%/col
@@ -123,7 +132,7 @@ Maßstab: die Checkliste
 
 %%book
 
-Die drei Dimensionen decken unterschiedliche Fehlerquellen ab. Tests automatisieren Teile der Anforderungsprüfung, aber nicht alle. Das Code Review ergänzt, was Tests nicht erfassen können: Design-Konflikte und erfundene Aufrufe.
+Die drei Dimensionen decken unterschiedliche Fehlerquellen ab. Tests automatisieren Teile der Anforderungsprüfung, aber nur für die Pfade, die sie ausführen. Das Code Review ergänzt, was Tests nicht abdecken: den Abgleich mit dem Entwurf, ungetestete Pfade und die Frage, ob die Tests selbst sinnvoll sind. Ein Test, den der Agent aus seinem eigenen fehlerhaften Code ableitet, prüft den Fehler unter Umständen mit.
 
 %%/book
 
@@ -132,18 +141,18 @@ Die drei Dimensionen decken unterschiedliche Fehlerquellen ab. Tests automatisie
 
 %%slides
 
-Für jede funktionale {{< ai4sc-icon clipboard-list >}} Anforderung stellen wir drei Fragen:
+Für jede funktionale Anforderung gelten drei Fragen:
 
 %%col 33 33 33
-#### Implementiert?
+### Implementiert?
 
 Gibt es Code, der diese Anforderung umsetzt?
 %%sep
-#### Getestet?
+### Getestet?
 
 Existiert ein Unit-Test dafür?
 %%sep
-#### Bestanden?
+### Bestanden?
 
 Laufen alle Tests grün durch?
 %%/col
@@ -154,7 +163,7 @@ Maßstab ist die Spezifikation aus `04a_Anforderungen`.
 
 %%book
 
-Die Anforderungen aus der Spezifikation sind der Prüfmaßstab (→ `04a_Anforderungen`). Jede Anforderung wird einzeln geprüft, keine gilt als implizit erfüllt. KI-Code setzt manchmal nur einen Teil der Anforderungen um, lässt andere stillschweigend weg oder deutet sie anders als gemeint.
+Die Anforderungen aus der Spezifikation sind der Prüfmaßstab (→ `04a_Anforderungen`). Jede Anforderung wird einzeln geprüft, keine gilt als implizit erfüllt. Generierter Code kann nur einen Teil der Anforderungen umsetzen, andere stillschweigend weglassen oder anders deuten als gemeint (22,6 % und 27,0 % in der Studie auf der ersten Folie).
 
 %%/book
 
@@ -163,11 +172,12 @@ Die Anforderungen aus der Spezifikation sind der Prüfmaßstab (→ `04a_Anforde
 
 %%slides
 
-```python
-# Anforderung: Berechne Neigung in Prozent (Höhe / Länge × 100)
+Anforderung: Neigung in Prozent berechnen (Höhe / Länge × 100)
 
+```{python}
+#| echo: true
 def berechne_neigung(hoehe, laenge):
-    return hoehe / laenge   # Fehler: × 100 fehlt, Einheit falsch
+    return hoehe / laenge   # Fehler: × 100 fehlt
 ```
 
 %%col 50 50
@@ -175,13 +185,14 @@ def berechne_neigung(hoehe, laenge):
 
 - [ ] Formel korrekt implementiert?
 - [ ] Rückgabewert vollständig?
-- [ ] Randfälle berücksichtigt?
+- [ ] Randfälle berücksichtigt (zum Beispiel Länge 0)?
 %%sep
-Ein {{< ai4sc-icon test-tube >}} Test macht den Fehler sichtbar:
+Ein Test macht den Fehler sichtbar:
 
-```python
+```{python}
+#| echo: true
+#| error: true
 assert berechne_neigung(1, 10) == 10.0
-# AssertionError: Ergebnis ist 0.1
 ```
 %%/col
 
@@ -189,12 +200,12 @@ assert berechne_neigung(1, 10) == 10.0
 
 %%book
 
-Dieses Beispiel zeigt, wie KI-Code syntaktisch korrekt und logisch plausibel wirkt, aber eine Anforderung nur halb erfüllt. Der Test macht den Fehler sichtbar, bevor der Code in Betrieb geht.
+Dieses Beispiel zeigt, wie generierter Code syntaktisch korrekt und plausibel wirkt, aber eine Anforderung nur halb erfüllt. Die Anforderung verlangt Prozent, die Funktion liefert aber den Quotienten: Für Höhe 1 und Länge 10 erhalten wir 0,1 statt 10,0. Die drei Review-Fragen führen von der Anforderung zur Formel, zum Rückgabewert und zu den Randfällen. Der Test macht den Fehler sichtbar, bevor der Code in Betrieb geht. Den Randfall Länge 0 greifen wir im nächsten Abschnitt auf.
 
 %%/book
 
 
-%%## Design-Match prüfen
+%%## Entwurf prüfen
 
 %%slides
 
@@ -210,31 +221,32 @@ class DataPoint:       # falscher Name
     # validiere() fehlt
 ```
 %%sep
+
 - Passt der Code ins richtige Modul?
-- Stimmen Klassen- und Methodennamen mit dem UML überein?
+- Stimmen Klassen- und Methodennamen mit dem UML-Diagramm überein?
 - Stimmen die Signaturen?
 - Entstehen zirkuläre Importe?
 
-Das Design aus `03c_Softwareentwurf` ist der zweite Prüfmaßstab.
+Der Entwurf aus `03c_Softwareentwurf` ist der zweite Prüfmaßstab.
 %%/col
 
 %%/slides
 
 %%book
 
-Die Designprüfung vergleicht den generierten Code mit dem UML-Design und der geplanten Modulstruktur (→ `03c_Softwareentwurf`). KI kennt das Design nicht und erfindet Strukturen, die zwar funktionieren, aber nicht zur Architektur passen. Im Beispiel weichen Klassenname und Attribute ab, und die Methode `validiere()` fehlt. Abhilfe: das UML-Design als Teil des Prompts mitgeben oder den Code gegen das Design anpassen.
+Die Entwurfsprüfung vergleicht den generierten Code mit dem UML-Diagramm und der geplanten Modulstruktur (→ `03c_Softwareentwurf`). Der Agent kennt den Entwurf nur, wenn wir ihn im Prompt mitgeben, und erfindet sonst Strukturen, die zwar funktionieren, aber nicht zur Architektur passen. Im Beispiel weichen Klassenname und Attribut ab, und die Methode `validiere()` fehlt. Wir geben deshalb den Entwurf als Teil des Prompts mit und passen abweichenden Code an den Entwurf an.
 
 %%/book
 
 
 %%# Implementierungsprüfung
 
-%%## Division und veränderliche Standardwerte
+%%## Division und veränderliche Standardargumente
 
 %%book
 
 %%note Überblick
-Die Implementierungsprüfung scannt den Code auf häufige Fehlerquellen: unsichere Operationen, veränderliche Standardargumente, fehlende Typ-Annotationen und hartcodierte Werte. Diese Muster treten in KI-generiertem Code häufig auf, weil KI-Modelle Muster aus Trainingsdaten reproduzieren, auch veraltete oder schlechte.
+Die Implementierungsprüfung scannt den Code auf typische Fehlerquellen: ungeprüfte Divisionen, veränderliche Standardargumente, fehlende Typ-Annotationen und hartcodierte Werte. Diese Muster sind in Python allgemein bekannt, sie treten auch in generiertem Code auf.
 %%/note
 
 %%/book
@@ -242,27 +254,47 @@ Die Implementierungsprüfung scannt den Code auf häufige Fehlerquellen: unsiche
 %%slides
 
 %%col 50 50
-```python
+Die Funktion aus dem Tracing-Beispiel, jetzt mit × 100:
+
+```{python}
+#| echo: true
 def berechne_neigung(hoehe, laenge):
     return hoehe / laenge * 100
-    # laenge == 0: ZeroDivisionError
+```
 
-# Fix:
+```{python}
+#| echo: true
+#| error: true
+berechne_neigung(1, 0)
+```
+
+```python
+# Korrektur:
 def berechne_neigung(hoehe, laenge):
     if laenge == 0:
         raise ValueError("Länge ist 0")
     return hoehe / laenge * 100
 ```
 %%sep
-```python
+```{python}
+#| echo: true
 def sammle(w, liste=[]):  # Fehler!
     liste.append(w)
     return liste
+```
 
-sammle(1)  # [1]
-sammle(2)  # [1, 2]: Liste wird geteilt
+```{python}
+#| echo: true
+sammle(1)
+```
 
-# Fix:
+```{python}
+#| echo: true
+sammle(2)
+```
+
+```python
+# Korrektur:
 def sammle(w, liste=None):
     if liste is None:
         liste = []
@@ -275,22 +307,29 @@ def sammle(w, liste=None):
 
 %%book
 
-Die Division ohne Prüfung löst für `laenge == 0` einen `ZeroDivisionError` aus. Das Standardargument `liste=[]` wird einmal beim Definieren der Funktion angelegt und danach von allen Aufrufen geteilt, deshalb enthält die Liste im zweiten Aufruf noch den Wert des ersten.
+Die Funktion aus dem Tracing-Beispiel enthält jetzt die Umrechnung, teilt aber ohne Prüfung. Für `laenge == 0` löst sie einen `ZeroDivisionError` aus. Die Korrektur prüft den Randfall und meldet ihn mit einem `ValueError`, statt einen Wert vorzutäuschen. Das Standardargument `liste=[]` wird einmal beim Definieren der Funktion angelegt und danach von allen Aufrufen geteilt, sodass die Liste im zweiten Aufruf noch den Wert des ersten enthält. Mit `liste=None` und einer Neuanlage im Funktionsrumpf erhält jeder Aufruf eine eigene Liste.
 
 %%/book
 
 
-%%## Typ-Annotationen und feste Werte
+%%## Typ-Annotationen und hartcodierte Werte
 
 %%slides
 
 %%col 50 50
-```python
+```{python}
+#| echo: true
 def verarbeite(daten):  # Typ unklar
     return daten * 2
-# [1.0, 2.0] * 2 ergibt [1.0, 2.0, 1.0, 2.0]
+```
 
-# Fix:
+```{python}
+#| echo: true
+verarbeite([1.0, 2.0])
+```
+
+```python
+# Korrektur:
 def verarbeite(daten: list[float]) -> list[float]:
     return [x * 2 for x in daten]
 ```
@@ -310,7 +349,7 @@ if temp > MAX_TEMP_CELSIUS:
 
 %%book
 
-Ohne Typ-Annotation bleibt offen, ob die Funktion die Werte oder die Liste verdoppelt: `daten * 2` wiederholt bei einer Liste die Elemente, statt sie zu multiplizieren. Die Annotation macht die Absicht prüfbar. Ein hartcodierter Wert wie `100` verschweigt seine Bedeutung. Eine benannte Konstante dokumentiert sie und lässt sich an einer Stelle ändern.
+Ohne Typ-Annotation bleibt offen, ob die Funktion die Werte oder die Liste verdoppelt: `daten * 2` wiederholt bei einer Liste die Elemente, statt sie zu multiplizieren. Die Annotation macht die Absicht prüfbar, Python erzwingt sie zur Laufzeit aber nicht: Erst ein Typprüfer wie `mypy` meldet den falschen Aufruf. Den Fehler behebt im Beispiel die Listen-Schreibweise. Ein hartcodierter Wert wie `100` verschweigt seine Bedeutung. Eine benannte Konstante dokumentiert sie und lässt sich an einer Stelle ändern.
 
 %%/book
 
@@ -337,17 +376,19 @@ Ohne Typ-Annotation bleibt offen, ob die Funktion die Werte oder die Liste verdo
 
 %%book
 
-Dieser Scan ist deterministisch. Wir können ihn nach jedem KI-generierten Code-Block systematisch durchführen, ohne Kreativität oder Ermessen zu benötigen.
+Der Scan ist weitgehend mechanisch. In der ersten Runde prüfen wir, ob jede Division eine Nullprüfung hat, ob Standardargumente unveränderliche Werte nutzen und ob alle Parameter annotiert sind. In der zweiten Runde prüfen wir, ob jede Funktion einen `return` hat, ob hartcodierte Werte durch benannte Konstanten ersetzt sind und ob sinnvolle Exceptions definiert sind. Einzelne Punkte, etwa die Typ-Annotationen, lassen sich mit Werkzeugen wie `mypy` automatisieren. Bei der Fehlerbehandlung bleibt ein Ermessensspielraum. Wir führen den Scan nach jedem generierten Codeblock durch.
 
 %%/book
 
 %%slides
 
+
 ## Hörsaalfrage {background="#FFD966"}
 
-Finden Sie in 2 Minuten mindestens drei Probleme:
+Finden Sie in zwei Minuten möglichst viele Auffälligkeiten:
 
-```python
+```{python}
+#| echo: true
 def mittelwert(werte=[]):
     summe = 0
     for wert in werte:
@@ -355,25 +396,36 @@ def mittelwert(werte=[]):
     return summe / len(werte)
 ```
 
-%%col 50 50
-**Nutzen Sie die Checkliste:**
-
-- Anforderungen vollständig?
-- Randfälle berücksichtigt?
-- Implementierungsprobleme sichtbar?
-%%sep
-**Mögliche Treffer:**
-
-- `mittelwert([])` löst einen `ZeroDivisionError` aus
-- Keine Typ-Annotationen
-- `werte=[]` ist ein veränderliches Standardargument (hier ungefährlich, weil die Liste nicht verändert wird)
-%%/col
+Nutzen Sie den Scan: Division, Standardargumente, Typ-Annotationen, `return`, hartcodierte Werte, Fehlerbehandlung.
 
 %%/slides
 
 %%book
 
-Die Funktion hat drei Auffälligkeiten. Bei einer leeren Liste ist `len(werte)` gleich 0 und die Division löst einen `ZeroDivisionError` aus. Parameter und Rückgabewert haben keine Typ-Annotationen. Das veränderliche Standardargument fällt im Scan auf, richtet hier aber keinen Schaden an, weil die Funktion die Liste nicht verändert.
+Die Hörsaalfrage lässt sich mit dem Scan beantworten, die Auflösung folgt auf der nächsten Folie.
+
+%%/book
+
+
+%%## Auflösung zur Hörsaalfrage
+
+%%slides
+
+```{python}
+#| echo: true
+#| error: true
+mittelwert([])
+```
+
+- Division: bei einer leeren Liste ein `ZeroDivisionError`
+- Typ-Annotationen: fehlen für Parameter und Rückgabewert
+- Standardargument: `werte=[]` ist veränderlich, hier aber ein Warnsignal ohne Schaden, weil die Funktion die Liste nicht verändert
+
+%%/slides
+
+%%book
+
+Die Funktion hat zwei Fehler und ein Warnsignal. Bei einer leeren Liste ist `len(werte)` gleich 0 und die Division löst einen `ZeroDivisionError` aus. Parameter und Rückgabewert haben keine Typ-Annotationen. Das veränderliche Standardargument fällt im Scan auf, richtet hier aber keinen Schaden an, weil die Funktion die Liste nicht verändert.
 
 %%/book
 
@@ -383,48 +435,29 @@ Die Funktion hat drei Auffälligkeiten. Bei einer leeren Liste ist `len(werte)` 
 %%slides
 
 %%col 50 50
-```python
+```{python}
+#| echo: true
 import pandas as pd
 
-df = pd.read_csv("daten.csv")
+df = pd.DataFrame({"x": [1.0, None, 3.0]})
+```
+
+```{python}
+#| echo: true
+#| error: true
 df.interpolate_missing()
-# AttributeError: existiert nicht
+```
+
+```{python}
+#| echo: true
+#| error: true
 df.to_geojson()
-# AttributeError: existiert nicht
 ```
 %%sep
-```python
+```{python}
+#| echo: true
+#| error: true
 import pandas.geospatial
-# ModuleNotFoundError: existiert nicht
-```
-%%/col
-
-%%/slides
-
-%%book
-
-KI-Modelle erfinden manchmal Funktionen, Module und API-Methoden, die nicht existieren. Im Code sind diese Halluzinationen nicht sichtbar, sie treten erst beim Ausführen als `AttributeError` oder `ModuleNotFoundError` auf. Alle Beispiele wurden mit pandas 3.0.3 ausgeführt.
-
-%%/book
-
-
-%%## Falsche API-Nutzung und unnötige Abstraktion
-
-%%slides
-
-%%col 50 50
-```python
-df = df.append(zeile)
-# AttributeError: seit pandas 2.0 entfernt
-
-pd.read_csv("daten.csv", delimiter_char=";")
-# TypeError: unbekanntes Argument
-```
-%%sep
-```python
-class SingletonLoader:   # für Einmalnutzung unnötig
-    _instance = None
-    def __new__(cls): ...
 ```
 %%/col
 
@@ -436,19 +469,53 @@ Jeden `import` und jeden Methodenaufruf gegen die Dokumentation prüfen. Code au
 
 %%book
 
-Neben erfundenen Funktionen gibt es veraltete oder falsch aufgerufene APIs: `DataFrame.append` wurde in pandas 2.0 entfernt, und `read_csv` kennt kein Argument `delimiter_char`. Unnötige Abstraktionen wie ein Singleton für einen einmaligen Ladevorgang machen den Code länger, ohne ihn besser zu machen. Gegenstrategie: Jeden Import und jeden Methodenaufruf gegen die offizielle Dokumentation prüfen und den Code mit kleinen Beispieldaten ausführen, bevor er als korrekt gilt.
+Generierter Code kann Funktionen, Module und API-Methoden enthalten, die nicht existieren (*Halluzinationen*). Im Quelltext sind sie nicht erkennbar, sie treten erst beim Ausführen als `AttributeError` oder `ModuleNotFoundError` auf. Die Erkennungsstrategie lautet deshalb, jeden Import und jeden Aufruf gegen die Dokumentation zu prüfen und den Code auszuführen. Die Beispiele laufen mit pandas 3.0.3.
 
 %%/book
 
 
-%%# KI-Evaluierungscheckliste
+%%## Falsche API-Nutzung und unnötige Abstraktion
+
+%%slides
+
+%%col 50 50
+```{python}
+#| echo: true
+#| error: true
+zeile = pd.DataFrame({"x": [4.0]})
+df.append(zeile)  # seit pandas 2.0 entfernt
+```
+
+```{python}
+#| echo: true
+#| error: true
+pd.read_csv("daten.csv", delimiter_char=";")
+```
+%%sep
+```python
+class SingletonLoader:   # für Einmalnutzung unnötig
+    _instance = None
+    def __new__(cls): ...
+```
+%%/col
+
+%%/slides
+
+%%book
+
+Neben erfundenen Funktionen gibt es veraltete oder falsch aufgerufene APIs: `DataFrame.append` wurde in pandas 2.0 entfernt, und `read_csv` kennt kein Argument `delimiter_char`. Unnötige Abstraktionen wie ein Singleton für einen einmaligen Ladevorgang machen den Code länger, ohne ihn besser zu machen. Als Erkennungsstrategie prüfen wir jeden Import und jeden Methodenaufruf gegen die offizielle Dokumentation und führen den Code mit kleinen Beispieldaten aus, bevor wir ihn als korrekt ansehen.
+
+%%/book
+
+
+%%# Checkliste für KI-Code
 
 %%## Sieben Prüfpunkte
 
 %%book
 
 %%note Überblick
-Eine strukturierte Checkliste reduziert die kognitive Last beim Reviewen von KI-Code. Sie deckt alle drei Review-Dimensionen in sieben Punkten ab.
+Eine strukturierte Checkliste entlastet bei der Prüfung von generiertem Code. Sie deckt alle drei Review-Dimensionen in sieben Punkten ab.
 %%/note
 
 %%/book
@@ -456,28 +523,28 @@ Eine strukturierte Checkliste reduziert die kognitive Last beim Reviewen von KI-
 %%slides
 
 %%col 33 33 33
-### Anforderung und Design
+### Anforderung und Entwurf
 
 - [ ] Anforderungsabdeckung: alle Anforderungen implementiert?
-- [ ] Design-Übereinstimmung: Module, Klassen, Signaturen korrekt?
+- [ ] Entwurfsübereinstimmung: Module, Klassen, Signaturen korrekt?
 %%sep
 ### Implementierung
 
-- [ ] Typ-Korrektheit: Annotationen vorhanden und korrekt?
+- [ ] Typ-Korrektheit: Annotationen vorhanden und mit einem Typprüfer geprüft?
 - [ ] Randfälle: Division, leere Listen, None-Werte behandelt?
 - [ ] Fehlerbehandlung: sinnvolle Exceptions definiert?
 %%sep
-### KI-spezifisch
+### Erfundene Aufrufe und Tests
 
 - [ ] Keine erfundenen Aufrufe: alle Funktionen verifiziert?
-- [ ] Test-Suite: alle Tests laufen durch?
+- [ ] Tests bestanden und sinnvoll?
 %%/col
 
 %%/slides
 
 %%book
 
-Die Punkte lassen sich den drei Dimensionen zuordnen: Anforderungsabdeckung und Design-Übereinstimmung prüfen den Code gegen Spezifikation und Entwurf, die übrigen Punkte betreffen die Implementierung und die KI-typischen Fehler.
+Die Punkte lassen sich den drei Dimensionen zuordnen: Anforderungsabdeckung und Entwurfsübereinstimmung prüfen den Code gegen Spezifikation und Entwurf. Die drei Implementierungspunkte entsprechen dem Scan aus dem vorigen Abschnitt, die beiden letzten Punkte betreffen erfundene Aufrufe und die Tests. Bei den Tests prüfen wir auch, ob sie die Anforderung tatsächlich prüfen und nicht nur den vorhandenen Code wiederholen.
 
 %%/book
 
@@ -487,11 +554,12 @@ Die Punkte lassen sich den drei Dimensionen zuordnen: Anforderungsabdeckung und 
 %%slides
 
 %%note Nach jeder KI-Generierung
+
 1. **Anforderungen:** Checkliste durchgehen
-2. **Design:** mit dem UML vergleichen
+2. **Entwurf:** mit dem UML-Diagramm vergleichen
 3. **Implementierung:** Scan auf die typischen Muster
-4. **Halluzinationen:** Importe und Aufrufe testen
-5. **Tests:** laufen alle grün?
+4. **Erfundene Aufrufe:** Importe und Aufrufe testen
+5. **Tests:** alle bestanden?
 6. **Wenn nicht:** Prompt präzisieren und neu generieren
 %%/note
 
@@ -513,20 +581,22 @@ Nach jeder Generierung gehen wir die Prüfungen in dieser Reihenfolge durch. Die
 %%col 60 40
 ![](images/08b_CodeReview/agentic_cycle.svg){.nostretch fig-align="center" width="100%"}
 %%sep
-Code Review ist der Schritt Verifizieren im {{< ai4sc-icon workflow >}} Agentic Cycle.
+Das Code Review ist der Schritt „Verifizieren“ im Agentic Cycle (→ `03d_AgentischesProgrammieren`).
 
-Schlägt es fehl, benennen wir den konkreten Fehler im Prompt und prüfen das Ergebnis erneut.
+Schlägt es fehl, benennen Sie den konkreten Fehler im Prompt und prüfen das Ergebnis erneut.
 %%/col
 
 %%tip Merksatz
-Tests prüfen automatisch. Code Review prüft, was Tests nicht sehen können.
+Tests prüfen automatisch. Das Code Review prüft zusätzlich Entwurf, ungetestete Pfade und die Tests selbst.
 %%/tip
 
 %%/slides
 
 %%book
 
-Code Review schließt den Agentic Cycle. Schlägt es fehl, benennen wir den konkreten Fehler im Prompt, nutzen den passenden Punkt der Checkliste als Ergänzung, lassen neu generieren und prüfen erneut.
+![](images/08b_CodeReview/agentic_cycle.svg)
+
+Das Code Review bildet den Schritt „Verifizieren“ im Agentic Cycle: Auf Prompt, Generieren und Verstehen folgt die Prüfung, bei einem Fehler führt der Pfeil „Iterieren“ zurück zum Generieren (→ `03d_AgentischesProgrammieren`). Schlägt das Review fehl, benennen wir den konkreten Fehler im Prompt, ergänzen den passenden Punkt der Checkliste, lassen den Code neu generieren und prüfen erneut. Tests prüfen automatisch, das Review prüft zusätzlich Entwurf, ungetestete Pfade und die Qualität der Tests.
 
 %%/book
 
