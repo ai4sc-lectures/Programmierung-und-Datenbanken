@@ -26,15 +26,15 @@ resources:
 
 ### TL;DR
 
-Ein Code Review prüft generierten Code in drei Dimensionen: gegen die Anforderungen, gegen den Entwurf und auf Implementierungsfehler. Wir lernen typische Fehlermuster wie veränderliche Standardargumente, hartcodierte Werte und erfundene Aufrufe kennen und fassen sie in einer Checkliste zusammen. Das Review ist der Schritt „Verifizieren“ im Agentic Cycle.
+Ein Code Review prüft generierten Code in drei Dimensionen: gegen die Anforderungen, gegen den Entwurf und auf Implementierungsfehler. Wir lernen typische Fehlermuster wie veränderliche Standardargumente, hartcodierte Werte und erfundene Aufrufe kennen und fassen sie in einer Checkliste zusammen. Das Review ist der Schritt „Verifizieren“ im Agentic Cycle (→ `03d_AgentischesProgrammieren`).
 
 %%/book
 
 %%slides
 
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Welche Prüfungen würden Sie durchführen, bevor Sie Code aus dem Team übernehmen, den Sie nicht selbst geschrieben haben?" capR="Midjourney: Engineers reviewing technical blueprints" imgR="images/08b_CodeReview/mj_title_band.jpg"}
-<!-- TODO MJ: Two engineers reviewing blueprints together -->
+## Hörsaalfrage {background="#FFD966" txtL="Sie kennen Unit-Tests (08a_UnitTest). Welche weiteren Prüfungen würden Sie durchführen, bevor Sie Code aus dem Team übernehmen, den Sie nicht selbst geschrieben haben?"}
+<!-- TODO MJ: Two engineers reviewing blueprints together (image for the opening Hörsaalfrage, not yet generated) -->
 
 %%/slides
 
@@ -69,7 +69,7 @@ Werkzeuge wie Claude Code oder GitHub Copilot generieren Code schnell, der Code 
 Absicht missverstanden
 %%/div
 %%div stat-delta
-Der Agent füllt eine Lücke falsch und liefert Code für eine andere Aufgabe
+Der Agent deutet die Absicht der Anfrage anders als gemeint
 %%/div
 %%%%/div
 
@@ -89,7 +89,7 @@ Der Agent meldet Erfolg, der nicht stimmt
 
 Ohne eine Prüfung, die der Agent selbst ausführen kann, bleibt „sieht fertig aus“ das einzige Signal.
 
-Wer keine Prüfung mitliefert, wird selbst zur Prüfinstanz (→ `04a_Anforderungen`).
+Beispiel: Eine Funktion, die die Neigung in Prozent liefern soll, gibt 0,1 statt 10,0 zurück und läuft ohne Fehlermeldung (→ Anforderungs-Tracing). Wer keine Prüfung mitliefert, muss selbst prüfen (→ `04a_Anforderungen`).
 
 %%slide_ref @tang2026agents Tang et al.: How Coding Agents Fail Their Users, arXiv:2605.29442, 2026. Anteile an allen 16.118 validierten Episoden (Mehrfachzuordnung möglich), gerundet
 %%slide_ref @anthropic2026bestpractices Anthropic: Best practices for Claude Code, 2026
@@ -97,7 +97,7 @@ Wer keine Prüfung mitliefert, wird selbst zur Prüfinstanz (→ `04a_Anforderun
 
 %%book
 
-Die Studie von Tang et al. wertet 16.118 validierte Episoden aus, in denen Entwickelnde und Agent nicht zusammenpassten [@tang2026agents]. In 27,0 % der Episoden hat der Agent die Absicht der Anfrage missverstanden, in 22,6 % hat er einen Erfolg gemeldet, der nicht stimmte. Eine Episode kann mehreren Fehlerformen zugeordnet sein, die Anteile addieren sich deshalb nicht. Anthropic beschreibt dasselbe Muster in den Empfehlungen zu Claude Code [@anthropic2026bestpractices]: Ohne eine Prüfung, die der Agent ausführen kann, ist der Eindruck „sieht fertig aus“ das einzige Signal. Die Prüfung übernimmt dann die entwickelnde Person. Wie sich Lücken in den Anforderungen schließen lassen, behandelt `04a_Anforderungen`.
+Die Studie von Tang et al. wertet 16.118 validierte Episoden aus, in denen Entwickelnde und Agent nicht zusammenpassten [@tang2026agents]. In 27,0 % der Episoden hat der Agent die Absicht der Anfrage missverstanden, in 22,6 % hat er einen Erfolg gemeldet, der nicht stimmte. Eine Episode kann mehreren Fehlerformen zugeordnet sein, die Anteile addieren sich deshalb nicht. Anthropic empfiehlt in den Hinweisen zu Claude Code [@anthropic2026bestpractices], dem Agenten eine Prüfung mitzugeben, die er ausführen kann. Sonst ist der Eindruck „sieht fertig aus“ das einzige Signal. Die Prüfung übernimmt dann die entwickelnde Person. Wie sich Lücken in den Anforderungen schließen lassen, behandelt `04a_Anforderungen`.
 
 %%/book
 
@@ -106,22 +106,22 @@ Die Studie von Tang et al. wertet 16.118 validierte Episoden aus, in denen Entwi
 
 %%slides
 
-Ein Code Review prüft den Code in drei Dimensionen, jeweils gegen einen eigenen Maßstab. Die erste Dimension besteht aus drei Fragen (nächste Folie).
+Ein Code Review prüft den Code in drei Dimensionen, jeweils gegen einen eigenen Maßstab:
 
 %%col 33 33 33
-#### 1. Anforderung
+### 1. Anforderung
 
 Macht der Code, was verlangt wurde?
 
 Maßstab: die Spezifikation
 %%sep
-#### 2. Entwurf
+### 2. Entwurf
 
 Entspricht er dem Entwurf?
 
 Maßstab: das UML-Diagramm
 %%sep
-#### 3. Implementierung
+### 3. Implementierung
 
 Ist er korrekt und wartbar?
 
@@ -132,7 +132,7 @@ Maßstab: die Checkliste
 
 %%book
 
-Die drei Dimensionen decken unterschiedliche Fehlerquellen ab. Tests automatisieren Teile der Anforderungsprüfung, aber nur für die Pfade, die sie ausführen. Das Code Review ergänzt, was Tests nicht abdecken: den Abgleich mit dem Entwurf, ungetestete Pfade und die Frage, ob die Tests selbst sinnvoll sind. Ein Test, den der Agent aus seinem eigenen fehlerhaften Code ableitet, prüft den Fehler unter Umständen mit.
+Die drei Dimensionen decken unterschiedliche Fehlerquellen ab. Tests automatisieren Teile der Anforderungsprüfung, aber nur für die Pfade, die sie ausführen. Das Code Review ergänzt, was Tests nicht abdecken: den Abgleich mit dem Entwurf, ungetestete Pfade und die Frage, ob die Tests selbst sinnvoll sind. Ein Test, den der Agent aus seinem eigenen fehlerhaften Code ableitet, kann den Fehler mitprüfen.
 
 %%/book
 
@@ -154,7 +154,7 @@ Existiert ein Unit-Test dafür?
 %%sep
 ### Bestanden?
 
-Laufen alle Tests grün durch?
+Laufen alle Tests durch, und prüfen sie die Anforderung statt den Code?
 %%/col
 
 Maßstab ist die Spezifikation aus `04a_Anforderungen`.
@@ -163,7 +163,7 @@ Maßstab ist die Spezifikation aus `04a_Anforderungen`.
 
 %%book
 
-Die Anforderungen aus der Spezifikation sind der Prüfmaßstab (→ `04a_Anforderungen`). Jede Anforderung wird einzeln geprüft, keine gilt als implizit erfüllt. Generierter Code kann nur einen Teil der Anforderungen umsetzen, andere stillschweigend weglassen oder anders deuten als gemeint (22,6 % und 27,0 % in der Studie auf der ersten Folie).
+Die Anforderungen aus der Spezifikation sind der Prüfmaßstab (→ `04a_Anforderungen`). Jede Anforderung wird einzeln geprüft, keine gilt als implizit erfüllt. Generierter Code kann nur einen Teil der Anforderungen umsetzen oder andere stillschweigend weglassen. In der Studie von Tang et al. hat der Agent in 27,0 % der Episoden die Absicht missverstanden und in 22,6 % einen nicht zutreffenden Erfolg gemeldet [@tang2026agents].
 
 %%/book
 
@@ -177,14 +177,14 @@ Anforderung: Neigung in Prozent berechnen (Höhe / Länge × 100)
 ```{python}
 #| echo: true
 def berechne_neigung(hoehe, laenge):
-    return hoehe / laenge   # Fehler: × 100 fehlt
+    return hoehe / laenge
 ```
 
 %%col 50 50
 **Review-Fragen:**
 
-- [ ] Formel korrekt implementiert?
-- [ ] Rückgabewert vollständig?
+- [ ] Welcher Wert kommt bei Höhe 1 und Länge 10 heraus, welcher wird verlangt?
+- [ ] Stimmt die Einheit (Prozent)?
 - [ ] Randfälle berücksichtigt (zum Beispiel Länge 0)?
 %%sep
 Ein Test macht den Fehler sichtbar:
@@ -200,7 +200,7 @@ assert berechne_neigung(1, 10) == 10.0
 
 %%book
 
-Dieses Beispiel zeigt, wie generierter Code syntaktisch korrekt und plausibel wirkt, aber eine Anforderung nur halb erfüllt. Die Anforderung verlangt Prozent, die Funktion liefert aber den Quotienten: Für Höhe 1 und Länge 10 erhalten wir 0,1 statt 10,0. Die drei Review-Fragen führen von der Anforderung zur Formel, zum Rückgabewert und zu den Randfällen. Der Test macht den Fehler sichtbar, bevor der Code in Betrieb geht. Den Randfall Länge 0 greifen wir im nächsten Abschnitt auf.
+Dieses Beispiel zeigt, wie generierter Code syntaktisch korrekt und plausibel wirkt, aber eine Anforderung nur halb erfüllt. Die Anforderung verlangt Prozent, die Funktion liefert aber den Quotienten: Für Höhe 1 und Länge 10 erhalten wir 0,1 statt 10,0. Beim Anforderungs-Tracing verfolgen wir eine Anforderung bis zum Code und zum Test, der sie prüft. Die drei Review-Fragen führen vom erwarteten Wert über die Einheit zu den Randfällen. Der Test macht den Fehler sichtbar, bevor der Code in Betrieb geht. Den Randfall Länge 0 greifen wir im nächsten Abschnitt auf.
 
 %%/book
 
@@ -222,6 +222,8 @@ class DataPoint:       # falscher Name
 ```
 %%sep
 
+Im UML-Diagramm: Klasse `Messung`, Attribut `wert`, Methode `validiere()`.
+
 - Passt der Code ins richtige Modul?
 - Stimmen Klassen- und Methodennamen mit dem UML-Diagramm überein?
 - Stimmen die Signaturen?
@@ -234,7 +236,7 @@ Der Entwurf aus `03c_Softwareentwurf` ist der zweite Prüfmaßstab.
 
 %%book
 
-Die Entwurfsprüfung vergleicht den generierten Code mit dem UML-Diagramm und der geplanten Modulstruktur (→ `03c_Softwareentwurf`). Der Agent kennt den Entwurf nur, wenn wir ihn im Prompt mitgeben, und erfindet sonst Strukturen, die zwar funktionieren, aber nicht zur Architektur passen. Im Beispiel weichen Klassenname und Attribut ab, und die Methode `validiere()` fehlt. Wir geben deshalb den Entwurf als Teil des Prompts mit und passen abweichenden Code an den Entwurf an.
+Die Entwurfsprüfung vergleicht den generierten Code mit dem UML-Diagramm und der geplanten Modulstruktur (→ `03c_Softwareentwurf`). Der Agent kennt den Entwurf nur, wenn wir ihn im Prompt mitgeben, und kann sonst Strukturen erfinden, die zwar funktionieren, aber nicht zur Architektur passen. Im Beispiel weichen Klassenname und Attribut ab, und die Methode `validiere()` fehlt. Wir geben deshalb den Entwurf als Teil des Prompts mit und passen abweichenden Code an den Entwurf an.
 
 %%/book
 
@@ -246,7 +248,7 @@ Die Entwurfsprüfung vergleicht den generierten Code mit dem UML-Diagramm und de
 %%book
 
 %%note Überblick
-Die Implementierungsprüfung scannt den Code auf typische Fehlerquellen: ungeprüfte Divisionen, veränderliche Standardargumente, fehlende Typ-Annotationen und hartcodierte Werte. Diese Muster sind in Python allgemein bekannt, sie treten auch in generiertem Code auf.
+Die Implementierungsprüfung ist ein *Scan*, also ein schnelles Durchsehen des Codes anhand fester Fragen. Wir betrachten zuerst vier typische Fehlerquellen: ungeprüfte Divisionen, veränderliche Standardargumente, fehlende Typ-Annotationen und hartcodierte Werte. Diese Muster sind aus der Python-Programmierung bekannt und treten auch in generiertem Code auf. Der Scan am Ende des Abschnitts ergänzt sie um `return` und Fehlerbehandlung zu sechs Punkten.
 %%/note
 
 %%/book
@@ -293,6 +295,8 @@ sammle(1)
 sammle(2)
 ```
 
+Beim zweiten Aufruf enthält die Liste noch die 1.
+
 ```python
 # Korrektur:
 def sammle(w, liste=None):
@@ -338,7 +342,7 @@ def verarbeite(daten: list[float]) -> list[float]:
 if temp > 100:  # Warum 100?
     alarm()
 
-# Fix:
+# Korrektur:
 MAX_TEMP_CELSIUS = 100
 if temp > MAX_TEMP_CELSIUS:
     alarm()
@@ -349,7 +353,7 @@ if temp > MAX_TEMP_CELSIUS:
 
 %%book
 
-Ohne Typ-Annotation bleibt offen, ob die Funktion die Werte oder die Liste verdoppelt: `daten * 2` wiederholt bei einer Liste die Elemente, statt sie zu multiplizieren. Die Annotation macht die Absicht prüfbar, Python erzwingt sie zur Laufzeit aber nicht: Erst ein Typprüfer wie `mypy` meldet den falschen Aufruf. Den Fehler behebt im Beispiel die Listen-Schreibweise. Ein hartcodierter Wert wie `100` verschweigt seine Bedeutung. Eine benannte Konstante dokumentiert sie und lässt sich an einer Stelle ändern.
+Ohne Typ-Annotation bleibt offen, ob die Funktion die Werte oder die Liste verdoppelt: `daten * 2` wiederholt bei einer Liste die Elemente, statt sie zu multiplizieren. Die Annotation macht die Absicht prüfbar, Python erzwingt sie zur Laufzeit aber nicht: Erst ein Typprüfer wie `mypy` meldet den falschen Aufruf. Im Beispiel behebt die Listenschreibweise `[x * 2 for x in daten]` den Fehler. Ein hartcodierter Wert wie `100` verschweigt seine Bedeutung. Eine benannte Konstante dokumentiert sie und lässt sich an einer Stelle ändern.
 
 %%/book
 
@@ -402,7 +406,7 @@ Nutzen Sie den Scan: Division, Standardargumente, Typ-Annotationen, `return`, ha
 
 %%book
 
-Die Hörsaalfrage lässt sich mit dem Scan beantworten, die Auflösung folgt auf der nächsten Folie.
+Die Hörsaalfrage zeigt die Funktion `mittelwert(werte=[])`: Sie summiert die Werte in einer Schleife und teilt durch `len(werte)`. Wir wenden den Scan auf diese Funktion an und suchen Auffälligkeiten, bevor wir die Auflösung im nächsten Abschnitt besprechen.
 
 %%/book
 
@@ -419,7 +423,9 @@ mittelwert([])
 
 - Division: bei einer leeren Liste ein `ZeroDivisionError`
 - Typ-Annotationen: fehlen für Parameter und Rückgabewert
-- Standardargument: `werte=[]` ist veränderlich, hier aber ein Warnsignal ohne Schaden, weil die Funktion die Liste nicht verändert
+- Standardargument: `werte=[]` ist veränderlich, hier aber ein Warnsignal ohne Schaden, weil die Funktion die Liste nicht verändert. Eine spätere Änderung am Funktionsrumpf könnte daraus einen Fehler machen
+
+Ohne Befund geprüft: `return` ist vorhanden, hartcodierte Werte gibt es nicht.
 
 %%/slides
 
@@ -493,9 +499,9 @@ pd.read_csv("daten.csv", delimiter_char=";")
 ```
 %%sep
 ```python
-class SingletonLoader:   # für Einmalnutzung unnötig
-    _instance = None
-    def __new__(cls): ...
+class DatenLader:   # Klasse für einen einzigen Aufruf unnötig
+    def laden(self, pfad):
+        return pd.read_csv(pfad)
 ```
 %%/col
 
@@ -503,7 +509,7 @@ class SingletonLoader:   # für Einmalnutzung unnötig
 
 %%book
 
-Neben erfundenen Funktionen gibt es veraltete oder falsch aufgerufene APIs: `DataFrame.append` wurde in pandas 2.0 entfernt, und `read_csv` kennt kein Argument `delimiter_char`. Unnötige Abstraktionen wie ein Singleton für einen einmaligen Ladevorgang machen den Code länger, ohne ihn besser zu machen. Als Erkennungsstrategie prüfen wir jeden Import und jeden Methodenaufruf gegen die offizielle Dokumentation und führen den Code mit kleinen Beispieldaten aus, bevor wir ihn als korrekt ansehen.
+Neben erfundenen Funktionen gibt es veraltete oder falsch aufgerufene APIs: `DataFrame.append` wurde in pandas 2.0 entfernt, und `read_csv` kennt kein Argument `delimiter_char`. Unnötige Abstraktionen wie eine Klasse, die nur einen einzigen Funktionsaufruf umhüllt, machen den Code länger, ohne ihn besser zu machen. Als Erkennungsstrategie prüfen wir jeden Import und jeden Methodenaufruf gegen die offizielle Dokumentation und führen den Code mit kleinen Beispieldaten aus, bevor wir ihn als korrekt ansehen.
 
 %%/book
 
@@ -525,26 +531,26 @@ Eine strukturierte Checkliste entlastet bei der Prüfung von generiertem Code. S
 %%col 33 33 33
 ### Anforderung und Entwurf
 
-- [ ] Anforderungsabdeckung: alle Anforderungen implementiert?
-- [ ] Entwurfsübereinstimmung: Module, Klassen, Signaturen korrekt?
+- [ ] (1) Anforderungsabdeckung: alle Anforderungen implementiert?
+- [ ] (2) Entwurfsübereinstimmung: Module, Klassen, Signaturen korrekt?
 %%sep
 ### Implementierung
 
-- [ ] Typ-Korrektheit: Annotationen vorhanden und mit einem Typprüfer geprüft?
-- [ ] Randfälle: Division, leere Listen, None-Werte behandelt?
-- [ ] Fehlerbehandlung: sinnvolle Exceptions definiert?
+- [ ] (3) Typ-Korrektheit: Annotationen vorhanden und mit einem Typprüfer geprüft?
+- [ ] (4) Randfälle: Division, leere Listen, None-Werte behandelt?
+- [ ] (5) Fehlerbehandlung: sinnvolle Exceptions, keine verschluckten Fehler?
 %%sep
 ### Erfundene Aufrufe und Tests
 
-- [ ] Keine erfundenen Aufrufe: alle Funktionen verifiziert?
-- [ ] Tests bestanden und sinnvoll?
+- [ ] (6) Keine erfundenen Aufrufe: alle Funktionen und Pakete verifiziert, keine Zugangsdaten im Code?
+- [ ] (7) Tests bestanden und sinnvoll?
 %%/col
 
 %%/slides
 
 %%book
 
-Die Punkte lassen sich den drei Dimensionen zuordnen: Anforderungsabdeckung und Entwurfsübereinstimmung prüfen den Code gegen Spezifikation und Entwurf. Die drei Implementierungspunkte entsprechen dem Scan aus dem vorigen Abschnitt, die beiden letzten Punkte betreffen erfundene Aufrufe und die Tests. Bei den Tests prüfen wir auch, ob sie die Anforderung tatsächlich prüfen und nicht nur den vorhandenen Code wiederholen.
+Die Punkte lassen sich den drei Dimensionen zuordnen: Anforderungsabdeckung und Entwurfsübereinstimmung prüfen den Code gegen Spezifikation und Entwurf. Die drei Implementierungspunkte entsprechen dem Scan aus dem vorigen Abschnitt, die beiden letzten Punkte betreffen erfundene Aufrufe und die Tests. Bei erfundenen Aufrufen prüfen wir auch, ob Pakete tatsächlich existieren, und achten auf Zugangsdaten im Code; bei der Fehlerbehandlung auf verschluckte Fehler wie `except: pass`. Bei den Tests prüfen wir auch, ob sie die Anforderung tatsächlich prüfen und nicht nur den vorhandenen Code wiederholen.
 
 %%/book
 
@@ -555,12 +561,12 @@ Die Punkte lassen sich den drei Dimensionen zuordnen: Anforderungsabdeckung und 
 
 %%note Nach jeder KI-Generierung
 
-1. **Anforderungen:** Checkliste durchgehen
-2. **Entwurf:** mit dem UML-Diagramm vergleichen
-3. **Implementierung:** Scan auf die typischen Muster
-4. **Erfundene Aufrufe:** Importe und Aufrufe testen
-5. **Tests:** alle bestanden?
-6. **Wenn nicht:** Prompt präzisieren und neu generieren
+1. **Anforderungen:** Prüfpunkt 1
+2. **Entwurf:** mit dem UML-Diagramm vergleichen (Prüfpunkt 2)
+3. **Implementierung:** Scan auf die typischen Muster (Prüfpunkte 3 bis 5)
+4. **Erfundene Aufrufe:** Importe und Aufrufe testen (Prüfpunkt 6)
+5. **Tests:** alle bestanden? (Prüfpunkt 7)
+6. **Bei Fehlschlag:** Prompt präzisieren und neu generieren
 %%/note
 
 Die Tests aus `08a_UnitTest` sind der automatisierte Teil dieses Ablaufs.
@@ -583,7 +589,7 @@ Nach jeder Generierung gehen wir die Prüfungen in dieser Reihenfolge durch. Die
 %%sep
 Das Code Review ist der Schritt „Verifizieren“ im Agentic Cycle (→ `03d_AgentischesProgrammieren`).
 
-Schlägt es fehl, benennen Sie den konkreten Fehler im Prompt und prüfen das Ergebnis erneut.
+Es ist die Prüfung, die fehlte, als der Agent „fertig“ meldete. Schlägt es fehl, benennen Sie den konkreten Fehler im Prompt und prüfen das Ergebnis erneut.
 %%/col
 
 %%tip Merksatz
