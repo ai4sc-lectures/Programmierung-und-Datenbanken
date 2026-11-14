@@ -157,8 +157,7 @@ Jedes Element des UML-Klassendiagramms besitzt eine direkte Python-Entsprechung.
 | Methode `f() → float` | `def f(self) -> float:` |
 | Assoziation `→ Fenster (0..*)` | `self.fenster = []` |
 
-Diese Übersetzung ist das Kernziel der Implementierungsphase. Weil sie so schematisch ist, kann eine KI sie automatisch vornehmen; sie gelingt aber nur dann zuverlässig, wenn das Diagramm vollständig ist. Fehlt im Diagramm ein Attribut oder ein Rückgabetyp, muss die KI raten, und genau dort entstehen Abweichungen vom Entwurf.
-
+Diese Übersetzung ist das Kernziel der Implementierungsphase. Weil sie so schematisch ist, kann eine KI sie automatisch vornehmen; sie gelingt aber nur dann zuverlässig, wenn das Diagramm vollständig ist.
 %%/book
 
 %%slides
@@ -425,8 +424,6 @@ class Raum:
 
 %%book
 
-### Assoziationen als Instanzattribute
-
 In Python werden Assoziationen als Instanzattribute umgesetzt. Die Multiplizität aus dem UML-Diagramm bestimmt dabei unmittelbar die Implementierung: Eine Beziehung `0..*` wird zu einer Liste, die in `__init__` als `[]` angelegt wird und mit `append` wächst. Die Multiplizität `1` verlangt, dass es immer genau ein verbundenes Objekt gibt, und wird deshalb zu einem Pflichtparameter des Konstruktors. Bei `0..1` ist die Beziehung optional; das Attribut erhält den Defaultwert `None`.
 
 ```python
@@ -469,8 +466,6 @@ Prompt:
 %%/slides
 
 %%book
-
-### KI generiert die Raum-Klasse
 
 ![](images/06b_Objects/uml_raum_voll.svg)
 
@@ -536,7 +531,7 @@ class Raum:
         return self.fenster
 ```
 
-Drei Fragen leiten das Lesen. Was gibt `berechne_volumen()` zurück? Das Produkt aus Fläche und Höhe, also das Volumen in Kubikmetern. Was gibt `get_fenster()` zurück? Die Liste der Fenster, die für einen neuen Raum noch leer ist. Und welche Anforderung ist noch nicht erfüllt? Es fehlt eine Methode, mit der sich Fenster überhaupt hinzufügen lassen; ohne sie bleibt die Liste dauerhaft leer. Erst nach diesen Überlegungen führen wir den Code aus.
+Drei Fragen leiten das Lesen. Was gibt `berechne_volumen()` zurück? Das Produkt aus Fläche und Höhe, also das Volumen in Kubikmetern. Was gibt `get_fenster()` zurück? Die Liste der Fenster, die für einen neuen Raum noch leer ist. Und welche Anforderung des Entwurfs ist noch nicht erfüllt? Das lässt sich nur beantworten, indem wir den Code mit dem Diagramm und den Anforderungen abgleichen. Erst nach diesen Überlegungen führen wir den Code aus.
 
 ```{python}
 #| echo: true
@@ -673,8 +668,6 @@ class Raum:
 
 %%book
 
-### Kapselung: Attribute schützen
-
 Häufig möchten wir kontrollieren, ob und wie Attribute verändert werden und wer welche Methoden aufrufen darf. Python unterscheidet dafür *öffentliche*, *geschützte* und *private* Attribute. Standardmäßig ist alles öffentlich, kann also von außen gelesen und verändert werden. Ein führender Unterstrich (`_name`) kennzeichnet ein geschütztes Attribut, ein doppelter Unterstrich (`__name`) ein privates, das nur innerhalb der Klasse über `self` angesprochen werden soll. Im UML-Diagramm entsprechen dem die Sichtbarkeitsmarker `+` (öffentlich), `#` (geschützt) und `-` (privat).
 
 Python setzt dabei kein echtes Zugriffsverbot um, sondern verwendet *Name Mangling*: Der Interpreter schreibt den Namen `__fläche` intern um, sodass ein versehentlicher Zugriff von außen scheitert. Zum Lesen definieren wir eine Getter-Methode.
@@ -702,7 +695,7 @@ Raum(30.0).get_fläche()
 Raum(30.0).__fläche
 ```
 
-Das Beispiel zeigt, warum Kapselung bei Bauwerksdaten sinnvoll ist: Eine Fläche, die aus einem Aufmaß stammt, soll nicht versehentlich von beliebigem Code überschrieben werden.
+Der Getter liefert den Wert, während der direkte Zugriff auf `__fläche` mit einem `AttributeError` scheitert.
 
 %%/book
 
@@ -840,8 +833,6 @@ class Serverraum(Raum):
 
 %%book
 
-### Vererbung in Python
-
 ![](images/06b_Objects/uml_vererbung.svg)
 
 Beim Deklarieren einer Unterklasse geben wir die Oberklasse in Klammern an: `class Serverraum(Raum):`. Die Unterklasse besitzt dann alle Attribute und Methoden der Oberklasse. Wollen wir einen eigenen Konstruktor definieren, müssen wir den Konstruktor der Oberklasse ausdrücklich mit `super().__init__(...)` aufrufen; andernfalls werden die geerbten Attribute nie initialisiert.
@@ -921,8 +912,6 @@ Das Problem gilt nicht nur in `__init__`, sondern bei **jeder** Python-Funktion 
 
 %%book
 
-### KI-Fehler 1: Veränderlicher Defaultwert in `__init__`
-
 Ein häufiger KI-Fehler ist ein veränderliches Objekt wie eine Liste oder ein Dictionary als Defaultwert eines Parameters. Python wertet den Defaultwert nur einmal aus, nämlich bei der Definition der Funktion. Alle Instanzen, die ohne eigenes Argument erzeugt werden, teilen sich deshalb dieselbe Liste. Das Problem ist nicht auf Klassen beschränkt, sondern betrifft jede Python-Funktion mit veränderlichem Defaultwert.
 
 ```{python}
@@ -996,8 +985,6 @@ class Raum:
 
 %%book
 
-### KI-Fehler 2: Fehlendes `self`
-
 Methoden müssen immer `self` als ersten Parameter haben. Fehlt er, kann die Methode nicht auf die Attribute der Instanz zugreifen, und schon der Aufruf scheitert. Dieser Fehler tritt bei KI-Systemen besonders dann auf, wenn Methoden aus freien Funktionen umgebaut werden, denn dort gibt es kein `self`.
 
 ```{python}
@@ -1063,8 +1050,6 @@ Instanzmethode → immer `self`, ohne Dekorator.
 
 %%book
 
-### KI-Fehler 3: `cls` statt `self`
-
 In Python ist `cls` die Konvention für den ersten Parameter von Klassenmethoden, die mit `@classmethod` dekoriert sind. Dort bezeichnet `cls` die Klasse selbst und nicht eine Instanz. KI-Systeme verwechseln `cls` und `self` gelegentlich, vor allem wenn sie zwischen den verschiedenen Methodentypen wechseln. Als Merkregel gilt: `self` gehört zur Instanzmethode, `cls` zur `@classmethod`, und eine Methode ganz ohne Instanz- oder Klassenbezug ist eine `@staticmethod`.
 
 ```{python}
@@ -1123,8 +1108,6 @@ Die Lösung ist eine gewöhnliche Instanzmethode mit `self` und ohne Dekorator.
 %%/slides
 
 %%book
-
-### Drei Fragen für KI-generierten Klassencode
 
 Drei Fragen bilden den Kern der Verifikation von KI-generiertem Klassencode. Die erste lautet, was die Klasse modelliert: Welche Entität oder welches Konzept wird abgebildet, und passt der Klassenname zur Domäne? Die zweite fragt, welche Anforderung sie implementiert: Liegt ein UML-Diagramm oder eine Spezifikation vor, und sind alle Attribute und Methoden des Entwurfs vorhanden? Die dritte untersucht, was schiefgehen könnte, etwa durch veränderliche Defaultwerte in `__init__`, ein fehlendes `self` oder Assoziationen, die nicht als Instanzattribute umgesetzt sind.
 
