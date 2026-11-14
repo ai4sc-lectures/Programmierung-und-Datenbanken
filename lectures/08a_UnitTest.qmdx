@@ -10,6 +10,8 @@ format:
     output-file: 08a_UnitTest.slide.html
   typst:
     output-file: 08a_UnitTest.page.pdf
+resources:
+  - images/08a_UnitTest/manim_*_last.png
 ---
 
 %%book
@@ -91,25 +93,27 @@ Strategien für sicheren Code:
 
 %%col 33 34 33
 
-**Code Reviews**
+### Test-Driven Development
 
-Jede Codezeile wird von einem anderen Programmierer geprüft
-
-%%sep
-
-**Test-Driven Development**
-
-Man schreibt den Test vor dem eigentlichen Code
+- Man schreibt den Test vor dem eigentlichen Code. 
+- **Gerade bei KIs wichtig!**
 
 %%sep
 
-**Full Test Coverage**
+### Full Test Coverage
 
-Jede Codezeile sollte mindestens einen Test haben
+- Man misst ob Tests alle Codezeile abdecken. 
+- **Der KI das Ziel von 90% Test-Coverage geben!**
+
+%%sep
+
+### Code Reviews
+
+- Jede Codezeile wird von einem anderen Programmierer geprüft.
+- Eine andere KI prüft den generierten Code.
+- **Du checkst den generierten Code!**
 
 %%/col
-
-Achtung: Vorbeugung kann viel Vorarbeit bedeuten
 
 %%/slides
 
@@ -128,25 +132,26 @@ Verschiedene Fehlertypen erfordern verschiedene Werkzeuge
 
 %%col 33 33 33
 
-Syntaktische Fehler:
+### Syntaktische Fehler
 
 - Von Parser und IDE gemeldet
+- **KI macht gerne Sytaxfehler, entdeckt sie aber durch *Lint-Tools* **
 
 %%sep
 
-Statische Fehler:
+### Statische Fehler
 
 - Mittels *Lint-Tools* (statische Code-Analyse)
+- **Moderne IDEs und KIs nutzen intern Lint-Tools**
 - Regelbasierte Verfahren
-- Moderne IDEs nutzen intern Lint-Tools
 
 %%sep
 
-Dynamische Fehler:
+### Dynamische Fehler
 
-- Prüfen durch *automatisch ausgeführte Unit-Tests*
-- Nach jeder Code-Änderung
-- Testen Funktionen/Methoden systematisch
+- Werden traditionell durch *Unit-Tests* aufgedeckt
+- **Moderne KIs sollten sich selbst Unit-Tests schreiben**
+- Nach jeder größeren Code-Änderung alle Unit-Tests automatisch durchführen um Verhaltensänderungen und Nebeneffekte früh zu erkennen.
 
 %%/col
 
@@ -164,7 +169,7 @@ Syntaktische Fehler meldet bereits die IDE. Statische Fehler findet man mit Lint
 ## 2. Fehlererkennung: Unit-Tests
 
 %%def Unit-Test
-{{< ai4sc-icon test-tube >}} Unit-Tests sind zusätzlich geschriebener Code, der nur zum Testen einer Funktion, Klasse oder eines Moduls geschrieben wurde.
+Unit-Tests sind zusätzlich geschriebener Code, der nur zum Testen einer Funktion, Klasse oder eines Moduls geschrieben wurde.
 %%/def
 
 - Wichtige Eigenschaften:
@@ -185,45 +190,53 @@ Ein Unit-Test ist zusätzlich geschriebener Code, der eine einzelne Funktion mit
 %%slides
 
 
-## 2. Fehlererkennung: Unit-Test-Typen
+## 2. Fehlererkennung: Typen von Unit-Tests
 
 %%col 33 33 33
 
-**Funktionstests**
+### Funktionstests
 
-Korrekte Erfüllung der Funktion
+Prüft korrektes Ergebnis/Funktionalität
 
 
-Beispiel: Funktion `division()`
+%%sep
+
+### Grenzwerttests
+
+Prüft of Funktionen/Programme mit Grenzwerten umgehen können.
+
+%%sep
+
+### Datentyp-Tests
+
+Prüft of Funktionen/Programme mit unerwarteten Eingaben umgehen können.
+
+%%/col
+%%col 33 33 33
 ```python
 zaehler = 10
 nenner = 2
 ergebnis = division(zaehler, nenner)
+
 assert ergebnis==5 # Erwartet: 5
 ```
 
 %%sep
 
-**Grenzwerttests**
-
-Korrekter Umgang mit Grenzwerten
-
 ```python
-zaehler = 10
-nenner = 0
+import math
+zaehler = math.inf
+nenner = 1
 ergebnis = division(zaehler, nenner)
-assert ergebnis==None # Erwartet: None
+
+assert ergebnis==math.inf # Erwartet: inf
 ```
 
 %%sep
-
-**Datentyp-Tests**
-
-Korrekter Umgang mit unerwarteten Eingaben
-
 ```python
 zaehler = 'keine_zahl'
 nenner = 0
+
 try:
     division(zaehler, nenner)
 except ValueError:
@@ -233,6 +246,7 @@ else:
 ```
 
 %%/col
+
 
 %%/slides
 
@@ -291,8 +305,8 @@ Ein weiterer wichtiger Test ist der *Grenzwerttest*. Hier prüfen wir, ob Eingab
 
 ```{mermaid}
 graph LR
-    s([EINGABE<br>zaehler=10<br>nenner=0]) -->  w[division]
-    w -->  e([AUSGABE<br>return None])
+    s([EINGABE<br>zaehler=inf<br>nenner=1]) -->  w[division]
+    w -->  e([AUSGABE<br>return inf])
     style s fill:none,stroke:none
     style e fill:none,stroke:none
 ```
@@ -461,24 +475,26 @@ Ein fehlgeschlagener Test auf KI-generierten Code ist kein Misserfolg: Der Fehle
 %%slides
 
 
-## Tests sind die Spezifikation
+## Tests sind die Spezifikation bei KI
 
 %%col 50 50
 
-Klassische Sichtweise:
+### Klassische Sichtweise
 
 - Tests *erkennen* Fehler
 - Tests *prüfen* fertigen Code
-- Scheiternder Test = Problem
+- Tests *erkennen* Verhaltensänderungen und Nebeneffekte
+- Scheiternder Test -> Problem
 
 %%sep
 
-Agentische Sichtweise:
+### Agentische Sichtweise
 
 - Tests *definieren* das Verhalten
-- Tests sind die {{< ai4sc-icon clipboard-list >}} *Anforderung in Code*
-- Schreibt man Tests vor dem Prompt, wird der Prompt präziser
-- Scheiternder Test auf KI-Code = Fehler *vor* dem Einsatz gefunden
+- Tests *prüfen* wann Code fertig ist!
+- Tests *erkennen* Verhaltensänderungen und Nebeneffekte bei KI-Codeänderungen
+- Scheiternder Test auf KI-Code -> Fehler *vor* dem Einsatz gefunden
+- Schreibt man Tests vor dem Prompt -> wird der Prompt präziser
 
 %%/col
 
@@ -539,17 +555,17 @@ Ein Test, der vor dem Prompt entsteht, beantwortet konkrete Fragen: Welche Einga
 
 ## KI-Output mit Tests evaluieren
 
-%%col 60 40
-
-![](images/08a_UnitTest/test_cycle.svg){.nostretch fig-align="center" width="100%"}
-
-%%sep
+%%col 40 60
 
 Tests als Akzeptanzkriterium:
 
 - Alle Tests grün → getestete Fälle erfüllt
 - Test scheitert → Fehler vor dem Einsatz gefunden
 - Ungetesteter Bereich → unsichtbares Risiko
+
+%%sep
+
+![](images/08a_UnitTest/test_cycle.svg){.nostretch fig-align="center" width="100%"}
 
 %%/col
 
@@ -561,6 +577,49 @@ Sind alle Tests grün, sind die getesteten Fälle erfüllt; ungetestete Fälle b
 
 ![Ablauf des Test-Driven Prompting: Tests schreiben, KI prompten, Tests ausführen; bei Fehlschlag Diagnose und Reprompt, sonst Code übernehmen.](images/08a_UnitTest/test_cycle.svg)
 
+%%/book
+
+%%slides
+
+
+## Ralph-Loop: Tests als Abbruchkriterium
+
+%%col 40 60
+
+Tests beenden die Schleife:
+
+- Derselbe Prompt läuft immer wieder (Geoffrey Huntley)
+- Der Stand liegt in Dateien und Git, nicht im Chat
+- Sie schreiben die Tests vorab; sie entscheiden über das Ende
+- Durchläufe nach oben begrenzen
+
+![Ralph Wiggum, The Simpsons (Simpsons Wiki)](images/08a_UnitTest/ralph.png){.nostretch fig-align="center" width="35%"}
+
+%%sep
+
+![](images/08a_UnitTest/ralph_loop.svg){.nostretch fig-align="center" width="100%"}
+
+%%/col
+
+%%/slides
+
+%%book
+
+Beim Ralph-Loop (nach Geoffrey Huntley) wiederholen wir immer denselben Prompt, bis das Ziel erreicht ist. Der Fortschritt steckt nicht im Gespräch mit der KI, sondern in den Dateien und im Git-Verlauf: Jeder Durchlauf sieht den aktuellen Code und die Tests.
+
+![Ablauf des Ralph-Loops: Die Tests entstehen vorab; in der Schleife folgen derselbe Prompt, KI ändert den Code, Tests ausführen; bei Fehlschlag nächster Durchlauf, sonst endet die Schleife.](images/08a_UnitTest/ralph_loop.svg)
+
+Als Shell-Schleife sieht das so aus: Sie ruft zuerst `pytest` auf und endet, sobald alle Tests grün sind; andernfalls startet sie die KI mit dem Prompt aus `PROMPT.md` erneut.
+
+```bash
+for i in $(seq 10); do
+  pytest -q && break
+  claude -p "$(cat PROMPT.md)"
+done
+```
+
+Die Obergrenze von zehn Durchläufen begrenzt Zeit und Kosten. Die Tests schreiben wir vorab, wie beim Test-Driven Prompting, aus der Anforderung. Sie liegen außerhalb der Schleife, und die KI darf sie nicht ändern, sonst legte sie ihr eigenes Abbruchkriterium fest. Der Loop kann daher nur so gut sein wie diese Tests.
+
 
 
 
@@ -570,32 +629,31 @@ Sind alle Tests grün, sind die getesteten Fälle erfüllt; ungetestete Fälle b
 
 Als durchgehendes Beispiel für Test-Driven Prompting verwenden wir eine typische Aufgabe aus dem Umweltingenieurwesen: die Klassifikation von Bodenkontaminationswerten. Die Grenzwerte sind didaktisch gewählt und keine Prüf- oder Maßnahmenwerte der BBodSchV; die fehlerhafte Variante haben wir bewusst konstruiert.
 
-*Anforderung:* Gesucht ist eine Funktion `klassifiziere_boden(wert)`, die einen Messwert in mg/kg als `"Sauber"`, `"Beobachten"` oder `"Kritisch"` klassifiziert. Grenzwerte: `wert < 50` ist Sauber, `50 <= wert < 150` ist Beobachten, `wert >= 150` ist Kritisch.
+*Anforderung:* Gesucht ist eine Funktion `klassifiziere_boden(wert)`, die einen Messwert in mg/kg als `"Sauber"`, `"Beobachten"` oder `"Kritisch"` klassifiziert. Grenzwerte: `wert < 50` ist Sauber, `50 <= wert < 150` ist Beobachten, `wert >= 150` ist Kritisch. Ist die Eingabe keine Zahl, löst die Funktion einen `ValueError` aus.
 
-Bevor wir die KI prompten, schreiben wir 5 Tests: 3 Normalfälle und 2 Grenzwertfälle. Diese Tests übergeben wir als Akzeptanzkriterium im Prompt. Die KI liefert eine Funktion, bei der ein Grenzwerttest scheitert: der Vergleich `wert <= 150` ordnet den Wert 150 fälschlich als `"Beobachten"` ein. Der Test macht den Fehler sichtbar, bevor wir die Funktion einsetzen.
+Bevor wir die KI prompten, schreiben wir Tests für die drei Testarten: Funktionstests für typische Messwerte, Grenzwerttests für die Klassengrenzen und einen Datentyp-Test für eine Eingabe, die keine Zahl ist. Diese Tests halten wir vor der KI zurück: Kennt sie die Testwerte, kann sie sie fest eintragen und besteht die Tests, ohne die Aufgabe zu lösen. Der Prompt enthält nur die Anforderung. Die KI liefert eine Funktion, bei der ein Grenzwerttest scheitert: der Vergleich `wert <= 150` ordnet den Wert 150 fälschlich als `"Beobachten"` ein. Der Test macht den Fehler sichtbar, bevor wir die Funktion einsetzen.
 
 %%/book
 
 %%slides
 
 
-## Anforderung: Bodenkontamination klassifizieren
+## Boden-Beispiel: Messwert bestimmt Handlungsbedarf
 
-%%col 50 50
+%%col 40 60
 
-{{< ai4sc-icon clipboard-list >}} *Anforderung:*
+Eine Bodenprobe liefert einen Schadstoffgehalt in mg/kg. Davon hängt ab, ob jemand handeln muss.
 
-> Gesucht: `klassifiziere_boden(wert)`, die einen Messwert (mg/kg) als `"Sauber"`, `"Beobachten"` oder `"Kritisch"` klassifiziert.
+Die Funktion `klassifiziere_boden(wert)` entscheidet das:
 
-Grenzwerte:
-
-- < 50 mg/kg → *Sauber*
-- 50 bis unter 150 mg/kg → *Beobachten*
-- ≥ 150 mg/kg → *Kritisch*
+- Eingabe: Messwert in mg/kg
+- Ausgabe: `"Sauber"`, `"Beobachten"` oder `"Kritisch"`
+- Die Grenzen 50 und 150 gehören zur höheren Klasse
+- Keine Zahl als Eingabe: `ValueError`
 
 %%sep
 
-*Schritt 1:* Tests schreiben, bevor wir die KI prompten.
+![](images/08a_UnitTest/boden_klassen.svg){.nostretch fig-align="center" width="100%"}
 
 %%/col
 
@@ -603,41 +661,55 @@ Grenzwerte:
 
 %%book
 
-Die Anforderung legt drei Klassen fest: unter 50 mg/kg ist der Boden sauber, von 50 bis unter 150 mg/kg beobachten wir ihn, ab 150 mg/kg ist er kritisch. Genau an den Klassengrenzen entstehen die typischen Fehler, weshalb wir dort gezielt testen.
+Die Anforderung legt drei Klassen fest: unter 50 mg/kg ist der Boden sauber, von 50 bis unter 150 mg/kg beobachten wir ihn, ab 150 mg/kg ist er kritisch. Aus dieser Anforderung schreiben wir zuerst die Tests; die KI bekommt später nur die Anforderung, nicht die Tests. Die Klassen stehen für den Handlungsbedarf: bei „Sauber“ ist nichts zu tun, bei „Beobachten“ messen wir nach, bei „Kritisch“ müssen Maßnahmen geprüft werden. In der Praxis unterscheidet die Bundes-Bodenschutzverordnung (BBodSchV) Vorsorge-, Prüf- und Maßnahmenwerte; unsere drei Klassen bilden diese Abstufung stark vereinfacht nach. Genau an den Klassengrenzen entstehen die typischen Fehler, weshalb wir dort gezielt testen. Wie bei `division()` verlangen wir außerdem einen `ValueError`, wenn die Eingabe keine Zahl ist.
+
+![Die drei Klassen von `klassifiziere_boden` mit den Grenzen 50 und 150 mg/kg und dem jeweiligen Handlungsbedarf.](images/08a_UnitTest/boden_klassen.svg)
 
 %%/book
 
 %%slides
 
 
-## Tests schreiben vor dem Prompt: 5 Tests
+## Tests schreiben vor dem Prompt: drei Testarten
+
+%%col 50 50
+
+Die KI sieht diese Tests nicht:
+
+- Kennt sie die Testwerte, kann sie sie fest eintragen (`if wert == 10: ...`)
+- Dann besteht sie die Tests, ohne die Aufgabe zu lösen
+- Der Prompt enthält nur die Anforderung
+
+%%sep
 
 ```{python}
 #| echo: true
-# Schritt 1: Tests definieren (vor dem KI-Prompt)
-def test_sauber():
+# Tests definieren (vor dem KI-Prompt)
+def test_boden_funktion():
     assert klassifiziere_boden(10) == "Sauber"
-
-def test_beobachten():
     assert klassifiziere_boden(100) == "Beobachten"
-
-def test_kritisch():
     assert klassifiziere_boden(200) == "Kritisch"
 
-def test_grenzwert_sauber_beobachten():
-    assert klassifiziere_boden(50) == "Beobachten"   # Grenzwert: >=50
+def test_boden_grenzwert():
+    assert klassifiziere_boden(50) == "Beobachten"
+    assert klassifiziere_boden(150) == "Kritisch"
 
-def test_grenzwert_beobachten_kritisch():
-    assert klassifiziere_boden(150) == "Kritisch"    # Grenzwert: >=150
+def test_boden_datentyp():
+    try:
+        klassifiziere_boden("abc")
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("ValueError erwartet")
 ```
 
-5 Tests: 3 Normalfälle + 2 Grenzwertfälle
+%%/col
 
 %%/slides
 
 %%book
 
-Die fünf Tests decken drei Normalfälle (10, 100 und 200 mg/kg) und die beiden Grenzwerte 50 und 150 mg/kg ab. Sie legen fest, in welche Klasse die Grenzwerte selbst fallen.
+Die drei Tests entsprechen den Testarten aus dem ersten Teil. Der Funktionstest prüft typische Messwerte (10, 100 und 200 mg/kg), der Grenzwerttest die beiden Klassengrenzen 50 und 150 mg/kg und legt damit fest, in welche Klasse die Grenzwerte selbst fallen. Der Datentyp-Test prüft, dass eine Eingabe, die keine Zahl ist, einen `ValueError` auslöst. Die KI soll eine Funktion schreiben, die den Job erfüllt und dabei die Tests besteht, nicht eine, die nur die Tests besteht. Deshalb kennt sie die Tests nicht: Eine Funktion, die nur die Testwerte kennt (`if wert == 10: return "Sauber"` und so weiter), besteht alle Tests, löst die Aufgabe aber nicht. Der Prompt beschreibt daher nur die Anforderung, und wir führen die Tests selbst aus, nachdem die KI geantwortet hat.
 
 %%/book
 
@@ -646,13 +718,23 @@ Die fünf Tests decken drei Normalfälle (10, 100 und 200 mg/kg) und die beiden 
 
 ## KI generiert die Funktion
 
-*Schritt 2:* KI-Prompt mit Tests als Akzeptanzkriterium
+%%col 40 60
+
+Prompt an die KI:
+
+> Schreibe die Python-Funktion `klassifiziere_boden(wert)`. Sie ordnet den Schadstoffgehalt einer Bodenprobe in mg/kg einer Klasse zu: `"Sauber"` unter 50, `"Beobachten"` von 50 bis unter 150 und `"Kritisch"` ab 150. 
+> **Führe die Unit-Tests nur aus. Schaue sie dir nicht an und modifiziere sie nicht!**
+
+%%sep
+
+Antwort der KI (erst lesen, dann ausführen!):
 
 ```{python}
 #| echo: true
-# KI-generierter Code (erst lesen, dann ausführen!)
 def klassifiziere_boden(wert):
     """Klassifiziert Bodenkontamination in mg/kg."""
+    if not isinstance(wert, (int, float)):
+        raise ValueError("wert muss eine Zahl sein")
     if wert < 50:
         return "Sauber"
     elif wert <= 150:
@@ -661,17 +743,13 @@ def klassifiziere_boden(wert):
         return "Kritisch"
 ```
 
-%%note Vor dem Ausführen
-
-Bestimmen Sie, welcher der fünf Tests scheitert. Achten Sie besonders auf die Grenze bei `150 mg/kg`.
-
-%%/note
+%%/col
 
 %%/slides
 
 %%book
 
-Die KI liefert eine Funktion, die auf den ersten Blick plausibel aussieht. Erst der Testlauf zeigt, dass der Vergleich `wert <= 150` den Grenzwert falsch behandelt.
+Der Prompt beschreibt die Anforderung und erlaubt der KI nur, die Tests auszuführen: Sie darf sie weder ansehen noch ändern. Sie liefert eine Funktion, die auf den ersten Blick plausibel aussieht. Erst der Testlauf zeigt, dass der Vergleich `wert <= 150` den Grenzwert falsch behandelt.
 
 %%/book
 
@@ -680,21 +758,27 @@ Die KI liefert eine Funktion, die auf den ersten Blick plausibel aussieht. Erst 
 
 ## Tests ausführen: ein Test scheitert
 
+%%col 40 60
+
+[Funktionstest und Datentyp-Test laufen grün.]{.pro}
+
+*Diagnose:* Bei `wert <= 150` wird der Wert `150` als `"Beobachten"` klassifiziert. Die Anforderung verlangt für `>= 150` den Wert `"Kritisch"`. Der Test macht die Lücke vor dem Einsatz sichtbar.
+
+%%sep
+
 ```{python}
 #| echo: true
 #| error: true
-test_grenzwert_beobachten_kritisch()
+test_boden_grenzwert()
 ```
 
-Die ersten vier Tests laufen grün.
-
-*Diagnose:* Bei `wert <= 150` wird der Wert `150` als `"Beobachten"` klassifiziert. Die Anforderung verlangt für `>= 150` den Wert `"Kritisch"`. Der Test macht die Lücke vor dem Einsatz sichtbar.
+%%/col
 
 %%/slides
 
 %%book
 
-Vier Tests laufen grün, der Grenzwerttest für 150 mg/kg scheitert mit einem `AssertionError`: Die Funktion gibt `"Beobachten"` statt `"Kritisch"` zurück.
+Funktionstest und Datentyp-Test laufen grün, der Grenzwerttest scheitert für 150 mg/kg mit einem `AssertionError`: Die Funktion gibt `"Beobachten"` statt `"Kritisch"` zurück.
 
 %%/book
 
@@ -705,9 +789,14 @@ Vier Tests laufen grün, der Grenzwerttest für 150 mg/kg scheitert mit einem `A
 
 %%col 50 50
 
-*Reprompt mit fehlgeschlagenem Test:*
+*Reprompt mit kopierter Fehlermeldung:*
 
-> `test_grenzwert_beobachten_kritisch` scheitert: Bei Wert 150 wird `"Beobachten"` zurückgegeben, erwartet `"Kritisch"`. Korrigiere so, dass `>=150` als `"Kritisch"` gilt.
+> Fixe den Fehler in `klassifiziere_boden`.
+>
+> ```
+> ---> 15     assert klassifiziere_boden(150) == "Kritisch"
+> AssertionError:
+> ```
 
 %%sep
 
@@ -716,6 +805,8 @@ Vier Tests laufen grün, der Grenzwerttest für 150 mg/kg scheitert mit einem `A
 ```{python}
 #| echo: true
 def klassifiziere_boden(wert):
+    if not isinstance(wert, (int, float)):
+        raise ValueError("wert muss eine Zahl sein")
     if wert < 50:
         return "Sauber"
     elif wert < 150:   # war: <= 150
@@ -729,7 +820,7 @@ def klassifiziere_boden(wert):
 klassifiziere_boden(150)
 ```
 
-Alle 5 Tests grün: die getesteten Fälle sind erfüllt, ungetestete bleiben offen.
+Alle drei Tests grün: die getesteten Fälle sind erfüllt, ungetestete bleiben offen.
 
 %%/col
 
@@ -737,7 +828,7 @@ Alle 5 Tests grün: die getesteten Fälle sind erfüllt, ungetestete bleiben off
 
 %%book
 
-Wir nennen der KI den fehlgeschlagenen Test und die verletzte Anforderung: `>= 150` ist `"Kritisch"`. Die KI ändert den Vergleich zu `< 150`, danach laufen alle fünf Tests grün.
+Wir kopieren die Fehlermeldung in den Prompt und bitten die KI, den Fehler in `klassifiziere_boden` zu beheben. Die Meldung zeigt nur den fehlgeschlagenen Fall, nicht alle Tests. Die KI ändert den Vergleich zu `< 150`, danach laufen alle drei Tests grün.
 
 
 
@@ -752,7 +843,7 @@ Selbst wenn alle geschriebenen Tests grün sind, kann KI-generierter Code ungete
 
 *Verzweigungsabdeckung* (Branch Coverage): Wurden alle `if`/`else`-Zweige getestet? Sie ist strenger als reine Zeilenabdeckung, weil Zweige, die nur bei speziellen Eingaben aktiv werden, sonst unbemerkt bleiben.
 
-Im Beispiel auf den Folien hat die KI eine Fehlerprüfung für negative Werte ergänzt, die die Anforderung nicht verlangt. Messen lässt sich das mit `coverage run --branch`; für unsere fünf Tests meldet es 7 von 8 Anweisungen und 5 von 6 Zweigen als ausgeführt. Dabei gilt: Testabdeckung misst nur, was ausgeführt wurde, nicht, ob es richtig ist. Die fehlerhafte Variante mit `<= 150` hätte mit denselben fünf Tests ebenfalls vollständige Abdeckung erreicht. Tests können das Vorhandensein von Fehlern zeigen, nicht ihre Abwesenheit (Dijkstra).
+Im Beispiel auf den Folien hat die KI eine Fehlerprüfung für negative Werte ergänzt, die die Anforderung nicht verlangt. Messen lässt sich das mit `coverage run --branch`; für unsere drei Tests meldet es 9 von 10 Anweisungen und 7 von 8 Zweigen als ausgeführt. Dabei gilt: Testabdeckung misst nur, was ausgeführt wurde, nicht, ob es richtig ist. Die fehlerhafte Variante mit `<= 150` hätte mit denselben drei Tests ebenfalls vollständige Abdeckung erreicht. Tests können das Vorhandensein von Fehlern zeigen, nicht ihre Abwesenheit (Dijkstra).
 
 %%/book
 
@@ -769,12 +860,16 @@ Im Beispiel auf den Folien hat die KI eine Fehlerprüfung für negative Werte er
 - 80 % Abdeckung → 20 % der Zeilen nie getestet
 - Ungetestete Zeilen = unbekanntes Verhalten
 
+![Coverage-Badge mit 90 %](images/08a_UnitTest/coverage_badge.svg){.nostretch fig-align="left" width="60%"}
+
 %%sep
 
 Die KI hat eine eigene Fehlerprüfung ergänzt:
 
 ```python
 def klassifiziere_boden(wert):
+    if not isinstance(wert, (int, float)):
+        raise ValueError("wert muss eine Zahl sein")
     if wert < 0:
         return "Fehler"      # nie ausgeführt!
     elif wert < 50:
@@ -785,7 +880,7 @@ def klassifiziere_boden(wert):
         return "Kritisch"
 ```
 
-7 von 8 Anweisungen ausgeführt → 88 % Zeilenabdeckung
+9 von 10 Anweisungen ausgeführt → 90 % Zeilenabdeckung
 
 %%/col
 
@@ -807,8 +902,8 @@ def klassifiziere_boden(wert):
 *Beispiel:* `wert < 0`
 
 - Zweig *wahr*: kein Test, da die Anforderung negative Werte nicht erwähnt
-- Zweig *falsch*: von allen 5 Tests ausgeführt
-- Ergebnis: 5 von 6 Zweigen → 83 % Verzweigungsabdeckung
+- Zweig *falsch*: von den Tests mit Zahl-Eingabe ausgeführt
+- Ergebnis: 7 von 8 Zweigen → 88 % Verzweigungsabdeckung
 
 Ein ungetesteter Zweig ist ein unsichtbares Risiko. Abdeckung zeigt nur, was ausgeführt wurde, nicht ob es stimmt. Der nächste Verifikationsschritt ist das Code Review (`08b_CodeReview`).
 
@@ -818,7 +913,7 @@ Ein ungetesteter Zweig ist ein unsichtbares Risiko. Abdeckung zeigt nur, was aus
 
 %%book
 
-Der Zweig `wert < 0` wird von keinem unserer Tests mit wahr betreten. Der Zeilenzähler kommt so zustande: Die Funktion hat 8 Anweisungen (`def`, drei Bedingungen und vier `return`), davon wird `return "Fehler"` nie ausgeführt. Die drei Bedingungen ergeben 6 Zweige, von denen nur der wahre Zweig von `wert < 0` fehlt. Ein ungetesteter Zweig ist ein unsichtbares Risiko: Wir wissen nicht, ob er korrekt arbeitet. Die Prüfung von Code durch andere Personen folgt als nächster Verifikationsschritt in `08b_CodeReview`.
+Der Zweig `wert < 0` wird von keinem unserer Tests mit wahr betreten. Der Zeilenzähler kommt so zustande: Die Funktion hat 10 Anweisungen (`def`, vier Bedingungen, ein `raise` und vier `return`), davon wird `return "Fehler"` nie ausgeführt. Die vier Bedingungen ergeben 8 Zweige, von denen nur der wahre Zweig von `wert < 0` fehlt. Ein ungetesteter Zweig ist ein unsichtbares Risiko: Wir wissen nicht, ob er korrekt arbeitet. Die Prüfung von Code durch andere Personen folgt als nächster Verifikationsschritt in `08b_CodeReview`.
 
 
 
@@ -944,7 +1039,7 @@ Allen Bemühungen zum Trotz treten in realen Programmen Fehler zur Laufzeit auf.
 
 %%sep
 
-![](images/08a_UnitTest/stack3.svg)
+%%video images/08a_UnitTest/manim_exception_crash Eine Exception wandert im Call Stack nach unten und bringt das Programm zum Absturz
 
 %%/col
 
@@ -978,7 +1073,7 @@ except ZeroDivisionError:
 
 %%sep
 
-![](images/08a_UnitTest/stack4.svg)
+%%video images/08a_UnitTest/manim_exception_caught main() fängt die Exception ab, das Programm läuft weiter
 
 %%/col
 
@@ -1029,6 +1124,16 @@ Exceptions werden auf mehreren Ebenen genutzt: vom Betriebssystem als vordefinie
 
 %%col 50 50
 
+Mögliche Exceptions beim Dividieren
+
+
+- `ZeroDivisionError` - Division durch 0
+- `TypeError` - Falscher Datentyp
+- `NameError` - Variable nicht definiert
+:::
+
+%%sep
+
 ```python
 zaehler = 12
 nenner = 0
@@ -1037,20 +1142,12 @@ try:
     ergebnis = zaehler / nenner
 except ZeroDivisionError:
     print("Division durch 0")
+except TypeError:
+    print("Falscher Datentyp")
+except NameError:
+    print("Variable nicht definiert")
 ```
-
-%%sep
-
-Mögliche Exceptions beim Dividieren (nur die erste wird hier abgefangen):
-
-::: {.fragment}
-
-
-- `ZeroDivisionError` - Division durch 0
-- `TypeError` - Falscher Datentyp
-- `NameError` - Variable nicht definiert
-:::
-
+(nur die erste wird hier abgefangen)
 %%/col
 
 %%/slides
@@ -1137,10 +1234,10 @@ Gewisser Programmcode kann mittels mathematischen Beweises validiert werden. Das
 
 
     ### Welcher Test scheitert, wenn `klassifiziere_boden` mit `wert <= 150` statt `wert < 150` vergleicht?
-    - [x] Der Grenzwerttest für 150 mg/kg
-    - [ ] Der Test für 10 mg/kg
-    - [ ] Der Test für 100 mg/kg
-    - [ ] Alle fünf Tests
+    - [x] Der Grenzwerttest
+    - [ ] Der Funktionstest
+    - [ ] Der Datentyp-Test
+    - [ ] Alle drei Tests
 
     ### Was ist ein Unit-Test in Python?
     - [x] Ein Test für eine einzelne Funktion oder Klasse
@@ -1184,7 +1281,7 @@ Gewisser Programmcode kann mittels mathematischen Beweises validiert werden. Das
     - [x] Datentyp-Test
     - [ ] Syntaxtest
 
-    ### Warum garantieren fünf grüne Tests keine korrekte Funktion?
+    ### Warum garantieren grüne Tests keine korrekte Funktion?
     - [x] Sie zeigen nur, dass die getesteten Fälle stimmen
     - [ ] Grüne Tests beweisen die Korrektheit immer vollständig
     - [ ] Tests laufen nur bei Fehlern
