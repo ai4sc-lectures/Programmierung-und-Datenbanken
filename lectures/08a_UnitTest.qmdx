@@ -102,7 +102,7 @@ Strategien für sicheren Code:
 
 ### Full Test Coverage
 
-- Man misst ob Tests alle Codezeile abdecken. 
+- Man misst, ob Tests alle Codezeilen abdecken. 
 - **Der KI das Ziel von 90% Test-Coverage geben!**
 
 %%sep
@@ -119,7 +119,7 @@ Strategien für sicheren Code:
 
 %%book
 
-Fehler vermeidet man, indem man früh prüft: durch Code Reviews, durch Test-Driven Development, bei dem der Test vor dem Code entsteht, und durch eine möglichst vollständige Testabdeckung. Das erfordert Vorarbeit, spart aber später Suchaufwand. Test-Driven Prompting und Testabdeckung behandeln wir weiter unten.
+Fehler vermeidet man, indem man früh prüft: durch Test-Driven Development, bei dem der Test vor dem Code entsteht, durch eine möglichst vollständige Testabdeckung (Full Test Coverage) und durch Code Reviews, bei denen eine andere Person jede Codezeile prüft. Bei KI-generiertem Code sind diese Strategien besonders wichtig: Wir schreiben die Tests, bevor die KI Code erzeugt, geben der KI ein Ziel für die Testabdeckung vor (etwa 90 %), lassen eine zweite KI den generierten Code prüfen und prüfen ihn zusätzlich selbst. Das erfordert Vorarbeit, spart aber später Suchaufwand. Test-Driven Prompting und Testabdeckung behandeln wir weiter unten.
 
 %%/book
 
@@ -135,7 +135,7 @@ Verschiedene Fehlertypen erfordern verschiedene Werkzeuge
 ### Syntaktische Fehler
 
 - Von Parser und IDE gemeldet
-- **KI macht gerne Sytaxfehler, entdeckt sie aber durch *Lint-Tools* **
+- **KI macht gerne Syntaxfehler, entdeckt sie aber durch *Lint-Tools* **
 
 %%sep
 
@@ -159,7 +159,7 @@ Verschiedene Fehlertypen erfordern verschiedene Werkzeuge
 
 %%book
 
-Syntaktische Fehler meldet bereits die IDE. Statische Fehler findet man mit Lint-Tools, die den Code anhand von Regeln analysieren. Dynamische Fehler zeigen sich erst bei der Ausführung; sie werden durch Unit-Tests erkannt.
+Syntaktische Fehler meldet bereits die IDE. Statische Fehler findet man mit Lint-Tools, die den Code anhand von Regeln analysieren. Dynamische Fehler zeigen sich erst bei der Ausführung; sie werden traditionell durch Unit-Tests aufgedeckt. Auch bei KI-generiertem Code hilft das: KI erzeugt gerne Syntaxfehler, entdeckt sie aber mit Lint-Tools, die moderne IDEs und KIs intern nutzen, und moderne KIs sollten sich selbst Unit-Tests schreiben. Nach jeder größeren Code-Änderung führen wir alle Unit-Tests automatisch aus, um Verhaltensänderungen und Nebeneffekte früh zu erkennen.
 
 %%/book
 
@@ -183,7 +183,7 @@ Unit-Tests sind zusätzlich geschriebener Code, der nur zum Testen einer Funktio
 
 %%book
 
-Ein Unit-Test ist zusätzlich geschriebener Code, der eine einzelne Funktion mit bestimmten Eingaben aufruft und die erwarteten Ausgaben oder Exceptions prüft. Der Test-Code ist oft umfangreicher als der geprüfte Code. Die Tests laufen automatisiert nach jeder Änderung und legen damit fest, was das Modul leisten soll. Ziel ist zu prüfen, ob das Modul die gewünschte Funktion korrekt ausführt und Fehlerfälle korrekt behandelt; das erwartete Verhalten muss dafür vorher spezifiziert und dokumentiert sein. Gerade bei komplexeren Programmen treten leicht unbeabsichtigte Seiteneffekte auf, die sich so nach jeder Änderung schnell erkennen lassen.
+Ein Unit-Test ist zusätzlich geschriebener Code, der eine einzelne Funktion mit bestimmten Eingaben aufruft und die erwarteten Ausgaben oder Exceptions prüft. Der Test-Code ist oft umfangreicher als der geprüfte Code. Die Tests laufen automatisiert nach jeder Änderung und legen damit fest, was die Funktion leisten soll. Ziel ist zu prüfen, ob die Funktion ihre Aufgabe korrekt erfüllt und Fehlerfälle korrekt behandelt; das erwartete Verhalten muss dafür vorher spezifiziert und dokumentiert sein. Gerade bei komplexeren Programmen treten leicht unbeabsichtigte Seiteneffekte auf, die sich so nach jeder Änderung schnell erkennen lassen.
 
 %%/book
 
@@ -203,13 +203,13 @@ Prüft korrektes Ergebnis/Funktionalität
 
 ### Grenzwerttests
 
-Prüft of Funktionen/Programme mit Grenzwerten umgehen können.
+Prüft, ob Funktionen/Programme mit Grenzwerten umgehen können.
 
 %%sep
 
 ### Datentyp-Tests
 
-Prüft of Funktionen/Programme mit unerwarteten Eingaben umgehen können.
+Prüft, ob Funktionen/Programme mit unerwarteten Eingaben umgehen können.
 
 %%/col
 %%col 33 33 33
@@ -252,7 +252,7 @@ else:
 
 %%book
 
-Wir unterscheiden Funktionstests, Grenzwerttests und Datentyp-Tests. Die folgenden Abschnitte zeigen jeden Typ am Beispiel der Funktion `division()`.
+Wir unterscheiden Funktionstests, Grenzwerttests und Datentyp-Tests. Funktionstests prüfen, ob die Funktion das richtige Ergebnis liefert, Grenzwerttests, ob sie mit Grenzwerten umgehen kann, und Datentyp-Tests, ob sie mit unerwarteten Eingaben umgehen kann. Die folgenden Abschnitte zeigen jeden Typ am Beispiel der Funktion `division()`.
 
 ![Jeder Testtyp ruft die Funktion `division()` mit einer Eingabe auf und prüft die erwartete Ausgabe.](images/08a_UnitTest/test_types.svg)
 
@@ -502,7 +502,7 @@ Ein fehlgeschlagener Test auf KI-generierten Code ist kein Misserfolg: Der Fehle
 
 %%book
 
-Klassisch erkennen Tests Fehler in fertigem Code, und ein scheiternder Test gilt als Problem. Beim Test-Driven Prompting definieren Tests das Verhalten und sind die Anforderung in Code. Wer sie vor dem Prompt schreibt, formuliert den Prompt präziser, und ein scheiternder Test auf KI-Code zeigt einen Fehler vor dem Einsatz.
+Klassisch erkennen Tests Fehler in fertigem Code, und ein scheiternder Test gilt als Problem. Beim Test-Driven Prompting definieren Tests das Verhalten und sind die Anforderung in Code. Wer sie vor dem Prompt schreibt, formuliert den Prompt präziser, und ein scheiternder Test auf KI-Code zeigt einen Fehler vor dem Einsatz. Die Tests zeigen außerdem, wann der Code fertig ist, und erkennen bei Änderungen durch die KI Verhaltensänderungen und Nebeneffekte.
 
 %%/book
 
@@ -524,7 +524,7 @@ Den Schritt Verifizieren des agentischen Zyklus aus `03d_AgentischesProgrammiere
 
 %%book
 
-Der Zyklus verbindet Anforderung, Tests und Prompt: Die Tests sind die Anforderung in Code, die KI generiert, der Testlauf verifiziert, und fehlschlagende Tests führen zu Diagnose und Reprompt. Den Schritt Verifizieren des agentischen Zyklus haben wir in `03d_AgentischesProgrammieren` eingeführt; hier formalisieren wir ihn durch Tests.
+Der Zyklus verbindet Anforderung, Tests und Prompt: Aus der Anforderung schreiben wir die Tests, zeigen sie der KI aber nicht. Die KI bekommt nur die Anforderung und generiert Code, der Testlauf verifiziert ihn, und fehlschlagende Tests führen zu Diagnose und Reprompt. Den Schritt Verifizieren des agentischen Zyklus haben wir in `03d_AgentischesProgrammieren` eingeführt; hier formalisieren wir ihn durch Tests.
 
 %%/book
 
@@ -1061,6 +1061,8 @@ Allen Bemühungen zum Trotz treten in realen Programmen Fehler zur Laufzeit auf.
 
 Exceptions unterbrechen den normalen Programmverlauf, kommunizieren den Fehler mit einer Fehlermeldung und verhindern unkontrolliertes Abstürzen. Sie werden im Stack nach oben weitergegeben, bis sie abgefangen werden oder das Programm abstürzt. Ziel ist, das Programm in einem lauffähigen Zustand zu halten.
 
+Die Animation zeigt das an einem Beispiel: `main()` ruft `auswertung()` auf, diese `mittelwert()` und diese `division()`. In `division()` ist der Nenner 0, und es entsteht ein `ZeroDivisionError`. Die Exception verlässt eine Funktion nach der anderen, jede bricht ab und verschwindet vom Stack. Fängt niemand die Exception ab, erreicht sie `main()`, und das Programm stürzt ab.
+
 %%/book
 
 %%slides
@@ -1094,6 +1096,8 @@ except ZeroDivisionError:
 %%book
 
 Bekannte Exceptions sollten wir gezielt abfangen, also die erwartete Exception benennen. Ein `except` ohne Typ fängt auch unerwartete Fehler und sogar `KeyboardInterrupt` ab und verdeckt so Fehler. In Python geschieht das Abfangen mit dem `try-except`-Block; wird die Exception abgefangen, läuft das Programm weiter.
+
+In der Animation steht in `main()` ein `try … except ZeroDivisionError`. Der `ZeroDivisionError` aus `division()` wandert wie zuvor durch `mittelwert()` und `auswertung()` nach unten, wird aber in `main()` abgefangen. Das Programm läuft weiter.
 
 %%/book
 
@@ -1158,7 +1162,7 @@ except TypeError:
 except NameError:
     print("Variable nicht definiert")
 ```
-(nur die erste wird hier abgefangen)
+
 %%/col
 
 %%/slides
