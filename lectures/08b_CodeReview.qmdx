@@ -18,88 +18,121 @@ format:
 
 > Code, der plausibel aussieht, ist noch nicht automatisch korrekt.
 
+# Code Review
+
 %%/book
 
 %%slides
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Würdet ihr eurem Kollegen vertrauen, wenn er euch Code gibt — ohne ihn zu lesen?" capR="Midjourney: Two engineers reviewing blueprints together" imgR="images/08b_CodeReview/mj_engineers_reviewing.png"}
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Würden Sie Ihrem Kollegen vertrauen, wenn er Ihnen Code gibt, ohne dass Sie ihn lesen?" capR="Midjourney: Waves testing a boat, ref. Hokusai" imgR="images/08a_UnitTest/mj_title_band.jpg"}
+<!-- TODO MJ: Two engineers reviewing blueprints together -->
 
 %%/slides
 
-
-%%# Warum KI-Code reviewen?
-
 %%book
-KI-Werkzeuge wie Claude Code oder GitHub Copilot generieren Code schnell — aber nicht
-immer korrekt. Ein Code Review ist bei KI-generiertem Code genauso notwendig wie bei
-menschlichem Code, vielleicht sogar wichtiger: KI zeigt keine Unsicherheit.
+
+Wir beginnen mit der Frage, wann wir fremdem Code vertrauen dürfen. Bei Code von einem Kollegen und bei Code von einem Agenten lautet die Antwort gleich: erst nach einer Prüfung.
+
 %%/book
 
-## KI ist zuversichtlich — nicht immer korrekt
 
-%%col 50 50
-### KI ist gut in
+%%# Code Review für KI-Code
 
-- Code-Struktur und Syntax
-- Standardmuster implementieren
-- Erste Lösungen schnell liefern
-%%sep
-### KI macht Fehler bei
-
-- [Anforderungen vollständig umsetzen]{.con}
-- [Randfälle berücksichtigen]{.con}
-- [Nicht existierende Funktionen]{.con}
-- [Typ-Annahmen validieren]{.con}
-%%/col
+%%## Der Agent meldet „fertig“, auch wenn es nicht stimmt
 
 %%book
-Ein fehlerhafter KI-Code sieht syntaktisch genauso aus wie korrekter Code. KI zeigt
-keinerlei Unsicherheitssignale — deshalb ist menschliche Prüfung unverzichtbar.
+
+%%note Überblick
+KI-Werkzeuge wie Claude Code oder GitHub Copilot generieren Code schnell, aber nicht immer korrekt. Ein Code Review ist bei KI-generiertem Code genauso notwendig wie bei menschlichem Code. KI zeigt keine Unsicherheit: Fehlerhafter Code sieht syntaktisch genauso aus wie korrekter.
+%%/note
+
 %%/book
 
-## Code Review: Drei Dimensionen
-%%div eyebrow
-{{< ai4sc-icon test-tube >}}
-%%/div
+%%slides
 
-%%div eyebrow
-{{< ai4sc-icon test-tube >}} Review-Prozess
+::::::: {.stat-grid .large style="grid-template-columns: repeat(2, 1fr); gap: 12px;"}
+
+%%%%div stat-card
+%%div stat-value
+27,0 %
 %%/div
+%%div stat-label
+Absicht missverstanden
+%%/div
+%%div stat-delta
+Der Agent füllt eine Lücke falsch und liefert Code für eine andere Aufgabe
+%%/div
+%%%%/div
+
+%%%%div stat-card
+%%div stat-value
+22,6 %
+%%/div
+%%div stat-label
+Ungenaue Selbstauskunft
+%%/div
+%%div stat-delta
+Der Agent meldet Erfolg, der nicht stimmt
+%%/div
+%%%%/div
+
+:::::::
+
+„Claude stops when the work looks done. Without a check it can run, ‚looks done‘ is the only signal available.“
+
+Wer keine Prüfung mitliefert, wird selbst zur Prüfinstanz (→ `04a_Anforderungen`).
+
+%%slide_ref @tang2026agents Tang et al.: How Coding Agents Fail Their Users, arXiv:2605.29442, 2026. Anteile an allen Episoden, gerundet
+%%slide_ref @anthropic2026bestpractices Anthropic: Best practices for Claude Code, 2026
+%%/slides
+
+%%book
+
+Die Studie von Tang et al. zählt Episoden, in denen ein Entwickler eine Fehlentwicklung des Agenten sichtbar korrigiert hat [@tang2026agents]. In 27,0 % davon hat der Agent die Absicht der Anfrage missverstanden, in 22,6 % hat er einen Erfolg gemeldet, der nicht stimmte. Anthropic beschreibt dasselbe Muster in den Empfehlungen zu Claude Code [@anthropic2026bestpractices]: Ohne eine Prüfung, die der Agent ausführen kann, ist der Eindruck „sieht fertig aus“ das einzige Signal. Die Prüfung übernimmt dann der Entwickler. Wie sich Lücken in den Anforderungen schließen lassen, behandelt `04a_Anforderungen`.
+
+%%/book
+
+
+%%## Drei Dimensionen des Code Reviews
+
+%%slides
+
+Ein {{< ai4sc-icon test-tube >}} Code Review prüft den Code in drei Dimensionen, jeweils gegen einen eigenen Maßstab:
 
 %%col 33 33 33
-#### 1. Anforderungsprüfung
+#### 1. Anforderung
 
 Macht der Code, was verlangt wurde?
+
+Maßstab: die Spezifikation
 %%sep
-#### 2. Designprüfung
+#### 2. Design
 
 Entspricht er der Architektur?
+
+Maßstab: das UML-Design
 %%sep
-#### 3. Implementierungsprüfung
+#### 3. Implementierung
 
 Ist er korrekt, sicher, wartbar?
+
+Maßstab: die Checkliste
 %%/col
 
+%%/slides
+
 %%book
-Die drei Dimensionen decken unterschiedliche Fehlerquellen ab. Tests automatisieren
-Teile der Anforderungsprüfung — aber nicht alle. Code Review ergänzt das, was Tests
-nicht erfassen können: Design-Konflikte und KI-spezifische Halluzinationen.
+
+Die drei Dimensionen decken unterschiedliche Fehlerquellen ab. Tests automatisieren Teile der Anforderungsprüfung, aber nicht alle. Das Code Review ergänzt, was Tests nicht erfassen können: Design-Konflikte und erfundene Aufrufe.
+
 %%/book
 
 
-%%# Anforderungsprüfung
+%%## Anforderungen systematisch prüfen
 
-%%book
-Anforderungsprüfung vergleicht den generierten Code gegen die funktionalen Anforderungen
-aus der Spezifikation. Jede Anforderung wird einzeln geprüft — keine gilt als implizit erfüllt.
-%%/book
+%%slides
 
-## Anforderungen systematisch prüfen
-%%div eyebrow
-{{< ai4sc-icon clipboard-list >}}
-%%/div
-
-Für jede funktionale Anforderung drei Fragen:
+Für jede funktionale {{< ai4sc-icon clipboard-list >}} Anforderung stellen wir drei Fragen:
 
 %%col 33 33 33
 #### Implementiert?
@@ -115,26 +148,27 @@ Existiert ein Unit-Test dafür?
 Laufen alle Tests grün durch?
 %%/col
 
-%%aside
-→ `04a_Anforderungen` (S04): Anforderungen als Review-Standard
-%%/aside
+Maßstab ist die Spezifikation aus `04a_Anforderungen`.
+
+%%/slides
 
 %%book
-Die Anforderungen aus der Spezifikation sind der Prüfmaßstab. KI-Code implementiert
-manchmal nur einen Teil der Anforderungen, lässt andere stillschweigend weg oder
-interpretiert sie anders als gemeint.
+
+Die Anforderungen aus der Spezifikation sind der Prüfmaßstab (→ `04a_Anforderungen`). Jede Anforderung wird einzeln geprüft, keine gilt als implizit erfüllt. KI-Code setzt manchmal nur einen Teil der Anforderungen um, lässt andere stillschweigend weg oder deutet sie anders als gemeint.
+
 %%/book
 
-## Anforderungs-Tracing: Beispiel
+
+%%## Anforderungs-Tracing am Beispiel
+
+%%slides
 
 ```python
 # Anforderung: Berechne Neigung in Prozent (Höhe / Länge × 100)
 
 def berechne_neigung(hoehe, laenge):
-    return hoehe / laenge   # Fehler: × 100 fehlt — Einheit falsch
+    return hoehe / laenge   # Fehler: × 100 fehlt, Einheit falsch
 ```
-
-Was prüfen?
 
 %%col 50 50
 **Review-Fragen:**
@@ -143,58 +177,31 @@ Was prüfen?
 - [ ] Rückgabewert vollständig?
 - [ ] Randfälle berücksichtigt?
 %%sep
-**Test schreiben:**
+Ein {{< ai4sc-icon test-tube >}} Test macht den Fehler sichtbar:
 
 ```python
-# Erwartet: 10.0 (Prozent)
 assert berechne_neigung(1, 10) == 10.0
-# Ergebnis: 0.1 — Test schlägt fehl
+# AssertionError: Ergebnis ist 0.1
 ```
 %%/col
 
+%%/slides
+
 %%book
-Dieses Beispiel zeigt, wie KI-Code syntaktisch korrekt und logisch plausibel wirkt —
-aber eine Anforderung nur halb erfüllt. Der Test macht den Fehler sichtbar, bevor
-der Code in Betrieb geht.
+
+Dieses Beispiel zeigt, wie KI-Code syntaktisch korrekt und logisch plausibel wirkt, aber eine Anforderung nur halb erfüllt. Der Test macht den Fehler sichtbar, bevor der Code in Betrieb geht.
+
 %%/book
 
 
-%%# Designprüfung
+%%## Design-Match prüfen
 
-%%book
-Designprüfung vergleicht den generierten Code gegen das UML-Design und die geplante
-Modulstruktur. KI kennt das Design nicht — sie erfindet Strukturen, die zwar
-funktionieren, aber nicht in die geplante Architektur passen.
-%%/book
+%%slides
 
-## Design-Match prüfen
-%%div eyebrow
-{{< ai4sc-icon arrow-left-right >}}
-%%/div
+%%col 55 45
+![](images/08b_CodeReview/uml_messung.svg){.nostretch fig-align="center" width="70%"}
 
-%%col 50 50
-### Modulstruktur
-
-- Passt der Code ins richtige Modul?
-- Werden bestehende Module genutzt?
-- Entstehen zirkuläre Importe?
-
-### Klasseninterfaces
-
-- Stimmen Klassennamen mit dem UML überein?
-- Stimmen Methodensignaturen?
-- Werden vorhandene Klassen erweitert?
-%%sep
-**UML-Design:**
-
-```text
-class Messung:
-    + wert: float
-    + einheit: str
-    + validiere() → bool
-```
-
-**KI-generierter Code:**
+KI-generierter Code:
 
 ```python
 class DataPoint:       # falscher Name
@@ -202,48 +209,58 @@ class DataPoint:       # falscher Name
         self.val = v   # falsches Attribut
     # validiere() fehlt
 ```
+%%sep
+- Passt der Code ins richtige Modul?
+- Stimmen Klassen- und Methodennamen mit dem UML überein?
+- Stimmen die Signaturen?
+- Entstehen zirkuläre Importe?
+
+Das Design aus `03c_Softwareentwurf` ist der zweite Prüfmaßstab.
 %%/col
 
-%%aside
-→ `03c_Softwareentwurf` (S03): Design als zweiter Review-Standard
-%%/aside
+%%/slides
 
 %%book
-Solche Konflikte entstehen, weil KI das Design nicht kennt. Lösung: das UML-Design
-als Teil des Prompts mitgeben oder den generierten Code gegen das Design anpassen.
+
+Die Designprüfung vergleicht den generierten Code mit dem UML-Design und der geplanten Modulstruktur (→ `03c_Softwareentwurf`). KI kennt das Design nicht und erfindet Strukturen, die zwar funktionieren, aber nicht zur Architektur passen. Im Beispiel weichen Klassenname und Attribute ab, und die Methode `validiere()` fehlt. Abhilfe: das UML-Design als Teil des Prompts mitgeben oder den Code gegen das Design anpassen.
+
 %%/book
 
 
 %%# Implementierungsprüfung
 
+%%## Division und veränderliche Standardwerte
+
 %%book
-Implementierungsprüfung scannt den Code auf häufige Fehlerquellen: unsichere
-Operationen, fehlende Typ-Annotationen, mutable Defaults, hartcodierte Werte
-und fehlende return-Anweisungen.
+
+%%note Überblick
+Die Implementierungsprüfung scannt den Code auf häufige Fehlerquellen: unsichere Operationen, veränderliche Standardargumente, fehlende Typ-Annotationen und hartcodierte Werte. Diese Muster treten in KI-generiertem Code häufig auf, weil KI-Modelle Muster aus Trainingsdaten reproduzieren, auch veraltete oder schlechte.
+%%/note
+
 %%/book
 
-## Typische Implementierungsprobleme
+%%slides
 
 %%col 50 50
-### Division ohne Null-Prüfung
-
 ```python
-def neigung(h, l):
-    return h / l  # Fehler: Division durch Null!
+def berechne_neigung(hoehe, laenge):
+    return hoehe / laenge * 100
+    # laenge == 0: ZeroDivisionError
 
 # Fix:
-def neigung(h, l):
-    if l == 0:
-        raise ValueError("Länge = 0")
-    return h / l
+def berechne_neigung(hoehe, laenge):
+    if laenge == 0:
+        raise ValueError("Länge ist 0")
+    return hoehe / laenge * 100
 ```
-
-### Mutable Default-Argument
-
+%%sep
 ```python
 def sammle(w, liste=[]):  # Fehler!
     liste.append(w)
     return liste
+
+sammle(1)  # [1]
+sammle(2)  # [1, 2]: Liste wird geteilt
 
 # Fix:
 def sammle(w, liste=None):
@@ -252,20 +269,32 @@ def sammle(w, liste=None):
     liste.append(w)
     return liste
 ```
-%%sep
-### Fehlende Typ-Annotationen
+%%/col
 
+%%/slides
+
+%%book
+
+Die Division ohne Prüfung löst für `laenge == 0` einen `ZeroDivisionError` aus. Das Standardargument `liste=[]` wird einmal beim Definieren der Funktion angelegt und danach von allen Aufrufen geteilt, deshalb enthält die Liste im zweiten Aufruf noch den Wert des ersten.
+
+%%/book
+
+
+%%## Typ-Annotationen und feste Werte
+
+%%slides
+
+%%col 50 50
 ```python
 def verarbeite(daten):  # Typ unklar
     return daten * 2
+# [1.0, 2.0] * 2 ergibt [1.0, 2.0, 1.0, 2.0]
 
 # Fix:
 def verarbeite(daten: list[float]) -> list[float]:
     return [x * 2 for x in daten]
 ```
-
-### Hartcodierte Werte
-
+%%sep
 ```python
 if temp > 100:  # Warum 100?
     alarm()
@@ -277,35 +306,46 @@ if temp > MAX_TEMP_CELSIUS:
 ```
 %%/col
 
+%%/slides
+
 %%book
-Diese vier Muster sind besonders häufig in KI-generiertem Code. KI-Modelle
-reproduzieren Muster aus Trainingsdaten — inklusive veralteter oder schlechter Praktiken.
+
+Ohne Typ-Annotation bleibt offen, ob die Funktion die Werte oder die Liste verdoppelt: `daten * 2` wiederholt bei einer Liste die Elemente, statt sie zu multiplizieren. Die Annotation macht die Absicht prüfbar. Ein hartcodierter Wert wie `100` verschweigt seine Bedeutung. Eine benannte Konstante dokumentiert sie und lässt sich an einer Stelle ändern.
+
 %%/book
 
-## Implementierungs-Scan: Kernchecks
 
-Was bei jedem Code-Block zu prüfen ist:
+%%## Implementierungs-Scan
+
+%%slides
+
+%%col 50 50
+### Erste Runde
 
 - [ ] Division: Nullprüfung vorhanden?
 - [ ] Standardargumente: kein `list=[]` oder `dict={}`?
 - [ ] Typ-Annotationen: alle Parameter annotiert?
+%%sep
+### Zweite Runde
 
-## Implementierungs-Scan: Ergänzungen
-
-Danach die zweite Prüfrunde:
-
-- [ ] `return`-Anweisung: in jeder Funktion vorhanden?
+- [ ] `return`: in jeder Funktion vorhanden?
 - [ ] Hartcodierte Werte: durch Konstanten ersetzt?
 - [ ] Fehlerbehandlung: sinnvolle Exceptions definiert?
+%%/col
+
+%%/slides
 
 %%book
-Dieser Scan ist deterministisch — er kann nach jedem KI-generierten Code-Block
-systematisch durchgeführt werden, ohne Kreativität oder Ermessen zu erfordern.
+
+Dieser Scan ist deterministisch. Wir können ihn nach jedem KI-generierten Code-Block systematisch durchführen, ohne Kreativität oder Ermessen zu benötigen.
+
 %%/book
+
 %%slides
+
 ## Hörsaalfrage {background="#FFD966"}
 
-Findet in 2 Minuten mindestens drei Probleme:
+Finden Sie in 2 Minuten mindestens drei Probleme:
 
 ```python
 def mittelwert(werte=[]):
@@ -316,7 +356,7 @@ def mittelwert(werte=[]):
 ```
 
 %%col 50 50
-**Nutzt die Checkliste:**
+**Nutzen Sie die Checkliste:**
 
 - Anforderungen vollständig?
 - Randfälle berücksichtigt?
@@ -324,51 +364,63 @@ def mittelwert(werte=[]):
 %%sep
 **Mögliche Treffer:**
 
-- Mutable Default-Argument
-- Division durch Null bei leerer Liste
+- `mittelwert([])` löst einen `ZeroDivisionError` aus
 - Keine Typ-Annotationen
+- `werte=[]` ist ein veränderliches Standardargument (hier ungefährlich, weil die Liste nicht verändert wird)
 %%/col
+
 %%/slides
 
-
-%%# KI-Halluzinationen
-
 %%book
-KI-Modelle erfinden manchmal Funktionen, Module und API-Methoden, die nicht existieren.
-Diese Halluzinationen sind im Code nicht sichtbar — sie treten erst beim Ausführen als
-`AttributeError` oder `ImportError` auf.
+
+Die Funktion hat drei Auffälligkeiten. Bei einer leeren Liste ist `len(werte)` gleich 0 und die Division löst einen `ZeroDivisionError` aus. Parameter und Rückgabewert haben keine Typ-Annotationen. Das veränderliche Standardargument fällt im Scan auf, richtet hier aber keinen Schaden an, weil die Funktion die Liste nicht verändert.
+
 %%/book
 
-## KI-Halluzinationsmuster
+
+%%## Erfundene Methoden und Module
+
+%%slides
 
 %%col 50 50
-### Nicht existierende Methoden
-
 ```python
 import pandas as pd
 
 df = pd.read_csv("daten.csv")
-df.interpolate_missing()  # existiert nicht
-result = df.to_geojson()  # existiert nicht
-```
-
-### Nicht existierende Module
-
-```python
-import geopandas_lite      # existiert nicht
-import pandas.geospatial   # existiert nicht
+df.interpolate_missing()
+# AttributeError: existiert nicht
+df.to_geojson()
+# AttributeError: existiert nicht
 ```
 %%sep
-### Falsche API-Nutzung
-
 ```python
-# sklearn falsch verwendet:
-model.fit_transform(X_test)     # nur für Training
-model.score(X, y, metric="f1")  # kein metric-Parameter
+import pandas.geospatial
+# ModuleNotFoundError: existiert nicht
 ```
+%%/col
 
-### Unnötige Abstraktionen
+%%/slides
 
+%%book
+
+KI-Modelle erfinden manchmal Funktionen, Module und API-Methoden, die nicht existieren. Im Code sind diese Halluzinationen nicht sichtbar, sie treten erst beim Ausführen als `AttributeError` oder `ModuleNotFoundError` auf. Alle Beispiele wurden mit pandas 3.0.3 ausgeführt.
+
+%%/book
+
+
+%%## Falsche API-Nutzung und unnötige Abstraktion
+
+%%slides
+
+%%col 50 50
+```python
+df = df.append(zeile)
+# AttributeError: seit pandas 2.0 entfernt
+
+pd.read_csv("daten.csv", delimiter_char=";")
+# TypeError: unbekanntes Argument
+```
+%%sep
 ```python
 class SingletonLoader:   # für Einmalnutzung unnötig
     _instance = None
@@ -377,89 +429,106 @@ class SingletonLoader:   # für Einmalnutzung unnötig
 %%/col
 
 %%note Erkennungsstrategie
-Jeden `import` und jeden Methodenaufruf gegen die Dokumentation prüfen. Code ausführen — nicht nur lesen.
+Jeden `import` und jeden Methodenaufruf gegen die Dokumentation prüfen. Code ausführen, nicht nur lesen.
 %%/note
 
+%%/slides
+
 %%book
-Gegenstrategie: Jeden Import und jeden Methodenaufruf gegen die offizielle Dokumentation
-prüfen. Code mit kleinen Beispieldaten ausführen, bevor er als korrekt gilt.
+
+Neben erfundenen Funktionen gibt es veraltete oder falsch aufgerufene APIs: `DataFrame.append` wurde in pandas 2.0 entfernt, und `read_csv` kennt kein Argument `delimiter_char`. Unnötige Abstraktionen wie ein Singleton für einen einmaligen Ladevorgang machen den Code länger, ohne ihn besser zu machen. Gegenstrategie: Jeden Import und jeden Methodenaufruf gegen die offizielle Dokumentation prüfen und den Code mit kleinen Beispieldaten ausführen, bevor er als korrekt gilt.
+
 %%/book
 
 
 %%# KI-Evaluierungscheckliste
 
+%%## Sieben Prüfpunkte
+
 %%book
-Eine strukturierte Checkliste reduziert kognitive Last beim Reviewen von KI-Code.
-Sie deckt alle drei Review-Dimensionen in sieben Punkten ab.
+
+%%note Überblick
+Eine strukturierte Checkliste reduziert die kognitive Last beim Reviewen von KI-Code. Sie deckt alle drei Review-Dimensionen in sieben Punkten ab.
+%%/note
+
 %%/book
 
-## KI-Evaluierungscheckliste
-%%div eyebrow
-{{< ai4sc-icon clipboard-list >}}
-%%/div
+%%slides
 
-**Anforderungen & Design**
+%%col 33 33 33
+### Anforderung und Design
 
 - [ ] Anforderungsabdeckung: alle Anforderungen implementiert?
 - [ ] Design-Übereinstimmung: Module, Klassen, Signaturen korrekt?
-
-**Implementierung**
+%%sep
+### Implementierung
 
 - [ ] Typ-Korrektheit: Annotationen vorhanden und korrekt?
 - [ ] Randfälle: Division, leere Listen, None-Werte behandelt?
 - [ ] Fehlerbehandlung: sinnvolle Exceptions definiert?
-
-**KI-spezifisch**
-
-- [ ] Keine halluzierten Aufrufe: alle Funktionen verifiziert?
-- [ ] Test-Suite: alle Tests laufen durch?
-
-## Agentic Workflow nach der Generierung
-
-> **Agentic workflow:** Nach jeder KI-Generierung:
-> 1. Anforderungen → Checkliste durchgehen
-> 2. Design → UML vergleichen
-> 3. Implementierung → sechs Muster scannen
-> 4. Halluzinationen → Importe und Aufrufe testen
-> 5. Tests → alle grün?
-> 6. Nein → Prompt präzisieren und neu generieren
-
-%%aside
-→ `08a_UnitTest` (S08): Tests als automatisierter Teil des Reviews
-%%/aside
-
-## Code Review = Verify
-
-%%div eyebrow
-{{< ai4sc-icon workflow >}} Agentic Cycle
-%%/div
-
-%%col 50 50
-**Review schließt den Agentic Cycle:**
-
-```text
-Prompt
-  ↓
-Generate (KI)
-  ↓
-Understand
-  ↓
-Verify ← Code Review
-  ↓
-Iterate (bei Fehler)
-```
 %%sep
-**Review schlägt fehl → iterieren:**
+### KI-spezifisch
 
-- Spezifischen Fehler im Prompt benennen
-- Checklisten-Punkt als Prompt-Ergänzung nutzen
-- Neu generieren lassen
-- Erneut reviewen
+- [ ] Keine erfundenen Aufrufe: alle Funktionen verifiziert?
+- [ ] Test-Suite: alle Tests laufen durch?
+%%/col
+
+%%/slides
+
+%%book
+
+Die Punkte lassen sich den drei Dimensionen zuordnen: Anforderungsabdeckung und Design-Übereinstimmung prüfen den Code gegen Spezifikation und Entwurf, die übrigen Punkte betreffen die Implementierung und die KI-typischen Fehler.
+
+%%/book
+
+
+%%## Ablauf nach jeder Generierung
+
+%%slides
+
+%%note Nach jeder KI-Generierung
+1. **Anforderungen:** Checkliste durchgehen
+2. **Design:** mit dem UML vergleichen
+3. **Implementierung:** Scan auf die typischen Muster
+4. **Halluzinationen:** Importe und Aufrufe testen
+5. **Tests:** laufen alle grün?
+6. **Wenn nicht:** Prompt präzisieren und neu generieren
+%%/note
+
+Die Tests aus `08a_UnitTest` sind der automatisierte Teil dieses Ablaufs.
+
+%%/slides
+
+%%book
+
+Nach jeder Generierung gehen wir die Prüfungen in dieser Reihenfolge durch. Die Tests aus `08a_UnitTest` laufen automatisch. Das Review deckt ab, was Tests nicht sehen können. Schlägt eine Prüfung fehl, präzisieren wir den Prompt und lassen den Code neu generieren.
+
+%%/book
+
+
+%%## Code Review als Verifizieren
+
+%%slides
+
+%%col 60 40
+![](images/08b_CodeReview/agentic_cycle.svg){.nostretch fig-align="center" width="100%"}
+%%sep
+Code Review ist der Schritt Verifizieren im {{< ai4sc-icon workflow >}} Agentic Cycle.
+
+Schlägt es fehl, benennen wir den konkreten Fehler im Prompt und prüfen das Ergebnis erneut.
 %%/col
 
 %%tip Merksatz
 Tests prüfen automatisch. Code Review prüft, was Tests nicht sehen können.
 %%/tip
+
+%%/slides
+
+%%book
+
+Code Review schließt den Agentic Cycle. Schlägt es fehl, benennen wir den konkreten Fehler im Prompt, nutzen den passenden Punkt der Checkliste als Ergänzung, lassen neu generieren und prüfen erneut.
+
+%%/book
 
 
 %%references
