@@ -25,19 +25,37 @@ resources:
 > — Grady Booch
 
 
-## Funktionen
+### TL;DR
+
+In diesem Kapitel lernen wir Funktionen als zentrale Bausteine von Programmen kennen. Zunächst betrachten wir Funktionen allgemein: wie man sie in Python definiert und aufruft, wie sie Ergebnisse zurückgeben und welche Rolle Standardwerte und eingebaute Funktionen spielen. Danach betrachten wir Funktionen im Speicher, also Variablengültigkeit, Call Stack und die Frage, was mit übergebenen Argumenten geschieht. Zum Schluss lesen wir die Signatur als Vertrag zwischen Aufrufer und Funktion und nutzen sie beim agentischen Arbeiten mit KI-generiertem Code. Das Kapitel setzt Verzweigungen und Schleifen voraus; beides verwenden wir in den Beispielen.
 
 %%/book
 
+
+%%# Funktionen allgemein
+
+%%## Gründe für Funktionen
+
 %%slides
 
-
-## Gründe für Funktionen
 
 - Wiederkehrende Schritte nur einmal schreiben
 - Änderungen nur an einer Stelle vornehmen (einfachere Wartung)
 - Komplexe Aufgaben in kleine, verständliche Bausteine zerlegen
 - Namen geben dem Code Bedeutung und machen Programme lesbarer
+
+%%/slides
+
+%%book
+
+
+Stellen wir uns vor, wir werten Temperaturmessungen von mehreren Sensoren an einer Brücke aus und berechnen für jede Messreihe denselben Mittelwert. Ohne Funktionen schreiben wir die Berechnung für jede Reihe erneut hin. Wir müssten jede spätere Korrektur an allen Stellen nachziehen, und vergessene Stellen führen zu Fehlern, die schwer zu finden sind.
+
+Eine Funktion fasst solche wiederkehrenden Schritte unter einem Namen zusammen. Die Berechnung steht dann nur einmal im Programm, und eine Änderung wirkt überall, wo die Funktion aufgerufen wird. Darüber hinaus zerlegen Funktionen eine komplexe Aufgabe in kleine, überschaubare Bausteine, die sich einzeln verstehen und prüfen lassen. Ein sprechender Name wie `mittelwert` macht außerdem sichtbar, was ein Codeabschnitt leistet, ohne dass wir seine Zeilen lesen müssen.
+
+%%/book
+
+%%slides
 
 
 ## Funktionen – Mathematisch
@@ -46,12 +64,12 @@ Funktionen setzen in Programmiersprachen das mathematische Konzept der Funktion 
 Sie stellen eine Abbildung von einer Eingabemenge (Parameter) auf eine Ausgabemenge (Rückgabe) dar.
 
 %%def Abbildung
-Eine Funktion $f$ ordnet jedem Element $x$ einer Definitionsmenge $X$ ein Element $y$ einer Zielmenge $Y$ zu.
+Eine Funktion $f$ ordnet jedem Element $x$ einer Definitionsmenge $X$ genau ein Element $y$ einer Zielmenge $Y$ zu.
 Mathematisch ist die Abbildung definiert als
 
 $$ f : X \to Y, \quad x \mapsto y.$$
 
-Meist schreibt man einfach
+Meist schreibt man kurz
 
 $$ y = f(x).$$
 %%/def
@@ -60,18 +78,23 @@ $$ y = f(x).$$
 
 %%book
 
+
+### Funktionen in Mathematik und Programmierung
+
+Der Begriff der Funktion stammt aus der Mathematik. Eine Funktion ordnet jedem Element der Definitionsmenge genau ein Element der Zielmenge zu, wie die folgende Definition festhält. Ein Beispiel aus dem Ingenieurwesen ist die Fläche eines Rechtecks: Aus Länge und Breite als Eingabe folgt eindeutig ein Flächenwert als Ausgabe.
+
 %%def Abbildung
-Eine Funktion $f$ ordnet jedem Element $x$ einer Definitionsmenge $X$ ein Element $y$ einer Zielmenge $Y$ zu.
+Eine Funktion $f$ ordnet jedem Element $x$ einer Definitionsmenge $X$ genau ein Element $y$ einer Zielmenge $Y$ zu.
 Mathematisch ist die Abbildung definiert als
 
 $$ f : X \to Y, \quad x \mapsto y.$$
 
-Meist schreibt man einfach
+Meist schreibt man kurz
 
 $$ y = f(x).$$
 %%/def
 
-Funktionen in Python übernehmen dieses Prinzip: Aus dem Eingabewert $x$ entsteht der Rückgabewert $y = f(x)$. Anders als in der Mathematik können sie zusätzlich Seiteneffekte haben, etwa die Ausgabe mit `print` oder das Verändern der Eingabewerte, z. B. bei einer übergebenen Liste (siehe unten).
+Funktionen in Python übernehmen dieses Prinzip: Aus dem Eingabewert $x$ entsteht der Rückgabewert $y = f(x)$. Anders als in der Mathematik können sie zusätzlich Seiteneffekte haben, etwa die Ausgabe mit `print` oder das Verändern der Eingabewerte, zum Beispiel bei einer übergebenen Liste (siehe unten).
 
 %%/book
 
@@ -95,9 +118,14 @@ Wiederverwendbarer Programmcode, der eine bestimmte Aufgabe ausführt.
 %%book
 
 
-## Funktionsdefinition und Funktionsaufruf
+Im Sinne der Programmierung ist eine Funktion wiederverwendbarer Programmcode, der eine bestimmte Aufgabe ausführt. Sie nimmt Eingabewerte entgegen und führt eine festgelegte Folge von Anweisungen aus. Dabei unterscheiden wir zwei Begriffe: Parameter sind die Namen, die in der Funktionsdefinition stehen; Argumente sind die Werte, die wir beim Aufruf übergeben. Am Ende gibt sie genau ein Objekt zurück, den Rückgabewert. Stehen hinter `return` mehrere durch Kommas getrennte Werte, bildet Python daraus ein Tupel; fehlt `return`, lautet der Rückgabewert `None`. Eine Funktion ohne Rückgabewert nennt man auch Prozedur.
 
-Alle höheren Programmiersprachen erlauben die Definition von Funktionen (oder Prozeduren), um sich ständig wiederholenden Code nur einmal schreiben zu müssen und komplexe Programme zu strukturieren.
+Eine Funktion wird nur ausgeführt, wenn wir sie aufrufen. Die bloße Definition legt sie lediglich an. Name, Parameter und Rückgabe bilden zusammen die Signatur der Funktion; sie beschreibt, was die Funktion verspricht, noch bevor wir ihre Implementierung lesen. Darauf kommen wir im Abschnitt zur Signatur als Vertrag zurück.
+
+
+### Funktionsdefinition und Funktionsaufruf
+
+Alle höheren Programmiersprachen erlauben die Definition von Funktionen oder Prozeduren. Wir betrachten nun, wie das in Python aussieht.
 
 Funktionen werden in Python mit dem Schlüsselwort `def` definiert. Sie haben einen Namen und können mehrere Parameter als Eingabe in einer Klammer haben. Der Funktionskopf endet mit `:`. Der Körper der Funktion, also der Teil, der beim Aufruf ausgeführt wird, muss immer eingerückt werden.
 
@@ -119,6 +147,8 @@ def funktionsname(argument1, argument2):
     print("Der Typ von Argument 1 ist "+str(type(argument1)))
         print("Der Typ von Argument 2 ist "+str(type(argument2)))
 ```
+
+Python bricht hier mit einem `IndentationError` ab, noch bevor die Funktion definiert wird.
 
 Beim Aufruf `funktionsname(wert1, wert2)` werden die Parameter mit den übergebenen Argumenten belegt. Parameter werden in Python wie andere Variablen dynamisch typisiert: Wir wissen nicht, welchen Typ sie später haben. Das ist eine typische Fehlerquelle.
 
@@ -166,33 +196,47 @@ def funktionsname(arg1): # <- Name ist wählbar, arg1 ist Parameter
 
 Direkte Berechnung
 
-```python
+```{python}
+#| echo: true
 temp_a = [12.1, 13.4, 11.8, 14.0]
 summe = 0
 for t in temp_a:
     summe += t
-mittel_a = summe / len(temp_a)   # 12.825
+mittel_a = summe / len(temp_a)
+mittel_a
+```
 
+```{python}
+#| echo: true
 temp_b = [9.5, 10.2, 8.9]
 summe = 0
 for t in temp_b:
     summe += t
-mittel_b = summe / len(temp_b)   # 9.533...
+mittel_b = summe / len(temp_b)
+mittel_b
 ```
 
 %%sep
 
 Als Funktion gekapselt
 
-```python
+```{python}
+#| echo: true
 def mittelwert(werte):
     summe = 0
     for wert in werte:
         summe += wert
     return summe / len(werte)
+```
 
-mittel_a = mittelwert([12.1, 13.4, 11.8, 14.0])  # 12.825
-mittel_b = mittelwert([9.5, 10.2, 8.9])          # 9.533...
+```{python}
+#| echo: true
+mittelwert([12.1, 13.4, 11.8, 14.0])
+```
+
+```{python}
+#| echo: true
+mittelwert([9.5, 10.2, 8.9])
 ```
 
 %%/col
@@ -200,27 +244,74 @@ mittel_b = mittelwert([9.5, 10.2, 8.9])          # 9.533...
 
 ## Beispiel – Euklidische Distanz
 
-```python
+```{python}
+#| echo: true
 from math import sqrt
 
 def distance(a1, a2, b1, b2):
     return sqrt((a1 - b1)**2 + (a2 - b2)**2)
+```
 
-a1, a2 = 2, 3
-b1, b2 = 6, 6
-x = distance(a1, a2, b1, b2)  # 5.0
+```{python}
+#| echo: true
+distance(2, 3, 6, 6)
 ```
 
 %%/slides
 
 %%book
 
-Die Funktion `mittelwert(werte)` kapselt die Schleife, die eine Messreihe aufsummiert und durch die Anzahl der Werte teilt. Ohne Funktion steht diese Schleife für jede Messreihe erneut im Programm; mit Funktion genügt ein Aufruf je Reihe: `mittelwert([12.1, 13.4, 11.8, 14.0])` ergibt 12.825, `mittelwert([9.5, 10.2, 8.9])` ergibt etwa 9.53. Die Funktion `distance(a1, a2, b1, b2)` berechnet den euklidischen Abstand zweier Punkte; für die Punkte (2, 3) und (6, 6) ergibt sich 5.0.
+
+#### Beispiel: Mittelwert einer Messreihe
+
+Ein typischer Fall aus der Auswertung von Messdaten ist der Mittelwert. Berechnen wir ihn direkt, steht die Schleife, die eine Messreihe aufsummiert und durch die Anzahl der Werte teilt, für jede Reihe erneut im Programm. Kapseln wir dieselbe Schleife in der Funktion `mittelwert(werte)`, genügt ein Aufruf je Reihe. Der Parameter `werte` erhält bei jedem Aufruf eine andere Messreihe, die Rechenvorschrift bleibt gleich.
+
+```{python}
+#| echo: true
+def mittelwert(werte):
+    summe = 0
+    for wert in werte:
+        summe += wert
+    return summe / len(werte)
+```
+
+```{python}
+#| echo: true
+mittelwert([12.1, 13.4, 11.8, 14.0])
+```
+
+```{python}
+#| echo: true
+mittelwert([9.5, 10.2, 8.9])
+```
+
+Für die erste Reihe ergibt sich 12,825, für die zweite etwa 9,53. Würden wir die Berechnung später ändern, etwa um leere Reihen abzufangen, müssten wir dies nur an einer Stelle tun.
 
 
-## Ergebnisrückgabe
+#### Beispiel: Euklidische Distanz
 
-Die Anweisung `return` wird in Funktionen benutzt, um die Ausführung einer Funktion zu beenden und die zugewiesenen Werte als Rückgabewert zurückzugeben.
+Auch geometrische Berechnungen lassen sich als Funktion schreiben. Die Funktion `distance` berechnet die euklidische Distanz zweier Punkte $(a_1, a_2)$ und $(b_1, b_2)$ nach $\sqrt{(a_1-b_1)^2 + (a_2-b_2)^2}$ und gibt das Ergebnis mit `return` zurück. Der Rückgabewert ersetzt den Aufruf im Ausdruck.
+
+```{python}
+#| echo: true
+from math import sqrt
+
+def distance(a1, a2, b1, b2):
+    return sqrt((a1 - b1)**2 + (a2 - b2)**2)
+
+```
+
+```{python}
+#| echo: true
+distance(2, 3, 6, 6)
+```
+
+Für die Punkte (2, 3) und (6, 6) ergibt sich 5,0, denn die Katheten des Dreiecks sind 4 und 3 lang.
+
+
+### Ergebnisrückgabe
+
+Die Anweisung `return` beendet die Ausführung einer Funktion und gibt den angegebenen Wert an den Aufrufer zurück.
 
 ```{python}
 #| echo: true
@@ -238,7 +329,7 @@ ergebnis
 
 Wir sehen, dass das Ergebnis `Ausgabewert` ist und die `print()`-Funktion nicht aufgerufen worden ist. Hat eine Funktion kein `return`, liefert sie `None`, auch wenn sie mit `print` etwas ausgibt.
 
-Es können mehrere Ausgabewerte mit `return` zurückgegeben werden.
+Eine Funktion kann mit `return` auch mehrere Werte zurückgeben.
 
 ```{python}
 #| echo: true
@@ -252,7 +343,7 @@ ergebnis = funktion_mit_zwei_ausgaben()
 ergebnis
 ```
 
-Das Ergebnis von Funktionen mit mehreren Rückgaben ist ein Tupel.
+Das Ergebnis einer Funktion mit mehreren Rückgabewerten ist ein Tupel.
 
 ```{python}
 #| echo: true
@@ -266,16 +357,53 @@ Auf die einzelnen Werte im Tupel kann durch den Index zugegriffen werden. Zur Er
 ergebnis[0]
 ```
 
-Die Tupelbildung lässt sich durch Mehrfachzuweisung vermeiden (Tupel-Unpacking). Bei einer Mehrfachzuweisung listet man mehrere durch Komma getrennte Variablen links von der Zuweisung auf.
+Mit einer Mehrfachzuweisung (Tupel-Unpacking) verteilen wir die Elemente des Tupels direkt auf mehrere Variablen. Dazu listen wir links von der Zuweisung mehrere durch Kommas getrennte Variablen auf.
 
 ```{python}
 #| echo: true
 ergebnis1, ergebnis2 = funktion_mit_zwei_ausgaben()
-print(ergebnis1)
-print(ergebnis2)
-print(type(ergebnis1))
-print(type(ergebnis2))
 ```
+
+```{python}
+#| echo: true
+ergebnis1
+```
+
+```{python}
+#| echo: true
+ergebnis2
+```
+
+```{python}
+#| echo: true
+type(ergebnis1)
+```
+
+
+#### Rückgabe und Ausgabe sind verschieden
+
+Ein häufiger Irrtum ist, `print` und `return` gleichzusetzen. Mit `print` zeigen wir einen Wert nur auf dem Bildschirm an; mit `return` geben wir ihn an den Aufrufer weiter, der damit weiterrechnen kann. Der Rückgabewert ersetzt den Funktionsaufruf im ursprünglichen Ausdruck, sodass `x = verdopple(3)` dasselbe bedeutet wie `x = 6`.
+
+```{python}
+#| echo: true
+def verdopple(a):
+    return a * 2        # liefert den Wert zurück
+
+def zeige_doppelt(a):
+    print(a * 2)        # nur Ausgabe, kein return
+```
+
+```{python}
+#| echo: true
+verdopple(3)
+```
+
+```{python}
+#| echo: true
+print(zeige_doppelt(3))
+```
+
+Die Funktion `zeige_doppelt` gibt zwar 6 aus, liefert aber keinen Wert zurück; der ausgegebene Rückgabewert ist deshalb `None`. Wer das Ergebnis weiterverwenden will, braucht `return`.
 
 %%/book
 
@@ -289,22 +417,41 @@ print(type(ergebnis2))
 - `return` beendet die Ausführung und liefert den Rückgabewert zurück
 - „Zurückgeben“ heißt: Der Rückgabewert ersetzt den Funktionsaufruf im ursprünglichen Ausdruck
 - Ist kein `return` definiert, gibt die Funktion `None` zurück
-- `print` zeigt einen Wert nur auf dem Bildschirm an und liefert ihn nicht zurück: `zeige_doppelt(3)` druckt 6, das Ergebnis ist trotzdem `None`
+- `print` zeigt einen Wert nur auf dem Bildschirm an und liefert ihn nicht zurück: Das Ergebnis einer solchen Funktion ist `None`
 
 %%sep
 
 ```python
+def funktion(parameter):
+    return wert         # liefert wert zurück
+
+def prozedur(parameter):
+    print(wert)         # nur Ausgabe, kein return
+```
+
+%%/col
+
+
+## Beispiel – Rückgabe und Ausgabe
+
+```{python}
+#| echo: true
 def verdopple(a):
     return a * 2        # liefert den Wert zurück
 
 def zeige_doppelt(a):
     print(a * 2)        # nur Ausgabe, kein return
-
-x = verdopple(3)        # x ist 6
-y = zeige_doppelt(3)    # druckt 6, y ist None
 ```
 
-%%/col
+```{python}
+#| echo: true
+verdopple(3)
+```
+
+```{python}
+#| echo: true
+print(zeige_doppelt(3))
+```
 
 
 ## Standardwerte bei Parametern
@@ -323,17 +470,7 @@ def funktionsname(arg1, arg2="default"):
     # arg1: Pflichtparameter, beim Aufruf immer anzugeben
     # arg2="default": Parameter mit Standardwert, beim Aufruf optional
     # Parameter mit Standardwert stehen nach denen ohne
-    return arg1, arg2
-```
-
-Beispiel
-
-```python
-funktionsname(1)            # (1, 'default')
-funktionsname(1, "anders")  # (1, 'anders')
-funktionsname(1, arg2="x")  # (1, 'x')
-
-# def f(a="x", b): ...      # SyntaxError
+    ...
 ```
 
 %%/col
@@ -341,130 +478,164 @@ funktionsname(1, arg2="x")  # (1, 'x')
 
 ## Beispiel – Maßeinheit an Zahl anhängen
 
-```python
+```{python}
+#| echo: true
 def measurement(number, unit="meters"):
     return str(number) + " " + unit
-
-x = measurement(12)        # "12 meters"
-x = measurement(5.5, "kg") # "5.5 kg"
 ```
 
-
-## Vorsicht: Veränderliche Standardwerte
-
-%%col 50 50
-
-**Warum passiert das?**
-
-Die Liste `[]` wird **einmalig** bei der Definition der Funktion erstellt — nicht bei jedem Aufruf. Alle Aufrufe teilen dieselbe Liste.
-
-**Korrekte Version**
-
-Als Standardwert `None` verwenden und die Liste im Funktionskörper neu erzeugen.
-
-%%sep
-
-```python
-# ✗ Kommt in KI-generiertem Code vor
-def sammle_messwerte(wert, liste=[]):
-    liste.append(wert)
-    return liste
-
-print(sammle_messwerte(1))  # [1]
-print(sammle_messwerte(2))  # [1, 2] ← nicht [2]!
-
-# ✓ Korrekte Version
-def sammle_messwerte(wert, liste=None):
-    if liste is None:
-        liste = []
-    liste.append(wert)
-    return liste
+```{python}
+#| echo: true
+measurement(12)
 ```
 
-%%/col
-
-%%warning Achtung
-Dieses Muster kommt in KI-generiertem Code vor. Prüfen Sie Standardwerte auf veränderliche Typen (`list`, `dict`, `set`).
-%%/warning
-
-
-## Typisierung: Die Signatur als Vertrag
-
-%%col 50 50
-
-Typangaben sind in Python optional, dokumentieren aber, wie eine Funktion zu benutzen ist.
-
-- `calculate_area` → Name beschreibt die Aufgabe
-- `length: float, width: float` → Eingabetypen sind dokumentiert
-- `-> float` → Rückgabetyp ist dokumentiert
-- Die {{< ai4sc-icon clipboard-list >}} Signatur beschreibt die Schnittstelle, ohne Implementierung
-- Typangaben sind Annotationen: Der Interpreter prüft sie nicht, Werkzeuge wie `mypy` und Tests tun es
-
-%%sep
-
-```python
-def calculate_area(length: float, width: float) -> float:
-    """Berechnet die Fläche eines Rechtecks in m²."""
-    ...
+```{python}
+#| echo: true
+measurement(5.5, "kg")
 ```
 
-%%/col
-
-
-## Prüfpunkte an der Signatur
-
-%%col 50 50
-
-**Vor dem Lesen der Implementierung**
-
-1. Name: Passt er zur Anforderung?
-2. Parameter: Richtige Typen und Reihenfolge?
-3. Rückgabetyp: Stimmt er mit dem erwarteten Ergebnis überein?
-4. Docstring: Beschreibt er Grenzfälle?
-
-%%sep
-
-```python
-# ✓ Klare Signatur
-def hydraulic_gradient(
-    head_loss: float,
-    pipe_length: float
-) -> float:
-    """Hydraulisches Gefälle i = Δh / L"""
-    ...
-
-# ✗ Unklare Signatur
-def calc(x, y):
-    ...
+```{python}
+#| echo: true
+measurement(5.5, unit="kg")
 ```
-
-%%/col
-
-
-## Agentisches Arbeiten mit Funktionen
-> **Wenn KI eine Funktion generiert:**
->
-> 1. **Signatur lesen:** Stimmen Eingabetypen und Rückgabetyp mit der Anforderung überein?
-> 2. **Test schreiben:** Einen bekannten Testfall formulieren — *bevor* die Implementierung gelesen wird
-> 3. **Docstring prüfen:** Beschreibt er Grenzfälle (None, 0, leere Liste)?
-> 4. **Implementierung lesen:** Stimmt sie mit der Signatur überein?
-> 5. **Wenn nicht:** Signatur korrigieren und neu prompten
 
 %%/slides
 
 %%book
 
 
-## Standardwerte und veränderliche Standardwerte
+### Standardwerte bei Parametern
 
-Parameter können einen Standardwert besitzen, etwa `def measurement(number, unit="meters")`. Beim Aufruf ist das Argument dann optional; ein übergebener Wert überschreibt den Standard.
+Parameter können einen Standardwert besitzen. Beim Aufruf ist das zugehörige Argument dann optional: Fehlt es, gilt der Standardwert, ein übergebener Wert überschreibt ihn. Argumente lassen sich auch über den Namen des Parameters übergeben. Parameter mit Standardwert müssen nach den Parametern ohne Standardwert stehen, sonst meldet Python einen `SyntaxError`.
 
-Ein veränderlicher Standardwert wie `liste=[]` wird nur einmal beim Definieren der Funktion erzeugt, nicht bei jedem Aufruf. Alle Aufrufe teilen sich dieselbe Liste, und der zweite Aufruf von `sammle_messwerte(2)` liefert `[1, 2]`. Üblich ist deshalb `liste=None` mit einer Prüfung `if liste is None: liste = []` im Funktionskörper. KI-generierter Code enthält dieses Muster gelegentlich; prüfen Sie Standardwerte vom Typ `list`, `dict` und `set`.
+```{python}
+#| echo: true
+def funktionsname(arg1, arg2="default"):
+    return arg1, arg2
+```
+
+```{python}
+#| echo: true
+funktionsname(1)
+```
+
+```{python}
+#| echo: true
+funktionsname(1, "anders")
+```
+
+```{python}
+#| echo: true
+funktionsname(1, arg2="x")
+```
+
+```{python}
+#| echo: true
+#| error: true
+def falsche_reihenfolge(a="x", b):
+    return a, b
+```
+
+Python meldet einen `SyntaxError`, weil ein Parameter ohne Standardwert auf einen Parameter mit Standardwert folgt.
+
+Ein praktisches Beispiel ist das Anhängen einer Maßeinheit an eine Zahl. Ohne Angabe verwendet die Funktion `measurement` Meter, mit Angabe die gewünschte Einheit.
+
+```{python}
+#| echo: true
+def measurement(number, unit="meters"):
+    return str(number) + " " + unit
+```
+
+```{python}
+#| echo: true
+measurement(12)
+```
+
+```{python}
+#| echo: true
+measurement(5.5, "kg")
+```
+
+Das Argument für `unit` lässt sich auch über den Namen des Parameters übergeben, als sogenanntes Schlüsselwortargument.
+
+```{python}
+#| echo: true
+measurement(5.5, unit="kg")
+```
+
+%%/book
+
+%%slides
 
 
-## Variablengültigkeit
+## Eingebaute Funktionen
 
-Variablen innerhalb von Funktionen sind nicht global gültig. So sind die Variablen der Argumente nur innerhalb der Funktion gültig. Auch neue Variablen, die in der Funktion definiert werden, sind nicht außerhalb der Funktion gültig. So sind in der folgenden Funktion:
+Python bringt viele eingebaute Funktionen mit.
+
+| Funktion                               | Zweck                          |
+|:---------------------------------------|:-------------------------------|
+| `print()`, `input()`                   | Ausgabe, Eingabe               |
+| `id()`, `type()`                       | Objekt-ID, Typ              |
+| `int()`, `str()`, `float()`            | Typkonvertierung              |
+| `list()`, `tuple()`, `set()`, `dict()` | Komplexe Typen                 |
+| `len()`                                | Länge eines komplexen Typs     |
+| `abs()`, `max()`, `min()`              | Mathematische Grundfunktionen  |
+| `sum()`, `round()`                     | Summe, Runden                  |
+| `sorted()`                             | Sortieren                      |
+| …                                      |                                |
+
+%%/slides
+
+%%book
+
+
+### Eingebaute Funktionen
+
+Python bringt viele eingebaute Funktionen mit, die wir ohne Import verwenden können. Wir kennen bereits einige davon aus den vorigen Kapiteln.
+
+| Funktion                               | Zweck                          |
+|:---------------------------------------|:-------------------------------|
+| `print()`, `input()`                   | Ausgabe, Eingabe               |
+| `id()`, `type()`                       | Objekt-ID, Typ                 |
+| `int()`, `str()`, `float()`            | Typkonvertierung               |
+| `list()`, `tuple()`, `set()`, `dict()` | Komplexe Typen                 |
+| `len()`                                | Länge eines komplexen Typs     |
+| `abs()`, `max()`, `min()`              | Mathematische Grundfunktionen  |
+| `sum()`, `round()`                     | Summe, Runden                  |
+| `sorted()`                             | Sortieren                      |
+
+Funktionen strukturieren Programme in überschaubare, wiederverwendbare Bausteine: einmal schreiben, überall nutzen. Die eingebauten Funktionen zeigen das im Kleinen, denn niemand muss `len()` oder `sorted()` selbst neu implementieren.
+
+%%/book
+
+
+%%# Funktionen im Speicher
+
+%%## Variablengültigkeit
+
+%%slides
+
+
+%%col 40 60
+
+- Parameter und in der Funktion zugewiesene Namen sind **lokal**
+- Außerhalb der Funktion existieren sie nicht
+- Derselbe Name kann in verschiedenen Funktionen verschiedene Werte haben
+- **Globale** Variablen können in Funktionen gelesen werden
+- Warum? Jeder Aufruf erhält einen eigenen *Frame* im Speicher
+
+%%sep
+
+%%video images/06a_Funktionen/manim_scope
+
+%%/col
+
+%%/slides
+
+%%book
+
+
+Variablen innerhalb von Funktionen sind nicht global gültig. Die Parameter einer Funktion gelten nur innerhalb der Funktion, ebenso alle Namen, denen die Funktion einen Wert zuweist. In der folgenden Funktion sind `argument` und `interne_variable` lokale Namen, deren Werte die Funktion mit `print()` ausgibt:
 
 ```{python}
 #| echo: true
@@ -473,8 +644,6 @@ def meine_funktion(argument):
     print("Der Wert von argument innerhalb der Funktion ist "+str(argument))
     print("Der Wert von interne_variable innerhalb der Funktion ist "+str(interne_variable))
 ```
-
-die Werte von `argument` und `interne_variable` innerhalb der Funktion definiert und werden im `print()`-Statement ausgegeben.
 
 ```{python}
 #| echo: true
@@ -489,50 +658,63 @@ Die Variablen `argument` und `interne_variable` sind nach dem Ausführen der Fun
 print(argument)
 ```
 
+Der Fehler `NameError` zeigt, dass der Name nur im Frame der Funktion existiert.
+
 ```{python}
 #| echo: true
 #| error: true
 print(interne_variable)
 ```
 
-Das erlaubt es auch, Variablennamen außerhalb der Funktion zu definieren, welche innerhalb der Funktion einen anderen Wert haben können. So bleibt der Wert von `argument` unverändert.
+Für `interne_variable` gilt dasselbe.
+
+Das erlaubt es auch, Variablennamen außerhalb der Funktion zu definieren, die innerhalb der Funktion einen anderen Wert haben. Der Aufruf `meine_funktion(4)` gibt innerhalb der Funktion den Wert 4 aus, der globale Name `argument` behält danach seinen Wert 6.
 
 ```{python}
 #| echo: true
-argument = 6 # Originalwert
-print("Der Wert von argument vor der Funktion ist "+str(argument))
+argument = 6
 meine_funktion(4)
-print("Der Wert von argument nach der Funktion ist immer noch "+str(argument))
 ```
 
-%%/book
-
-%%slides
-
-
-## Variablengültigkeit
-
-%%col 40 60
-
-- Parameter und in der Funktion zugewiesene Namen sind **lokal**
-- Außerhalb der Funktion existieren sie nicht
-- Derselbe Name kann in verschiedenen Frames verschiedene Werte haben
-- Globale Namen lassen sich lesen; eine Zuweisung erzeugt einen lokalen Namen (sonst `UnboundLocalError`)
-- Warum? Jeder Aufruf erhält einen eigenen *Frame* – siehe nächste Folie
-
-%%sep
-
-```{=html}
-<video poster="images/06a_Funktionen/manim_scope_last.png" data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/06a_Funktionen/manim_scope.webm" type="video/webm"><source src="images/06a_Funktionen/manim_scope.mp4" type="video/mp4"></video>
+```{python}
+#| echo: true
+argument
 ```
 
-%%/col
+Die folgende Animation zeigt, was dabei im Speicher geschieht: Der Aufruf legt einen eigenen Frame mit einem zweiten Namen `argument` an, `print` liest im jeweils aktiven Frame, und beim Rücksprung verschwindet der Frame mit seinen Namen.
 
-%%/slides
+%%video images/06a_Funktionen/manim_scope Zwei Frames mit je einem Namen argument; nach dem Rücksprung bleibt nur der Frame module.
 
-%%book
 
-Globale Namen lassen sich in einer Funktion lesen. Weist die Funktion demselben Namen einen Wert zu, entsteht jedoch ein lokaler Name; wird er vorher gelesen, löst Python einen `UnboundLocalError` aus. Das Schlüsselwort `global` hebt das auf, macht Programme aber schwer nachvollziehbar und sollte vermieden werden.
+#### Globale Namen lesen und überschreiben
+
+Globale Namen lassen sich in einer Funktion lesen. Die Funktion `skaliere` verwendet den globalen Namen `faktor`, ohne ihn selbst zu definieren.
+
+```{python}
+#| echo: true
+faktor = 2
+
+def skaliere(wert):
+    return wert * faktor
+
+skaliere(4)
+```
+
+Weist die Funktion demselben Namen jedoch einen Wert zu, entsteht ein lokaler Name. Wird er vorher gelesen, existiert er noch nicht, und Python löst einen `UnboundLocalError` aus.
+
+```{python}
+#| echo: true
+#| error: true
+def aendere_faktor():
+    print(faktor)
+    faktor = 3
+
+aendere_faktor()
+```
+
+Die Meldung des `UnboundLocalError` benennt den Grund: Der lokale Name `faktor` hat beim Lesen noch keinen Wert.
+
+Das Schlüsselwort `global` hebt diese Regel auf, macht Programme aber schwer nachvollziehbar und sollte vermieden werden.
 
 %%/book
 
@@ -543,7 +725,8 @@ Globale Namen lassen sich in einer Funktion lesen. Weist die Funktion demselben 
 
 %%col 50 50
 
-```python
+```{python}
+#| echo: true
 def berechne_fläche(breite, höhe):
     fläche = breite * höhe
     return fläche
@@ -571,11 +754,13 @@ main()
 
 %%book
 
-### Jeder Funktionsaufruf erhält einen Speicherbereich (Frame)
+
+#### Jeder Funktionsaufruf erhält einen Speicherbereich (Frame)
 
 Warum sind die Variablen einer Funktion nach dem Aufruf verschwunden? Wenn Python eine Funktion aufruft, legt es einen neuen *Frame* auf den *Call Stack*. Dieser Frame enthält die lokalen Namen der Funktion, also ihre Parameter und alle Namen, die in ihr zugewiesen werden. Der oberste Frame ist der aktive.
 
-```python
+```{python}
+#| echo: true
 def berechne_fläche(breite, höhe):
     fläche = breite * höhe
     return fläche
@@ -607,9 +792,7 @@ Während `berechne_fläche` läuft, liegen drei Frames übereinander: der des Ha
 
 %%sep
 
-```{=html}
-<video poster="images/06a_Funktionen/manim_call_frames_last.png" data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/06a_Funktionen/manim_call_frames.webm" type="video/webm"><source src="images/06a_Funktionen/manim_call_frames.mp4" type="video/mp4"></video>
-```
+%%video images/06a_Funktionen/manim_call_frames
 
 %%/col
 
@@ -617,63 +800,21 @@ Während `berechne_fläche` läuft, liegen drei Frames übereinander: der des Ha
 
 %%book
 
-### Der Stack wächst und schrumpft
+
+#### Der Stack wächst und schrumpft
 
 ![Der Call Stack beim Aufruf und Rücksprung von `berechne_fläche`](images/06a_Funktionen/callstack_steps.svg){.nostretch fig-align="center" width="90%"}
 
-Beim Rücksprung wird der Frame entfernt, und mit ihm verschwinden die lokalen Namen, hier `fläche`. Von außen sind sie nie erreichbar; das ist der Grund für die Variablengültigkeit oben. Der Stack arbeitet nach dem LIFO-Prinzip (*last in, first out*): Der zuletzt aufgerufene Frame wird als erster wieder entfernt. Wie der Stack bei vielen verschachtelten Aufrufen wächst, sehen wir bei der Rekursion in `09b_Rekursion`.
+Jeder Aufruf erhält einen neuen Frame, auch wenn dieselbe Funktion mehrmals aufgerufen wird, und die lokalen Namen entstehen beim Eintritt in die Funktion. Beim Rücksprung wird der Frame entfernt, und mit ihm verschwinden die lokalen Namen, hier `fläche`. Von außen sind sie nie erreichbar: Der Frame erklärt, warum lokale Namen nur während des Aufrufs existieren. Welche Namen lokal sind, legt Python dagegen schon beim Übersetzen der Funktion fest; deshalb entsteht der `UnboundLocalError` aus dem Abschnitt zur Variablengültigkeit. Der Stack arbeitet nach dem LIFO-Prinzip (*last in, first out*): Der zuletzt angelegte Frame wird als erster wieder entfernt. Wie der Stack bei vielen verschachtelten Aufrufen wächst, sehen wir bei der Rekursion in `09b_Rekursion`.
 
 
-## Veränderte und unveränderte Argumente
+### Übergabe von Argumenten
 
-Ein Parameter ist ein neuer Name für dieselbe Adresse wie das übergebene Argument, genau wie ein Alias in `02c_Speicher`. Wird innerhalb einer Funktion ein neuer Wert an einen Parameternamen gebunden, bleibt die Variable außerhalb der Funktion unverändert. Das gilt auch bei unveränderlichen Typen wie `int`, `float`, `str` oder `tuple`.
+In Programmiersprachen unterscheidet man zwei Konzepte der Argumentübergabe. Bei Pass-by-value arbeitet die Funktion mit einer Kopie des übergebenen Werts, die eine eigene Adresse hat. Änderungen an der Kopie bleiben daher innerhalb der Funktion, was oft sicherer ist. Bei Pass-by-reference arbeitet die Funktion mit einer Referenz auf die Variable des Aufrufers; Parameter und Argument sind Aliase für dieselbe Adresse, sodass Veränderungen am Objekt auch außerhalb sichtbar sind. Mehr noch: Auch eine Zuweisung an den Parameter ändert die Variable des Aufrufers. Das spart Zeit und Speicher.
 
-```{python}
-#| echo: true
-def meine_funktion(argument):
-    print("Der Wert von argument am Anfang der Funktion ist "+str(argument))
-    argument = 3
-    print("Der Wert von argument am Ende der Funktion ist "+str(argument))
+%%video images/06a_Funktionen/manim_pass_concepts Links wird der Wert kopiert, rechts zeigen zwei Namen auf dieselbe Liste.
 
-argument = 6 # Originalwert
-print("Der Wert von argument vor der Funktion ist "+str(argument))
-meine_funktion(argument)
-print("Der Wert von argument nach der Funktion ist immer noch "+str(argument))
-```
-
-Das funktioniert auch bei veränderlichen Typen wie `list`, `set` oder `dict`, sofern innerhalb der Funktion nur eine **Neubindung** des Parameternamens erfolgt.
-
-```{python}
-#| echo: true
-def meine_funktion(argument):
-    print("Der Wert von argument am Anfang der Funktion ist "+str(argument))
-    argument = [3]
-    print("Der Wert von argument am Ende der Funktion ist "+str(argument))
-
-argument = [6] # Originalwert
-print("Der Wert von argument vor der Funktion ist "+str(argument))
-meine_funktion(argument)
-print("Der Wert von argument nach der Funktion ist immer noch "+str(argument))
-```
-
-Werden die übergebenen Objekte allerdings direkt modifiziert, so sind diese Änderungen auch außerhalb der Funktion sichtbar.
-
-```{python}
-#| echo: true
-def meine_funktion(argument):
-    print("Der Wert von argument am Anfang der Funktion ist "+str(argument))
-    argument.append(3) # Wir fügen 3 der Liste hinzu
-    print("Der Wert von argument am Ende der Funktion ist "+str(argument))
-
-argument = [6] # Originalwert
-print("Der Wert von argument vor der Funktion ist "+str(argument))
-meine_funktion(argument)
-print("Der Wert von argument nach der Funktion ist nun "+str(argument))
-```
-
-%%warning Achtung
-Dies führt häufig zu Fehlern, wenn Sie unbeabsichtigt globale Datenstrukturen verändern. Auch `+=` verändert eine Liste direkt, bindet bei `int` und `tuple` aber neu.
-%%/warning
+Python verwendet keines von beiden in Reinform. Es übergibt immer eine Referenz auf ein Objekt, man spricht von Pass-by-assignment oder „call by sharing“. Der Parameter ist ein neuer Name für dasselbe Objekt wie das Argument. Anders als bei Pass-by-reference ändert eine Zuweisung an den Parameter die Variable des Aufrufers nicht. Was daraus folgt, hängt davon ab, ob die Funktion den Namen neu bindet oder das Objekt verändert.
 
 %%/book
 
@@ -694,19 +835,88 @@ Dies führt häufig zu Fehlern, wenn Sie unbeabsichtigt globale Datenstrukturen 
 **Pass-by-reference**
 
 - Die Funktion arbeitet mit einer Referenz auf **dieselben Daten**
-- Parameter und Argument sind ein Alias für dieselbe Adresse
+- Parameter und Argument sind Aliase für dieselbe Adresse
 - Veränderungen am Objekt sind auch außerhalb der Funktion sichtbar
-- Spart Zeit und Speicher
+- Auch eine Zuweisung an den Parameter ändert die Variable des Aufrufers
 
 %%sep
 
-```{=html}
-<video poster="images/06a_Funktionen/manim_pass_concepts_last.png" data-autoplay muted playsinline loop style="display:block;width:100%"><source src="images/06a_Funktionen/manim_pass_concepts.webm" type="video/webm"><source src="images/06a_Funktionen/manim_pass_concepts.mp4" type="video/mp4"></video>
-```
+%%video images/06a_Funktionen/manim_pass_concepts
 
 %%/col
 
-Adressen und Alias erklärt `02c_Speicher`, Objekte und Referenzen `04c_Objects`.
+%%/slides
+
+%%book
+
+
+#### Veränderte und unveränderte Argumente
+
+Ein Parameter ist ein neuer Name für dasselbe Objekt wie das übergebene Argument, genau wie ein Alias in `02c_Speicher`. Wird innerhalb einer Funktion ein neuer Wert an einen Parameternamen gebunden, bleibt die Variable außerhalb der Funktion unverändert. Das gilt für unveränderliche Typen wie `int`, `float`, `str` oder `tuple`.
+
+```{python}
+#| echo: true
+def ersetze_zahl(argument):
+    argument = 3
+
+zahl = 6
+ersetze_zahl(zahl)
+zahl
+```
+
+Das gilt ebenso für veränderliche Typen wie `list`, `set` oder `dict`, sofern innerhalb der Funktion nur eine **Neubindung** des Parameternamens erfolgt.
+
+```{python}
+#| echo: true
+def ersetze_liste(argument):
+    argument = [3]
+
+liste = [6]
+ersetze_liste(liste)
+liste
+```
+
+Werden die übergebenen Objekte allerdings direkt verändert, sind diese Änderungen auch außerhalb der Funktion sichtbar.
+
+```{python}
+#| echo: true
+def erweitere_liste_append(argument):
+    argument.append(3)
+
+liste = [6]
+erweitere_liste_append(liste)
+liste
+```
+
+%%warning Achtung
+Dies führt häufig zu Fehlern, wenn eine Funktion unbeabsichtigt globale Datenstrukturen verändert. Auch `+=` verändert eine Liste direkt, bindet bei `int` und `tuple` aber neu.
+%%/warning
+
+Zusammengefasst gilt in Python: Die Übergabe ist für alle Typen gleich, der Parameter ist immer ein neuer Name für dasselbe Objekt. Bei veränderlichen Typen wie `list`, `dict` und `set` ist eine Änderung am Objekt deshalb auch außen sichtbar. Unveränderliche Typen wie `int`, `str` und `tuple` lassen sich nicht ändern; hier ist nur eine Neubindung möglich, und eine Neubindung wirkt nie außerhalb der Funktion. Der folgende Vergleich zeigt dies mit demselben Operator `+=`.
+
+```{python}
+#| echo: true
+def erweitere_liste_plus(argument):
+    argument += [3]     # Liste: ändert das Objekt
+
+def erhoehe_zahl(argument):
+    argument += 3       # int: Neubindung des Namens
+
+liste = [6]
+erweitere_liste_plus(liste)
+liste
+```
+
+```{python}
+#| echo: true
+zahl = 6
+erhoehe_zahl(zahl)
+zahl
+```
+
+%%/book
+
+%%slides
 
 
 ## Veränderte und unveränderte Argumente
@@ -715,26 +925,28 @@ Adressen und Alias erklärt `02c_Speicher`, Objekte und Referenzen `04c_Objects`
 
 **Neubindung: außen unverändert**
 
-```python
-def neu(argument):
+```{python}
+#| echo: true
+def ersetze_liste(argument):
     argument = [3]
 
 liste = [6]
-neu(liste)
-print(liste)   # [6]
+ersetze_liste(liste)
+liste
 ```
 
 %%sep
 
 **Objekt verändert: außen sichtbar**
 
-```python
-def erweitere(argument):
+```{python}
+#| echo: true
+def erweitere_liste_append(argument):
     argument.append(3)
 
 liste = [6]
-erweitere(liste)
-print(liste)   # [6, 3]
+erweitere_liste_append(liste)
+liste
 ```
 
 %%/col
@@ -742,65 +954,395 @@ print(liste)   # [6, 3]
 
 ## Übergabe von Argumentwerten in Python
 
-%%col 50 50
-
 - Python übergibt immer eine **Referenz** auf ein Objekt: Der Parameter ist ein neuer Name für dieselbe Adresse (→ `02c_Speicher`)
 - Das Modell heißt „Pass-by-assignment“ oder „call by sharing“
-- Veränderliche Typen (`list`, `dict`, `set`): Eine Änderung am Objekt ist auch außen sichtbar, es wirkt wie *pass-by-reference*
-- Unveränderliche Typen (`int`, `str`, `tuple`): Es gibt nur Neubindung, es wirkt wie *pass-by-value*
-- Eine reine Neubindung wirkt nie außerhalb
+- Die Übergabe ist für alle Typen gleich, nur die Objekte unterscheiden sich
+- Veränderliche Typen (`list`, `dict`, `set`): Eine Änderung am Objekt ist auch außen sichtbar
+- Unveränderliche Typen (`int`, `str`, `tuple`): Das Objekt lässt sich nicht ändern, nur der Name neu binden
+- Eine reine Neubindung wirkt nie außerhalb, anders als bei echtem *pass-by-reference*
+
+
+## Beispiel – Liste und Zahl mit `+=`
+
+%%col 50 50
+
+**Liste: außen sichtbar**
+
+```{python}
+#| echo: true
+def erweitere_liste_plus(argument):
+    argument += [3]     # ändert das Objekt
+
+liste = [6]
+erweitere_liste_plus(liste)
+liste
+```
 
 %%sep
 
-```python
-def f(argument):
-    argument += [3]     # Liste: ändert das Objekt
+**Zahl: außen unverändert**
 
-def g(argument):
-    argument += 3       # int: Neubindung des Namens
-
-liste = [6]
-f(liste)
-print(liste)   # [6, 3]  ← außen sichtbar
+```{python}
+#| echo: true
+def erhoehe_zahl(argument):
+    argument += 3       # Neubindung des Namens
 
 zahl = 6
-g(zahl)
-print(zahl)    # 6       ← außen unverändert
+erhoehe_zahl(zahl)
+zahl
 ```
 
 %%/col
 
 
-## Eingebaute Funktionen
+## Vorsicht: Veränderliche Standardwerte
 
-Python bringt viele eingebaute Funktionen mit.
+%%col 50 50
 
-| Funktion                               | Zweck                          |
-|:---------------------------------------|:-------------------------------|
-| `print()`, `input()`                   | Ausgabe, Eingabe               |
-| `id()`, `type()`                       | Objekt-ID, Typ              |
-| `int()`, `str()`, `float()`            | Typkonvertierung              |
-| `list()`, `tuple()`, `set()`, `dict()` | Komplexe Typen                 |
-| `len()`                                | Länge eines komplexen Typs     |
-| `abs()`, `max()`, `min()`              | Mathematische Grundfunktionen  |
-| `exit()`                               | Programm beenden               |
-| `sorted()`                             | Sortieren                      |
-| …                                      |                                |
+**Warum passiert das?**
+
+Die Liste `[]` wird **einmalig** bei der Definition der Funktion erstellt — nicht bei jedem Aufruf. Alle Aufrufe teilen dieselbe Liste.
+
+%%sep
+
+```{python}
+#| echo: true
+# ✗ Kommt in KI-generiertem Code vor
+def sammle_messwerte(wert, liste=[]):
+    liste.append(wert)
+    return liste
+```
+
+```{python}
+#| echo: true
+sammle_messwerte(1)
+```
+
+```{python}
+#| echo: true
+sammle_messwerte(2)
+```
+
+%%/col
+%%col 50 50
+
+**Korrekte Version**
+
+Als Standardwert `None` verwenden und die Liste im Funktionskörper neu erzeugen.
+
+%%sep
+
+```{python}
+#| echo: true
+# ✓ Korrekte Version
+def sammle_messwerte(wert, liste=None):
+    if liste is None:
+        liste = []
+    liste.append(wert)
+    return liste
+```
+
+%%/col
+
+%%warning Achtung
+Dieses Muster kommt in KI-generiertem Code vor. Prüfen Sie Standardwerte auf veränderliche Typen (`list`, `dict`, `set`).
+%%/warning
 
 %%/slides
 
 %%book
 
-Bei Pass-by-value arbeitet die Funktion mit einer Kopie des Werts, bei Pass-by-reference mit einer Referenz auf dieselben Daten. Python übergibt immer eine Referenz auf ein Objekt, man spricht von „call by sharing“ oder Pass-by-assignment. Bei unveränderlichen Typen wirkt eine Neubindung nur lokal, bei veränderlichen Typen sind direkte Änderungen am Objekt auch außerhalb sichtbar. Objekte und Referenzen behandelt `04c_Objects`.
 
-Python bringt eine Reihe eingebauter Funktionen mit, etwa `print()`, `len()`, `abs()`, `max()`, `min()` und `sorted()`. Funktionen strukturieren Programme in überschaubare, wiederverwendbare Bausteine: einmal schreiben, überall nutzen.
+### Veränderliche Standardwerte
+
+Bei veränderlichen Standardwerten wie einer Liste liegt eine häufige Fehlerquelle, die auf demselben Aliasing beruht wie die Argumentübergabe. Der Ausdruck `[]` wird einmalig ausgewertet, wenn Python die Funktion definiert, und nicht bei jedem Aufruf. Alle Aufrufe ohne eigenes Argument teilen sich daher dieselbe Liste, und die Werte früherer Aufrufe bleiben erhalten.
+
+```{python}
+#| echo: true
+def sammle_messwerte(wert, liste=[]):
+    liste.append(wert)
+    return liste
+```
+
+```{python}
+#| echo: true
+sammle_messwerte(1)
+```
+
+```{python}
+#| echo: true
+sammle_messwerte(2)
+```
+
+Der zweite Aufruf liefert `[1, 2]` statt `[2]`. Üblich ist deshalb `None` als Standardwert und das Erzeugen der Liste im Funktionskörper, sodass jeder Aufruf eine neue Liste erhält.
+
+```{python}
+#| echo: true
+def sammle_messwerte(wert, liste=None):
+    if liste is None:
+        liste = []
+    liste.append(wert)
+    return liste
+```
+
+```{python}
+#| echo: true
+sammle_messwerte(1)
+```
+
+```{python}
+#| echo: true
+sammle_messwerte(2)
+```
+
+KI-generierter Code enthält das Muster `liste=[]` gelegentlich. Wir prüfen Standardwerte daher auf veränderliche Typen wie `list`, `dict` und `set`.
+
+%%/book
 
 
-## Signatur als Vertrag
+%%# Agentisches Arbeiten mit Funktionen
 
-Die Signatur einer Funktion besteht aus Name, Parametern (mit Typangaben) und Rückgabetyp, ergänzt durch den Docstring. Sie beschreibt, was die Funktion verspricht, ohne die Implementierung zu zeigen. Typangaben sind Annotationen: Der Interpreter prüft sie nicht, Werkzeuge wie `mypy` und Tests tun es. Typangaben und `assert` werden in `08a_UnitTest` vertieft. Vor dem Lesen der Implementierung prüft man Name, Parametertypen und Reihenfolge, Rückgabetyp und die im Docstring genannten Grenzfälle.
+%%## Typisierung: Die Signatur als Vertrag
 
-Wenn eine KI eine Funktion generiert, lesen Sie zuerst die Signatur und schreiben einen Test, bevor Sie die Implementierung lesen. Prüfen Sie den Docstring auf Grenzfälle und die Implementierung auf Übereinstimmung mit der Signatur. Weicht sie ab, korrigieren Sie die Signatur und formulieren den Prompt neu.
+%%slides
+
+
+%%col 50 50
+
+Typangaben sind in Python optional, dokumentieren aber, wie eine Funktion zu benutzen ist. Das ist insbesondere bei KI-generiertem Code sehr wichtig.
+
+- `calculate_area` → Name beschreibt die Aufgabe
+- `length: float, width: float` → Dokumentiert die Parametertypen
+- `-> float` → Rückgabetyp ist dokumentiert
+- Die Signatur beschreibt die Schnittstelle, ohne Implementierung
+- Typangaben sind Annotationen: Der Interpreter prüft sie nicht!!!
+
+%%sep
+
+```python
+def calculate_area(length: float, width: float) -> float:
+    """Berechnet die Fläche eines Rechtecks in m²."""
+    ...
+```
+
+%%/col
+
+%%/slides
+
+%%book
+
+
+Die Signatur einer Funktion besteht aus dem Namen, den Parametern mit ihren Typangaben und dem Rückgabetyp; der Docstring ergänzt sie um eine Beschreibung. Zusammen beschreiben sie die Schnittstelle, also was die Funktion verspricht, ohne dass wir die Implementierung lesen müssen. In der folgenden Signatur steht der Name `calculate_area` für die Aufgabe, `length: float, width: float` dokumentiert die Eingabetypen und `-> float` den Rückgabetyp.
+
+```python
+def calculate_area(length: float, width: float) -> float:
+    """Berechnet die Fläche eines Rechtecks in m²."""
+    ...
+```
+
+Typangaben sind in Python optional; als Annotationen prüft der Interpreter sie nicht. Sie dokumentieren aber, wie eine Funktion zu benutzen ist. Das ist insbesondere bei KI-generiertem Code wichtig, denn Signatur und Typangaben zeigen, was der erzeugte Code verspricht, noch bevor wir seine Implementierung lesen. Erst Werkzeuge wie der Typprüfer `mypy` und Tests stellen sicher, dass der Vertrag eingehalten wird. Tests vertiefen wir in `08a_UnitTest`.
+
+%%/book
+
+%%slides
+
+
+## Docstrings
+
+%%col 50 50
+
+- Ein Docstring ist ein String in dreifachen Anführungszeichen, direkt als erste Zeile im Funktionskörper
+- Er beschreibt, was die Funktion tut: Parameter und Rückgabewert mit Bedeutung und Einheit, Fehler- und Grenzfälle
+- Verbreitet ist die Gliederung in `Args`, `Returns` und `Raises` (Google-Stil)
+- Python speichert ihn in `funktion.__doc__`, `help(funktion)` zeigt ihn an
+- Ein Kommentar (`#`) erklärt den Code, ein Docstring die Schnittstelle
+
+%%sep
+
+```python
+def funktionsname(parameter: typ) -> typ:
+    """Kurzbeschreibung in einem Satz.
+
+    Args:
+        parameter: Bedeutung und Einheit
+
+    Returns:
+        Bedeutung und Einheit des Ergebnisses
+
+    Raises:
+        Fehlerart: wann der Fehler auftritt
+    """
+    ...
+```
+
+%%/col
+
+
+## Beispiel – Docstring für das hydraulische Gefälle
+
+%%col 50 50
+
+```{python}
+#| echo: true
+def hydraulic_gradient(
+    head_loss: float,
+    pipe_length: float
+) -> float:
+    """Berechnet das hydraulische Gefälle i = Δh / L.
+
+    Args:
+        head_loss: Druckhöhenverlust Δh in m
+        pipe_length: Rohrlänge L in m, größer als 0
+    Returns:
+        Hydraulisches Gefälle i (dimensionslos)
+    Raises:
+        ZeroDivisionError: wenn pipe_length 0 ist
+    """
+    return head_loss / pipe_length
+```
+
+%%sep
+
+```{python}
+#| echo: true
+help(hydraulic_gradient)
+```
+
+%%/col
+
+%%/slides
+
+%%book
+
+
+#### Docstrings
+
+Ein Docstring ist ein String, der als erste Anweisung im Funktionskörper steht. Üblich sind dreifache Anführungszeichen, damit er über mehrere Zeilen gehen kann. Anders als ein Kommentar ist er Teil des Programms: Python speichert ihn im Attribut `__doc__` der Funktion, und `help()` zeigt ihn zusammen mit der Signatur an. Während die Signatur nur Namen und Typen nennt, beschreibt der Docstring, was die Funktion berechnet, welche Bedeutung und Einheit Parameter und Rückgabewert haben und in welchen Fällen ein Fehler auftritt. Verbreitet ist eine Gliederung in `Args`, `Returns` und `Raises`, der sogenannte Google-Stil.
+
+Für das hydraulische Gefälle $i = \Delta h / L$ nennt der Docstring die Einheiten beider Parameter, das dimensionslose Ergebnis und den Grenzfall einer Rohrlänge von 0.
+
+```{python}
+#| echo: true
+def hydraulic_gradient(
+    head_loss: float,
+    pipe_length: float
+) -> float:
+    """Berechnet das hydraulische Gefälle i = Δh / L.
+
+    Args:
+        head_loss: Druckhöhenverlust Δh in m
+        pipe_length: Rohrlänge L in m, größer als 0
+    Returns:
+        Hydraulisches Gefälle i (dimensionslos)
+    Raises:
+        ZeroDivisionError: wenn pipe_length 0 ist
+    """
+    return head_loss / pipe_length
+```
+
+Mit `help()` lesen wir den Docstring, ohne die Implementierung öffnen zu müssen.
+
+```{python}
+#| echo: true
+help(hydraulic_gradient)
+```
+
+Der dokumentierte Grenzfall lässt sich direkt prüfen: Eine Rohrlänge von 0 führt tatsächlich zum angegebenen Fehler.
+
+```{python}
+#| echo: true
+#| error: true
+hydraulic_gradient(2.0, 0)
+```
+
+%%/book
+
+%%slides
+
+
+## Prüfpunkte an der Signatur
+
+%%col 50 50
+
+**Vor dem Lesen der Implementierung**
+
+1. Name: Passt er zur Anforderung?
+2. Parameter: Richtige Typen und Reihenfolge?
+3. Rückgabetyp: Stimmt er mit dem erwarteten Ergebnis überein?
+4. Docstring: Beschreibt er Grenzfälle?
+
+%%sep
+
+```python
+# ✓ Klare Signatur
+def hydraulic_gradient(
+    head_loss: float,
+    pipe_length: float
+) -> float:
+    """Hydraulisches Gefälle i = Δh / L"""
+    ...
+
+# ✗ Unklare Signatur
+def calc(x, y):
+    ...
+```
+
+%%/col
+
+%%/slides
+
+%%book
+
+
+#### Prüfpunkte vor dem Lesen der Implementierung
+
+Bevor wir eine Implementierung lesen, prüfen wir vier Dinge an der Signatur. Passt der Name zur Anforderung? Haben die Parameter die richtigen Typen und die richtige Reihenfolge? Stimmt der Rückgabetyp mit dem erwarteten Ergebnis überein? Beschreibt der Docstring Grenzfälle? Die Funktion `hydraulic_gradient` besteht diese Prüfung, `calc` nicht: Bei `calc(x, y)` wissen wir weder, was berechnet wird, noch in welcher Einheit.
+
+```python
+def hydraulic_gradient(head_loss: float, pipe_length: float) -> float:
+    """Hydraulisches Gefälle i = Δh / L"""
+    ...
+
+def calc(x, y):
+    ...
+```
+
+%%/book
+
+%%slides
+
+
+## Worauf achten bei KI-generierten Funktionen
+
+**Wenn KI eine Funktion generiert:**
+
+1. **Signatur lesen:** Stimmen Eingabetypen und Rückgabetyp mit der Anforderung überein?
+2. **Docstring prüfen:** Beschreibt er Grenzfälle (`None`, 0, leere Liste)?
+3. **Test schreiben:** Einen bekannten Testfall formulieren — *bevor* die Implementierung gelesen wird
+4. **Implementierung lesen:** Stimmt sie mit der Signatur überein?
+5. **Wenn nicht:** Signatur korrigieren und neu prompten
+
+%%/slides
+
+%%book
+
+
+#### Worauf achten bei KI-generierten Funktionen
+
+Wer eine Funktion von einer KI generieren lässt, bleibt für das Ergebnis verantwortlich. Wir lesen zuerst die Signatur und vergleichen Eingabetypen und Rückgabetyp mit der Anforderung. Dann prüfen wir, ob der Docstring Grenzfälle wie `None`, 0 oder eine leere Liste beschreibt. Aus Signatur und Docstring leiten wir einen Test mit einem bekannten Fall ab, noch bevor wir die Implementierung lesen. Erst danach lesen wir die Implementierung und prüfen, ob sie zur Signatur passt. Weicht sie ab, korrigieren wir die Signatur und formulieren den Prompt neu.
+
+Ergebnisse vom Typ `float` vergleichen wir dabei mit einer Toleranz, denn Gleitkommazahlen sind oft nur näherungsweise exakt; `math.isclose` übernimmt diesen Vergleich. Tests mit `assert` vertiefen wir in `08a_UnitTest`.
+
+```{python}
+#| echo: true
+from math import isclose
+
+def hydraulic_gradient(head_loss: float, pipe_length: float) -> float:
+    """Hydraulisches Gefälle i = Δh / L"""
+    return head_loss / pipe_length
+
+assert isclose(hydraulic_gradient(2.0, 100.0), 0.02)
+```
 
 
 ## Quiz
@@ -834,7 +1376,7 @@ Wenn eine KI eine Funktion generiert, lesen Sie zuerst die Signatur und schreibe
     - [x] Beendet die Funktion und gibt einen Wert zurück
     - [ ] Gibt automatisch alle Argumente aus
     - [ ] Wiederholt die Funktion
-    - [ ] Überspringt den Rest des Codes
+    - [ ] Gibt den Wert auf dem Bildschirm aus
 
     ### Was passiert, wenn mehrere Werte mit `return` zurückgegeben werden?
     - [x] Es wird ein Tupel zurückgegeben
@@ -872,12 +1414,6 @@ Wenn eine KI eine Funktion generiert, lesen Sie zuerst die Signatur und schreibe
     - [ ] Sie kann nicht innerhalb einer Funktion verwendet werden
     - [ ] Python blockiert diese Zuweisung
 
-    ### Wie läuft ein Python-Programm grundsätzlich ab?
-    - [x] Zeile für Zeile, von oben nach unten
-    - [ ] Zufällig, abhängig vom Interpreter
-    - [ ] Erst am Ende, dann rückwärts
-    - [ ] Von Funktionen zu Hauptprogramm
-
     ### Was passiert, wenn eine Funktion definiert, aber nicht aufgerufen wird?
     - [x] Der Funktionskörper wird nicht ausgeführt
     - [ ] Die Funktion wird trotzdem automatisch ausgeführt
@@ -897,7 +1433,7 @@ Wenn eine KI eine Funktion generiert, lesen Sie zuerst die Signatur und schreibe
     - [ ] Der Wert wird bei jedem Aufruf neu initialisiert
 
     ### Was ist die korrekte Weise, eine leere Liste als Standardwert zu verwenden?
-    - [x] `def f(items=None): if items is None: items = []`
+    - [x] `None` als Standardwert und die Liste im Funktionskörper erzeugen
     - [ ] `def f(items=[]): pass`
     - [ ] `def f(items=list()): pass`
     - [ ] `def f(items={}): pass`
