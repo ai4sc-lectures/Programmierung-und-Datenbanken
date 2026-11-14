@@ -22,7 +22,7 @@ format:
 
 ### TL;DR
 
-Ein UML-Klassendiagramm aus S04 lässt sich schematisch in Python übersetzen: Die Klasse wird zu `class`, Attribute werden zu `self.attribut` in `__init__`, Methoden zu `def … (self)` und Assoziationen zu Instanzattributen. Eine KI erzeugt diesen Code, die Ingenieurin oder der Ingenieur verifiziert ihn gegen das Diagramm. Typische Fehler sind veränderliche Standardwerte in `__init__`, fehlendes `self` und `cls` statt `self`.
+Ein UML-Klassendiagramm aus S04 lässt sich schematisch in Python übersetzen: Die Klasse wird zu `class`, Attribute werden zu `self.attribut` in `__init__`, Methoden zu `def … (self)` und Assoziationen zu Instanzattributen. Eine KI erzeugt diesen Code, die Ingenieurin oder der Ingenieur verifiziert ihn gegen das Diagramm. Typische Fehler sind veränderliche Defaultwerte in `__init__`, fehlendes `self` und `cls` statt `self`.
 
 %%/book
 
@@ -158,6 +158,7 @@ Jedes Element des UML-Klassendiagramms besitzt eine direkte Python-Entsprechung.
 | Assoziation `→ Fenster (0..*)` | `self.fenster = []` |
 
 Diese Übersetzung ist das Kernziel der Implementierungsphase. Weil sie so schematisch ist, kann eine KI sie automatisch vornehmen; sie gelingt aber nur dann zuverlässig, wenn das Diagramm vollständig ist.
+
 %%/book
 
 %%slides
@@ -303,7 +304,7 @@ print(raum.fläche)  # 30.0
 
 ### Instanzen erzeugen
 
-Fassen wir die Syntax zusammen: `__init__` legt die Attribute einer neuen Instanz an, und `self` steht stets für diese Instanz. Eine Instanz entsteht, indem wir den Klassennamen wie eine Funktion aufrufen und die Parameter des Konstruktors übergeben; das `self` lassen wir dabei weg, denn Python reicht es automatisch durch. Benannte Parameter machen die Bedeutung der Werte explizit und schützen vor vertauschten Argumenten, was bei drei Zahlenwerten wie Fläche und Höhe schnell passiert.
+Fassen wir die Syntax zusammen: `__init__` legt die Attribute einer neuen Instanz an, und `self` steht stets für diese Instanz. Eine Instanz entsteht, indem wir den Klassennamen wie eine Funktion aufrufen und die Argumente für die Parameter des Konstruktors übergeben; das `self` lassen wir dabei weg, denn Python reicht es automatisch durch. Benannte Argumente machen die Bedeutung der Werte explizit und schützen vor vertauschten Werten, was bei drei Zahlenwerten wie Fläche und Höhe schnell passiert.
 
 ```{python}
 #| echo: true
@@ -668,9 +669,9 @@ class Raum:
 
 %%book
 
-Häufig möchten wir kontrollieren, ob und wie Attribute verändert werden und wer welche Methoden aufrufen darf. Python unterscheidet dafür *öffentliche*, *geschützte* und *private* Attribute. Standardmäßig ist alles öffentlich, kann also von außen gelesen und verändert werden. Ein führender Unterstrich (`_name`) kennzeichnet ein geschütztes Attribut, ein doppelter Unterstrich (`__name`) ein privates, das nur innerhalb der Klasse über `self` angesprochen werden soll. Im UML-Diagramm entsprechen dem die Sichtbarkeitsmarker `+` (öffentlich), `#` (geschützt) und `-` (privat).
+Häufig möchten wir kontrollieren, ob und wie Attribute verändert werden und wer welche Methoden aufrufen darf. Python kennt dafür keine Zugriffsrechte, sondern Namenskonventionen für *öffentliche*, *geschützte* und *private* Attribute. Standardmäßig ist alles öffentlich, kann also von außen gelesen und verändert werden. Ein führender Unterstrich (`_name`) kennzeichnet per Konvention ein geschütztes Attribut, ein doppelter Unterstrich (`__name`) ein privates, das nur innerhalb der Klasse über `self` angesprochen werden soll. Im UML-Diagramm entsprechen dem die Sichtbarkeitsmarker `+` (öffentlich), `#` (geschützt) und `-` (privat).
 
-Python setzt dabei kein echtes Zugriffsverbot um, sondern verwendet *Name Mangling*: Der Interpreter schreibt den Namen `__fläche` intern um, sodass ein versehentlicher Zugriff von außen scheitert. Zum Lesen definieren wir eine Getter-Methode.
+Python setzt dabei kein echtes Zugriffsverbot um, sondern verwendet *Name Mangling*: Der Interpreter schreibt den Namen `__fläche` intern in `_Raum__fläche` um, sodass ein versehentlicher Zugriff über den ursprünglichen Namen von außen scheitert. Wer den umgeschriebenen Namen kennt, kann das Attribut dennoch lesen; ein echter Schutz ist das also nicht. Zum Lesen definieren wir eine Getter-Methode.
 
 ```{python}
 #| echo: true
@@ -736,7 +737,7 @@ Die Hörsaalfrage greift die geometrischen Objekte aus [Objekte (S04)](04c_Objec
 
 ![Vererbung: `Serverraum` ist ein spezieller `Raum`](images/04c_Objects/uml_vererbung.svg)
 
-Aus [Objekte (S04)](04c_Objects.page.html) kennen wir die Vererbung im Klassendiagramm: Der `Serverraum` übernimmt von `Raum` Name, Fläche und `berechne_volumen()` und ergänzt die `kühlleistung`. Wie sich das in Python ausdrücken lässt, zeigt der übernächste Abschnitt.
+Aus [Objekte (S04)](04c_Objects.page.html) kennen wir die Vererbung im Klassendiagramm: Der `Serverraum` übernimmt von `Raum` Name und Fläche und ergänzt die `kühlleistung`. Wie sich das in Python ausdrücken lässt, zeigt der Abschnitt Vererbung weiter unten.
 
 %%/book
 
@@ -1135,7 +1136,7 @@ Wer diese Fragen routinemäßig stellt, entwickelt die Kompetenz, generierten Co
     ### Wie implementiert man eine UML-Assoziation `→ Fenster (0..*)` in Python?
     - [x] Als `self.fenster = []` in `__init__` — eine Liste von Fenster-Objekten
     - [ ] Als Klassenattribut `fenster = []`
-    - [ ] Als Pflicht-Parameter `fenster: Fenster` im Konstruktor
+    - [ ] Als Pflichtparameter `fenster: Fenster` im Konstruktor
     - [ ] Als Methode `def fenster(self):`
 
     ### Was ist das Problem mit folgendem Code?
@@ -1190,9 +1191,9 @@ Wer diese Fragen routinemäßig stellt, entwickelt die Kompetenz, generierten Co
     - [ ] Ob die Klasse Vererbung verwendet
     - [ ] Ob der Klassenname in Python korrekt definiert ist
 
-    ### Sortiere die Zeilen, um die Klasse `Raum` korrekt zu definieren:
+    ### Ordnen Sie die Zeilen, um die Klasse `Raum` korrekt zu definieren:
     ```python
-    # Raum mit Fläche 20.0 und Höhe 2.5 — berechne das Volumen
+    # Raum mit Fläche 20.0 und Höhe 2.5 — Volumen berechnen
     ```
     1. `class Raum:`
     2. `  def __init__(self, fläche: float, höhe: float):`
@@ -1204,7 +1205,7 @@ Wer diese Fragen routinemäßig stellt, entwickelt die Kompetenz, generierten Co
     8. `print(raum.berechne_volumen())`
 
     ### Was beschreibt ein Instanzattribut?
-    - [x] Eine Eigenschaft, die in jeder Objektinstanz unterschiedlich sein kann
+    - [x] Eine Eigenschaft, die in jeder Instanz unterschiedlich sein kann
     - [ ] Eine Eigenschaft, die alle Klassen gemeinsam haben
     - [ ] Ein Modul-Import
     - [ ] Eine Klasse im Konstruktor
