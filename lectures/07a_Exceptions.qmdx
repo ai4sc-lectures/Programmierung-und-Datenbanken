@@ -75,7 +75,7 @@ Zur Wiederholung: Die Wissenspyramide (→ `02a_Wissenspyramide`) beschreibt, wi
   - Statements
   - Funktionen
   - Verzweigungen
-  - Schleifen & Rekursion
+  - Schleifen
 
 - Wir wissen wie man Algorithmen plant und diese Elemente kombinieren kann.
 
@@ -87,10 +87,592 @@ Mit Statements, Funktionen, Verzweigungen und Schleifen kennen wir die Bausteine
 
 %%/book
 
+
+
+%%# Warum Fehler entstehen
+
+%%## Warum machen wir Fehler?
+
+%%slides
+
+%%col 50 50
+
+*Ungewollte Fehler passieren u. a. durch:*
+
+- falsche Annahmen, da z. B. die Anforderungen nicht hinreichend analysiert wurden oder man nicht alle Fehlerfälle durchdacht hat
+- Unaufmerksamkeit (Flüchtigkeitsfehler) durch Müdigkeit, Zeitdruck oder Desinteresse
+- weil wir an kognitive/körperliche Limits stoßen (z. B. optische Täuschungen)
+
+%%sep
+
+*Gewollte Fehler passieren, wenn:*
+
+- wir bewusst Fakten ignorieren und lieber unserem Bauch vertrauen
+- wir Tests durchführen, um zu prüfen, ob ein Programm diese Fehler behandelt
+- durch gezielte Sabotage (Insider Threat in der Datensicherheit)
+
+%%/col
+
+%%/slides
+
+%%book
+
+Fehler gehören zur Realität des Programmierens. Die meisten entstehen ungewollt: durch falsche Annahmen, weil die Anforderungen nicht hinreichend analysiert oder nicht alle Fehlerfälle durchdacht wurden, durch Unaufmerksamkeit bei Müdigkeit oder Zeitdruck oder weil wir an kognitive und körperliche Grenzen stoßen, wie bei optischen Täuschungen. Manche Fehler entstehen dagegen gewollt: wenn wir Fakten bewusst ignorieren, wenn wir in Tests absichtlich fehlerhafte Eingaben erzeugen, um zu prüfen, ob ein Programm sie behandelt, oder bei gezielter Sabotage durch Personen mit Zugang zum System (Insider Threat).
+
+%%/book
+
 %%slides
 
 
-## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Sie führen 200 Zeilen KI-Code aus und erhalten: `TypeError: 'NoneType' object is not iterable` – was tun Sie zuerst?" capR="Midjourney: Exception in Time, ref. Salvador Dalí" imgR="images/07a_Exceptions/mj_title_band.jpg"}
+## Fehler sind menschlich
+
+- *Computer sind von Menschen gemacht*
+- Die mentalen Modelle anderer Menschen haben (oft subtile) Unterschiede zu unseren eigenen, z. B. wegen:
+  - Alter
+  - Herkunft
+  - Ausbildung
+  - Erfahrung
+  - Kultur
+
+- Die meisten Fehler im Alltag passieren an der *Schnittstelle zwischen uns und den internen Vorgängen*: Nutzeroberflächen, Hardware etc.
+
+%%/slides
+
+%%book
+
+Computer und Programme sind von Menschen gemacht. Die mentalen Modelle anderer Menschen unterscheiden sich, oft subtil, von unseren eigenen, etwa wegen Alter, Herkunft, Ausbildung, Erfahrung oder Kultur. Deshalb passieren die meisten Fehler im Alltag an der Schnittstelle zwischen uns und den internen Vorgängen eines Systems, also an Nutzeroberflächen oder an der Hardware.
+
+%%/book
+
+%%slides
+
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Was bedeutet dieses Zeichen?" capR="icon-icons.com" imgR="images/07a_Exceptions/diskette.png"}
+
+%%/slides
+
+%%slides
+
+
+## Was bedeutet dieses Zeichen?
+
+%%col 50 50
+
+- Das Diskettensymbol wird häufig zum Abspeichern benutzt.
+- Es stammt ursprünglich aus den 90ern, als Daten noch auf Disketten gespeichert wurden.
+- Heutzutage haben viele diesen Kontext nicht und können das Symbol nicht intuitiv deuten.
+- Beispiel für unterschiedliche mentale Modelle zwischen Generationen
+
+%%sep
+
+![www.pxfuel.com](images/07a_Exceptions/diskette2.jpg)
+
+%%/col
+
+%%/slides
+
+%%book
+
+Ein Beispiel für unterschiedliche mentale Modelle ist das Diskettensymbol. Es steht in vielen Programmen für „Speichern“ und stammt aus den 1990er-Jahren, als Daten noch auf Disketten gespeichert wurden. Wer nie eine Diskette benutzt hat, kennt diesen Kontext nicht und kann das Symbol nicht intuitiv deuten. Was für die eine Generation selbstverständlich ist, ist für die andere eine Fehlerquelle.
+
+![Disketten (www.pxfuel.com)](images/07a_Exceptions/diskette2.jpg)
+
+%%/book
+
+%%slides
+
+
+## Wann machen Computer Fehler?
+
+- Computer machen nur sehr selten Fehler (z. B. Bitfehler durch kosmische Strahlung, Fehler bei Berechnungen mit Fließkommazahlen, Überläufe von Integer, Fehler bei der Datenübertragung oder Speicherung)
+- Meistens ist es allerdings der Nutzer oder Programmierer, der die Fehler erst ermöglicht hat (falsche Datentypen, keine gute Ausnahme- oder Fehlerbehandlung)
+- Die eigentliche Frage ist: Gibt es Fehler im System abseits von unserem eigenen Programmcode?
+
+%%/slides
+
+%%book
+
+Computer selbst machen nur sehr selten Fehler. Beispiele sind Bitfehler durch kosmische Strahlung, Rundungsfehler bei Berechnungen mit Fließkommazahlen (→ `02b_Datentypen`), Überläufe von Ganzzahlen fester Breite und Fehler bei der Datenübertragung oder Speicherung. Die Ganzzahlen von Python selbst wachsen beliebig und laufen nicht über; Überläufe treten bei Datentypen mit fester Bitbreite auf, etwa in anderen Programmiersprachen oder in NumPy-Arrays. Meistens ermöglicht aber der Nutzer oder der Programmierer den Fehler erst, etwa durch falsche Datentypen oder eine fehlende Fehlerbehandlung. Bevor wir einen Fehler im System vermuten, prüfen wir deshalb zuerst unseren eigenen Programmcode.
+
+%%/book
+
+%%slides
+
+
+## Wie beugt man Fehlern vor?
+
+- *Nutzen einer integrierten Entwicklungsumgebung (IDE)*
+  - Automatische Fehlererkennung von Syntaxfehlern
+  - Code-Vervollständigung
+  - Code-Generierung (z. B. aus Diagrammen)
+
+- *Umfangreiches Planen* der Software mit Anforderungsanalyse, Softwareentwurf, Testentwurf etc.
+- *TESTEN, TESTEN, TESTEN* mittels spezieller Testfälle (Unit-Tests)!
+  - Nicht nur reiner Funktionstest (macht es, was es soll?)
+
+%%/slides
+
+%%book
+
+Vielen Fehlern können wir vorbeugen. Eine integrierte Entwicklungsumgebung (IDE) erkennt Syntaxfehler automatisch, vervollständigt Code und kann Code z. B. aus Diagrammen erzeugen. Eine sorgfältige Planung mit Anforderungsanalyse (→ `04a_Anforderungen`), Softwareentwurf und Testentwurf verhindert falsche Annahmen. Vor allem aber testen wir mit gezielten Testfällen (Unit-Tests, → `08a_UnitTest`), und zwar nicht nur, ob das Programm im Normalfall tut, was es soll, sondern auch, wie es mit fehlerhaften Eingaben umgeht.
+
+%%/book
+
+
+
+%%# Fehlerklassen
+
+%%## Klassen von Fehlern
+
+%%slides
+
+%%col 60 40
+
+*Entlang der Wissenspyramide:*
+
+- *Lexikalisch* – Code enthält ungültige Zeichen oder Zeichenketten
+- *Syntaktisch* – Code kombiniert lexikalisch gültige Wörter in ungültiger Weise
+- *Semantisch* – Code ist syntaktisch gültig, aber stürzt ab oder liefert keine Ergebnisse
+- *Logisch* – Code ist semantisch gültig, aber löst das gegebene Problem nicht
+
+%%sep
+
+![Wissenspyramide](images/02a_Wissenspyramide/wissenspyramide.svg)
+
+%%/col
+
+%%/slides
+
+%%book
+
+Fehler lassen sich entlang der Wissenspyramide einordnen. Lexikalische Fehler entstehen auf der Ebene der Zeichen: Der Code enthält Zeichen oder Zeichenketten, die die Sprache nicht kennt. Syntaktische Fehler verbinden gültige Wörter in einer ungültigen Weise. Semantische Fehler betreffen die Bedeutung: Der Code ist syntaktisch korrekt, kann aber nicht ausgeführt werden oder bricht ab. Logische Fehler liegen auf der obersten Ebene: Der Code läuft, löst aber nicht das Problem, das er lösen soll.
+
+%%/book
+
+%%slides
+
+
+## Andere Klassifizierungen von Fehlern
+
+%%col 50 50
+
+*Nach Häufigkeit und Reproduzierbarkeit:*
+
+- *Deterministische Fehler* – treten immer auf und lassen sich reproduzieren
+- *Sporadische Fehler* – treten nur selten und in besonderen Zuständen auf
+
+%%sep
+
+*Nach Auftreten:*
+
+- *Statische Fehler* – direkt im geschriebenen Code erkennbar
+- *Dynamische Fehler* – treten erst beim Ausführen des Programms auf
+
+%%/col
+
+%%/slides
+
+%%book
+
+Quer zu dieser Einteilung lassen sich Fehler nach zwei weiteren Merkmalen unterscheiden. Deterministische Fehler treten bei denselben Eingaben immer auf und lassen sich daher reproduzieren; sporadische Fehler treten nur in besonderen Zuständen auf, etwa bei bestimmten Daten oder Zeitpunkten. Statische Fehler sind bereits im geschriebenen Code erkennbar, dynamische Fehler zeigen sich erst bei der Ausführung.
+
+%%/book
+
+%%slides
+
+
+## Lexikalische & Syntaktische Fehler
+
+%%col 50 50
+
+- Sind in den meisten Fällen *statisch* und *deterministisch*
+- Erzeugen *immer* eine Fehlermeldung
+  - Schon in IDE, beim Compilieren oder nach dem Ausführen
+
+- *Diese Fehlermeldungen können allerdings trügerisch sein!*
+- KI System machen of den Fehler und "vertippen" sich im Syntax
+
+%%sep
+
+*Tippfehler im Schlüsselwort `while`:*
+
+```{python}
+#| echo: true
+#| error: true
+wihle True:
+    pass
+```
+
+*Die Meldung nennt kein falsches Schlüsselwort und markiert `True`, nicht `wihle`.*
+
+%%/col
+
+%%/slides
+
+%%book
+
+### Lexikalische und syntaktische Fehler
+
+Lexikalische und syntaktische Fehler sind meist statisch und deterministisch: Python erkennt sie schon beim Einlesen des Codes, bevor auch nur eine Zeile ausgeführt wird, und meldet sie jedes Mal. Die Meldung ist allerdings nicht immer hilfreich. Bei einem falsch geschriebenen `while` kennt Python das Wort `wihle` nicht als Schlüsselwort, sondern hält es für einen Variablennamen. Erst das folgende `True` passt nicht mehr, deshalb markiert die Meldung `True` und sagt nur `invalid syntax`:
+
+```{python}
+#| echo: true
+#| error: true
+wihle True:
+    pass
+```
+
+%%/book
+
+%%slides
+
+
+## Lexikalische & Syntaktische Fehler – Beispiele
+
+%%col 35 65
+
+- Ein *Schlüsselwort* ist falsch geschrieben
+- *Nicht geschlossene* Anführungszeichen oder Klammern
+- Einen *Doppelpunkt* nach einer Bedingung oder Funktion vergessen
+- *Falsche Einrückung* nach einer Bedingung, Schleife oder Funktion
+- Ggf. auch falsches Einrücken durch *Tabs vs. Leerzeichen*
+
+%%sep
+
+```{python}
+#| echo: true
+#| error: true
+print("Hallo)
+```
+
+```{python}
+#| echo: true
+#| error: true
+if 3 > 2
+    print("größer")
+```
+
+```{python}
+#| echo: true
+#| error: true
+def verdopple(x):
+return 2 * x
+```
+
+%%/col
+
+%%/slides
+
+%%book
+
+Typische lexikalische und syntaktische Fehler sind falsch geschriebene Schlüsselwörter, nicht geschlossene Anführungszeichen oder Klammern, ein vergessener Doppelpunkt nach einer Bedingung oder Funktionsdefinition und eine falsche Einrückung. Bei den meisten davon ist die Meldung von Python präzise. Ein nicht geschlossenes Anführungszeichen meldet Python als `unterminated string literal`:
+
+```{python}
+#| echo: true
+#| error: true
+print("Hallo)
+```
+
+Fehlt der Doppelpunkt nach einer Bedingung, nennt die Meldung das erwartete Zeichen:
+
+```{python}
+#| echo: true
+#| error: true
+if 3 > 2
+    print("größer")
+```
+
+Fehlt die Einrückung nach einer Funktionsdefinition, meldet Python einen `IndentationError` und verweist auf die Zeile der Definition:
+
+```{python}
+#| echo: true
+#| error: true
+def verdopple(x):
+return 2 * x
+```
+
+%%/book
+
+%%slides
+
+
+## Lexikalische & Syntaktische Fehler – Behandlung
+
+1. *Erster Blick:* In welcher Zeile ist der Fehler aufgetreten?
+2. Gibt der *Text der Fehlermeldung* einen Hinweis?
+3. Liegt der Fehler in der Zeile oder ist der Fehler nur ein *Symptom* und der Fehler liegt in einer Zeile davor?
+4. Normalerweise *einfach zu beheben* – von der Fehlerzeile den Code Zeile für Zeile rückwärts durchgehen
+5. Falls nicht: *Refactoring* – Code zur besseren Lesbarkeit umstrukturieren, ohne das Verhalten zu verändern
+
+%%/slides
+
+%%book
+
+Bei der Behandlung lexikalischer und syntaktischer Fehler beginnen wir mit der Zeile, die die Meldung nennt, und mit dem Text der Meldung. Wie das `wihle`-Beispiel zeigt, ist die markierte Stelle aber manchmal nur ein Symptom, und die eigentliche Ursache steht weiter vorn in der Zeile oder in einer Zeile davor. Deshalb gehen wir von der Fehlerzeile aus Zeile für Zeile rückwärts. Meist ist der Fehler dann schnell gefunden und behoben. Gelingt das nicht, ist der Code möglicherweise zu komplex. Dann hilft ein **Refactoring**: Wir strukturieren den Quellcode um, etwa durch Funktionen, sodass er besser lesbar wird, ohne sein Verhalten zu verändern.
+
+%%/book
+
+%%slides
+
+
+## Semantische Fehler – Grundlagen
+
+- Entstehen durch die *fehlerhafte Anwendung* von syntaktisch korrekten Programmstrukturen auf ein bestimmtes Problem
+- Semantische Fehler können *erkennbar* oder *unerkennbar* sein. Sie sind immer deterministisch, aber können statisch oder dynamisch auftreten
+- *Erkennbare Fehler* sind Fehler, von denen man weiß, dass sie auftreten können (z. B. Division durch Null, keine Internetverbindung)
+  - Sollten *immer* abgefangen und behandelt werden
+
+- *Unerkannte Fehler* sind beim Erstellen des Programms unbekannt. Sie sind oft dynamisch und deutlich schwieriger abzufangen
+
+%%/slides
+
+%%book
+
+### Semantische Fehler
+
+Semantische Fehler entstehen, wenn ein syntaktisch korrektes Programm Strukturen auf ein Problem falsch anwendet, etwa mit falschen Datentypen, fehlenden Werten oder ungültigen Operationen wie einer Division durch Null. In Python zeigen sie sich als Exceptions bei der Ausführung.
+
+Semantische Fehler sind deterministisch, können aber statisch oder dynamisch auftreten. Ein Teil von ihnen ist erkennbar, das heißt, wir wissen beim Programmieren, dass sie auftreten können, etwa eine Division durch Null oder eine fehlende Internetverbindung. Solche Fehler sollten immer behandelt werden, mit Guard Clauses oder mit `try-except`. Unerkannte Fehler sind beim Schreiben des Programms dagegen unbekannt. Sie zeigen sich meist erst zur Laufzeit und sind deutlich schwieriger abzufangen, weil man nicht mit ihnen rechnet.
+
+%%/book
+
+%%slides
+
+
+## Semantische Fehler – Beispiele (1/2)
+
+*Variable als Funktion aufgerufen (statisch, deterministisch):*
+
+```{python}
+#| echo: true
+#| error: true
+laenge = 5
+laenge(2)
+```
+
+*Operator mit Wert des falschen Typs (statisch oder dynamisch):*
+
+```{python}
+#| echo: true
+#| error: true
+"3" + 4.5
+```
+
+%%/slides
+
+%%slides
+
+
+## Semantische Fehler – Beispiele (2/2)
+
+*Wert des falschen Typs an Funktion übergeben (statisch oder dynamisch):*
+
+```{python}
+#| echo: true
+#| error: true
+len(42)
+```
+
+*Division durch 0 (dynamisch, deterministisch):*
+
+```{python}
+#| echo: true
+#| error: true
+10 / 0
+```
+
+%%/slides
+
+%%book
+
+Typische semantische Fehler sind ein Aufruf einer Variable, als wäre sie eine Funktion, ein Operator mit einem Wert des falschen Typs, ein Funktionsaufruf mit einem Argument des falschen Typs und eine Division durch Null. Wird eine Zahl wie eine Funktion aufgerufen, meldet Python, dass ein `int` nicht aufrufbar ist:
+
+```{python}
+#| echo: true
+#| error: true
+laenge = 5
+laenge(2)
+```
+
+Der Operator `+` verbindet einen String nur mit einem weiteren String. Mit einer Zahl entsteht ein `TypeError`. Ob dieser Fehler statisch erkennbar ist, hängt davon ab, ob der Typ schon im Code feststeht oder erst zur Laufzeit, etwa aus einer eingelesenen Datei:
+
+```{python}
+#| echo: true
+#| error: true
+"3" + 4.5
+```
+
+`len()` erwartet eine Sequenz wie eine Liste oder einen String, keine Zahl:
+
+```{python}
+#| echo: true
+#| error: true
+len(42)
+```
+
+Eine Division durch Null ist erst bei der Ausführung erkennbar, wenn der Nenner feststeht:
+
+```{python}
+#| echo: true
+#| error: true
+10 / 0
+```
+
+%%/book
+
+%%slides
+
+
+## Semantische Fehler – Behandlung
+
+*Erster Schritt: Verstehen der Fehlermeldung*
+
+- *Idealfall:* Gibt das exakte Problem an
+- *Meistens:* Gibt Hinweise auf ein Problem
+  - Ort
+  - Art des Problems
+  - Die betroffene Variable/Operation
+
+- *Oft:* Die Fehlermeldung ist nur ein Symptom des eigentlichen Problems
+
+%%/slides
+
+%%book
+
+Der erste Schritt bei einem semantischen Fehler ist, die Fehlermeldung zu verstehen. Im Idealfall nennt sie das Problem exakt. Meistens gibt sie zumindest Hinweise: den Ort, die Art des Problems und die betroffene Variable oder Operation. Oft ist die Meldung aber nur ein Symptom, und die eigentliche Ursache liegt an einer ganz anderen Stelle im Programm. Dann müssen wir die möglichen Ursachen logisch ausschließen. Wie man dabei den Traceback systematisch liest, zeigen wir im Abschnitt „Exceptions in KI-Code“. Reichen die Meldungen nicht aus, helfen Ausgaben zum Programmablauf und der Debugger (→ `07b_Debugging`).
+
+%%/book
+
+
+%%# Fehler ohne Exception
+
+%%## Logische Fehler – Grundlagen
+
+%%slides
+
+*Entstehen durch:*
+
+- Fehler in der *Programmlogik*
+- Ein *falsches mentales Modell*
+- Einen grundlegenden *Fehler im Programmentwurf*
+- *Flüchtigkeitsfehler* bei der Übersetzung vom Entwurf zur Implementierung
+
+*Charakteristika:*
+
+- Erzeugen *nur selten Exceptions* – stattdessen falsches Verhalten oder falsche Ergebnisse
+- Bleiben oft *unentdeckt* und treten erst dynamisch auf
+- Können *deterministisch* oder *sporadisch* sein
+
+%%/slides
+
+%%book
+
+Logische Fehler entstehen durch Fehler in der Programmlogik: durch ein falsches mentales Modell des Problems, durch einen Fehler im Programmentwurf oder durch einen Flüchtigkeitsfehler bei der Übersetzung vom Entwurf in die Implementierung. Anders als semantische Fehler erzeugen sie nur selten eine Exception. Das Programm läuft und liefert ein Ergebnis, aber das Ergebnis ist falsch. Deshalb bleiben logische Fehler oft lange unentdeckt.
+
+Ist das Verhalten immer falsch, handelt es sich um einen deterministischen Fehler, der sich in Tests und im Debugger reproduzieren lässt. Oft ist das offensichtliche Verhalten aber korrekt, denn einen einfachen Funktionstest macht fast jeder. Der Fehler tritt dann nur sporadisch auf, bei unerwarteten Eingaben oder wenn das Programm in einen unerwarteten Zustand gerät. Solche sporadischen Fehler sind sehr schwer zu finden, weil man die auslösende Eingabe oder den Zustand nicht kennt und sie deshalb nicht einfach in Tests oder im Debugger nachstellen kann.
+
+%%/book
+
+%%slides
+
+
+## Logische Fehler – Beispiele
+
+%%col 50 50
+
+*Deterministisch:* falscher Faktor in einer Einheitenumrechnung
+
+```{python}
+#| echo: true
+def ms_zu_kmh(v):
+    return v / 3.6   # richtig: v * 3.6
+```
+
+```{python}
+#| echo: true
+ms_zu_kmh(10)
+```
+
+*Keine Exception – nur ein falscher Wert (richtig: 36 km/h).*
+
+%%sep
+
+*Sporadisch:*
+
+- Probleme mit *Sommer-/Winterzeitkonvertierung* bei Sensor-Daten
+- Die Bedingung in einer Schleife hat Fälle, in der sie *immer True* ist und so endlos wird
+
+*Weitere deterministische Fälle:* falsche Schleifenart oder Schachtelung, falsche Zeitzone beim Schreiben von Sensor-Daten
+
+%%/col
+
+%%/slides
+
+%%book
+
+Ein deterministischer logischer Fehler ist ein falscher Faktor in einer Einheitenumrechnung. Die Funktion `ms_zu_kmh()` soll eine Geschwindigkeit von Metern pro Sekunde in Kilometer pro Stunde umrechnen, teilt aber durch 3,6, statt mit 3,6 zu multiplizieren. Python meldet keinen Fehler; 10 m/s ergeben fälschlich etwa 2,78 km/h statt 36 km/h:
+
+```{python}
+#| echo: true
+ms_zu_kmh(10)
+```
+
+Weitere deterministische Beispiele sind die falsche Art von Schleife, eine falsche Schachtelung und eine falsche Zeitzone beim Schreiben von Sensordaten. Sporadisch treten dagegen Fehler bei der Umstellung zwischen Sommer- und Winterzeit auf, die nur zweimal im Jahr wirksam werden, oder eine Schleifenbedingung, die nur bei bestimmten Daten immer `True` bleibt und die Schleife dann endlos laufen lässt.
+
+%%/book
+
+%%slides
+
+
+## Logische Fehler – Behandlung
+
+%%col 50 50
+
+*Deterministische Fehler:*
+
+- *Testfälle erstellen*, um zu reproduzieren, wann und wie unerwartetes Verhalten stattfindet (→ `08a_UnitTest`)
+- *Debugger nutzen*, um die Ausführung nachzuvollziehen und die Fehlerursache zu isolieren (→ `07b_Debugging`)
+- Werte *systematisch verfolgen* und Schritt für Schritt auf Korrektheit prüfen
+
+%%sep
+
+*Sporadische Fehler:*
+
+- Mittels *Logging* (`print()`) den Zustand des Fehlers identifizieren, sodass er reproduzierbar wird
+- *Bedingte Breakpoints* im Debugging nutzen (Programm bleibt nur stehen, wenn eine Fehlerbedingung gegeben ist)
+
+%%/col
+
+%%/slides
+
+%%book
+
+Logische Fehler behandeln wir ähnlich wie semantische, meist aber ohne den Vorteil einer Fehlermeldung. Bei deterministischen Fehlern erstellen wir Testfälle, die das erwartete Ergebnis festhalten und so reproduzieren, wann und wie das falsche Verhalten auftritt; ein Test mit `ms_zu_kmh(10) == 36` hätte den Fehler oben sofort gezeigt. Wie man solche Tests schreibt, behandelt `08a_UnitTest`. Mit dem Debugger verfolgen wir dann einen oder mehrere Werte Schritt für Schritt und isolieren die Fehlerursache; das ist Thema von `07b_Debugging`. Bei sporadischen Fehlern versuchen wir zuerst, mit Ausgaben zum Programmzustand (Logging, z. B. mit `print()`) den Zustand zu finden, in dem der Fehler auftritt, damit er reproduzierbar wird. Bedingte Breakpoints halten das Programm im Debugger nur an, wenn eine bestimmte Fehlerbedingung erfüllt ist.
+
+%%/book
+
+%%slides
+
+
+## Zusatz: Warnungen in der IDE
+
+- Weisen auf Code hin, der *syntaktisch und semantisch korrekt* scheint, seinen Zweck aber wahrscheinlich *nicht erfüllen* wird
+- Basieren auf *Erfahrungswerten*
+- Können dabei helfen *semantische und logische Fehler frühzeitig* zu erkennen
+
+%%/slides
+
+%%book
+
+Neben Fehlermeldungen zeigen Entwicklungsumgebungen auch Warnungen an. Sie weisen auf Code hin, der syntaktisch und semantisch korrekt aussieht, seinen Zweck aber wahrscheinlich nicht erfüllt, zum Beispiel eine Variable, die zugewiesen, aber nie verwendet wird. Solche Warnungen beruhen auf Erfahrungswerten und helfen, semantische und logische Fehler früh zu erkennen, bevor der Code überhaupt läuft.
+
+%%/book
+
+
+%%slides
+
+
+## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Sie führen 200 Zeilen KI-Code aus und erhalten: `TypeError: 'NoneType' object is not iterable` – was tun Sie zuerst?" capR="OpenAI: TypeError nach dem Ausführen von KI-Code" imgR="images/07a_Exceptions/typeerror_ki_code.png"}
 
 %%/slides
 
@@ -135,7 +717,7 @@ berechne_mittleren_durchfluss("sensor_01")
 
 %%book
 
-KI-generierter Code enthält häufig stillschweigende Annahmen über Eingaben und Rückgabewerte, die im realen Betrieb verletzt werden. Eine Exception zeigt dann nicht, dass der Code grundsätzlich falsch ist, sondern welche Annahme nicht der Realität entspricht.
+Semantische Fehler zeigen sich in Python als Exceptions. KI-generierter Code enthält häufig stillschweigende Annahmen über Eingaben und Rückgabewerte, die im realen Betrieb verletzt werden. Eine Exception zeigt dann nicht, dass der Code grundsätzlich falsch ist, sondern welche Annahme nicht der Realität entspricht.
 
 Im Beispiel liefert `hole_messungen()` die Messreihe eines Sensors aus einem Dictionary. Für einen unbekannten Sensor gibt `dict.get()` den Wert `None` zurück. Die generierte Funktion `berechne_mittleren_durchfluss()` übergibt diesen Wert ungeprüft an `sum()`, und `sum()` erwartet ein iterierbares Objekt wie eine Liste:
 
@@ -361,326 +943,6 @@ Guard Clauses folgen dem Muster **LBYL** (*Look Before You Leap*): erst prüfen,
 %%book
 
 Aus den bisherigen Schritten ergibt sich ein Ablauf für KI-Code, der eine Exception wirft. Zuerst lesen wir den Traceback und finden die Absturzstelle. Dann bestimmen wir die verletzte Annahme. Danach sichern wir die Vorbedingung mit einer Guard Clause ab oder korrigieren die Daten, falls die Annahme eigentlich richtig war. Schließlich formulieren wir den Constraint im nächsten Prompt explizit, damit die KI ihn bei der nächsten Generierung berücksichtigt. Der Prompt nennt dabei beide Fälle aus dem Beispiel und das gewünschte Verhalten.
-
-%%/book
-
-
-%%# Fehlerklassen
-
-%%## Klassen von Fehlern
-
-%%slides
-
-%%col 60 40
-
-*Entlang der Wissenspyramide:*
-
-- *Lexikalisch* – Code enthält ungültige Zeichen oder Zeichenketten
-- *Syntaktisch* – Code kombiniert lexikalisch gültige Wörter in ungültiger Weise
-- *Semantisch* – Code ist syntaktisch gültig, aber stürzt ab oder liefert keine Ergebnisse
-- *Logisch* – Code ist semantisch gültig, aber löst das gegebene Problem nicht
-
-%%sep
-
-![Wissenspyramide](images/02a_Wissenspyramide/wissenspyramide.svg)
-
-%%/col
-
-%%/slides
-
-%%book
-
-Fehler lassen sich entlang der Wissenspyramide einordnen. Lexikalische Fehler entstehen auf der Ebene der Zeichen: Der Code enthält Zeichen oder Zeichenketten, die die Sprache nicht kennt. Syntaktische Fehler verbinden gültige Wörter in einer ungültigen Weise. Semantische Fehler betreffen die Bedeutung: Der Code ist syntaktisch korrekt, kann aber nicht ausgeführt werden oder bricht ab. Logische Fehler liegen auf der obersten Ebene: Der Code läuft, löst aber nicht das Problem, das er lösen soll.
-
-%%/book
-
-%%slides
-
-
-## Andere Klassifizierungen von Fehlern
-
-%%col 50 50
-
-*Nach Häufigkeit und Reproduzierbarkeit:*
-
-- *Deterministische Fehler* – treten immer auf und lassen sich reproduzieren
-- *Sporadische Fehler* – treten nur selten und in besonderen Zuständen auf
-
-%%sep
-
-*Nach Auftreten:*
-
-- *Statische Fehler* – direkt im geschriebenen Code erkennbar
-- *Dynamische Fehler* – treten erst beim Ausführen des Programms auf
-
-%%/col
-
-%%/slides
-
-%%book
-
-Quer zu dieser Einteilung lassen sich Fehler nach zwei weiteren Merkmalen unterscheiden. Deterministische Fehler treten bei denselben Eingaben immer auf und lassen sich daher reproduzieren; sporadische Fehler treten nur in besonderen Zuständen auf, etwa bei bestimmten Daten oder Zeitpunkten. Statische Fehler sind bereits im geschriebenen Code erkennbar, dynamische Fehler zeigen sich erst bei der Ausführung.
-
-%%/book
-
-%%slides
-
-
-## Lexikalische & Syntaktische Fehler
-
-%%col 50 50
-
-- Sind in den meisten Fällen *statisch* und *deterministisch*
-- Erzeugen *immer* eine Fehlermeldung
-  - Schon in IDE, beim Compilieren oder nach dem Ausführen
-
-- *Diese Fehlermeldungen können allerdings trügerisch sein!*
-
-%%sep
-
-*Tippfehler im Schlüsselwort `while`:*
-
-```{python}
-#| echo: true
-#| error: true
-wihle True:
-    pass
-```
-
-*Die Meldung nennt kein falsches Schlüsselwort und markiert `True`, nicht `wihle`.*
-
-%%/col
-
-%%/slides
-
-%%book
-
-### Lexikalische und syntaktische Fehler
-
-Lexikalische und syntaktische Fehler sind meist statisch und deterministisch: Python erkennt sie schon beim Einlesen des Codes, bevor auch nur eine Zeile ausgeführt wird, und meldet sie jedes Mal. Die Meldung ist allerdings nicht immer hilfreich. Bei einem falsch geschriebenen `while` kennt Python das Wort `wihle` nicht als Schlüsselwort, sondern hält es für einen Variablennamen. Erst das folgende `True` passt nicht mehr, deshalb markiert die Meldung `True` und sagt nur `invalid syntax`:
-
-```{python}
-#| echo: true
-#| error: true
-wihle True:
-    pass
-```
-
-%%/book
-
-%%slides
-
-
-## Lexikalische & Syntaktische Fehler – Beispiele
-
-%%col 35 65
-
-- Ein *Schlüsselwort* ist falsch geschrieben
-- *Nicht geschlossene* Anführungszeichen oder Klammern
-- Einen *Doppelpunkt* nach einer Bedingung oder Funktion vergessen
-- *Falsche Einrückung* nach einer Bedingung, Schleife oder Funktion
-- Ggf. auch falsches Einrücken durch *Tabs vs. Leerzeichen*
-
-%%sep
-
-```{python}
-#| echo: true
-#| error: true
-print("Hallo)
-```
-
-```{python}
-#| echo: true
-#| error: true
-if 3 > 2
-    print("größer")
-```
-
-```{python}
-#| echo: true
-#| error: true
-def verdopple(x):
-return 2 * x
-```
-
-%%/col
-
-%%/slides
-
-%%book
-
-Typische lexikalische und syntaktische Fehler sind falsch geschriebene Schlüsselwörter, nicht geschlossene Anführungszeichen oder Klammern, ein vergessener Doppelpunkt nach einer Bedingung oder Funktionsdefinition und eine falsche Einrückung. Bei den meisten davon ist die Meldung von Python präzise. Ein nicht geschlossenes Anführungszeichen meldet Python als `unterminated string literal`:
-
-```{python}
-#| echo: true
-#| error: true
-print("Hallo)
-```
-
-Fehlt der Doppelpunkt nach einer Bedingung, nennt die Meldung das erwartete Zeichen:
-
-```{python}
-#| echo: true
-#| error: true
-if 3 > 2
-    print("größer")
-```
-
-Fehlt die Einrückung nach einer Funktionsdefinition, meldet Python einen `IndentationError` und verweist auf die Zeile der Definition:
-
-```{python}
-#| echo: true
-#| error: true
-def verdopple(x):
-return 2 * x
-```
-
-%%/book
-
-%%slides
-
-
-## Lexikalische & Syntaktische Fehler – Behandlung
-
-1. *Erster Blick:* In welcher Zeile ist der Fehler aufgetreten?
-2. Gibt der *Text der Fehlermeldung* einen Hinweis?
-3. Liegt der Fehler in der Zeile oder ist der Fehler nur ein *Symptom* und der Fehler liegt in einer Zeile davor?
-4. Normalerweise *einfach zu beheben* – von der Fehlerzeile den Code Zeile für Zeile rückwärts durchgehen
-
-%%/slides
-
-%%book
-
-Bei der Behandlung lexikalischer und syntaktischer Fehler beginnen wir mit der Zeile, die die Meldung nennt, und mit dem Text der Meldung. Wie das `wihle`-Beispiel zeigt, ist die markierte Stelle aber manchmal nur ein Symptom, und die eigentliche Ursache steht weiter vorn in der Zeile oder in einer Zeile davor. Deshalb gehen wir von der Fehlerzeile aus Zeile für Zeile rückwärts. Meist ist der Fehler dann schnell gefunden und behoben.
-
-%%/book
-
-%%slides
-
-
-## Semantische Fehler – Grundlagen
-
-- Entstehen durch die *fehlerhafte Anwendung* von syntaktisch korrekten Programmstrukturen auf ein bestimmtes Problem
-- *Erkennbare Fehler* – weiß man, dass sie auftreten können (Division durch Null, fehlender Sensor)
-  - Sollten *immer* abgefangen und behandelt werden
-
-- *Unerkannte Fehler* – beim Erstellen des Programms unbekannt; deutlich schwieriger abzufangen
-
-%%/slides
-
-%%book
-
-### Semantische Fehler
-
-Semantische Fehler entstehen, wenn ein syntaktisch korrektes Programm Strukturen auf ein Problem falsch anwendet, etwa mit falschen Datentypen, fehlenden Werten oder ungültigen Operationen wie einer Division durch Null. In Python zeigen sie sich als Exceptions bei der Ausführung.
-
-Ein Teil dieser Fehler ist vorhersehbar, wie der fehlende Sensor im Eingangsbeispiel. Solche erkennbaren Fehler sollten immer behandelt werden, mit Guard Clauses oder mit `try-except`. Andere semantische Fehler sind beim Schreiben des Programms unbekannt und zeigen sich erst zur Laufzeit; sie müssen über den Traceback analysiert werden.
-
-%%/book
-
-%%slides
-
-
-## Semantische Fehler – Beispiele (1/2)
-
-*Variable als Funktion aufgerufen (statisch, deterministisch):*
-
-```{python}
-#| echo: true
-#| error: true
-laenge = 5
-laenge(2)
-```
-
-*Operator mit Wert des falschen Typs (statisch oder dynamisch):*
-
-```{python}
-#| echo: true
-#| error: true
-"3" + 4.5
-```
-
-%%/slides
-
-%%slides
-
-
-## Semantische Fehler – Beispiele (2/2)
-
-*Wert des falschen Typs an Funktion übergeben (statisch oder dynamisch):*
-
-```{python}
-#| echo: true
-#| error: true
-len(42)
-```
-
-*Division durch 0 (dynamisch, deterministisch):*
-
-```{python}
-#| echo: true
-#| error: true
-10 / 0
-```
-
-%%/slides
-
-%%book
-
-Typische semantische Fehler sind ein Aufruf einer Variable, als wäre sie eine Funktion, ein Operator mit einem Wert des falschen Typs, ein Funktionsaufruf mit einem Argument des falschen Typs und eine Division durch Null. Wird eine Zahl wie eine Funktion aufgerufen, meldet Python, dass ein `int` nicht aufrufbar ist:
-
-```{python}
-#| echo: true
-#| error: true
-laenge = 5
-laenge(2)
-```
-
-Der Operator `+` verbindet einen String nur mit einem weiteren String. Mit einer Zahl entsteht ein `TypeError`. Ob dieser Fehler statisch erkennbar ist, hängt davon ab, ob der Typ schon im Code feststeht oder erst zur Laufzeit, etwa aus einer eingelesenen Datei:
-
-```{python}
-#| echo: true
-#| error: true
-"3" + 4.5
-```
-
-`len()` erwartet eine Sequenz wie eine Liste oder einen String, keine Zahl:
-
-```{python}
-#| echo: true
-#| error: true
-len(42)
-```
-
-Eine Division durch Null ist erst bei der Ausführung erkennbar, wenn der Nenner feststeht:
-
-```{python}
-#| echo: true
-#| error: true
-10 / 0
-```
-
-%%/book
-
-%%slides
-
-
-## Semantische Fehler – Behandlung
-
-*Erster Schritt: Traceback verstehen*
-
-- **Letzte Stack-Zeile:** Wo ist der Code abgestürzt?
-- **Exception-Typ:** Welche Annahme wurde verletzt? (`TypeError`, `AttributeError`, `ZeroDivisionError` …)
-- **Aufrufpfad davor:** Wer hat den fehlerhaften Wert übergeben?
-- **Fehlermeldung:** Welcher konkrete Wert hat das Problem ausgelöst?
-
-*Leitfrage: Welche stillschweigende Annahme über diesen Wert wurde verletzt?*
-
-%%/slides
-
-%%book
-
-Für die Behandlung semantischer Fehler gilt dasselbe Vorgehen wie im Eingangsbeispiel: Die letzte Stack-Zeile zeigt die Absturzstelle, der Exception-Typ die Art der verletzten Annahme, der Aufrufpfad davor die Herkunft des fehlerhaften Werts und die Meldung den konkreten Wert. Die Leitfrage lautet, welche Annahme über Daten, Typen oder Rückgabewerte verletzt wurde. Ist der Fehler erkennbar, behandeln wir ihn anschließend im Code, mit einer Guard Clause oder mit `try-except`.
 
 %%/book
 
@@ -1007,119 +1269,6 @@ Die Funktion `fakultaet_sicher()` ruft `factorial_recursiv()` in einem `try`-Blo
 #| echo: true
 fakultaet_sicher(21)
 ```
-
-%%/book
-
-
-%%# Fehler ohne Exception
-
-%%## Logische Fehler – Grundlagen
-
-%%slides
-
-*Entstehen durch:*
-
-- Fehler in der *Programmlogik*
-- Ein *falsches mentales Modell*
-- Einen grundlegenden *Fehler im Programmentwurf*
-
-*Charakteristika:*
-
-- Erzeugen *nur selten Exceptions* – stattdessen falsches Verhalten oder falsche Ergebnisse
-- Bleiben oft *unentdeckt* und treten erst dynamisch auf
-- Können *deterministisch* oder *sporadisch* sein
-
-%%/slides
-
-%%book
-
-Logische Fehler entstehen durch Fehler in der Programmlogik, durch ein falsches mentales Modell des Problems oder durch einen Fehler im Programmentwurf. Anders als semantische Fehler erzeugen sie nur selten eine Exception. Das Programm läuft und liefert ein Ergebnis, aber das Ergebnis ist falsch. Deshalb bleiben logische Fehler oft lange unentdeckt. Sie können deterministisch sein oder nur sporadisch auftreten.
-
-%%/book
-
-%%slides
-
-
-## Logische Fehler – Beispiele
-
-%%col 50 50
-
-*Deterministisch:* falscher Faktor in einer Einheitenumrechnung
-
-```{python}
-#| echo: true
-def ms_zu_kmh(v):
-    return v / 3.6   # richtig: v * 3.6
-```
-
-```{python}
-#| echo: true
-ms_zu_kmh(10)
-```
-
-*Keine Exception – nur ein falscher Wert (richtig: 36 km/h).*
-
-%%sep
-
-*Sporadisch:*
-
-- Probleme mit *Sommer-/Winterzeitkonvertierung* bei Sensor-Daten
-- Die Bedingung in einer Schleife hat Fälle, in der sie *immer True* ist und so endlos wird
-
-*Weitere deterministische Fälle:* falsche Schleifenart oder Schachtelung, falsche Zeitzone beim Schreiben von Sensor-Daten
-
-%%/col
-
-%%/slides
-
-%%book
-
-Ein deterministischer logischer Fehler ist ein falscher Faktor in einer Einheitenumrechnung. Die Funktion `ms_zu_kmh()` soll eine Geschwindigkeit von Metern pro Sekunde in Kilometer pro Stunde umrechnen, teilt aber durch 3,6, statt mit 3,6 zu multiplizieren. Python meldet keinen Fehler; 10 m/s ergeben fälschlich etwa 2,78 km/h statt 36 km/h:
-
-```{python}
-#| echo: true
-ms_zu_kmh(10)
-```
-
-Weitere deterministische Beispiele sind die falsche Art von Schleife, eine falsche Schachtelung und eine falsche Zeitzone beim Schreiben von Sensordaten. Sporadisch treten dagegen Fehler bei der Umstellung zwischen Sommer- und Winterzeit auf, die nur zweimal im Jahr wirksam werden, oder eine Schleifenbedingung, die nur bei bestimmten Daten immer `True` bleibt und die Schleife dann endlos laufen lässt.
-
-%%/book
-
-%%slides
-
-
-## Logische Fehler – Behandlung
-
-- *Testfälle erstellen* um zu reproduzieren wann und wie unerwartetes Verhalten stattfindet
-
-  → `08a_UnitTest` (S08): Tests fangen Exception-Fälle bevor sie in Produktion gelangen
-
-- *Debugging-Tools* nutzen um Ausführung Schritt für Schritt nachzuvollziehen
-
-  → `07b_Debugging` (S07): Debugger, Breakpoints, Schritt-für-Schritt-Analyse
-
-%%/slides
-
-%%book
-
-Weil logische Fehler keine Exception auslösen, hilft kein Traceback. Wir brauchen Testfälle, die das erwartete Ergebnis festhalten und so reproduzieren, wann und wie das falsche Verhalten auftritt; ein Test mit `ms_zu_kmh(10) == 36` hätte den Fehler oben sofort gezeigt. Wie man solche Tests schreibt, behandelt `08a_UnitTest`. Mit Debugging-Werkzeugen lässt sich die Ausführung Schritt für Schritt nachvollziehen, um die Stelle zu finden, an der ein Wert falsch wird; das ist Thema von `07b_Debugging`.
-
-%%/book
-
-%%slides
-
-
-## Zusatz: Warnungen in der IDE
-
-- Weisen auf Code hin, der *syntaktisch und semantisch korrekt* scheint, seinen Zweck aber wahrscheinlich *nicht erfüllen* wird
-- Basieren auf *Erfahrungswerten*
-- Können dabei helfen *semantische und logische Fehler frühzeitig* zu erkennen
-
-%%/slides
-
-%%book
-
-Neben Fehlermeldungen zeigen Entwicklungsumgebungen auch Warnungen an. Sie weisen auf Code hin, der syntaktisch und semantisch korrekt aussieht, seinen Zweck aber wahrscheinlich nicht erfüllt, zum Beispiel eine Variable, die zugewiesen, aber nie verwendet wird. Solche Warnungen beruhen auf Erfahrungswerten und helfen, semantische und logische Fehler früh zu erkennen, bevor der Code überhaupt läuft.
 
 
 ## Quiz
