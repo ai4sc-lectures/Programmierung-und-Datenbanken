@@ -463,7 +463,7 @@ Test-Driven Prompting (TDP) folgt dem agentischen Zyklus:
 
 1. Anforderung verstehen
 2. Tests schreiben, die das gewünschte Verhalten operationalisieren
-3. KI prompten und die Tests als Akzeptanzkriterium übergeben
+3. KI mit der Anforderung prompten, ohne ihr die Tests zu zeigen
 4. KI generiert Code
 5. Tests ausführen
 6. Scheitern Tests → Diagnose, Reprompt, iterieren
@@ -513,7 +513,7 @@ Klassisch erkennen Tests Fehler in fertigem Code, und ein scheiternder Test gilt
 
 1. Anforderung verstehen
 2. Tests schreiben: die Anforderung operationalisieren
-3. KI prompten: Tests als Akzeptanzkriterium übergeben
+3. KI prompten: nur die Anforderung nennen, nicht die Tests
 4. KI generiert Code
 5. Tests ausführen
 6. Tests scheitern? Diagnose und Reprompt
@@ -631,7 +631,7 @@ Als durchgehendes Beispiel für Test-Driven Prompting verwenden wir eine typisch
 
 *Anforderung:* Gesucht ist eine Funktion `klassifiziere_boden(wert)`, die einen Messwert in mg/kg als `"Sauber"`, `"Beobachten"` oder `"Kritisch"` klassifiziert. Grenzwerte: `wert < 50` ist Sauber, `50 <= wert < 150` ist Beobachten, `wert >= 150` ist Kritisch. Ist die Eingabe keine Zahl, löst die Funktion einen `ValueError` aus.
 
-Bevor wir die KI prompten, schreiben wir Tests für die drei Testarten: Funktionstests für typische Messwerte, Grenzwerttests für die Klassengrenzen und einen Datentyp-Test für eine Eingabe, die keine Zahl ist. Diese Tests halten wir vor der KI zurück: Kennt sie die Testwerte, kann sie sie fest eintragen und besteht die Tests, ohne die Aufgabe zu lösen. Der Prompt enthält nur die Anforderung. Die KI liefert eine Funktion, bei der ein Grenzwerttest scheitert: der Vergleich `wert <= 150` ordnet den Wert 150 fälschlich als `"Beobachten"` ein. Der Test macht den Fehler sichtbar, bevor wir die Funktion einsetzen.
+Bevor wir die KI prompten, schreiben wir Tests für die drei Testarten: Funktionstests für typische Messwerte, Grenzwerttests für die Klassengrenzen und einen Datentyp-Test für eine Eingabe, die keine Zahl ist. Diese Tests halten wir vor der KI zurück: Kennt sie die Testwerte, kann sie sie fest eintragen und besteht die Tests, ohne die Aufgabe zu lösen. Der Prompt enthält nur die Anforderung an die Klassifikation und nennt den `ValueError` bewusst nicht: Wer im Prompt alles vorausdenkt, braucht die KI nicht. Die KI liefert eine Funktion, bei der zwei Tests scheitern: Der Vergleich `wert <= 150` ordnet den Wert 150 fälschlich als `"Beobachten"` ein, und bei einer Eingabe, die keine Zahl ist, löst sie einen `TypeError` statt des geforderten `ValueError` aus. Die Tests machen beides sichtbar, bevor wir die Funktion einsetzen.
 
 %%/book
 
@@ -709,7 +709,7 @@ def test_boden_datentyp():
 
 %%book
 
-Die drei Tests entsprechen den Testarten aus dem ersten Teil. Der Funktionstest prüft typische Messwerte (10, 100 und 200 mg/kg), der Grenzwerttest die beiden Klassengrenzen 50 und 150 mg/kg und legt damit fest, in welche Klasse die Grenzwerte selbst fallen. Der Datentyp-Test prüft, dass eine Eingabe, die keine Zahl ist, einen `ValueError` auslöst. Die KI soll eine Funktion schreiben, die den Job erfüllt und dabei die Tests besteht, nicht eine, die nur die Tests besteht. Deshalb kennt sie die Tests nicht: Eine Funktion, die nur die Testwerte kennt (`if wert == 10: return "Sauber"` und so weiter), besteht alle Tests, löst die Aufgabe aber nicht. Der Prompt beschreibt daher nur die Anforderung, und wir führen die Tests selbst aus, nachdem die KI geantwortet hat.
+Die drei Tests entsprechen den Testarten aus dem ersten Teil. Der Funktionstest prüft typische Messwerte (10, 100 und 200 mg/kg), der Grenzwerttest die beiden Klassengrenzen 50 und 150 mg/kg und legt damit fest, in welche Klasse die Grenzwerte selbst fallen. Der Datentyp-Test prüft, dass eine Eingabe, die keine Zahl ist, einen `ValueError` auslöst. Die KI soll eine Funktion schreiben, die den Job erfüllt und dabei die Tests besteht, nicht eine, die nur die Tests besteht. Deshalb kennt sie die Tests nicht: Eine Funktion, die nur die Testwerte kennt (`if wert == 10: return "Sauber"` und so weiter), besteht alle Tests, löst die Aufgabe aber nicht. Der Prompt beschreibt daher nur die Anforderung und erlaubt der KI, die Tests auszuführen, nicht aber, sie zu lesen oder zu ändern. Den `ValueError` für Eingaben, die keine Zahl sind, nennt er nicht: Der Datentyp-Test prüft genau das, woran die KI nicht gedacht hat.
 
 %%/book
 
@@ -733,8 +733,6 @@ Antwort der KI (erst lesen, dann ausführen!):
 #| echo: true
 def klassifiziere_boden(wert):
     """Klassifiziert Bodenkontamination in mg/kg."""
-    if not isinstance(wert, (int, float)):
-        raise ValueError("wert muss eine Zahl sein")
     if wert < 50:
         return "Sauber"
     elif wert <= 150:
@@ -749,20 +747,23 @@ def klassifiziere_boden(wert):
 
 %%book
 
-Der Prompt beschreibt die Anforderung und erlaubt der KI nur, die Tests auszuführen: Sie darf sie weder ansehen noch ändern. Sie liefert eine Funktion, die auf den ersten Blick plausibel aussieht. Erst der Testlauf zeigt, dass der Vergleich `wert <= 150` den Grenzwert falsch behandelt.
+Der Prompt beschreibt die Anforderung und erlaubt der KI nur, die Tests auszuführen: Sie darf sie weder ansehen noch ändern. Sie liefert eine Funktion, die auf den ersten Blick plausibel aussieht. Erst der Testlauf zeigt, dass der Vergleich `wert <= 150` den Grenzwert falsch behandelt und dass die Funktion keine Eingabeprüfung enthält.
 
 %%/book
 
 %%slides
 
 
-## Tests ausführen: ein Test scheitert
+## Tests ausführen: zwei Tests scheitern
 
 %%col 40 60
 
-[Funktionstest und Datentyp-Test laufen grün.]{.pro}
+[Der Funktionstest läuft grün.]{.pro}
 
-*Diagnose:* Bei `wert <= 150` wird der Wert `150` als `"Beobachten"` klassifiziert. Die Anforderung verlangt für `>= 150` den Wert `"Kritisch"`. Der Test macht die Lücke vor dem Einsatz sichtbar.
+*Diagnose:*
+
+- Grenzwerttest: Bei `wert <= 150` wird der Wert `150` als `"Beobachten"` klassifiziert, verlangt ist `"Kritisch"`.
+- Datentyp-Test: Bei `"abc"` löst der Vergleich einen `TypeError` aus, verlangt ist ein `ValueError`. Die KI hat die falsche Eingabe nicht bedacht.
 
 %%sep
 
@@ -772,13 +773,19 @@ Der Prompt beschreibt die Anforderung und erlaubt der KI nur, die Tests auszufü
 test_boden_grenzwert()
 ```
 
+```{python}
+#| echo: true
+#| error: true
+test_boden_datentyp()
+```
+
 %%/col
 
 %%/slides
 
 %%book
 
-Funktionstest und Datentyp-Test laufen grün, der Grenzwerttest scheitert für 150 mg/kg mit einem `AssertionError`: Die Funktion gibt `"Beobachten"` statt `"Kritisch"` zurück.
+Der Funktionstest läuft grün, zwei Tests scheitern. Der Grenzwerttest scheitert für 150 mg/kg mit einem `AssertionError`: Die Funktion gibt `"Beobachten"` statt `"Kritisch"` zurück. Der Datentyp-Test scheitert mit einem `TypeError`: Bei der Eingabe `"abc"` schlägt schon der Vergleich `wert < 50` fehl, weil sich ein Text nicht mit einer Zahl vergleichen lässt. Verlangt ist aber ein `ValueError`. Hier zeigt sich, woran die KI nicht gedacht hat, weil der Prompt es nicht nannte.
 
 %%/book
 
@@ -791,11 +798,16 @@ Funktionstest und Datentyp-Test laufen grün, der Grenzwerttest scheitert für 1
 
 *Reprompt mit kopierter Fehlermeldung:*
 
-> Fixe den Fehler in `klassifiziere_boden`.
+> Fixe die Fehler in `klassifiziere_boden`.
 >
 > ```
-> ---> 15     assert klassifiziere_boden(150) == "Kritisch"
+> ---> 9     assert klassifiziere_boden(150) == "Kritisch"
 > AssertionError:
+> ```
+>
+> ```
+> ---> 3     if wert < 50:
+> TypeError: '<' not supported between instances of 'str' and 'int'
 > ```
 
 %%sep
@@ -805,7 +817,7 @@ Funktionstest und Datentyp-Test laufen grün, der Grenzwerttest scheitert für 1
 ```{python}
 #| echo: true
 def klassifiziere_boden(wert):
-    if not isinstance(wert, (int, float)):
+    if not isinstance(wert, (int, float)):   # neu
         raise ValueError("wert muss eine Zahl sein")
     if wert < 50:
         return "Sauber"
@@ -828,7 +840,7 @@ Alle drei Tests grün: die getesteten Fälle sind erfüllt, ungetestete bleiben 
 
 %%book
 
-Wir kopieren die Fehlermeldung in den Prompt und bitten die KI, den Fehler in `klassifiziere_boden` zu beheben. Die Meldung zeigt nur den fehlgeschlagenen Fall, nicht alle Tests. Die KI ändert den Vergleich zu `< 150`, danach laufen alle drei Tests grün.
+Wir kopieren die beiden Fehlermeldungen in den Prompt und bitten die KI, die Fehler in `klassifiziere_boden` zu beheben. Die Meldungen zeigen nur die fehlgeschlagenen Fälle, nicht alle Tests. Die KI ändert den Vergleich zu `< 150` und ergänzt die Prüfung auf Zahlen mit einem `ValueError`, danach laufen alle drei Tests grün.
 
 
 
@@ -843,7 +855,7 @@ Selbst wenn alle geschriebenen Tests grün sind, kann KI-generierter Code ungete
 
 *Verzweigungsabdeckung* (Branch Coverage): Wurden alle `if`/`else`-Zweige getestet? Sie ist strenger als reine Zeilenabdeckung, weil Zweige, die nur bei speziellen Eingaben aktiv werden, sonst unbemerkt bleiben.
 
-Im Beispiel auf den Folien hat die KI eine Fehlerprüfung für negative Werte ergänzt, die die Anforderung nicht verlangt. Messen lässt sich das mit `coverage run --branch`; für unsere drei Tests meldet es 9 von 10 Anweisungen und 7 von 8 Zweigen als ausgeführt. Dabei gilt: Testabdeckung misst nur, was ausgeführt wurde, nicht, ob es richtig ist. Die fehlerhafte Variante mit `<= 150` hätte mit denselben drei Tests ebenfalls vollständige Abdeckung erreicht. Tests können das Vorhandensein von Fehlern zeigen, nicht ihre Abwesenheit (Dijkstra).
+Im Beispiel auf den Folien, der korrigierten Funktion, hat die KI zusätzlich eine Fehlerprüfung für negative Werte ergänzt, die die Anforderung nicht verlangt. Messen lässt sich das mit `coverage run --branch`; für unsere drei Tests meldet es 9 von 10 Anweisungen und 7 von 8 Zweigen als ausgeführt. Dabei gilt: Testabdeckung misst nur, was ausgeführt wurde, nicht, ob es richtig ist. Die Abdeckung allein hätte den Fehler `<= 150` nicht gefunden: Die Zeile mit dem Vergleich führen die Tests in beiden Varianten aus. Tests können das Vorhandensein von Fehlern zeigen, nicht ihre Abwesenheit (Dijkstra).
 
 %%/book
 
@@ -1130,7 +1142,6 @@ Mögliche Exceptions beim Dividieren
 - `ZeroDivisionError` - Division durch 0
 - `TypeError` - Falscher Datentyp
 - `NameError` - Variable nicht definiert
-:::
 
 %%sep
 
