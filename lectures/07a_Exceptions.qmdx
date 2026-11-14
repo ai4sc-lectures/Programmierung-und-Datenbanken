@@ -22,7 +22,7 @@ format:
 
 ### TL;DR
 
-KI-generierter Code enthält oft stillschweigende Annahmen über Eingaben und Rückgabewerte. Eine Exception zeigt, welche dieser Annahmen verletzt wurde, und der Traceback zeigt den Aufrufpfad bis zu dieser Stelle. Wir lernen, Tracebacks zu lesen, Vorbedingungen mit Guard Clauses zu prüfen, die bei Verletzung selbst eine Exception auslösen, und Exceptions mit `try-except` gezielt zu behandeln. Die Fehlerklassen (lexikalisch, syntaktisch, semantisch, logisch) ordnen ein, welche Fehler sich wie zeigen und wie man sie behebt.
+Eine Exception unterbricht ein Programm, wenn eine Annahme über Eingaben oder Rückgabewerte verletzt ist, im selbst geschriebenen wie im KI-generierten Code. Der Exception-Typ zeigt, welche Annahme verletzt wurde, und der Traceback zeigt den Aufrufpfad bis zu dieser Stelle. Wir lernen, Tracebacks zu lesen, Vorbedingungen mit Guard Clauses zu prüfen, die bei Verletzung selbst eine Exception auslösen, und Exceptions mit `try-except` gezielt zu behandeln. Die Fehlerklassen (lexikalisch, syntaktisch, semantisch, logisch) ordnen ein, welche Fehler sich wie zeigen und wie man sie behebt.
 
 %%/book
 
@@ -83,7 +83,7 @@ Zur Wiederholung: Die Wissenspyramide (→ `02a_Wissenspyramide`) beschreibt, wi
 
 %%book
 
-Mit Statements, Funktionen, Verzweigungen und Schleifen kennen wir die Bausteine, aus denen Programme bestehen, und damit auch die Bausteine, aus denen KI-Werkzeuge Code erzeugen. Was noch fehlt, ist der Umgang mit dem Fall, dass dieser Code bei der Ausführung abbricht.
+Mit Statements, Funktionen, Verzweigungen und Schleifen kennen wir die Bausteine, aus denen Programme bestehen. Was noch fehlt, ist der Umgang mit dem Fall, dass dieser Code bei der Ausführung abbricht.
 
 %%/book
 
@@ -160,7 +160,7 @@ berechne_mittleren_durchfluss("sensor_02")
 ## Tracebacks: Den Aufrufstapel lesen
 %%col 50 50
 
-*Traceback {{< ai4sc-icon search >}} von oben nach unten lesen – der Aufrufpfad bis zum Absturz:*
+*Traceback von oben nach unten lesen – der Aufrufpfad bis zum Absturz:*
 
 1. **Oberste Zeile** – der Startpunkt des Aufrufs
 2. **Weiter abwärts** – jede Zeile ist ein Funktionsaufruf tiefer
@@ -228,7 +228,7 @@ So wird aus einem Fehlerbericht eine präzise Diagnose: Nicht `sum()` ist falsch
 | `AttributeError: 'NoneType' object has no attribute 'mittelwert'` | Objekt ist immer vorhanden |
 | `IndexError: list index out of range` | Liste hat genug Elemente |
 
-%%note Leitfrage beim KI-Code-Review
+%%note Leitfrage beim Code-Review
 Welche Eingaben oder Rückgabewerte nimmt der Code stillschweigend an?
 %%/note
 
@@ -674,13 +674,13 @@ Eine Division durch Null ist erst bei der Ausführung erkennbar, wenn der Nenner
 - **Aufrufpfad davor:** Wer hat den fehlerhaften Wert übergeben?
 - **Fehlermeldung:** Welcher konkrete Wert hat das Problem ausgelöst?
 
-*Bei KI-Code: Welche stillschweigende Annahme hat die KI über diesen Wert gemacht?*
+*Leitfrage: Welche stillschweigende Annahme über diesen Wert wurde verletzt?*
 
 %%/slides
 
 %%book
 
-Für die Behandlung semantischer Fehler gilt dasselbe Vorgehen wie im Eingangsbeispiel: Die letzte Stack-Zeile zeigt die Absturzstelle, der Exception-Typ die Art der verletzten Annahme, der Aufrufpfad davor die Herkunft des fehlerhaften Werts und die Meldung den konkreten Wert. Bei KI-generiertem Code lautet die Leitfrage, welche Annahme über Daten, Typen oder Rückgabewerte verletzt wurde. Ist der Fehler erkennbar, behandeln wir ihn anschließend im Code, mit einer Guard Clause oder mit `try-except`.
+Für die Behandlung semantischer Fehler gilt dasselbe Vorgehen wie im Eingangsbeispiel: Die letzte Stack-Zeile zeigt die Absturzstelle, der Exception-Typ die Art der verletzten Annahme, der Aufrufpfad davor die Herkunft des fehlerhaften Werts und die Meldung den konkreten Wert. Die Leitfrage lautet, welche Annahme über Daten, Typen oder Rückgabewerte verletzt wurde. Ist der Fehler erkennbar, behandeln wir ihn anschließend im Code, mit einer Guard Clause oder mit `try-except`.
 
 %%/book
 
