@@ -606,9 +606,9 @@ Funktionen strukturieren Programme in überschaubare, wiederverwendbare Baustein
 
 - Parameter und in der Funktion zugewiesene Namen sind **lokal**
 - Außerhalb der Funktion existieren sie nicht
-- Derselbe Name kann in verschiedenen Frames verschiedene Werte haben
-- Globale Namen lassen sich lesen; eine Zuweisung erzeugt einen lokalen Namen (sonst `UnboundLocalError`)
-- Warum? Jeder Aufruf erhält einen eigenen *Frame* – siehe nächste Folie
+- Derselbe Name kann in verschiedenen Funktionen verschiedene Werte haben
+- **Globale** Variablen können in Funktionen gelesen werden
+- Warum? Jeder Aufruf erhält einen eigenen *Frame* im Speicher
 
 %%sep
 
@@ -795,7 +795,7 @@ Beim Rücksprung wird der Frame entfernt, und mit ihm verschwinden die lokalen N
 
 ### Übergabe von Argumenten
 
-In Programmiersprachen unterscheidet man zwei Konzepte der Argumentübergabe. Bei Pass-by-value arbeitet die Funktion mit einer Kopie des übergebenen Werts, die eine eigene Adresse hat. Änderungen an der Kopie bleiben daher innerhalb der Funktion, was oft sicherer ist. Bei Pass-by-reference arbeitet die Funktion mit einer Referenz auf dieselben Daten; Parameter und Argument sind ein Alias für dieselbe Adresse, sodass Veränderungen am Objekt auch außerhalb sichtbar sind. Das spart Zeit und Speicher. Adressen und Alias erklärt `02c_Speicher`, Objekte und Referenzen `04c_Objects`.
+In Programmiersprachen unterscheidet man zwei Konzepte der Argumentübergabe. Bei Pass-by-value arbeitet die Funktion mit einer Kopie des übergebenen Werts, die eine eigene Adresse hat. Änderungen an der Kopie bleiben daher innerhalb der Funktion, was oft sicherer ist. Bei Pass-by-reference arbeitet die Funktion mit einer Referenz auf dieselben Daten; Parameter und Argument sind ein Alias für dieselbe Adresse, sodass Veränderungen am Objekt auch außerhalb sichtbar sind. Das spart Zeit und Speicher. 
 
 Python verwendet keines von beiden in Reinform. Es übergibt immer eine Referenz auf ein Objekt, man spricht von Pass-by-assignment oder „call by sharing“. Der Parameter ist ein neuer Name für dasselbe Objekt wie das Argument. Was daraus folgt, hängt davon ab, ob die Funktion den Namen neu bindet oder das Objekt verändert.
 
@@ -829,8 +829,6 @@ Python verwendet keines von beiden in Reinform. Es übergibt immer eine Referenz
 ```
 
 %%/col
-
-Adressen und Alias erklärt `02c_Speicher`, Objekte und Referenzen `04c_Objects`.
 
 %%/slides
 
@@ -892,21 +890,21 @@ Zusammengefasst gilt in Python: Bei veränderlichen Typen wie `list`, `dict` und
 
 ```{python}
 #| echo: true
-def f(argument):
+def erweitere_liste_plus(argument):
     argument += [3]     # Liste: ändert das Objekt
 
-def g(argument):
+def erhoehe_zahl(argument):
     argument += 3       # int: Neubindung des Namens
 
 liste = [6]
-f(liste)
+erweitere_liste_plus(liste)
 liste
 ```
 
 ```{python}
 #| echo: true
 zahl = 6
-g(zahl)
+erhoehe_zahl(zahl)
 zahl
 ```
 
@@ -923,11 +921,11 @@ zahl
 
 ```{python}
 #| echo: true
-def neu(argument):
+def ersetze_liste(argument):
     argument = [3]
 
 liste = [6]
-neu(liste)
+ersetze_liste(liste)
 liste
 ```
 
@@ -937,11 +935,11 @@ liste
 
 ```{python}
 #| echo: true
-def erweitere(argument):
+def erweitere_liste_append(argument):
     argument.append(3)
 
 liste = [6]
-erweitere(liste)
+erweitere_liste_append(liste)
 liste
 ```
 
@@ -959,28 +957,35 @@ liste
 
 ## Beispiel – Liste und Zahl mit `+=`
 
-```{python}
-#| echo: true
-def f(argument):
-    argument += [3]     # Liste: ändert das Objekt
+%%col 50 50
 
-def g(argument):
-    argument += 3       # int: Neubindung des Namens
-```
+**Liste: außen sichtbar**
 
 ```{python}
 #| echo: true
+def erweitere_liste_plus(argument):
+    argument += [3]     # ändert das Objekt
+
 liste = [6]
-f(liste)
-liste                   # außen sichtbar
+erweitere_liste_plus(liste)
+liste
 ```
+
+%%sep
+
+**Zahl: außen unverändert**
 
 ```{python}
 #| echo: true
+def erhoehe_zahl(argument):
+    argument += 3       # Neubindung des Namens
+
 zahl = 6
-g(zahl)
-zahl                    # außen unverändert
+erhoehe_zahl(zahl)
+zahl
 ```
+
+%%/col
 
 
 ## Vorsicht: Veränderliche Standardwerte
@@ -990,10 +995,6 @@ zahl                    # außen unverändert
 **Warum passiert das?**
 
 Die Liste `[]` wird **einmalig** bei der Definition der Funktion erstellt — nicht bei jedem Aufruf. Alle Aufrufe teilen dieselbe Liste.
-
-**Korrekte Version**
-
-Als Standardwert `None` verwenden und die Liste im Funktionskörper neu erzeugen.
 
 %%sep
 
@@ -1014,6 +1015,15 @@ sammle_messwerte(1)
 #| echo: true
 sammle_messwerte(2)
 ```
+
+%%/col
+%%col 50 50
+
+**Korrekte Version**
+
+Als Standardwert `None` verwenden und die Liste im Funktionskörper neu erzeugen.
+
+%%sep
 
 ```{python}
 #| echo: true
@@ -1092,13 +1102,13 @@ KI-generierter Code enthält das Muster `liste=[]` gelegentlich. Wir prüfen Sta
 
 %%col 50 50
 
-Typangaben sind in Python optional, dokumentieren aber, wie eine Funktion zu benutzen ist.
+Typangaben sind in Python optional, dokumentieren aber, wie eine Funktion zu benutzen ist. Das ist insbesondere bei KI-generiertem Code sehr wichtig.
 
 - `calculate_area` → Name beschreibt die Aufgabe
-- `length: float, width: float` → Eingabetypen sind dokumentiert
+- `length: float, width: float` → Dokumentiert die Parametertypen
 - `-> float` → Rückgabetyp ist dokumentiert
-- Die {{< ai4sc-icon clipboard-list >}} Signatur beschreibt die Schnittstelle, ohne Implementierung
-- Typangaben sind Annotationen: Der Interpreter prüft sie nicht, Werkzeuge wie `mypy` und Tests tun es
+- Die Signatur beschreibt die Schnittstelle, ohne Implementierung
+- Typangaben sind Annotationen: Der Interpreter prüft sie nicht!!!
 
 %%sep
 
@@ -1124,6 +1134,119 @@ def calculate_area(length: float, width: float) -> float:
 ```
 
 Typangaben sind in Python optional und Annotationen: Der Interpreter prüft sie nicht. Erst Werkzeuge wie `mypy` und Tests stellen sicher, dass der Vertrag eingehalten wird; beides vertiefen wir in `08a_UnitTest`.
+
+%%/book
+
+%%slides
+
+
+## Docstrings
+
+%%col 50 50
+
+- Ein Docstring ist ein String in dreifachen Anführungszeichen, direkt als erste Zeile im Funktionskörper
+- Er beschreibt, was die Funktion tut: Parameter und Rückgabewert mit Bedeutung und Einheit, Fehler- und Grenzfälle
+- Verbreitet ist die Gliederung in `Args`, `Returns` und `Raises` (Google-Stil)
+- Python speichert ihn in `funktion.__doc__`, `help(funktion)` zeigt ihn an
+- Ein Kommentar (`#`) erklärt den Code, ein Docstring die Schnittstelle
+
+%%sep
+
+```python
+def funktionsname(parameter: typ) -> typ:
+    """Kurzbeschreibung in einem Satz.
+
+    Args:
+        parameter: Bedeutung und Einheit
+
+    Returns:
+        Bedeutung und Einheit des Ergebnisses
+
+    Raises:
+        Fehlerart: wann der Fehler auftritt
+    """
+    ...
+```
+
+%%/col
+
+
+## Beispiel – Docstring für das hydraulische Gefälle
+
+%%col 50 50
+
+```{python}
+#| echo: true
+def hydraulic_gradient(
+    head_loss: float,
+    pipe_length: float
+) -> float:
+    """Berechnet das hydraulische Gefälle i = Δh / L.
+
+    Args:
+        head_loss: Druckhöhenverlust Δh in m
+        pipe_length: Rohrlänge L in m, größer als 0
+    Returns:
+        Hydraulisches Gefälle i (dimensionslos)
+    Raises:
+        ZeroDivisionError: wenn pipe_length 0 ist
+    """
+    return head_loss / pipe_length
+```
+
+%%sep
+
+```{python}
+#| echo: true
+help(hydraulic_gradient)
+```
+
+%%/col
+
+%%/slides
+
+%%book
+
+
+#### Docstrings
+
+Ein Docstring ist ein String, der als erste Anweisung im Funktionskörper steht. Üblich sind dreifache Anführungszeichen, damit er über mehrere Zeilen gehen kann. Anders als ein Kommentar ist er Teil des Programms: Python speichert ihn im Attribut `__doc__` der Funktion, und `help()` zeigt ihn zusammen mit der Signatur an. Während die Signatur nur Namen und Typen nennt, beschreibt der Docstring, was die Funktion berechnet, welche Bedeutung und Einheit Parameter und Rückgabewert haben und in welchen Fällen ein Fehler auftritt. Verbreitet ist eine Gliederung in `Args`, `Returns` und `Raises`, der sogenannte Google-Stil.
+
+Für das hydraulische Gefälle $i = \Delta h / L$ nennt der Docstring die Einheiten beider Parameter, das dimensionslose Ergebnis und den Grenzfall einer Rohrlänge von 0.
+
+```{python}
+#| echo: true
+def hydraulic_gradient(
+    head_loss: float,
+    pipe_length: float
+) -> float:
+    """Berechnet das hydraulische Gefälle i = Δh / L.
+
+    Args:
+        head_loss: Druckhöhenverlust Δh in m
+        pipe_length: Rohrlänge L in m, größer als 0
+    Returns:
+        Hydraulisches Gefälle i (dimensionslos)
+    Raises:
+        ZeroDivisionError: wenn pipe_length 0 ist
+    """
+    return head_loss / pipe_length
+```
+
+Mit `help()` lesen wir den Docstring, ohne die Implementierung öffnen zu müssen.
+
+```{python}
+#| echo: true
+help(hydraulic_gradient)
+```
+
+Der dokumentierte Grenzfall lässt sich direkt prüfen: Eine Rohrlänge von 0 führt tatsächlich zum angegebenen Fehler.
+
+```{python}
+#| echo: true
+#| error: true
+hydraulic_gradient(2.0, 0)
+```
 
 %%/book
 
