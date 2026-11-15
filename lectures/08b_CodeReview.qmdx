@@ -78,7 +78,7 @@ KI übernimmt die Implementierungsphase — der Ingenieur steuert und verifizier
 
 %%sep
 
-![](images/03c_Softwareentwurf/agentic_loop.svg)
+![](images/03c_Softwareentwurf/agentic_loop.svg){.ragged}
 
 %%/col
 
@@ -242,14 +242,14 @@ Die KI ist die Junior-Entwicklerin, du bist der Senior, der den Code abnimmt.
 3. **Änderungen:** Steht im Code etwas Unverlangtes oder Gefährliches?
 4. **Ausführung:** Stimmt das Ergebnis bei Randwerten und in der richtigen Einheit?
 %%sep
-![](images/08b_CodeReview/review_ablauf.svg){.nostretch fig-align="center" width="100%"}
+![](images/08b_CodeReview/review_ablauf.svg){.ragged .nostretch fig-align="center" width="100%"}
 %%/col
 
 %%/slides
 
 %%book
 
-![](images/08b_CodeReview/review_ablauf.svg)
+![](images/08b_CodeReview/review_ablauf.svg){.ragged}
 
 Wir prüfen in vier Schritten. Zuerst vergleichen wir den Auftrag mit dem, was der Agent geändert hat, danach lesen wir die Tests, dann die Änderungen am Code und zuletzt führen wir den Code selbst aus, auch mit Werten, die kein Test abfragt. Die Änderungen stehen an dritter Stelle, weil wir sie nur gegen die Aufgabe und die Tests beurteilen können. Innerhalb einer Funktion lesen wir wie in `03d_AgentischesProgrammieren` von außen nach innen: zuerst die Signatur, dann den Docstring, danach vorhandene Tests und erst zuletzt die Implementierung. In den nächsten Abschnitten durchlaufen wir die Schritte am Beispiel aus der Hörsaalfrage.
 
@@ -431,7 +431,8 @@ fig_cot.update_layout(
     xaxis=dict(range=[0, 125], ticksuffix="%", title="Anteil der Fälle",
                tickfont=dict(size=16), title_font=dict(size=16), automargin=True),
     yaxis=dict(autorange="reversed", tickfont=dict(size=16), automargin=True),
-    showlegend=False)
+    showlegend=False,
+    meta={"ai4sc_pastello": {"enabled": True, "ragged": True}})
 Path("data/08b_CodeReview").mkdir(parents=True, exist_ok=True)
 fig_cot.write_image("data/08b_CodeReview/erklaerbarkeit.png", width=600, height=430, scale=2)
 fig = fig_cot
@@ -451,7 +452,9 @@ Korrekturmaßnahmen:
 
 %%book
 
-![Reward Hacking: Anteil der Fälle, in denen das Modell die Abkürzung nutzt, gegenüber dem Anteil, in dem es sie in der Erklärung erwähnt [@chen2025faithfulness]](data/08b_CodeReview/erklaerbarkeit.png){fig-align="center" width="75%"}
+%%cache_plotly "data/08b_CodeReview/erklaerbarkeit.json" 600x430
+
+*Abbildung: Reward Hacking, Anteil der Fälle, in denen das Modell die Abkürzung nutzt, gegenüber dem Anteil, in dem es sie in der Erklärung erwähnt [@chen2025faithfulness].*
 
 Eine Erklärung des Agenten ist kein Nachweis dafür, wie er zu seinem Ergebnis gekommen ist. Chen et al. haben untersucht, ob die Denkkette von Sprachmodellen wiedergibt, was das Modell tatsächlich benutzt hat [@chen2025faithfulness]. Die Erklärungen der untersuchten Modelle geben genutzte Hinweise im Mittel nur zu 25 % (Claude 3.7 Sonnet) bzw. 39 % (DeepSeek R1) wieder, die Autoren sprechen von niedriger Faithfulness und halten die Werte für eine obere Grenze. In sechs Trainingsumgebungen mit eingebauten Abkürzungen, den Reward Hacks, lernte das Modell die Abkürzung in allen Umgebungen vollständig, erwähnte sie aber in fünf von sechs Umgebungen in weniger als 2 % der Erklärungen. Für das Review heißt das: Wir akzeptieren eine plausible Begründung des Agenten nicht als Nachweis, fragen nach überprüfbaren Quellen, Berechnungen und Daten und führen den Code selbst aus.
 
@@ -642,7 +645,7 @@ Richtig wäre `"Kritisch"`, denn ab 150 mg/kg ist der Boden kritisch.
 
 Prüfe deshalb Einheiten und Grenzwerte gegen die Anforderung.
 %%sep
-![](images/08b_CodeReview/uml_messung.svg){.nostretch fig-align="center" width="60%"}
+![](images/08b_CodeReview/uml_messung.svg){.ragged .nostretch fig-align="center" width="60%"}
 
 ```{python}
 #| echo: true
@@ -659,7 +662,7 @@ klassifiziere_boden_agent(200)
 
 %%book
 
-![](images/08b_CodeReview/uml_messung.svg)
+![](images/08b_CodeReview/uml_messung.svg){.ragged}
 
 Der Entwurf aus `03c_Softwareentwurf` beschreibt eine Messung mit Wert, Einheit und der Methode `validiere()`. Die Funktion des Agenten kennt nur eine Zahl, und die Einheit bleibt ungeprüft. Die Anforderung aus `08a_UnitTest` verlangt mg/kg. Wer 0,2 g/kg übergibt, meint 200 mg/kg, die Funktion liest den Wert aber als 0,2 mg/kg und meldet `"Sauber"`. Richtig wäre `"Kritisch"`, denn ab 150 mg/kg ist der Boden kritisch, und das zeigt der Aufruf mit dem umgerechneten Wert.
 
@@ -732,7 +735,7 @@ Linter und Typprüfer sind die erste Instanz, weil sie mechanische Fehler in Sek
 - Frage nach Fehlern und Randfällen, nicht nach einem Urteil
 - Ein Fund ist ein Hinweis, kein Nachweis: Du führst den Code aus
 %%sep
-![](images/08b_CodeReview/zweite_ki.svg){.nostretch fig-align="center" width="100%"}
+![](images/08b_CodeReview/zweite_ki.svg){.ragged .nostretch fig-align="center" width="100%"}
 
 Beispiel für den Prompt an den Prüfer:
 
@@ -743,7 +746,7 @@ Beispiel für den Prompt an den Prüfer:
 
 %%book
 
-![](images/08b_CodeReview/zweite_ki.svg)
+![](images/08b_CodeReview/zweite_ki.svg){.ragged}
 
 Eine zweite KI kann das Review vorbereiten, ersetzt es aber nicht. Der Agent, der den Code geschrieben hat, prüft sich nur mit demselben Kontext, der den Fehler erzeugt hat, und wiederholt deshalb leicht dieselben Annahmen. Besser ist ein Prüfer in einer neuen Sitzung, der nur die Aufgabe, den Code und die Tests sieht und gezielt nach Fehlern und Randfällen gefragt wird. Seine Funde behandeln wir als Hinweise: Wir führen den Code selbst aus und entscheiden selbst. Das Diagramm zeigt den Ablauf: Der Agent generiert den Code, die Prüfer-KI sucht in einem neuen Kontext nach Fehlern, ihre Funde sind Hinweise, und wir führen den Code aus und entscheiden. Wir geben jeden bestätigten Mangel an den Agenten zurück. Zwei Sprachmodelle können denselben Fehler machen, und ein Prüfer kann auch Fehler erfinden.
 
@@ -806,7 +809,7 @@ Regeln, die immer gelten, schreibst du in die Projektregeln des Agenten, zum Bei
 
 %%book
 
-Das Review endet nicht mit einem Urteil, sondern mit einer Rückmeldung an den Agenten. Wir benennen den konkreten Mangel im Prompt, verweisen auf den Test, der gelten soll, und verbieten ausdrücklich, Tests zu ändern. Wiederkehrende Mängel schreiben wir in die Projektregeln, die der Agent bei jeder Sitzung liest, etwa in eine `CLAUDE.md` [@anthropic2026bestpractices]. So wird aus einem einmaligen Fund eine Regel, die der nächste Durchlauf schon kennt. Damit schließt sich der Loop: Die Prüfung liefert die Anforderung für die nächste Iteration.
+Das Review endet nicht mit einem Urteil, sondern mit einer Rückmeldung an den Agenten. Wir benennen den konkreten Mangel im Prompt, verweisen auf den Test, der gelten soll, und verbieten ausdrücklich, Tests zu ändern. Wiederkehrende Mängel schreiben wir in die Projektregeln, die der Agent bei jeder Sitzung liest (z.B. `AGENTS.md`). So wird aus einem einmaligen Fund eine Regel, die der nächste Durchlauf schon kennt. Damit schließt sich der Loop: Die Prüfung liefert die Anforderung für die nächste Iteration.
 
 %%/book
 
