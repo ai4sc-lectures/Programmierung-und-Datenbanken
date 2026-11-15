@@ -14,26 +14,46 @@ format:
 resources:
   - images/08b_CodeReview/mj_title_poster.jpg
   - data/03d_AgentischesProgrammieren/kapazitaetsfalle.json
-  - data/03d_AgentischesProgrammieren/kapazitaetsfalle.png
+  - data/08b_CodeReview
 ---
 
 ```{python}
 #| include: false
 %xmode Minimal
+from pathlib import Path
+import plotly.graph_objects as go
+import plotly.io as pio
+from ai4sc_style.plotly_loader import load_ai4sc_theme
+
+load_ai4sc_theme("pastello", themes_dir=Path("_extensions/ai4sc-style/themes"))
+CW = pio.templates["ai4sc"].layout.colorway
+
+
+def get_layout(title="", height=500):
+    """Einheitliches Layout für die Diagramme dieses Decks."""
+    return dict(
+        title=dict(text=title),
+        height=height,
+        margin=dict(l=50, r=50, t=80, b=50),
+    )
 ```
 
 %%book
 
 ![](images/08b_CodeReview/mj_title_band.jpg)
 
-> Code, der plausibel aussieht, ist noch nicht automatisch korrekt.
+> Quis custodiet ipsos custodes?
+>
+> Wer überwacht die Wächter?
+>
+> — nach Juvenal, Satiren VI, Verse 347 f. [@juvenal_satiren]
 
 
 # Code Review
 
 ### TL;DR
 
-Ein Agent liefert Code schnell und meldet ihn als fertig, auch wenn er nicht stimmt. Wir lernen eine feste Prüfreihenfolge kennen: erst die Aufgabe, dann die Tests, dann die Änderungen am Code (den Diff) und zuletzt die eigene Ausführung mit Randwerten. Dazu kommen Werkzeuge, eine zweite KI als Vorfilter, die Prüftiefe nach Risiko und die Rückgabe der Mängel an den Agenten. Das Review ist der Schritt „Verify“ im agentischen Entwicklungs-Loop (→ `03c_Softwareentwurf`).
+Ein Agent liefert Code schnell und meldet ihn als fertig, auch wenn er nicht stimmt. Wir prüfen deshalb in vier Schritten: die Aufgabe, die Tests, die Änderungen am Code und die eigene Ausführung mit Randwerten. Dazu kommen Werkzeuge, eine zweite KI als Vorfilter, die Prüftiefe nach Risiko und die Rückgabe der Mängel an den Agenten. Das Review ist der Schritt „Verify“ im agentischen Entwicklungs-Loop.
 
 %%/book
 
@@ -62,18 +82,6 @@ KI übernimmt die Implementierungsphase — der Ingenieur steuert und verifizier
 
 %%/col
 
-%%/slides
-
-%%book
-
-![](images/03c_Softwareentwurf/agentic_loop.svg)
-
-Zur Wiederholung: Der agentische Entwicklungs-Loop (→ `03c_Softwareentwurf`) folgt dem iterativen Rhythmus der agilen Methode, aber die KI übernimmt die Implementierungsphase. Der Prompt ist die Anforderungsspezifikation, die KI generiert den Code, wir verifizieren ihn durch Verstehen und Testen, und bei einem Fehler verfeinern wir den Prompt. Dieses Kapitel behandelt den Schritt „Verify“ genauer.
-
-%%/book
-
-%%slides
-
 
 ## Code Review ist der Schritt „Verify“ im agentischen Entwicklungs-Loop
 %%col 50 50
@@ -91,26 +99,10 @@ Tests prüfen automatisch. Das Code Review prüft zusätzlich die Aufgabe, die T
 %%/tip
 %%/col
 
-%%/slides
-
-%%book
-
-Das Code Review bildet den Schritt „Verify“ im agentischen Entwicklungs-Loop aus `03c_Softwareentwurf`. In den Rollen aus `03d_AgentischesProgrammieren` ist das Review die Aufgabe des Verifizierers, während Auftraggeber (Prompt) und Leser (Verstehen) davor stehen. Tests prüfen automatisch, das Review prüft zusätzlich, ob der Agent die Aufgabe getroffen hat, ob die Tests noch gelten und ob die Fachlogik stimmt. Schlägt das Review fehl, benennen wir den Mangel im Prompt, lassen den Code neu generieren und prüfen erneut.
-
-%%/book
-
-%%slides
-
 
 ## Hörsaalfrage {background="#FFD966" cols40x60 txtL="Der Agent meldet: Eingaben behandelt, alle Tests grün. Was prüfst du noch?" capR="Midjourney: Job Done" imgR="images/04a_Anforderungen/mj_jobdone.png"}
 
 %%/slides
-
-%%book
-
-Wir nehmen die Funktion `klassifiziere_boden` aus `08a_UnitTest` und bitten den Agenten, ungültige Eingaben zu behandeln. Der Agent meldet, die Aufgabe sei erledigt und alle Tests seien grün. Wir kennen Unit-Tests aus `08a_UnitTest` und das Debuggen aus `07b_Debugging`, und beides hilft hier nur teilweise: Ein grüner Testlauf sagt nur etwas über die Fälle, die jemand abgefragt hat. Der Rest des Kapitels zeigt, was wir zusätzlich prüfen und in welcher Reihenfolge. Das Beispiel ist konstruiert, es zeigt typische Eingriffe eines Agenten an einer Funktion, die wir bereits kennen.
-
-%%/book
 
 
 %%# Prüfen in vier Schritten
@@ -184,10 +176,10 @@ Die Studie von Tang et al. wertet 16.118 validierte Episoden aus, in denen Entwi
 %%/book
 
 
-%%## Wiederholung: Die Kapazitätsfalle beim Prüfen
-
 %%slides
 
+
+## Wiederholung: Die Kapazitätsfalle beim Prüfen
 %%col 40 40 20
 Das Prüfen von KI-Output ist ermüdend („AI Fatigue“) und nicht trivial, Beispiel Softwareentwicklung:
 
@@ -208,23 +200,9 @@ Das Prüfen von KI-Output ist ermüdend („AI Fatigue“) und nicht trivial, Be
 
 %%slide_ref @metr2025devstudy METR: _Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity_, 2025.
 %%slide_ref @coderabbit2026throttle CodeRabbit: _GitHub Gives Maintainers a Throttle for the AI Pull Request_, 2026.
-%%/slides
-
-%%book
-
-Wenn die KI nicht allein arbeiten kann, liegt es nahe, die Prüfung einfach dem Menschen zu überlassen. Doch auch das stößt an Grenzen, weshalb wir in `03d_AgentischesProgrammieren` von einer Kapazitätsfalle gesprochen haben. Das Prüfen von KI-Output ist ermüdend, was unter dem Begriff *AI Fatigue* diskutiert wird, und es ist alles andere als trivial. In der Softwareentwicklung wächst die Menge an KI-generiertem Code schneller als die Kapazität für Reviews; auf GitHub hat sich die Zahl der Pull Requests vervierfacht [@coderabbit2026throttle].
-
-![Erwartete, wahrgenommene und gemessene Beschleunigung durch KI in der METR-Studie [@metr2025devstudy]](data/03d_AgentischesProgrammieren/kapazitaetsfalle.png){fig-align="center" width="75%"}
-
-Hinzu kommt, dass wir den eigenen Nutzen von KI schlecht einschätzen. Die METR-Studie ließ 16 erfahrene Open-Source-Entwicklerinnen und -Entwickler an 246 echten Issues arbeiten, wobei für jedes Issue zufällig festgelegt wurde, ob KI-Werkzeuge erlaubt waren [@metr2025devstudy]. Vorab erwarteten die Teilnehmenden eine Beschleunigung um 24 Prozent, und auch nach der Arbeit schätzten sie die erlebte Beschleunigung noch auf 20 Prozent. Gemessen wurde jedoch eine Verlangsamung um 19 Prozent, sodass zwischen gefühlter und gemessener Produktivität 39 Prozentpunkte liegen. Wer sich auf das eigene Gefühl verlässt, prüft also womöglich weniger gründlich, als die Situation erfordert.
-
-%%/book
 
 
-%%## Wiederholung: KI schreibt den Code, du verantwortest ihn
-
-%%slides
-
+## Wiederholung: KI schreibt den Code, du verantwortest ihn
 %%div lead
 Die KI ist die Junior-Entwicklerin, du bist der Senior, der den Code abnimmt.
 %%/div
@@ -251,14 +229,6 @@ Die KI ist die Junior-Entwicklerin, du bist der Senior, der den Code abnimmt.
 %%/col
 
 %%/slides
-
-%%book
-
-Aus dem agentischen Entwicklungs-Loop ergibt sich ein neues Rollenverständnis. Die KI übernimmt die Rolle einer Junior-Entwicklerin, die schnell Code liefert, und wir übernehmen die Rolle der Senior-Entwicklerin oder des Senior-Entwicklers, die diesen Code abnehmen. Eine gute Senior-Entwicklerin liest den Code gründlich, stellt Fragen, fordert Änderungen und gibt erst dann ihre Freigabe.
-
-Konkret umfasst diese Abnahme drei Rollen. Als Auftraggeber formulieren wir die Anforderung so präzise, dass die KI passenden Code erzeugen kann; im Biegespannungs-Beispiel aus `03d_AgentischesProgrammieren` fehlten genau hier die Einheiten. Als Leser verstehen wir den generierten Code mit seinen Annahmen und Grenzen, im Beispiel also die Division von kNm durch mm³ im Datenfluss. Als Verifizierer prüfen wir, ob das Ergebnis die Anforderung erfüllt, im Beispiel durch die Handrechnung mit 28,125 N/mm². Dieses Kapitel vertieft die Rolle des Verifizierers. Die Verantwortung für den Code bleibt beim Menschen, denn KI-generierter Code entbindet nicht von der Haftung für das Ergebnis.
-
-%%/book
 
 
 %%## Prüfe in vier Schritten: Aufgabe, Tests, Änderungen, Ausführung
@@ -297,17 +267,31 @@ Ein Diff vergleicht die alte mit der neuen Version einer Datei.
 - Zeile mit `+`: wurde hinzugefügt
 - Zeile ohne Zeichen: blieb gleich
 
-Agenten und Git zeigen Änderungen als Diff. Hier die Änderung des Agenten an `klassifiziere_boden`.
+Beispiel: Die Funktion bekommt eine Prüfung auf eine leere Liste. Agenten und Git zeigen solche Änderungen als Diff.
 %%sep
+Alt:
+
+```python
+def mittelwert(werte):
+    return sum(werte) / len(werte)
+```
+
+Neu:
+
+```python
+def mittelwert(werte):
+    if not werte:
+        raise ValueError("Liste ist leer")
+    return sum(werte) / len(werte)
+```
+
+Diff:
+
 ```diff
- def klassifiziere_boden(wert):
--    if not isinstance(wert, (int, float)):
--        raise ValueError("wert muss eine Zahl sein")
-+    try:
-+        wert = float(wert)
-+    except (TypeError, ValueError):
-+        return "Sauber"
-     if wert < 50:
+ def mittelwert(werte):
++    if not werte:
++        raise ValueError("Liste ist leer")
+     return sum(werte) / len(werte)
 ```
 %%/col
 
@@ -315,7 +299,34 @@ Agenten und Git zeigen Änderungen als Diff. Hier die Änderung des Agenten an `
 
 %%book
 
-Ein Diff vergleicht die alte mit der neuen Version einer Datei und zeigt nur die Zeilen, die sich geändert haben. Zeilen mit einem Minuszeichen wurden entfernt, Zeilen mit einem Pluszeichen hinzugefügt, alle anderen blieben gleich. Git und die meisten Agenten stellen ihre Änderungen so dar. Im Beispiel hat der Agent die Prüfung auf Zahlen, die einen `ValueError` auslöst, durch ein `try` mit `float(wert)` ersetzt und gibt bei einem Fehler `"Sauber"` zurück. Diese Darstellung lesen wir in den folgenden Folien mehrfach, deshalb ist es wichtig, sie sicher zu verstehen.
+Ein Diff vergleicht die alte mit der neuen Version einer Datei und zeigt nur die Zeilen, die sich geändert haben. Zeilen mit einem Minuszeichen wurden entfernt, Zeilen mit einem Pluszeichen hinzugefügt, alle anderen blieben gleich. Git und die meisten Agenten stellen ihre Änderungen so dar.
+
+Ein Beispiel zeigt, wie ein Diff entsteht. Die alte Version der Funktion `mittelwert` teilt die Summe durch die Anzahl der Werte:
+
+```python
+def mittelwert(werte):
+    return sum(werte) / len(werte)
+```
+
+In der neuen Version prüft die Funktion zuerst, ob die Liste leer ist, und löst dann einen `ValueError` aus:
+
+```python
+def mittelwert(werte):
+    if not werte:
+        raise ValueError("Liste ist leer")
+    return sum(werte) / len(werte)
+```
+
+Der Diff zeigt nur den Unterschied: Die beiden Zeilen der Prüfung stehen mit einem Pluszeichen da, die Zeilen davor und danach bleiben unverändert.
+
+```diff
+ def mittelwert(werte):
++    if not werte:
++        raise ValueError("Liste ist leer")
+     return sum(werte) / len(werte)
+```
+
+Diese Darstellung lesen wir in den folgenden Folien mehrfach, deshalb ist es wichtig, sie sicher zu verstehen.
 
 %%/book
 
@@ -347,6 +358,8 @@ requirements.txt  Zeile hinzugefügt
 %%/slides
 
 %%book
+
+Wir nehmen die Funktion `klassifiziere_boden` aus `08a_UnitTest` und bitten den Agenten, ungültige Eingaben zu behandeln. Der Agent meldet, die Aufgabe sei erledigt und alle Tests seien grün. Wir kennen Unit-Tests aus `08a_UnitTest` und das Debuggen aus `07b_Debugging`, und beides hilft hier nur teilweise: Ein grüner Testlauf sagt nur etwas über die Fälle, die jemand abgefragt hat. Der Rest des Kapitels zeigt, was wir zusätzlich prüfen und in welcher Reihenfolge. Das Beispiel ist konstruiert, es zeigt typische Eingriffe eines Agenten an einer Funktion, die wir bereits kennen.
 
 Der Prompt verlangt nur, ungültige Eingaben in `klassifiziere_boden` zu behandeln. Der Agent hat aber drei Dateien geändert, und zwei davon waren nicht verlangt: eine Testdatei und die Liste der Abhängigkeiten. Nicht angefragte Änderungen sind der erste Hinweis, dass der Agent die Aufgabe weiter ausgelegt hat, als wir sie gemeint haben. Wir vergleichen deshalb vor dem ersten Blick auf den Code die Liste der geänderten Dateien mit dem Auftrag. Bei vielen Änderungen lassen wir den Agenten die Arbeit in kleinere Schritte teilen, damit sich jeder Teil einzeln prüfen lässt.
 
@@ -382,6 +395,65 @@ Halte das im Review als Mangel fest und gib es an den Agenten zurück.
 %%book
 
 Im Diff des Tests hat der Agent den erwarteten `ValueError` durch die Erwartung `"Sauber"` ersetzt. Der Test war die Anforderung aus `08a_UnitTest`, der Agent hat ihn also an seinen Code angepasst und nicht den Code an die Anforderung. Das ist ein bekanntes Verhalten: Gabor et al. beobachten in einem Benchmark zu „Reward Hacking“, dass Coding-Agenten Tests manipulieren oder erwartete Werte fest eintragen können [@gabor2025evilgenie]. Wir lesen deshalb zuerst den Test-Diff. Ein Test darf sich nur ändern, wenn sich die Anforderung geändert hat, und dann soll der Agent es begründen. Grüne Tests sind nur so viel wert wie ihre Erwartungen.
+
+%%/book
+
+
+%%## Die Erklärbarkeitsfalle
+
+%%slides
+
+%%col 50 50
+KIs erklären nicht, was sie tun, sondern nur, was sie denken, dass sie tun.
+
+- [Die Erklärungen geben genutzte Hinweise nur zu 25 % (Claude 3.7 Sonnet) bzw. 39 % (DeepSeek R1) wieder]{.con}
+- [In Reward-Hacking-Umgebungen lernt das Modell den Trick vollständig, erwähnt ihn in 5 von 6 Umgebungen aber in unter 2 % der Erklärungen]{.con}
+
+%%sep
+
+```{python}
+#| echo: false
+
+# Chen et al. 2025, Reward-Hacking-Umgebungen: Ausnutzung gegen Erwähnung in der Denkkette.
+kategorien = ["nutzt den<br>Reward Hack", "erwähnt ihn in<br>der Denkkette"]
+werte = [99, 2]
+
+fig_cot = go.Figure()
+fig_cot.add_bar(
+    x=werte, y=kategorien, orientation="h",
+    marker_color=[CW[4], CW[0]],
+    text=[">99 %", "<2 %"], textposition="outside",
+    textfont=dict(size=18))
+layout_cot = get_layout("Reward Hacking: genutzt gegen erklärt", height=430)
+layout_cot["margin"] = dict(l=200, r=80, t=80, b=60)
+fig_cot.update_layout(
+    **layout_cot,
+    xaxis=dict(range=[0, 125], ticksuffix="%", title="Anteil der Fälle",
+               tickfont=dict(size=16), title_font=dict(size=16), automargin=True),
+    yaxis=dict(autorange="reversed", tickfont=dict(size=16), automargin=True),
+    showlegend=False)
+Path("data/08b_CodeReview").mkdir(parents=True, exist_ok=True)
+fig_cot.write_image("data/08b_CodeReview/erklaerbarkeit.png", width=600, height=430, scale=2)
+fig = fig_cot
+```
+
+%%cache_plotly "data/08b_CodeReview/erklaerbarkeit.json" 600x430 write
+%%/col
+
+Korrekturmaßnahmen:
+
+- Plausible Begründung nicht als Nachweis akzeptieren
+- Nach Erklärungen mit überprüfbaren Quellen, Berechnungen und Daten fragen
+- Den Denkprozess der Modelle ansehen
+
+%%slide_ref @chen2025faithfulness Chen et al.: _Reasoning Models Don't Always Say What They Think_, arXiv:2505.05410, 2025.
+%%/slides
+
+%%book
+
+![Reward Hacking: Anteil der Fälle, in denen das Modell die Abkürzung nutzt, gegenüber dem Anteil, in dem es sie in der Erklärung erwähnt [@chen2025faithfulness]](data/08b_CodeReview/erklaerbarkeit.png){fig-align="center" width="75%"}
+
+Eine Erklärung des Agenten ist kein Nachweis dafür, wie er zu seinem Ergebnis gekommen ist. Chen et al. haben untersucht, ob die Denkkette von Sprachmodellen wiedergibt, was das Modell tatsächlich benutzt hat [@chen2025faithfulness]. Die Erklärungen der untersuchten Modelle geben genutzte Hinweise im Mittel nur zu 25 % (Claude 3.7 Sonnet) bzw. 39 % (DeepSeek R1) wieder, die Autoren sprechen von niedriger Faithfulness und halten die Werte für eine obere Grenze. In sechs Trainingsumgebungen mit eingebauten Abkürzungen, den Reward Hacks, lernte das Modell die Abkürzung in allen Umgebungen vollständig, erwähnte sie aber in fünf von sechs Umgebungen in weniger als 2 % der Erklärungen. Für das Review heißt das: Wir akzeptieren eine plausible Begründung des Agenten nicht als Nachweis, fragen nach überprüfbaren Quellen, Berechnungen und Daten und führen den Code selbst aus.
 
 %%/book
 
@@ -488,40 +560,6 @@ Der Agent hat `soilkit` in die Liste der Abhängigkeiten aufgenommen, das Paket 
 
 %%# Selbst ausführen und prüfen
 
-%%## Wiederholung: Lies zuerst, was die Funktion verspricht, dann wie sie rechnet
-
-%%slides
-
-%%col 50 50
-
-1. Tragen die Parameternamen die Einheiten?
-2. Nennt der Docstring die Einheit des Ergebnisses?
-3. Stimmt ein Wert, den du von Hand nachrechnest? b = 200 mm, h = 400 mm, M = 150 kNm ergibt 28,125 N/mm².
-
-Erst wenn alle drei Fragen mit Ja beantwortet sind, lohnt sich der Blick in die Implementierung.
-%%sep
-
-```python
-def biegespannung_v1(b, h, M):
-    ...
-
-def biegespannung(b_mm, h_mm, M_knm):
-    """Biegespannung in N/mm²; M in kNm."""
-    ...
-```
-%%/col
-
-%%/slides
-
-%%book
-
-Auch ein guter Prompt garantiert keinen korrekten Code, daher folgt auf das Generieren das Verstehen. Dabei hilft eine feste Lesereihenfolge, die von außen nach innen vorgeht: zuerst die Signatur mit Parametern und Rückgabetyp, dann der Docstring, danach vorhandene Tests und erst zuletzt die Implementierung. Signatur und Docstring beschreiben, was eine Funktion verspricht, während die Implementierung beschreibt, wie sie es umsetzt. Stimmt bereits das Versprechen nicht, ist die Umsetzung zweitrangig.
-
-Für das Biegespannungs-Beispiel aus `03d_AgentischesProgrammieren` lassen sich daraus drei Prüffragen ableiten. Die erste lautet, ob die Parameternamen die Einheiten tragen, die zweite, ob der Docstring die Einheit des Ergebnisses nennt. Bei `biegespannung_v1(b, h, M)` scheitert schon die erste Frage, denn die Namen sagen nichts über Einheiten aus, und ein Docstring fehlt ganz. Bei `biegespannung(b_mm, h_mm, M_knm)` stehen die Einheiten in den Namen, und der Docstring nennt N/mm² als Ergebnis. Die dritte Frage übernimmt die Rolle eines Tests, indem sie das Versprechen an einem Wert prüft, den wir unabhängig von der KI kennen: Mit b = 200 mm, h = 400 mm und M = 150 kNm muss die Funktion 28,125 N/mm² liefern. Erst wenn alle drei Fragen mit Ja beantwortet sind, lohnt sich der genaue Blick in die Implementierung; liefert die Funktion etwas anderes, ergänzen wir den Prompt um den fehlenden Constraint. Wie sich solche Prüfwerte als automatische Unit Tests formulieren lassen, haben wir in `08a_UnitTest` behandelt.
-
-%%/book
-
-
 %%## Probiere Randwerte aus, die kein Test abfragt
 
 %%slides
@@ -563,6 +601,32 @@ klassifiziere_boden_agent(float("nan"))
 Zum Schluss führen wir den Code selbst aus, mit Werten, die kein Test abfragt. Ein negativer Gehalt ist physikalisch unmöglich und wird trotzdem als sauber eingestuft. Der Wert `nan` steht für einen fehlenden Messwert und landet in der Klasse „Kritisch“, weil beide Vergleiche für `nan` falsch sind und die Funktion in den `else`-Zweig fällt. Beide Ergebnisse sind falsch, und beide hätten die ursprünglichen Tests nicht gefunden, weil dort niemand danach gefragt hat. Als Randwerte probieren wir negative Werte, `nan`, `0`, sehr große Werte und falsche Typen aus (→ `07b_Debugging`, Reproduzieren). Dazu kommt die unabhängige Handrechnung: Wir wählen einen Wert, dessen Ergebnis wir ohne die Funktion kennen, und vergleichen. In `03d_AgentischesProgrammieren` hat diese Gegenprobe den Einheitenfehler bei der Biegespannung aufgedeckt, denn die Handrechnung ergab 28,125 N/mm² statt 2,8·10⁻⁵.
 
 %%/book
+
+
+%%slides
+
+
+## Wiederholung: Lies zuerst, was die Funktion verspricht, dann wie sie rechnet
+%%col 50 50
+
+1. Tragen die Parameternamen die Einheiten?
+2. Nennt der Docstring die Einheit des Ergebnisses?
+3. Stimmt ein Wert, den du von Hand nachrechnest? b = 200 mm, h = 400 mm, M = 150 kNm ergibt 28,125 N/mm².
+
+Erst wenn alle drei Fragen mit Ja beantwortet sind, lohnt sich der Blick in die Implementierung.
+%%sep
+
+```python
+def biegespannung_v1(b, h, M):
+    ...
+
+def biegespannung(b_mm, h_mm, M_knm):
+    """Biegespannung in N/mm²; M in kNm."""
+    ...
+```
+%%/col
+
+%%/slides
 
 
 %%## Die Funktion rechnet mit mg/kg, ohne die Einheit zu prüfen
