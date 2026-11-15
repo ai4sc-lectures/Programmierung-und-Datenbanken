@@ -238,8 +238,26 @@ def info(text):
     cprint(text, "blue")
 
 
-async def html_to_pdf(url, output_file):
-    """Convert a HTML file to a PDF"""
+async def html_to_pdf(url, output_file, attempts=3):
+    """Convert a HTML file to a PDF; retry if the result has only one page.
+
+    A slide deck never has a single page. One page means reveal.js had not
+    finished laying out the print view (typically under parallel load).
+    """
+    import pypdf
+    pages = 0
+    for attempt in range(1, attempts + 1):
+        await _html_to_pdf_once(url, output_file)
+        pages = len(pypdf.PdfReader(output_file).pages)
+        if pages > 1:
+            return
+        info(f"  {output_file} has only {pages} page(s) (attempt {attempt}/{attempts}), retrying")
+        await asyncio.sleep(2)
+    raise RuntimeError(f"PDF has only {pages} page(s) after {attempts} attempts: {output_file}")
+
+
+async def _html_to_pdf_once(url, output_file):
+    """Single rendering pass of html_to_pdf"""
     info(f"Convert {url} to {output_file}")
     try:
         browser = await launch(
