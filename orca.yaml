@@ -1,0 +1,24 @@
+worktree:
+  # Each entry must be a gitignored directory in the main checkout; files and folders
+  # with tracked content (.claude, .opencode, .vscode) are silently skipped by Orca.
+  sharedDirectories:
+    # Shared venv: holds an editable install of cli/tasks that points at whichever checkout
+    # ran `uv sync` last. cli.py avoids importing tasks for that reason.
+    - .venv.nosync
+    - .claude/skills
+    - .opencode/skills
+    - .opencode/node_modules.nosync
+    - lectures/_extensions
+    - lectures/old
+    - lectures/oldx
+    - _static/pdf
+    # Execution caches: safe to share as long as parallel agents work on different decks
+    - lectures/_freeze
+    - lectures/.jupyter_cache
+scripts:
+  setup: |
+    ln -sfn .venv.nosync .venv
+    ln -sfn node_modules.nosync .opencode/node_modules
+    # a single file can't be a shared directory; link it instead
+    ln -sfn "$ORCA_ROOT_PATH/lectures/CLAUDE.md" lectures/CLAUDE.md
+setupAgentStartupPolicy: wait-for-setup
