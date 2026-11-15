@@ -15,6 +15,11 @@ resources:
   - images/08b_CodeReview/mj_title_poster.jpg
 ---
 
+```{python}
+#| include: false
+%xmode Minimal
+```
+
 %%book
 
 ![](images/08b_CodeReview/mj_title_band.jpg)
@@ -200,6 +205,18 @@ assert berechne_neigung(1, 10) == 10.0
 
 %%book
 
+```{python}
+#| echo: true
+def berechne_neigung(hoehe, laenge):
+    return hoehe / laenge
+```
+
+```{python}
+#| echo: true
+#| error: true
+assert berechne_neigung(1, 10) == 10.0
+```
+
 Dieses Beispiel zeigt, wie generierter Code syntaktisch korrekt und plausibel wirkt, aber eine Anforderung nur halb erfüllt. Die Anforderung verlangt Prozent, die Funktion liefert aber den Quotienten: Für Höhe 1 und Länge 10 erhalten wir 0,1 statt 10,0. Beim Anforderungs-Tracing verfolgen wir eine Anforderung bis zum Code und zum Test, der sie prüft. Die drei Review-Fragen führen vom erwarteten Wert über die Einheit zu den Randfällen. Der Test macht den Fehler sichtbar, bevor der Code in Betrieb geht. Den Randfall Länge 0 greifen wir im nächsten Abschnitt auf.
 
 %%/book
@@ -209,10 +226,12 @@ Dieses Beispiel zeigt, wie generierter Code syntaktisch korrekt und plausibel wi
 
 %%slides
 
-%%col 55 45
+%%col 50 50
 ![](images/08b_CodeReview/uml_messung.svg){.nostretch fig-align="center" width="70%"}
 
-KI-generierter Code:
+Entwurf aus `03c_Softwareentwurf`: Klasse `Messung`, Attribut `wert`, Methode `validiere()`.
+%%sep
+Generierter Code:
 
 ```python
 class DataPoint:       # falscher Name
@@ -220,16 +239,11 @@ class DataPoint:       # falscher Name
         self.val = v   # falsches Attribut
     # validiere() fehlt
 ```
-%%sep
-
-Im UML-Diagramm: Klasse `Messung`, Attribut `wert`, Methode `validiere()`.
 
 - Passt der Code ins richtige Modul?
 - Stimmen Klassen- und Methodennamen mit dem UML-Diagramm überein?
 - Stimmen die Signaturen?
 - Entstehen zirkuläre Importe?
-
-Der Entwurf aus `03c_Softwareentwurf` ist der zweite Prüfmaßstab.
 %%/col
 
 %%/slides
@@ -241,9 +255,9 @@ Die Entwurfsprüfung vergleicht den generierten Code mit dem UML-Diagramm und de
 %%/book
 
 
-%%# Implementierungsprüfung
+%%# Implementierung prüfen
 
-%%## Division und veränderliche Standardargumente
+%%## Division durch null
 
 %%book
 
@@ -269,18 +283,46 @@ def berechne_neigung(hoehe, laenge):
 #| error: true
 berechne_neigung(1, 0)
 ```
+%%sep
+Korrektur: Randfall prüfen und melden.
 
 ```python
-# Korrektur:
 def berechne_neigung(hoehe, laenge):
     if laenge == 0:
         raise ValueError("Länge ist 0")
     return hoehe / laenge * 100
 ```
-%%sep
+%%/col
+
+%%/slides
+
+%%book
+
 ```{python}
 #| echo: true
-def sammle(w, liste=[]):  # Fehler!
+def berechne_neigung(hoehe, laenge):
+    return hoehe / laenge * 100
+```
+
+```{python}
+#| echo: true
+#| error: true
+berechne_neigung(1, 0)
+```
+
+Die Funktion aus dem Tracing-Beispiel enthält jetzt die Umrechnung, teilt aber ohne Prüfung. Für `laenge == 0` löst sie einen `ZeroDivisionError` aus. Die Korrektur prüft den Randfall und meldet ihn mit einem `ValueError`, statt einen Wert vorzutäuschen.
+
+%%/book
+
+
+%%## Veränderliche Standardargumente
+
+%%slides
+
+%%col 50 50
+```{python}
+#| echo: true
+def sammle(w, liste=[]):
     liste.append(w)
     return liste
 ```
@@ -296,9 +338,10 @@ sammle(2)
 ```
 
 Beim zweiten Aufruf enthält die Liste noch die 1.
+%%sep
+Korrektur: `None` als Standardwert, Liste im Funktionsrumpf anlegen.
 
 ```python
-# Korrektur:
 def sammle(w, liste=None):
     if liste is None:
         liste = []
@@ -311,19 +354,61 @@ def sammle(w, liste=None):
 
 %%book
 
-Die Funktion aus dem Tracing-Beispiel enthält jetzt die Umrechnung, teilt aber ohne Prüfung. Für `laenge == 0` löst sie einen `ZeroDivisionError` aus. Die Korrektur prüft den Randfall und meldet ihn mit einem `ValueError`, statt einen Wert vorzutäuschen. Das Standardargument `liste=[]` wird einmal beim Definieren der Funktion angelegt und danach von allen Aufrufen geteilt, sodass die Liste im zweiten Aufruf noch den Wert des ersten enthält. Mit `liste=None` und einer Neuanlage im Funktionsrumpf erhält jeder Aufruf eine eigene Liste.
+```{python}
+#| echo: true
+def sammle(w, liste=[]):
+    liste.append(w)
+    return liste
+```
+
+```{python}
+#| echo: true
+sammle(1)
+```
+
+```{python}
+#| echo: true
+sammle(2)
+```
+
+Das Standardargument `liste=[]` wird einmal beim Definieren der Funktion angelegt und danach von allen Aufrufen geteilt, sodass die Liste im zweiten Aufruf noch den Wert des ersten enthält. Mit `liste=None` und einer Neuanlage im Funktionsrumpf erhält jeder Aufruf eine eigene Liste.
 
 %%/book
 
 
-%%## Typ-Annotationen und hartcodierte Werte
+%%## Typ-Annotationen
 
 %%slides
 
 %%col 50 50
 ```{python}
 #| echo: true
-def verarbeite(daten):  # Typ unklar
+def verarbeite(daten):
+    return daten * 2
+```
+
+```{python}
+#| echo: true
+verarbeite([1.0, 2.0])
+```
+%%sep
+Korrektur: Typ annotieren und jedes Element verdoppeln.
+
+```python
+def verarbeite(daten: list[float]) -> list[float]:
+    return [x * 2 for x in daten]
+```
+
+Ein Typprüfer wie `mypy` meldet falsche Aufrufe, Python erzwingt Annotationen zur Laufzeit nicht.
+%%/col
+
+%%/slides
+
+%%book
+
+```{python}
+#| echo: true
+def verarbeite(daten):
     return daten * 2
 ```
 
@@ -332,17 +417,24 @@ def verarbeite(daten):  # Typ unklar
 verarbeite([1.0, 2.0])
 ```
 
-```python
-# Korrektur:
-def verarbeite(daten: list[float]) -> list[float]:
-    return [x * 2 for x in daten]
-```
-%%sep
+Ohne Typ-Annotation bleibt offen, ob die Funktion die Werte oder die Liste verdoppelt: `daten * 2` wiederholt bei einer Liste die Elemente, statt sie zu multiplizieren. Die Annotation macht die Absicht prüfbar, Python erzwingt sie zur Laufzeit aber nicht: Erst ein Typprüfer wie `mypy` meldet den falschen Aufruf. Im Beispiel behebt die Listenschreibweise `[x * 2 for x in daten]` den Fehler.
+
+%%/book
+
+
+%%## Hartcodierte Werte
+
+%%slides
+
+%%col 50 50
 ```python
 if temp > 100:  # Warum 100?
     alarm()
+```
+%%sep
+Korrektur: benannte Konstante.
 
-# Korrektur:
+```python
 MAX_TEMP_CELSIUS = 100
 if temp > MAX_TEMP_CELSIUS:
     alarm()
@@ -353,7 +445,7 @@ if temp > MAX_TEMP_CELSIUS:
 
 %%book
 
-Ohne Typ-Annotation bleibt offen, ob die Funktion die Werte oder die Liste verdoppelt: `daten * 2` wiederholt bei einer Liste die Elemente, statt sie zu multiplizieren. Die Annotation macht die Absicht prüfbar, Python erzwingt sie zur Laufzeit aber nicht: Erst ein Typprüfer wie `mypy` meldet den falschen Aufruf. Im Beispiel behebt die Listenschreibweise `[x * 2 for x in daten]` den Fehler. Ein hartcodierter Wert wie `100` verschweigt seine Bedeutung. Eine benannte Konstante dokumentiert sie und lässt sich an einer Stelle ändern.
+Ein hartcodierter Wert wie `100` verschweigt seine Bedeutung. Eine benannte Konstante dokumentiert sie und lässt sich an einer Stelle ändern.
 
 %%/book
 
@@ -406,6 +498,15 @@ Nutzen Sie den Scan: Division, Standardargumente, Typ-Annotationen, `return`, ha
 
 %%book
 
+```{python}
+#| echo: true
+def mittelwert(werte=[]):
+    summe = 0
+    for wert in werte:
+        summe += wert
+    return summe / len(werte)
+```
+
 Die Hörsaalfrage zeigt die Funktion `mittelwert(werte=[])`: Sie summiert die Werte in einer Schleife und teilt durch `len(werte)`. Wir wenden den Scan auf diese Funktion an und suchen Auffälligkeiten, bevor wir die Auflösung im nächsten Abschnitt besprechen.
 
 %%/book
@@ -430,6 +531,12 @@ Ohne Befund geprüft: `return` ist vorhanden, hartcodierte Werte gibt es nicht.
 %%/slides
 
 %%book
+
+```{python}
+#| echo: true
+#| error: true
+mittelwert([])
+```
 
 Die Funktion hat zwei Fehler und ein Warnsignal. Bei einer leeren Liste ist `len(werte)` gleich 0 und die Division löst einen `ZeroDivisionError` aus. Parameter und Rückgabewert haben keine Typ-Annotationen. Das veränderliche Standardargument fällt im Scan auf, richtet hier aber keinen Schaden an, weil die Funktion die Liste nicht verändert.
 
@@ -475,6 +582,31 @@ Jeden `import` und jeden Methodenaufruf gegen die Dokumentation prüfen. Code au
 
 %%book
 
+```{python}
+#| echo: true
+import pandas as pd
+
+df = pd.DataFrame({"x": [1.0, None, 3.0]})
+```
+
+```{python}
+#| echo: true
+#| error: true
+df.interpolate_missing()
+```
+
+```{python}
+#| echo: true
+#| error: true
+df.to_geojson()
+```
+
+```{python}
+#| echo: true
+#| error: true
+import pandas.geospatial
+```
+
 Generierter Code kann Funktionen, Module und API-Methoden enthalten, die nicht existieren (*Halluzinationen*). Im Quelltext sind sie nicht erkennbar, sie treten erst beim Ausführen als `AttributeError` oder `ModuleNotFoundError` auf. Die Erkennungsstrategie lautet deshalb, jeden Import und jeden Aufruf gegen die Dokumentation zu prüfen und den Code auszuführen. Die Beispiele laufen mit pandas 3.0.3.
 
 %%/book
@@ -508,6 +640,19 @@ class DatenLader:   # Klasse für einen einzigen Aufruf unnötig
 %%/slides
 
 %%book
+
+```{python}
+#| echo: true
+#| error: true
+zeile = pd.DataFrame({"x": [4.0]})
+df.append(zeile)  # seit pandas 2.0 entfernt
+```
+
+```{python}
+#| echo: true
+#| error: true
+pd.read_csv("daten.csv", delimiter_char=";")
+```
 
 Neben erfundenen Funktionen gibt es veraltete oder falsch aufgerufene APIs: `DataFrame.append` wurde in pandas 2.0 entfernt, und `read_csv` kennt kein Argument `delimiter_char`. Unnötige Abstraktionen wie eine Klasse, die nur einen einzigen Funktionsaufruf umhüllt, machen den Code länger, ohne ihn besser zu machen. Als Erkennungsstrategie prüfen wir jeden Import und jeden Methodenaufruf gegen die offizielle Dokumentation und führen den Code mit kleinen Beispieldaten aus, bevor wir ihn als korrekt ansehen.
 
