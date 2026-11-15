@@ -141,7 +141,8 @@ def _clean_lectures_artifacts(lecture_dir: Path) -> None:
 
 @task
 def clean(c, docs=False, bytecode=False, extra=""):
-    patterns = ["_build"]
+    # _build is a link to _build.nosync (kept out of iCloud): empty it, don't delete the link
+    patterns = ["_build/*"]
     if docs:
         patterns.append("docs/_build")
     if bytecode:
