@@ -748,8 +748,8 @@ import plotly.io as pio
 from plotly.subplots import make_subplots
 from ai4sc_style.plotly_loader import C, load_ai4sc_theme
 
-load_ai4sc_theme()
-CW = pio.templates["ai4sc"].layout.colorway  # Theme-Farbreihe: blau, grün, gelb, rot, ...
+load_ai4sc_theme("pastello")
+CW = pio.templates["ai4sc"].layout.colorway  # Theme-Farbreihe: Pastello
 fig = make_subplots(rows=1, cols=3, column_widths=[0.28, 0.36, 0.36], horizontal_spacing=0.14,
                     subplot_titles=("Agenten-Nutzung", "Code-Anteil (Selbstschätzung)", "Genutzte Werkzeuge"))
 panels = [
@@ -762,7 +762,8 @@ for i, (lab, val, col) in enumerate(panels, start=1):
                          text=[f"{v} %" for v in val], textposition="outside", cliponaxis=False), row=1, col=i)
     fig.update_xaxes(range=[0, 125], showticklabels=False, row=1, col=i)
     fig.update_yaxes(automargin=True, row=1, col=i)
-fig.update_layout(height=420, margin=dict(l=10, r=10, t=40, b=10), showlegend=False)
+fig.update_layout(height=420, margin=dict(l=10, r=10, t=40, b=10), showlegend=False,
+                  meta={"ai4sc_pastello": {"enabled": True, "ragged": True}})
 fig.write_image("data/01a_Ueberblick/ki_nutzung.png", width=600, height=420, scale=2)
 ```
 
@@ -882,7 +883,8 @@ fig = go.Figure(go.Bar(
     text=["≈ 50 %", "> 95 %", "≈ 55 %"], textposition="outside", cliponaxis=False))
 fig.update_layout(height=420, margin=dict(l=10, r=10, t=10, b=10), showlegend=False,
                   yaxis=dict(range=[0, 115], title="Anteil der Aufgaben (%)", automargin=True),
-                  xaxis=dict(automargin=True))
+                  xaxis=dict(automargin=True),
+                  meta={"ai4sc_pastello": {"enabled": True, "ragged": True}})
 fig.write_image("data/01a_Ueberblick/veracode.png", width=600, height=420, scale=2)
 ```
 
@@ -931,7 +933,8 @@ fig = go.Figure(go.Bar(
     text=[f"{v:.0f} %" for v in o3], textposition="outside", cliponaxis=False))
 fig.update_layout(height=420, margin=dict(l=10, r=10, t=10, b=10), showlegend=False,
                   yaxis=dict(range=[0, 118], title="Richtig beantwortet (%)", automargin=True),
-                  xaxis=dict(automargin=True))
+                  xaxis=dict(automargin=True),
+                  meta={"ai4sc_pastello": {"enabled": True, "ragged": True}})
 fig.write_image("data/01a_Ueberblick/fe_civil.png", width=600, height=420, scale=2)
 ```
 

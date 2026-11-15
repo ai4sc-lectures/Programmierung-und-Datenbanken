@@ -425,7 +425,8 @@ fig_pursnani.update_layout(
     **get_layout("LLMs in der Ingenieur-Grundlagenprüfung (FE)", height=450),
     barmode="group", xaxis=dict(automargin=True),
     yaxis=dict(range=[0, 118], ticksuffix="%", automargin=True),
-    legend=dict(orientation="h", y=1.02, x=0))
+    legend=dict(orientation="h", y=1.02, x=0),
+    meta={"ai4sc_pastello": {"enabled": True, "ragged": True}})
 fig_pursnani.write_image("data/03d_AgentischesProgrammieren/kompetenzfalle.png", width=700, height=450, scale=2)
 fig = fig_pursnani
 ```
@@ -442,7 +443,9 @@ fig = fig_pursnani
 %%book
 Wie gut lösen Sprachmodelle Ingenieuraufgaben, wenn wir sie allein arbeiten lassen? Die Antwort hängt davon ab, welche Fähigkeit gefragt ist. Beim Verstehen sind sie stark im Zusammenfassen und im Allgemeinwissen zu Bauen und Architektur; ihnen fehlen jedoch numerisches und räumliches Verständnis sowie Detailwissen zur Baudomäne und zum konkreten Projekt. Beim Generieren übersetzen sie zuverlässig und erzeugen Bilder, halluzinieren aber bei Unwissenheit und liefern keine wiederholbar zusammenhängenden Ergebnisse. Ihr Wissen lässt sich durch Retrieval-Augmented Generation (RAG) erweitern oder durch Nachtraining auf Spezialwissen abstimmen, an komplexe Ingenieurprobleme lassen sie sich damit aber dennoch nicht anpassen.
 
-![LLMs in der Ingenieur-Grundlagenprüfung (FE), Anteil richtig gelöster Aufgaben je Fachgebiet [@PURSNANI2023100183; @fe_civil_2025]](data/03d_AgentischesProgrammieren/kompetenzfalle.png){fig-align="center" width="85%"}
+%%cache_plotly "data/03d_AgentischesProgrammieren/kompetenzfalle.json" 700x450
+
+*Abbildung: LLMs in der Ingenieur-Grundlagenprüfung (FE), Anteil richtig gelöster Aufgaben je Fachgebiet [@PURSNANI2023100183; @fe_civil_2025].*
 
 Das Diagramm zeigt diese Grenzen anhand der US-amerikanischen Ingenieur-Grundlagenprüfung (Fundamentals of Engineering, FE). Auf der x-Achse stehen die Fachgebiete, auf der y-Achse der Anteil richtig gelöster Aufgaben, und die gestrichelte Linie bei 70 Prozent markiert ein gutes Ergebnis. GPT-4 erreichte 2023 in Ethik und Berufsrecht 100 Prozent und in Wirtschaft 85 Prozent, in Bodenmechanik, Hydraulik und Statik dagegen nur 42, 35 und 14 Prozent [@PURSNANI2023100183]. Das neuere Modell ChatGPT o3 verbesserte sich 2025 deutlich, blieb aber in der Statik bei 50 und in der Tragwerksplanung bei 30 Prozent [@fe_civil_2025]. Gerade die Gebiete, die unser Beispiel betrifft, bleiben also die schwächsten. Wir sprechen von einer Kompetenzfalle, weil die sprachliche Gewandtheit des Modells eine fachliche Kompetenz nahelegt, die es in diesen Gebieten nicht besitzt.
 %%/book
@@ -564,7 +567,7 @@ Die gängigen Werkzeuge unterscheiden sich vor allem im Grad dieser Autonomie, u
 
 ## Der agentische Zyklus legt eine äußere Schleife um den Agenten
 
-![](images/03d_AgentischesProgrammieren/cycle.svg)
+![](images/03d_AgentischesProgrammieren/cycle.svg){.ragged}
 
 %%slides
 %%div lead
@@ -804,7 +807,8 @@ fig_metr.update_layout(
     **get_layout("Beschleunigung durch KI", height=430),
     xaxis=dict(automargin=True),
     yaxis=dict(range=[-34, 36], ticksuffix="%", title="Beschleunigung (+)", automargin=True),
-    showlegend=False)
+    showlegend=False,
+    meta={"ai4sc_pastello": {"enabled": True, "ragged": True}})
 fig_metr.write_image("data/03d_AgentischesProgrammieren/kapazitaetsfalle.png", width=600, height=430, scale=2)
 fig = fig_metr
 ```
@@ -825,7 +829,9 @@ fig = fig_metr
 %%book
 Wenn die KI nicht allein arbeiten kann, liegt es nahe, die Prüfung einfach dem Menschen zu überlassen. Doch auch das stößt an Grenzen, weshalb wir hier von einer Kapazitätsfalle sprechen. Das Prüfen von KI-Output ist ermüdend, was unter dem Begriff *AI Fatigue* diskutiert wird, und es ist alles andere als trivial. In der Softwareentwicklung wächst die Menge an KI-generiertem Code schneller als die Kapazität für Reviews; auf GitHub hat sich die Zahl der Pull Requests vervierfacht [@coderabbit2026throttle].
 
-![Erwartete, wahrgenommene und gemessene Beschleunigung durch KI in der METR-Studie [@metr2025devstudy]](data/03d_AgentischesProgrammieren/kapazitaetsfalle.png){fig-align="center" width="75%"}
+%%cache_plotly "data/03d_AgentischesProgrammieren/kapazitaetsfalle.json" 600x430
+
+*Abbildung: Erwartete, wahrgenommene und gemessene Beschleunigung durch KI in der METR-Studie [@metr2025devstudy].*
 
 Hinzu kommt, dass wir den eigenen Nutzen von KI schlecht einschätzen. Die METR-Studie ließ 16 erfahrene Open-Source-Entwicklerinnen und -Entwickler an 246 echten Issues arbeiten, wobei für jedes Issue zufällig festgelegt wurde, ob KI-Werkzeuge erlaubt waren [@metr2025devstudy]. Das Diagramm zeigt die drei zentralen Kennwerte der Studie. Vorab erwarteten die Teilnehmenden eine Beschleunigung um 24 Prozent, und auch nach der Arbeit schätzten sie die erlebte Beschleunigung noch auf 20 Prozent. Gemessen wurde jedoch eine Verlangsamung um 19 Prozent, sodass zwischen gefühlter und gemessener Produktivität 39 Prozentpunkte liegen. Wer sich auf das eigene Gefühl verlässt, prüft also womöglich weniger gründlich, als die Situation erfordert.
 %%/book
@@ -865,7 +871,8 @@ fig_skill.update_layout(
     legend_title="",
     xaxis=dict(title="", automargin=True),
     yaxis=dict(title="Leistung (%)", range=[0, 80], automargin=True),
-    legend=dict(orientation="h", yanchor="top", y=-0.2, xanchor="center", x=0.5))
+    legend=dict(orientation="h", yanchor="top", y=-0.2, xanchor="center", x=0.5),
+    meta={"ai4sc_pastello": {"enabled": True, "ragged": True}})
 fig_skill.write_image("data/03d_AgentischesProgrammieren/faehigkeitsfalle.png", width=600, height=430, scale=2)
 fig = fig_skill
 ```
@@ -898,7 +905,9 @@ Teufelskreis **Deskilling**
 %%book
 Die dritte Falle betrifft die Zukunft, denn selbst wenn wir heute gründlich prüfen, müssen wir diese Fähigkeit auch morgen noch besitzen. Nutzende überschätzen ihre Fähigkeit, KI-Output zu beurteilen [@fernandes2026ai]. Zugleich führt häufige KI-Nutzung zu *Cognitive Offloading*, also zum Auslagern von Denkarbeit an das Werkzeug, und geht mit sinkendem kritischem Denken einher [@gerlich2025cognitive].
 
-![Leistung ohne KI-Hilfe: Deskilling bei Ärztinnen und Ärzten [@budzyn2025endoscopist] und Never-Skilling beim Code-Verständnis [@shen2026skill]](data/03d_AgentischesProgrammieren/faehigkeitsfalle.png){fig-align="center" width="75%"}
+%%cache_plotly "data/03d_AgentischesProgrammieren/faehigkeitsfalle.json" 600x430
+
+*Abbildung: Leistung ohne KI-Hilfe: Deskilling bei Ärztinnen und Ärzten [@budzyn2025endoscopist] und Never-Skilling beim Code-Verständnis [@shen2026skill].*
 
 Das Diagramm zeigt zwei Folgen davon, jeweils gemessen an der Leistung ohne KI-Hilfe. Beim *Deskilling* verlieren Erfahrene Fähigkeiten, die sie bereits beherrschten: In einer Studie zur Koloskopie sank die Adenom-Erkennungsrate von Ärztinnen und Ärzten bei Untersuchungen ohne KI von 28,4 auf 22,4 Prozent, nachdem sie zuvor mit KI-Unterstützung gearbeitet hatten [@budzyn2025endoscopist]. Beim *Never-Skilling* erwerben Einsteigerinnen und Einsteiger die Grundlagen gar nicht erst [@ke2026neverskilling]. Im Bereich Programmierung erreichten Entwicklerinnen und Entwickler, die sich mit KI-Hilfe in neue Inhalte eingearbeitet hatten, im anschließenden Test zum Code-Verständnis 50 statt 67 Prozent [@shen2026skill].
 
