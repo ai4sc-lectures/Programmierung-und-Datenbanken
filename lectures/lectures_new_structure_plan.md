@@ -18,32 +18,27 @@ Actual lecture files are edited separately, file by file, using these Change Not
 | Block | Sessions | Theme | Key Question |
 |-------|----------|-------|--------------|
 | 1 | S01–S02 | Computational Foundations | What machine are we building for? |
-| 2 | S03–S04 | Engineering Approach | What are we building and why? |
+| 2 | S03–S04 | Computational Engineering | What are we building and why? |
 | 3 | S05–S06 | Programming Foundations | How does the machine execute our intent? |
 | 4 | S07–S08 | Verification & Quality | How do we know the solution is correct? |
 | 5 | S09–S11 | Problem Classes | What type of problem am I solving? |
 | 6 | S12–S13 | Data Management | How do we persist and scale information? |
 
-### Recurring Symbols
+### Course Rules
 
-Icons are SVG files from `lectures/_extensions/ai4sc-style/assets/icons/`.
-Reference format in `.qmdx`: `{{< ai4sc-icon name >}}` (or equivalent shortcode).
+The deck-level rules live in `lectures/CLAUDE.md`, which wins over this plan where
+they differ. In short:
 
-Each lecture declares its **primary symbols** at the top (e.g., `🔍 📋`).
-Rules for use:
-
-| Icon | Shortcode | Concept | When to use |
-| ---- | --------- | ------- | ----------- |
-| ![variable](_extensions/ai4sc-style/assets/icons/variable.svg) | `variable` | Variable | First mention of a named value or binding |
-| ![braces](_extensions/ai4sc-style/assets/icons/braces.svg) | `braces` | Datatype | First mention of a type or representation |
-| ![box](_extensions/ai4sc-style/assets/icons/box.svg) | `box` | Object / Entity | First mention of a class or domain entity |
-| ![arrow-left-right](_extensions/ai4sc-style/assets/icons/arrow-left-right.svg) | `arrow-left-right` | Relationship | First mention of an association or reference |
-| ![square-function](_extensions/ai4sc-style/assets/icons/square-function.svg) | `square-function` | Function | First mention of a function or method |
-| ![workflow](_extensions/ai4sc-style/assets/icons/workflow.svg) | `workflow` | Algorithm / Cycle | First mention of an algorithm or the agentic cycle |
-| ![clipboard-list](_extensions/ai4sc-style/assets/icons/clipboard-list.svg) | `clipboard-list` | Requirement | First mention of a requirement or specification |
-| ![test-tube](_extensions/ai4sc-style/assets/icons/test-tube.svg) | `test-tube` | Test / Verification | First mention of a test, check, or review step |
-| ![list-tree](_extensions/ai4sc-style/assets/icons/list-tree.svg) | `list-tree` | Data Structure | First mention of a collection or file format |
-| ![database](_extensions/ai4sc-style/assets/icons/database.svg) | `database` | Database | First mention of a database concept |
+- The subject of every deck is the programming (or database) topic. AI is a tool, not
+  the frame; mention it only where a Change Note asks for it.
+- No concept icons, eyebrows or icons in headings. A concept icon may appear inline at
+  the first mention of a term, or not at all.
+- No exercises in the lecture. Audience tasks become worked examples with the solution
+  shown, or are dropped. The Übung covers practice.
+- No homework, Nbgrader, Abgabe or Übungsvideo content. Only the 50% Prüfungszulassung
+  remains.
+- Example numbers must have a source or follow from the scenario; no invented statistics.
+- Slides address students with „du".
 
 ---
 
@@ -56,54 +51,53 @@ Rules for use:
 ### 01a_Ueberblick
 
 **Block**: Block 1 — Computational Foundations | **Session**: S01
-**Status**: REFRAMED | **Primary symbols**: ≡ 🔄
+**Status**: REFRAMED
 **Source file**: `oldx/01a_Ueberblick.qmdx` (filename unchanged)
 
 #### Summary: Overview
 
 Course introduction reframed around AI-enabled engineering. The learning goals shift
 from "learn to write code" to "learn to read, verify, and modify AI-generated code."
-The symbol legend and agentic cycle are introduced here so they can be referenced
-throughout the course.
+The deck stays motivation and introduction: it needs no prior knowledge. The agentic
+cycle and any symbol legend need prior knowledge and are introduced later, in
+`03d_AgentischesProgrammieren`.
 
 #### Main topics
 
 - Course goals, topics, and organization
-- Lecture and exercise workflow
+- How the lecture is organized (the Übung itself is introduced by the Übungsleitung)
 - The role of AI tools in this course and in engineering practice
 - Application areas: CAD, structural engineering, GIS, facility management
-- Symbol legend and agentic cycle overview
+- Pointer to the Übung format and the 50% Prüfungszulassung (no Nbgrader or homework content)
 
 #### Key takeaways
 
 - Active competencies: read, modify, and verify AI-generated code.
 - Python is the primary language because of its AI ecosystem and engineering tool coverage.
-- The agentic workflow (prompt → generate → understand → verify → iterate) applies to
-  every programming task in this course.
+- The course is organized in 6 blocks; the Übung and the 50% Prüfungszulassung are
+  introduced by the Übungsleitung (the deck only points to them).
 
 #### Change Notes
 
 **Content to ADD**:
 - Course framing around AI-enabled engineering (~3 slides): restate goals as "read AI
-  code, modify for the engineering requirement, verify quality." Include a one-slide
-  diagram of the full agentic cycle.
-- Symbol legend slide: introduce □ ≡ ○ ⇄ ⚙ 🔄 📋 🔍 📂 🗄 with SVG icon references;
-  explain these markers appear throughout the course to label "what kind of thing
-  we are talking about."
+  code, modify for the engineering requirement, verify quality." No cycle diagram and
+  no symbol legend here (see `lectures/CLAUDE.md`).
 
-**Content to REMOVE or REDUCE**: None.
+**Content to REMOVE or REDUCE**:
+- REMOVE Hausaufgaben, Nbgrader, JupyterLab submission walkthrough, Abgabe and
+  Übungsvideo content. The Übungsleitung introduces the Übung format in the first
+  Übung; the deck only points to it. The 50% Prüfungszulassung stays.
 
 **Content to REFRAME**:
 - "AI is a helper" → "AI generates code; the engineer is the architect and verifier."
 
 **Agentic workflow integration**:
-- Open with the cycle diagram (prompt → generate → understand → verify → iterate)
-  as a one-slide visual. Tell students they will practice each step starting here.
-
-**Symbols to add**: ≡ on data-types slide; 🔄 on agentic cycle diagram.
+- Mention only in one sentence that AI tools are part of the course; the cycle itself
+  is explained in `03d_AgentischesProgrammieren`.
 
 **Cross-references**:
-- → `03d_AgentischesProgrammieren` (S01): mechanics of the workflow introduced visually here
+- → `03d_AgentischesProgrammieren` (S01): the agentic cycle is introduced and explained there
 - → `02a_Wissenspyramide` (S03): pyramid levels map to course block structure
 
 ---
@@ -111,7 +105,7 @@ throughout the course.
 ### 01b_Programmiersprachen
 
 **Block**: Block 1 — Computational Foundations | **Session**: S01
-**Status**: REFRAMED | **Primary symbols**: ≡ 🔄
+**Status**: REFRAMED
 **Source file**: `oldx/01d_Programmiersprachen.qmdx`
 
 #### Summary: Programming Languages
@@ -149,10 +143,8 @@ generates Python.
   chart to current AI tooling.
 
 **Agentic workflow integration**:
-- Closing callout: "When you prompt Claude Code or Copilot, you will almost always
+- Callout on an ordinary slide (not a closing slide): "When you prompt Claude Code or Copilot, you will almost always
   receive Python. Understanding the language is how you evaluate the output."
-
-**Symbols to add**: ≡ on the slide introducing Python types.
 
 **Cross-references**:
 - → `01c_Programmiersprachen_ani` (S01): companion notebook using Python
@@ -163,15 +155,15 @@ generates Python.
 ### 01c_Programmiersprachen_ani
 
 **Block**: Block 1 — Computational Foundations | **Session**: S01
-**Status**: REFRAMED | **Primary symbols**: 🔄
+**Status**: REFRAMED
 **Source file**: `oldx/01d_Programmiersprachen_ani.ipynb`
 
 #### Summary: Programming Languages Animation
 
 Companion notebook that builds an animated visualization of language popularity.
 In the redesign it doubles as the first hands-on encounter with reading someone
-else's code: students answer three comprehension questions before executing any cell,
-establishing the "understand before run" habit from session one.
+else's code: three comprehension questions are posed and answered on the slides before
+any cell is executed, establishing the "understand before run" habit from session one.
 
 #### Main topics
 
@@ -189,9 +181,9 @@ establishing the "understand before run" habit from session one.
 
 **Content to ADD**:
 - "Reading AI-generated code" intro block (~3 cells before first executable):
-  Present the notebook as code an AI handed you. Ask three questions the student
-  answers in writing before running: "What does this function return?", "Which line
-  downloads the data?", "What happens if the network is unavailable?" Reveal answers
+  Present the notebook as code an AI handed you. Pose three questions and answer them
+  on the slides before running: "What does this function return?", "Which line
+  downloads the data?", "What happens if the network is unavailable?" Show the answers
   after execution.
 
 **Content to REMOVE or REDUCE**: None.
@@ -202,8 +194,6 @@ establishing the "understand before run" habit from session one.
 **Agentic workflow integration**:
 - First practical instance of the "understand → verify" steps of the agentic cycle.
 
-**Symbols to add**: 🔄 on intro block.
-
 **Cross-references**:
 - → `03d_AgentischesProgrammieren` (S01): full workflow model that this notebook begins
 - → `07b_Debugging` (S07): "read before run" is also the first step of debugging
@@ -212,8 +202,8 @@ establishing the "understand before run" habit from session one.
 
 ### 03d_AgentischesProgrammieren
 
-**Block**: Block 2 — Computational Engineering | **Session**: S03
-**Status**: NEW (~20 min, ~15 slides) | **Primary symbols**: 🔄 📋 🔍
+**Block**: Block 1 — Computational Foundations | **Session**: S01
+**Status**: NEW (~20 min, ~15 slides)
 **Source file**: NEW — create `03d_AgentischesProgrammieren.qmdx`
 
 #### Summary: Agentic Programming
@@ -222,7 +212,8 @@ New lecture that introduces the conceptual model and practical workflow for
 AI-assisted programming. Explains how LLMs differ from deterministic programs, how
 code is generated probabilistically, what the full agentic cycle looks like, and
 what the engineer's responsibilities are. Placed in S01 so every subsequent lecture
-can reference this foundation.
+can reference this foundation. It is the only place where the agentic cycle is
+introduced.
 
 #### Main topics
 
@@ -265,10 +256,8 @@ can reference this foundation.
 **Agentic workflow integration**:
 - This lecture defines the agentic cycle — it is the source all other files reference.
 
-**Symbols to add**: 🔄 on cycle diagram; 📋 on prompt structure; 🔍 on code reading.
-
 **Cross-references**:
-- → `01a_Ueberblick` (S01): cycle introduced visually there, explained here
+- → `01a_Ueberblick` (S01): course overview; the cycle is introduced here, not there
 - → `04a_Anforderungen` (S04): requirements as the source of a good prompt
 - → `08a_UnitTest` (S08): test-driven prompting builds on "verify" step
 
@@ -277,7 +266,7 @@ can reference this foundation.
 ### 01c_Computerhardware
 
 **Block**: Block 1 — Computational Foundations | **Session**: S02
-**Status**: EXPANDED | **Primary symbols**: □ ≡
+**Status**: EXPANDED
 **Source file**: `oldx/01c_Computerhardware.qmdx`
 
 #### Summary: Computer Hardware
@@ -324,8 +313,6 @@ Stack/heap is NOT taught here (it needs functions and recursion); it lives in
 **Agentic workflow integration**: none specific (the stack-overflow callout moves to
 `09b_Rekursion` together with the stack slides).
 
-**Symbols to add**: □ on memory-cell diagram; ≡ on binary representation slide.
-
 **Cross-references**:
 - → `02c_Speicher` (S02): name in the code → address in memory
 - → `02b_Datentypen` (S02): data types as memory representations
@@ -336,7 +323,7 @@ Stack/heap is NOT taught here (it needs functions and recursion); it lives in
 ### 02b_Datentypen
 
 **Block**: Block 1 — Computational Foundations | **Session**: S02
-**Status**: MOVED from Block 2 + REFRAMED | **Primary symbols**: □ ≡ 📂
+**Status**: MOVED from Block 2 + REFRAMED
 **Source file**: `oldx/02c_Datentypen.qmdx` (renamed to `02b_Datentypen.qmdx`)
 
 #### Summary: Data Types
@@ -344,7 +331,7 @@ Stack/heap is NOT taught here (it needs functions and recursion); it lives in
 Introduces Python variables and data types. Moved to S02 to sit alongside the
 hardware and memory content. Reframed: data types are not just "kinds of values"
 but memory representations — the way int, float, bool, str are stored in hardware
-as described in `02a`.
+as described in `01c_Computerhardware`.
 
 #### Main topics
 
@@ -352,7 +339,7 @@ as described in `02a`.
 - Numeric, boolean, textual, binary types
 - Sequences, sets, dictionaries; null values
 - **[MOVED to 02c_Speicher]** Mutability vs immutability
-- **[ADDED]** Connection to binary representation from `02a`
+- **[ADDED]** Connection to binary representation from `01c_Computerhardware`
 - **[ADDED]** AI type-inference verification callout
 
 #### Key takeaways
@@ -366,7 +353,7 @@ as described in `02a`.
 #### Change Notes
 
 **Content to ADD**:
-- Connection to binary representation from `02a` (~2 slides): "An integer is 4 bytes;
+- Connection to binary representation from `01c_Computerhardware` (~2 slides): "An integer is 4 bytes;
   a float is 8 bytes; here is what they look like in memory."
 - AI verification callout: "When AI infers a type (e.g., distance as `int`), verify
   the inferred type matches the engineering requirement."
@@ -381,11 +368,8 @@ as described in `02a`.
   choosing the wrong type is a modeling error."
 
 **Agentic workflow integration**:
-- Exercise: given AI-generated code computing wall area as `int`, identify the
+- Worked example (with solution): given AI-generated code computing wall area as `int`, identify the
   precision error and fix the type annotation.
-
-**Symbols to add**: □ on variable slides; ≡ on type listing slides;
-📂 on collection type slides.
 
 **Cross-references**:
 - → `01c_Computerhardware` (S02): binary representation already introduced
@@ -397,7 +381,7 @@ as described in `02a`.
 ### 02c_Speicher
 
 **Block**: Block 1 — Computational Foundations | **Session**: S02
-**Status**: NEW (~20 min, 6 slides) | **Primary symbols**: □ ⇄
+**Status**: NEW (~20 min, 6 slides)
 **Source file**: NEW — `02c_Speicher.qmdx`
 
 #### Summary: Memory Model of Variables
@@ -457,8 +441,6 @@ cells with addresses right, as in the cell diagrams of `01c`.
 (`06a`), mutated arguments and mutable defaults (`06a`), tracebacks (`07a`), stack
 overflow and recursion (`09b`).
 
-**Symbols to add**: □ on variable diagrams; ⇄ on shared-address diagrams.
-
 **Cross-references**:
 - → `01c_Computerhardware` (S02): memory cells and addresses
 - → `02b_Datentypen` (S02): variables, types, lists
@@ -467,7 +449,7 @@ overflow and recursion (`09b`).
 
 ---
 
-## Block 2 — Computational Engineering / Systems Engineering (Sessions 03–04)
+## Block 2 — Computational Engineering (Sessions 03–04)
 
 *Key question: What are we building and why? (before code)*
 
@@ -476,7 +458,7 @@ overflow and recursion (`09b`).
 ### 02a_Wissenspyramide
 
 **Block**: Block 2 — Computational Engineering | **Session**: S03
-**Status**: REFRAMED | **Primary symbols**: ⇄ 🔄
+**Status**: REFRAMED
 **Source file**: `oldx/02b_Wissenspyramide.qmdx`
 
 #### Summary: Knowledge Pyramid
@@ -522,8 +504,6 @@ course structure. The position of AI in the pyramid is explicitly stated.
 - "The agentic workflow sits at the data→information boundary: your job is to cross
   it by verifying that AI output encodes the correct engineering meaning."
 
-**Symbols to add**: ⇄ on pyramid level transitions; 🔄 on course map diagram.
-
 **Cross-references**:
 - → `01a_Ueberblick` (S01): course structure; pyramid gives it conceptual depth
 - → `03b_Softwarearchitektur` (S03): architecture is the information layer for software
@@ -533,7 +513,7 @@ course structure. The position of AI in the pyramid is explicitly stated.
 ### 03b_Softwarearchitektur
 
 **Block**: Block 2 — Computational Engineering | **Session**: S03
-**Status**: REFRAMED | **Primary symbols**: ⇄ 🔄
+**Status**: REFRAMED
 **Source file**: `oldx/02a_Softwarearchitektur.qmdx`
 
 #### Summary: Software Architecture
@@ -571,8 +551,6 @@ preparing students for process models and design tools in `03c_Softwareentwurf`.
 **Agentic workflow integration**:
 - "The module boundary you define in your prompt is an architecture decision."
 
-**Symbols to add**: ⇄ on component relationship diagrams; 🔄 on agentic era slide.
-
 **Cross-references**:
 - → `02a_Wissenspyramide` (S03): information layer of the pyramid = architecture
 - → `03c_Softwareentwurf` (S03): process models are the design tools; UML follows in `04c_Objects` (S04)
@@ -582,7 +560,7 @@ preparing students for process models and design tools in `03c_Softwareentwurf`.
 ### 03c_Softwareentwurf
 
 **Block**: Block 2 — Computational Engineering | **Session**: S03
-**Status**: MOVED from Block 3 + EXPANDED | **Primary symbols**: 📋 ⇄ ⚙ 🔄
+**Status**: MOVED from Block 3 + EXPANDED
 **Source file**: `oldx/05a_Softwareentwurf.qmdx`
 
 #### Summary: Software Design
@@ -627,8 +605,6 @@ notation and the BIM worked example live in `04c_Objects` (S04), not here.
 - The agentic dev loop slide explicitly maps the cycle from `03d_AgentischesProgrammieren`
   onto project management rhythm.
 
-**Symbols to add**: 📋 on requirements slides; 🔄 on process model comparison.
-
 **Cross-references**:
 - → `03b_Softwarearchitektur` (S03): architecture precedes design; this is the design
   step
@@ -640,7 +616,7 @@ notation and the BIM worked example live in `04c_Objects` (S04), not here.
 ### 04a_Anforderungen
 
 **Block**: Block 2 — Computational Engineering | **Session**: S04
-**Status**: NEW (~20 min, ~15 slides) | **Primary symbols**: 📋 🔍
+**Status**: NEW (~20 min, ~15 slides)
 **Source file**: NEW — create `04a_Anforderungen.qmdx`
 
 #### Summary: Requirements Engineering
@@ -676,8 +652,9 @@ confidently.
   in sensor monitoring (civil/environmental domain)
 - Slides 6–7: Stakeholder perspectives — structural engineer, facility manager,
   regulatory inspector each need different things from the same system
-- Slides 8–9: Quality criteria — measurable acceptance conditions: "response < 2s",
-  "handles 1M records", "output matches IFC schema"
+- Slides 8–9: Quality criteria — measurable acceptance conditions that follow from the
+  scenario (for example "one reading every 60 s", "output matches IFC schema"); no
+  invented performance or volume figures
 - Slide 10: User story format — as a [facility manager], I want [sensor alert
   dashboard] so that [I can respond before an SLA breach]
 - Slides 11–12: Requirement → prompt — user story converted step-by-step into a
@@ -693,8 +670,6 @@ confidently.
 - Requirements formalize the "prompt" step; unit tests formalize the "verify" step.
   This lecture makes the connection explicit.
 
-**Symbols to add**: 📋 on every requirements slide; 🔍 on test-traceability slides.
-
 **Cross-references**:
 - → `03d_AgentischesProgrammieren` (S01): prompt structure applied here
 - → `03c_Softwareentwurf` (S03): requirements precede design
@@ -706,7 +681,7 @@ confidently.
 ### 04b_Programmablauf
 
 **Block**: Block 2 — Computational Engineering | **Session**: S04
-**Status**: MOVED from Block 3 + REFRAMED | **Primary symbols**: 📋 ⚙ 🔄
+**Status**: MOVED from Block 3 + REFRAMED
 **Source file**: `oldx/05b_Programmablauf.qmdx`
 
 #### Summary: Program Flow
@@ -719,7 +694,7 @@ write the prompt" is the key message.
 
 - Flowchart symbols: start/end, processing, decision, subroutine
 - Function flow and problem decomposition
-- Common flowchart errors and interpretation exercises
+- Common flowchart errors and worked interpretation examples
 - **[ADDED]** "Flowcharts as Prompts" — translating a flowchart into an AI prompt
 
 #### Key takeaways
@@ -734,8 +709,8 @@ write the prompt" is the key message.
 - "Flowcharts as Prompts" section (~4 slides): take a concrete flowchart (inspection
   decision procedure) and convert it step-by-step into a Claude Code prompt. Each
   decision diamond → a conditional in the prompt.
-- Group exercise reference: exercises directory has a role-based exercise where
-  students design a flowchart together before prompting.
+- Pointer to the role-based group exercise in the Übung (students design a flowchart
+  together before prompting); no exercise slide in the lecture.
 
 **Content to REMOVE or REDUCE**: None.
 
@@ -747,9 +722,6 @@ write the prompt" is the key message.
 - A well-drawn flowchart eliminates ambiguity from the prompt and reduces verify-
   iterate cycles.
 
-**Symbols to add**: 📋 on requirements-to-flowchart slide; ⚙ on function flow;
-🔄 on "flowchart to prompt" exercise.
-
 **Cross-references**:
 - → `04a_Anforderungen` (S04): requirements generate the flowchart
 - → `03d_AgentischesProgrammieren` (S01): prompt structure applied here
@@ -759,7 +731,7 @@ write the prompt" is the key message.
 ### 04c_Objects — Design Concept View
 
 **Block**: Block 2 — Computational Engineering | **Session**: S04
-**Status**: MOVED (design concept view only) | **Primary symbols**: ○ ⇄ 📋
+**Status**: MOVED (design concept view only)
 **Source file**: `oldx/04c_Objects.qmdx` (first appearance; design concept slides only)
 
 > `04c_Objects.qmdx` appears in TWO sessions. This entry covers the design concept
@@ -812,9 +784,6 @@ Python syntax. "Design before you prompt."
 - UML diagram = "prompt" step for object design: diagram → AI generates → verify
   class matches diagram.
 
-**Symbols to add**: ○ on class/entity symbols; ⇄ on relationship arrows;
-📋 on "design before prompt" slide.
-
 **Cross-references**:
 - → `03c_Softwareentwurf` (S03): process models; design precedes implementation
 - → `04c_Objects` implementation view (S06): Python syntax for same concepts
@@ -825,53 +794,50 @@ Python syntax. "Design before you prompt."
 ## Block 3 — Programming Foundations (Sessions 05–06)
 
 *Key question: How does the machine execute our intent?*
-*All examples are AI-generated code to read and verify. Programming concepts are
-motivated by computational need, not syntax-first.*
+*The subject is the programming concept itself. Programming concepts are motivated by
+computational need, not syntax-first; AI-generated code appears only where a Change
+Note asks for it.*
 
 ---
 
 ### 05a_Operatoren
 
 **Block**: Block 3 — Programming Foundations | **Session**: S05
-**Status**: REFRAMED | **Primary symbols**: □ ≡
+**Status**: REFRAMED
 **Source file**: `oldx/03a_Operatoren.qmdx`
 
 #### Summary: Operators
 
-Covers Python operators — arithmetic, comparison, logical, bitwise. Examples are
-reframed as "AI-generated code to read" rather than "code to write." Operator
-precedence is motivated by the need to trace AI expressions before accepting them.
+Covers Python operators — arithmetic, comparison, logical, bitwise. The emphasis is on
+reading and tracing expressions: operator precedence is motivated by the need to
+predict what an expression evaluates to before running it.
 
 #### Main topics
 
 - Arithmetic, assignment, comparison, identity, membership operators
 - Logical and bitwise operators; operator overloading
-- **[ADDED]** "Read from AI output" labeling on examples
-- **[ADDED]** Trace-this-expression exercise on AI-generated code
+- **[ADDED]** Worked trace of a complex expression (with solution)
 
 #### Key takeaways
 
-- Understanding operator precedence is essential for tracing AI-generated expressions.
-- Type mismatches in operator use are a common AI code error.
+- Understanding operator precedence is essential for tracing expressions.
+- Type mismatches in operator use are a common source of errors.
 
 #### Change Notes
 
 **Content to ADD**:
-- "Read from AI output" labels: mark examples as "this is what AI generated — trace
-  it before running."
-- Trace-this-expression exercise (~2 slides): complex AI-generated expression,
-  students evaluate step-by-step on paper before running.
+- Worked trace of a complex expression (~2 slides): the expression is evaluated
+  step by step with precedence made visible, then the result is shown by running it.
 
 **Content to REMOVE or REDUCE**: None.
 
 **Content to REFRAME**:
-- "Learn to write expressions" → "Learn to read and trace expressions — then verify
-  AI output."
+- "Learn to write expressions" → "Learn to read and trace expressions before running
+  them."
 
 **Agentic workflow integration**:
-- "When AI generates `if not x is None and x > 0.0:` — trace before you trust."
-
-**Symbols to add**: □ on variable introduction; ≡ on type-specific operator slides.
+- One sentence only: `if not x is None and x > 0.0:` is the kind of expression an AI
+  tool can produce — trace it before you trust it.
 
 **Cross-references**:
 - → `02b_Datentypen` (S02): operator behavior depends on type
@@ -882,7 +848,7 @@ precedence is motivated by the need to trace AI expressions before accepting the
 ### 05b_Verzweigung
 
 **Block**: Block 3 — Programming Foundations | **Session**: S05
-**Status**: REFRAMED | **Primary symbols**: 🔍 □
+**Status**: REFRAMED
 **Source file**: `oldx/03a_Verzweigung.qmdx`
 
 #### Summary: Branching
@@ -910,8 +876,8 @@ examples.
   condition, (2) identify branches, (3) list inputs triggering each branch, (4) check
   for missing cases (None, negative values)."
 - Threshold-classifier example (~3 slides): AI-generated `classify_stress()` for
-  structural stress levels. Students trace each branch, then write one unit test per
-  branch.
+  structural stress levels. Each branch is traced and one unit test per branch is
+  shown as a worked example with its solution.
 
 **Content to REMOVE or REDUCE**: None.
 
@@ -923,8 +889,6 @@ examples.
 - "Before accepting AI branching logic: trace every branch manually, check for
   missing cases, write a test for each branch."
 
-**Symbols to add**: 🔍 on branch-reading strategy; □ on Boolean variable slides.
-
 **Cross-references**:
 - → `05a_Operatoren` (S05): Boolean operators used in conditions
 - → `08a_UnitTest` (S08): "one test per branch" rule formalised there
@@ -934,20 +898,20 @@ examples.
 ### 05c_Schleifen
 
 **Block**: Block 3 — Programming Foundations | **Session**: S05
-**Status**: REFRAMED | **Primary symbols**: 📂 🔄
+**Status**: REFRAMED
 **Source file**: `oldx/03b_Schleifen.qmdx`
 
 #### Summary: Loops
 
-Explains repetition through loops. Motivated by engineering scale ("process 10,000
-sensor readings"). Examples are AI-generated code that students trace before running.
+Explains repetition through loops. Motivated by engineering scale (large collections of
+sensor readings). Examples are traced iteration by iteration before they are run.
 Infinite loop detection added as an explicit skill.
 
 #### Main topics
 
 - `for` loops; for-each over sequences and dicts; `while` loops
 - Infinite loops, `break`, skipping elements
-- **[ADDED]** Trace-table exercise for AI-generated loop
+- **[ADDED]** Worked trace table for a loop
 - **[ADDED]** Infinite loop detection strategy
 
 #### Key takeaways
@@ -959,12 +923,12 @@ Infinite loop detection added as an explicit skill.
 #### Change Notes
 
 **Content to ADD**:
-- Trace-table exercise (~2 slides): AI-generated loop over sensor list; students fill
-  in a trace table (iteration / variable values / output) on paper.
+- Worked trace table (~2 slides): loop over a sensor list, with the completed trace
+  table (iteration / variable values / output) shown.
 - Infinite loop detection (~2 slides): "Signs: no visible termination condition,
   loop variable not modified inside loop, condition never becomes False."
-- Scale motivation (~1 slide): "10,000 soil samples, 1M sensor readings, 50,000
-  building elements."
+- Scale motivation (~1 slide): use the sensor example from the deck itself (for
+  example one reading per 60 s = 1,440 readings per day); no invented sample counts.
 
 **Content to REMOVE or REDUCE**: None.
 
@@ -976,8 +940,6 @@ Infinite loop detection added as an explicit skill.
 - "When AI generates a loop: (1) identify what it iterates over, (2) trace the first
   two and last iterations, (3) verify it terminates."
 
-**Symbols to add**: 📂 on collection-iteration slides; 🔄 on loop pattern slides.
-
 **Cross-references**:
 - → `02b_Datentypen` (S02): collection types introduced there
 - → `09a_Algorithmen` (S09): algorithms as structured loop patterns
@@ -987,7 +949,7 @@ Infinite loop detection added as an explicit skill.
 ### 06a_Funktionen
 
 **Block**: Block 3 — Programming Foundations | **Session**: S06
-**Status**: REFRAMED | **Primary symbols**: ⚙ 📋
+**Status**: REFRAMED
 **Source file**: `oldx/04a_Funktionen.qmdx`
 
 #### Summary: Functions
@@ -1000,7 +962,7 @@ the signature and docstring before reading the implementation" is the primary ha
 
 - Function definition, parameters, arguments, default values, return values, scope
 - **[ADDED]** Function signature as a contract to verify
-- **[ADDED]** "Read docstring → write tests → read implementation" exercise
+- **[ADDED]** "Read docstring → write tests → read implementation" worked example
 - **[ADDED]** Mutable default argument callout (common AI error)
 - **[RECEIVED from 02c_Speicher]** Each call gets its own area for local names on the
   stack (frame); local names disappear on return (explains "Variablengültigkeit")
@@ -1020,11 +982,11 @@ the signature and docstring before reading the implementation" is the primary ha
 **Content to ADD**:
 - "Signature as contract" framing (~2 slides): `def calculate_area(length: float,
   width: float) -> float:` is a complete specification.
-- "Read docstring → write tests → read implementation" exercise (~3 slides): given an
-  AI function, read signature + docstring, write two tests, then read implementation
-  to check predictions.
+- "Read docstring → write tests → read implementation" worked example (~3 slides):
+  take a function, read signature + docstring, show two tests written from them, then
+  read the implementation and check the predictions; solution shown on the slides.
 - Mutable default callout (~1 slide): `def __init__(self, items=[]):` is a classic
-  AI error — explain why.
+  error — explain why (run the snippet and show the output).
 - Call stack (~2 slides, RECEIVED from `02c_Speicher`): "Jeder Funktionsaufruf erhält
   einen Frame" and "Der Stack wächst und schrumpft" (`callstack.svg`,
   `callstack_steps.svg`, example `berechne_fläche`), placed at "Variablengültigkeit".
@@ -1041,8 +1003,6 @@ the signature and docstring before reading the implementation" is the primary ha
 - "When AI generates a function: read signature first. Correct inputs? Return type?
   Matches requirement? Write a test. If not, fix signature and reprompt."
 
-**Symbols to add**: ⚙ on function definition slides; 📋 on signature-as-contract.
-
 **Cross-references**:
 - → `02c_Speicher` (S02): names, addresses, shared addresses
 - → `04c_Objects` design view (S04): methods are functions on objects
@@ -1055,7 +1015,7 @@ the signature and docstring before reading the implementation" is the primary ha
 ### 06b_Objects — Implementation View
 
 **Block**: Block 3 — Programming Foundations | **Session**: S06
-**Status**: REFRAMED (implementation view) | **Primary symbols**: ○ ⇄ ⚙
+**Status**: REFRAMED (implementation view)
 **Source file**: `oldx/04c_Objects.qmdx` (second appearance; implementation slides only)
 
 > Second appearance of `04c_Objects.qmdx`. Design concept view was in S04.
@@ -1074,7 +1034,7 @@ Python class.
 - References between objects (implementing associations); encapsulation; inheritance
 - **[ADDED]** UML from S04 mapped to Python syntax
 - **[ADDED]** Common AI OOP mistakes
-- **[ADDED]** Code understanding questionnaire
+- **[ADDED]** Code understanding questions with answers (worked example)
 
 #### Key takeaways
 
@@ -1091,9 +1051,10 @@ Python class.
 - BIM worked example continuation (~3 slides): `Room` class from S04 UML diagram →
   AI generates Python class → verify each attribute and method against diagram.
 - Common AI OOP mistakes (~2 slides): mutable default in `__init__`; missing `self`;
-  `cls` used where `self` was intended.
-- Code understanding questionnaire (~1 slide): "What does this class model?",
-  "Which requirement does it implement?", "What could fail?"
+  `@classmethod` where an instance method was intended (`cls` is the class, so
+  instance attributes raise `AttributeError`). Run each snippet before it goes on a slide.
+- Code understanding questions (~1 slide): "What does this class model?",
+  "Which requirement does it implement?", "What could fail?" — answered on the slide.
 
 **Content to REMOVE or REDUCE**:
 - Design-concept motivation slides already covered in S04 — do not repeat; jump
@@ -1107,9 +1068,6 @@ Python class.
 - "Prompt: 'Implement the Room class from this UML diagram.' → verify each attribute
   exists, each method signature matches, encapsulation is respected."
 
-**Symbols to add**: ○ on class/entity slides; ⇄ on association implementation;
-⚙ on method definition slides.
-
 **Cross-references**:
 - → `04c_Objects` design view (S04): design artifacts used here
 - → `06c_Module` (S06): classes organized into modules
@@ -1120,7 +1078,7 @@ Python class.
 ### 06c_Module
 
 **Block**: Block 3 — Programming Foundations | **Session**: S06
-**Status**: REFRAMED | **Primary symbols**: 📂 ⚙
+**Status**: REFRAMED
 **Source file**: `oldx/07a_Module.qmdx`
 
 #### Summary: Modularization
@@ -1160,8 +1118,6 @@ project structure.
 - "When AI generates a module, check: Is the public interface what you specified?
   Are internal helpers private? Does the module import only what it needs?"
 
-**Symbols to add**: 📂 on module structure diagrams; ⚙ on function interface slides.
-
 **Cross-references**:
 - → `04c_Objects` impl view (S06): classes organized into modules
 - → `08b_CodeReview` (S08): module structure is part of the review checklist
@@ -1177,7 +1133,7 @@ project structure.
 ### 07a_Exceptions
 
 **Block**: Block 4 — Verification & Quality | **Session**: S07
-**Status**: REFRAMED | **Primary symbols**: 🔍
+**Status**: REFRAMED
 **Source file**: `oldx/06a_Exceptions.qmdx`
 
 #### Summary: Exceptions
@@ -1221,8 +1177,6 @@ AI-generated code. The call stack trace becomes a diagnostic tool.
 - "When AI code throws an exception: (1) read traceback, (2) identify failed
   assumption, (3) add guard clause or fix data, (4) reprompt with constraint explicit."
 
-**Symbols to add**: 🔍 on traceback analysis slides.
-
 **Cross-references**:
 - → `06a_Funktionen` (S06): call stack and frames introduced there
 - → `07b_Debugging` (S07): debugging tools for the same error
@@ -1233,7 +1187,7 @@ AI-generated code. The call stack trace becomes a diagnostic tool.
 ### 07b_Debugging
 
 **Block**: Block 4 — Verification & Quality | **Session**: S07
-**Status**: REFRAMED | **Primary symbols**: 🔍
+**Status**: REFRAMED
 **Source file**: `oldx/06c_Debugging.qmdx`
 
 #### Summary: Debugging
@@ -1274,8 +1228,6 @@ expanded to cover multi-function AI modules.
 **Agentic workflow integration**:
 - Debugging is the "verify" step applied at execution level.
 
-**Symbols to add**: 🔍 on every debugging strategy slide.
-
 **Cross-references**:
 - → `07a_Exceptions` (S07): exceptions are the starting point for debugging
 - → `08a_UnitTest` (S08): isolating with a unit test is step 2 of the strategy
@@ -1285,7 +1237,7 @@ expanded to cover multi-function AI modules.
 ### 08a_UnitTest
 
 **Block**: Block 4 — Verification & Quality | **Session**: S08
-**Status**: EXPANDED | **Primary symbols**: 🔍 📋
+**Status**: EXPANDED
 **Source file**: `oldx/06b_UnitTest.qmdx`
 
 #### Summary: Unit Tests
@@ -1333,8 +1285,6 @@ example.
 - TDP maps directly onto the agentic cycle: tests = requirements (prompt step);
   AI generates (generate step); test runner = verify step; failing tests → iterate.
 
-**Symbols to add**: 🔍 on testing strategy slides; 📋 on requirement → test slides.
-
 **Cross-references**:
 - → `04a_Anforderungen` (S04): requirements are the source of tests
 - → `03d_AgentischesProgrammieren` (S01): "verify" step formalised here
@@ -1345,7 +1295,7 @@ example.
 ### 08b_CodeReview
 
 **Block**: Block 4 — Verification & Quality | **Session**: S08
-**Status**: NEW (~20 min, ~15 slides) | **Primary symbols**: 🔍 📋 ⇄
+**Status**: NEW (~20 min, ~15 slides)
 **Source file**: NEW — create `08b_CodeReview.qmdx`
 
 #### Summary: Code Review of AI-Generated Code
@@ -1396,9 +1346,6 @@ evaluation checklist is the practical output.
 - Code review is the formalized "verify" step. This lecture gives it a checklist
   and a process.
 
-**Symbols to add**: 🔍 on review activity slides; 📋 on checklist slides;
-⇄ on design match slides.
-
 **Cross-references**:
 - → `08a_UnitTest` (S08): tests are automated part of review; manual review covers
   what tests can't
@@ -1418,7 +1365,7 @@ algorithms and data structures emerge from the domain, not from abstract CS theo
 ### 09a_Algorithmen
 
 **Block**: Block 5 — Problem Classes | **Session**: S09
-**Status**: MOVED from Block 3 + REFRAMED | **Primary symbols**: 🔄 📂
+**Status**: MOVED from Block 3 + REFRAMED
 **Source file**: `oldx/05c_Algorithmen.qmdx`
 
 #### Summary: Algorithms
@@ -1443,9 +1390,9 @@ how bubble sort works" to "how do I know which algorithm to ask for?"
 #### Change Notes
 
 **Content to ADD**:
-- "Algorithm Recognition" exercise (~3 slides): given a problem description, identify
-  the class (search, sort, path, partition) before looking at any algorithm. Practice
-  with 4 engineering scenarios.
+- "Algorithm Recognition" worked examples (~3 slides): from a problem description,
+  identify the class (search, sort, path, partition) before looking at any algorithm.
+  Shown with solutions for engineering scenarios taken from the course.
 - "AI and Algorithm Selection" (~2 slides): AI defaults to linear search or bubble
   sort unless specified. Knowing the class lets you prompt "use Dijkstra" and verify
   the AI used the correct algorithm.
@@ -1460,8 +1407,6 @@ how bubble sort works" to "how do I know which algorithm to ask for?"
 - "Before prompting: identify the problem class. Include it in the prompt:
   'implement a binary search for this sorted list.' Verify the AI used it."
 
-**Symbols to add**: 🔄 on algorithm pattern slides; 📂 on data structure slides.
-
 **Cross-references**:
 - → `09b_Rekursion` (S09): recursion as divide-and-conquer strategy
 - → `10a_Graphprobleme` (S10): graph algorithms as a problem class
@@ -1471,7 +1416,7 @@ how bubble sort works" to "how do I know which algorithm to ask for?"
 ### 09b_Rekursion
 
 **Block**: Block 5 — Problem Classes | **Session**: S09
-**Status**: MOVED from Block 3 + REFRAMED | **Primary symbols**: 🔄
+**Status**: MOVED from Block 3 + REFRAMED
 **Source file**: `oldx/04b_Rekursion.qmdx`
 
 #### Summary: Recursive Functions
@@ -1524,8 +1469,6 @@ spatial subdivision replace the canonical factorial.
 - Callout (from `01c`): "When AI generates deep recursion, it may not know your
   system's stack size."
 
-**Symbols to add**: 🔄 on divide-and-conquer diagram.
-
 **Cross-references**:
 - → `06a_Funktionen` (S06): call stack and frames — reference, don't repeat
 - → `09a_Algorithmen` (S09): recursion as a divide-and-conquer algorithm strategy
@@ -1535,7 +1478,7 @@ spatial subdivision replace the canonical factorial.
 ### 10a_Graphprobleme
 
 **Block**: Block 5 — Problem Classes | **Session**: S10
-**Status**: NEW (~20 min, ~15 slides) | **Primary symbols**: 🔄 📂 ⇄
+**Status**: NEW (~20 min, ~15 slides)
 **Source file**: NEW — create `10a_Graphprobleme.qmdx`
 
 #### Summary: Graph Problems
@@ -1588,9 +1531,6 @@ as a data structure, and select the appropriate algorithm family.
 - "Recognize graph → specify representation → include algorithm family in prompt →
   verify graph type and weights → run on test case."
 
-**Symbols to add**: ⇄ on relationship/edge diagrams; 📂 on data structure slides;
-🔄 on traversal/algorithm slides.
-
 **Cross-references**:
 - → `09a_Algorithmen` (S09): algorithm recognition strategy applied here
 - → `10b_Geometrieprobleme` (S10): geometry complements graph problems in spatial
@@ -1601,7 +1541,7 @@ as a data structure, and select the appropriate algorithm family.
 ### 10b_Geometrieprobleme
 
 **Block**: Block 5 — Problem Classes | **Session**: S10
-**Status**: NEW (~20 min, ~15 slides) | **Primary symbols**: 🔄 📂 ⇄
+**Status**: NEW (~20 min, ~15 slides)
 **Source file**: NEW — create `10b_Geometrieprobleme.qmdx`
 
 #### Summary: Geometric Problems
@@ -1650,9 +1590,6 @@ structures, and the `shapely` library.
 - "Recognize geometry → specify representation and CRS → verify geometry type →
   test with known spatial relationship."
 
-**Symbols to add**: ⇄ on spatial relationship diagrams; 📂 on data structure slides;
-🔄 on algorithm slides.
-
 **Cross-references**:
 - → `10a_Graphprobleme` (S10): spatial networks combine graphs and geometry
 - → `11a_Raster_Simulation` (S11): raster is the alternative spatial representation
@@ -1662,7 +1599,7 @@ structures, and the `shapely` library.
 ### 11a_Raster_Simulation
 
 **Block**: Block 5 — Problem Classes | **Session**: S11
-**Status**: NEW (~20–30 min, ~18 slides) | **Primary symbols**: 🔄 📂
+**Status**: NEW (~20–30 min, ~18 slides)
 **Source file**: NEW — create `11a_Raster_Simulation.qmdx`
 
 #### Summary: Raster Problems
@@ -1714,8 +1651,6 @@ how grids are represented as arrays, and what grid-based analysis looks like.
 - "Recognize raster → specify shape, cell size, NoData in prompt → verify extent and
   metadata → test on small synthetic array."
 
-**Symbols to add**: 📂 on data structure slides; 🔄 on grid operation slides.
-
 **Cross-references**:
 - → `10b_Geometrieprobleme` (S10): vector and raster are complementary representations
 - → `11b_UIDesign` (S11): raster analysis results visualized in a dashboard
@@ -1725,7 +1660,7 @@ how grids are represented as arrays, and what grid-based analysis looks like.
 ### 11b_UIDesign
 
 **Block**: Block 5 — Problem Classes | **Session**: S11
-**Status**: NEW (~20 min, ~15 slides) | **Primary symbols**: 🔄 📂 🔍
+**Status**: NEW (~20 min, ~15 slides)
 **Source file**: NEW — create `11b_UIDesign.qmdx`
 
 #### Summary: UI Design for Engineering Applications
@@ -1756,8 +1691,8 @@ display. Streamlit and Gradio are used as accessible tools for quick engineering
 #### Change Notes
 
 **Content to ADD** (new file — full content outline):
-- Slides 1–2: Problem context — "You computed contamination risk for 500 sites. Who
-  sees the result, and how?"
+- Slides 1–2: Problem context — "You computed contamination risk for your monitoring
+  sites. Who sees the result, and how?"
 - Slides 3–4: UI type taxonomy — console, Jupyter, Streamlit, Gradio, PDF; when each
   is appropriate
 - Slides 5–6: Design principles — appropriate precision (units, significant figures);
@@ -1779,9 +1714,6 @@ display. Streamlit and Gradio are used as accessible tools for quick engineering
 - "Prompt: 'Generate a Streamlit app displaying sensor time series from CSV with
   threshold slider.' → verify: correct column names, axis labels, threshold logic."
 
-**Symbols to add**: 📂 on data mapping slides; 🔄 on workflow diagrams;
-🔍 on UI verification checklist.
-
 **Cross-references**:
 - → `11a_Raster_Simulation` (S11): raster results visualized in a dashboard
 - → `12a_Datenhaltung` (S12): data persistence motivates databases over files
@@ -1800,7 +1732,7 @@ normalization. AI generates SQL; students verify.*
 ### 12a_Datenhaltung
 
 **Block**: Block 6 — Data Management | **Session**: S12
-**Status**: REFRAMED | **Primary symbols**: 📂 🗄
+**Status**: REFRAMED
 **Source file**: `oldx/09_Datenhaltung.qmdx`
 
 #### Summary: Working with Files
@@ -1842,8 +1774,6 @@ encoding, delimiters, and structure.
 - "When AI generates file-reading code: (1) check encoding, (2) check delimiter,
   (3) check header handling, (4) verify on small real sample before full dataset."
 
-**Symbols to add**: 📂 on file structure/format slides; 🗄 on storage hierarchy.
-
 **Cross-references**:
 - → `12b_Datenbanktypen` (S12): file limitations motivate databases
 - → `11b_UIDesign` (S11): data read from files powers the dashboard
@@ -1853,7 +1783,7 @@ encoding, delimiters, and structure.
 ### 12b_Datenbanktypen
 
 **Block**: Block 6 — Data Management | **Session**: S12
-**Status**: REFRAMED | **Primary symbols**: 🗄
+**Status**: REFRAMED
 **Source file**: `oldx/10a_Datenbanktypen.qmdx`
 
 #### Summary: Database Types
@@ -1895,8 +1825,6 @@ type choice is motivated by the information model (problem class from Block 5).
 - "When AI suggests a database technology: ask 'does this match our information
   model?' A graph problem in a relational database has an impedance mismatch."
 
-**Symbols to add**: 🗄 on all database type slides.
-
 **Cross-references**:
 - → `12a_Datenhaltung` (S12): file limitations motivate databases
 - → `12c_Datenbanken_Entwurf` (S12): design before implementation
@@ -1907,7 +1835,7 @@ type choice is motivated by the information model (problem class from Block 5).
 ### 12c_Datenbanken_Entwurf
 
 **Block**: Block 6 — Data Management | **Session**: S12
-**Status**: MOVED EARLIER (before relational/SQL) + EXPANDED | **Primary symbols**: ⇄ 🗄 📋
+**Status**: MOVED EARLIER (before relational/SQL) + EXPANDED
 **Source file**: `oldx/11a_Datenbanken_Entwurf.qmdx`
 
 #### Summary: Relational Database Design
@@ -1955,9 +1883,6 @@ Block 2. An environmental monitoring ER example replaces abstract academic examp
   ER: [description].' Verify: each entity → table, each FK → relationship, each
   cardinality → constraint."
 
-**Symbols to add**: ⇄ on relationship/association diagrams; 🗄 on design slides;
-📋 on "ER to prompt" slide.
-
 **Cross-references**:
 - → `04c_Objects` (S04): UML introduced there — same modeling spirit
 - → `13a_RelationaleDatenbanken` (S13): relational concepts implement the ER design
@@ -1968,7 +1893,7 @@ Block 2. An environmental monitoring ER example replaces abstract academic examp
 ### 13a_RelationaleDatenbanken
 
 **Block**: Block 6 — Data Management | **Session**: S13
-**Status**: REFRAMED | **Primary symbols**: 🗄
+**Status**: REFRAMED
 **Source file**: `oldx/10b_RelationaleDatenbanken.qmdx`
 
 #### Summary: Relational Databases
@@ -2009,8 +1934,6 @@ SQL but often lacks constraints — students verify.
   → columns with correct types, (3) all FK relationships present, (4) all cardinality
   constraints expressed as NOT NULL or UNIQUE."
 
-**Symbols to add**: 🗄 on all relational concept slides.
-
 **Cross-references**:
 - → `12c_Datenbanken_Entwurf` (S12): ER design implemented here
 - → `13b_Datenbanken_SQL_Select` (S13): querying the tables defined here
@@ -2020,7 +1943,7 @@ SQL but often lacks constraints — students verify.
 ### 13b_Datenbanken_SQL_Select
 
 **Block**: Block 6 — Data Management | **Session**: S13
-**Status**: REFRAMED + REDUCED | **Primary symbols**: 🗄 🔍
+**Status**: REFRAMED + REDUCED
 **Source file**: `oldx/10c_Datenbanken_SQL_Select.qmdx`
 
 #### Summary: Analyzing Tables with SQL
@@ -2067,8 +1990,6 @@ Depth in aggregation and complex joins is reduced.
 - "SQL is the 'generate' step output. Verification: does the result on a known dataset
   match what the requirement specifies?"
 
-**Symbols to add**: 🗄 on SQL slides; 🔍 on verification slides.
-
 **Cross-references**:
 - → `12c_Datenbanken_Entwurf` (S12): schema designed there is queried here
 - → `08a_UnitTest` (S08): verification approach mirrors unit testing
@@ -2078,7 +1999,7 @@ Depth in aggregation and complex joins is reduced.
 ### 13c_Datenbanken_SQL_Create
 
 **Block**: Block 6 — Data Management | **Session**: S13
-**Status**: REFRAMED + REDUCED | **Primary symbols**: 🗄 🔍
+**Status**: REFRAMED + REDUCED
 **Source file**: `oldx/11b_Datenbanken_SQL_Create.qmdx`
 
 #### Summary: Create Tables with SQL
@@ -2125,8 +2046,6 @@ of AI output against the ER, not DDL syntax mastery.
 - "AI generates CREATE TABLE. Walk through the DDL verification checklist against the
   ER diagram. If a constraint is missing, add it to the prompt and regenerate."
 
-**Symbols to add**: 🗄 on DDL slides; 🔍 on verification checklist slide.
-
 **Cross-references**:
 - → `12c_Datenbanken_Entwurf` (S12): ER design is the specification for this DDL
 - → `08b_CodeReview` (S08): DDL review follows the same checklist pattern
@@ -2135,11 +2054,8 @@ of AI output against the ER, not DDL syntax mastery.
 
 ## Action Required Before Implementation
 
-1. **Create `variable.svg`** in `lectures/_extensions/ai4sc-style/assets/icons/` —
-   simple labeled box (□) representing a named memory location.
-2. **Update `lectures/_toc.yaml`** to reorder entries to match the 13-session
-   sequence above.
-3. Consider adding `graph.svg` to the icons directory for Block 5 session headers.
+1. **Update `lectures/_quarto.yaml`** (render list and sidebar) to reorder entries to
+   match the 13-session sequence above.
 
 ## New Files to Create (8 total)
 
