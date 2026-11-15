@@ -19,9 +19,9 @@ resources:
 
 ![](images/07b_Debugging/mj_title_band.jpg)
 
-> Jeder weiß, dass Debugging doppelt so schwer ist, wie ein Programm überhaupt erst zu schreiben. Wenn Sie beim Schreiben so clever sind, wie Sie nur können, wie wollen Sie es dann jemals debuggen?
+> Jeder weiß, dass Debugging doppelt so schwer ist, wie ein Programm überhaupt erst zu schreiben. Wenn du beim Schreiben so clever bist, wie du nur kannst, wie willst du es dann jemals debuggen?
 >
-> — Kernighan & Plauger, The Elements of Programming Style, 2. Aufl., 1978 (sinngemäße Übersetzung)
+> — Kernighan & Plauger [@kernighan_plauger_1978], sinngemäße Übersetzung
 
 ### TL;DR
 
@@ -68,7 +68,7 @@ Der Mittelwert der gültigen Messwerte 0,0 m, 1,2 m, 0,8 m und 1,0 m beträgt 0,
 %%slides
 
 %%col 50 50
-Stellen Sie sich 200 Zeilen KI-Code zur Auswertung von Pegelständen vor. Er läuft ohne Exception durch, der Mittelwert stimmt aber nicht.
+Stell dir 200 Zeilen KI-Code zur Auswertung von Pegelständen vor. Er läuft ohne Exception durch, der Mittelwert stimmt aber nicht.
 
 - Kein Traceback als Startpunkt
 - Code wirkt korrekt
@@ -87,7 +87,7 @@ verarbeite_daten([0.0, 1.2, 0.8, None, 1.0])  # Pegelstände in m
 
 %%book
 
-Wir debuggen Code nicht durch Ausprobieren, sondern systematisch in fünf Schritten, wie sie der Ansatz des wissenschaftlichen Debuggings beschreibt (Zeller, *Why Programs Fail*, 2. Aufl., 2009). Die folgenden Slides füllen jeden Schritt am Pegelstand-Modul: Wir reproduzieren den Fehler mit einem minimalen Input, isolieren die fehlerhafte Funktion mit einem Unit-Test, bilden eine Hypothese über die verletzte Annahme, inspizieren die Ausführung und beheben den Fehler schließlich minimal und mit erneuter Verifikation. Die anschließend vorgestellten Werkzeuge setzen diese Schritte um.
+Wir debuggen Code nicht durch Ausprobieren, sondern systematisch in fünf Schritten, wie sie der Ansatz des wissenschaftlichen Debuggings beschreibt [@zeller_2009]. Die folgenden Slides füllen jeden Schritt am Pegelstand-Modul: Wir reproduzieren den Fehler mit einem minimalen Input, isolieren die fehlerhafte Funktion mit einem Unit-Test, bilden eine Hypothese über die verletzte Annahme, inspizieren die Ausführung und beheben den Fehler schließlich minimal und mit erneuter Verifikation. Die anschließend vorgestellten Werkzeuge setzen diese Schritte um.
 
 %%/book
 
@@ -114,7 +114,7 @@ Reproduzieren → Isolieren → Hypothese → Inspizieren → Beheben & erneut v
 : Testen, ob der Fix vollständig ist
 %%/col
 
-*Vorgehen nach Zeller: Why Programs Fail, 2009*
+%%slide_ref @zeller_2009 Zeller: _Why Programs Fail_, 2. Aufl., Morgan Kaufmann, 2009.
 
 %%/slides
 
@@ -136,9 +136,9 @@ verarbeite_daten([0.0, 1.0])   # erwartet: 'Mittelwert: 0.50 m'
 
 %%col 55 45
 
-- Schreiben Sie den kleinsten Input auf, der das Fehlverhalten auslöst
-- Entfernen Sie alle Abhängigkeiten, die nicht zum Fehler beitragen
-- Prüfen Sie, ob der Fehler immer oder nur unter bestimmten Bedingungen auftritt
+- Schreibe den kleinsten Input auf, der das Fehlverhalten auslöst
+- Entferne alle Abhängigkeiten, die nicht zum Fehler beitragen
+- Prüfe, ob der Fehler immer oder nur unter bestimmten Bedingungen auftritt
 
 Ohne Exception (siehe [Exceptions (S07)](07a_Exceptions.page.html)) beginnt die Suche beim falschen Ergebnis.
 %%sep
@@ -149,7 +149,7 @@ verarbeite_daten([0.0, 1.0])
 %%/col
 
 %%tip Merksatz
-Einen Bug, den Sie nicht reproduzieren können, können Sie nicht debuggen.
+Einen Bug, den du nicht reproduzieren kannst, kannst du nicht debuggen.
 %%/tip
 
 %%/slides
@@ -189,8 +189,8 @@ test_bereinige_behaelt_null()
 
 %%col 50 50
 
-- Schreiben Sie einen Unit-Test direkt für die verdächtige Funktion
-- Prüfen Sie jede Stufe einzeln, ohne das gesamte Programm
+- Schreibe einen Unit-Test direkt für die verdächtige Funktion
+- Prüfe jede Stufe einzeln, ohne das gesamte Programm
 - Nur der Test für `bereinige` schlägt fehl
 
 Wie Unit-Tests aufgebaut werden, zeigt [Unit-Tests (S08)](08a_UnitTest.page.html).
@@ -223,9 +223,9 @@ bereinige([0.0, 1.0])
 %%slides
 
 %%col 50 50
-**Fragen Sie sich:**
+**Frage dich:**
 
-- Was erwarten Sie als Ergebnis?
+- Was erwartest du als Ergebnis?
 - Was gibt der Code tatsächlich zurück?
 - Welche Annahme des Codes könnte falsch sein?
 %%sep
@@ -291,9 +291,9 @@ Statische Überlegungen genügen nicht; wir müssen die Ausführung beobachten. 
 
 %%col 55 45
 
-- Setzen Sie einen Breakpoint (Haltepunkt) am Einstiegspunkt der Aufrufkette
-- Steigen Sie mit Step Into (in die aufgerufene Funktion hinein) bis zur verdächtigen Funktion
-- Beobachten Sie, wo Erwartung und tatsächlicher Zustand auseinanderlaufen
+- Setze einen Breakpoint (Haltepunkt) am Einstiegspunkt der Aufrufkette
+- Steige mit Step Into (in die aufgerufene Funktion hinein) bis zur verdächtigen Funktion
+- Beobachte, wo Erwartung und tatsächlicher Zustand auseinanderlaufen
 
 Die Details zeigt der Walkthrough.
 %%sep
@@ -344,10 +344,10 @@ verarbeite_daten([None])   # Randfall
 
 %%col 55 45
 
-- Korrigieren Sie nur die identifizierte Fehlerursache (minimaler Fix)
-- Führen Sie den Unit-Test aus Schritt 2 erneut aus
-- Prüfen Sie Randfälle: `[None]` führt zu einer Division durch null, das behandelt [Exceptions (S07)](07a_Exceptions.page.html)
-- Geben Sie die Diagnose als Prompt an die KI zurück
+- Korrigiere nur die identifizierte Fehlerursache (minimaler Fix)
+- Führe den Unit-Test aus Schritt 2 erneut aus
+- Prüfe Randfälle: `[None]` führt zu einer Division durch null, das behandelt [Exceptions (S07)](07a_Exceptions.page.html)
+- Gib die Diagnose als Prompt an die KI zurück
 %%sep
 ```python
 def bereinige(werte):
@@ -366,7 +366,7 @@ Debugging ist der Verifikationsschritt auf Ausführungsebene im agentischen Zykl
 %%/slides
 
 
-%%# Werkzeuge implementieren die Strategie
+%%# print, logging und Debugger
 
 %%## `print()`-Debugging — Zustände sichtbar machen
 
@@ -378,16 +378,23 @@ Die Fünf-Schritt-Strategie beschreibt das Vorgehen, die folgenden Werkzeuge mac
 
 %%slides
 
+%%col 40 60
+Mit `print()` gibst du Eingaben, Warnungen und Ergebnisse direkt im Code aus.
+
+- [Sofort einsetzbar, ohne Konfiguration]{.pro}
+- [Ausgewählte Werte, nicht der vollständige Zustand]{.con}
+- [Ausgabenflut verdeckt den eigentlichen Fehler]{.con}
+%%sep
 ```python
 def division(zaehler, nenner):
     print(f"Debug: Eingabe Zaehler: {zaehler}")
     print(f"Debug: Eingabe Nenner: {nenner}")
     if not isinstance(nenner, (int, float)):
-        print(f"Error: Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")
-        raise ValueError(f"Nenner nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(nenner)}")
+        print(f"Error: Nenner hat Typ {type(nenner)}")
+        raise ValueError(f"Nenner hat Typ {type(nenner)}")
     elif not isinstance(zaehler, (int, float)):
-        print(f"Error: Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")
-        raise ValueError(f"Zaehler nicht vom Datentyp `int` oder `float`, sondern vom Typ {type(zaehler)}")
+        print(f"Error: Zaehler hat Typ {type(zaehler)}")
+        raise ValueError(f"Zaehler hat Typ {type(zaehler)}")
     elif not nenner:
         print("Warning: Division durch 0")
         return None
@@ -395,16 +402,8 @@ def division(zaehler, nenner):
         ergebnis = zaehler / nenner
         print(f"Info: Das Ergebnis von {zaehler}/{nenner} = {ergebnis}")
         return ergebnis
-
-# division(10, 0) gibt aus:
-# Debug: Eingabe Zaehler: 10
-# Debug: Eingabe Nenner: 0
-# Warning: Division durch 0
 ```
-
-- [Sofort einsetzbar, ohne Konfiguration]{.pro}
-- [Ausgewählte Werte, nicht der vollständige Zustand]{.con}
-- [Ausgabenflut verdeckt den eigentlichen Fehler]{.con}
+%%/col
 
 %%/slides
 
@@ -456,6 +455,17 @@ for nenner in range(-2, 8):
 
 %%slides
 
+%%col 40 60
+Mit `logging` ordnest du Ausgaben Kategorien zu und filterst sie nach Level.
+
+- [Kategorisierte Ausgaben, leichter zu filtern]{.pro}
+- [Level dynamisch anpassbar, kein Code-Umbau nötig]{.pro}
+- [Erfordert initiale Konfiguration]{.neutral}
+
+Log-Level, aufsteigend nach Schwere: `DEBUG` → `INFO` → `WARNING` → `ERROR` → `CRITICAL`
+
+Das eingestellte Level und alle höheren werden ausgegeben: `WARNING` zeigt Warnungen, Fehler und kritische Meldungen, `DEBUG` zeigt alles.
+%%sep
 ```python
 import logging
 log = logging.getLogger("meinlog")
@@ -464,12 +474,7 @@ log.addHandler(logging.StreamHandler())
 log.setLevel(logging.WARNING)  # nur Warnungen und Fehler
 log.setLevel(logging.DEBUG)    # alle Meldungen beim Debuggen
 ```
-
-Log-Level: `DEBUG` → `INFO` → `WARNING` → `ERROR` → `CRITICAL`
-
-- [Kategorisierte Ausgaben, leichter zu filtern]{.pro}
-- [Level dynamisch anpassbar, kein Code-Umbau nötig]{.pro}
-- [Erfordert initiale Konfiguration]{.neutral}
+%%/col
 
 %%/slides
 
@@ -659,8 +664,8 @@ Wir starten am Anfang der Aufrufkette und nicht tief im Code. Dazu setzen wir de
 
 %%col 55 45
 
-- Setzen Sie den ersten Breakpoint an der Einstiegsfunktion (`verarbeite_daten`)
-- Rufen Sie die Funktion mit dem minimalen Fehler-Input aus Schritt 1 auf
+- Setze den ersten Breakpoint an der Einstiegsfunktion (`verarbeite_daten`)
+- Rufe die Funktion mit dem minimalen Fehler-Input aus Schritt 1 auf
 - Die Ausführung hält am Eingangszustand
 %%sep
 ```python
@@ -673,7 +678,7 @@ verarbeite_daten([0.0, 1.0])
 %%/col
 
 %%tip Merksatz
-Starten Sie immer am Anfang der Aufrufkette, nicht tief im Code.
+Starte immer am Anfang der Aufrufkette, nicht tief im Code.
 %%/tip
 
 %%/slides
@@ -723,115 +728,23 @@ Nach jedem Funktionsaufruf prüfen wir, ob der Rückgabewert der Erwartung entsp
 
 %%col 55 45
 
-- Prüfen Sie nach jedem Funktionsaufruf, ob der Rückgabewert der Erwartung entspricht
-- Lesen Sie die lokalen Variablen im Variablenfenster
-- Lesen Sie im Aufrufstapel (Call Stack), in welcher Funktion Sie stehen
-- Prüfen Sie bei abweichendem Rückgabewert die Hypothese gezielt
+- Prüfe nach jedem Funktionsaufruf, ob der Rückgabewert der Erwartung entspricht
+- Lies die lokalen Variablen im Variablenfenster
+- Lies im Aufrufstapel (Call Stack), in welcher Funktion du stehst
+- Prüfe bei abweichendem Rückgabewert die Hypothese gezielt
 %%sep
-```text
-nach bereinige(daten):
-  bereinigt = [1.0]
-  # 0.0 fehlt -> Fehler in bereinige
-Debug-Konsole:
-  >>> bool(0.0)
-  False
+```python
+bereinigt = bereinige(daten)   # Halt nach dieser Zeile
+# Variablenfenster: bereinigt == [1.0]
+# die 0.0 fehlt, der Fehler liegt in bereinige
+
+bool(0.0)   # Debug-Konsole: False
 ```
 %%/col
 
 %%tip Agentic Workflow
 Der grafische Debugger zeigt für Module mit mehreren Funktionen den Zustand jeder Ebene, ohne Code-Änderungen wie bei `print()`.
 %%/tip
-
-%%/slides
-
-
-%%## Beispiel — Grenzwert-Fehler mit den fünf Schritten eingrenzen
-
-%%book
-
-Die fünf Schritte wenden wir auf ein zweites, kleineres Modul an. Die Funktion `anzahl_warnungen` soll alle Messwerte zählen, die den Grenzwert erreichen oder überschreiten. Für `[0.8, 1.2, 1.5]` und den Grenzwert 1,2 m erwarten wir 2, die Funktion liefert aber 1.
-
-```{python}
-#| echo: true
-def anzahl_warnungen(pegel, grenze):
-    return len([w for w in pegel if w > grenze])
-```
-
-```{python}
-#| echo: true
-anzahl_warnungen([0.8, 1.2, 1.5], 1.2)
-```
-
-Als minimalen Testfall (Schritt 1) genügt `anzahl_warnungen([1.2], 1.2)`: Erwartet wird 1, beobachtet wird 0.
-
-```{python}
-#| echo: true
-anzahl_warnungen([1.2], 1.2)
-```
-
-Den Testfall übernehmen wir in einen Unit-Test (Schritt 2). Er schlägt fehl und bestätigt, dass die Funktion selbst fehlerhaft ist.
-
-```{python}
-#| echo: true
-def test_anzahl_warnungen_grenzwert():
-    assert anzahl_warnungen([1.2], 1.2) == 1
-```
-
-```{python}
-#| echo: true
-#| error: true
-test_anzahl_warnungen_grenzwert()
-```
-
-Erwartung (1) und Beobachtung (0) weichen ab. Die Hypothese (Schritt 3) lautet, dass der Vergleich `w > grenze` den Grenzwert selbst ausschließt, obwohl er laut Anforderung zählen soll. Im Debugger zeigt das Variablenfenster `w = 1.2` und `grenze = 1.2`, die Bedingung `1.2 > 1.2` ist falsch (Schritt 4), damit ist die Hypothese bestätigt. Der minimale Fix ist `>=`. Anschließend verifizieren wir den Unit-Test und die Randfälle `[]` und `[1.1]` erneut (Schritt 5). Bei berechneten Gleitkommawerten ist der Vergleich am Grenzwert heikel, weil Rundungsfehler `1.2` knapp unter oder über die Grenze schieben können.
-
-```{python}
-#| echo: true
-def anzahl_warnungen(pegel, grenze):
-    return len([w for w in pegel if w >= grenze])
-```
-
-```{python}
-#| echo: true
-test_anzahl_warnungen_grenzwert()
-```
-
-```{python}
-#| echo: true
-anzahl_warnungen([0.8, 1.2, 1.5], 1.2)
-```
-
-```{python}
-#| echo: true
-anzahl_warnungen([], 1.2)
-```
-
-```{python}
-#| echo: true
-anzahl_warnungen([1.1], 1.2)
-```
-
-%%/book
-
-%%slides
-
-Gezählt werden alle Werte, die den Grenzwert erreichen oder überschreiten: `anzahl_warnungen([0.8, 1.2, 1.5], 1.2)` liefert 1 statt 2. Minimaler Testfall: Erwartung 1, Beobachtung 0.
-
-%%col 55 45
-
-1. Reproduzieren: `anzahl_warnungen([1.2], 1.2)` liefert 0 statt 1
-2. Isolieren: Der Unit-Test für diese Funktion schlägt fehl
-3. Hypothese: `>` schließt den Grenzwert aus, erforderlich ist `>=`
-4. Inspizieren: Im Debugger ist `1.2 > 1.2` falsch
-5. Beheben: `>=`, Test und Randfälle `[]` und `[1.1]` erneut prüfen
-%%sep
-```python
-def anzahl_warnungen(pegel, grenze):
-    return len([w for w in pegel if w >= grenze])
-
-anzahl_warnungen([1.2], 1.2)   # 1
-```
-%%/col
 
 %%/slides
 
@@ -853,7 +766,7 @@ anzahl_warnungen([1.2], 1.2)   # 1
     - [ ] Hypothese bilden, Beheben, Isolieren, Reproduzieren, Inspizieren
     - [ ] Beheben, erneut verifizieren, Reproduzieren, Isolieren, Inspizieren
 
-    ### Ein Programm liefert ohne Fehlermeldung ein falsches Ergebnis. Sie haben den Fehler mit einem kleinen Input reproduziert. Was ist der nächste Schritt?
+    ### Ein Programm liefert ohne Fehlermeldung ein falsches Ergebnis. Du hast den Fehler mit einem kleinen Input reproduziert. Was ist der nächste Schritt?
     - [x] Die einzelnen Funktionen mit Unit-Tests prüfen, um die fehlerhafte Funktion einzugrenzen
     - [ ] Sofort den Code umschreiben, der am verdächtigsten aussieht
     - [ ] Den Fehler im Code beheben und danach erst testen
@@ -883,17 +796,17 @@ anzahl_warnungen([1.2], 1.2)   # 1
     - [ ] Alle bisher ausgeführten Zeilen
     - [ ] Die Laufzeit jeder Funktion
 
-    ### Welche Debugger-Aktion verwenden Sie, wenn eine Funktion bekanntermaßen korrekt ist?
+    ### Welche Debugger-Aktion verwendest du, wenn eine Funktion bekanntermaßen korrekt ist?
     - [x] Step Over: Die Funktion wird ausgeführt, ohne hineinzuspringen
     - [ ] Step Into: Der Debugger springt in die Funktion
     - [ ] Step Out: Der Debugger beendet das gesamte Programm
     - [ ] Gar keine; es muss immer Step Into verwendet werden
 
-    ### `zaehle([0.8, 1.2, 1.5], 1.2)` liefert 1 statt 2, wenn Werte ab dem Grenzwert zählen sollen. Welcher Input ist die kleinste Reproduktion?
-    - [x] `zaehle([1.2], 1.2)`: Erwartet wird 1, die Funktion liefert 0
-    - [ ] `zaehle([0.8, 1.2, 1.5, 2.0], 1.2)`
-    - [ ] `zaehle([], 1.2)`
-    - [ ] `zaehle([0.8, 1.2, 1.5], 1.5)`
+    ### `verarbeite_daten([0.0, 1.2, 0.8, None, 1.0])` liefert 1.00 m statt 0.75 m. Welcher Input ist die kleinste Reproduktion?
+    - [x] `verarbeite_daten([0.0, 1.0])`: Erwartet wird 0.50 m, das Modul liefert 1.00 m
+    - [ ] `verarbeite_daten([0.0, 1.2, 0.8, None, 1.0])`
+    - [ ] `verarbeite_daten([1.0])`
+    - [ ] `verarbeite_daten([None])`
 
     ### Was ist der Zweck von `logging` in Python?
     - [x] Protokollierung von Ereignissen und Fehlern, filterbar nach Log-Level
@@ -906,4 +819,6 @@ anzahl_warnungen([1.2], 1.2)   # 1
 %%/book
 
 
+
+%%references
 %%final
