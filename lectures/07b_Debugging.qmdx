@@ -123,7 +123,7 @@ Reproduzieren → Isolieren → Hypothese → Inspizieren → Beheben & erneut v
 
 %%book
 
-Zuerst suchen wir den kleinsten Input, der das Fehlverhalten auslöst. Statt der fünf Pegelstände genügen zwei Werte. Einen Bug, den wir nicht reproduzieren können, können wir nicht debuggen. Da keine Exception auftritt (→ `07a_Exceptions`), fehlt der Traceback als Startpunkt, wir beginnen deshalb beim falschen Ergebnis. Tritt der Fehler nur manchmal auf (nichtdeterministisch), müssen wir zunächst die Bedingungen finden, unter denen er auftritt.
+Zuerst suchen wir den kleinsten Input, der das Fehlverhalten auslöst. Statt der fünf Pegelstände genügen zwei Werte. Einen Bug, den wir nicht reproduzieren können, können wir nicht debuggen. Da keine Exception auftritt (siehe [Exceptions (S07)](07a_Exceptions.page.html)), fehlt der Traceback als Startpunkt, wir beginnen deshalb beim falschen Ergebnis. Tritt der Fehler nur manchmal auf (nichtdeterministisch), müssen wir zunächst die Bedingungen finden, unter denen er auftritt.
 
 ```{python}
 #| echo: true
@@ -140,7 +140,7 @@ verarbeite_daten([0.0, 1.0])   # erwartet: 'Mittelwert: 0.50 m'
 - Entfernen Sie alle Abhängigkeiten, die nicht zum Fehler beitragen
 - Prüfen Sie, ob der Fehler immer oder nur unter bestimmten Bedingungen auftritt
 
-Ohne Exception (→ `07a_Exceptions`) beginnt die Suche beim falschen Ergebnis.
+Ohne Exception (siehe [Exceptions (S07)](07a_Exceptions.page.html)) beginnt die Suche beim falschen Ergebnis.
 %%sep
 ```python
 verarbeite_daten([0.0, 1.0])
@@ -159,7 +159,7 @@ Einen Bug, den Sie nicht reproduzieren können, können Sie nicht debuggen.
 
 %%book
 
-Als Nächstes prüfen wir jede Funktion einzeln mit einem Unit-Test und verwenden dazu den Input aus Schritt 1. Die Tests für `berechne` und `formatiere` bestehen, nur der Test für `bereinige` schlägt fehl. Damit ist das Problem auf eine einzelne Funktion eingegrenzt. Wie Unit-Tests aufgebaut werden, behandelt `08a_UnitTest`.
+Als Nächstes prüfen wir jede Funktion einzeln mit einem Unit-Test und verwenden dazu den Input aus Schritt 1. Die Tests für `berechne` und `formatiere` bestehen, nur der Test für `bereinige` schlägt fehl. Damit ist das Problem auf eine einzelne Funktion eingegrenzt. Wie Unit-Tests aufgebaut werden, behandelt [Unit-Tests (S08)](08a_UnitTest.page.html).
 
 ```{python}
 #| echo: true
@@ -193,7 +193,7 @@ test_bereinige_behaelt_null()
 - Prüfen Sie jede Stufe einzeln, ohne das gesamte Programm
 - Nur der Test für `bereinige` schlägt fehl
 
-Wie Unit-Tests aufgebaut werden, zeigt `08a_UnitTest`.
+Wie Unit-Tests aufgebaut werden, zeigt [Unit-Tests (S08)](08a_UnitTest.page.html).
 %%sep
 ```python
 berechne([0.0, 1.2]) == 0.6          # True
@@ -314,7 +314,7 @@ def verarbeite_daten(daten):  # <- Breakpoint
 
 %%book
 
-Zum Schluss korrigieren wir nur die identifizierte Ursache mit einem minimalen Fix und führen den Unit-Test aus Schritt 2 erneut aus. Anschließend prüfen wir, ob angrenzende Funktionen oder Randfälle betroffen sind. Filtert `bereinige` alle Werte heraus, etwa bei `[None]`, teilt `berechne` durch null; diesen Randfall behandeln wir in `07a_Exceptions`. Auch `NaN`-Werte, wie sie in Messreihen vorkommen, passieren den neuen Filter `is not None` und würden den Mittelwert verfälschen. Schließlich geben wir die Diagnose als präzisen Prompt an die KI zurück. Debugging ist damit der Verifikationsschritt des agentischen Zyklus auf Ausführungsebene.
+Zum Schluss korrigieren wir nur die identifizierte Ursache mit einem minimalen Fix und führen den Unit-Test aus Schritt 2 erneut aus. Anschließend prüfen wir, ob angrenzende Funktionen oder Randfälle betroffen sind. Filtert `bereinige` alle Werte heraus, etwa bei `[None]`, teilt `berechne` durch null; diesen Randfall behandeln wir in [Exceptions (S07)](07a_Exceptions.page.html). Auch `NaN`-Werte, wie sie in Messreihen vorkommen, passieren den neuen Filter `is not None` und würden den Mittelwert verfälschen. Schließlich geben wir die Diagnose als präzisen Prompt an die KI zurück. Debugging ist damit der Verifikationsschritt des agentischen Zyklus auf Ausführungsebene.
 
 ```{python}
 #| echo: true
@@ -346,7 +346,7 @@ verarbeite_daten([None])   # Randfall
 
 - Korrigieren Sie nur die identifizierte Fehlerursache (minimaler Fix)
 - Führen Sie den Unit-Test aus Schritt 2 erneut aus
-- Prüfen Sie Randfälle: `[None]` führt zu einer Division durch null, das behandelt `07a_Exceptions`
+- Prüfen Sie Randfälle: `[None]` führt zu einer Division durch null, das behandelt [Exceptions (S07)](07a_Exceptions.page.html)
 - Geben Sie die Diagnose als Prompt an die KI zurück
 %%sep
 ```python
@@ -412,7 +412,7 @@ def division(zaehler, nenner):
 
 Logische Fehler treten häufig erst dynamisch auf und lassen sich oft nicht mit statischer Code-Analyse, etwa durch Lint-Werkzeuge, finden. Hier müssen wir den aktuellen Programmfluss nachvollziehen. Dies nennen wir Debugging. Die elementare Form ist das `print`-Debugging, bei dem wir den Code gezielt mit `print()`-Befehlen versehen.
 
-Wir ergänzen die Divisionsfunktion um `print()`-Anweisungen. Üblich ist es, die Eingangsparameter auszugeben, Fehler und Warnungen sichtbar zu machen und Ergebnisse zu protokollieren. Die Rückgabe von `None` bei Division durch null dient hier nur der Demonstration; eine Exception wäre in der Praxis die bessere Wahl (→ `07a_Exceptions`). Die Werkzeuge zeigen wir zunächst an dieser kleinen Funktion; die Anwendung auf das Pegelstand-Modul folgt im Walkthrough.
+Wir ergänzen die Divisionsfunktion um `print()`-Anweisungen. Üblich ist es, die Eingangsparameter auszugeben, Fehler und Warnungen sichtbar zu machen und Ergebnisse zu protokollieren. Die Rückgabe von `None` bei Division durch null dient hier nur der Demonstration; eine Exception wäre in der Praxis die bessere Wahl (siehe [Exceptions (S07)](07a_Exceptions.page.html)). Die Werkzeuge zeigen wir zunächst an dieser kleinen Funktion; die Anwendung auf das Pegelstand-Modul folgt im Walkthrough.
 
 ```{python}
 #| echo: true
