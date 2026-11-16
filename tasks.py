@@ -530,9 +530,9 @@ def ghp_import_quarto(c):
 
 @task()
 def restart_book_ml2(c):
-    """Restart the book-ml2 deployment pod on the ai4sc-lectures k8s cluster."""
-    info("Restart book-ml2 pod on ai4sc-lectures")
-    c.run("ssh ai4sc-lectures 'microk8s kubectl rollout restart deployment/book-ml2 -n books'")
+    """Restart the book-ml2 deployment pod on the ai4sc k8s cluster."""
+    info("Restart book-ml2 pod on ai4sc")
+    c.run("ssh ai4sc 'microk8s kubectl rollout restart deployment/code-book -n books'")
 
 
 @task()
