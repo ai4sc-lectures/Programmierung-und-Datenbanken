@@ -9,10 +9,12 @@
  */
 
 /** Load Plotly once (AMD/RequireJS-safe) and expose a render helper. */
-window.PLOTLY_READY = window.PLOTLY_READY || (async () => {
-  // Quarto relocates this loader into site_libs; resources retain deck-relative URLs.
+window.PLOTLY_READY = window.__ai4scPlotlyInit ||= (async () => {
+  // The loader may be relocated into site_libs or used in a nested book chapter.
+  const offset = document.querySelector('meta[name="quarto:offset"]')?.content || './';
+  const root = new URL(offset, document.baseURI);
   const { pastelloLayout, pastelloDefaults, pastelloOptions, attachPastello, refreshPastello } = await import(
-    new URL('_extensions/ai4sc-style/plotly-pastello.js', document.baseURI).href
+    new URL('_extensions/ai4sc-style/plotly-pastello.js', root).href
   );
   const hasRealPlotly = () =>
     Boolean(window.Plotly?.newPlot) && !window.Plotly?.__ai4scPlotlyStub;
@@ -24,7 +26,7 @@ window.PLOTLY_READY = window.PLOTLY_READY || (async () => {
     
     await new Promise((res, rej) => {
       const s = document.createElement("script");
-      s.src = "_extensions/ai4sc-style/plotly.min.js";
+      s.src = new URL('_extensions/ai4sc-style/plotly.min.js', root).href;
       s.async = false;
       s.onload = res;
       s.onerror = () => rej(new Error("Failed to load local _extensions/ai4sc-style/plotly.min.js"));

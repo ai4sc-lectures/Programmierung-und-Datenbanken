@@ -100,7 +100,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-c6d6628e7e574435f2d21401e0a6d85b.css">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-6dce41dc0c0246aad3bb655aec13f37d.css">
   <link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/fonts.css">
   <link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/reveal-fixes.css">
   <link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/color/warm-bone.css">
@@ -232,20 +232,6 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
   const imageSelector = ".reveal .slides section > img.r-stretch, .reveal .slides section > img.stretch";
   const SIZED_ATTR = "data-ai4sc-sized";
 
-  const stamp = (root = document) => {
-    root.querySelectorAll(imageSelector).forEach((img) => {
-      if (!(img instanceof HTMLElement)) return;
-      const style = img.getAttribute("style") || "";
-      if (
-        img.hasAttribute("width") ||
-        img.hasAttribute("height") ||
-        /(^|;)\s*(width|height)\s*:/.test(style)
-      ) {
-        img.setAttribute(SIZED_ATTR, "");
-      }
-    });
-  };
-
   const release = (root = document) => {
     root.querySelectorAll(imageSelector).forEach((img) => {
       if (!(img instanceof HTMLElement) || !img.hasAttribute(SIZED_ATTR)) {
@@ -269,12 +255,10 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 
   const scheduleRelease = () => window.requestAnimationFrame(() => release());
 
-  const init = () => { stamp(); scheduleRelease(); };
-
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init, { once: true });
+    document.addEventListener("DOMContentLoaded", scheduleRelease, { once: true });
   } else {
-    init();
+    scheduleRelease();
   }
 
   window.addEventListener("load", scheduleRelease, { once: true });
@@ -282,6 +266,7 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 })();
 </script>
 <script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/plotly-loader.js"></script>
+<script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/ragged-images.js"></script>
 <script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/scramble-fragments.js"></script>
 <script>window.slideParticlesConfig = {"particleCount": 500, "particleTheme": "binary-minimal", "particleRandomRespawnRatio": 0.24};</script>
 <script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/slide-particles.js"></script>
@@ -295,7 +280,7 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
     <h1 class="title">Operatoren</h1>
             <p class="author">Joern Ploennigs · AI4SC</p>
                         <p class="image-credit">
-      Caligraphic Equations
+      cf.&nbsp;‘Caligraphic Equations’
     </p>
       </div>
 </section>
@@ -323,7 +308,7 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/02a_Wissenspyramide/pyramide1.svg" class="quarto-figure quarto-figure-center" height="600"></p>
+<p><img data-src="images/02a_Wissenspyramide/pyramide1.svg" class="ragged quarto-figure quarto-figure-center" height="600"></p>
 </figure>
 </div>
 </div></div>
@@ -348,7 +333,7 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 <div class="column" style="width:33%;">
 <p>Der Datentyp gibt an, von welcher Art die Daten sind, die mit ihm beschrieben werden (Datenvereinbarung), und welche Operationen auf diesen ausgeführt werden können.</p>
 </div><div class="column" style="width:67%;">
-<p><img data-src="images/05a_Operatoren/datentypen.svg" class="midjourney"></p>
+<p><img data-src="images/05a_Operatoren/datentypen.svg" class="ragged midjourney"></p>
 </div></div>
 </section>
 <section id="hörsaalfrage-2" class="slide level2" data-background="#FFD966">
@@ -371,41 +356,43 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 <div class="column" style="width:33%;">
 <p>Python vereinfacht einige Datentypen.</p>
 </div><div class="column" style="width:67%;">
-<p><img data-src="images/05a_Operatoren/datentypen_python.svg" class="midjourney"></p>
+<p><img data-src="images/05a_Operatoren/datentypen_python.svg" class="ragged midjourney"></p>
 </div></div>
 </section>
-<section id="anweisungen" class="slide level2">
+<section>
+<section id="ausdrücke-und-zuweisung-1" class="title-slide slide level1 center">
+<h1>Ausdrücke und Zuweisung</h1>
+
+</section>
+<section id="anweisungen-1" class="slide level2">
 <h2>Anweisungen</h2>
 <div class="definition">
 <div class="definition-term">
 <p>Anweisung</p>
 </div>
 <p>Eine Anweisung (engl. statement) stellt eine in der Syntax einer Programmiersprache formulierte einzelne Vorschrift dar, die im Programm nacheinander auszuführen ist.</p>
+<p>Beispiel: <code>x = 5</code> weist der Variablen <code>x</code> den Wert 5 zu.</p>
 </div>
 <div class="definition">
 <div class="definition-term">
 <p>Ausdrücke</p>
 </div>
 <p>Eine besondere Form von Anweisungen sind Ausdrücke (engl. expression), die immer einen Wert zurückgeben und damit einen Datentyp haben.</p>
+<p>Beispiele: <code>3 + 4</code> ergibt <code>7</code> (<code>int</code>), <code>"Hallo " + "Welt"</code> ergibt einen <code>str</code>.</p>
 </div>
 <div class="definition">
 <div class="definition-term">
 <p>Operator</p>
 </div>
 <p>Ein Operator ist ein Teil von Ausdrücken und ein Symbol oder Schlüsselwort, das dem Compiler oder Interpreter mitteilt, eine bestimmte Operation auf Werte auszuführen.</p>
+<p>Beispiel: In <code>3 + 4</code> ist <code>+</code> der Operator, <code>3</code> und <code>4</code> sind die Operanden.</p>
 </div>
 </section>
 <section id="variablenzuweisung-ausdruck-rechts-name-links" class="slide level2">
 <h2>Variablenzuweisung: Ausdruck rechts, Name links</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M8 21s-4-3-4-9 4-9 4-9"></path>
-  <path d="M16 3s4 3 4 9-4 9-4 9"></path>
-  <line x1="15" x2="9" y1="9" y2="15"></line>
-  <line x1="9" x2="15" y1="9" y2="15"></line>
-</svg>
-</span> Bei einer Variablenzuweisung steht der Ausdruck rechts vom Zuweisungsoperator <code>=</code>, der Variablenname links.</p>
+<p>Bei einer Variablenzuweisung steht der Ausdruck rechts vom Zuweisungsoperator <code>=</code>, der Variablenname links.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a>Variablenname <span class="op">=</span> Ausdruck</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:50%;">
 <div title="Lernziel dieser Sitzung">
@@ -418,22 +405,20 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 <p><strong>Lernziel dieser Sitzung</strong></p>
 </div>
 <div class="callout-content">
-<p>KI-generierte Ausdrücke lesen und nachverfolgen, statt sie von Grund auf zu schreiben.</p>
+<p>Ausdrücke in Python lesen, nach der Rangfolge auswerten und mit den passenden Datentypen verwenden.</p>
 </div>
 </div>
 </div>
 </div>
 </div></div>
 </section>
-<section id="arithmetische-operatoren" class="slide level2">
+<section id="arithmetische-operatoren-1" class="slide level2">
 <h2>Arithmetische Operatoren</h2>
 <div class="columns">
-<div class="column" style="width:50%;">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"></path>
-  <path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"></path>
-</svg>
-</span> Arithmetische Operatoren arbeiten mit numerischen Datentypen.</p>
+<div class="column" style="width:40%;">
+<p>Arithmetische Operatoren arbeiten mit numerischen Datentypen.</p>
+<p>Python wertet erst <code>**</code> aus, dann <code>*</code> <code>/</code> <code>//</code> <code>%</code>, zuletzt <code>+</code> <code>-</code>.</p>
+</div><div class="column" style="width:60%;">
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -480,37 +465,58 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 </tr>
 </tbody>
 </table>
-</div><div class="column" style="width:50%;">
+</div></div>
+</section>
+<section id="beispiel-rangfolge-nachverfolgen" class="slide level2">
+<h2>Beispiel: Rangfolge nachverfolgen</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> <span class="dv">5</span></span>
 <span id="cb2-2"><a aria-hidden="true" tabindex="-1"></a>ergebnis <span class="op">=</span> x <span class="op">**</span> <span class="dv">2</span> <span class="op">-</span> <span class="dv">3</span> <span class="op">*</span> x <span class="op">+</span> <span class="dv">1</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div title="KI-generiert, erst nachverfolgen und dann ausführen">
+<div title="Rangfolge nachverfolgen">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>KI-generiert, erst nachverfolgen und dann ausführen</strong></p>
+<p><strong>Rangfolge nachverfolgen</strong></p>
 </div>
 <div class="callout-content">
-<p>Welche Operatoren kombiniert der Ausdruck? In welcher Reihenfolge werden sie ausgewertet? Welchen Wert hat <code>ergebnis</code>?</p>
+<p>Welche Operatoren kombiniert der Ausdruck, und in welcher Reihenfolge werden sie ausgewertet?</p>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment">
+<div title="Ergebnis">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Ergebnis</strong></p>
+</div>
+<div class="callout-content">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a>x <span class="op">**</span> <span class="dv">2</span>          <span class="co"># 25</span></span>
+<span id="cb3-2"><a aria-hidden="true" tabindex="-1"></a><span class="dv">3</span> <span class="op">*</span> x            <span class="co"># 15</span></span>
+<span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a><span class="dv">25</span> <span class="op">-</span> <span class="dv">15</span> <span class="op">+</span> <span class="dv">1</span>      <span class="co"># 11</span></span>
+<span id="cb3-4"><a aria-hidden="true" tabindex="-1"></a>ergebnis         <span class="co"># 11</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div>
 </div>
 </div>
 </div>
 </div></div>
 </section>
-<section id="zuweisungsoperatoren" class="slide level2">
+<section id="zuweisungsoperatoren-1" class="slide level2">
 <h2>Zuweisungsoperatoren</h2>
 <div class="columns">
-<div class="column" style="width:50%;">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M8 21s-4-3-4-9 4-9 4-9"></path>
-  <path d="M16 3s4 3 4 9-4 9-4 9"></path>
-  <line x1="15" x2="9" y1="9" y2="15"></line>
-  <line x1="9" x2="15" y1="9" y2="15"></line>
-</svg>
-</span> Zuweisungsoperatoren weisen Variablen Werte zu. Python kennt kein <code>x++</code>, nur die abgekürzte Zuweisung.</p>
+<div class="column" style="width:40%;">
+<p>Zuweisungsoperatoren weisen Variablen Werte zu. Python kennt kein <code>x++</code>, nur die abgekürzte Zuweisung.</p>
+</div><div class="column" style="width:60%;">
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -545,22 +551,48 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 </tr>
 </tbody>
 </table>
-</div><div class="column" style="width:50%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb3-2"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> a <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">+=</span> <span class="dv">1</span></span>
-<span id="cb3-4"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">*=</span> <span class="dv">2</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div title="KI-generiert, erst nachverfolgen und dann ausführen">
+</div></div>
+</section>
+<section id="beispiel-zeile-für-zeile-nachverfolgen" class="slide level2">
+<h2>Beispiel: Zeile für Zeile nachverfolgen</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb4-2"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> a <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb4-3"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb4-4"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">*=</span> <span class="dv">2</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div title="Zeile für Zeile">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>KI-generiert, erst nachverfolgen und dann ausführen</strong></p>
+<p><strong>Zeile für Zeile</strong></p>
 </div>
 <div class="callout-content">
 <p>Welchen Wert hat <code>a</code> nach jeder Zeile?</p>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment">
+<div title="Ergebnis">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Ergebnis</strong></p>
+</div>
+<div class="callout-content">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> <span class="dv">1</span>   <span class="co"># 2</span></span>
+<span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> a <span class="op">+</span> <span class="dv">1</span>   <span class="co"># 3</span></span>
+<span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">+=</span> <span class="dv">1</span>      <span class="co"># 4</span></span>
+<span id="cb5-4"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">*=</span> <span class="dv">2</span>      <span class="co"># 8</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div>
 </div>
 </div>
@@ -571,39 +603,56 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 <h2>Klammern verändern die Reihenfolge</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">8</span></span>
-<span id="cb4-2"><a aria-hidden="true" tabindex="-1"></a>c1 <span class="op">=</span> (<span class="dv">6</span> <span class="op">+</span> a) <span class="op">*</span> (<span class="op">-</span><span class="dv">2</span>)</span>
-<span id="cb4-3"><a aria-hidden="true" tabindex="-1"></a>c2 <span class="op">=</span> <span class="dv">6</span> <span class="op">+</span> a <span class="op">*</span> <span class="op">-</span><span class="dv">2</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div title="KI-generiert, erst nachverfolgen und dann ausführen">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">8</span></span>
+<span id="cb6-2"><a aria-hidden="true" tabindex="-1"></a>c1 <span class="op">=</span> (<span class="dv">6</span> <span class="op">+</span> a) <span class="op">*</span> (<span class="op">-</span><span class="dv">2</span>)</span>
+<span id="cb6-3"><a aria-hidden="true" tabindex="-1"></a>c2 <span class="op">=</span> <span class="dv">6</span> <span class="op">+</span> a <span class="op">*</span> <span class="op">-</span><span class="dv">2</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div title="Rangfolge von Klammern">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>KI-generiert, erst nachverfolgen und dann ausführen</strong></p>
+<p><strong>Rangfolge von Klammern</strong></p>
 </div>
 <div class="callout-content">
-<p>Beim Lesen von KI-Code jede Änderung der Variablen mitverfolgen.</p>
+<p>Welchen Wert haben <code>c1</code> und <code>c2</code>? Was ändern die Klammern?</p>
 </div>
 </div>
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a>c1  <span class="co"># -28</span></span>
-<span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a>c2  <span class="co"># -10</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>c1</code> und <code>c2</code> enthalten dieselben Zahlen, aber die Klammern ändern die Auswertungsreihenfolge und damit das Ergebnis.</p>
+<div class="fragment">
+<div title="Ergebnis">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Ergebnis</strong></p>
+</div>
+<div class="callout-content">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a>c1 <span class="op">=</span> (<span class="dv">6</span> <span class="op">+</span> <span class="dv">8</span>) <span class="op">*</span> (<span class="op">-</span><span class="dv">2</span>)   <span class="co"># 14 * (-2) = -28</span></span>
+<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a>c2 <span class="op">=</span> <span class="dv">6</span> <span class="op">+</span> <span class="dv">8</span> <span class="op">*</span> <span class="op">-</span><span class="dv">2</span>       <span class="co"># 6 + (-16) = -10</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div></div>
+</section></section>
+<section>
+<section id="vergleichen-und-verknüpfen-1" class="title-slide slide level1 center">
+<h1>Vergleichen und Verknüpfen</h1>
+
 </section>
-<section id="vergleichsoperatoren" class="slide level2">
+<section id="vergleichsoperatoren-1" class="slide level2">
 <h2>Vergleichsoperatoren</h2>
 <div class="columns">
-<div class="column" style="width:50%;">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"></path>
-  <path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"></path>
-</svg>
-</span> <code>=</code> weist einen Wert zu. Für den Vergleich von Werten nutzt Python <code>==</code>. Das Ergebnis ist immer <code>True</code> oder <code>False</code>.</p>
+<div class="column" style="width:40%;">
+<p><code>=</code> weist einen Wert zu. Für den Vergleich von Werten nutzt Python <code>==</code>. Das Ergebnis ist immer <code>True</code> oder <code>False</code>.</p>
+</div><div class="column" style="width:60%;">
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -638,20 +687,25 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 </tr>
 </tbody>
 </table>
-</div><div class="column" style="width:50%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb6-2"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">&gt;</span> <span class="dv">1</span></span>
-<span id="cb6-3"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">&gt;=</span> <span class="dv">1</span></span>
-<span id="cb6-4"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">==</span> <span class="dv">1</span></span>
-<span id="cb6-5"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">!=</span> <span class="dv">1</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div title="KI-generiert, erst nachverfolgen und dann ausführen">
+</div></div>
+</section>
+<section id="beispiel-vergleiche-auswerten" class="slide level2">
+<h2>Beispiel: Vergleiche auswerten</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">&gt;</span> <span class="dv">1</span></span>
+<span id="cb8-3"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">&gt;=</span> <span class="dv">1</span></span>
+<span id="cb8-4"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">==</span> <span class="dv">1</span></span>
+<span id="cb8-5"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">!=</span> <span class="dv">1</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div title="Wahrheitswerte">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>KI-generiert, erst nachverfolgen und dann ausführen</strong></p>
+<p><strong>Wahrheitswerte</strong></p>
 </div>
 <div class="callout-content">
 <p>Welche der vier Vergleiche sind <code>True</code>?</p>
@@ -659,36 +713,77 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 </div>
 </div>
 </div>
+</div><div class="column" style="width:50%;">
+<div class="fragment">
+<div title="Ergebnis">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Ergebnis</strong></p>
+</div>
+<div class="callout-content">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">&gt;</span> <span class="dv">1</span>    <span class="co"># False</span></span>
+<span id="cb9-2"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">&gt;=</span> <span class="dv">1</span>   <span class="co"># True</span></span>
+<span id="cb9-3"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">==</span> <span class="dv">1</span>   <span class="co"># True</span></span>
+<span id="cb9-4"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">!=</span> <span class="dv">1</span>   <span class="co"># False</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div></div>
 </section>
-<section id="identitätsoperatoren" class="slide level2">
+<section id="identitätsoperatoren-1" class="slide level2">
 <h2>Identitätsoperatoren</h2>
 <div class="columns">
-<div class="column" style="width:50%;">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"></path>
-  <path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"></path>
-</svg>
-</span> <code>x is y</code> ist wahr, wenn beide Variablen auf dasselbe Objekt im Speicher zeigen. <code>x is not y</code> verneint das.</p>
+<div class="column" style="width:40%;">
+<p><code>x is y</code> ist wahr, wenn beide Variablen auf dasselbe Objekt im Speicher zeigen. <code>x is not y</code> verneint das.</p>
 <ul>
 <li><code>is</code> prüft dieselbe Referenz.</li>
 <li><code>==</code> prüft denselben Inhalt.</li>
 </ul>
-</div><div class="column" style="width:50%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
-<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> a</span>
-<span id="cb7-3"><a aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
-<span id="cb7-4"><a aria-hidden="true" tabindex="-1"></a>a <span class="kw">is</span> b</span>
-<span id="cb7-5"><a aria-hidden="true" tabindex="-1"></a>a <span class="kw">is</span> c</span>
-<span id="cb7-6"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">==</span> c</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div title="KI-generiert, erst nachverfolgen und dann ausführen">
+</div><div class="column" style="width:60%;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Operator</th>
+<th>wahr, wenn</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>x is y</code></td>
+<td><code>x</code> und <code>y</code> dasselbe Objekt sind</td>
+</tr>
+<tr class="even">
+<td><code>x is not y</code></td>
+<td><code>x</code> und <code>y</code> nicht dasselbe Objekt sind</td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</section>
+<section id="beispiel-referenz-oder-inhalt" class="slide level2">
+<h2>Beispiel: Referenz oder Inhalt?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb10-2"><a aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> a</span>
+<span id="cb10-3"><a aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb10-4"><a aria-hidden="true" tabindex="-1"></a>a <span class="kw">is</span> b</span>
+<span id="cb10-5"><a aria-hidden="true" tabindex="-1"></a>a <span class="kw">is</span> c</span>
+<span id="cb10-6"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">==</span> c</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div title="Referenz oder Inhalt?">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>KI-generiert, erst nachverfolgen und dann ausführen</strong></p>
+<p><strong>Referenz oder Inhalt?</strong></p>
 </div>
 <div class="callout-content">
 <p>Welche der drei Ausdrücke sind <code>True</code>?</p>
@@ -696,45 +791,528 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 </div>
 </div>
 </div>
-</div></div>
-</section>
-<section id="hörsaalfrage-3" class="slide level2" data-background="#FFD966">
-<h2>Hörsaalfrage</h2>
-<div class="columns">
-<div class="column vcent" style="width:40%;">
-<p>Welche Ergebnisse gibt es für welche logische Operation? (Entspricht der Aussagenlogik)</p>
-</div><div class="column" style="width:60%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/05a_Operatoren/logic0.svg" class="midjourney"></p>
-<figcaption>Logische Operationen</figcaption>
-</figure>
+</div><div class="column" style="width:50%;">
+<div class="fragment">
+<div title="Ergebnis">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Ergebnis</strong></p>
+</div>
+<div class="callout-content">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a>a <span class="kw">is</span> b   <span class="co"># True   (gleiche Liste)</span></span>
+<span id="cb11-2"><a aria-hidden="true" tabindex="-1"></a>a <span class="kw">is</span> c   <span class="co"># False  (zweite Liste)</span></span>
+<span id="cb11-3"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">==</span> c   <span class="co"># True   (gleicher Inhalt)</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div></div>
 </section>
-<section id="hörsaalfrage-4" class="slide level2" data-background="#FFD966">
-<h2>Hörsaalfrage</h2>
-<div class="columns">
-<div class="column vcent" style="width:40%;">
-<p>Welche Ergebnisse gibt es für welche logische Operation? (Entspricht der Aussagenlogik)</p>
-</div><div class="column" style="width:60%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/05a_Operatoren/logic.svg" class="midjourney"></p>
-<figcaption>Logische Operationen</figcaption>
-</figure>
-</div>
-</div></div>
-</section>
-<section id="logische-operatoren" class="slide level2">
-<h2>Logische Operatoren</h2>
+<section id="logische-operation-and" class="slide level2">
+<h2>Logische Operation: AND</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"></path>
-  <path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"></path>
-</svg>
-</span> Logische Operatoren kombinieren Wahrheitswerte. <code>P</code> und <code>Q</code> stehen für Ausdrücke wie <code>x &gt; 10</code> und <code>x &lt; 20</code>.</p>
+<p>Ich will einen Stuhl, der aus Holz ist <strong>UND</strong> braun ist.</p>
+<p>Welche Stühle bekomme ich?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a>a <span class="kw">and</span> b</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="fragment">
+<p>Wahr (1), wenn beide Eingänge Wahr sind.</p>
+</div>
+</div><div class="column" style="width:50%;">
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stuhl</th>
+<th>A: aus Holz</th>
+<th>B: braun</th>
+<th>A AND B</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img data-src="images/05a_Operatoren/stuhl_plastik_gruen.svg" class="ragged nostretch" height="72" alt="Grün &amp; Plastik"><br>Grün &amp; Plastik</td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_plastik_gruen_no.svg" class="ragged nostretch" height="72" alt="Nein"></span></td>
+</tr>
+<tr class="even">
+<td><img data-src="images/05a_Operatoren/stuhl_plastik_braun.svg" class="ragged nostretch" height="72" alt="Braun &amp; Plastik"><br>Braun &amp; Plastik</td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_plastik_braun_no.svg" class="ragged nostretch" height="72" alt="Nein"></span></td>
+</tr>
+<tr class="odd">
+<td><img data-src="images/05a_Operatoren/stuhl_holz_gruen.svg" class="ragged nostretch" height="72" alt="Grün &amp; Holz"><br>Grün &amp; Holz</td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_holz_gruen_no.svg" class="ragged nostretch" height="72" alt="Nein"></span></td>
+</tr>
+<tr class="even">
+<td><img data-src="images/05a_Operatoren/stuhl_holz_braun.svg" class="ragged nostretch" height="72" alt="Braun &amp; Holz"><br>Braun &amp; Holz</td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_holz_braun_ok.svg" class="ragged nostretch" height="72" alt="Ja"></span></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</section>
+<section id="logische-operation-or" class="slide level2">
+<h2>Logische Operation: OR</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Ich will einen Stuhl, der aus Holz ist <strong>ODER</strong> braun ist.</p>
+<p>Welche Stühle bekomme ich?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a>a <span class="kw">or</span> b</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="fragment">
+<p>Wahr (1), wenn mindestens ein Eingang Wahr ist.</p>
+</div>
+</div><div class="column" style="width:50%;">
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stuhl</th>
+<th>A: aus Holz</th>
+<th>B: braun</th>
+<th>A OR B</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img data-src="images/05a_Operatoren/stuhl_plastik_gruen.svg" class="ragged nostretch" height="72" alt="Grün &amp; Plastik"><br>Grün &amp; Plastik</td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_plastik_gruen_no.svg" class="ragged nostretch" height="72" alt="Nein"></span></td>
+</tr>
+<tr class="even">
+<td><img data-src="images/05a_Operatoren/stuhl_plastik_braun.svg" class="ragged nostretch" height="72" alt="Braun &amp; Plastik"><br>Braun &amp; Plastik</td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_plastik_braun_ok.svg" class="ragged nostretch" height="72" alt="Ja"></span></td>
+</tr>
+<tr class="odd">
+<td><img data-src="images/05a_Operatoren/stuhl_holz_gruen.svg" class="ragged nostretch" height="72" alt="Grün &amp; Holz"><br>Grün &amp; Holz</td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_holz_gruen_ok.svg" class="ragged nostretch" height="72" alt="Ja"></span></td>
+</tr>
+<tr class="even">
+<td><img data-src="images/05a_Operatoren/stuhl_holz_braun.svg" class="ragged nostretch" height="72" alt="Braun &amp; Holz"><br>Braun &amp; Holz</td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_holz_braun_ok.svg" class="ragged nostretch" height="72" alt="Ja"></span></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</section>
+<section id="logische-operation-xor" class="slide level2">
+<h2>Logische Operation: XOR</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Ich will einen Stuhl, der entweder aus Holz ist <strong>ODER</strong> braun ist, aber nicht beides.</p>
+<p>Welche Stühle bekomme ich?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">!=</span> b</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="fragment">
+<p>Wahr (1), wenn genau ein Eingang Wahr ist.</p>
+</div>
+</div><div class="column" style="width:50%;">
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stuhl</th>
+<th>A: aus Holz</th>
+<th>B: braun</th>
+<th>A XOR B</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img data-src="images/05a_Operatoren/stuhl_plastik_gruen.svg" class="ragged nostretch" height="72" alt="Grün &amp; Plastik"><br>Grün &amp; Plastik</td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_plastik_gruen_no.svg" class="ragged nostretch" height="72" alt="Nein"></span></td>
+</tr>
+<tr class="even">
+<td><img data-src="images/05a_Operatoren/stuhl_plastik_braun.svg" class="ragged nostretch" height="72" alt="Braun &amp; Plastik"><br>Braun &amp; Plastik</td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_plastik_braun_ok.svg" class="ragged nostretch" height="72" alt="Ja"></span></td>
+</tr>
+<tr class="odd">
+<td><img data-src="images/05a_Operatoren/stuhl_holz_gruen.svg" class="ragged nostretch" height="72" alt="Grün &amp; Holz"><br>Grün &amp; Holz</td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_holz_gruen_ok.svg" class="ragged nostretch" height="72" alt="Ja"></span></td>
+</tr>
+<tr class="even">
+<td><img data-src="images/05a_Operatoren/stuhl_holz_braun.svg" class="ragged nostretch" height="72" alt="Braun &amp; Holz"><br>Braun &amp; Holz</td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_holz_braun_no.svg" class="ragged nostretch" height="72" alt="Nein"></span></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</section>
+<section id="logische-operation-nand" class="slide level2">
+<h2>Logische Operation: NAND</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Ich will einen Stuhl, der <strong>NICHT</strong> aus Holz <strong>UND</strong> braun ist.</p>
+<p>Welche Stühle bekomme ich?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">not</span> (a <span class="kw">and</span> b)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="fragment">
+<p>Negiertes AND: Falsch (0) nur, wenn beide Eingänge Wahr sind.</p>
+</div>
+</div><div class="column" style="width:50%;">
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stuhl</th>
+<th>A: aus Holz</th>
+<th>B: braun</th>
+<th>A NAND B</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img data-src="images/05a_Operatoren/stuhl_plastik_gruen.svg" class="ragged nostretch" height="72" alt="Grün &amp; Plastik"><br>Grün &amp; Plastik</td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_plastik_gruen_ok.svg" class="ragged nostretch" height="72" alt="Ja"></span></td>
+</tr>
+<tr class="even">
+<td><img data-src="images/05a_Operatoren/stuhl_plastik_braun.svg" class="ragged nostretch" height="72" alt="Braun &amp; Plastik"><br>Braun &amp; Plastik</td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_plastik_braun_ok.svg" class="ragged nostretch" height="72" alt="Ja"></span></td>
+</tr>
+<tr class="odd">
+<td><img data-src="images/05a_Operatoren/stuhl_holz_gruen.svg" class="ragged nostretch" height="72" alt="Grün &amp; Holz"><br>Grün &amp; Holz</td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_holz_gruen_ok.svg" class="ragged nostretch" height="72" alt="Ja"></span></td>
+</tr>
+<tr class="even">
+<td><img data-src="images/05a_Operatoren/stuhl_holz_braun.svg" class="ragged nostretch" height="72" alt="Braun &amp; Holz"><br>Braun &amp; Holz</td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_holz_braun_no.svg" class="ragged nostretch" height="72" alt="Nein"></span></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</section>
+<section id="logische-operation-nor" class="slide level2">
+<h2>Logische Operation: NOR</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Ich will einen Stuhl, der <strong>NICHT</strong> aus Holz <strong>ODER</strong> braun ist.</p>
+<p>Welche Stühle bekomme ich?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">not</span> (a <span class="kw">or</span> b)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="fragment">
+<p>Negiertes OR: Wahr (1) nur, wenn beide Eingänge Falsch sind.</p>
+</div>
+</div><div class="column" style="width:50%;">
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stuhl</th>
+<th>A: aus Holz</th>
+<th>B: braun</th>
+<th>A NOR B</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img data-src="images/05a_Operatoren/stuhl_plastik_gruen.svg" class="ragged nostretch" height="72" alt="Grün &amp; Plastik"><br>Grün &amp; Plastik</td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_plastik_gruen_ok.svg" class="ragged nostretch" height="72" alt="Ja"></span></td>
+</tr>
+<tr class="even">
+<td><img data-src="images/05a_Operatoren/stuhl_plastik_braun.svg" class="ragged nostretch" height="72" alt="Braun &amp; Plastik"><br>Braun &amp; Plastik</td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_plastik_braun_no.svg" class="ragged nostretch" height="72" alt="Nein"></span></td>
+</tr>
+<tr class="odd">
+<td><img data-src="images/05a_Operatoren/stuhl_holz_gruen.svg" class="ragged nostretch" height="72" alt="Grün &amp; Holz"><br>Grün &amp; Holz</td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_holz_gruen_no.svg" class="ragged nostretch" height="72" alt="Nein"></span></td>
+</tr>
+<tr class="even">
+<td><img data-src="images/05a_Operatoren/stuhl_holz_braun.svg" class="ragged nostretch" height="72" alt="Braun &amp; Holz"><br>Braun &amp; Holz</td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_holz_braun_no.svg" class="ragged nostretch" height="72" alt="Nein"></span></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</section>
+<section id="logische-operation-xnor" class="slide level2">
+<h2>Logische Operation: XNOR</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Ich will einen Stuhl, der <strong>NICHT</strong> entweder aus Holz <strong>ODER</strong> braun ist.</p>
+<p>Welche Stühle bekomme ich?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">==</span> b</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="fragment">
+<p>Negiertes XOR: Wahr (1), wenn beide Eingänge gleich sind.</p>
+</div>
+</div><div class="column" style="width:50%;">
+<table class="caption-top">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Stuhl</th>
+<th>A: aus Holz</th>
+<th>B: braun</th>
+<th>A XNOR B</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img data-src="images/05a_Operatoren/stuhl_plastik_gruen.svg" class="ragged nostretch" height="72" alt="Grün &amp; Plastik"><br>Grün &amp; Plastik</td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_plastik_gruen_ok.svg" class="ragged nostretch" height="72" alt="Ja"></span></td>
+</tr>
+<tr class="even">
+<td><img data-src="images/05a_Operatoren/stuhl_plastik_braun.svg" class="ragged nostretch" height="72" alt="Braun &amp; Plastik"><br>Braun &amp; Plastik</td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_plastik_braun_no.svg" class="ragged nostretch" height="72" alt="Nein"></span></td>
+</tr>
+<tr class="odd">
+<td><img data-src="images/05a_Operatoren/stuhl_holz_gruen.svg" class="ragged nostretch" height="72" alt="Grün &amp; Holz"><br>Grün &amp; Holz</td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="30" alt="Falsch"><br><span style="font-size:0.7em">Falsch (0)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_holz_gruen_no.svg" class="ragged nostretch" height="72" alt="Nein"></span></td>
+</tr>
+<tr class="even">
+<td><img data-src="images/05a_Operatoren/stuhl_holz_braun.svg" class="ragged nostretch" height="72" alt="Braun &amp; Holz"><br>Braun &amp; Holz</td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="30" alt="Wahr"><br><span style="font-size:0.7em">Wahr (1)</span></td>
+<td><span class="fragment" data-fragment-index="1"><img data-src="images/05a_Operatoren/stuhl_holz_braun_ok.svg" class="ragged nostretch" height="72" alt="Ja"></span></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</section>
+<section id="binäre-addition-mit-xor-und-and" class="slide level2">
+<h2>Binäre Addition mit XOR und AND</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<ul>
+<li>Wiederholung aus <code>01c_Computerhardware</code>: Binärzahlen werden Stelle für Stelle mit Übertrag Ü addiert</li>
+<li>Summenbit: <code>A XOR B XOR Ü</code></li>
+<li>Übertrag: <code>(A AND B) OR (Ü AND (A XOR B))</code></li>
+<li>So addiert auch der Prozessor, Stelle für Stelle</li>
+</ul>
+<p>In Python, Bit 0 von 13 + 7:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a aria-hidden="true" tabindex="-1"></a>a, b, ue <span class="op">=</span> <span class="va">True</span>, <span class="va">True</span>, <span class="va">False</span></span>
+<span id="cb18-2"><a aria-hidden="true" tabindex="-1"></a>(a <span class="op">!=</span> b) <span class="op">!=</span> ue                  <span class="co"># Summe:    False</span></span>
+<span id="cb18-3"><a aria-hidden="true" tabindex="-1"></a>(a <span class="kw">and</span> b) <span class="kw">or</span> (ue <span class="kw">and</span> (a <span class="op">!=</span> b))  <span class="co"># Übertrag: True</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:55%;">
+<video poster="images/05a_Operatoren/manim_binary_addition_logic_last.png" data-autoplay="" muted="" playsinline="" loop="" style="display:block;width:100%"><source src="images/05a_Operatoren/manim_binary_addition_logic.webm" type="video/webm"><source src="images/05a_Operatoren/manim_binary_addition_logic.mp4" type="video/mp4"></video>
+</div></div>
+</section>
+<section id="de-morgan-regeln" class="slide level2">
+<h2>De-Morgan-Regeln</h2>
+<p>Hilft komplexe Bedingungen umzuschreiben und zu prüfen (wird z.B. in der Logik und beim Reasoning verwendet).</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="nand-regel-not-a-and-b-not-a-or-not-b">NAND-Regel: <code>not (A and B)</code> = <code>not A or not B</code></h3>
+<p><em>Wir können also statt:</em></p>
+<p>Ich will einen Stuhl, der <strong>NICHT</strong> aus Holz <strong>UND</strong> braun ist.</p>
+<p><em>einfacher sagen, dass:</em></p>
+<p>Ich will einen Stuhl, der <strong>NICHT</strong> aus Holz <strong>ODER</strong> <strong>NICHT</strong> braun ist.</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>A: Holz</th>
+<th>B: braun</th>
+<th><code>not (A and B)</code></th>
+<th><code>not A or not B</code></th>
+<th>Ergebnis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="26" alt="Falsch"></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="26" alt="Falsch"></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="26" alt="Wahr"></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="26" alt="Wahr"></td>
+<td><img data-src="images/05a_Operatoren/stuhl_plastik_gruen_ok.svg" class="ragged nostretch" height="34" alt="Ja"></td>
+</tr>
+<tr class="even">
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="26" alt="Falsch"></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="26" alt="Wahr"></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="26" alt="Wahr"></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="26" alt="Wahr"></td>
+<td><img data-src="images/05a_Operatoren/stuhl_plastik_braun_ok.svg" class="ragged nostretch" height="34" alt="Ja"></td>
+</tr>
+<tr class="odd">
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="26" alt="Wahr"></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="26" alt="Falsch"></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="26" alt="Wahr"></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="26" alt="Wahr"></td>
+<td><img data-src="images/05a_Operatoren/stuhl_holz_gruen_ok.svg" class="ragged nostretch" height="34" alt="Ja"></td>
+</tr>
+<tr class="even">
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="26" alt="Wahr"></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="26" alt="Wahr"></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="26" alt="Falsch"></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="26" alt="Falsch"></td>
+<td><img data-src="images/05a_Operatoren/stuhl_holz_braun_no.svg" class="ragged nostretch" height="34" alt="Nein"></td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:50%;">
+<h3 id="nor-regel-not-a-or-b-not-a-and-not-b">NOR-Regel: <code>not (A or B)</code> = <code>not A and not B</code></h3>
+<p><em>Wir können also statt:</em></p>
+<p>Ich will einen Stuhl, der <strong>NICHT</strong> aus Holz <strong>ODER</strong> braun ist.</p>
+<p><em>einfacher sagen, dass:</em></p>
+<p>Ich will einen Stuhl, der <strong>NICHT</strong> aus Holz <strong>UND</strong> <strong>NICHT</strong> braun ist.</p>
+<table class="caption-top">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>A: Holz</th>
+<th>B: braun</th>
+<th><code>not (A or B)</code></th>
+<th><code>not A and not B</code></th>
+<th>Ergebnis</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="26" alt="Falsch"></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="26" alt="Falsch"></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="26" alt="Wahr"></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="26" alt="Wahr"></td>
+<td><img data-src="images/05a_Operatoren/stuhl_plastik_gruen_ok.svg" class="ragged nostretch" height="34" alt="Ja"></td>
+</tr>
+<tr class="even">
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="26" alt="Falsch"></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="26" alt="Wahr"></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="26" alt="Falsch"></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="26" alt="Falsch"></td>
+<td><img data-src="images/05a_Operatoren/stuhl_plastik_braun_no.svg" class="ragged nostretch" height="34" alt="Nein"></td>
+</tr>
+<tr class="odd">
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="26" alt="Wahr"></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="26" alt="Falsch"></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="26" alt="Falsch"></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="26" alt="Falsch"></td>
+<td><img data-src="images/05a_Operatoren/stuhl_holz_gruen_no.svg" class="ragged nostretch" height="34" alt="Nein"></td>
+</tr>
+<tr class="even">
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="26" alt="Wahr"></td>
+<td><img data-src="images/05a_Operatoren/wahr_haken.svg" class="nostretch" height="26" alt="Wahr"></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="26" alt="Falsch"></td>
+<td><img data-src="images/05a_Operatoren/falsch_kreuz.svg" class="nostretch" height="26" alt="Falsch"></td>
+<td><img data-src="images/05a_Operatoren/stuhl_holz_braun_no.svg" class="ragged nostretch" height="34" alt="Nein"></td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</section>
+<section id="de-morgan-regeln-in-der-praxis" class="slide level2">
+<h2>De-Morgan-Regeln in der Praxis</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="compiler">Compiler</h3>
+<ul>
+<li>Compiler formen Bedingungen mit De Morgan in eine einheitliche Form um (z.B. LLVM für C, C++ und Rust)</li>
+<li>Diese Schreibweise ergibt performanten Maschinencode ohne Sprung</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode c code-with-copy"><code class="sourceCode c"><span id="cb19-1"><a aria-hidden="true" tabindex="-1"></a><span class="op">!((</span>a <span class="op">&amp;&amp;</span> b<span class="op">)</span> <span class="op">||</span> <span class="op">(</span>ue <span class="op">&amp;&amp;</span> <span class="op">(</span>a <span class="op">!=</span> b<span class="op">)))</span></span>
+<span id="cb19-2"><a aria-hidden="true" tabindex="-1"></a><span class="op">(!</span>a <span class="op">||</span> <span class="op">!</span>b<span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="op">(!</span>ue <span class="op">||</span> a <span class="op">==</span> b<span class="op">)</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<pre class="text"><code>; clang -O2 (ARM64), für beide Formen gleich:
+cmp   w0, #0
+ccmp  w1, #0, #4, ne
+cset  w8, eq
+cmp   w0, w1
+ccmp  w2, #0, #4, ne
+csel  w0, wzr, w8, ne</code></pre>
+</div><div class="column" style="width:50%;">
+<h3 id="chip">Chip</h3>
+<ul>
+<li>NAND- und NOR-Gatter sind auf dem Chip einfacher als AND und OR, die zusätzlich ein NOT brauchen</li>
+<li>De Morgan: <code>X or Y</code> = <code>not (not X and not Y)</code></li>
+<li>So lässt sich jede Logik nur aus NAND (oder nur aus NOR) bauen</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/05a_Operatoren/uebertrag_nand.svg" class="ragged quarto-figure quarto-figure-center" style="width:85.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="logische-operatoren-1" class="slide level2">
+<h2>Logische Operatoren</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>Logische Operatoren kombinieren Wahrheitswerte. <code>P</code> und <code>Q</code> stehen für Ausdrücke wie <code>x &gt; 10</code> und <code>x &lt; 20</code>.</p>
+</div><div class="column" style="width:60%;">
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -757,20 +1335,46 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 </tr>
 </tbody>
 </table>
-</div><div class="column" style="width:50%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a>alter <span class="op">=</span> <span class="dv">14</span></span>
-<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a>is_teenager <span class="op">=</span> (alter <span class="op">&gt;</span> <span class="dv">13</span>) <span class="kw">and</span> (alter <span class="op">&lt;</span> <span class="dv">19</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div title="KI-generiert, erst nachverfolgen und dann ausführen">
+</div></div>
+</section>
+<section id="beispiel-grenzfall-prüfen" class="slide level2">
+<h2>Beispiel: Grenzfall prüfen</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a aria-hidden="true" tabindex="-1"></a>alter <span class="op">=</span> <span class="dv">14</span></span>
+<span id="cb21-2"><a aria-hidden="true" tabindex="-1"></a>is_teenager <span class="op">=</span> (alter <span class="op">&gt;</span> <span class="dv">13</span>) <span class="kw">and</span> (alter <span class="op">&lt;</span> <span class="dv">19</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div title="Grenzfall prüfen">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>KI-generiert, erst nachverfolgen und dann ausführen</strong></p>
+<p><strong>Grenzfall prüfen</strong></p>
 </div>
 <div class="callout-content">
-<p>Welchen Wert hat <code>is_teenager</code>? Welche Werte erhält man für <code>alter = 19</code>?</p>
+<p>Welchen Wert hat <code>is_teenager</code>, und welchen für <code>alter = 19</code>?</p>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment">
+<div title="Ergebnis">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Ergebnis</strong></p>
+</div>
+<div class="callout-content">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># alter = 14</span></span>
+<span id="cb22-2"><a aria-hidden="true" tabindex="-1"></a>(<span class="dv">14</span> <span class="op">&gt;</span> <span class="dv">13</span>) <span class="kw">and</span> (<span class="dv">14</span> <span class="op">&lt;</span> <span class="dv">19</span>)   <span class="co"># True and True  -&gt; True</span></span>
+<span id="cb22-3"><a aria-hidden="true" tabindex="-1"></a><span class="co"># alter = 19</span></span>
+<span id="cb22-4"><a aria-hidden="true" tabindex="-1"></a>(<span class="dv">19</span> <span class="op">&gt;</span> <span class="dv">13</span>) <span class="kw">and</span> (<span class="dv">19</span> <span class="op">&lt;</span> <span class="dv">19</span>)   <span class="co"># True and False -&gt; False</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div>
 </div>
 </div>
@@ -820,7 +1424,7 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 </tbody>
 </table>
 </div><div class="column" style="width:50%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">not</span> x <span class="kw">is</span> <span class="va">None</span> <span class="kw">and</span> x <span class="op">&gt;</span> <span class="fl">0.0</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">not</span> x <span class="kw">is</span> <span class="va">None</span> <span class="kw">and</span> x <span class="op">&gt;</span> <span class="fl">0.0</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Vergleiche (<code>is</code>, <code>&gt;</code>) binden stärker als <code>not</code>.</li>
 <li><code>not</code> bindet stärker als <code>and</code>.</li>
@@ -856,16 +1460,18 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 <li>Zuletzt <code>and</code> verknüpft beide Teile</li>
 <li>Klarere Schreibweise prüfen: <code>x is not None and x &gt; 0.0</code></li>
 </ol>
+</section></section>
+<section>
+<section id="bits-und-datentypen-1" class="title-slide slide level1 center">
+<h1>Bits und Datentypen</h1>
+
 </section>
-<section id="bitweise-operatoren" class="slide level2">
+<section id="bitweise-operatoren-1" class="slide level2">
 <h2>Bitweise Operatoren</h2>
 <div class="columns">
-<div class="column" style="width:50%;">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"></path>
-  <path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"></path>
-</svg>
-</span> Bitweise Operatoren verknüpfen die Bits ganzer Zahlen. Das Gatter-Prinzip kennen Sie aus → <code>01c_Computerhardware</code>.</p>
+<div class="column" style="width:40%;">
+<p>Bitweise Operatoren verknüpfen die Bits ganzer Zahlen. Das Gatter-Prinzip kennen Sie aus → <code>01c_Computerhardware</code>.</p>
+</div><div class="column" style="width:60%;">
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -879,7 +1485,7 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 <td>1, wenn beide Bits 1 sind</td>
 </tr>
 <tr class="even">
-<td><code>x \| y</code></td>
+<td><code>x | y</code></td>
 <td>1, wenn mindestens ein Bit 1 ist</td>
 </tr>
 <tr class="odd">
@@ -900,24 +1506,50 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 </tr>
 </tbody>
 </table>
-</div><div class="column" style="width:50%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">10</span>      <span class="co"># binär 1010</span></span>
-<span id="cb10-2"><a aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">4</span>       <span class="co"># binär 0100</span></span>
-<span id="cb10-3"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">&amp;</span> b</span>
-<span id="cb10-4"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">|</span> b</span>
-<span id="cb10-5"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">&lt;&lt;</span> <span class="dv">2</span></span>
-<span id="cb10-6"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">&gt;&gt;</span> <span class="dv">2</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div title="KI-generiert, erst nachverfolgen und dann ausführen">
+</div></div>
+</section>
+<section id="beispiel-bits-nachverfolgen" class="slide level2">
+<h2>Beispiel: Bits nachverfolgen</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">10</span>      <span class="co"># binär 1010</span></span>
+<span id="cb24-2"><a aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> <span class="dv">4</span>       <span class="co"># binär 0100</span></span>
+<span id="cb24-3"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">&amp;</span> b</span>
+<span id="cb24-4"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">|</span> b</span>
+<span id="cb24-5"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">&lt;&lt;</span> <span class="dv">2</span></span>
+<span id="cb24-6"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">&gt;&gt;</span> <span class="dv">2</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div title="binär rechnen">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>KI-generiert, erst nachverfolgen und dann ausführen</strong></p>
+<p><strong>binär rechnen</strong></p>
 </div>
 <div class="callout-content">
-<p>Bestimmen Sie die vier Ergebnisse in Binärschreibweise, bevor Sie ausführen.</p>
+<p>Bestimmen Sie die vier Ergebnisse in Binärschreibweise.</p>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment">
+<div title="Ergebnis">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Ergebnis</strong></p>
+</div>
+<div class="callout-content">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">&amp;</span> b    <span class="co"># 0000   (0)</span></span>
+<span id="cb25-2"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">|</span> b    <span class="co"># 1110   (14)</span></span>
+<span id="cb25-3"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">&lt;&lt;</span> <span class="dv">2</span>   <span class="co"># 101000 (40)</span></span>
+<span id="cb25-4"><a aria-hidden="true" tabindex="-1"></a>a <span class="op">&gt;&gt;</span> <span class="dv">2</span>   <span class="co"># 0010   (2)</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div>
 </div>
 </div>
@@ -928,51 +1560,59 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 <h2>Überladen: Derselbe Operator, andere Bedeutung</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"></path>
-  <path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"></path>
-</svg>
-</span> Je nach Datentyp bedeutet derselbe Operator etwas anderes.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a><span class="co">"Der "</span> <span class="op">+</span> <span class="st">"Ball"</span>          <span class="co"># str</span></span>
-<span id="cb11-2"><a aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>] <span class="op">+</span> [<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]    <span class="co"># list</span></span>
-<span id="cb11-3"><a aria-hidden="true" tabindex="-1"></a>{<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>} <span class="op">-</span> {<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>}    <span class="co"># set</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:50%;">
-<ul>
-<li><code>+</code> verbindet Strings und Listen.</li>
-<li><code>-</code> bildet die Differenzmenge bei Mengen.</li>
-<li><code>+</code> ist für Mengen nicht definiert.</li>
-</ul>
-<div title="KI-generiert, erst nachverfolgen und dann ausführen">
+<p>Je nach Datentyp bedeutet derselbe Operator etwas anderes.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a aria-hidden="true" tabindex="-1"></a><span class="co">"Der "</span> <span class="op">+</span> <span class="st">"Ball"</span>          <span class="co"># str</span></span>
+<span id="cb26-2"><a aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>] <span class="op">+</span> [<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]    <span class="co"># list</span></span>
+<span id="cb26-3"><a aria-hidden="true" tabindex="-1"></a>{<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>} <span class="op">-</span> {<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>}    <span class="co"># set</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div title="Typen links und rechts">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>KI-generiert, erst nachverfolgen und dann ausführen</strong></p>
+<p><strong>Typen links und rechts</strong></p>
 </div>
 <div class="callout-content">
-<p>Welche Datentypen stehen links und rechts vom Operator?</p>
+<p>Welche Datentypen stehen links und rechts vom Operator, und was ergibt jede Zeile?</p>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><code>+</code> verbindet Strings und Listen.</li>
+<li><code>-</code> bildet die Differenzmenge bei Mengen.</li>
+<li><code>+</code> ist für Mengen nicht definiert.</li>
+</ul>
+<div class="fragment">
+<div title="Ergebnis">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Ergebnis</strong></p>
+</div>
+<div class="callout-content">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a aria-hidden="true" tabindex="-1"></a><span class="co">"Der "</span> <span class="op">+</span> <span class="st">"Ball"</span>          <span class="co"># "Der Ball"</span></span>
+<span id="cb27-2"><a aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>] <span class="op">+</span> [<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>]    <span class="co"># [1, 2, 3, 2, 3, 4]</span></span>
+<span id="cb27-3"><a aria-hidden="true" tabindex="-1"></a>{<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>} <span class="op">-</span> {<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>}    <span class="co"># {1}</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div>
 </div>
 </div>
 </div>
 </div></div>
 </section>
-<section id="typfehler-häufiger-fehler-in-ki-code" class="slide level2">
-<h2>Typfehler: Häufiger Fehler in KI-Code</h2>
+<section id="typfehler-bei-operatoren" class="slide level2">
+<h2>Typfehler bei Operatoren</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"></path>
-  <path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"></path>
-</svg>
-</span> Python verknüpft nur Werte desselben Datentyps. Strings und Zahlen müssen zuerst umgewandelt werden.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a><span class="co">"Der Wert ist "</span> <span class="op">+</span> <span class="dv">1</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Python verknüpft nur Werte desselben Datentyps. Strings und Zahlen müssen zuerst umgewandelt werden.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a aria-hidden="true" tabindex="-1"></a><span class="co">"Der Wert ist "</span> <span class="op">+</span> <span class="dv">1</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <pre class="text"><code>TypeError: can only concatenate str (not "int") to str</code></pre>
-</div><div class="column" style="width:50%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a><span class="co">"Der Wert ist "</span> <span class="op">+</span> <span class="bu">str</span>(<span class="dv">1</span>)</span>
-<span id="cb14-2"><a aria-hidden="true" tabindex="-1"></a><span class="bu">int</span>(<span class="st">"1"</span>) <span class="op">+</span> <span class="dv">1</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <div title="Typ der Operanden prüfen">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
@@ -988,17 +1628,16 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 </div>
 </div>
 </div>
+</div><div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a aria-hidden="true" tabindex="-1"></a><span class="co">"Der Wert ist "</span> <span class="op">+</span> <span class="bu">str</span>(<span class="dv">1</span>)</span>
+<span id="cb30-2"><a aria-hidden="true" tabindex="-1"></a><span class="bu">int</span>(<span class="st">"1"</span>) <span class="op">+</span> <span class="dv">1</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
 </section>
-<section id="mitgliedsoperatoren" class="slide level2">
+<section id="mitgliedsoperatoren-1" class="slide level2">
 <h2>Mitgliedsoperatoren</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M8 3H7a2 2 0 0 0-2 2v5a2 2 0 0 1-2 2 2 2 0 0 1 2 2v5c0 1.1.9 2 2 2h1"></path>
-  <path d="M16 21h1a2 2 0 0 0 2-2v-5c0-1.1.9-2 2-2a2 2 0 0 1-2-2V5a2 2 0 0 0-2-2h-1"></path>
-</svg>
-</span> Mitgliedsoperatoren prüfen, ob ein Objekt in einer Auflistung enthalten ist.</p>
+<p>Mitgliedsoperatoren prüfen, ob ein Objekt in einer Auflistung enthalten ist.</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -1017,17 +1656,14 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 </tr>
 </tbody>
 </table>
-</div><div class="column" style="width:50%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a><span class="dv">4</span> <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
-<span id="cb15-2"><a aria-hidden="true" tabindex="-1"></a><span class="dv">4</span> <span class="kw">not</span> <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div title="KI-generiert, erst nachverfolgen und dann ausführen">
+<div title="Enthalten?">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<p><strong>KI-generiert, erst nachverfolgen und dann ausführen</strong></p>
+<p><strong>Enthalten?</strong></p>
 </div>
 <div class="callout-content">
 <p>Welcher der beiden Ausdrücke ist <code>True</code>?</p>
@@ -1035,15 +1671,36 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 </div>
 </div>
 </div>
+</div><div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a aria-hidden="true" tabindex="-1"></a><span class="dv">4</span> <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span>
+<span id="cb31-2"><a aria-hidden="true" tabindex="-1"></a><span class="dv">4</span> <span class="kw">not</span> <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="fragment">
+<div title="Ergebnis">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Ergebnis</strong></p>
+</div>
+<div class="callout-content">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a aria-hidden="true" tabindex="-1"></a><span class="dv">4</span> <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]       <span class="co"># False</span></span>
+<span id="cb32-2"><a aria-hidden="true" tabindex="-1"></a><span class="dv">4</span> <span class="kw">not</span> <span class="kw">in</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]   <span class="co"># True</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div></div>
 </section>
-<section id="übungsaufgabe-ki-code-nachverfolgen" class="slide level2" data-background-color="#D9FF66">
-<h2>Übungsaufgabe: KI-Code nachverfolgen</h2>
+<section id="beispiel-ausdruck-nachverfolgen" class="slide level2">
+<h2>Beispiel: Ausdruck nachverfolgen</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>KI hat diesen Code generiert:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a>ergebnis <span class="op">=</span> <span class="kw">not</span> x <span class="kw">is</span> <span class="va">None</span> <span class="kw">and</span> x <span class="op">&gt;</span> <span class="fl">0.0</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Bestimmen Sie auf Papier den Wert von <code>ergebnis</code> für</p>
+<p>Gegeben ist dieser Ausdruck:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a aria-hidden="true" tabindex="-1"></a>ergebnis <span class="op">=</span> <span class="kw">not</span> x <span class="kw">is</span> <span class="va">None</span> <span class="kw">and</span> x <span class="op">&gt;</span> <span class="fl">0.0</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Wir sagen auf Papier den Wert von <code>ergebnis</code> voraus für</p>
 <ol type="1">
 <li><code>x = 10</code></li>
 <li><code>x = None</code></li>
@@ -1059,15 +1716,15 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 </ol>
 </div></div>
 </section>
-<section id="lösung-ki-code-nachverfolgen" class="slide level2">
-<h2>Lösung: KI-Code nachverfolgen</h2>
+<section id="beispiel-ergebnis-der-auswertung" class="slide level2">
+<h2>Beispiel: Ergebnis der Auswertung</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <p>Für <code>x = 10</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a>x <span class="kw">is</span> <span class="va">None</span>      <span class="co"># False</span></span>
-<span id="cb17-2"><a aria-hidden="true" tabindex="-1"></a><span class="kw">not</span> <span class="va">False</span>      <span class="co"># True</span></span>
-<span id="cb17-3"><a aria-hidden="true" tabindex="-1"></a>x <span class="op">&gt;</span> <span class="fl">0.0</span>        <span class="co"># True</span></span>
-<span id="cb17-4"><a aria-hidden="true" tabindex="-1"></a><span class="va">True</span> <span class="kw">and</span> <span class="va">True</span>  <span class="co"># True</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a aria-hidden="true" tabindex="-1"></a>x <span class="kw">is</span> <span class="va">None</span>      <span class="co"># False</span></span>
+<span id="cb34-2"><a aria-hidden="true" tabindex="-1"></a><span class="kw">not</span> <span class="va">False</span>      <span class="co"># True</span></span>
+<span id="cb34-3"><a aria-hidden="true" tabindex="-1"></a>x <span class="op">&gt;</span> <span class="fl">0.0</span>        <span class="co"># True</span></span>
+<span id="cb34-4"><a aria-hidden="true" tabindex="-1"></a><span class="va">True</span> <span class="kw">and</span> <span class="va">True</span>  <span class="co"># True</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Für <code>x = None</code>: <code>not x is None</code> ergibt <code>False</code>. Wegen <code>and</code> wird <code>x &gt; 0.0</code> nicht mehr ausgewertet, das Ergebnis ist <code>False</code>.</p>
 </div><div class="column" style="width:50%;">
 <p>Für <code>x = "5"</code>: <code>x is None</code> ist <code>False</code>, <code>not</code> ergibt <code>True</code>, dann scheitert <code>"5" &gt; 0.0</code> mit einem <code>TypeError</code>.</p>
@@ -1081,7 +1738,7 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 <p><strong>Klarer schreiben</strong></p>
 </div>
 <div class="callout-content">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a aria-hidden="true" tabindex="-1"></a>ergebnis <span class="op">=</span> (x <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>) <span class="kw">and</span> (x <span class="op">&gt;</span> <span class="fl">0.0</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a aria-hidden="true" tabindex="-1"></a>ergebnis <span class="op">=</span> (x <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>) <span class="kw">and</span> (x <span class="op">&gt;</span> <span class="fl">0.0</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Klammern machen die Rangfolge explizit. Der Typ von <code>x</code> bleibt trotzdem zu prüfen.</p>
 </div>
 </div>
@@ -1107,7 +1764,7 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 <li><code>[1, 2, 3, 2, 3, 4]</code></li>
 </ol>
 </div></div>
-</section>
+</section></section>
 <section id="questions" class="title-slide slide level1 center" data-background-color="#000000" data-background-video="images/mj_questions0.mp4" data-background-video-loop="true" data-background-video-muted="true">
 <h1>Questions</h1>
 

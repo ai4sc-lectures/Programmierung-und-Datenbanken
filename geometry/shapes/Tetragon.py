@@ -1,4 +1,4 @@
-import Polygon
+from geometry.shapes.Polygon import Polygon
 
 class Tetragon(Polygon):
     def __init__(self, p1, p2, p3, p4, name= "Tetragon"):

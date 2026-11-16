@@ -100,7 +100,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-c6d6628e7e574435f2d21401e0a6d85b.css">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-6dce41dc0c0246aad3bb655aec13f37d.css">
   <link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/fonts.css">
   <link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/reveal-fixes.css">
   <link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/color/warm-bone.css">
@@ -232,20 +232,6 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
   const imageSelector = ".reveal .slides section > img.r-stretch, .reveal .slides section > img.stretch";
   const SIZED_ATTR = "data-ai4sc-sized";
 
-  const stamp = (root = document) => {
-    root.querySelectorAll(imageSelector).forEach((img) => {
-      if (!(img instanceof HTMLElement)) return;
-      const style = img.getAttribute("style") || "";
-      if (
-        img.hasAttribute("width") ||
-        img.hasAttribute("height") ||
-        /(^|;)\s*(width|height)\s*:/.test(style)
-      ) {
-        img.setAttribute(SIZED_ATTR, "");
-      }
-    });
-  };
-
   const release = (root = document) => {
     root.querySelectorAll(imageSelector).forEach((img) => {
       if (!(img instanceof HTMLElement) || !img.hasAttribute(SIZED_ATTR)) {
@@ -269,12 +255,10 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 
   const scheduleRelease = () => window.requestAnimationFrame(() => release());
 
-  const init = () => { stamp(); scheduleRelease(); };
-
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init, { once: true });
+    document.addEventListener("DOMContentLoaded", scheduleRelease, { once: true });
   } else {
-    init();
+    scheduleRelease();
   }
 
   window.addEventListener("load", scheduleRelease, { once: true });
@@ -282,6 +266,7 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 })();
 </script>
 <script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/plotly-loader.js"></script>
+<script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/ragged-images.js"></script>
 <script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/scramble-fragments.js"></script>
 <script>window.slideParticlesConfig = {"particleCount": 500, "particleTheme": "binary-minimal", "particleRandomRespawnRatio": 0.24};</script>
 <script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/slide-particles.js"></script>
@@ -423,7 +408,7 @@ punkt_1.longitude = 12.108811</code></pre>
 <li>Viele Instanzen einer Klasse möglich</li>
 </ul>
 </div><div class="column" style="width:60%;">
-<p><img data-src="images/04c_Objects/uml_instanzen.svg"></p>
+<p><img data-src="images/04c_Objects/uml_instanzen.svg" class="ragged"></p>
 </div></div>
 </section></section>
 <section>
@@ -446,7 +431,7 @@ punkt_1.longitude = 12.108811</code></pre>
 <p>Ein Modell ist eine abstrakte, vereinfachte Abbildung eines Systems (meist aus der Realität).</p>
 </div>
 </section>
-<section id="hörsaalfrage" class="slide level2" data-background="#FFD966">
+<section id="hörsaalfrage" class="slide level2 ragged" data-background="#FFD966">
 <h2>Hörsaalfrage</h2>
 <div class="columns">
 <div class="column vcent" style="width:40%;">
@@ -465,7 +450,7 @@ punkt_1.longitude = 12.108811</code></pre>
 <li>Das können wir bei der Modellierung ausnutzen und Klassen so definieren, dass sie die <em>Gemeinsamkeit</em> ausnutzen</li>
 </ul>
 </div><div class="column" style="width:60%;">
-<p><img data-src="images/04c_Objects/elemente.svg"></p>
+<p><img data-src="images/04c_Objects/elemente.svg" class="ragged"></p>
 </div></div>
 </section>
 <section id="objektorientierter-softwareentwurf-1" class="slide level2">
@@ -526,7 +511,7 @@ punkt_1.longitude = 12.108811</code></pre>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/04c_Objects/uml_point.svg" class="quarto-figure quarto-figure-center" style="width:80.0%"></p>
+<p><img data-src="images/04c_Objects/uml_point.svg" class="ragged quarto-figure quarto-figure-center" style="width:80.0%"></p>
 </figure>
 </div>
 </div></div>
@@ -557,16 +542,16 @@ add_room(r: Room)</code></pre>
 <div class="column" style="width:33%;">
 <p><strong>Assoziation</strong></p>
 <p>Ein Objekt <em>verwendet</em> ein anderes.</p>
-<p><img data-src="images/04c_Objects/uml_assoziation.svg"></p>
+<p><img data-src="images/04c_Objects/uml_assoziation.svg" class="ragged"></p>
 </div><div class="column" style="width:33%;">
 <p><strong>Aggregation</strong></p>
 <p>Ein Objekt <em>enthält</em> andere (lose).</p>
-<p><img data-src="images/04c_Objects/uml_aggregation.svg"></p>
+<p><img data-src="images/04c_Objects/uml_aggregation.svg" class="ragged"></p>
 <p>Punkte können auch allein existieren</p>
 </div><div class="column" style="width:33%;">
 <p><strong>Komposition</strong></p>
 <p>Ein Objekt <em>besteht aus</em> anderen (strikt).</p>
-<p><img data-src="images/04c_Objects/uml_komposition.svg"></p>
+<p><img data-src="images/04c_Objects/uml_komposition.svg" class="ragged"></p>
 <p>Ohne Gebäude ist eine Etage nicht sinnvoll</p>
 </div></div>
 </section>
@@ -605,7 +590,7 @@ add_room(r: Room)</code></pre>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/04c_Objects/uml_kette.svg" class="quarto-figure quarto-figure-center" style="width:75.0%"></p>
+<p><img data-src="images/04c_Objects/uml_kette.svg" class="ragged quarto-figure quarto-figure-center" style="width:75.0%"></p>
 </figure>
 </div>
 </div></div>
@@ -646,14 +631,14 @@ add_room(r: Room)</code></pre>
 <li>Die Linie mit weißem Dreieck zeigt von der Unterklasse zur Oberklasse</li>
 </ul>
 </div><div class="column" style="width:60%;">
-<p><img data-src="images/04c_Objects/uml_vererbung.svg"></p>
+<p><img data-src="images/04c_Objects/uml_vererbung.svg" class="ragged"></p>
 </div></div>
 </section>
 <section id="vererbung-geometrie-hierarchie" class="slide level2">
 <h2>Vererbung — Geometrie-Hierarchie</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/04c_Objects/uml_geometrie_hierarchie.svg" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+<p><img data-src="images/04c_Objects/uml_geometrie_hierarchie.svg" class="ragged quarto-figure quarto-figure-center" style="width:100.0%"></p>
 </figure>
 </div>
 <p><code>area()</code> wird einmal in <code>Polygon</code> entworfen; alle 16 Unterklassen erben sie. Klassendiagramme werden schnell groß, zeigen aber das ganze Datenmodell auf einen Blick.</p>
@@ -677,7 +662,7 @@ add_room(r: Room)</code></pre>
 </div><div class="column" style="width:60%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/04c_Objects/design_cycle.svg" class="quarto-figure quarto-figure-center" style="width:100.0%" alt="Agentischer Zyklus Prompt, Generate, Verify, Iterate mit dem UML-Diagramm als Spezifikation"></p>
+<p><img data-src="images/04c_Objects/design_cycle.svg" class="ragged quarto-figure quarto-figure-center" style="width:100.0%" alt="Agentischer Zyklus Prompt, Generate, Verify, Iterate mit dem UML-Diagramm als Spezifikation"></p>
 </figure>
 </div>
 </div></div>
@@ -721,7 +706,7 @@ z.B. <code>fläche: float</code></p>
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><strong>UML-Fragment</strong></p>
-<p><img data-src="images/04c_Objects/uml_raum.svg"></p>
+<p><img data-src="images/04c_Objects/uml_raum.svg" class="ragged"></p>
 </div><div class="column" style="width:50%;">
 <p><strong>Prompt-Fragment</strong></p>
 <pre class="text"><code>Implementiere die Klasse Raum.
@@ -786,7 +771,7 @@ Erfinde keine weiteren Attribute.</code></pre>
 <h2>Domänenzerlegung: Gebäude</h2>
 <div class="columns">
 <div class="column" style="width:62%;">
-<p><img data-src="images/04c_Objects/uml_bim.svg"></p>
+<p><img data-src="images/04c_Objects/uml_bim.svg" class="ragged"></p>
 </div><div class="column" style="width:38%;">
 <ul>
 <li>Entitäten: <code>Gebäude</code>, <code>Etage</code>, <code>Raum</code>, <code>Fenster</code></li>
@@ -833,7 +818,7 @@ Erfinde keine weiteren Attribute.</code></pre>
 <h2>BIM-Beispiel — Schritt 2: Anforderung → UML</h2>
 <div class="columns">
 <div class="column" style="width:60%;">
-<p><img data-src="images/04c_Objects/uml_building_room_window.svg"></p>
+<p><img data-src="images/04c_Objects/uml_building_room_window.svg" class="ragged"></p>
 </div><div class="column" style="width:40%;">
 <ul>
 <li>„Gebäude hat Räume“ → Komposition <code>1</code> zu <code>1..*</code></li>
@@ -873,8 +858,8 @@ Erfinde keine weiteren Attribute.</code></pre>
 </div><div class="column" style="width:40%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/04c_Objects/ifc_classes.jpg"></p>
-<figcaption>Vereinfachtes IFC-Klassenmodell (mac999, CCL 3.0)</figcaption>
+<p><img data-src="images/04c_Objects/ifc_classes.svg" class="ragged"></p>
+<figcaption>Vereinfachtes IFC-Klassenmodell (nach mac999, CCL 3.0)</figcaption>
 </figure>
 </div>
 </div></div>

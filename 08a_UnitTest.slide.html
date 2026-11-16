@@ -100,7 +100,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-c6d6628e7e574435f2d21401e0a6d85b.css">
+  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-6dce41dc0c0246aad3bb655aec13f37d.css">
   <link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/fonts.css">
   <link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/reveal-fixes.css">
   <link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/color/warm-bone.css">
@@ -235,20 +235,6 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
   const imageSelector = ".reveal .slides section > img.r-stretch, .reveal .slides section > img.stretch";
   const SIZED_ATTR = "data-ai4sc-sized";
 
-  const stamp = (root = document) => {
-    root.querySelectorAll(imageSelector).forEach((img) => {
-      if (!(img instanceof HTMLElement)) return;
-      const style = img.getAttribute("style") || "";
-      if (
-        img.hasAttribute("width") ||
-        img.hasAttribute("height") ||
-        /(^|;)\s*(width|height)\s*:/.test(style)
-      ) {
-        img.setAttribute(SIZED_ATTR, "");
-      }
-    });
-  };
-
   const release = (root = document) => {
     root.querySelectorAll(imageSelector).forEach((img) => {
       if (!(img instanceof HTMLElement) || !img.hasAttribute(SIZED_ATTR)) {
@@ -272,12 +258,10 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 
   const scheduleRelease = () => window.requestAnimationFrame(() => release());
 
-  const init = () => { stamp(); scheduleRelease(); };
-
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init, { once: true });
+    document.addEventListener("DOMContentLoaded", scheduleRelease, { once: true });
   } else {
-    init();
+    scheduleRelease();
   }
 
   window.addEventListener("load", scheduleRelease, { once: true });
@@ -285,6 +269,7 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 })();
 </script>
 <script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/plotly-loader.js"></script>
+<script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/ragged-images.js"></script>
 <script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/scramble-fragments.js"></script>
 <script>window.slideParticlesConfig = {"particleCount": 500, "particleTheme": "binary-minimal", "particleRandomRespawnRatio": 0.24};</script>
 <script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/slide-particles.js"></script>
@@ -302,9 +287,9 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
     </p>
       </div>
 </section>
-<section id="umgang-mit-programmfehlern---strategien" class="slide level2">
-<h2>Umgang mit Programmfehlern - Strategien</h2>
-<p>5 Hauptstrategien:</p>
+<section id="umgang-mit-programmfehlern-strategien" class="slide level2">
+<h2>Umgang mit Programmfehlern: Strategien</h2>
+<p>Fünf Strategien:</p>
 <ol type="1">
 <li>Fehlervermeidung</li>
 <li>Fehlererkennung</li>
@@ -312,444 +297,425 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 <li>Fehlerbehandlung</li>
 <li>Fehlerausschluss</li>
 </ol>
-<p>Jede Strategie hat ihre eigenen Methoden und Werkzeuge</p>
 </section>
 <section id="fehlervermeidung" class="slide level2">
 <h2>1. Fehlervermeidung</h2>
+<p>Grundprinzip: Beginnt mit Erfahrung darüber, wo Fehler entstehen können</p>
+<p>Strategien für sicheren Code:</p>
+<div class="columns">
+<div class="column" style="width:33%;">
+<h3 id="test-driven-development">Test-Driven Development</h3>
 <ul>
-<li><p>Grundprinzip: Beginnt mit Erfahrung darüber, wo Fehler entstehen können</p></li>
-<li><p>Strategien für sicheren Code:</p>
-<ul>
-<li><em>Code Reviews</em> → Jede Codezeile wird von einem anderen Programmierer geprüft</li>
-<li><em>Test-Driven Development</em> → Man schreibt den Test vor dem eigentlichen Code</li>
-<li><em>Full Test Coverage</em> → Jede Codezeile sollte mindestens einen Test haben</li>
-</ul></li>
-<li><p>Achtung: Vorbeugung kann viel Vorarbeit bedeuten</p></li>
+<li>Man schreibt den Test vor dem eigentlichen Code.</li>
+<li><strong>Gerade bei KIs wichtig!</strong></li>
 </ul>
+</div><div class="column" style="width:34%;">
+<h3 id="full-test-coverage">Full Test Coverage</h3>
+<ul>
+<li>Man misst, ob Tests alle Codezeilen abdecken.</li>
+<li><strong>Der KI das Ziel von 90% Test-Coverage geben!</strong></li>
+</ul>
+</div><div class="column" style="width:33%;">
+<h3 id="code-reviews">Code Reviews</h3>
+<ul>
+<li>Jede Codezeile wird von einem anderen Programmierer geprüft.</li>
+<li>Eine andere KI prüft den generierten Code.</li>
+<li><strong>Du checkst den generierten Code!</strong></li>
+</ul>
+</div></div>
 </section>
 <section id="fehlererkennung" class="slide level2">
 <h2>2. Fehlererkennung</h2>
 <p>Verschiedene Fehlertypen erfordern verschiedene Werkzeuge</p>
 <div class="columns">
 <div class="column" style="width:33%;">
-<p>Syntaktische Fehler:</p>
+<h3 id="syntaktische-fehler">Syntaktische Fehler</h3>
 <ul>
-<li>Automatisch in der IDE erkannt</li>
+<li>Von Parser und IDE gemeldet</li>
+<li><strong>KI macht gerne Syntaxfehler, entdeckt sie aber durch <em>Lint-Tools</em> </strong></li>
 </ul>
 </div><div class="column" style="width:33%;">
-<p>Statische Fehler:</p>
+<h3 id="statische-fehler">Statische Fehler</h3>
 <ul>
 <li>Mittels <em>Lint-Tools</em> (statische Code-Analyse)</li>
+<li><strong>Moderne IDEs und KIs nutzen intern Lint-Tools</strong></li>
 <li>Regelbasierte Verfahren</li>
-<li>Moderne IDEs nutzen intern Lint-Tools</li>
 </ul>
 </div><div class="column" style="width:33%;">
-<p>Dynamische Fehler:</p>
+<h3 id="dynamische-fehler">Dynamische Fehler</h3>
 <ul>
-<li>Prüfen durch <em>automatisch ausgeführte Unit-Tests</em></li>
-<li>Nach jeder Code-Änderung</li>
-<li>Testen Funktionen/Methoden systematisch</li>
+<li>Werden traditionell durch <em>Unit-Tests</em> aufgedeckt</li>
+<li><strong>Moderne KIs sollten sich selbst Unit-Tests schreiben</strong></li>
+<li>Nach jeder größeren Code-Änderung alle Unit-Tests automatisch durchführen um Verhaltensänderungen und Nebeneffekte früh zu erkennen.</li>
 </ul>
 </div></div>
 </section>
 <section id="fehlererkennung-unit-tests" class="slide level2">
-<h2>2. Fehlererkennung – Unit-Tests</h2>
-<div class="eyebrow">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5c-1.4 0-2.5-1.1-2.5-2.5V2"></path>
-  <path d="M8.5 2h7"></path>
-  <path d="M14.5 16h-5"></path>
-</svg>
-</span></p>
-</div>
+<h2>2. Fehlererkennung: Unit-Tests</h2>
 <div class="definition">
 <div class="definition-term">
 <p>Unit-Test</p>
 </div>
-<p>Unit-Tests sind zusätzlich geschriebener Code, der nur zum Testen eines Moduls (Funktion, Klassen, Module) geschrieben wurde.</p>
+<p>Unit-Tests sind zusätzlich geschriebener Code, der nur zum Testen einer Funktion, Klasse oder eines Moduls geschrieben wurde.</p>
 </div>
 <ul>
 <li>Wichtige Eigenschaften:
 <ul>
 <li>Oft ist Test-Code umfangreicher als der zu testende Code</li>
-<li><em>Ziel:</em> Prüfen ob Modul die Anforderung korrekt erfüllt — Tests <em>sind</em> die Anforderung</li>
-<li><em>White-Box-Test:</em> Modul mit bestimmten Eingaben aufrufen</li>
+<li><em>Ziel:</em> Prüfen, ob die Funktion die Anforderung erfüllt</li>
+<li><em>Black-Box-Test:</em> Funktion mit bestimmten Eingaben aufrufen und die Ausgabe gegen die Spezifikation prüfen</li>
 <li>Erwartete Ausgaben oder Exceptions prüfen</li>
-<li>Sollte <em>automatisiert ausgeführt</em> werden nach jeder Code-Änderung</li>
+<li>Nach jeder Änderung automatisiert ausführen</li>
 </ul></li>
 </ul>
 </section>
-<section id="fehlererkennung-unit-test-typen" class="slide level2">
-<h2>2. Fehlererkennung – Unit-Test Typen</h2>
-<div class="eyebrow">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5c-1.4 0-2.5-1.1-2.5-2.5V2"></path>
-  <path d="M8.5 2h7"></path>
-  <path d="M14.5 16h-5"></path>
-</svg>
-</span></p>
-</div>
+<section id="fehlererkennung-typen-von-unit-tests" class="slide level2">
+<h2>2. Fehlererkennung: Typen von Unit-Tests</h2>
 <div class="columns">
 <div class="column" style="width:33%;">
-<p><strong>Funktionstests</strong></p>
-<p>Korrekte Erfüllung der Funktion</p>
-<p>Beispiel: Division-Modul</p>
+<h3 id="funktionstests">Funktionstests</h3>
+<p>Prüft korrektes Ergebnis/Funktionalität</p>
+</div><div class="column" style="width:33%;">
+<h3 id="grenzwerttests">Grenzwerttests</h3>
+<p>Prüft, ob Funktionen/Programme mit Grenzwerten umgehen können.</p>
+</div><div class="column" style="width:33%;">
+<h3 id="datentyp-tests">Datentyp-Tests</h3>
+<p>Prüft, ob Funktionen/Programme mit unerwarteten Eingaben umgehen können.</p>
+</div></div>
+<div class="columns">
+<div class="column" style="width:33%;">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a>zaehler <span class="op">=</span> <span class="dv">10</span></span>
 <span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a>nenner <span class="op">=</span> <span class="dv">2</span></span>
 <span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a>ergebnis <span class="op">=</span> division(zaehler, nenner)</span>
-<span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> ergebnis<span class="op">==</span><span class="dv">5</span> <span class="co"># Erwartet: 5</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> ergebnis<span class="op">==</span><span class="dv">5</span> <span class="co"># Erwartet: 5</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:33%;">
-<p><strong>Grenzwerttests</strong></p>
-<p>Korrekter Umgang mit Grenzwerten</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a>zaehler <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb2-2"><a aria-hidden="true" tabindex="-1"></a>nenner <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb2-3"><a aria-hidden="true" tabindex="-1"></a>ergebnis <span class="op">=</span> division(zaehler, nenner)</span>
-<span id="cb2-4"><a aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> ergebnis<span class="op">==</span><span class="va">None</span> <span class="co"># Erwartet: None</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb2-2"><a aria-hidden="true" tabindex="-1"></a>zaehler <span class="op">=</span> math.inf</span>
+<span id="cb2-3"><a aria-hidden="true" tabindex="-1"></a>nenner <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb2-4"><a aria-hidden="true" tabindex="-1"></a>ergebnis <span class="op">=</span> division(zaehler, nenner)</span>
+<span id="cb2-5"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> ergebnis<span class="op">==</span>math.inf <span class="co"># Erwartet: inf</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:33%;">
-<p><strong>Datentyp-Tests</strong></p>
-<p>Korrekter Umgang mit unerwarteten Eingaben</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a>zaehler <span class="op">=</span> <span class="st">'keine_zahl'</span></span>
 <span id="cb3-2"><a aria-hidden="true" tabindex="-1"></a>nenner <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb3-4"><a aria-hidden="true" tabindex="-1"></a>    ergebnis <span class="op">=</span> division(zaehler, nenner)</span>
-<span id="cb3-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> <span class="va">False</span> <span class="co"># We let the test fail</span></span>
-<span id="cb3-6"><a aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ValueError</span> <span class="im">as</span> e:</span>
-<span id="cb3-7"><a aria-hidden="true" tabindex="-1"></a>    <span class="co"># Erwartet: ValueError</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb3-5"><a aria-hidden="true" tabindex="-1"></a>    division(zaehler, nenner)</span>
+<span id="cb3-6"><a aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ValueError</span>:</span>
+<span id="cb3-7"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span>  <span class="co"># Erwartet: ValueError</span></span>
+<span id="cb3-8"><a aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb3-9"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">AssertionError</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
 </section>
-<section id="tests-sind-die-spezifikation" class="slide level2">
-<h2>Tests sind die Spezifikation</h2>
-<div class="eyebrow">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
-  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-  <path d="M12 11h4"></path>
-  <path d="M12 16h4"></path>
-  <path d="M8 11h.01"></path>
-  <path d="M8 16h.01"></path>
-</svg>
-</span></p>
-</div>
+<section id="tests-sind-die-spezifikation-bei-ki" class="slide level2">
+<h2>Tests sind die Spezifikation bei KI</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>Klassische Sichtweise:</p>
+<h3 id="klassische-sichtweise">Klassische Sichtweise</h3>
 <ul>
 <li>Tests <em>erkennen</em> Fehler</li>
 <li>Tests <em>prüfen</em> fertigen Code</li>
-<li>Scheiternder Test = Problem</li>
+<li>Tests <em>erkennen</em> Verhaltensänderungen und Nebeneffekte</li>
+<li>Scheiternder Test -&gt; Problem</li>
 </ul>
 </div><div class="column" style="width:50%;">
-<p>Agentic Sichtweise:</p>
+<h3 id="agentische-sichtweise">Agentische Sichtweise</h3>
 <ul>
 <li>Tests <em>definieren</em> das Verhalten</li>
-<li>Tests sind die <em>Anforderung in Code</em></li>
-<li>Schreibt man Tests vor dem Prompt → der Prompt wird präziser</li>
-<li>Scheiternder Test auf KI-Code = Fehler <em>vor</em> dem Einsatz gefunden</li>
+<li>Tests <em>prüfen</em> wann Code fertig ist!</li>
+<li>Tests <em>erkennen</em> Verhaltensänderungen und Nebeneffekte bei KI-Codeänderungen</li>
+<li>Scheiternder Test auf KI-Code -&gt; Fehler <em>vor</em> dem Einsatz gefunden</li>
+<li>Schreibt man Tests vor dem Prompt -&gt; wird der Prompt präziser</li>
 </ul>
 </div></div>
 </section>
 <section id="test-driven-prompting-der-zyklus" class="slide level2">
-<h2>Test-Driven Prompting — Der Zyklus</h2>
-<div class="eyebrow">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
-  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-  <path d="M12 11h4"></path>
-  <path d="M12 16h4"></path>
-  <path d="M8 11h.01"></path>
-  <path d="M8 16h.01"></path>
-</svg>
-</span></p>
-</div>
-<div class="eyebrow">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <rect width="8" height="8" x="3" y="3" rx="2"></rect>
-  <path d="M7 11v4a2 2 0 0 0 2 2h4"></path>
-  <rect width="8" height="8" x="13" y="13" rx="2"></rect>
-</svg>
-</span> Agentischer Zyklus</p>
-</div>
+<h2>Test-Driven Prompting: Der Zyklus</h2>
 <ol type="1">
 <li>Anforderung verstehen</li>
-<li>Tests schreiben — die Anforderung operationalisieren</li>
-<li>KI prompten — Tests als Akzeptanzkriterium übergeben</li>
+<li>Tests schreiben: die Anforderung operationalisieren</li>
+<li>KI prompten: nur die Anforderung nennen, nicht die Tests</li>
 <li>KI generiert Code</li>
 <li>Tests ausführen</li>
-<li>Tests scheitern? → Diagnose und Reprompt</li>
+<li>Tests scheitern? Diagnose und Reprompt</li>
 </ol>
-<p>Verweis: → <code>03d_AgentischesProgrammieren</code>: Verify-Schritt des agentischen Zyklus</p>
+<p>Den Schritt Verifizieren des agentischen Zyklus aus <code>03d_AgentischesProgrammieren</code> formalisieren wir hier durch Tests.</p>
 </section>
 <section id="tests-schreiben-vor-dem-prompt" class="slide level2">
 <h2>Tests schreiben vor dem Prompt</h2>
-<div class="eyebrow">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
-  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-  <path d="M12 11h4"></path>
-  <path d="M12 16h4"></path>
-  <path d="M8 11h.01"></path>
-  <path d="M8 16h.01"></path>
-</svg>
-</span></p>
-</div>
-<p>Tests zwingen zur Präzision — sie beantworten konkrete Fragen:</p>
+<p>Tests zwingen zur Präzision und beantworten konkrete Fragen:</p>
 <ul>
 <li>Welche Eingaben sind gültig?</li>
 <li>Welche Ausgaben sind bei welchen Eingaben erwartet?</li>
 <li>Welche Grenzfälle müssen behandelt werden?</li>
 <li>Welche Fehler soll die Funktion auslösen?</li>
 </ul>
-<p>Ein Test vor dem Prompt = eine Anforderung, die die KI nicht ignorieren kann.</p>
-<p>Verweis: → <code>04a_Anforderungen</code>: Anforderungen sind die Quelle der Tests</p>
+<p>Ein Test vor dem Prompt ist eine überprüfbare Anforderung. Die Quelle der Tests sind die Anforderungen aus <code>04a_Anforderungen</code>.</p>
 </section>
 <section id="ki-output-mit-tests-evaluieren" class="slide level2">
 <h2>KI-Output mit Tests evaluieren</h2>
-<div class="eyebrow">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5c-1.4 0-2.5-1.1-2.5-2.5V2"></path>
-  <path d="M8.5 2h7"></path>
-  <path d="M14.5 16h-5"></path>
-</svg>
-</span></p>
-</div>
 <div class="columns">
-<div class="column" style="width:50%;">
+<div class="column" style="width:40%;">
 <p>Tests als Akzeptanzkriterium:</p>
 <ul>
-<li>Alle Tests grün → Anforderung erfüllt</li>
-<li>Test scheitert → <em>Erfolg:</em> Fehler vor Produktion gefunden</li>
+<li>Alle Tests grün → getestete Fälle erfüllt</li>
+<li>Test scheitert → Fehler vor dem Einsatz gefunden</li>
 <li>Ungetesteter Bereich → unsichtbares Risiko</li>
 </ul>
-</div><div class="column" style="width:50%;">
-<p>Agentic Workflow:</p>
-<pre><code>Tests schreiben
-    ↓
-KI prompten
-    ↓
-Tests ausführen
-    ↓
-Fail? → Diagnose → Reprompt
-    ↓
-Pass? → Code übernehmen</code></pre>
+</div><div class="column" style="width:60%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/08a_UnitTest/test_cycle.svg" class="ragged quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
 </div></div>
 </section>
-<section id="anforderung-bodenkontamination-klassifizieren" class="slide level2">
-<h2>Anforderung: Bodenkontamination klassifizieren</h2>
-<div class="eyebrow">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
-  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-  <path d="M12 11h4"></path>
-  <path d="M12 16h4"></path>
-  <path d="M8 11h.01"></path>
-  <path d="M8 16h.01"></path>
-</svg>
-</span></p>
+<section id="ralph-loop-tests-als-abbruchkriterium" class="slide level2">
+<h2>Ralph-Loop: Tests als Abbruchkriterium</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>Tests beenden die Schleife:</p>
+<ul>
+<li>Derselbe Prompt läuft immer wieder (Geoffrey Huntley)</li>
+<li>Der Stand liegt in Dateien und Git, nicht im Chat</li>
+<li>Sie schreiben die Tests vorab; sie entscheiden über das Ende</li>
+<li>Durchläufe nach oben begrenzen</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/08a_UnitTest/ralph.png" class="nostretch" style="width:35.0%"></p>
+<figcaption>Ralph Wiggum, The Simpsons (Simpsons Wiki)</figcaption>
+</figure>
 </div>
+</div><div class="column" style="width:60%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/08a_UnitTest/ralph_loop.svg" class="ragged nostretch quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="boden-beispiel-messwert-bestimmt-handlungsbedarf" class="slide level2">
+<h2>Boden-Beispiel: Messwert bestimmt Handlungsbedarf</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>Eine Bodenprobe liefert einen Schadstoffgehalt in mg/kg. Davon hängt ab, ob jemand handeln muss.</p>
+<p>Die Funktion <code>klassifiziere_boden(wert)</code> entscheidet das:</p>
+<ul>
+<li>Eingabe: Messwert in mg/kg</li>
+<li>Ausgabe: <code>"Sauber"</code>, <code>"Beobachten"</code> oder <code>"Kritisch"</code></li>
+<li>Die Grenzen 50 und 150 gehören zur höheren Klasse</li>
+<li>Keine Zahl als Eingabe: <code>ValueError</code></li>
+</ul>
+</div><div class="column" style="width:60%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/08a_UnitTest/boden_klassen.svg" class="ragged quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="tests-schreiben-vor-dem-prompt-drei-testarten" class="slide level2">
+<h2>Tests schreiben vor dem Prompt: drei Testarten</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><em>Anforderung:</em></p>
-<blockquote>
-<p>Schreibe <code>klassifiziere_boden(wert)</code>, die einen Messwert (mg/kg) als <code>"Sauber"</code>, <code>"Beobachten"</code> oder <code>"Kritisch"</code> klassifiziert.</p>
-</blockquote>
-<p>Grenzwerte:</p>
+<p>Die KI sieht diese Tests nicht:</p>
 <ul>
-<li>&lt; 50 mg/kg → <em>Sauber</em></li>
-<li>50–149 mg/kg → <em>Beobachten</em></li>
-<li>≥ 150 mg/kg → <em>Kritisch</em></li>
+<li>Kennt sie die Testwerte, kann sie sie fest eintragen (<code>if wert == 10: ...</code>)</li>
+<li>Dann besteht sie die Tests, ohne die Aufgabe zu lösen</li>
+<li>Der Prompt enthält nur die Anforderung</li>
 </ul>
 </div><div class="column" style="width:50%;">
-<p><em>Schritt 1:</em> Tests schreiben — bevor wir die KI prompten.</p>
-<p>Verweis: → <code>04a_Anforderungen</code>: Anforderungen operationalisieren</p>
-</div></div>
-</section>
-<section id="tests-schreiben-vor-dem-prompt-1" class="slide level2">
-<h2>Tests schreiben — vor dem Prompt</h2>
-<div class="eyebrow">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
-  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-  <path d="M12 11h4"></path>
-  <path d="M12 16h4"></path>
-  <path d="M8 11h.01"></path>
-  <path d="M8 16h.01"></path>
-</svg>
-</span></p>
+<div id="d9be9712" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Tests definieren (vor dem KI-Prompt)</span></span>
+<span id="cb4-2"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_boden_funktion():</span>
+<span id="cb4-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> klassifiziere_boden(<span class="dv">10</span>) <span class="op">==</span> <span class="st">"Sauber"</span></span>
+<span id="cb4-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> klassifiziere_boden(<span class="dv">100</span>) <span class="op">==</span> <span class="st">"Beobachten"</span></span>
+<span id="cb4-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> klassifiziere_boden(<span class="dv">200</span>) <span class="op">==</span> <span class="st">"Kritisch"</span></span>
+<span id="cb4-6"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_boden_grenzwert():</span>
+<span id="cb4-8"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> klassifiziere_boden(<span class="dv">50</span>) <span class="op">==</span> <span class="st">"Beobachten"</span></span>
+<span id="cb4-9"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> klassifiziere_boden(<span class="dv">150</span>) <span class="op">==</span> <span class="st">"Kritisch"</span></span>
+<span id="cb4-10"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_boden_datentyp():</span>
+<span id="cb4-12"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb4-13"><a aria-hidden="true" tabindex="-1"></a>        klassifiziere_boden(<span class="st">"abc"</span>)</span>
+<span id="cb4-14"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">ValueError</span>:</span>
+<span id="cb4-15"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">pass</span></span>
+<span id="cb4-16"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb4-17"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">AssertionError</span>(<span class="st">"ValueError erwartet"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Schritt 1: Tests definieren (vor dem KI-Prompt)</span></span>
-<span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_sauber():</span>
-<span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> klassifiziere_boden(<span class="dv">10</span>) <span class="op">==</span> <span class="st">"Sauber"</span></span>
-<span id="cb5-4"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_beobachten():</span>
-<span id="cb5-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> klassifiziere_boden(<span class="dv">100</span>) <span class="op">==</span> <span class="st">"Beobachten"</span></span>
-<span id="cb5-7"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_kritisch():</span>
-<span id="cb5-9"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> klassifiziere_boden(<span class="dv">200</span>) <span class="op">==</span> <span class="st">"Kritisch"</span></span>
-<span id="cb5-10"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_grenzwert_sauber_beobachten():</span>
-<span id="cb5-12"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> klassifiziere_boden(<span class="dv">50</span>) <span class="op">==</span> <span class="st">"Beobachten"</span>   <span class="co"># Grenzwert: &gt;=50</span></span>
-<span id="cb5-13"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-14"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> test_grenzwert_beobachten_kritisch():</span>
-<span id="cb5-15"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> klassifiziere_boden(<span class="dv">150</span>) <span class="op">==</span> <span class="st">"Kritisch"</span>    <span class="co"># Grenzwert: &gt;=150</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<p>5 Tests: 3 Normalfälle + 2 Grenzwertfälle</p>
+</div></div>
 </section>
 <section id="ki-generiert-die-funktion" class="slide level2">
 <h2>KI generiert die Funktion</h2>
-<div class="eyebrow">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5c-1.4 0-2.5-1.1-2.5-2.5V2"></path>
-  <path d="M8.5 2h7"></path>
-  <path d="M14.5 16h-5"></path>
-</svg>
-</span></p>
-</div>
-<p><em>Schritt 2:</em> KI-Prompt mit Tests als Akzeptanzkriterium</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># KI-generierter Code (Pattern C — lesen vor ausführen!)</span></span>
-<span id="cb6-2"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> klassifiziere_boden(wert):</span>
-<span id="cb6-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Klassifiziert Bodenkontamination in mg/kg."""</span></span>
-<span id="cb6-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> wert <span class="op">&lt;</span> <span class="dv">50</span>:</span>
-<span id="cb6-5"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Sauber"</span></span>
-<span id="cb6-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> wert <span class="op">&lt;</span> <span class="dv">150</span>:</span>
-<span id="cb6-7"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Beobachten"</span></span>
-<span id="cb6-8"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb6-9"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Kritisch"</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<p><em>Frage:</em> Welcher Test wird scheitern, und warum?</p>
-</section>
-<section id="denkpause-welcher-test-scheitert" class="slide level2">
-<h2>Denkpause: Welcher Test scheitert?</h2>
-<div class="eyebrow">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5c-1.4 0-2.5-1.1-2.5-2.5V2"></path>
-  <path d="M8.5 2h7"></path>
-  <path d="M14.5 16h-5"></path>
-</svg>
-</span></p>
-</div>
-<p>Notiere zuerst deine Vermutung:</p>
-<ul>
-<li>Scheitert ein Normalfall?</li>
-<li>Scheitert ein Grenzwertfall?</li>
-<li>Welche Bedingung in der Funktion ist dafür verantwortlich?</li>
-</ul>
-<div class="fragment">
-<p>Hinweis: Schaue besonders auf die Grenze bei <code>150 mg/kg</code>.</p>
-</div>
-</section>
-<section id="tests-ausführen-ein-test-scheitert" class="slide level2">
-<h2>Tests ausführen — ein Test scheitert</h2>
-<div class="eyebrow">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5c-1.4 0-2.5-1.1-2.5-2.5V2"></path>
-  <path d="M8.5 2h7"></path>
-  <path d="M14.5 16h-5"></path>
-</svg>
-</span></p>
-</div>
 <div class="columns">
-<div class="column" style="width:50%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a>test_sauber()                       <span class="co"># ✓ grün</span></span>
-<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a>test_beobachten()                   <span class="co"># ✓ grün</span></span>
-<span id="cb7-3"><a aria-hidden="true" tabindex="-1"></a>test_kritisch()                     <span class="co"># ✓ grün</span></span>
-<span id="cb7-4"><a aria-hidden="true" tabindex="-1"></a>test_grenzwert_sauber_beobachten()  <span class="co"># ✓ grün</span></span>
-<span id="cb7-5"><a aria-hidden="true" tabindex="-1"></a>test_grenzwert_beobachten_kritisch()</span>
-<span id="cb7-6"><a aria-hidden="true" tabindex="-1"></a><span class="co"># ✗ AssertionError</span></span>
-<span id="cb7-7"><a aria-hidden="true" tabindex="-1"></a><span class="co"># "Beobachten" != "Kritisch"</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:50%;">
+<div class="column" style="width:40%;">
+<p>Prompt an die KI:</p>
+<blockquote>
+<p>Schreibe die Python-Funktion <code>klassifiziere_boden(wert)</code>. Sie ordnet den Schadstoffgehalt einer Bodenprobe in mg/kg einer Klasse zu: <code>"Sauber"</code> unter 50, <code>"Beobachten"</code> von 50 bis unter 150 und <code>"Kritisch"</code> ab 150. <strong>Führe die Unit-Tests nur aus. Schaue sie dir nicht an und modifiziere sie nicht!</strong></p>
+</blockquote>
+</div><div class="column" style="width:60%;">
+<p>Antwort der KI (erst lesen, dann ausführen!):</p>
+<div id="685fa9f7" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> klassifiziere_boden(wert):</span>
+<span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Klassifiziert Bodenkontamination in mg/kg."""</span></span>
+<span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> wert <span class="op">&lt;</span> <span class="dv">50</span>:</span>
+<span id="cb5-4"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Sauber"</span></span>
+<span id="cb5-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> wert <span class="op">&lt;=</span> <span class="dv">150</span>:</span>
+<span id="cb5-6"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Beobachten"</span></span>
+<span id="cb5-7"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb5-8"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Kritisch"</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div></div>
+</section>
+<section id="tests-ausführen-zwei-tests-scheitern" class="slide level2">
+<h2>Tests ausführen: zwei Tests scheitern</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p><span class="pro">Der Funktionstest läuft grün.</span></p>
 <p><em>Diagnose:</em></p>
-<p><code>wert &lt; 150</code> — der Wert <code>150</code> wird als <code>"Beobachten"</code> klassifiziert.</p>
-<p>Anforderung verlangt <code>&gt;=150</code> → <code>"Kritisch"</code>.</p>
-<p>Der Test macht die Lücke sichtbar — vor dem Einsatz.</p>
+<ul>
+<li>Grenzwerttest: Bei <code>wert &lt;= 150</code> wird der Wert <code>150</code> als <code>"Beobachten"</code> klassifiziert, verlangt ist <code>"Kritisch"</code>.</li>
+<li>Datentyp-Test: Bei <code>"abc"</code> löst der Vergleich einen <code>TypeError</code> aus, verlangt ist ein <code>ValueError</code>. Die KI hat die falsche Eingabe nicht bedacht.</li>
+</ul>
+</div><div class="column" style="width:60%;">
+<div id="3f453d15" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a>test_boden_grenzwert()</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">AssertionError</span>                            Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[15]</span><span class="ansi-green-fg">, line 1</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">1</span> <span class="ansi-yellow-bg">test_boden_grenzwert</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
+
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[13]</span><span class="ansi-green-fg">, line 9</span>, in <span class="ansi-cyan-fg">test_boden_grenzwert</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">      7</span> <span style="font-weight:bold;color:rgb(0,135,0)">def</span><span style="color:rgb(188,188,188)"> </span><span class="ansi-blue-fg">test_boden_grenzwert</span>():
+<span class="ansi-green-fg">      8</span>     <span style="font-weight:bold;color:rgb(0,135,0)">assert</span> klassifiziere_boden(<span class="ansi-green-fg">50</span>) == <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">Beobachten</span><span class="ansi-yellow-fg">"</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">9</span>     <span style="font-weight:bold;color:rgb(0,135,0)">assert</span> klassifiziere_boden(<span class="ansi-green-fg">150</span>) == <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">Kritisch</span><span class="ansi-yellow-fg">"</span>
+
+<span class="ansi-red-fg">AssertionError</span>: </pre>
+</div>
+</div>
+</div>
+<div id="34f841e1" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a>test_boden_datentyp()</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">TypeError</span>                                 Traceback (most recent call last)
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[16]</span><span class="ansi-green-fg">, line 1</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">1</span> <span class="ansi-yellow-bg">test_boden_datentyp</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
+
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[13]</span><span class="ansi-green-fg">, line 13</span>, in <span class="ansi-cyan-fg">test_boden_datentyp</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-fg">     11</span> <span style="font-weight:bold;color:rgb(0,135,0)">def</span><span style="color:rgb(188,188,188)"> </span><span class="ansi-blue-fg">test_boden_datentyp</span>():
+<span class="ansi-green-fg">     12</span>     <span style="font-weight:bold;color:rgb(0,135,0)">try</span>:
+<span class="ansi-green-fg">---&gt; </span><span class="ansi-green-fg">13</span>         <span class="ansi-yellow-bg">klassifiziere_boden</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-fg ansi-yellow-bg">abc</span><span class="ansi-yellow-fg ansi-yellow-bg">"</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-fg">     14</span>     <span style="font-weight:bold;color:rgb(0,135,0)">except</span> <span style="font-weight:bold;color:rgb(215,95,95)">ValueError</span>:
+<span class="ansi-green-fg">     15</span>         <span style="font-weight:bold;color:rgb(0,135,0)">pass</span>
+
+<span class="ansi-cyan-fg">Cell</span><span class="ansi-cyan-fg"> </span><span class="ansi-green-fg">In[14]</span><span class="ansi-green-fg">, line 3</span>, in <span class="ansi-cyan-fg">klassifiziere_boden</span><span class="ansi-blue-fg">(wert)</span>
+<span class="ansi-green-fg">      1</span> <span style="font-weight:bold;color:rgb(0,135,0)">def</span><span style="color:rgb(188,188,188)"> </span><span class="ansi-blue-fg">klassifiziere_boden</span>(wert):
+<span class="ansi-green-fg">      2</span> <span style="color:rgb(188,188,188)">    </span><span style="font-style:italic" class="ansi-yellow-fg">"""Klassifiziert Bodenkontamination in mg/kg."""</span>
+<span class="ansi-green-fg">----&gt; </span><span class="ansi-green-fg">3</span>     <span style="font-weight:bold;color:rgb(0,135,0)">if</span> <span class="ansi-yellow-bg">wert</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">&lt;</span><span class="ansi-yellow-bg"> </span><span class="ansi-green-fg ansi-yellow-bg">50</span>:
+<span class="ansi-green-fg">      4</span>         <span style="font-weight:bold;color:rgb(0,135,0)">return</span> <span class="ansi-yellow-fg">"</span><span class="ansi-yellow-fg">Sauber</span><span class="ansi-yellow-fg">"</span>
+<span class="ansi-green-fg">      5</span>     <span style="font-weight:bold;color:rgb(0,135,0)">elif</span> wert &lt;= <span class="ansi-green-fg">150</span>:
+
+<span class="ansi-red-fg">TypeError</span>: '&lt;' not supported between instances of 'str' and 'int'</pre>
+</div>
+</div>
+</div>
 </div></div>
 </section>
 <section id="diagnose-und-reprompt" class="slide level2">
 <h2>Diagnose und Reprompt</h2>
-<div class="eyebrow">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5c-1.4 0-2.5-1.1-2.5-2.5V2"></path>
-  <path d="M8.5 2h7"></path>
-  <path d="M14.5 16h-5"></path>
-</svg>
-</span></p>
-</div>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><em>Reprompt mit fehlgeschlagenem Test:</em></p>
+<p><em>Reprompt mit kopierter Fehlermeldung:</em></p>
 <blockquote>
-<p><code>test_grenzwert_beobachten_kritisch</code> scheitert: Bei Wert 150 wird <code>"Beobachten"</code> zurückgegeben, erwartet <code>"Kritisch"</code>. Korrigiere so, dass <code>&gt;=150</code> als <code>"Kritisch"</code> gilt.</p>
+<p>Fixe die Fehler in <code>klassifiziere_boden</code>.</p>
+<pre><code>---&gt; 9     assert klassifiziere_boden(150) == "Kritisch"
+AssertionError:</code></pre>
+<pre><code>---&gt; 3     if wert &lt; 50:
+TypeError: '&lt;' not supported between instances of 'str' and 'int'</code></pre>
 </blockquote>
 </div><div class="column" style="width:50%;">
 <p><em>Korrigierte Funktion:</em></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> klassifiziere_boden(wert):</span>
-<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> wert <span class="op">&lt;</span> <span class="dv">50</span>:</span>
-<span id="cb8-3"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Sauber"</span></span>
-<span id="cb8-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> wert <span class="op">&lt;</span> <span class="dv">150</span>:</span>
-<span id="cb8-5"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Beobachten"</span></span>
-<span id="cb8-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:        <span class="co"># wert &gt;= 150</span></span>
-<span id="cb8-7"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Kritisch"</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Alle 5 Tests grün → Anforderung erfüllt.</p>
-<p>Verweis: → <code>08b_CodeReview</code>: Code Review als nächster Verifikationsschritt</p>
+<div id="f0e2e4f2" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> klassifiziere_boden(wert):</span>
+<span id="cb10-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> <span class="bu">isinstance</span>(wert, (<span class="bu">int</span>, <span class="bu">float</span>)):   <span class="co"># neu</span></span>
+<span id="cb10-3"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"wert muss eine Zahl sein"</span>)</span>
+<span id="cb10-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> wert <span class="op">&lt;</span> <span class="dv">50</span>:</span>
+<span id="cb10-5"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Sauber"</span></span>
+<span id="cb10-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> wert <span class="op">&lt;</span> <span class="dv">150</span>:   <span class="co"># war: &lt;= 150</span></span>
+<span id="cb10-7"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Beobachten"</span></span>
+<span id="cb10-8"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:              <span class="co"># wert &gt;= 150</span></span>
+<span id="cb10-9"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Kritisch"</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="c2d8f140" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a>klassifiziere_boden(<span class="dv">150</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>'Kritisch'</code></pre>
+</div>
+</div>
+<p>Alle drei Tests grün: die getesteten Fälle sind erfüllt, ungetestete bleiben offen.</p>
 </div></div>
 </section>
 <section id="testabdeckung-zeilenabdeckung" class="slide level2">
-<h2>Testabdeckung — Zeilenabdeckung</h2>
-<div class="eyebrow">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5c-1.4 0-2.5-1.1-2.5-2.5V2"></path>
-  <path d="M8.5 2h7"></path>
-  <path d="M14.5 16h-5"></path>
-</svg>
-</span></p>
-</div>
+<h2>Testabdeckung: Zeilenabdeckung</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><em>Line Coverage:</em></p>
 <ul>
 <li>Welche Codezeilen wurden durch Tests ausgeführt?</li>
-<li>80% Coverage → 20% der Zeilen nie getestet</li>
+<li>80 % Abdeckung → 20 % der Zeilen nie getestet</li>
 <li>Ungetestete Zeilen = unbekanntes Verhalten</li>
 </ul>
+<div class="quarto-figure quarto-figure-left">
+<figure>
+<p><img data-src="images/08a_UnitTest/coverage_badge.svg" class="" style="width:60.0%"></p>
+<figcaption>Coverage-Badge mit 90 %</figcaption>
+</figure>
+</div>
 </div><div class="column" style="width:50%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> klassifiziere_boden(wert):</span>
-<span id="cb9-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> wert <span class="op">&lt;</span> <span class="dv">50</span>:         <span class="co"># ← getestet ✓</span></span>
-<span id="cb9-3"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Sauber"</span>   <span class="co"># ← getestet ✓</span></span>
-<span id="cb9-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> wert <span class="op">&lt;</span> <span class="dv">150</span>:      <span class="co"># ← getestet ✓</span></span>
-<span id="cb9-5"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Beobachten"</span>  <span class="co"># ← getestet ✓</span></span>
-<span id="cb9-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb9-7"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Kritisch"</span> <span class="co"># ← getestet ✓</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Ziel: jede Zeile mindestens einmal ausgeführt.</p>
+<p>Die KI hat eine eigene Fehlerprüfung ergänzt:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> klassifiziere_boden(wert):</span>
+<span id="cb13-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> <span class="bu">isinstance</span>(wert, (<span class="bu">int</span>, <span class="bu">float</span>)):</span>
+<span id="cb13-3"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"wert muss eine Zahl sein"</span>)</span>
+<span id="cb13-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> wert <span class="op">&lt;</span> <span class="dv">0</span>:</span>
+<span id="cb13-5"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Fehler"</span>      <span class="co"># nie ausgeführt!</span></span>
+<span id="cb13-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> wert <span class="op">&lt;</span> <span class="dv">50</span>:</span>
+<span id="cb13-7"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Sauber"</span></span>
+<span id="cb13-8"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> wert <span class="op">&lt;</span> <span class="dv">150</span>:</span>
+<span id="cb13-9"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Beobachten"</span></span>
+<span id="cb13-10"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb13-11"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Kritisch"</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p>9 von 10 Anweisungen ausgeführt → 90 % Zeilenabdeckung</p>
 </div></div>
 </section>
 <section id="testabdeckung-verzweigungsabdeckung" class="slide level2">
-<h2>Testabdeckung — Verzweigungsabdeckung</h2>
-<div class="eyebrow">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5c-1.4 0-2.5-1.1-2.5-2.5V2"></path>
-  <path d="M8.5 2h7"></path>
-  <path d="M14.5 16h-5"></path>
-</svg>
-</span></p>
-</div>
+<h2>Testabdeckung: Verzweigungsabdeckung</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><em>Branch Coverage:</em></p>
 <ul>
 <li>Wurden alle <code>if</code>/<code>else</code>-Zweige getestet?</li>
-<li>Wichtiger als reine Zeilenabdeckung</li>
-<li>KI generiert oft Code mit versteckten Zweigen</li>
+<li>Strenger als reine Zeilenabdeckung</li>
+<li>Zweige für Sonderfälle bleiben sonst unbemerkt</li>
 </ul>
 </div><div class="column" style="width:50%;">
-<p><em>Beispiel — ungetesteter Zweig:</em></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> klassifiziere_boden(wert):</span>
-<span id="cb10-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> wert <span class="op">&lt;</span> <span class="dv">0</span>:          <span class="co"># ← KI hat Fehlercheck</span></span>
-<span id="cb10-3"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Fehler"</span>   <span class="co"># ← kein Test dafür!</span></span>
-<span id="cb10-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> wert <span class="op">&lt;</span> <span class="dv">50</span>:</span>
-<span id="cb10-5"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Sauber"</span></span>
-<span id="cb10-6"><a aria-hidden="true" tabindex="-1"></a>    ...</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Untesteter Zweig in KI-Code = unsichtbares Risiko.</p>
+<p><em>Beispiel:</em> <code>wert &lt; 0</code></p>
+<ul>
+<li>Zweig <em>wahr</em>: kein Test, da die Anforderung negative Werte nicht erwähnt</li>
+<li>Zweig <em>falsch</em>: von den Tests mit Zahl-Eingabe ausgeführt</li>
+<li>Ergebnis: 7 von 8 Zweigen → 88 % Verzweigungsabdeckung</li>
+</ul>
+<p>Ein ungetesteter Zweig ist ein unsichtbares Risiko. Abdeckung zeigt nur, was ausgeführt wurde, nicht ob es stimmt. Der nächste Verifikationsschritt ist das Code Review (<code>08b_CodeReview</code>).</p>
 </div></div>
 </section>
-<section id="fehlerbehebung---grundlagen" class="slide level2">
-<h2>3. Fehlerbehebung - Grundlagen</h2>
+<section id="fehlerbehebung-grundlagen" class="slide level2">
+<h2>3. Fehlerbehebung: Grundlagen</h2>
 <div class="definition">
 <div class="definition-term">
 <p>Debugging</p>
@@ -771,9 +737,9 @@ Pass? → Code übernehmen</code></pre>
 </ul>
 </section>
 <section id="fehlerbehebung-in-python" class="slide level2">
-<h2>3. Fehlerbehebung – In Python</h2>
+<h2>3. Fehlerbehebung: In Python</h2>
 <ul>
-<li>Das systematische Debugging ist eine Kernkompetenz jeden Programmierers</li>
+<li>Systematisches Debugging ist eine Kernkompetenz jeder programmierenden Person</li>
 <li>Python Debugging-Tools
 <ul>
 <li>Standard-Debugger: pdb (Python-Modul)</li>
@@ -782,8 +748,8 @@ Pass? → Code übernehmen</code></pre>
 <li>Mehr Details dazu in der Übung!</li>
 </ul>
 </section>
-<section id="fehlerbehandlung---auf-alles-vorbereitet-sein" class="slide level2">
-<h2>4. Fehlerbehandlung - Auf alles vorbereitet sein</h2>
+<section id="fehlerbehandlung-laufzeitfehler-abfangen" class="slide level2">
+<h2>4. Fehlerbehandlung: Laufzeitfehler abfangen</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
@@ -804,18 +770,18 @@ Pass? → Code übernehmen</code></pre>
 </ul>
 </div></div>
 </section>
-<section id="fehlerbehandlung---in-python" class="slide level2">
-<h2>4. Fehlerbehandlung - In Python</h2>
+<section id="fehlerbehandlung-in-python" class="slide level2">
+<h2>4. Fehlerbehandlung: In Python</h2>
 <ul>
 <li><code>try:</code> Enthält ein (vermutlich fehleranfälliges) Stück Programmcode</li>
 <li><code>except:</code> Tritt im try-Block ein bestimmter Fehler (Exception) auf, wird dieser beendet und der passende except-Block aufgerufen.</li>
-<li><code>raise:</code> Wird in einem except-Block aufgerufen um eine Exception weiterzugeben</li>
+<li><code>raise:</code> Löst eine Exception aus; in einem except-Block gibt es die abgefangene Exception weiter</li>
 <li><code>finally:</code> Wird nach dem Ende des try-Blocks aufgerufen, egal ob es einen Fehler gab oder nicht</li>
 <li><code>else:</code> optional definiert nach allen except-Blöcken, wird ausgeführt falls im try-Block keine Exception auftritt</li>
 </ul>
 </section>
-<section id="semantische-fehler---exceptions" class="slide level2">
-<h2>Semantische Fehler - Exceptions</h2>
+<section id="laufzeitfehler-exceptions" class="slide level2">
+<h2>Laufzeitfehler: Exceptions</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
@@ -830,28 +796,28 @@ Pass? → Code übernehmen</code></pre>
 <li>Ziel: Programm in lauffähigen Zustand halten</li>
 </ul>
 </div><div class="column" style="width:50%;">
-<p><img data-src="images/08a_UnitTest/stack3.svg" class="midjourney"></p>
+<video poster="images/08a_UnitTest/manim_exception_crash_last.png" data-autoplay="" muted="" playsinline="" loop="" style="display:block;width:100%"><source src="images/08a_UnitTest/manim_exception_crash.webm" type="video/webm"><source src="images/08a_UnitTest/manim_exception_crash.mp4" type="video/mp4"></video>
 </div></div>
 </section>
-<section id="semantische-fehler-exceptions-abfangen" class="slide level2">
-<h2>Semantische Fehler – Exceptions abfangen</h2>
+<section id="laufzeitfehler-exceptions-abfangen" class="slide level2">
+<h2>Laufzeitfehler: Exceptions abfangen</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>Bekannte Exceptions sollten immer abgefangen werden</p>
+<p>Bekannte Exceptions sollten gezielt abgefangen werden</p>
 <p>Python <code>try-except</code>-Block:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb11-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="co"># Block mit erwarteter Exception</span></span>
-<span id="cb11-3"><a aria-hidden="true" tabindex="-1"></a>    ergebnis <span class="op">=</span> zaehler <span class="op">/</span> nenner</span>
-<span id="cb11-4"><a aria-hidden="true" tabindex="-1"></a><span class="cf">except</span>:</span>
-<span id="cb11-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="co"># Fehlerbehandlung</span></span>
-<span id="cb11-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Division durch 0"</span>)</span>
-<span id="cb11-7"><a aria-hidden="true" tabindex="-1"></a>    ergebnis <span class="op">=</span> <span class="va">None</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb14-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="co"># Block mit erwarteter Exception</span></span>
+<span id="cb14-3"><a aria-hidden="true" tabindex="-1"></a>    ergebnis <span class="op">=</span> zaehler <span class="op">/</span> nenner</span>
+<span id="cb14-4"><a aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ZeroDivisionError</span>:</span>
+<span id="cb14-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="co"># Fehlerbehandlung</span></span>
+<span id="cb14-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Division durch 0"</span>)</span>
+<span id="cb14-7"><a aria-hidden="true" tabindex="-1"></a>    ergebnis <span class="op">=</span> <span class="va">None</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:50%;">
-<p><img data-src="images/08a_UnitTest/stack4.svg" class="midjourney"></p>
+<video poster="images/08a_UnitTest/manim_exception_caught_last.png" data-autoplay="" muted="" playsinline="" loop="" style="display:block;width:100%"><source src="images/08a_UnitTest/manim_exception_caught.webm" type="video/webm"><source src="images/08a_UnitTest/manim_exception_caught.mp4" type="video/mp4"></video>
 </div></div>
 </section>
-<section id="semantische-fehler---exception-ebenen" class="slide level2">
-<h2>Semantische Fehler - Exception-Ebenen</h2>
+<section id="laufzeitfehler-exception-ebenen" class="slide level2">
+<h2>Laufzeitfehler: Exception-Ebenen</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <p>Exceptions werden auf mehreren Ebenen genutzt:</p>
@@ -870,57 +836,58 @@ Pass? → Code übernehmen</code></pre>
 </ul>
 </div></div>
 </section>
-<section id="fehlerbehandlung---beispiel-division-durch-0" class="slide level2">
-<h2>4. Fehlerbehandlung - Beispiel: Division durch 0</h2>
+<section id="fehlerbehandlung-beispiel-division-durch-0" class="slide level2">
+<h2>4. Fehlerbehandlung: Beispiel Division durch 0</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a>zaehler <span class="op">=</span> <span class="dv">12</span></span>
-<span id="cb12-2"><a aria-hidden="true" tabindex="-1"></a>nenner <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb12-3"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-4"><a aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb12-5"><a aria-hidden="true" tabindex="-1"></a>    ergebnis <span class="op">=</span> zaehler <span class="op">/</span> nenner</span>
-<span id="cb12-6"><a aria-hidden="true" tabindex="-1"></a><span class="cf">except</span>:</span>
-<span id="cb12-7"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Exception"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:50%;">
-<p><em>Frage:</em> Welche Exceptions können hier ausgelöst werden?</p>
-<div class="fragment">
-<p>Mögliche Exceptions:</p>
+<p>Mögliche Exceptions beim Dividieren</p>
 <ul>
 <li><code>ZeroDivisionError</code> - Division durch 0</li>
 <li><code>TypeError</code> - Falscher Datentyp</li>
 <li><code>NameError</code> - Variable nicht definiert</li>
 </ul>
-</div>
+</div><div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a>zaehler <span class="op">=</span> <span class="dv">12</span></span>
+<span id="cb15-2"><a aria-hidden="true" tabindex="-1"></a>nenner <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb15-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb15-5"><a aria-hidden="true" tabindex="-1"></a>    ergebnis <span class="op">=</span> zaehler <span class="op">/</span> nenner</span>
+<span id="cb15-6"><a aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ZeroDivisionError</span>:</span>
+<span id="cb15-7"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Division durch 0"</span>)</span>
+<span id="cb15-8"><a aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">TypeError</span>:</span>
+<span id="cb15-9"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Falscher Datentyp"</span>)</span>
+<span id="cb15-10"><a aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">NameError</span>:</span>
+<span id="cb15-11"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Variable nicht definiert"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
 </section>
-<section id="fehlerbehandlung---exceptions-propagieren" class="slide level2">
-<h2>4. Fehlerbehandlung - Exceptions propagieren</h2>
+<section id="fehlerbehandlung-exceptions-propagieren" class="slide level2">
+<h2>4. Fehlerbehandlung: Exceptions propagieren</h2>
 <ul>
 <li>Wichtiges Konzept in komplexerer Software</li>
-<li>Wir können Fehler zwar lokal behandeln, wollen aber dennoch die “oberen Ebenen” des Programmes darüber informieren.</li>
-<li>Die <code>raise</code>-Anweisung “wirft” dafür aus einem <code>except</code>-Block eine Exception weiter nach oben.</li>
+<li>Fehler lokal behandeln und die „oberen Ebenen“ des Programms trotzdem informieren</li>
+<li><code>raise</code> löst eine Exception aus und gibt sie nach oben weiter, im <code>except</code>-Block auch die gerade abgefangene</li>
 </ul>
 </section>
-<section id="fehlerbehandlung---beispiel-exception-weiterreichen" class="slide level2">
-<h2>4. Fehlerbehandlung - Beispiel: Exception weiterreichen</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_up_and_down(x):</span>
-<span id="cb13-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> x <span class="op">&lt;=</span> <span class="dv">0</span>:</span>
-<span id="cb13-3"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"No negative values allowed"</span>)</span>
-<span id="cb13-4"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="co"># Verknüpft vorwärts- und rückwärts-Liste</span></span>
-<span id="cb13-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">list</span>(<span class="bu">range</span>(x)) <span class="op">+</span> <span class="bu">list</span>(<span class="bu">reversed</span>(<span class="bu">list</span>(<span class="bu">range</span>(x<span class="op">-</span><span class="dv">1</span>))))</span>
-<span id="cb13-7"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-8"><a aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb13-9"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(count_up_and_down(<span class="op">-</span><span class="dv">6</span>))</span>
-<span id="cb13-10"><a aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ValueError</span>:</span>
-<span id="cb13-11"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"That value was invalid."</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="fehlerbehandlung-beispiel-exception-weiterreichen" class="slide level2">
+<h2>4. Fehlerbehandlung: Beispiel Exception weiterreichen</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_up_and_down(x):</span>
+<span id="cb16-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> x <span class="op">&lt;=</span> <span class="dv">0</span>:</span>
+<span id="cb16-3"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"No negative values allowed"</span>)</span>
+<span id="cb16-4"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="co"># Verknüpft Vorwärts- und Rückwärtsliste</span></span>
+<span id="cb16-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">list</span>(<span class="bu">range</span>(x)) <span class="op">+</span> <span class="bu">list</span>(<span class="bu">reversed</span>(<span class="bu">list</span>(<span class="bu">range</span>(x<span class="op">-</span><span class="dv">1</span>))))</span>
+<span id="cb16-7"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb16-9"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(count_up_and_down(<span class="op">-</span><span class="dv">6</span>))</span>
+<span id="cb16-10"><a aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ValueError</span>:</span>
+<span id="cb16-11"><a aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"That value was invalid."</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="fehlerausschluss---korrektheit-von-programmen-mathematisch-beweisen" class="slide level2">
-<h2>5. Fehlerausschluss - Korrektheit von Programmen mathematisch beweisen</h2>
+<section id="fehlerausschluss-korrektheit-mathematisch-beweisen" class="slide level2">
+<h2>5. Fehlerausschluss: Korrektheit mathematisch beweisen</h2>
 <ul>
 <li><p>Gewisser Programmcode kann mittels <em>mathematischen Beweises</em> validiert werden</p></li>
-<li><p><em>Hoare-Kalkül:</em> Programm Zeile für Zeile mit mathematischer Logik formalisieren</p></li>
-<li><p>Von vorne nach hinten durch das gesamte Programm</p></li>
+<li><p><em>Hoare-Kalkül</em> (C. A. R. Hoare, 1969): Vor- und Nachbedingungen {P} C {Q} für jede Anweisung C</p></li>
+<li><p>Beweist Korrektheit nur relativ zur Spezifikation</p></li>
 <li><p><em>Problem:</em> Für die meisten Anwendungen zu zeitaufwendig und komplex</p></li>
 <li><p><em>Einsatz:</em> Nur bei kritischen Systemen (Medizintechnik, Luftfahrt, etc.)</p></li>
 </ul>

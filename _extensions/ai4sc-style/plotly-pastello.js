@@ -5,15 +5,22 @@ export const PASTELLO = Object.freeze({
   // Keep grain below pixel-scale frequencies and soften the noise before contrast.
   // Only pigment is smoothed; SourceGraphic edges and typography stay sharp.
   grainFrequency: '0.34 0.46', octaves: 2, seed: 17,
-  grainContrast: 1.8, grainMidpoint: 0.45, grainSoftness: 0.38,
-  fillStrength: 0.46, lineStrength: 0.36, markerStrength: 0.32,
-  fillOpacity: 0.97,
+  grainContrast: 2.25, grainMidpoint: 0.45, grainSoftness: 0.32,
+  fillStrength: 0.50, lineStrength: 0.36, markerStrength: 0.32,
+  fillOpacity: 1,
   // A pastel dragged across paper loads both edges, with a lighter, uneven middle.
   // Asymmetric pressure avoids a glossy, symmetric bevel or a misty noise field.
-  pressureStops: [[0, 0.98], [0.12, 0.91], [0.35, 0.72], [0.64, 0.75], [0.88, 0.88], [1, 0.93]],
-  pressureVariation: 0.16, pressurePatches: 7,
-  edgeLoad: 0.40, edgeWidth: 1.2, edgeOffsetX: 0.6, edgeOffsetY: 1.3,
+  pressureStops: [[0, 1], [0.09, 0.97], [0.28, 0.86], [0.49, 0.74], [0.7, 0.83], [0.91, 0.93], [1, 0.96]],
+  pressureVariation: 0.20, pressurePatches: 4,
+  edgeLoad: 0.43, edgeWidth: 1.6, edgeOffsetX: 0.6, edgeOffsetY: 1.5,
+  edgeWear: 0.85,
   edgeDisplacement: 0, edgeFeather: 0,
+  // Optional torn-paint look, opt-in per chart with layout.meta.ai4sc_pastello = {ragged: true}.
+  // Two scales of seeded variation for the opt-in paint edge.
+  raggedFrequency: '0.011 0.02', raggedScale: 5, raggedFine: '0.05', raggedFineScale: 1.2,
+  washFrequency: '0.012 0.028', washContrast: 1.7, washMidpoint: 0.35, washStrength: 0.30,
+  driftFrequency: '0.002 0.06', driftStrength: 0.14,
+  raggedMaskMargin: 0.35,
   gridOpacity: 0.04, gridSize: 24,
 });
 const NS = 'http://www.w3.org/2000/svg';
@@ -26,7 +33,7 @@ export function pastelloOptions(layout = {}) {
   const value = layout.meta?.ai4sc_pastello;
   if (value === false || value?.enabled === false) return {enabled: false};
   const enabled = value === true || value?.enabled === true || props().getPropertyValue('--ai4sc-pastello').trim() === '1';
-  return {enabled, texture: value?.texture !== false, grid: value?.grid === true};
+  return {enabled, texture: value?.texture !== false, grid: value?.grid === true, ragged: value?.ragged === true};
 }
 export function pastelloDefaults() {
   const css = props();
@@ -56,28 +63,77 @@ function svgNode(tag, attrs = {}) {
   Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, String(v)));
   return el;
 }
-function makeFilter(id, strength, opacity) {
+function makeFilter(id, strength, opacity, ragged = false) {
   const filter = svgNode('filter', {id, filterUnits: 'userSpaceOnUse', primitiveUnits: 'userSpaceOnUse', 'color-interpolation-filters': 'sRGB'});
-  filter.append(svgNode('feTurbulence', {type: 'fractalNoise', baseFrequency: PASTELLO.grainFrequency,
-    numOctaves: PASTELLO.octaves, seed: PASTELLO.seed, result: 'grain'}));
-  filter.append(svgNode('feGaussianBlur', {in: 'grain', stdDeviation: PASTELLO.grainSoftness, result: 'softGrain'}));
-  // Expand the narrow fractal-noise range BEFORE setting a pigment floor.
-  // The previous tiny linear modulation survived mostly as a uniform opacity change.
-  filter.append(svgNode('feColorMatrix', {in: 'softGrain', type: 'matrix',
-    values: `0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  ${PASTELLO.grainContrast} 0 0 0 ${0.5 - PASTELLO.grainMidpoint * PASTELLO.grainContrast}`, result: 'tooth'}));
-  const transfer = svgNode('feComponentTransfer', {in: 'tooth', result: 'pigment'});
-  transfer.append(svgNode('feFuncA', {type: 'linear', slope: strength * opacity, intercept: (1 - strength) * opacity}));
-  filter.append(transfer);
+  const torn = ragged && id.endsWith('-fill');
+  if (!torn || PASTELLO.edgeDisplacement > 0) {
+    filter.append(svgNode('feTurbulence', {type: 'fractalNoise', baseFrequency: PASTELLO.grainFrequency,
+      numOctaves: PASTELLO.octaves, seed: PASTELLO.seed, result: 'grain'}));
+    filter.append(svgNode('feGaussianBlur', {in: 'grain', stdDeviation: PASTELLO.grainSoftness, result: 'softGrain'}));
+    // Expand the narrow fractal-noise range BEFORE setting a pigment floor.
+    // The previous tiny linear modulation survived mostly as a uniform opacity change.
+    filter.append(svgNode('feColorMatrix', {in: 'softGrain', type: 'matrix',
+      values: `0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  ${PASTELLO.grainContrast} 0 0 0 ${0.5 - PASTELLO.grainMidpoint * PASTELLO.grainContrast}`, result: 'tooth'}));
+    const transfer = svgNode('feComponentTransfer', {in: 'tooth', result: 'pigment'});
+    transfer.append(svgNode('feFuncA', {type: 'linear', slope: strength * opacity, intercept: (1 - strength) * opacity}));
+    filter.append(transfer);
+  }
   let material = 'pigment';
+  let shape = 'SourceGraphic', shapeAlpha = 'SourceAlpha';
+  if (torn) {
+    // Warp the original premultiplied paint without thresholding its opacity.
+    filter.append(svgNode('feTurbulence', {type: 'fractalNoise', baseFrequency: PASTELLO.raggedFrequency,
+      numOctaves: 2, seed: PASTELLO.seed + 5, result: 'tornWarp'}));
+    filter.append(svgNode('feDisplacementMap', {in: 'SourceGraphic', in2: 'tornWarp', scale: PASTELLO.raggedScale,
+      xChannelSelector: 'R', yChannelSelector: 'G', result: 'tornRough'}));
+    filter.append(svgNode('feTurbulence', {type: 'fractalNoise', baseFrequency: PASTELLO.raggedFine,
+      numOctaves: 1, seed: PASTELLO.seed + 9, result: 'tornFine'}));
+    filter.append(svgNode('feDisplacementMap', {in: 'tornRough', in2: 'tornFine', scale: PASTELLO.raggedFineScale,
+      xChannelSelector: 'G', yChannelSelector: 'R', result: 'tornShape'}));
+    const coverage = svgNode('feComponentTransfer', {in: 'tornShape', result: 'tornAlpha'});
+    coverage.append(svgNode('feFuncA', {type: 'gamma', amplitude: 1, exponent: 0.001, offset: 0}));
+    filter.append(coverage);
+    shape = 'tornShape'; shapeAlpha = 'tornAlpha';
+    // Soft wash: low-frequency blotches and a faint horizontal drift replace the pixel grain.
+    filter.append(svgNode('feTurbulence', {type: 'fractalNoise', baseFrequency: PASTELLO.washFrequency,
+      numOctaves: 3, seed: PASTELLO.seed - 14, result: 'wash'}));
+    filter.append(svgNode('feColorMatrix', {in: 'wash', type: 'matrix',
+      values: `0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  ${PASTELLO.washContrast} 0 0 0 ${-PASTELLO.washMidpoint}`, result: 'washRaw'}));
+    const washAlpha = svgNode('feComponentTransfer', {in: 'washRaw', result: 'washAlpha'});
+    washAlpha.append(svgNode('feFuncA', {type: 'linear', slope: PASTELLO.washStrength, intercept: 1 - PASTELLO.washStrength}));
+    filter.append(washAlpha);
+    filter.append(svgNode('feTurbulence', {type: 'fractalNoise', baseFrequency: PASTELLO.driftFrequency,
+      numOctaves: 2, seed: PASTELLO.seed - 10, result: 'drift'}));
+    filter.append(svgNode('feColorMatrix', {in: 'drift', type: 'matrix',
+      values: '0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  1.5 0 0 0 -0.12', result: 'driftRaw'}));
+    const driftAlpha = svgNode('feComponentTransfer', {in: 'driftRaw', result: 'driftAlpha'});
+    driftAlpha.append(svgNode('feFuncA', {type: 'linear', slope: PASTELLO.driftStrength, intercept: 1 - PASTELLO.driftStrength}));
+    filter.append(driftAlpha);
+    filter.append(svgNode('feComposite', {in: 'washAlpha', in2: 'driftAlpha', operator: 'in', result: 'washPigment'}));
+    material = 'washPigment';
+  }
   if (id.endsWith('-fill')) {
     // Pigment accumulates INSIDE the leading edge. No outline or geometry change.
-    filter.append(svgNode('feOffset', {in: 'SourceAlpha', dx: PASTELLO.edgeOffsetX, dy: PASTELLO.edgeOffsetY, result: 'edgeOffset'}));
+    filter.append(svgNode('feOffset', {in: shapeAlpha, dx: PASTELLO.edgeOffsetX, dy: PASTELLO.edgeOffsetY, result: 'edgeOffset'}));
     filter.append(svgNode('feGaussianBlur', {in: 'edgeOffset', stdDeviation: PASTELLO.edgeWidth, result: 'edgeSoftness'}));
-    filter.append(svgNode('feComposite', {in: 'SourceAlpha', in2: 'edgeSoftness', operator: 'out', result: 'edgePigment'}));
-    filter.append(svgNode('feComposite', {in: 'pigment', in2: 'edgePigment', operator: 'arithmetic', k2: 1, k3: PASTELLO.edgeLoad, result: 'loadedPigment'}));
-    material = 'loadedPigment';
+    filter.append(svgNode('feComposite', {in: shapeAlpha, in2: 'edgeSoftness', operator: 'out', result: 'edgePigment'}));
+    filter.append(svgNode('feComposite', {in: material, in2: 'edgePigment', operator: 'arithmetic', k2: 1, k3: PASTELLO.edgeLoad, result: 'loadedPigment'}));
+    // Torn shape already defines the edge: skip the grain-based edge wear there.
+    if (torn) {
+      material = 'loadedPigment';
+    } else {
+      // Sample the alpha edge with the same paper grain and keep the result
+      // inside SourceGraphic. This wears the edge inward without moving the mark.
+      const coverage = svgNode('feComponentTransfer', {in: shapeAlpha, result: 'coverage'});
+      coverage.append(svgNode('feFuncA', {type: 'gamma', amplitude: 1, exponent: 0.001, offset: 0}));
+      filter.append(coverage);
+      filter.append(svgNode('feDisplacementMap', {in: 'coverage', in2: 'grain', scale: PASTELLO.edgeWear,
+        xChannelSelector: 'R', yChannelSelector: 'G', result: 'wornEdge'}));
+      filter.append(svgNode('feComposite', {in: 'loadedPigment', in2: 'wornEdge', operator: 'in', result: 'dryPigment'}));
+      material = 'dryPigment';
+    }
   }
-  filter.append(svgNode('feComposite', {in: 'SourceGraphic', in2: material, operator: 'in', result: 'paint'}));
+  filter.append(svgNode('feComposite', {in: shape, in2: material, operator: 'in', result: 'paint'}));
   let source = 'paint';
   if (PASTELLO.edgeDisplacement > 0) {
     filter.append(svgNode('feDisplacementMap', {in: source, in2: 'grain', scale: Math.min(1, PASTELLO.edgeDisplacement), xChannelSelector: 'R', yChannelSelector: 'G', result: 'edge'}));
@@ -86,6 +142,23 @@ function makeFilter(id, strength, opacity) {
   if (PASTELLO.edgeFeather > 0) filter.append(svgNode('feGaussianBlur', {in: source, stdDeviation: Math.min(0.3, PASTELLO.edgeFeather)}));
   return filter;
 }
+export function createRaggedImageFilter(id) {
+  const filter = makeFilter(id, PASTELLO.fillStrength, PASTELLO.fillOpacity, true);
+  // CSS-filtered images each have their own size; pad relative to that image.
+  filter.setAttribute('filterUnits', 'objectBoundingBox');
+  for (const [attr, value] of Object.entries({x: '-10%', y: '-10%', width: '120%', height: '120%'})) {
+    filter.setAttribute(attr, value);
+  }
+  return filter;
+}
+
+export function createRaggedShapeMaterial(prefix) {
+  const defs = svgNode('defs', {'data-pastello': prefix});
+  defs.append(createRaggedImageFilter(`${prefix}-fill`));
+  addPressureMasks(defs, true);
+  return defs;
+}
+
 function scaleMaterial(defs, svg) {
   const matrix = svg.getScreenCTM();
   const scale = Math.round(Math.max(0.15, Math.min(4, matrix ? Math.hypot(matrix.a, matrix.b) : 1)) * 1000) / 1000;
@@ -93,15 +166,22 @@ function scaleMaterial(defs, svg) {
   defs.dataset.materialScale = String(scale);
   const frequency = value => String(value).split(/\s+/).map(n => Number(n) * scale).join(' ');
   for (const filter of defs.querySelectorAll('filter')) {
-    filter.querySelector('[result="grain"]').setAttribute('baseFrequency', frequency(PASTELLO.grainFrequency));
+    filter.querySelector('[result="grain"]')?.setAttribute('baseFrequency', frequency(PASTELLO.grainFrequency));
     filter.querySelector('[result="edgeSoftness"]')?.setAttribute('stdDeviation', PASTELLO.edgeWidth / scale);
     const offset = filter.querySelector('[result="edgeOffset"]');
     offset?.setAttribute('dx', PASTELLO.edgeOffsetX / scale);
     offset?.setAttribute('dy', PASTELLO.edgeOffsetY / scale);
-    filter.querySelector('[result="softGrain"]').setAttribute('stdDeviation', PASTELLO.grainSoftness / scale);
+    filter.querySelector('[result="wornEdge"]')?.setAttribute('scale', Math.min(1, PASTELLO.edgeWear) / scale);
+    filter.querySelector('[result="tornWarp"]')?.setAttribute('baseFrequency', frequency(PASTELLO.raggedFrequency));
+    filter.querySelector('[result="tornFine"]')?.setAttribute('baseFrequency', frequency(PASTELLO.raggedFine));
+    filter.querySelector('[result="tornRough"]')?.setAttribute('scale', PASTELLO.raggedScale / scale);
+    filter.querySelector('[result="tornShape"]')?.setAttribute('scale', PASTELLO.raggedFineScale / scale);
+    filter.querySelector('[result="wash"]')?.setAttribute('baseFrequency', frequency(PASTELLO.washFrequency));
+    filter.querySelector('[result="drift"]')?.setAttribute('baseFrequency', frequency(PASTELLO.driftFrequency));
+    filter.querySelector('[result="softGrain"]')?.setAttribute('stdDeviation', PASTELLO.grainSoftness / scale);
   }
 }
-function addPressureMasks(defs) {
+function addPressureMasks(defs, ragged = false) {
   // Shared object-bounding-box masks adapt to every bar/polygon, without per-mark filters.
   const patchId = `${defs.dataset.pastello}-pressure-patch`;
   const patch = svgNode('radialGradient', {id: patchId});
@@ -119,17 +199,23 @@ function addPressureMasks(defs) {
     const id = `${defs.dataset.pastello}-pressure-${axis}`;
     const gradient = svgNode('linearGradient', {id: `${id}-gradient`, x1: 0, y1: 0, x2: axis === 'x' ? 1 : 0, y2: axis === 'y' ? 1 : 0});
     for (const [offset, opacity] of PASTELLO.pressureStops) {
-      gradient.append(svgNode('stop', {offset, 'stop-color': 'white', 'stop-opacity': opacity}));
+      // The expanded white backing must not cancel pressure within the mark.
+      const gray = Math.round(255 * opacity);
+      gradient.append(svgNode('stop', {offset, 'stop-color': ragged ? `rgb(${gray},${gray},${gray})` : 'white',
+        'stop-opacity': ragged ? 1 : opacity}));
     }
-    const mask = svgNode('mask', {id, maskUnits: 'objectBoundingBox', maskContentUnits: 'objectBoundingBox', x: 0, y: 0, width: 1, height: 1, 'mask-type': 'luminance', 'color-interpolation': 'sRGB'});
+    const m = ragged ? PASTELLO.raggedMaskMargin : 0;
+    const mask = svgNode('mask', {id, maskUnits: 'objectBoundingBox', maskContentUnits: 'objectBoundingBox', x: -m, y: -m, width: 1 + 2 * m, height: 1 + 2 * m, 'mask-type': 'luminance', 'color-interpolation': 'sRGB'});
+    // Let the irregular paint edge extend just beyond the original bounding box.
+    if (ragged) mask.append(svgNode('rect', {x: -m, y: -m, width: 1 + 2 * m, height: 1 + 2 * m, fill: 'white'}));
     mask.append(svgNode('rect', {x: 0, y: 0, width: 1, height: 1, fill: `url(#${id}-gradient)`}));
     // Soft, irregular pressure lifts along the stroke, not another noise layer.
     // Luminance dabs reduce pigment locally; the original mark is never displaced.
     for (let i = 0; i < PASTELLO.pressurePatches; i++) {
       const along = (i + 0.25 + random() * 0.5) / PASTELLO.pressurePatches;
       const across = 0.25 + random() * 0.5;
-      const length = 0.07 + random() * 0.10;
-      const breadth = 0.20 + random() * 0.18;
+      const length = 0.09 + random() * 0.12;
+      const breadth = 0.26 + random() * 0.21;
       mask.append(svgNode('ellipse', {cx: axis === 'y' ? along : across, cy: axis === 'y' ? across : along,
         rx: axis === 'y' ? length : breadth, ry: axis === 'y' ? breadth : length,
         fill: `url(#${patchId})`}));
@@ -179,23 +265,27 @@ function decorate(el) {
       continue;
     }
     if (!selected.length) continue;
-    if (!defs) {
-      defs = svgNode('defs', {'data-pastello': `ai4sc-pigment-${++serial}`});
-      for (const kind of ['fill', 'line', 'marker']) defs.append(makeFilter(`${defs.dataset.pastello}-${kind}`, PASTELLO[kind + 'Strength'], kind === 'fill' ? PASTELLO.fillOpacity : 1));
-      addPressureMasks(defs);
-      svg.prepend(defs);
+    if (!defs || defs.dataset.ragged !== String(opts.ragged)) {
+      const previous = defs;
+      defs = svgNode('defs', {'data-pastello': previous?.dataset.pastello || `ai4sc-pigment-${++serial}`,
+        'data-ragged': opts.ragged});
+      for (const kind of ['fill', 'line', 'marker']) defs.append(makeFilter(`${defs.dataset.pastello}-${kind}`, PASTELLO[kind + 'Strength'], kind === 'fill' ? PASTELLO.fillOpacity : 1, opts.ragged));
+      addPressureMasks(defs, opts.ragged);
+      if (previous) previous.replaceWith(defs);
+      else svg.prepend(defs);
     }
     scaleMaterial(defs, svg);
     // Union in each target's LOCAL user space, including thin and negative paths.
     // This avoids objectBoundingBox failures on perfectly horizontal/vertical lines.
     // Hidden Reveal slides can report zero bounding boxes. Keep a chart-sized
     // minimum region so their marks remain visible when the slide is activated.
-    let x = -8, y = -8;
-    let right = (el._fullLayout?.width || Number(svg.getAttribute('width')) || 1920) + 8;
-    let bottom = (el._fullLayout?.height || Number(svg.getAttribute('height')) || 1080) + 8;
+    const materialPad = opts.ragged ? Math.max(8, 8 / Number(defs.dataset.materialScale)) : 8;
+    let x = -materialPad, y = -materialPad;
+    let right = (el._fullLayout?.width || Number(svg.getAttribute('width')) || 1920) + materialPad;
+    let bottom = (el._fullLayout?.height || Number(svg.getAttribute('height')) || 1080) + materialPad;
     for (const [node] of selected) {
       const b = node.getBBox();
-      const pad = Math.max(8, parseFloat(getComputedStyle(node).strokeWidth) || 0);
+      const pad = Math.max(materialPad, parseFloat(getComputedStyle(node).strokeWidth) || 0);
       x = Math.min(x, b.x - pad); y = Math.min(y, b.y - pad);
       right = Math.max(right, b.x + b.width + pad); bottom = Math.max(bottom, b.y + b.height + pad);
     }

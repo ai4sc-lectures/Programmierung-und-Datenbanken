@@ -99,8 +99,28 @@
     code span.va { color: #111111; } /* Variable */
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
-  </style>
-  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-c6d6628e7e574435f2d21401e0a6d85b.css">
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
+  <link rel="stylesheet" href="site_libs/revealjs/dist/theme/quarto-6dce41dc0c0246aad3bb655aec13f37d.css">
   <link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/fonts.css">
   <link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/reveal-fixes.css">
   <link rel="stylesheet" href="site_libs/quarto-contrib/quarto-project/ai4sc-style/themes/color/warm-bone.css">
@@ -232,20 +252,6 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
   const imageSelector = ".reveal .slides section > img.r-stretch, .reveal .slides section > img.stretch";
   const SIZED_ATTR = "data-ai4sc-sized";
 
-  const stamp = (root = document) => {
-    root.querySelectorAll(imageSelector).forEach((img) => {
-      if (!(img instanceof HTMLElement)) return;
-      const style = img.getAttribute("style") || "";
-      if (
-        img.hasAttribute("width") ||
-        img.hasAttribute("height") ||
-        /(^|;)\s*(width|height)\s*:/.test(style)
-      ) {
-        img.setAttribute(SIZED_ATTR, "");
-      }
-    });
-  };
-
   const release = (root = document) => {
     root.querySelectorAll(imageSelector).forEach((img) => {
       if (!(img instanceof HTMLElement) || !img.hasAttribute(SIZED_ATTR)) {
@@ -269,12 +275,10 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 
   const scheduleRelease = () => window.requestAnimationFrame(() => release());
 
-  const init = () => { stamp(); scheduleRelease(); };
-
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init, { once: true });
+    document.addEventListener("DOMContentLoaded", scheduleRelease, { once: true });
   } else {
-    init();
+    scheduleRelease();
   }
 
   window.addEventListener("load", scheduleRelease, { once: true });
@@ -282,20 +286,21 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 })();
 </script>
 <script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/plotly-loader.js"></script>
+<script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/ragged-images.js"></script>
 <script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/scramble-fragments.js"></script>
 <script>window.slideParticlesConfig = {"particleCount": 500, "particleTheme": "binary-minimal", "particleRandomRespawnRatio": 0.24};</script>
 <script type="module" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/slide-particles.js"></script>
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" data-background-color="black" data-background-video="images/08b_CodeReview/mj_title.mp4" data-background-video-loop="true" data-background-video-muted="true" class="center">
+<section id="title-slide" data-background-color="black" data-background-video="images/08b_CodeReview/mj_title.mp4" data-background-video-loop="true" data-background-video-muted="true" data-background-video-poster="images/08b_CodeReview/mj_title_poster.jpg" class="center">
   <div class="vslide-title">
         <br><img class="logo" src="site_libs/quarto-contrib/quarto-project/ai4sc-style/assets/logos/uni_logo2.svg" alt="Uni Rostock" style="width: 400px"><br><br>
      
     <h1 class="title">Code Review</h1>
             <p class="author">Joern Ploennigs · AI4SC</p>
                         <p class="image-credit">
-      Midjourney: Engineers reviewing technical blueprints
+      cf.&nbsp;‘The Jury Room’ by Norman Rockwell
     </p>
       </div>
 </section>
@@ -303,382 +308,41 @@ window.__ai4scReleaseSizedImages = window.__ai4scReleaseSizedImages || (() => {
 <h2>Hörsaalfrage</h2>
 <div class="columns">
 <div class="column vcent" style="width:40%;">
-<p>Würdet ihr eurem Kollegen vertrauen, wenn er euch Code gibt — ohne ihn zu lesen?</p>
+<p>Welche Schritte hat der agentische Entwicklungs-Loop?</p>
 </div><div class="column" style="width:60%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="images/08b_CodeReview/mj_engineers_reviewing.png" class="midjourney"></p>
-<figcaption>Midjourney: Two engineers reviewing blueprints together</figcaption>
+<p><img data-src="images/01a_Ueberblick/mj_robot_load.png" class="midjourney"></p>
+<figcaption>Midjourney: Student with a deadline</figcaption>
 </figure>
 </div>
 </div></div>
+<!-- TODO MJ: A robot writes code, an engineer checks it, both in a loop -->
 </section>
-<section>
-<section id="warum-ki-code-reviewen-1" class="title-slide slide level1 center">
-<h1>Warum KI-Code reviewen?</h1>
-
-</section>
-<section id="ki-ist-zuversichtlich-nicht-immer-korrekt" class="slide level2">
-<h2>KI ist zuversichtlich — nicht immer korrekt</h2>
+<section id="wiederholung-agentischer-entwicklungs-loop" class="slide level2">
+<h2>Wiederholung: Agentischer Entwicklungs-Loop</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<h3 id="ki-ist-gut-in">KI ist gut in</h3>
+<p>KI übernimmt die Implementierungsphase — der Ingenieur steuert und verifiziert:</p>
 <ul>
-<li>Code-Struktur und Syntax</li>
-<li>Standardmuster implementieren</li>
-<li>Erste Lösungen schnell liefern</li>
+<li><em>Prompt</em> = Anforderungsspezifikation</li>
+<li><em>Generate</em> = Implementierungssprint (KI)</li>
+<li><em>Verify</em> = Verstehen &amp; Testen (Mensch)</li>
+<li><em>Iterate</em> = Prompt verfeinern</li>
 </ul>
+<p><strong>Kernkompetenz:</strong> Verstehen und Verifizieren</p>
 </div><div class="column" style="width:50%;">
-<h3 id="ki-macht-fehler-bei">KI macht Fehler bei</h3>
-<ul>
-<li><span class="con">Anforderungen vollständig umsetzen</span></li>
-<li><span class="con">Randfälle berücksichtigen</span></li>
-<li><span class="con">Nicht existierende Funktionen</span></li>
-<li><span class="con">Typ-Annahmen validieren</span></li>
-</ul>
+<p><img data-src="images/03c_Softwareentwurf/agentic_loop.svg" class="ragged"></p>
 </div></div>
 </section>
-<section id="code-review-drei-dimensionen" class="slide level2">
-<h2>Code Review: Drei Dimensionen</h2>
-<div class="eyebrow">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5c-1.4 0-2.5-1.1-2.5-2.5V2"></path>
-  <path d="M8.5 2h7"></path>
-  <path d="M14.5 16h-5"></path>
-</svg>
-</span></p>
-</div>
-<div class="eyebrow">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M14.5 2v17.5c0 1.4-1.1 2.5-2.5 2.5c-1.4 0-2.5-1.1-2.5-2.5V2"></path>
-  <path d="M8.5 2h7"></path>
-  <path d="M14.5 16h-5"></path>
-</svg>
-</span> Review-Prozess</p>
-</div>
-<div class="columns">
-<div class="column" style="width:33%;">
-<h4 id="anforderungsprüfung">1. Anforderungsprüfung</h4>
-<p>Macht der Code, was verlangt wurde?</p>
-</div><div class="column" style="width:33%;">
-<h4 id="designprüfung">2. Designprüfung</h4>
-<p>Entspricht er der Architektur?</p>
-</div><div class="column" style="width:33%;">
-<h4 id="implementierungsprüfung">3. Implementierungsprüfung</h4>
-<p>Ist er korrekt, sicher, wartbar?</p>
-</div></div>
-</section></section>
-<section>
-<section id="anforderungsprüfung-2" class="title-slide slide level1 center">
-<h1>Anforderungsprüfung</h1>
-
-</section>
-<section id="anforderungen-systematisch-prüfen" class="slide level2">
-<h2>Anforderungen systematisch prüfen</h2>
-<div class="eyebrow">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
-  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-  <path d="M12 11h4"></path>
-  <path d="M12 16h4"></path>
-  <path d="M8 11h.01"></path>
-  <path d="M8 16h.01"></path>
-</svg>
-</span></p>
-</div>
-<p>Für jede funktionale Anforderung drei Fragen:</p>
-<div class="columns">
-<div class="column" style="width:33%;">
-<h4 id="implementiert">Implementiert?</h4>
-<p>Gibt es Code, der diese Anforderung umsetzt?</p>
-</div><div class="column" style="width:33%;">
-<h4 id="getestet">Getestet?</h4>
-<p>Existiert ein Unit-Test dafür?</p>
-</div><div class="column" style="width:33%;">
-<h4 id="bestanden">Bestanden?</h4>
-<p>Laufen alle Tests grün durch?</p>
-</div></div>
-
-<aside><div>
-<p>→ <code>04a_Anforderungen</code> (S04): Anforderungen als Review-Standard</p>
-</div></aside></section>
-<section id="anforderungs-tracing-beispiel" class="slide level2">
-<h2>Anforderungs-Tracing: Beispiel</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Anforderung: Berechne Neigung in Prozent (Höhe / Länge × 100)</span></span>
-<span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> berechne_neigung(hoehe, laenge):</span>
-<span id="cb1-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> hoehe <span class="op">/</span> laenge   <span class="co"># Fehler: × 100 fehlt — Einheit falsch</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Was prüfen?</p>
+<section id="code-review-ist-der-schritt-verify-im-agentischen-entwicklungs-loop" class="slide level2">
+<h2>Code Review ist der Schritt „Verify“ im agentischen Entwicklungs-Loop</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><strong>Review-Fragen:</strong></p>
-<ul class="task-list">
-<li><label><input type="checkbox">Formel korrekt implementiert?</label></li>
-<li><label><input type="checkbox">Rückgabewert vollständig?</label></li>
-<li><label><input type="checkbox">Randfälle berücksichtigt?</label></li>
-</ul>
+<p>Das Code Review ist der Schritt „Verify“ des Loops.</p>
+<p>Du bist der Verifizierer, neben dem Auftraggeber (Prompt) und dem Leser (Verstehen). Dieses Kapitel zeigt, wie du diesen Schritt ausführst.</p>
+<p>Schlägt das Review fehl, benenne den konkreten Mangel im Prompt (Iterate) und prüfe das Ergebnis erneut.</p>
 </div><div class="column" style="width:50%;">
-<p><strong>Test schreiben:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Erwartet: 10.0 (Prozent)</span></span>
-<span id="cb2-2"><a aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> berechne_neigung(<span class="dv">1</span>, <span class="dv">10</span>) <span class="op">==</span> <span class="fl">10.0</span></span>
-<span id="cb2-3"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Ergebnis: 0.1 — Test schlägt fehl</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-</div></div>
-</section></section>
-<section>
-<section id="designprüfung-2" class="title-slide slide level1 center">
-<h1>Designprüfung</h1>
-
-</section>
-<section id="design-match-prüfen" class="slide level2">
-<h2>Design-Match prüfen</h2>
-<div class="eyebrow">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <path d="M8 3 4 7l4 4"></path>
-  <path d="M4 7h16"></path>
-  <path d="m16 21 4-4-4-4"></path>
-  <path d="M20 17H4"></path>
-</svg>
-</span></p>
-</div>
-<div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="modulstruktur">Modulstruktur</h3>
-<ul>
-<li>Passt der Code ins richtige Modul?</li>
-<li>Werden bestehende Module genutzt?</li>
-<li>Entstehen zirkuläre Importe?</li>
-</ul>
-<h3 id="klasseninterfaces">Klasseninterfaces</h3>
-<ul>
-<li>Stimmen Klassennamen mit dem UML überein?</li>
-<li>Stimmen Methodensignaturen?</li>
-<li>Werden vorhandene Klassen erweitert?</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<p><strong>UML-Design:</strong></p>
-<pre class="text"><code>class Messung:
-    + wert: float
-    + einheit: str
-    + validiere() → bool</code></pre>
-<p><strong>KI-generierter Code:</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> DataPoint:       <span class="co"># falscher Name</span></span>
-<span id="cb4-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, v):</span>
-<span id="cb4-3"><a aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.val <span class="op">=</span> v   <span class="co"># falsches Attribut</span></span>
-<span id="cb4-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="co"># validiere() fehlt</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-</div></div>
-
-<aside><div>
-<p>→ <code>03c_Softwareentwurf</code> (S03): Design als zweiter Review-Standard</p>
-</div></aside></section></section>
-<section>
-<section id="implementierungsprüfung-2" class="title-slide slide level1 center">
-<h1>Implementierungsprüfung</h1>
-
-</section>
-<section id="typische-implementierungsprobleme" class="slide level2">
-<h2>Typische Implementierungsprobleme</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="division-ohne-null-prüfung">Division ohne Null-Prüfung</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> neigung(h, l):</span>
-<span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> h <span class="op">/</span> l  <span class="co"># Fehler: Division durch Null!</span></span>
-<span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Fix:</span></span>
-<span id="cb5-5"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> neigung(h, l):</span>
-<span id="cb5-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> l <span class="op">==</span> <span class="dv">0</span>:</span>
-<span id="cb5-7"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Länge = 0"</span>)</span>
-<span id="cb5-8"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> h <span class="op">/</span> l</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<h3 id="mutable-default-argument">Mutable Default-Argument</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sammle(w, liste<span class="op">=</span>[]):  <span class="co"># Fehler!</span></span>
-<span id="cb6-2"><a aria-hidden="true" tabindex="-1"></a>    liste.append(w)</span>
-<span id="cb6-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> liste</span>
-<span id="cb6-4"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Fix:</span></span>
-<span id="cb6-6"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sammle(w, liste<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb6-7"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> liste <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb6-8"><a aria-hidden="true" tabindex="-1"></a>        liste <span class="op">=</span> []</span>
-<span id="cb6-9"><a aria-hidden="true" tabindex="-1"></a>    liste.append(w)</span>
-<span id="cb6-10"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> liste</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:50%;">
-<h3 id="fehlende-typ-annotationen">Fehlende Typ-Annotationen</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> verarbeite(daten):  <span class="co"># Typ unklar</span></span>
-<span id="cb7-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> daten <span class="op">*</span> <span class="dv">2</span></span>
-<span id="cb7-3"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Fix:</span></span>
-<span id="cb7-5"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> verarbeite(daten: <span class="bu">list</span>[<span class="bu">float</span>]) <span class="op">-&gt;</span> <span class="bu">list</span>[<span class="bu">float</span>]:</span>
-<span id="cb7-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [x <span class="op">*</span> <span class="dv">2</span> <span class="cf">for</span> x <span class="kw">in</span> daten]</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<h3 id="hartcodierte-werte">Hartcodierte Werte</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> temp <span class="op">&gt;</span> <span class="dv">100</span>:  <span class="co"># Warum 100?</span></span>
-<span id="cb8-2"><a aria-hidden="true" tabindex="-1"></a>    alarm()</span>
-<span id="cb8-3"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a aria-hidden="true" tabindex="-1"></a><span class="co"># Fix:</span></span>
-<span id="cb8-5"><a aria-hidden="true" tabindex="-1"></a>MAX_TEMP_CELSIUS <span class="op">=</span> <span class="dv">100</span></span>
-<span id="cb8-6"><a aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> temp <span class="op">&gt;</span> MAX_TEMP_CELSIUS:</span>
-<span id="cb8-7"><a aria-hidden="true" tabindex="-1"></a>    alarm()</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-</div></div>
-</section>
-<section id="implementierungs-scan-kernchecks" class="slide level2">
-<h2>Implementierungs-Scan: Kernchecks</h2>
-<p>Was bei jedem Code-Block zu prüfen ist:</p>
-<ul class="task-list">
-<li><label><input type="checkbox">Division: Nullprüfung vorhanden?</label></li>
-<li><label><input type="checkbox">Standardargumente: kein <code>list=[]</code> oder <code>dict={}</code>?</label></li>
-<li><label><input type="checkbox">Typ-Annotationen: alle Parameter annotiert?</label></li>
-</ul>
-</section>
-<section id="implementierungs-scan-ergänzungen" class="slide level2">
-<h2>Implementierungs-Scan: Ergänzungen</h2>
-<p>Danach die zweite Prüfrunde:</p>
-<ul class="task-list">
-<li><label><input type="checkbox"><code>return</code>-Anweisung: in jeder Funktion vorhanden?</label></li>
-<li><label><input type="checkbox">Hartcodierte Werte: durch Konstanten ersetzt?</label></li>
-<li><label><input type="checkbox">Fehlerbehandlung: sinnvolle Exceptions definiert?</label></li>
-</ul>
-</section>
-<section id="hörsaalfrage-1" class="slide level2" data-background="#FFD966">
-<h2>Hörsaalfrage</h2>
-<p>Findet in 2 Minuten mindestens drei Probleme:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mittelwert(werte<span class="op">=</span>[]):</span>
-<span id="cb9-2"><a aria-hidden="true" tabindex="-1"></a>    summe <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb9-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> wert <span class="kw">in</span> werte:</span>
-<span id="cb9-4"><a aria-hidden="true" tabindex="-1"></a>        summe <span class="op">+=</span> wert</span>
-<span id="cb9-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> summe <span class="op">/</span> <span class="bu">len</span>(werte)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p><strong>Nutzt die Checkliste:</strong></p>
-<ul>
-<li>Anforderungen vollständig?</li>
-<li>Randfälle berücksichtigt?</li>
-<li>Implementierungsprobleme sichtbar?</li>
-</ul>
-</div><div class="column" style="width:50%;">
-<p><strong>Mögliche Treffer:</strong></p>
-<ul>
-<li>Mutable Default-Argument</li>
-<li>Division durch Null bei leerer Liste</li>
-<li>Keine Typ-Annotationen</li>
-</ul>
-</div></div>
-</section></section>
-<section>
-<section id="ki-halluzinationen-1" class="title-slide slide level1 center">
-<h1>KI-Halluzinationen</h1>
-
-</section>
-<section id="ki-halluzinationsmuster" class="slide level2">
-<h2>KI-Halluzinationsmuster</h2>
-<div class="columns">
-<div class="column" style="width:50%;">
-<h3 id="nicht-existierende-methoden">Nicht existierende Methoden</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb10-2"><a aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">"daten.csv"</span>)</span>
-<span id="cb10-4"><a aria-hidden="true" tabindex="-1"></a>df.interpolate_missing()  <span class="co"># existiert nicht</span></span>
-<span id="cb10-5"><a aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> df.to_geojson()  <span class="co"># existiert nicht</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<h3 id="nicht-existierende-module">Nicht existierende Module</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas_lite      <span class="co"># existiert nicht</span></span>
-<span id="cb11-2"><a aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas.geospatial   <span class="co"># existiert nicht</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:50%;">
-<h3 id="falsche-api-nutzung">Falsche API-Nutzung</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a><span class="co"># sklearn falsch verwendet:</span></span>
-<span id="cb12-2"><a aria-hidden="true" tabindex="-1"></a>model.fit_transform(X_test)     <span class="co"># nur für Training</span></span>
-<span id="cb12-3"><a aria-hidden="true" tabindex="-1"></a>model.score(X, y, metric<span class="op">=</span><span class="st">"f1"</span>)  <span class="co"># kein metric-Parameter</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-<h3 id="unnötige-abstraktionen">Unnötige Abstraktionen</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SingletonLoader:   <span class="co"># für Einmalnutzung unnötig</span></span>
-<span id="cb13-2"><a aria-hidden="true" tabindex="-1"></a>    _instance <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb13-3"><a aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__new__</span>(cls): ...</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
-</div></div>
-<div title="Erkennungsstrategie">
-<div class="callout callout-note callout-titled callout-style-default">
-<div class="callout-body">
-<div class="callout-title">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<p><strong>Erkennungsstrategie</strong></p>
-</div>
-<div class="callout-content">
-<p>Jeden <code>import</code> und jeden Methodenaufruf gegen die Dokumentation prüfen. Code ausführen — nicht nur lesen.</p>
-</div>
-</div>
-</div>
-</div>
-</section></section>
-<section>
-<section id="ki-evaluierungscheckliste-1" class="title-slide slide level1 center">
-<h1>KI-Evaluierungscheckliste</h1>
-
-</section>
-<section id="ki-evaluierungscheckliste-2" class="slide level2">
-<h2>KI-Evaluierungscheckliste</h2>
-<div class="eyebrow">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect>
-  <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
-  <path d="M12 11h4"></path>
-  <path d="M12 16h4"></path>
-  <path d="M8 11h.01"></path>
-  <path d="M8 16h.01"></path>
-</svg>
-</span></p>
-</div>
-<p><strong>Anforderungen &amp; Design</strong></p>
-<ul class="task-list">
-<li><label><input type="checkbox">Anforderungsabdeckung: alle Anforderungen implementiert?</label></li>
-<li><label><input type="checkbox">Design-Übereinstimmung: Module, Klassen, Signaturen korrekt?</label></li>
-</ul>
-<p><strong>Implementierung</strong></p>
-<ul class="task-list">
-<li><label><input type="checkbox">Typ-Korrektheit: Annotationen vorhanden und korrekt?</label></li>
-<li><label><input type="checkbox">Randfälle: Division, leere Listen, None-Werte behandelt?</label></li>
-<li><label><input type="checkbox">Fehlerbehandlung: sinnvolle Exceptions definiert?</label></li>
-</ul>
-<p><strong>KI-spezifisch</strong></p>
-<ul class="task-list">
-<li><label><input type="checkbox">Keine halluzierten Aufrufe: alle Funktionen verifiziert?</label></li>
-<li><label><input type="checkbox">Test-Suite: alle Tests laufen durch?</label></li>
-</ul>
-</section>
-<section id="agentic-workflow-nach-der-generierung" class="slide level2">
-<h2>Agentic Workflow nach der Generierung</h2>
-<blockquote>
-<p><strong>Agentic workflow:</strong> Nach jeder KI-Generierung: 1. Anforderungen → Checkliste durchgehen 2. Design → UML vergleichen 3. Implementierung → sechs Muster scannen 4. Halluzinationen → Importe und Aufrufe testen 5. Tests → alle grün? 6. Nein → Prompt präzisieren und neu generieren</p>
-</blockquote>
-
-<aside><div>
-<p>→ <code>08a_UnitTest</code> (S08): Tests als automatisierter Teil des Reviews</p>
-</div></aside></section>
-<section id="code-review-verify" class="slide level2">
-<h2>Code Review = Verify</h2>
-<div class="eyebrow">
-<p><span class="ai4sc-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter">
-  <rect width="8" height="8" x="3" y="3" rx="2"></rect>
-  <path d="M7 11v4a2 2 0 0 0 2 2h4"></path>
-  <rect width="8" height="8" x="13" y="13" rx="2"></rect>
-</svg>
-</span> Agentic Cycle</p>
-</div>
-<div class="columns">
-<div class="column" style="width:50%;">
-<p><strong>Review schließt den Agentic Cycle:</strong></p>
-<pre class="text"><code>Prompt
-  ↓
-Generate (KI)
-  ↓
-Understand
-  ↓
-Verify ← Code Review
-  ↓
-Iterate (bei Fehler)</code></pre>
-</div><div class="column" style="width:50%;">
-<p><strong>Review schlägt fehl → iterieren:</strong></p>
-<ul>
-<li>Spezifischen Fehler im Prompt benennen</li>
-<li>Checklisten-Punkt als Prompt-Ergänzung nutzen</li>
-<li>Neu generieren lassen</li>
-<li>Erneut reviewen</li>
-</ul>
-</div></div>
 <div title="Merksatz">
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
@@ -689,9 +353,541 @@ Iterate (bei Fehler)</code></pre>
 <p><strong>Merksatz</strong></p>
 </div>
 <div class="callout-content">
-<p>Tests prüfen automatisch. Code Review prüft, was Tests nicht sehen können.</p>
+<p>Tests prüfen automatisch. Das Code Review prüft zusätzlich die Aufgabe, die Tests selbst und die Fachlogik.</p>
 </div>
 </div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="hörsaalfrage-1" class="slide level2" data-background="#FFD966">
+<h2>Hörsaalfrage</h2>
+<div class="columns">
+<div class="column vcent" style="width:40%;">
+<p>Der Agent meldet: Eingaben behandelt, alle Tests grün. Was prüfst du noch?</p>
+</div><div class="column" style="width:60%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/04a_Anforderungen/mj_jobdone.png" class="midjourney"></p>
+<figcaption>Midjourney: Job Done</figcaption>
+</figure>
+</div>
+</div></div>
+</section>
+<section>
+<section id="prüfen-in-vier-schritten-1" class="title-slide slide level1 center">
+<h1>Prüfen in vier Schritten</h1>
+
+</section>
+<section id="agenten-verletzen-vorgaben-ändern-zu-viel-und-melden-erfolg-der-nicht-stimmt-1" class="slide level2">
+<h2>Agenten verletzen Vorgaben, ändern zu viel und melden Erfolg, der nicht stimmt</h2>
+<div class="stat-grid large" style="grid-template-columns: repeat(2, 1fr); gap: 12px;">
+<div class="stat-card">
+<div class="stat-value">
+<p>38,3 %</p>
+</div>
+<div class="stat-label">
+<p>Vorgabe verletzt</p>
+</div>
+<div class="stat-delta">
+<p>Der Agent hält sich nicht an eine Vorgabe der Entwickelnden</p>
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-value">
+<p>27,0 %</p>
+</div>
+<div class="stat-label">
+<p>Missverstandene Absicht</p>
+</div>
+<div class="stat-delta">
+<p>Der Agent deutet die Absicht der Anfrage anders als gemeint</p>
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-value">
+<p>22,6 %</p>
+</div>
+<div class="stat-label">
+<p>Falsche Erfolgsmeldung</p>
+</div>
+<div class="stat-delta">
+<p>Der Agent meldet Erfolg, der nicht stimmt</p>
+</div>
+</div>
+<div class="stat-card">
+<div class="stat-value">
+<p>10,2 %</p>
+</div>
+<div class="stat-label">
+<p>Eigenmächtige Änderungen</p>
+</div>
+<div class="stat-delta">
+<p>Der Agent ändert mehr, als verlangt war</p>
+</div>
+</div>
+</div>
+<p>Anteile an den validierten Episoden, in denen Entwickelnde und Agent nicht zusammenpassten; eine Episode kann mehreren Formen angehören. Du kannst dich nicht auf „fertig“ verlassen: Prüfe selbst, ob das Ergebnis stimmt.</p>
+<div class="slide-refs">
+<p>Tang et al.: How Coding Agents Fail Their Users, arXiv:2605.29442, 2026. Anteile an allen 16.118 validierten Episoden (Mehrfachzuordnung möglich), gerundet</p>
+<p>Anthropic: Best practices for Claude Code, 2026</p>
+</div>
+<div class="slide-ref-cites">
+<!-- slide_ref: tang2026agents, anthropic2026bestpractices -->
+<p><span class="citation" data-cites="tang2026agents anthropic2026bestpractices">[<a href="#/referenzen" role="doc-biblioref" onclick="">Anthropic, 2026</a>; <a href="#/referenzen" role="doc-biblioref" onclick="">Tang et al., 2026</a>]</span></p>
+</div>
+</section>
+<section id="wiederholung-die-kapazitätsfalle-beim-prüfen" class="slide level2">
+<h2>Wiederholung: Die Kapazitätsfalle beim Prüfen</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>Das Prüfen von KI-Output ist ermüdend („AI Fatigue“) und nicht trivial, Beispiel Softwareentwicklung:</p>
+<ul>
+<li><span class="con">KI-Output skaliert schneller als menschliche Review-Kapazität (4× mehr Pull Requests auf GitHub <span class="citation" data-cites="coderabbit2026throttle">[<a href="#/referenzen" role="doc-biblioref" onclick="">CodeRabbit, 2026</a>]</span>)</span></li>
+<li><span class="pro">Die gefühlte Produktivität steigt <span class="citation" data-cites="metr2025devstudy">[<a href="#/referenzen" role="doc-biblioref" onclick="">METR, 2025</a>]</span></span></li>
+<li><span class="con">Die gemessene Produktivität sinkt <span class="citation" data-cites="metr2025devstudy">[<a href="#/referenzen" role="doc-biblioref" onclick="">METR, 2025</a>]</span></span></li>
+</ul>
+</div><div class="column" style="width:40%;">
+<div id="plotly-kapazitaetsfalle" style="width:600px;height:430px">
+
+</div>
+<script type="module">
+  await window.PLOTLY_READY;
+  await window.renderPlotlyFromJSON("plotly-kapazitaetsfalle", "data/03d_AgentischesProgrammieren/kapazitaetsfalle.json");
+</script>
+</div><div class="column" style="width:20%;">
+<blockquote>
+<p>„Entwickler erwarteten, mit KI 24 % schneller zu sein, und selbst nachdem sie die Verlangsamung erlebt hatten, glaubten sie noch, KI habe sie um 20 % beschleunigt.“</p>
+<p>— <span class="citation" data-cites="metr2025devstudy">METR [<a href="#/referenzen" role="doc-biblioref" onclick="">2025</a>]</span></p>
+</blockquote>
+</div></div>
+<div class="slide-refs">
+<p>METR: <em>Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity</em>, 2025.</p>
+<p>CodeRabbit: <em>GitHub Gives Maintainers a Throttle for the AI Pull Request</em>, 2026.</p>
+</div>
+<div class="slide-ref-cites">
+<!-- slide_ref: metr2025devstudy, coderabbit2026throttle -->
+<p><span class="citation" data-cites="metr2025devstudy coderabbit2026throttle">[<a href="#/referenzen" role="doc-biblioref" onclick="">CodeRabbit, 2026</a>; <a href="#/referenzen" role="doc-biblioref" onclick="">METR, 2025</a>]</span></p>
+</div>
+</section>
+<section id="wiederholung-ki-schreibt-den-code-du-verantwortest-ihn" class="slide level2">
+<h2>Wiederholung: KI schreibt den Code, du verantwortest ihn</h2>
+<div class="lead">
+<p>Die KI ist die Junior-Entwicklerin, du bist der Senior, der den Code abnimmt.</p>
+</div>
+<div class="columns">
+<div class="column" style="width:33%;">
+<h3 id="auftraggeber">Auftraggeber</h3>
+<ul>
+<li>Anforderung präzise formulieren</li>
+<li>Im Biegespannungs-Beispiel: Einheiten fehlten im Prompt</li>
+</ul>
+</div><div class="column" style="width:33%;">
+<h3 id="leser">Leser</h3>
+<ul>
+<li>Code und Annahmen verstehen</li>
+<li>Im Beispiel: kNm durch mm³ im Datenfluss</li>
+</ul>
+</div><div class="column" style="width:33%;">
+<h3 id="verifizierer">Verifizierer</h3>
+<ul>
+<li>Ergebnis gegen die Anforderung prüfen</li>
+<li>Im Beispiel: Handrechnung ergibt 28,1</li>
+</ul>
+</div></div>
+</section>
+<section id="prüfe-in-vier-schritten-aufgabe-tests-änderungen-ausführung-1" class="slide level2">
+<h2>Prüfe in vier Schritten: Aufgabe, Tests, Änderungen, Ausführung</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<ol type="1">
+<li><strong>Aufgabe:</strong> Welche Dateien hat der Agent geändert, und waren sie verlangt?</li>
+<li><strong>Tests:</strong> Prüfen sie noch die Anforderung?</li>
+<li><strong>Änderungen:</strong> Steht im Code etwas Unverlangtes oder Gefährliches?</li>
+<li><strong>Ausführung:</strong> Stimmt das Ergebnis bei Randwerten und in der richtigen Einheit?</li>
+</ol>
+</div><div class="column" style="width:60%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/08b_CodeReview/review_ablauf.svg" class="ragged quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="ein-diff-zeigt-welche-zeilen-sich-geändert-haben-1" class="slide level2">
+<h2>Ein Diff zeigt, welche Zeilen sich geändert haben</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>Ein Diff vergleicht die alte mit der neuen Version einer Datei.</p>
+<ul>
+<li>Zeile mit <code>-</code>: wurde entfernt</li>
+<li>Zeile mit <code>+</code>: wurde hinzugefügt</li>
+<li>Zeile ohne Zeichen: blieb gleich</li>
+</ul>
+<p>Beispiel: Die Funktion bekommt eine Prüfung auf eine leere Liste. Agenten und Git zeigen solche Änderungen als Diff.</p>
+</div><div class="column" style="width:60%;">
+<p>Alt:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mittelwert(werte):</span>
+<span id="cb1-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(werte) <span class="op">/</span> <span class="bu">len</span>(werte)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Neu:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mittelwert(werte):</span>
+<span id="cb2-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> werte:</span>
+<span id="cb2-3"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"Liste ist leer"</span>)</span>
+<span id="cb2-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(werte) <span class="op">/</span> <span class="bu">len</span>(werte)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Diff:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode diff code-with-copy"><code class="sourceCode diff"><span id="cb3-1"><a aria-hidden="true" tabindex="-1"></a> def mittelwert(werte):</span>
+<span id="cb3-2"><a aria-hidden="true" tabindex="-1"></a><span class="va">+    if not werte:</span></span>
+<span id="cb3-3"><a aria-hidden="true" tabindex="-1"></a><span class="va">+        raise ValueError("Liste ist leer")</span></span>
+<span id="cb3-4"><a aria-hidden="true" tabindex="-1"></a>     return sum(werte) / len(werte)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+</section>
+<section id="prüfe-zuerst-welche-dateien-der-agent-geändert-hat-1" class="slide level2">
+<h2>Prüfe zuerst, welche Dateien der Agent geändert hat</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Prompt an den Agenten:</p>
+<blockquote>
+<p>Behandle ungültige Eingaben in <code>klassifiziere_boden</code>.</p>
+</blockquote>
+<p>Verlangt war nur eine Änderung an der Funktion in <code>boden.py</code>.</p>
+<p>Der Agent hat zusätzlich <code>test_boden.py</code> und <code>requirements.txt</code> geändert. Prüfe diese beiden Dateien genau: Beide waren nicht verlangt.</p>
+<p>Konstruiertes Beispiel mit der Funktion aus dem Kapitel zu Unit-Tests.</p>
+</div><div class="column" style="width:50%;">
+<p>Geänderte Dateien:</p>
+<pre class="text"><code>boden.py          Funktion geändert
+test_boden.py     Test geändert
+requirements.txt  Zeile hinzugefügt</code></pre>
+</div></div>
+</section>
+<section id="der-agent-hat-den-test-an-seinen-code-angepasst-1" class="slide level2">
+<h2>Der Agent hat den Test an seinen Code angepasst</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Verlangt war ein <code>ValueError</code>, wenn die Eingabe keine Zahl ist.</p>
+<p>Der Agent hat den Test so geändert, dass er jetzt <code>"Sauber"</code> erwartet. Der Test prüft die Anforderung nicht mehr.</p>
+<p>Halte das im Review als Mangel fest und gib es an den Agenten zurück.</p>
+</div><div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode diff code-with-copy"><code class="sourceCode diff"><span id="cb5-1"><a aria-hidden="true" tabindex="-1"></a> def test_boden_datentyp():</span>
+<span id="cb5-2"><a aria-hidden="true" tabindex="-1"></a><span class="st">-    try:</span></span>
+<span id="cb5-3"><a aria-hidden="true" tabindex="-1"></a><span class="st">-        klassifiziere_boden("abc")</span></span>
+<span id="cb5-4"><a aria-hidden="true" tabindex="-1"></a><span class="st">-    except ValueError:</span></span>
+<span id="cb5-5"><a aria-hidden="true" tabindex="-1"></a><span class="st">-        pass</span></span>
+<span id="cb5-6"><a aria-hidden="true" tabindex="-1"></a><span class="st">-    else:</span></span>
+<span id="cb5-7"><a aria-hidden="true" tabindex="-1"></a><span class="st">-        raise AssertionError("ValueError erwartet")</span></span>
+<span id="cb5-8"><a aria-hidden="true" tabindex="-1"></a><span class="va">+    assert klassifiziere_boden("abc") == "Sauber"</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+<div class="slide-refs">
+<p>Gabor et al.: EvilGenie, arXiv:2511.21654, 2025</p>
+</div>
+<div class="slide-ref-cites">
+<!-- slide_ref: gabor2025evilgenie -->
+<p><span class="citation" data-cites="gabor2025evilgenie">[<a href="#/referenzen" role="doc-biblioref" onclick="">Gabor et al., 2025</a>]</span></p>
+</div>
+</section>
+<section id="die-erklärbarkeitsfalle-1" class="slide level2">
+<h2>Die Erklärbarkeitsfalle</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>KIs erklären nicht, was sie tun, sondern nur, was sie denken, dass sie tun.</p>
+<ul>
+<li><span class="con">Die Erklärungen geben genutzte Hinweise nur zu 25 % (Claude 3.7 Sonnet) bzw. 39 % (DeepSeek R1) wieder</span></li>
+<li><span class="con">In Reward-Hacking-Umgebungen lernt das Modell den Trick vollständig, erwähnt ihn in 5 von 6 Umgebungen aber in unter 2 % der Erklärungen</span></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div id="plotly-erklaerbarkeit" style="width:600px;height:430px">
+
+</div>
+<script type="module">
+  await window.PLOTLY_READY;
+  await window.renderPlotlyFromJSON("plotly-erklaerbarkeit", "data/08b_CodeReview/erklaerbarkeit.json");
+</script>
+</div></div>
+<p>Korrekturmaßnahmen:</p>
+<ul>
+<li>Plausible Begründung nicht als Nachweis akzeptieren</li>
+<li>Nach Erklärungen mit überprüfbaren Quellen, Berechnungen und Daten fragen</li>
+<li>Den Denkprozess der Modelle ansehen</li>
+</ul>
+<div class="slide-refs">
+<p>Chen et al.: <em>Reasoning Models Don’t Always Say What They Think</em>, arXiv:2505.05410, 2025.</p>
+</div>
+<div class="slide-ref-cites">
+<!-- slide_ref: chen2025faithfulness -->
+<p><span class="citation" data-cites="chen2025faithfulness">[<a href="#/referenzen" role="doc-biblioref" onclick="">Chen et al., 2025</a>]</span></p>
+</div>
+</section>
+<section id="der-except-zweig-gibt-sauber-zurück-statt-einen-fehler-zu-melden-1" class="slide level2">
+<h2>Der except-Zweig gibt „Sauber“ zurück, statt einen Fehler zu melden</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>Bei Text oder <code>None</code> meldet die Funktion <code>"Sauber"</code>. Ein defekter Sensor führt so zu Entwarnung.</p>
+<p>Besser: einen Fehler auslösen, <code>raise ValueError("wert muss eine Zahl sein")</code> statt <code>return "Sauber"</code>.</p>
+</div><div class="column" style="width:60%;">
+<div id="4e50b9a7" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> klassifiziere_boden_agent(wert):</span>
+<span id="cb6-2"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb6-3"><a aria-hidden="true" tabindex="-1"></a>        wert <span class="op">=</span> <span class="bu">float</span>(wert)</span>
+<span id="cb6-4"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> (<span class="pp">TypeError</span>, <span class="pp">ValueError</span>):</span>
+<span id="cb6-5"><a aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">"Sauber"</span></span>
+<span id="cb6-6"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> wert <span class="op">&lt;</span> <span class="dv">50</span>: <span class="cf">return</span> <span class="st">"Sauber"</span></span>
+<span id="cb6-7"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> wert <span class="op">&lt;</span> <span class="dv">150</span>: <span class="cf">return</span> <span class="st">"Beobachten"</span></span>
+<span id="cb6-8"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>: <span class="cf">return</span> <span class="st">"Kritisch"</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="21ecf155" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a aria-hidden="true" tabindex="-1"></a>klassifiziere_boden_agent(<span class="st">"abc"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>'Sauber'</code></pre>
+</div>
+</div>
+<div id="4bf63c2d" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a aria-hidden="true" tabindex="-1"></a>klassifiziere_boden_agent(<span class="va">None</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>'Sauber'</code></pre>
+</div>
+</div>
+</div></div>
+</section>
+<section id="das-paket-soilkit-gibt-es-nicht-1" class="slide level2">
+<h2>Das Paket soilkit gibt es nicht</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Der Agent hat <code>soilkit</code> in <code>requirements.txt</code> eingetragen. Das Paket existiert nicht.</p>
+<p>Erfundene Paketnamen kommen vor. Prüfe jede neue Abhängigkeit: Gibt es das Paket, braucht die Aufgabe es, und vertraust du der Quelle?</p>
+</div><div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode diff code-with-copy"><code class="sourceCode diff"><span id="cb11-1"><a aria-hidden="true" tabindex="-1"></a> pandas</span>
+<span id="cb11-2"><a aria-hidden="true" tabindex="-1"></a><span class="va">+soilkit</span></span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="20ec65e1" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a aria-hidden="true" tabindex="-1"></a><span class="im">import</span> soilkit</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-error">
+<div class="ansi-escaped-output">
+<pre><span class="ansi-red-fg">ModuleNotFoundError</span><span class="ansi-red-fg">:</span> No module named 'soilkit'
+</pre>
+</div>
+</div>
+</div>
+</div></div>
+<div class="slide-refs">
+<p>Spracklen et al.: We Have a Package for You!, arXiv:2406.10279, 2025</p>
+</div>
+<div class="slide-ref-cites">
+<!-- slide_ref: spracklen2025package -->
+<p><span class="citation" data-cites="spracklen2025package">[<a href="#/referenzen" role="doc-biblioref" onclick="">Spracklen et al., 2025</a>]</span></p>
+</div>
+</section></section>
+<section>
+<section id="selbst-ausführen-und-prüfen-1" class="title-slide slide level1 center">
+<h1>Selbst ausführen und prüfen</h1>
+
+</section>
+<section id="probiere-randwerte-aus-die-kein-test-abfragt-1" class="slide level2">
+<h2>Probiere Randwerte aus, die kein Test abfragt</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Tests prüfen nur, was jemand abgefragt hat. Rufe die Funktion selbst mit Randwerten auf:</p>
+<ul>
+<li>Negativer Wert: Ein Schadstoffgehalt unter null ist unmöglich, die Funktion antwortet <code>"Sauber"</code>.</li>
+<li><code>nan</code> (fehlender Messwert): Die Funktion antwortet <code>"Kritisch"</code>.</li>
+<li>Probiere auch <code>0</code>, sehr große Werte und Text.</li>
+</ul>
+<p>Rechne außerdem einen Wert, dessen Ergebnis du kennst, unabhängig von Hand nach und vergleiche.</p>
+</div><div class="column" style="width:50%;">
+<div id="dcd51727" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a aria-hidden="true" tabindex="-1"></a>klassifiziere_boden_agent(<span class="op">-</span><span class="dv">5</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>'Sauber'</code></pre>
+</div>
+</div>
+<div id="c8319046" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a aria-hidden="true" tabindex="-1"></a>klassifiziere_boden_agent(<span class="bu">float</span>(<span class="st">"nan"</span>))</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>'Kritisch'</code></pre>
+</div>
+</div>
+</div></div>
+</section>
+<section id="wiederholung-lies-zuerst-was-die-funktion-verspricht-dann-wie-sie-rechnet" class="slide level2">
+<h2>Wiederholung: Lies zuerst, was die Funktion verspricht, dann wie sie rechnet</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ol type="1">
+<li>Tragen die Parameternamen die Einheiten?</li>
+<li>Nennt der Docstring die Einheit des Ergebnisses?</li>
+<li>Stimmt ein Wert, den du von Hand nachrechnest? b = 200 mm, h = 400 mm, M = 150 kNm ergibt 28,125 N/mm².</li>
+</ol>
+<p>Erst wenn alle drei Fragen mit Ja beantwortet sind, lohnt sich der Blick in die Implementierung.</p>
+</div><div class="column" style="width:50%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> biegespannung_v1(b, h, M):</span>
+<span id="cb17-2"><a aria-hidden="true" tabindex="-1"></a>    ...</span>
+<span id="cb17-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> biegespannung(b_mm, h_mm, M_knm):</span>
+<span id="cb17-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Biegespannung in N/mm²; M in kNm."""</span></span>
+<span id="cb17-6"><a aria-hidden="true" tabindex="-1"></a>    ...</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+</section>
+<section id="die-funktion-rechnet-mit-mgkg-ohne-die-einheit-zu-prüfen-1" class="slide level2">
+<h2>Die Funktion rechnet mit mg/kg, ohne die Einheit zu prüfen</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Die Anforderung verlangt mg/kg. Der Entwurf sieht für eine Messung Wert und Einheit vor, die Funktion bekommt aber nur eine Zahl.</p>
+<p>Du übergibst 0,2 und meinst 0,2 g/kg, das sind 200 mg/kg. Die Funktion liest 0,2 mg/kg und meldet <code>"Sauber"</code>.</p>
+<p>Richtig wäre <code>"Kritisch"</code>, denn ab 150 mg/kg ist der Boden kritisch.</p>
+<p>Prüfe deshalb Einheiten und Grenzwerte gegen die Anforderung.</p>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/08b_CodeReview/uml_messung.svg" class="ragged quarto-figure quarto-figure-center" style="width:60.0%"></p>
+</figure>
+</div>
+<div id="bcac62f9" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a aria-hidden="true" tabindex="-1"></a>klassifiziere_boden_agent(<span class="fl">0.2</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>'Sauber'</code></pre>
+</div>
+</div>
+<div id="891cf93d" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a aria-hidden="true" tabindex="-1"></a>klassifiziere_boden_agent(<span class="dv">200</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>'Kritisch'</code></pre>
+</div>
+</div>
+</div></div>
+</section>
+<section id="linter-und-typprüfer-finden-formale-fehler-in-sekunden-1" class="slide level2">
+<h2>Linter und Typprüfer finden formale Fehler in Sekunden</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>Ein Linter (<code>ruff</code>) und ein Typprüfer (<code>mypy</code>) lesen den Code, ohne ihn auszuführen.</p>
+<p>Sie finden formale Fehler: nicht vorhandene Pakete, falsche Argumenttypen, nicht definierte Namen.</p>
+<p>Sie finden nicht, dass <code>"Sauber"</code> die falsche Antwort ist. Das prüfst du selbst.</p>
+</div><div class="column" style="width:60%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a aria-hidden="true" tabindex="-1"></a><span class="im">import</span> soilkit</span>
+<span id="cb22-2"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> klassifiziere_boden(wert: <span class="bu">float</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb22-5"><a aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> soilkit.klasse(wert)</span>
+<span id="cb22-6"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a aria-hidden="true" tabindex="-1"></a>klassifiziere_boden(<span class="st">"abc"</span>)</span></code></pre></div><button title="In die Zwischenablage kopieren" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Ausgabe von <code>mypy</code>:</p>
+<pre class="text"><code>Cannot find implementation or library stub
+for module named "soilkit"  [import-not-found]
+Argument 1 to "klassifiziere_boden" has
+incompatible type "str"; expected "float"</code></pre>
+</div></div>
+</section></section>
+<section>
+<section id="prüfen-im-alltag-1" class="title-slide slide level1 center">
+<h1>Prüfen im Alltag</h1>
+
+</section>
+<section id="eine-zweite-ki-kann-fehler-suchen-du-entscheidest-1" class="slide level2">
+<h2>Eine zweite KI kann Fehler suchen, du entscheidest</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Der Agent prüft sich selbst mit demselben Kontext, der den Fehler erzeugt hat</li>
+<li>Starte einen Prüfer mit neuem Kontext: nur Aufgabe, Code und Tests</li>
+<li>Frage nach Fehlern und Randfällen, nicht nach einem Urteil</li>
+<li>Ein Fund ist ein Hinweis, kein Nachweis: Du führst den Code aus</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/08b_CodeReview/zweite_ki.svg" class="ragged quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+<p>Beispiel für den Prompt an den Prüfer:</p>
+<blockquote>
+<p>Prüfe <code>klassifiziere_boden_agent</code> gegen die Aufgabe „Ungültige Eingaben behandeln“. Nenne Randfälle, in denen das Ergebnis falsch sein kann.</p>
+</blockquote>
+</div></div>
+</section>
+<section id="je-größer-die-folgen-eines-fehlers-desto-gründlicher-prüfst-du-1" class="slide level2">
+<h2>Je größer die Folgen eines Fehlers, desto gründlicher prüfst du</h2>
+<div class="columns">
+<div class="column" style="width:33%;">
+<h3 id="skript-oder-diagramm">Skript oder Diagramm</h3>
+<p>Messreihe darstellen</p>
+<p>Ausführen und ansehen</p>
+</div><div class="column" style="width:33%;">
+<h3 id="auswertung">Auswertung</h3>
+<p>Bodenproben klassifizieren</p>
+<p>Tests, Randwerte und Einheiten</p>
+</div><div class="column" style="width:33%;">
+<h3 id="entscheidung-mit-folgen">Entscheidung mit Folgen</h3>
+<p>Bemessung oder Grenzwert-Nachweis</p>
+<p>Volle Prüfung, von Hand gegenrechnen, zweite Person</p>
+</div></div>
+</section>
+<section id="gib-mängel-mit-einem-konkreten-prompt-an-den-agenten-zurück-1" class="slide level2">
+<h2>Gib Mängel mit einem konkreten Prompt an den Agenten zurück</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Nenne im Prompt den konkreten Mangel und den Test, der gelten soll:</p>
+<blockquote>
+<p>In <code>klassifiziere_boden_agent</code> gibt der <code>except</code>-Zweig „Sauber“ zurück. Löse stattdessen einen <code>ValueError</code> aus, wie es <code>test_boden_datentyp</code> verlangt. Ändere keine Tests. Prüfe auch negative Werte und <code>nan</code>.</p>
+</blockquote>
+</div><div class="column" style="width:50%;">
+<p>Regeln, die immer gelten, schreibst du in die Projektregeln des Agenten, zum Beispiel in eine <code>CLAUDE.md</code>:</p>
+<pre class="text"><code>- Ungültige Messwerte lösen einen ValueError aus.
+- Tests nie ändern, um sie grün zu machen.
+- Neue Abhängigkeiten vorher nennen.</code></pre>
+</div></div>
+<div class="slide-refs">
+<p>Anthropic: Best practices for Claude Code, 2026</p>
+</div>
+<div class="slide-ref-cites">
+<!-- slide_ref: anthropic2026bestpractices -->
+<p><span class="citation" data-cites="anthropic2026bestpractices">[<a href="#/referenzen" role="doc-biblioref" onclick="">Anthropic, 2026</a>]</span></p>
+</div>
+</section>
+<section id="checkliste-das-prüfst-du-nach-jeder-änderung-des-agenten-1" class="slide level2">
+<h2>Checkliste: Das prüfst du nach jeder Änderung des Agenten</h2>
+<div class="columns">
+<div class="column" style="width:33%;">
+<h3 id="aufgabe-und-tests">Aufgabe und Tests</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">Nur das Verlangte geändert?</label></li>
+<li><label><input type="checkbox">Tests unverändert oder begründet geändert?</label></li>
+</ul>
+</div><div class="column" style="width:33%;">
+<h3 id="änderungen-und-entwurf">Änderungen und Entwurf</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">Keine stillen Standardwerte statt Fehler?</label></li>
+<li><label><input type="checkbox">Neue Abhängigkeiten geprüft?</label></li>
+<li><label><input type="checkbox">Einheiten und Grenzwerte stimmen?</label></li>
+</ul>
+</div><div class="column" style="width:33%;">
+<h3 id="ausführung">Ausführung</h3>
+<ul class="task-list">
+<li><label><input type="checkbox">Randwerte selbst ausgeführt?</label></li>
+<li><label><input type="checkbox">Linter und Typprüfer ohne Befund?</label></li>
+</ul>
+</div></div>
+</section>
+<section id="referenzen" class="slide level2 smaller scrollable">
+<h2>Referenzen</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-anthropic2026bestpractices" class="csl-entry" role="listitem">
+Anthropic (2026). Best practices for Claude Code.
+</div>
+<div id="ref-chen2025faithfulness" class="csl-entry" role="listitem">
+Chen, Y., Benton, J., Radhakrishnan, A., Uesato, J., Denison, C., Schulman, J., et al. (2025). Reasoning Models Don’t Always Say What They Think.
+</div>
+<div id="ref-coderabbit2026throttle" class="csl-entry" role="listitem">
+CodeRabbit (2026). GitHub Gives Maintainers a Throttle for the AI Pull Request. <a href="https://www.coderabbit.ai/blog/github-gives-maintainers-a-throttle-for-the-ai-pull-request">https://www.coderabbit.ai/blog/github-gives-maintainers-a-throttle-for-the-ai-pull-request</a>.
+</div>
+<div id="ref-gabor2025evilgenie" class="csl-entry" role="listitem">
+Gabor, J., Lynch, J., &amp; Rosenfeld, J. (2025). EvilGenie: A Reward Hacking Benchmark.
+</div>
+<div id="ref-metr2025devstudy" class="csl-entry" role="listitem">
+METR (2025). Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity. <a href="https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/">https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/</a>.
+</div>
+<div id="ref-spracklen2025package" class="csl-entry" role="listitem">
+Spracklen, J., Wijewickrama, R., Sakib, A. H. M. N., Maiti, A., Viswanath, B., &amp; Jadliwala, M. (2025). We Have a Package for You! A Comprehensive Analysis of Package Hallucinations by Code Generating LLMs.
+</div>
+<div id="ref-tang2026agents" class="csl-entry" role="listitem">
+Tang, N., Chen, C., Xu, G., Shi, Y., Huang, Y., McMillan, C., et al. (2026). How Coding Agents Fail Their Users: A Large-Scale Analysis of Developer-Agent Misalignment in 20,574 Real-World Sessions.
 </div>
 </div>
 </section></section>
