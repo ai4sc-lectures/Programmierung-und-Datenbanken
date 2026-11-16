@@ -2673,279 +2673,279 @@
   {
     "objectID": "04c_Objects.page.html",
     "href": "04c_Objects.page.html",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "",
     "text": "Diese Einheit behandelt Objekte als Entwurfskonzept, noch bevor wir in 06b_Objects die Python-Syntax dazu kennenlernen. Sie lernen, Objekte als Entwurfseinheiten zu verstehen und eine Domäne in Entitäten, Attribute und Verantwortlichkeiten zu zerlegen. Sie halten die Beziehungen zwischen Objekten explizit im Entwurf fest und nutzen das UML-Klassendiagramm sowohl als Entwurfsartefakt als auch als Spezifikation für eine KI. Außerdem unterscheiden Sie Datentypen von Klassen und Funktionen von Methoden.\nDas Kapitel folgt diesem Faden: Zuerst klären wir, warum Objekte nötig sind und was Klassen und Instanzen sind. Danach lernen wir mit UML die Sprache kennen, in der Klassen und ihre Beziehungen gezeichnet werden. Zuletzt nutzen wir ein Klassendiagramm als Vorlage für einen KI-Prompt und prüfen das Ergebnis dagegen.",
     "crumbs": [
       "Entwurf",
-      "Objekte"
+      "Objektorientierung"
     ]
   },
   {
     "objectID": "04c_Objects.page.html#objekte-und-klassen",
     "href": "04c_Objects.page.html#objekte-und-klassen",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Objekte und Klassen",
     "text": "Objekte und Klassen\n\nObjekte als Entwurfseinheiten\nObjektorientierte Programmierung (OOP) ist ein Programmierparadigma, das annimmt, dass ein Programm aus Objekten besteht, die miteinander kooperativ interagieren. Jedes Objekt verfügt über Attribute (Eigenschaften) und Methoden (Verantwortlichkeiten).\nObjekte sind damit Entwurfseinheiten, die vor dem Code entstehen. Beim Entwurf zerlegt man eine Domäne in Entitäten, etwa ein Gebäude in Etagen, Räume und Fenster, und legt für jede Entität fest, welche Attribute sie hat und welche Verantwortlichkeiten sie übernimmt. Eine Klasse beschreibt Struktur und Verantwortlichkeit einer solchen Entität. Weil Entitäten nicht isoliert sind, müssen auch die Beziehungen zwischen den Klassen ausdrücklich entworfen werden. Das Ziel ist, in Objekten, Beziehungen und Verantwortlichkeiten zu denken.\nDie Objektorientierung löst grundlegende Probleme im Umgang mit sich wiederholenden Datenstrukturen in großen Programmen. Diese Probleme entstehen bereits beim Entwurf, nicht erst bei der Implementierung. Wir betrachten drei davon: das syntaktische, das semantische und das Verhaltensproblem.\n\nDas syntaktische Problem\nWächst das Programm an, so wächst auch die Menge der Variablen und Datenstrukturen. Sie dienen dazu, Daten zu speichern, den Programmfluss zu kontrollieren, Zustände abzuspeichern und Ein- und Ausgaben zu verarbeiten. Dabei basieren die zugrundeliegenden Elemente meist auf sich wiederholenden Datenstrukturen. Analysiert man z.B. Baupläne oder Karten, so verwaltet man viele Punkt-Koordinaten. Ohne Festlegung kann eine Koordinate aber unterschiedlich ausgedrückt werden, etwa als Tupel oder als Liste; beide sind möglich und beide liefern denselben Punkt. Das ist das syntaktische Problem. Objekte lösen es, indem sie die Syntax der Datenstruktur verbindlich und eindeutig definieren.\n\n\nDas semantische Problem\nHaben wir uns darauf geeinigt, einen Punkt syntaktisch durch ein Tupel zu repräsentieren, so ist die Bedeutung der Werte dennoch nicht bekannt. Im Tupel (54.083336, 12.108811) bleibt offen, ob der erste Wert die Latitude oder die Longitude ist und ob die Koordinaten kartesisch oder radial gemeint sind. Ein anderer Programmierer wird die semantische Bedeutung der Werte nicht ohne Weiteres verstehen. Um solche Unklarheiten zu beseitigen, will man der Datenstruktur eine klare semantische Definition geben. Objekte lösen das, indem sie Attributnamen vergeben, die die Bedeutung der Werte dokumentieren: punkt_1.latitude und punkt_1.longitude sind selbsterklärend.\n\n\nDas Verhaltensproblem\nObjekte werden zudem verwendet, um die Funktionen zur Verarbeitung der Datenstrukturen direkt mit dieser zu bündeln, so dass die Datenstruktur nur jene Funktionen anbietet, welche auch sinnvoll anwendbar sind. Ohne Objekte kann eine freie Funktion wie distanz(a, b) auf beliebige Daten angewendet werden, auf zwei Punkte genauso wie auf zwei Linien, und niemand prüft, ob die Daten damit verarbeitet werden können. Das führt zu semantischen und logischen Fehlern. Gehört die Operation distanz() dagegen zur Klasse Punkt, so kapselt die Klasse Daten und zulässige Operationen, und die falsche Anwendung wird verhindert.\n\n\n\nObjektorientierte Programmierung\nObjektorientierte Programmierung ist ein Programmierparadigma, das annimmt, dass ein Programm ausschließlich aus Objekten besteht, die miteinander kooperativ interagieren. Jedes Objekt verfügt über Attribute (Eigenschaften) und Methoden (Verantwortlichkeiten). Die Attribute definieren Werte über den Zustand eines Objektes, die Methoden die möglichen Zustandsänderungen (Handlungen).\nAnstatt unübersichtlich viele verstreute Datenstrukturen und Funktionen zu benutzen, gruppieren wir diese in Objekte. Die Struktur dieser Objekte wird in Form von Klassen definiert, die eine Art Bauplan darstellen. Eine Klasse definiert, welche Attribute ein Objekt dieser Klasse besitzt und welche Methoden es bereitstellt. Beides wird zusammen in einer komplexen Datenstruktur gespeichert: Jedes Objekt stellt somit einen zusammengesetzten (komplexen) Datentyp dar.\n\nKlassen als Entwurfseinheiten\nEine Klasse ist der Entwurfsplan für eine Familie gleichartiger Objekte. Sie legt fest, welche Attribute (Eigenschaften) ein Objekt hat und welche Methoden (Operationen) es bereitstellt. Der Entwurf der Klasse kommt vor der Implementierung.\nEin Objekt ist damit ein zusammengesetzter (komplexer) Datentyp, wie wir ihn aus 02b_Datentypen kennen: Es speichert mehrere Werte (Attribute) in einer Struktur. Anders als eine Liste oder ein Tupel bringt es aber auch die dazu passenden Operationen mit. Eine Klasse ist daher ein selbst definierter Datentyp, und eine Methode ist eine Funktion, die zu genau diesem Datentyp gehört.\n\n\nKlassen und Instanzen\nObjekte selbst sind immer Instanzen einer Klasse (die Klasse ist ja nur ein Bauplan). Eine Klasse kann beliebig viele Instanzen haben oder gar keine. Alle Instanzen sind gleich aufgebaut, besitzen aber nicht unbedingt die gleichen Werte in den Attributen.\nDie Abbildung zeigt das am Beispiel eines Raums: Die Klasse Raum legt die Attribute name, fläche und höhe sowie die Methode berechne_volumen() fest, enthält aber selbst keine Werte. Die beiden Instanzen r101 (Seminarraum, 48,0 m²) und r102 (Flur, 22,5 m²) sind nach diesem Bauplan gebaut und tragen jeweils eigene Attributwerte. Die gestrichelten Pfeile lesen sich als „ist Instanz von“.\n\n\n\nKlasse Raum als Bauplan und zwei Instanzen",
     "crumbs": [
       "Entwurf",
-      "Objekte"
+      "Objektorientierung"
     ]
   },
   {
     "objectID": "04c_Objects.page.html#uml-klassendiagramme",
     "href": "04c_Objects.page.html#uml-klassendiagramme",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "UML-Klassendiagramme",
     "text": "UML-Klassendiagramme\n\nModellierung mit Objekten\nUnsere Wahrnehmung und unser Denken beruhen darauf, Objekte zu erkennen, also etwa einen Stuhl von einem Tisch zu trennen. Das Nachbilden dieser Wahrnehmung im Computer nennt man Modellierung. Weil unsere Wahrnehmung auf Objekten basiert, ist es naheliegend, auch für die Modellierung Objekte zu nutzen. Da die Objekte in der Welt miteinander interagieren, muss auch dieses Verhalten modelliert werden. Ein Modell ist eine abstrakte, vereinfachte Abbildung eines Systems, meist aus der Realität.\n\nObjektorientierter Softwareentwurf\nIm objektorientierten Softwareentwurf wird ein Programm so entworfen, dass es nur aus Objekten besteht. Der Softwareentwurf gleicht dabei stark dem Vorgehen von Ingenieuren beim Entwurf von Plänen. Hierbei verwendet man meist die Modellierungssprache UML, mit der Klassen auch visuell entworfen werden können.\nMan modelliert im Entwurf,\n\nwie diese Objekte in Form von Klassen definiert sind,\nwelche Attribute und Methoden sie besitzen,\nwie diese Klassen aufeinander aufbauen (Vererbung),\nwie sie miteinander in statischer Beziehung stehen (Assoziation, Aggregation, Komposition)\nund wie sie dynamisch interagieren (Verhalten).\n\nIn diesem Kurs nutzen wir UML-Klassendiagramme als Brücke zwischen Anforderung und KI-Prompt: Wer sein Klassenmodell als UML zeichnen kann, kann es auch in einen präzisen Prompt übersetzen. Wie das geht, zeigt der Abschnitt Agentischer Objektentwurf.\n\n\nUML — Entwurfssprache für Software\nDie Unified Modelling Language (UML) ist ein ISO-Standard zur Beschreibung von Softwareentwürfen. Sie wird für Entwurf, Ausschreibung, Implementation und Dokumentation von Funktionalitäten, Strukturen, Businessprozessen und Nutzerinteraktionen genutzt. Der Standard umfasst in der aktuellen Version UML 2.5 vierzehn Diagrammtypen. Die typischsten sind Klassendiagramme für die Klassen- und Datenstruktur, Aktivitätsdiagramme für Abläufe und Algorithmen (verwandt mit den Programmablaufplänen aus 04b_Programmablauf), Sequenzdiagramme für Interaktionen und Use-Case-Diagramme für Nutzer und Nutzfälle.\n\n\nKlassen, Attribute und Methoden\nEine Klasse ist in UML ein Viereck mit drei Ebenen. In der ersten Ebene steht der Klassenname. In der zweiten Ebene werden alle primitiven Attribute der Klasse aufgelistet (die keine Referenzen darstellen). Die dritte Ebene enthält alle Methoden der Klasse. Für eine Klasse Point mit den Attributen x und y und der Methode distance() zur Berechnung des Abstands zu einem anderen Punkt sieht die Klasse in UML so aus:\n\n\n\nAttribut- und Methoden-Notation\nDie abstrakte Schreibweise ist bewusst kompakt. Ein Attribut wird als name: Typ notiert, also zum Beispiel x: float. Eine Methode wird mit Parametern und Rückgabetyp angegeben, etwa distance(p: Point): float.\nBezogen auf die Klasse Point oben bedeutet das: x: float und y: float beschreiben die gespeicherten Koordinaten, während distance(p: Point): float sagt, dass die Methode einen weiteren Punkt als Eingabe erwartet und eine Distanz als Zahl zurückgibt. Genau diese Verdichtung macht UML nützlich: Man sieht die Schnittstelle einer Klasse, ohne schon den Python-Code lesen zu müssen.\n\n\n\nObjektbeziehungen\nIn Programmen stehen Objekte meist im Zusammenhang. Z.B. besteht eine Linie aus zwei Punkten. Diesen Zusammenhang zweier Objekt-Klassen bezeichnet man als Assoziation. Bei stärkerer Bindung spricht man von Aggregation (lose) oder Komposition (untrennbar). Diese Beziehungen müssen im Entwurf explizit festgehalten werden, bevor man sie in Code übersetzt.\nDie drei Arten lassen sich an kleinen Beispielen unterscheiden:\n\nBei der Assoziation verwendet ein Objekt ein anderes, beide bleiben aber unabhängig. Ein Ingenieur verwendet ein Werkzeug; keiner der beiden gehört zum anderen.\n\n\n\nAssoziation: Ingenieur verwendet Werkzeug\n\n\nBei der Aggregation enthält ein Objekt andere Objekte, die aber auch allein existieren können. Ein Polygon enthält Punkt-Objekte; Punkte können auch ohne Polygon vorkommen.\n\n\n\nAggregation: Polygon enthält Punkte\n\n\nBei der Komposition besteht ein Objekt aus anderen, die ohne das Ganze nicht sinnvoll sind. Eine Etage ist ohne ihr Gebäude nicht sinnvoll.\n\n\n\nKomposition: Gebäude besteht aus Etagen\n\n\n\n\nBesitzverhältnisse\nUML unterscheidet Beziehungen nach ihren Besitzverhältnissen: Ein Objekt kann Teil eines anderen sein und trotzdem ohne dieses existieren (Aggregation), es kann nicht ohne dieses existieren (Komposition), oder beide Objekte sind unabhängig und eines verwendet nur das andere (Assoziation). Für jede Art definiert UML eine eigene Linienform: eine leere Raute für die Aggregation, eine gefüllte Raute für die Komposition und eine einfache Linie oder einen Pfeil für die Assoziation. Die Raute sitzt jeweils beim Ganzen.\nBei der Komposition gibt es zusätzlich eine Lebenszyklus-Abhängigkeit: Wird das übergeordnete Objekt gelöscht, verschwinden auch seine Teile. Ein Room, der nur als Teil eines bestimmten Building existiert, ist ein typisches Beispiel. Bei einer Aggregation kann das Teilobjekt auch unabhängig weiterbestehen.\nDie Klasse Line beinhaltet den start- und end-Punkt. Das ist eine Aggregation, weil die Punkte zur Linie gehören, aber auch separat existieren können (wir brauchen keine Linie, um einen Punkt zu definieren). An der Linie steht zusätzlich die Multiplizität: Je 1 Instanz von Line gehören genau 2 Instanzen von Point.\n\n\n\nMultiplizität\nDie Multiplizität beschreibt, wie viele Objekte an einer Beziehung beteiligt sind. Sie beantwortet also Fragen wie: “Hat eine Linie genau zwei Punkte?” oder “Kann ein Raum beliebig viele Fenster haben?”\nDie gängigen Notationen sind 1 (genau eins), 0..* (null oder mehr), 1..* (ein oder mehr) und 0..1 (keins oder eins). Im Entwurf klärt man damit drei Fragen: in welche Richtung die Beziehung gilt, wie viele Objekte beteiligt sind und wer von wem abhängt.\nIm Beispiel Line–Point oben liest man: Eine Linie steht mit genau zwei Punkten in Beziehung, nämlich Start- und Endpunkt. Die Gebäudekette liest sich genauso: Ein Gebäude besteht aus mindestens einer Etage (1..*), jede Etage aus mindestens einem Raum, und ein Raum enthält null oder mehr Fenster (0..*). Die gefüllten Rauten markieren Kompositionen, die leere Raute beim Raum eine Aggregation.\n\nDiese Information ist für die Implementierung wichtig, weil sie vorgibt, ob wir in Python ein einzelnes Attribut, eine optionale Referenz oder eine Liste von Objekten benötigen.\n\n\n\nKapselung, Vererbung, Polymorphismus\nZur Objektorientierung gehören nicht nur Klassen und Beziehungen, sondern auch Kapselung, Vererbung und Polymorphismus. Alle drei sind Entwurfsentscheidungen, die man im Klassendiagramm festhält.\n\nKapselung\nKapselung bedeutet, dass Daten und die für sie sinnvollen Operationen gemeinsam entworfen werden und der Zugriff bewusst geregelt wird. Nicht jedes Attribut soll von außen beliebig änderbar sein. UML markiert die Sichtbarkeit vor dem Namen eines Attributs oder einer Methode: + für öffentlich, # für geschützt und - für privat.\n\n\nPolymorphismus\nPolymorphismus bedeutet, dass verschiedene Klassen dieselbe Verantwortlichkeit anbieten können, aber jeweils unterschiedlich umsetzen. Die Methode fläche() gibt es bei Rechteck und bei Kreis, doch die Berechnung unterscheidet sich. Das ist wichtig für austauschbare Objekte, die dasselbe Interface anbieten.\n\n\nVererbung\nVererbung beschreibt, dass eine speziellere Klasse Eigenschaften und Verantwortlichkeiten einer allgemeineren Klasse übernimmt. Gleichartige Objekte teilen oft dieselben Eigenschaften und Methoden. Damit man diese nicht in jeder Klasse neu definieren muss und dabei Fehler macht, gibt es die Vererbung: Eine spezialisierte Unterklasse besitzt alle Attribute und Methoden ihrer generalisierten Oberklasse (Basisklasse) und ergänzt nur, was sie besonders macht. Im Beispiel unten erbt Serverraum von Raum den Namen, die Fläche und berechne_volumen() und ergänzt die kühlleistung.\n\n\n\nVererbung: Serverraum ist ein spezieller Raum\n\n\nDie Vererbung wird in UML durch eine Linie mit einem nicht ausgefüllten (weißen) Dreieck bei der Oberklasse gezeichnet (es ist kein Pfeil). Zurück zur Hörsaalfrage: Alle dort gezeigten Elemente bestehen aus Punkten, die mit Linien verbunden sind. Um auszudrücken, dass Triangle, Tetragon und Pentagon Unterklassen des Polygons sind, zeichnen wir:\n\nFügen wir die einzelnen Elemente zusammen, so sieht das UML-Diagramm unseres Klassenmodells wie folgt aus. Ein Polygon besteht aus mindestens drei Punkten (3..*), eine Linie aus genau zwei:\n\nAuf Basis dieses UML-Diagramms würde ein Programmierer die Zusammenhänge der Klassen verstehen und könnte diese entsprechend implementieren. Klassendiagramme eignen sich besonders gut, um solche Datenstrukturen zu definieren und zu kommunizieren.\nDieses Modell können wir weiter verfeinern und spezifischere Klassen für Dreiecke einführen: rechtwinklige (Right), stumpfwinklige (Obtuse) und spitzwinklige (Acute) Dreiecke, die jeweils auch gleichschenklig (Isosceles…) sein können; ein gleichschenklig-spitzwinkliges Dreieck kann zudem gleichseitig (Equilateral) sein. Genauso können wir Vierecke in Trapeze (Trapezoid), Parallelogramme und Drachen (Kite) einteilen, mit den Spezialisierungen Rechteck (Rectangle), Quadrat (Square) und Raute (Rhombus).\n\nJede Instanz dieser speziellen Klassen erbt dabei die Methoden area() und __str__(). Mit der einen generischen Implementierung von area() für ein Polygon ist die Flächenberechnung aller dieser Grundelemente abgedeckt, ohne eine weitere Zeile Code für sie schreiben zu müssen.\nEine reine Baumstruktur vereinfacht dabei: Ein Quadrat ist geometrisch sowohl ein Rechteck als auch eine Raute, kann hier aber nur von einer Klasse erben. Entlang der Hierarchie könnte man weitere Attribute und Methoden definieren, die etwa prüfen, ob Punkte, Linien und Winkel die Bedingungen der jeweiligen Klasse erfüllen. Das geht jedoch über dieses Beispiel hinaus.\n\n\nBrücke zu Python: self\nIm UML-Diagramm sprechen wir abstrakt über eine Klasse und ihre Verantwortlichkeiten. In Python muss eine Methode jedoch auf eine konkrete Instanz zugreifen können. Dafür gibt es self: Die Selbst-Referenz auf genau das Objekt, dessen Methode gerade ausgeführt wird. In 06b_Objects wird daraus dann die konkrete Syntax mit class, __init__ und self.attributname.",
     "crumbs": [
       "Entwurf",
-      "Objekte"
+      "Objektorientierung"
     ]
   },
   {
     "objectID": "04c_Objects.page.html#agentischer-objektentwurf",
     "href": "04c_Objects.page.html#agentischer-objektentwurf",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Agentischer Objektentwurf",
     "text": "Agentischer Objektentwurf\n\nDesign before you prompt\nDer agentische Ansatz für Objektorientierung bedeutet: zuerst entwerfen, dann prompten. Das UML-Klassendiagramm ist die Spezifikation, die wir der KI übergeben; der Code ist das Ergebnis. Daraus ergibt sich derselbe Zyklus wie in 03c_Softwareentwurf und 03d_AgentischesProgrammieren:\n\nPrompt: Das Diagramm geht als Spezifikation an die KI.\nGenerate: Die KI erzeugt die Python-Klasse.\nVerify: Der Code wird gegen das Diagramm geprüft.\nIterate: Abweichungen schärfen Diagramm und Prompt nach, und der Zyklus beginnt von vorn.\n\n\n\n\nAgentischer Zyklus mit dem UML-Diagramm als Spezifikation\n\n\nDer Entwurf des Diagramms ist dabei der eigentliche Ingenieurschritt, denn er legt fest, was die KI umsetzen soll. Diesen Zyklus zu beherrschen, ist die Kernkompetenz des agentischen Programmierens für Objekte.\n\nUML-Diagramm als KI-Prompt\nEin UML-Klassendiagramm, das einer KI als Prompt übergeben wird, muss vollständig sein: Klassennamen, Attribute mit Typen, Methoden mit Parametern und Rückgabetypen, Beziehungen mit Richtung und Multiplizität. Für unser Raum-Beispiel heißt das: Nicht nur der Klassenname, sondern auch name: str, fläche: float, höhe: float und berechne_volumen() -&gt; float müssen explizit genannt sein. Aus dem Diagramm formulieren wir dann einen präzisen Prompt, der die KI anweist, genau diese Spezifikation umzusetzen. Was nicht im Diagramm steht, wird die KI erfinden — und das oft falsch.\nFür das Beispiel sieht das Diagramm so aus:\n\n\n\nUML-Fragment der Klasse Raum\n\n\nDaraus entsteht ein Prompt, der nur die Elemente des Diagramms nennt und der KI ausdrücklich verbietet, etwas hinzuzuerfinden:\n\nImplementiere die Klasse Raum. Attribute: name: str, fläche: float, höhe: float. Methode: berechne_volumen() -&gt; float. Erfinde keine weiteren Attribute.\n\n\n\nVerifizieren gegen das Diagramm\nDie Verifikation ist der entscheidende Schritt im agentischen Workflow. Wer nur den generierten Code liest, ohne gegen das Diagramm zu prüfen, übersieht fehlende Attribute, falsche Beziehungstypen oder falsch typisierte Rückgabewerte. Wenn die KI z.B. eine Klasse Raum ohne berechne_volumen() oder ohne die Beziehung zu Fenster erzeugt, ist nicht “fast richtig”, sondern unvollständig. Das Diagramm ist das Kriterium — nicht das eigene Bauchgefühl. Erst wenn Code und Diagramm übereinstimmen, ist der Entwurf korrekt umgesetzt.\nDie Prüfung läuft in vier Schritten: Man liest die generierten Klassen gegen das UML-Diagramm, prüft, ob alle Attribute vorhanden und korrekt benannt sind, prüft, ob alle Beziehungen korrekt umgesetzt sind, und ergänzt bei Abweichungen das Diagramm, bevor man erneut promptet.\nEin Beispiel: Die KI liefert für die Klasse Raum den folgenden Code.\nclass Raum:\n    def __init__(self, name, fläche, höhe):\n        self.name = name\nGegen das Diagramm geprüft ergibt sich: name ist vorhanden, aber der Typ str fehlt. fläche und höhe werden zwar übergeben, aber nicht gespeichert, und berechne_volumen() fehlt ganz. Der Code ist also unvollständig, und Prompt oder Diagramm müssen nachgeschärft werden.\n\n\n\nDomänenzerlegung: Gebäude\nDie Zerlegung einer Domäne in Entitäten zeigt sich am Gebäude. Die Entitäten sind Gebäude, Etage, Raum und Fenster. Zwischen Gebäude, Etage und Raum besteht jeweils eine Komposition, zwischen Raum und Fenster eine Aggregation. Attribute und Methoden stehen bereits im Diagramm und nicht erst im Code.\n\n\n\nGebäudehierarchie als UML-Klassendiagramm\n\n\nEin typisches BIM-Modell lässt sich als Objekthierarchie ausdrücken: Gebäude → Etage → Raum → Fenster. Jede Klasse hat eigene Attribute (z.B. Raum.fläche, Fenster.u_wert) und eigene Verantwortlichkeiten (z.B. Etage.berechne_gesamtfläche()). Die Beziehungen — Komposition, Aggregation — müssen im Entwurf mit Multiplizitäten explizit festgehalten werden.\nFür das Fenster werden die Attribute breite: float, höhe: float und u_wert: float modelliert. So wird klar, warum Fenster.u_wert im späteren Code oder in Berechnungen überhaupt vorkommt. Der Entwurf benennt also nicht nur die Objekte, sondern auch die fachlich relevanten Eigenschaften jeder Klasse.\n\nAnforderung, UML, KI-Prompt und Code\nDieses Beispiel führt den vollständigen agentischen Workflow durch: von einer natürlichsprachlichen Anforderung über ein UML-Klassendiagramm zu einem KI-generierten Python-Programm. Die Verifikationsphase zeigt, wie man prüft, ob der generierte Code das Diagramm korrekt umsetzt.\n\nSchritt 1: Anforderung formulieren\nDer Auftraggeber beschreibt das Problem in seiner Fachsprache. Für den Entwurf stellt die Ingenieurin oder der Ingenieur vier Fragen an diesen Text: Welche Klassen, welche Attribute mit welchen Typen, welche Methoden mit welchen Signaturen und welche Beziehungen zwischen den Klassen gibt es?\n\n\nSchritt 2: Anforderung → UML\n\n\n\nUML-Diagramm zu Gebäude, Raum und Fenster\n\n\nDas UML-Klassendiagramm identifiziert drei Klassen: Building, Room und Window. Sie ergeben sich direkt aus den Sätzen der Anforderung:\n\nAus “Ein Gebäude hat mehrere Räume” folgt die Klasse Building mit einer Komposition zu Room: Ein Raum existiert nicht ohne sein Gebäude.\nAus “Jeder Raum hat einen Namen, eine Fläche und eine Liste von Fenstern” folgt die Klasse Room mit den Attributen name und area und einer Aggregation zu Window.\nAus “Ein Fenster hat eine Breite und Höhe” folgt die Klasse Window mit den Attributen width und height.\n\nDie geforderte Berechnung “Gesamtfensterfläche eines Raumes” wird zur Methode get_window_area() in Room; sie stützt sich auf get_area() in Window. Die Adresse des Gebäudes steht nicht in der Anforderung; sie ist eine Entwurfsentscheidung, die man mit dem Auftraggeber abstimmen sollte. UML macht hier sichtbar, wie natürliche Sprache systematisch in Klassen, Attribute, Methoden und Beziehungen übersetzt wird.\n\n\nSchritt 3: UML → KI-Prompt → Verifizieren\nAus dem UML-Diagramm kann nun ein präziser KI-Prompt formuliert werden. Ein mögliches generiertes Python-Ergebnis wäre:\nclass Window:\n    def __init__(self, width: float, height: float):\n        self.width = width\n        self.height = height\n\n    def get_area(self) -&gt; float:\n        return self.width * self.height\n\n\nclass Room:\n    def __init__(self, name: str, area: float, windows: list[Window] | None = None):\n        self.name = name\n        self.area = area\n        self.windows = windows or []\n\n    def get_window_area(self) -&gt; float:\n        return sum(window.get_area() for window in self.windows)\n\n\nclass Building:\n    def __init__(self, name: str, address: str, rooms: list[Room]):\n        self.name = name\n        self.address = address\n        self.rooms = rooms\n\n    def get_rooms(self) -&gt; list[Room]:\n        return self.rooms\nDie Verifikation erfolgt anschließend nicht “nach Gefühl”, sondern Punkt für Punkt gegen das UML-Modell:\n\nWindow, Room und Building sind alle vorhanden.\nDie Attribute width, height, name, area, address und rooms entsprechen dem Diagramm.\nWindow.get_area(), Room.get_window_area() und Building.get_rooms() setzen die geforderten Methoden um.\nDie Beziehungen sind im Code als Listen von Referenzen realisiert: Building enthält rooms, Room enthält windows.\nDie Multiplizität wird nur angenähert: Ein Room kann null oder mehr Fenster besitzen, das passt. Für Building fordert das Diagramm mindestens einen Raum; der Code akzeptiert aber auch eine leere Liste.\nDie Komposition wird ebenfalls nur angenähert: Die Räume werden außerhalb erzeugt und dem Gebäude übergeben, sie können also auch ohne Gebäude existieren.\n\nDie letzten beiden Punkte sind typische Abweichungen, die man nur findet, wenn man gegen das Diagramm prüft. Ob sie behoben werden müssen, entscheidet der Entwurf, nicht die KI.\n\n\n\nPraxisbezug: BIM und IFC\nDas Beispiel ist nicht künstlich: In realen BIM-Workflows werden Gebäude als objektorientierte Modelle beschrieben. Der Standard IFC (Industry Foundation Classes) enthält Klassen, Eigenschaften und Beziehungen für Bauteile, Räume, Öffnungen oder technische Anlagen.\nDarum sind UML, Vererbung und Referenzen hier nicht nur Lehrbuchstoff, sondern direkte Vorbereitung auf Praxisdatenmodelle. Wer kleine Klassendiagramme lesen und entwerfen kann, versteht später auch, warum große BIM-Modelle strukturiert und nicht nur “gezeichnet” sind.\n\n\n\nQuerverbindungen\nDiese Einheit behandelt nur die Entwurfsseite der Objekte. In 03c_Softwareentwurf haben wir gesehen, warum der Entwurf vor der Implementierung steht. In 06b_Objects folgt die Python-Syntax für dieselben Konzepte: class, __init__, self, Attribute und Methoden. In 08a_UnitTest schließlich prüfen Tests, ob die Python-Implementierung dem UML-Entwurf entspricht.",
     "crumbs": [
       "Entwurf",
-      "Objekte"
+      "Objektorientierung"
     ]
   },
   {
     "objectID": "04c_Objects.page.html#quiz",
     "href": "04c_Objects.page.html#quiz",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Quiz",
     "text": "Quiz\n\n\n    shuffleQuestions: true\n    shuffleAnswers: true\n\n\n    ### Was beschreibt ein Objekt in der objektorientierten Programmierung?\n    - [x] Eine Einheit mit Zustand (Attribute) und Verhalten (Methoden)\n    - [ ] Eine reine Datenstruktur ohne Funktionen\n    - [ ] Nur eine Methode in einem Programm\n    - [ ] Eine Zeile in einer Datenbank\n\n    ### Warum verwendet man Objekte bei wiederholenden Datenstrukturen?\n    - [x] Um missverständliche Strukturen zu vermeiden\n    - [x] Um redundante Strukturen zu vermeiden\n    - [ ] Um Daten alphabetisch zu sortieren\n    - [ ] Um den Programmfluss zu verlangsamen\n\n    ### Warum helfen Objekte bei semantischen Problemen?\n    - [x] Sie machen die Bedeutung der Werte durch Attributnamen klar\n    - [ ] Sie ersetzen alle Werte automatisch durch Strings\n    - [ ] Sie wandeln alles in Listen um\n    - [ ] Sie benötigen keine Werte zur Laufzeit\n\n    ### Was ist der Unterschied zwischen einer Klasse und einer Instanz?\n    - [x] Die Klasse ist der Bauplan; die Instanz ist das konkrete Objekt\n    - [ ] Die Klasse ist das Objekt; die Instanz ist der Bauplan\n    - [ ] Klassen und Instanzen sind dasselbe\n    - [ ] Eine Instanz hat keine Attribute\n\n    ### Was beschreibt eine Komposition?\n    - [x] Ein Objekt besteht aus anderen; die Teile existieren nicht ohne das Ganze\n    - [ ] Ein Objekt verwendet ein anderes, aber unabhängig\n    - [ ] Zwei Objekte teilen sich Attribute\n    - [ ] Ein Objekt erbt Methoden von einem anderen\n\n    ### Wie wird Vererbung im UML-Klassendiagramm gezeichnet?\n    - [x] Linie mit nicht ausgefülltem Dreieck bei der Oberklasse\n    - [ ] Linie mit gefüllter Raute bei der Oberklasse\n    - [ ] Linie mit leerer Raute bei der Unterklasse\n    - [ ] Gestrichelter Pfeil zur Unterklasse\n\n    ### Was bedeutet die Multiplizität `0..*` an einer Beziehung?\n    - [x] Null oder beliebig viele Objekte\n    - [ ] Genau ein Objekt\n    - [ ] Mindestens ein Objekt\n    - [ ] Keins oder genau eins\n\n    ### Was ist UML?\n    - [x] Eine grafische Notation für Software-Design\n    - [ ] Eine Programmiersprache\n    - [ ] Eine Datenbanksprache\n    - [ ] Eine Art von Algorithmus\n\n    ### Was enthält ein vollständiges UML-Klassendiagramm als KI-Prompt?\n    - [x] Klassennamen, Attribute mit Typen, Methoden, Beziehungen mit Multiplizität\n    - [ ] Nur die Klassennamen\n    - [ ] Nur den Python-Code\n    - [ ] Nur die Attributnamen\n\n    ### Welche zentralen Konzepte der Objektorientierung wurden in dieser Einheit behandelt?\n    - [x] Kapselung\n    - [x] Vererbung\n    - [x] Polymorphismus\n    - [ ] Spezialisierung allein\n    - [ ] Generalisierung\n    - [ ] Redundanz",
     "crumbs": [
       "Entwurf",
-      "Objekte"
+      "Objektorientierung"
     ]
   },
   {
     "objectID": "04c_Objects.slide.html#zielsetzung",
     "href": "04c_Objects.slide.html#zielsetzung",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Zielsetzung",
     "text": "Zielsetzung\n\nObjekte als Entwurfseinheiten verstehen\nDomänen in Entitäten, Attribute und Verantwortlichkeiten zerlegen\nBeziehungen zwischen Objekten explizit im Entwurf festhalten\nUML-Klassendiagramm als Entwurfsartefakt und KI-Prompt nutzen\nDen Unterschied zwischen Datentypen und Klassen sowie zwischen Funktionen und Methoden verstehen"
   },
   {
     "objectID": "04c_Objects.slide.html#objekte-als-entwurfseinheiten-1",
     "href": "04c_Objects.slide.html#objekte-als-entwurfseinheiten-1",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Objekte als Entwurfseinheiten",
     "text": "Objekte als Entwurfseinheiten\n\nObjekte sind Entwurfseinheiten vor dem Code\nEine Domäne wird in Entitäten zerlegt, jede mit Attributen und Verantwortlichkeiten\nEine Klasse beschreibt Struktur und Verantwortlichkeit einer Entität\nBeziehungen zwischen Klassen müssen explizit entworfen werden"
   },
   {
     "objectID": "04c_Objects.slide.html#warum-objekte-das-syntaktische-problem",
     "href": "04c_Objects.slide.html#warum-objekte-das-syntaktische-problem",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Warum Objekte — Das syntaktische Problem",
     "text": "Warum Objekte — Das syntaktische Problem\nObjekte legen fest, wie sich wiederholende Datenstrukturen gespeichert werden. Dabei geht es darum, dass die Syntax der Datenstruktur eindeutig ist.\n\nWächst das Programm, wächst die Menge der Variablen und Datenstrukturen\n\nzur Speicherung von Daten\nzur Kontrolle des Programmflusses\nzum Abspeichern von Zuständen\nzum Verarbeiten von Ein- und Ausgaben\n\nDie zugrundeliegenden Elemente basieren oft auf denselben Strukturen\nZ.B. Punkt-Koordinaten: als Tupel oder als Liste? — ohne Festlegung sind beide möglich\nObjekte legen die Syntax einer Datenstruktur verbindlich fest"
   },
   {
     "objectID": "04c_Objects.slide.html#warum-objekte-das-semantische-problem",
     "href": "04c_Objects.slide.html#warum-objekte-das-semantische-problem",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Warum Objekte — Das semantische Problem",
     "text": "Warum Objekte — Das semantische Problem\nObjekte werden auch verwendet, um die Semantik von Werten einer Datenstruktur eindeutig zu definieren. Haben wir uns darauf geeinigt, einen Punkt syntaktisch durch ein Tupel zu repräsentieren, so ist die Bedeutung der Werte dennoch nicht bekannt.\n\n\nOhne Objekt:\npunkt_1 = (54.083336, 12.108811)\n\nIst der erste Wert Latitude oder Longitude?\nKartesisch oder radial?\n\n\nMit Objekt:\npunkt_1.latitude  = 54.083336\npunkt_1.longitude = 12.108811\n\nAttributnamen machen Bedeutung explizit"
   },
   {
     "objectID": "04c_Objects.slide.html#warum-objekte-das-verhaltensproblem",
     "href": "04c_Objects.slide.html#warum-objekte-das-verhaltensproblem",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Warum Objekte — Das Verhaltensproblem",
     "text": "Warum Objekte — Das Verhaltensproblem\nObjekte werden zudem verwendet, um die Funktionen zur Verarbeitung der Datenstrukturen direkt mit dieser zu bündeln, so dass die Datenstruktur nur jene Funktionen anbietet, welche auch sinnvoll anwendbar sind.\n\n\nOhne Objekte:\n\nEine freie Funktion distanz(a, b) kann auf beliebige Daten angewendet werden\nAuf zwei Punkte genauso wie auf zwei Linien — kein Schutz\nKönnen die Daten mit der Funktion verarbeitet werden? Das prüft niemand\nFührt zu semantischen und logischen Fehlern\n\n\nMit Objekten:\n\nDie Operation distanz() gehört zur Klasse Punkt\nDie Klasse kapselt Daten und zulässige Operationen\nFalsche Anwendung wird verhindert"
   },
   {
     "objectID": "04c_Objects.slide.html#objektorientierte-programmierung-1",
     "href": "04c_Objects.slide.html#objektorientierte-programmierung-1",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Objektorientierte Programmierung",
     "text": "Objektorientierte Programmierung\n\n\nObjektorientierte Programmierung\n\nObjektorientierte Programmierung (OOP) ist ein Programmierparadigma, das annimmt, dass ein Programm ausschließlich aus Objekten besteht, die miteinander kooperativ interagieren.\nJedes Objekt verfügt über Attribute (Eigenschaften) und Methoden (Verantwortlichkeiten).\n\nDie Attribute definieren Werte über den Zustand eines Objektes\nDie Methoden definieren die möglichen Zustandsänderungen (Handlungen) eines Objektes"
   },
   {
     "objectID": "04c_Objects.slide.html#grundlagen-der-objektorientierung",
     "href": "04c_Objects.slide.html#grundlagen-der-objektorientierung",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Grundlagen der Objektorientierung",
     "text": "Grundlagen der Objektorientierung\n\nAnstatt unübersichtlich viele verstreute Datenstrukturen und Funktionen zu benutzen, gruppieren wir diese in Objekte\nDie Struktur dieser Objekte wird in Form von Klassen definiert, die eine Art Bauplan darstellen\nEine Klasse definiert:\n\nwelche Attribute (Eigenschaften) ein Objekt dieser Klasse besitzt\nwelche Methoden (Verantwortlichkeiten) ein Objekt dieser Klasse bereitstellt\n\nBeides wird zusammen in einer komplexen Datenstruktur gespeichert: Jedes Objekt stellt somit einen zusammengesetzten (komplexen) Datentyp dar"
   },
   {
     "objectID": "04c_Objects.slide.html#klassen-und-instanzen",
     "href": "04c_Objects.slide.html#klassen-und-instanzen",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Klassen und Instanzen",
     "text": "Klassen und Instanzen\n\n\nKlasse = Bauplan (Entwurf)\n\nDefiniert Struktur und Verhalten\nKeine Werte\n\nInstanz = konkretes Objekt\n\nEntsteht nach dem Bauplan\nHat eigene Attributwerte\nViele Instanzen einer Klasse möglich"
   },
   {
     "objectID": "04c_Objects.slide.html#modellierung-mit-objekten-1",
     "href": "04c_Objects.slide.html#modellierung-mit-objekten-1",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Modellierung mit Objekten",
     "text": "Modellierung mit Objekten\n\nUnsere Wahrnehmung und unser Denken besteht darauf Objekte zu erkennen. Das setzt voraus, dass wir das Objekt von anderen Objekten trennen können (z.B. Stuhl und Tisch)\nDas Nachbilden dieser Wahrnehmung und dieses Weltverständnisses im Computer, nennt man Modellierung.\nDa unsere Wahrnehmung auf Objekten basiert, ist es naheliegend für die Modellierung auch Objekte zu nutzen.\nDie Objekte in der Welt interagieren, dieses Verhalten müssen wir auch modellieren.\n\n\n\nModell\n\nEin Modell ist eine abstrakte, vereinfachte Abbildung eines Systems (meist aus der Realität)."
   },
   {
     "objectID": "04c_Objects.slide.html#hörsaalfrage",
     "href": "04c_Objects.slide.html#hörsaalfrage",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Hörsaalfrage",
     "text": "Hörsaalfrage\n\n\nWas haben diese Elemente gemein?"
   },
   {
     "objectID": "04c_Objects.slide.html#hörsaalfrage-1",
     "href": "04c_Objects.slide.html#hörsaalfrage-1",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Hörsaalfrage",
     "text": "Hörsaalfrage\n\n\n\nDas sind alles geometrische Objekte\nSie bestehen alle aus Punkten, die mit Linien verbunden sind\nDas können wir bei der Modellierung ausnutzen und Klassen so definieren, dass sie die Gemeinsamkeit ausnutzen"
   },
   {
     "objectID": "04c_Objects.slide.html#objektorientierter-softwareentwurf-1",
     "href": "04c_Objects.slide.html#objektorientierter-softwareentwurf-1",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Objektorientierter Softwareentwurf",
     "text": "Objektorientierter Softwareentwurf\n\n\nObjektorientierten Softwareentwurf\n\nIm objektorientierten Softwareentwurf wird ein Programm so entworfen, dass es nur aus Objekten besteht.\n\n\nDer Softwareentwurf gleicht dabei stark dem Vorgehen von Ingenieuren beim Entwurf von Plänen\nDie übliche Modellierungssprache sind UML Diagramme.\nMan modelliert im Entwurf:\n\nwie Objekte in Form von Klassen definiert sind,\nwelche Attribute und Methoden sie besitzen,\nwie diese Klassen aufeinander aufbauen (Vererbung),\nwie sie miteinander in statischer Beziehung stehen (Assoziation, Aggregation, Komposition)\nund wie sie dynamisch interagieren (Verhalten)"
   },
   {
     "objectID": "04c_Objects.slide.html#uml-entwurfssprache-für-software",
     "href": "04c_Objects.slide.html#uml-entwurfssprache-für-software",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "UML — Entwurfssprache für Software",
     "text": "UML — Entwurfssprache für Software\n\n\n\nUML (Unified Modelling Language) ist ein ISO-Standard zur Beschreibung von Softwareentwürfen\nEr wird genutzt für den Entwurf, Ausschreibung, Implementation und Dokumentation von:\n\nFunktionalitäten\nStrukturen\nBusinessprozessen\nNutzerinteraktionen\n\n\n\nDer Standard (UML 2.5) umfasst 14 Diagrammtypen, die typischsten:\n\nKlassendiagramme (Für die Klassen- und Datenstruktur)\nAktivitätsdiagramme (Für allgemeine Abläufe und Algorithmen)\nSequenzdiagramme (Für Interaktionen)\nUse-Case Diagramme (Für Nutzer und Nutzfälle)"
   },
   {
     "objectID": "04c_Objects.slide.html#uml-klasse-aufbau",
     "href": "04c_Objects.slide.html#uml-klasse-aufbau",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "UML Klasse — Aufbau",
     "text": "UML Klasse — Aufbau\n\n\nEine Klasse besteht aus drei Ebenen:\n\nKlassenname (oben)\nAttribute mit Datentyp (mitte)\nMethoden mit Signatur (unten)"
   },
   {
     "objectID": "04c_Objects.slide.html#attribut--und-methoden-notation",
     "href": "04c_Objects.slide.html#attribut--und-methoden-notation",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Attribut- und Methoden-Notation",
     "text": "Attribut- und Methoden-Notation\n\n\nAttribute:\nattributname: Typ\nBeispiele:\nname: str\narea: float\nrooms: list[Room]\n\nMethoden:\nmethod(param: Typ): Rückgabetyp\nBeispiele:\ncalculate_area(): float\nget_rooms(): list[Room]\nadd_room(r: Room)"
   },
   {
     "objectID": "04c_Objects.slide.html#objektbeziehungen-1",
     "href": "04c_Objects.slide.html#objektbeziehungen-1",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Objektbeziehungen",
     "text": "Objektbeziehungen\nIn Programmen stehen Objekte im Zusammenhang. Diese Beziehungen müssen im Entwurf explizit festgehalten werden:\n\n\nAssoziation\nEin Objekt verwendet ein anderes.\n\n\nAggregation\nEin Objekt enthält andere (lose).\n\nPunkte können auch allein existieren\n\nKomposition\nEin Objekt besteht aus anderen (strikt).\n\nOhne Gebäude ist eine Etage nicht sinnvoll"
   },
   {
     "objectID": "04c_Objects.slide.html#multiplizität",
     "href": "04c_Objects.slide.html#multiplizität",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Multiplizität",
     "text": "Multiplizität\n\n\nZahlen an den Linien geben die Multiplizität an — wie viele Objekte in Relation stehen:\n\n\n\nNotation\nBedeutung\n\n\n\n\n1\nGenau eins\n\n\n0..*\nNull oder mehr\n\n\n1..*\nEin oder mehr\n\n\n0..1\nKeins oder eins\n\n\n\nIm Entwurf klären: Welche Richtung? Wie viele? Wer lebt von wem ab?"
   },
   {
     "objectID": "04c_Objects.slide.html#kapselung-vererbung-polymorphismus-1",
     "href": "04c_Objects.slide.html#kapselung-vererbung-polymorphismus-1",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Kapselung, Vererbung, Polymorphismus",
     "text": "Kapselung, Vererbung, Polymorphismus\n\n\nKapselung\n\nDaten und zulässige Operationen gehören zusammen\nNicht jedes Attribut soll von außen beliebig änderbar sein\nUML markiert Sichtbarkeit mit +, #, -\n\n\nVererbung\n\nEine Unterklasse spezialisiert eine allgemeinere Oberklasse\nBeispiel: Serverraum ist ein spezieller Raum\nIn UML: Generalisierung mit weißem Dreieck\n\n\nPolymorphismus\n\nGleiche Methode, unterschiedliches Verhalten\nBeispiel: fläche() bei Rechteck und Kreis\nWichtig für austauschbare Objekte mit gleichem Interface"
   },
   {
     "objectID": "04c_Objects.slide.html#vererbung-in-uml",
     "href": "04c_Objects.slide.html#vererbung-in-uml",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Vererbung in UML",
     "text": "Vererbung in UML\n\n\n\nDie Oberklasse Raum trägt, was alle Räume gemeinsam haben\nServerraum ergänzt nur, was ihn besonders macht\nDie Linie mit weißem Dreieck zeigt von der Unterklasse zur Oberklasse"
   },
   {
     "objectID": "04c_Objects.slide.html#vererbung-geometrie-hierarchie",
     "href": "04c_Objects.slide.html#vererbung-geometrie-hierarchie",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Vererbung — Geometrie-Hierarchie",
     "text": "Vererbung — Geometrie-Hierarchie\n\n\n\n\n\narea() wird einmal in Polygon entworfen; alle 16 Unterklassen erben sie. Klassendiagramme werden schnell groß, zeigen aber das ganze Datenmodell auf einen Blick."
   },
   {
     "objectID": "04c_Objects.slide.html#design-before-you-prompt-1",
     "href": "04c_Objects.slide.html#design-before-you-prompt-1",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Design before you prompt",
     "text": "Design before you prompt\n\n\nDas UML-Diagramm ist die Spezifikation. Der Code ist das Ergebnis.\n\nPrompt: Das Diagramm geht als Spezifikation an die KI\nGenerate: Die KI erzeugt die Python-Klasse\nVerify: Der Code wird gegen das Diagramm geprüft\nIterate: Abweichungen schärfen Diagramm und Prompt nach"
   },
   {
     "objectID": "04c_Objects.slide.html#uml-diagramm-als-ki-prompt",
     "href": "04c_Objects.slide.html#uml-diagramm-als-ki-prompt",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "UML-Diagramm als KI-Prompt",
     "text": "UML-Diagramm als KI-Prompt\nEin vollständiges UML-Klassendiagramm enthält:\n\n\nKlassennamen\neindeutig, aussagekräftig\n\nAttribute\nName + Typ\nz.B. fläche: float\n\nVerantwortlichkeiten\nMethoden mit Parametern und Rückgabetyp\n\nBeziehungen\nArt und Multiplizität\n\n\n\n\n\n\n\n\nMerksatz\n\n\nWas nicht im Diagramm steht, wird die KI erfinden — oft falsch."
   },
   {
     "objectID": "04c_Objects.slide.html#mini-beispiel-diagramm-als-prompt",
     "href": "04c_Objects.slide.html#mini-beispiel-diagramm-als-prompt",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Mini-Beispiel: Diagramm als Prompt",
     "text": "Mini-Beispiel: Diagramm als Prompt\n\n\nUML-Fragment\n\n\nPrompt-Fragment\nImplementiere die Klasse Raum.\nAttribute: name: str,\n  fläche: float, höhe: float\nMethode: berechne_volumen() -&gt; float\nErfinde keine weiteren Attribute."
   },
   {
     "objectID": "04c_Objects.slide.html#verifizieren-gegen-das-diagramm",
     "href": "04c_Objects.slide.html#verifizieren-gegen-das-diagramm",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Verifizieren gegen das Diagramm",
     "text": "Verifizieren gegen das Diagramm\n\nAgentic Workflow — Objekte entwerfen:\n\nLies die generierten Klassen gegen das UML-Diagramm\nPrüfe: Sind alle Attribute vorhanden und korrekt benannt?\nPrüfe: Sind alle Beziehungen korrekt implementiert?\nWenn nicht: Ergänze das Diagramm und prompte erneut"
   },
   {
     "objectID": "04c_Objects.slide.html#mini-beispiel-verifikation",
     "href": "04c_Objects.slide.html#mini-beispiel-verifikation",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Mini-Beispiel: Verifikation",
     "text": "Mini-Beispiel: Verifikation\n\n\nGenerierter Code\nclass Raum:\n    def __init__(self, name, fläche, höhe):\n        self.name = name\n\nPrüfung gegen das Diagramm\n\n\n\nDiagramm\nCode\n\n\n\n\nname: str\nvorhanden, Typ fehlt\n\n\nfläche: float\nwird nicht gespeichert\n\n\nhöhe: float\nwird nicht gespeichert\n\n\nberechne_volumen()\nfehlt\n\n\n\n\nErgebnis: unvollständig — Prompt oder Diagramm nachschärfen"
   },
   {
     "objectID": "04c_Objects.slide.html#domänenzerlegung-gebäude-1",
     "href": "04c_Objects.slide.html#domänenzerlegung-gebäude-1",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Domänenzerlegung: Gebäude",
     "text": "Domänenzerlegung: Gebäude\n\n\n\n\n\nEntitäten: Gebäude, Etage, Raum, Fenster\nKomposition: Gebäude → Etage → Raum\nAggregation: Raum → Fenster\nAttribute und Methoden stehen im Diagramm, nicht erst im Code"
   },
   {
     "objectID": "04c_Objects.slide.html#bim-beispiel-schritt-1-anforderung-formulieren",
     "href": "04c_Objects.slide.html#bim-beispiel-schritt-1-anforderung-formulieren",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "BIM-Beispiel — Schritt 1: Anforderung formulieren",
     "text": "BIM-Beispiel — Schritt 1: Anforderung formulieren\n\n\nAuftraggeber formuliert:\n\n„Ein Gebäude hat mehrere Räume. Jeder Raum hat einen Namen, eine Fläche und eine Liste von Fenstern. Ein Fenster hat eine Breite und Höhe. Das Programm soll die Gesamtfensterfläche eines Raumes berechnen.“\n\n\nIngenieursfragen für den Entwurf:\n\nWelche Klassen brauchen wir?\nWelche Attribute mit welchen Typen?\nWelche Methoden mit Signaturen?\nWelche Beziehungen zwischen Klassen?\n\n→ Diese Fragen beantwortet das UML-Diagramm"
   },
   {
     "objectID": "04c_Objects.slide.html#hörsaalfrage-2",
     "href": "04c_Objects.slide.html#hörsaalfrage-2",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Hörsaalfrage",
     "text": "Hörsaalfrage\n\n\nWelche Entitäten hat ein Gebäude?\n\n\n\n\nMidjourney: Entities of a Building"
   },
   {
     "objectID": "04c_Objects.slide.html#bim-beispiel-schritt-2-anforderung-uml",
     "href": "04c_Objects.slide.html#bim-beispiel-schritt-2-anforderung-uml",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "BIM-Beispiel — Schritt 2: Anforderung → UML",
     "text": "BIM-Beispiel — Schritt 2: Anforderung → UML\n\n\n\n\n\n„Gebäude hat Räume“ → Komposition 1 zu 1..*\n„Raum hat Liste von Fenstern“ → Aggregation 1 zu 0..*\n„Gesamtfensterfläche berechnen“ → Methode in Room"
   },
   {
     "objectID": "04c_Objects.slide.html#bim-beispiel-schritt-3-uml-ki-prompt-verifizieren",
     "href": "04c_Objects.slide.html#bim-beispiel-schritt-3-uml-ki-prompt-verifizieren",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "BIM-Beispiel — Schritt 3: UML → KI-Prompt → Verifizieren",
     "text": "BIM-Beispiel — Schritt 3: UML → KI-Prompt → Verifizieren\n\n\nKI-Prompt (aus UML abgeleitet):\n\nErstelle Python-Klassen für Building, Room und Window. Building hat name: str, address: str, eine Liste von Room-Objekten und get_rooms() -&gt; list[Room]. Room hat name: str, area: float, eine Liste von Fenstern und get_window_area() -&gt; float. Window hat width: float, height: float und get_area() -&gt; float.\n\n\nVerifikation gegen UML:\n\n✓ Alle drei Klassen vorhanden?\n✓ Attribute mit korrekten Typen?\n✓ Methoden-Signaturen korrekt?\n✓ Beziehungen implementiert?\n✓ Multiplizität berücksichtigt?"
   },
   {
     "objectID": "04c_Objects.slide.html#anwendungsbeispiel-bim-building-information-models",
     "href": "04c_Objects.slide.html#anwendungsbeispiel-bim-building-information-models",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Anwendungsbeispiel — BIM (Building Information Models)",
     "text": "Anwendungsbeispiel — BIM (Building Information Models)\n\n\n\nBauzeichnungen werden heutzutage als IFC (Industry Foundation Classes) gespeichert\nIFC ist ein objektorientiertes Modell mit Vererbung, Spezialisierung und Generalisierung\nEs wird u.a. in UML dokumentiert\n\n\n\n\n\nVereinfachtes IFC-Klassenmodell (nach mac999, CCL 3.0)"
   },
   {
     "objectID": "04c_Objects.slide.html#querverbindungen",
     "href": "04c_Objects.slide.html#querverbindungen",
-    "title": "Objekte",
+    "title": "Objektorientierung",
     "section": "Querverbindungen",
     "text": "Querverbindungen\n\n\nS03 — 03c_Softwareentwurf\nVorgehensmodelle: Entwurf vor Implementierung\n\nS06 — 06b_Objects (Implementierung)\nPython-Syntax für dieselben Konzepte:\nclass, __init__, self, Attribute, Methoden\n\nS08 — 08a_UnitTest\nTests verifizieren, ob die Python-Implementierung dem UML-Entwurf entspricht"
   },
