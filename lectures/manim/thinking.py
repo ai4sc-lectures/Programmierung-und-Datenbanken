@@ -10,6 +10,7 @@ Render (portrait 9:10, matches the 450px slide columns), from the lectures/ dire
 """
 import numpy as np
 from manim import *
+from ai4sc_style.manim_ragged import RaggedScene
 
 config.frame_height = 10
 config.frame_width = 9
@@ -78,7 +79,7 @@ def beam(x0, x1, y, dt, color, sw=14, arrow=1.0):
     return VGroup(curve, sup, load)
 
 
-class HumanThinking(Scene):
+class HumanThinking(RaggedScene):
     def construct(self):
         # --- real-world problem (bottom) ---------------------------------
         d_real = ValueTracker(0)
@@ -158,7 +159,7 @@ class HumanThinking(Scene):
         self.wait(2.5)
 
 
-class LLMThinking(Scene):
+class LLMThinking(RaggedScene):
     def construct(self):
         # --- prompt as chat bubble ---------------------------------------
         prompt = T("Problem: Ein Balken biegt sich unter Last. Was passiert?", 24, INK)

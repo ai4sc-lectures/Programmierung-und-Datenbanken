@@ -11,6 +11,7 @@ Render, from the lectures/ directory:
     manim/render.sh manim/binary_addition_logic.py BinaryAdditionLogic 1200,900 images/05a_Operatoren/manim_binary_addition_logic.mp4
 """
 from manim import *
+from ai4sc_style.manim_ragged import RaggedScene
 
 config.frame_height = 9
 config.frame_width = 12
@@ -52,7 +53,7 @@ def left(mob, x, y):
     return mob.move_to([x, y, 0], aligned_edge=LEFT)
 
 
-class BinaryAdditionLogic(Scene):
+class BinaryAdditionLogic(RaggedScene):
     def construct(self):
         a = [0, 1, 1, 0, 1]   # 13
         b = [0, 0, 1, 1, 1]   # 7

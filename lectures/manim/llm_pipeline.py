@@ -11,6 +11,7 @@ Render, from the lectures/ directory:
     manim/render.sh manim/llm_pipeline.py LLMPipeline 1200,660 images/03d_AgentischesProgrammieren/manim_llm_pipeline.mp4
 """
 from manim import *
+from ai4sc_style.manim_ragged import RaggedScene
 
 config.frame_height = 6.6
 config.frame_width = 12
@@ -58,7 +59,7 @@ def word_box(word, y, with_number=False):
     return {"rect": rect, "word": w, "num": n, "grp": VGroup(rect, w, n)}
 
 
-class LLMPipeline(Scene):
+class LLMPipeline(RaggedScene):
     def construct(self):
         # ---- network (as in llm_words.svg) -----------------------------------------------
         def layer(x, ys, fill, stroke):

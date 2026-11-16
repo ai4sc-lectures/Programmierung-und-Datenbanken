@@ -12,6 +12,7 @@ Render, from the lectures/ directory:
     manim/render.sh manim/scope_args.py PassConcepts 1200,760 images/06a_Funktionen/manim_pass_concepts.mp4
 """
 from manim import *
+from ai4sc_style.manim_ragged import RaggedScene
 
 config.frame_height = 7.6
 config.frame_width = 12
@@ -96,7 +97,7 @@ class Frame:
         return self.box.animate.set_fill(YELLOW if on else BUBBLE, opacity=1)
 
 
-class Scope(Scene):
+class Scope(RaggedScene):
     def construct(self):
         lines = []
         for k, (indent, text) in enumerate(CODE):
@@ -226,7 +227,7 @@ def code_block(lines, size=16, line_h=0.32, indent_w=0.4):
     return VGroup(*rows)
 
 
-class PassConcepts(Scene):
+class PassConcepts(RaggedScene):
     def construct(self):
         div = Line([0, 3.4, 0], [0, -3.5, 0], color=RIM, stroke_width=1.5)
         self.add(div)

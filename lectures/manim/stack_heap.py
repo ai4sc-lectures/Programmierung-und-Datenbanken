@@ -14,6 +14,7 @@ Render, from the lectures/ directory:
 import random
 
 from manim import *
+from ai4sc_style.manim_ragged import RaggedScene
 
 config.frame_height = 7.6
 config.frame_width = 12
@@ -75,7 +76,7 @@ class Matrix:
         return [self.cells[i].animate.set_fill(BUBBLE, opacity=1)] + ([FadeOut(t)] if t else [])
 
 
-class StackHeap(Scene):
+class StackHeap(RaggedScene):
     def construct(self):
         cell = 0.42
         cx = 5.9 - 8 * cell            # right edge of the matrices at x = 5.9
@@ -152,7 +153,7 @@ class StackHeap(Scene):
         self.wait(3)
 
 
-class CallStack(Scene):
+class CallStack(RaggedScene):
     def construct(self):
         cell, cx = 0.6, 0.0
         stack = Matrix(4, 16, cell, cx, -1.3, 0x7F00, bottom_up=True, label_size=14)

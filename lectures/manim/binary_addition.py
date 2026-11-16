@@ -7,6 +7,7 @@ Render, from the lectures/ directory:
     manim/render.sh manim/binary_addition.py BinaryAddition 1000,800 images/01c_Computerhardware/manim_binary_addition.mp4
 """
 from manim import *
+from ai4sc_style.manim_ragged import RaggedScene
 
 config.frame_height = 8
 config.frame_width = 10
@@ -34,7 +35,7 @@ def bit(v, x, y, fill=BUBBLE, stroke=RIM):
     return VGroup(b, T(str(v), 34, INK, font=MONO).move_to(b))
 
 
-class BinaryAddition(Scene):
+class BinaryAddition(RaggedScene):
     def construct(self):
         a = [0, 1, 1, 0, 1]   # 13
         b = [0, 0, 1, 1, 1]   # 7

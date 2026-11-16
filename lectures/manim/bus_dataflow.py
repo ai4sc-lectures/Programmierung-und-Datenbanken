@@ -10,6 +10,7 @@ Render, from the lectures/ directory:
     manim/render.sh manim/bus_dataflow.py BusDataflow 1200,740 images/01c_Computerhardware/manim_bus_dataflow.mp4
 """
 from manim import *
+from ai4sc_style.manim_ragged import RaggedScene
 
 config.frame_height = 7.4
 config.frame_width = 12
@@ -52,7 +53,7 @@ def chip(text, color, w=None):
     return VGroup(r, t)
 
 
-class BusDataflow(Scene):
+class BusDataflow(RaggedScene):
     def construct(self):
         # ---- modules -------------------------------------------------------------------
         cpu = frame_box(XC, 2.0, 5.6, 2.8)

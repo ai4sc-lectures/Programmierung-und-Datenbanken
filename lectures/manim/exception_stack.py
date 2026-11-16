@@ -13,6 +13,7 @@ Render, from the lectures/ directory:
     manim/render.sh manim/exception_stack.py ExceptionCaught 1200,760 images/08a_UnitTest/manim_exception_caught.mp4
 """
 from manim import *
+from ai4sc_style.manim_ragged import RaggedScene
 
 config.frame_height = 7.6
 config.frame_width = 12
@@ -48,7 +49,7 @@ def curved_arrow(y_from, y_to):
     return CurvedArrow([x, y_from, 0], [x, y_to, 0], angle=-PI * 0.9, color=RED, stroke_width=6, tip_length=0.2)
 
 
-class _ExceptionStack(Scene):
+class _ExceptionStack(RaggedScene):
     caught = False
     names = ["main()", "auswertung()", "mittelwert()", "division()"]
 

@@ -8,6 +8,7 @@ Render, from the lectures/ directory:
     manim/render.sh manim/float_example.py FloatExample 1000,800 images/01c_Computerhardware/manim_float_example.mp4
 """
 from manim import *
+from ai4sc_style.manim_ragged import RaggedScene
 
 config.frame_height = 8
 config.frame_width = 10
@@ -75,7 +76,7 @@ def set_bits(bits, start, digits, color):
     return anims
 
 
-class FloatExample(Scene):
+class FloatExample(RaggedScene):
     def construct(self):
         def heading(n, text):
             badge = VGroup(Circle(0.28, color=YELLOW, fill_opacity=1, stroke_width=0),

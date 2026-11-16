@@ -8,6 +8,7 @@ Render, from the lectures/ directory:
     manim/render.sh manim/memory_cells.py MemoryCells 1200,800 images/01c_Computerhardware/manim_memory_cells.mp4
 """
 from manim import *
+from ai4sc_style.manim_ragged import RaggedScene
 
 config.frame_height = 8
 config.frame_width = 12
@@ -41,7 +42,7 @@ def box(x, y, w, h=0.7, fill=BUBBLE):
                      stroke_width=3).move_to([x, y, 0])
 
 
-class MemoryCells(Scene):
+class MemoryCells(RaggedScene):
     def construct(self):
         ram = panel("RAM", -2.6, 6.2)
         cpu = panel("CPU", 3.9, 3.6)

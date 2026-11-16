@@ -7,6 +7,7 @@ Render, from the lectures/ directory:
     manim/render.sh manim/binary_multiply.py BinaryMultiply 1000,800 images/01c_Computerhardware/manim_binary_multiply.mp4
 """
 from manim import *
+from ai4sc_style.manim_ragged import RaggedScene
 
 config.frame_height = 8
 config.frame_width = 10
@@ -38,7 +39,7 @@ def bit(v, x, y, fill=BUBBLE, stroke=RIM, color=INK, s=0.8):
     return VGroup(b, T(str(v), 30, color, font=MONO).move_to(b))
 
 
-class BinaryMultiply(Scene):
+class BinaryMultiply(RaggedScene):
     def construct(self):
         a = [0, 0, 0, 1, 1]   # 3
         b = [0, 0, 1, 0, 1]   # 5

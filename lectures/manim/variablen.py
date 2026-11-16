@@ -28,7 +28,7 @@ def addr(i):
     return f"0x{BASE + 0x10 * r + c:04X}"
 
 
-class NameAdresse(Scene):
+class NameAdresse(RaggedScene):
     def construct(self):
         # source code (top left)
         src_lab = T("Quelltext", 24, INK, weight=BOLD).move_to([-5.85, 3.5, 0], aligned_edge=LEFT)

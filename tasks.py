@@ -272,7 +272,16 @@ async def _html_to_pdf_once(url, output_file):
         page = await browser.newPage()
         await page.goto(url, {"waitUntil": ["load"], "timeout": 60000})
         # Reveal.js expands the print layout asynchronously after load — wait for it
-        await page.waitForFunction("document.body.scrollHeight > window.innerHeight", timeout=10000)
+        # (scrollHeight alone is true too early: wait until the .pdf-page count is >1 and stable)
+        await page.waitForFunction(
+            """() => {
+                const sig = document.querySelectorAll('.pdf-page').length + ':' + document.body.scrollHeight;
+                const w = window.__pdfSig || (window.__pdfSig = {sig: '', since: Date.now()});
+                if (w.sig !== sig) { w.sig = sig; w.since = Date.now(); }
+                return document.querySelectorAll('.pdf-page').length > 1 && Date.now() - w.since > 1500;
+            }""",
+            polling=300, timeout=30000,
+        )
         result = await page.evaluate(
             """async () => {
                 // Wait for plotly-loader.js to finish loading Plotly and draining the queue

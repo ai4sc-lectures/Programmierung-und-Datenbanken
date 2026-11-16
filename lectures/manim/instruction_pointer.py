@@ -8,6 +8,7 @@ Render, from the lectures/ directory:
     manim/render.sh manim/instruction_pointer.py InstructionPointer 1200,800 images/01c_Computerhardware/manim_instruction_pointer.mp4
 """
 from manim import *
+from ai4sc_style.manim_ragged import RaggedScene
 
 config.frame_height = 8
 config.frame_width = 12
@@ -35,7 +36,7 @@ def cell(label, value, w=1.9, h=0.8, label_size=20):
     return box, lab, val
 
 
-class InstructionPointer(Scene):
+class InstructionPointer(RaggedScene):
     def construct(self):
         code = ["LOAD  R1, [0x0A10]", "LOAD  R2, [0x0A11]", "ADD   R3, R1, R2",
                 "STORE [0x0A12], R3", "..."]

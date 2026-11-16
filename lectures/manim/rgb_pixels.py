@@ -8,6 +8,7 @@ Render, from the lectures/ directory:
     manim/render.sh manim/rgb_pixels.py RGBPixels 1200,800 images/01c_Computerhardware/manim_rgb_pixels.mp4
 """
 from manim import *
+from ai4sc_style.manim_ragged import RaggedScene
 
 config.frame_height = 8
 config.frame_width = 12
@@ -84,7 +85,7 @@ def pixel_block(cell):
     return g
 
 
-class RGBPixels(Scene):
+class RGBPixels(RaggedScene):
     def construct(self):
         cs = 0.42
         mosaic = VGroup()

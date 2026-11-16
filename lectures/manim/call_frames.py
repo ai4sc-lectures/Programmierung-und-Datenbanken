@@ -9,6 +9,7 @@ Render, from the lectures/ directory:
     manim/render.sh manim/call_frames.py CallFrames 1200,760 images/06a_Funktionen/manim_call_frames.mp4
 """
 from manim import *
+from ai4sc_style.manim_ragged import RaggedScene
 
 config.frame_height = 7.6
 config.frame_width = 12
@@ -88,7 +89,7 @@ class Frame:
         return self.box.animate.set_fill(YELLOW if on else BUBBLE, opacity=1)
 
 
-class CallFrames(Scene):
+class CallFrames(RaggedScene):
     def construct(self):
         # code listing on the left
         lines = []

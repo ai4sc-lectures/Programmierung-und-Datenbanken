@@ -10,6 +10,7 @@ Render, from the lectures/ directory:
     manim/render.sh manim/endlosschleife.py Endlosschleife 1200,760 images/05c_Schleifen/manim_endlosschleife.mp4
 """
 from manim import *
+from ai4sc_style.manim_ragged import RaggedScene
 
 config.frame_height = 7.6
 config.frame_width = 12
@@ -40,7 +41,7 @@ def grouped(n):
     return f"{n:,}".replace(",", ".")
 
 
-class Endlosschleife(Scene):
+class Endlosschleife(RaggedScene):
     def construct(self):
         # --- code panel (left) -----------------------------------------------------------
         panel = RoundedRectangle(width=5.6, height=2.7, corner_radius=0.15, color=RIM,
